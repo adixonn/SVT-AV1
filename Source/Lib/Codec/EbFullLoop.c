@@ -688,7 +688,7 @@ void Av1QuantizeInvQuantize_II(
     uint8_t                 enableContouringQCUpdateFlag,
     uint32_t                componentType,
 #if QT_10BIT_SUPPORT
-    uint32_t                bitIncrement,
+    uint32_t                bit_increment,
 #endif
     TxType               tx_type,
     EbBool               cleanSparseCoeffFlag)
@@ -726,7 +726,7 @@ void Av1QuantizeInvQuantize_II(
     uint32_t qIndex = picture_control_set_ptr->parent_pcs_ptr->base_qindex;
 #endif
 #if MD_10BIT_FIX
-    if (bitIncrement == 0) {
+    if (bit_increment == 0) {
         if (componentType == COMPONENT_LUMA) {
             candidate_plane.quant_QTX = picture_control_set_ptr->parent_pcs_ptr->quantsMd.y_quant[qIndex];
             candidate_plane.quant_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quantsMd.y_quant_fp[qIndex];
@@ -837,7 +837,7 @@ void Av1QuantizeInvQuantize_II(
     qparam.iqmatrix = iqMatrix;
 
 #if QT_10BIT_SUPPORT
-    if (bitIncrement)
+    if (bit_increment)
         av1_highbd_quantize_b_facade(
         (tran_low_t*)coeff,
             n_coeffs,
@@ -894,7 +894,7 @@ void Av1QuantizeInvQuantize(
     uint8_t                 enableContouringQCUpdateFlag,
     uint32_t                componentType,
 #if QT_10BIT_SUPPORT
-    uint32_t                bitIncrement,
+    uint32_t                bit_increment,
 #endif
     TxType               tx_type,
     EbBool               cleanSparseCoeffFlag)
@@ -933,7 +933,7 @@ void Av1QuantizeInvQuantize(
         0,
         componentType,
 #if QT_10BIT_SUPPORT
-        bitIncrement,
+        bit_increment,
 #endif
         tx_type,
         cleanSparseCoeffFlag);

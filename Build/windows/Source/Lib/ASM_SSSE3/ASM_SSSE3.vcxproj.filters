@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSSE3\EbAvcStyleMcp_Intrinsic_SSSE3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSSE3\EbHighbdIntraPrediction_Intrinsic_SSSE3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSSE3\EbIntraPrediction_Intrinsic_SSSE3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSSE3\EbMcp_Intrinsic_SSSE3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSSE3\EbTransforms_Intrinsic_SSSE3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSSE3\av1_inv_txfm_ssse3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSSE3\intrapred_ssse3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSSE3\EbAvcStyleMcp_SSSE3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSSE3\EbIntraPrediction_SSSE3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSSE3\EbMcp_SSSE3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSSE3\EbTransforms_SSSE3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSSE3\av1_inv_txfm_ssse3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSSE3\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{09E406DB-6F8A-3119-97A5-71FD664DBC16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{FF2E308D-980D-3D7A-9218-CA983ED8627E}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

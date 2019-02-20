@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D17CD30E-EDE2-31D6-A954-A5623A294578}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>ASM_SSE2</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="D:\adam\svt-av1\master-adam\Build\windows\Source\Lib\ASM_SSE2\ASM_SSE2.dir\nasm.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\adam\svt-av1\master-adam\Build\windows\lib\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ASM_SSE2.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ASM_SSE2</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\adam\svt-av1\master-adam\Build\windows\lib\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ASM_SSE2.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ASM_SSE2</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\adam\svt-av1\master-adam\Build\windows\lib\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">ASM_SSE2.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">ASM_SSE2</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\adam\svt-av1\master-adam\Build\windows\lib\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">ASM_SSE2.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">ASM_SSE2</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\adam\svt-av1\master-adam\Source\API;D:\adam\svt-av1\master-adam\Source\Lib\Codec;D:\adam\svt-av1\master-adam\Source\Lib\C_DEFAULT;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsC</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\adam\svt-av1\master-adam\Source\API;D:\adam\svt-av1\master-adam\Source\Lib\Codec;D:\adam\svt-av1\master-adam\Source\Lib\C_DEFAULT;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <NASM>
+      <IncludePaths>D:\adam\svt-av1\master-adam\Source\API\;D:\adam\svt-av1\master-adam\Source\Lib\Codec\;D:\adam\svt-av1\master-adam\Source\Lib\C_DEFAULT\;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\;%(IncludePaths)</IncludePaths>
+      <Outputswitch>1</Outputswitch>
+      <PreprocessorDefinitions>WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </NASM>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\adam\svt-av1\master-adam\Source\API;D:\adam\svt-av1\master-adam\Source\Lib\Codec;D:\adam\svt-av1\master-adam\Source\Lib\C_DEFAULT;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\adam\svt-av1\master-adam\Source\API;D:\adam\svt-av1\master-adam\Source\Lib\Codec;D:\adam\svt-av1\master-adam\Source\Lib\C_DEFAULT;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsC</CompileAs>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\adam\svt-av1\master-adam\Source\API;D:\adam\svt-av1\master-adam\Source\Lib\Codec;D:\adam\svt-av1\master-adam\Source\Lib\C_DEFAULT;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <NASM>
+      <IncludePaths>D:\adam\svt-av1\master-adam\Source\API\;D:\adam\svt-av1\master-adam\Source\Lib\Codec\;D:\adam\svt-av1\master-adam\Source\Lib\C_DEFAULT\;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\;%(IncludePaths)</IncludePaths>
+      <Outputswitch>1</Outputswitch>
+      <PreprocessorDefinitions>WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </NASM>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\adam\svt-av1\master-adam\Source\API;D:\adam\svt-av1\master-adam\Source\Lib\Codec;D:\adam\svt-av1\master-adam\Source\Lib\C_DEFAULT;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\adam\svt-av1\master-adam\Source\API;D:\adam\svt-av1\master-adam\Source\Lib\Codec;D:\adam\svt-av1\master-adam\Source\Lib\C_DEFAULT;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsC</CompileAs>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>NDEBUG;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\adam\svt-av1\master-adam\Source\API;D:\adam\svt-av1\master-adam\Source\Lib\Codec;D:\adam\svt-av1\master-adam\Source\Lib\C_DEFAULT;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <NASM>
+      <IncludePaths>D:\adam\svt-av1\master-adam\Source\API\;D:\adam\svt-av1\master-adam\Source\Lib\Codec\;D:\adam\svt-av1\master-adam\Source\Lib\C_DEFAULT\;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\;%(IncludePaths)</IncludePaths>
+      <Outputswitch>1</Outputswitch>
+      <PreprocessorDefinitions>WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </NASM>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\adam\svt-av1\master-adam\Source\API;D:\adam\svt-av1\master-adam\Source\Lib\Codec;D:\adam\svt-av1\master-adam\Source\Lib\C_DEFAULT;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\adam\svt-av1\master-adam\Source\API;D:\adam\svt-av1\master-adam\Source\Lib\Codec;D:\adam\svt-av1\master-adam\Source\Lib\C_DEFAULT;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsC</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>NDEBUG;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\adam\svt-av1\master-adam\Source\API;D:\adam\svt-av1\master-adam\Source\Lib\Codec;D:\adam\svt-av1\master-adam\Source\Lib\C_DEFAULT;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <NASM>
+      <IncludePaths>D:\adam\svt-av1\master-adam\Source\API\;D:\adam\svt-av1\master-adam\Source\Lib\Codec\;D:\adam\svt-av1\master-adam\Source\Lib\C_DEFAULT\;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\;%(IncludePaths)</IncludePaths>
+      <Outputswitch>1</Outputswitch>
+      <PreprocessorDefinitions>WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </NASM>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\adam\svt-av1\master-adam\Source\API;D:\adam\svt-av1\master-adam\Source\Lib\Codec;D:\adam\svt-av1\master-adam\Source\Lib\C_DEFAULT;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/adam/svt-av1/master-adam/Source/Lib/ASM_SSE2/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/adam/svt-av1/master-adam -BD:/adam/svt-av1/master-adam/Build/windows --check-stamp-file D:/adam/svt-av1/master-adam/Build/windows/Source/Lib/ASM_SSE2/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/adam/svt-av1/master-adam/Source/Lib/ASM_SSE2/CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.13\Templates\MSBuild\nasm.props.in;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\CMakeLists.txt;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\adam\svt-av1\master-adam\Build\windows\Source\Lib\ASM_SSE2\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/adam/svt-av1/master-adam/Source/Lib/ASM_SSE2/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/adam/svt-av1/master-adam -BD:/adam/svt-av1/master-adam/Build/windows --check-stamp-file D:/adam/svt-av1/master-adam/Build/windows/Source/Lib/ASM_SSE2/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/adam/svt-av1/master-adam/Source/Lib/ASM_SSE2/CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.13\Templates\MSBuild\nasm.props.in;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\CMakeLists.txt;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\adam\svt-av1\master-adam\Build\windows\Source\Lib\ASM_SSE2\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/adam/svt-av1/master-adam/Source/Lib/ASM_SSE2/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/adam/svt-av1/master-adam -BD:/adam/svt-av1/master-adam/Build/windows --check-stamp-file D:/adam/svt-av1/master-adam/Build/windows/Source/Lib/ASM_SSE2/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/adam/svt-av1/master-adam/Source/Lib/ASM_SSE2/CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.13\Templates\MSBuild\nasm.props.in;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\CMakeLists.txt;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\adam\svt-av1\master-adam\Build\windows\Source\Lib\ASM_SSE2\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/adam/svt-av1/master-adam/Source/Lib/ASM_SSE2/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/adam/svt-av1/master-adam -BD:/adam/svt-av1/master-adam/Build/windows --check-stamp-file D:/adam/svt-av1/master-adam/Build/windows/Source/Lib/ASM_SSE2/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/adam/svt-av1/master-adam/Source/Lib/ASM_SSE2/CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.13\Templates\MSBuild\nasm.props.in;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\CMakeLists.txt;D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\adam\svt-av1\master-adam\Build\windows\Source\Lib\ASM_SSE2\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbAvcStyleMcp_Intrinsic_SSE2.c" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbAvcStyleMcp_SSE2.h" />
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbCombinedAveragingSAD_Intrinsic_SSE2.c" />
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbComputeMean_Intrinsic_SSE2.c" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbComputeMean_SSE2.h" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbComputeSAD_SSE2.h" />
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbDeblockingFilter_Intrinsic_SSE2.c" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbDeblockingFilter_SSE2.h" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbHighbdIntraPrediction_SSE2.h" />
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbIntraPrediction_AV1_Intrinsic_SSE2.c" />
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbIntraPrediction_Intrinsic_SSE2.c" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbIntraPrediction_SSE2.h" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbIntrinMacros16bit_SSE2.h" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbIntrinMacros_SSE2.h" />
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbInvTransform_Intrinsic_SSE2.c" />
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbMcp_Intrinsic_SSE2.c" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbMcp_SSE2.h" />
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbMeSadCalculation_Intrinsic_SSE2.c" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbMeSadCalculation_SSE2.h" />
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbPackUnPack_Intrinsic_SSE2.c" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbPackUnPack_SSE2.h" />
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbPictureOperators_Intrinsic_SSE2.c" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbPictureOperators_SSE2.asm" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbPictureOperators_SSE2.h" />
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbTransforms_Intrinsic_SSE2.c" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbTransforms_SSE2.h" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbVariance_SSE2.h" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\av1_txfm_sse2.h" />
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\encodetxb_sse2.c" />
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\fft_sse2.c" />
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\highbd_intrapred_sse2.c" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\highbd_intrapred_sse2_.asm" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\highbd_variance_impl_sse2.asm" />
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\highbd_variance_sse2.c" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\intrapred_sse2.asm" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\lpf_common_sse2.h" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\synonyms.h" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\transpose_sse2.h" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\txfm_common_sse2.h" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\v128_intrinsics_x86.h" />
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\v64_intrinsics_x86.h" />
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\variance_sse2.c" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\x64Macro.asm" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\x64RegisterUtil.asm" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\x64inc.asm" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\x86_abi_support.asm" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\x86inc.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\adam\svt-av1\master-adam\Build\windows\ZERO_CHECK.vcxproj">
+      <Project>{A4DAC12C-C814-3EB9-BACA-3B11B6F63DC8}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="C:\Program Files\CMake\share\cmake-3.13\Templates\MSBuild\nasm.targets" />
+  </ImportGroup>
+</Project>

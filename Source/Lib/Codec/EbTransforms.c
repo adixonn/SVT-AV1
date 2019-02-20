@@ -4415,7 +4415,7 @@ EbErrorType Av1EstimateTransform(
     TxSize                transform_size,
     uint64_t             *three_quad_energy,
     int16_t              *transform_inner_array_ptr,
-    uint32_t              bitIncrement,
+    uint32_t              bit_increment,
     TxType                transform_type,
     EbAsm                 asm_type,
     PLANE_TYPE            componentType,
@@ -4429,7 +4429,7 @@ EbErrorType Av1EstimateTransform(
     (void)transform_inner_array_ptr;
     (void)coeff_stride;
     (void)componentType;
-    uint8_t      bit_depth = bitIncrement ? 10 : 8;// NM - Set to zero for the moment
+    uint8_t      bit_depth = bit_increment ? 10 : 8;// NM - Set to zero for the moment
 
     switch (transform_size) {
     case TX_64X32:
@@ -4739,7 +4739,7 @@ EbErrorType EncodeTransform(
     uint32_t               coeff_stride,
     uint32_t               transform_size,
     int16_t               *transform_inner_array_ptr,
-    uint32_t               bitIncrement,
+    uint32_t               bit_increment,
     EbBool                 dstTransformFlag,
     EB_TRANS_COEFF_SHAPE   transCoeffShape,
     EbAsm                  asm_type)
@@ -4750,35 +4750,35 @@ EbErrorType EncodeTransform(
     uint32_t transformSizeFlag = Log2f(TRANSFORM_MAX_SIZE) - Log2f(transform_size);
 
     if (transCoeffShape == DEFAULT_SHAPE) {
-        (*transformFunctionTableEncode[/*asm_type*/(bitIncrement & 2) ? ASM_NON_AVX2 : asm_type][transformSizeFlag + dstTransformFlag])(
+        (*transformFunctionTableEncode[/*asm_type*/(bit_increment & 2) ? ASM_NON_AVX2 : asm_type][transformSizeFlag + dstTransformFlag])(
             residual_buffer,
             residual_stride,
             coeffBuffer,
             coeff_stride,
             transform_inner_array_ptr,
-            bitIncrement
+            bit_increment
             );
     }
 
     else if (transCoeffShape == N2_SHAPE) {
-        (*PfreqN2TransformTable[/*asm_type*/(bitIncrement & 2) ? ASM_NON_AVX2 : asm_type][transformSizeFlag + dstTransformFlag])(
+        (*PfreqN2TransformTable[/*asm_type*/(bit_increment & 2) ? ASM_NON_AVX2 : asm_type][transformSizeFlag + dstTransformFlag])(
             residual_buffer,
             residual_stride,
             coeffBuffer,
             coeff_stride,
             transform_inner_array_ptr,
-            bitIncrement
+            bit_increment
             );
     }
 
     else if (transCoeffShape == N4_SHAPE) {
-        (*PfreqN4TransformTable[/*asm_type*/(bitIncrement & 2) ? ASM_NON_AVX2 : asm_type][transformSizeFlag + dstTransformFlag])(
+        (*PfreqN4TransformTable[/*asm_type*/(bit_increment & 2) ? ASM_NON_AVX2 : asm_type][transformSizeFlag + dstTransformFlag])(
             residual_buffer,
             residual_stride,
             coeffBuffer,
             coeff_stride,
             transform_inner_array_ptr,
-            bitIncrement);
+            bit_increment);
     }
 
     else { // transCoeffShape == ONLY_DC_SHAPE
@@ -4790,7 +4790,7 @@ EbErrorType EncodeTransform(
             transform_size,
             residual_stride);
 
-        uint32_t shift1st = Log2f(transform_size) - 1 + bitIncrement;
+        uint32_t shift1st = Log2f(transform_size) - 1 + bit_increment;
         int32_t offset1st = 1 << (shift1st - 1);
 
         uint32_t shift2nd = Log2f(transform_size) + 6;
@@ -7505,7 +7505,7 @@ EbErrorType Av1EstimateInvTransform(
     uint32_t      recon_stride,
     TxSize        transform_size,
     int16_t      *transform_inner_array_ptr,
-    uint32_t      bitIncrement,
+    uint32_t      bit_increment,
     TxType        transform_type,
     uint32_t      eob,
     EbAsm         asm_type,
@@ -7520,7 +7520,7 @@ EbErrorType Av1EstimateInvTransform(
 
     //TxSetType  transformSetType = transform_type == DCT_DCT ? EXT_TX_SET_DCTONLY : /*ADST_ADST*/ EXT_TX_SET_DTT4_IDTX ; // NM - Set to zero for the moment
 
-    uint8_t      bit_depth = bitIncrement ? 10 : 8;// NM - Set to zero for the moment
+    uint8_t      bit_depth = bit_increment ? 10 : 8;// NM - Set to zero for the moment
 
 
     if (eob) {
@@ -8346,7 +8346,7 @@ EbErrorType Av1InvTransformRecon(
     uint8_t      *reconBuffer,
     uint32_t      recon_stride,
     TxSize        txsize,
-    uint32_t      bitIncrement,
+    uint32_t      bit_increment,
     TxType        transform_type,
     PLANE_TYPE   componentType,
     uint32_t       eob)
@@ -8360,7 +8360,7 @@ EbErrorType Av1InvTransformRecon(
     txfm_param.tx_size = txsize;
     txfm_param.eob = eob;
     txfm_param.lossless = 0;
-    txfm_param.bd = bitIncrement ? 10 : 8;
+    txfm_param.bd = bit_increment ? 10 : 8;
     txfm_param.is_hbd = 1;
     //txfm_param.tx_set_type = av1_get_ext_tx_set_type(   txfm_param->tx_size, is_inter_block(xd->mi[0]), reduced_tx_set);
 
@@ -8408,7 +8408,7 @@ EbErrorType EncodeInvTransform(
     uint32_t       recon_stride,
     uint32_t       transform_size,
     int16_t      *transform_inner_array_ptr,
-    uint32_t       bitIncrement,
+    uint32_t       bit_increment,
     EbBool      dstTransformFlag,
     EbAsm       asm_type)
 {
@@ -8420,7 +8420,7 @@ EbErrorType EncodeInvTransform(
         int16_t  dcCoef = coeffBuffer[0];
 
         uint32_t  shift1st = SHIFT_INV_1ST;
-        uint32_t  shift2nd = SHIFT_INV_2ND - bitIncrement;
+        uint32_t  shift2nd = SHIFT_INV_2ND - bit_increment;
 
         int32_t  offset1st = 1 << (shift1st - 1);
         int32_t  offset2nd = 1 << (shift2nd - 1);
@@ -8450,7 +8450,7 @@ EbErrorType EncodeInvTransform(
             reconBuffer,
             recon_stride,
             transform_inner_array_ptr,
-            bitIncrement);
+            bit_increment);
     }
     return return_error;
 }
