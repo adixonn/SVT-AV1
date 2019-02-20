@@ -3365,9 +3365,9 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
     int64_t total_sse = 0;
 
 
-    EbPictureBufferDesc_t                  *inputPicturePtr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
-    const uint32_t inputOriginIndex = (md_context_ptr->cu_origin_y + inputPicturePtr->origin_y) * inputPicturePtr->strideY + (md_context_ptr->cu_origin_x + inputPicturePtr->origin_x);
-    const uint32_t inputChromaOriginIndex = ((md_context_ptr->cu_origin_y + inputPicturePtr->origin_y) * inputPicturePtr->strideCb + (md_context_ptr->cu_origin_x + inputPicturePtr->origin_x)) / 2;
+    EbPictureBufferDesc_t                  *input_picture_ptr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+    const uint32_t inputOriginIndex = (md_context_ptr->cu_origin_y + input_picture_ptr->origin_y) * input_picture_ptr->strideY + (md_context_ptr->cu_origin_x + input_picture_ptr->origin_x);
+    const uint32_t inputChromaOriginIndex = ((md_context_ptr->cu_origin_y + input_picture_ptr->origin_y) * input_picture_ptr->strideCb + (md_context_ptr->cu_origin_x + input_picture_ptr->origin_x)) / 2;
 
     for (plane = plane_from; plane <= plane_to; ++plane) {
         // struct MacroblockPlane *const p = &x->plane[plane];
@@ -3391,8 +3391,8 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
             offset = prediction_ptr->origin_x + md_context_ptr->blk_geom->origin_x + (prediction_ptr->origin_y + md_context_ptr->blk_geom->origin_y) * prediction_ptr->strideY;
         int32_t sum;
         highbd_8_variance(
-            plane == 0 ? (&(inputPicturePtr->bufferY[inputOriginIndex])) : plane == 1 ? (&(inputPicturePtr->bufferCb[inputChromaOriginIndex])) : (&(inputPicturePtr->bufferCr[inputChromaOriginIndex])),
-            plane == 0 ? inputPicturePtr->strideY : plane == 1 ? inputPicturePtr->strideCb : inputPicturePtr->strideCr,
+            plane == 0 ? (&(input_picture_ptr->bufferY[inputOriginIndex])) : plane == 1 ? (&(input_picture_ptr->bufferCb[inputChromaOriginIndex])) : (&(input_picture_ptr->bufferCr[inputChromaOriginIndex])),
+            plane == 0 ? input_picture_ptr->strideY : plane == 1 ? input_picture_ptr->strideCb : input_picture_ptr->strideCr,
             plane == 0 ? (prediction_ptr->bufferY + offset) : plane == 1 ? (prediction_ptr->bufferCb + offset) : (prediction_ptr->bufferCr + offset),
             plane == 0 ? prediction_ptr->strideY : plane == 1 ? prediction_ptr->strideCb : prediction_ptr->strideCr,
             plane == 0 ? md_context_ptr->blk_geom->bwidth : md_context_ptr->blk_geom->bwidth_uv,

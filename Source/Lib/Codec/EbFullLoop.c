@@ -1781,7 +1781,7 @@ void FullLoop_R(
     LargestCodingUnit_t            *sb_ptr,
     ModeDecisionCandidateBuffer_t  *candidateBuffer,
     ModeDecisionContext_t          *context_ptr,
-    EbPictureBufferDesc_t          *inputPicturePtr,
+    EbPictureBufferDesc_t          *input_picture_ptr,
     PictureControlSet_t            *picture_control_set_ptr,
     uint32_t                          component_mask,
     uint32_t                          cbQp,
@@ -1791,7 +1791,7 @@ void FullLoop_R(
 {
     (void)sb_ptr;
     (void)crQp;
-    (void)inputPicturePtr;
+    (void)input_picture_ptr;
     int16_t                *chromaResidualPtr;
     uint32_t                 tuOriginIndex;
     UNUSED(tuOriginIndex);

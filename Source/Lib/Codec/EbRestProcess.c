@@ -365,10 +365,10 @@ void* rest_kernel(void *input_ptr)
 
             if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE && picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr)
             {
-                EbPictureBufferDesc_t *inputPicturePtr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
-                const uint32_t  SrclumaOffSet = inputPicturePtr->origin_x + inputPicturePtr->origin_y    *inputPicturePtr->strideY;
-                const uint32_t  SrccbOffset = (inputPicturePtr->origin_x >> 1) + (inputPicturePtr->origin_y >> 1)*inputPicturePtr->strideCb;
-                const uint32_t  SrccrOffset = (inputPicturePtr->origin_x >> 1) + (inputPicturePtr->origin_y >> 1)*inputPicturePtr->strideCr;
+                EbPictureBufferDesc_t *input_picture_ptr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+                const uint32_t  SrclumaOffSet = input_picture_ptr->origin_x + input_picture_ptr->origin_y    *input_picture_ptr->strideY;
+                const uint32_t  SrccbOffset = (input_picture_ptr->origin_x >> 1) + (input_picture_ptr->origin_y >> 1)*input_picture_ptr->strideCb;
+                const uint32_t  SrccrOffset = (input_picture_ptr->origin_x >> 1) + (input_picture_ptr->origin_y >> 1)*input_picture_ptr->strideCr;
 
                 EbReferenceObject_t   *referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr;
                 EbPictureBufferDesc_t *refDenPic = referenceObject->refDenSrcPicture;
@@ -381,19 +381,19 @@ void* rest_kernel(void *input_ptr)
                 for (verticalIdx = 0; verticalIdx < refDenPic->height; ++verticalIdx)
                 {
                     EB_MEMCPY(refDenPic->bufferY + ReflumaOffSet + verticalIdx * refDenPic->strideY,
-                        inputPicturePtr->bufferY + SrclumaOffSet + verticalIdx * inputPicturePtr->strideY,
-                        inputPicturePtr->width);
+                        input_picture_ptr->bufferY + SrclumaOffSet + verticalIdx * input_picture_ptr->strideY,
+                        input_picture_ptr->width);
                 }
 
-                for (verticalIdx = 0; verticalIdx < inputPicturePtr->height / 2; ++verticalIdx)
+                for (verticalIdx = 0; verticalIdx < input_picture_ptr->height / 2; ++verticalIdx)
                 {
                     EB_MEMCPY(refDenPic->bufferCb + RefcbOffset + verticalIdx * refDenPic->strideCb,
-                        inputPicturePtr->bufferCb + SrccbOffset + verticalIdx * inputPicturePtr->strideCb,
-                        inputPicturePtr->width / 2);
+                        input_picture_ptr->bufferCb + SrccbOffset + verticalIdx * input_picture_ptr->strideCb,
+                        input_picture_ptr->width / 2);
 
                     EB_MEMCPY(refDenPic->bufferCr + RefcrOffset + verticalIdx * refDenPic->strideCr,
-                        inputPicturePtr->bufferCr + SrccrOffset + verticalIdx * inputPicturePtr->strideCr,
-                        inputPicturePtr->width / 2);
+                        input_picture_ptr->bufferCr + SrccrOffset + verticalIdx * input_picture_ptr->strideCr,
+                        input_picture_ptr->width / 2);
                 }
 
                 generate_padding(

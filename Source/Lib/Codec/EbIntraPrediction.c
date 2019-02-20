@@ -3629,12 +3629,12 @@ EbErrorType IntraPredictionCL(
 
         if (md_context_ptr->luma_intra_ref_samples_gen_done == EB_FALSE)
         {
-            EbPictureBufferDesc_t     *inputPicturePtr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+            EbPictureBufferDesc_t     *input_picture_ptr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
 
             GenerateIntraLumaReferenceSamplesMd(
                 md_context_ptr,
                 picture_control_set_ptr,
-                inputPicturePtr);
+                input_picture_ptr);
         }
         puOriginIndex = ((pu_origin_y & (63)) * 64) + (pu_origin_x & (63));
         puSize = pu_width;
@@ -3735,11 +3735,11 @@ EbErrorType IntraPredictionCL(
         if (md_context_ptr->chroma_intra_ref_samples_gen_done == EB_FALSE)
         {
 
-            EbPictureBufferDesc_t *inputPicturePtr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+            EbPictureBufferDesc_t *input_picture_ptr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
             GenerateIntraChromaReferenceSamplesMd(
                 md_context_ptr,
                 picture_control_set_ptr,
-                inputPicturePtr);
+                input_picture_ptr);
 
         }
 

@@ -360,13 +360,13 @@ void CalculateAcEnergy(
     PictureParentControlSet_t        *picture_control_set_ptr,
     uint32_t                             sb_index) {
 
-    EbPictureBufferDesc_t    *inputPicturePtr = picture_control_set_ptr->enhanced_picture_ptr;
-    uint32_t                     inputLumaStride = inputPicturePtr->strideY;
+    EbPictureBufferDesc_t    *input_picture_ptr = picture_control_set_ptr->enhanced_picture_ptr;
+    uint32_t                     inputLumaStride = input_picture_ptr->strideY;
     uint32_t                   inputOriginIndex;
     SbParams_t  *sb_params = &sequence_control_set_ptr->sb_params_array[sb_index];
 
     uint8_t       *meanPtr = picture_control_set_ptr->yMean[sb_index];
-    inputOriginIndex = (sb_params->origin_y + inputPicturePtr->origin_y) * inputLumaStride + (sb_params->origin_x + inputPicturePtr->origin_x);
+    inputOriginIndex = (sb_params->origin_y + input_picture_ptr->origin_y) * inputLumaStride + (sb_params->origin_x + input_picture_ptr->origin_x);
 
     if (sb_params->is_complete_sb && picture_control_set_ptr->slice_type == I_SLICE) {
 
@@ -376,8 +376,8 @@ void CalculateAcEnergy(
 
 
         picture_control_set_ptr->sb_y_src_energy_cu_array[sb_index][0] = ComputeNxMSatdSadLCU(
-            &(inputPicturePtr->bufferY[inputOriginIndex]),
-            inputPicturePtr->strideY,
+            &(input_picture_ptr->bufferY[inputOriginIndex]),
+            input_picture_ptr->strideY,
             sb_params->width,
             sb_params->height,
             sequence_control_set_ptr->encode_context_ptr->asm_type);
@@ -393,8 +393,8 @@ void CalculateAcEnergy(
                 inputCuOriginIndex = inputOriginIndex + cuH * (64 / cuNum)*inputLumaStride + cuW * (64 / cuNum);
 
                 picture_control_set_ptr->sb_y_src_energy_cu_array[sb_index][1 + cuH * cuNum + cuW] = ComputeNxMSatdSadLCU(
-                    &(inputPicturePtr->bufferY[inputCuOriginIndex]),
-                    inputPicturePtr->strideY,
+                    &(input_picture_ptr->bufferY[inputCuOriginIndex]),
+                    input_picture_ptr->strideY,
                     cu_size,
                     cu_size,
                     sequence_control_set_ptr->encode_context_ptr->asm_type);

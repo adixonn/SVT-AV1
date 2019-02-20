@@ -61,7 +61,7 @@ EbErrorType PictureAnalysisContextCtor(
 
         //denoised
         return_error = EbPictureBufferDescCtor(
-            (EbPtr*)&(context_ptr->denoisedPicturePtr),
+            (EbPtr*)&(context_ptr->denoised_picture_ptr),
             (EbPtr)inputPictureBufferDescInitData);
 
         if (return_error == EB_ErrorInsufficientResources) {
@@ -69,15 +69,15 @@ EbErrorType PictureAnalysisContextCtor(
         }
 
         //luma buffer could re-used to process chroma
-        context_ptr->denoisedPicturePtr->bufferCb = context_ptr->denoisedPicturePtr->bufferY;
-        context_ptr->denoisedPicturePtr->bufferCr = context_ptr->denoisedPicturePtr->bufferY + context_ptr->denoisedPicturePtr->chromaSize;
+        context_ptr->denoised_picture_ptr->bufferCb = context_ptr->denoised_picture_ptr->bufferY;
+        context_ptr->denoised_picture_ptr->bufferCr = context_ptr->denoised_picture_ptr->bufferY + context_ptr->denoised_picture_ptr->chromaSize;
 
         // noise
         inputPictureBufferDescInitData->maxHeight = BLOCK_SIZE_64;
         inputPictureBufferDescInitData->bufferEnableMask = PICTURE_BUFFER_DESC_Y_FLAG;
 
         return_error = EbPictureBufferDescCtor(
-            (EbPtr*)&(context_ptr->noisePicturePtr),
+            (EbPtr*)&(context_ptr->noise_picture_ptr),
             (EbPtr)inputPictureBufferDescInitData);
 
         if (return_error == EB_ErrorInsufficientResources) {
@@ -1271,8 +1271,8 @@ uint8_t  getFilteredTypes(uint8_t  *ptr,
 *  strong filter Luma.
 *******************************************/
 void noiseExtractLumaStrong(
-    EbPictureBufferDesc_t       *inputPicturePtr,
-    EbPictureBufferDesc_t       *denoisedPicturePtr,
+    EbPictureBufferDesc_t       *input_picture_ptr,
+    EbPictureBufferDesc_t       *denoised_picture_ptr,
     uint32_t                       sb_origin_y
     , uint32_t                       sb_origin_x
 )
@@ -1285,35 +1285,35 @@ void noiseExtractLumaStrong(
 
     uint8_t *ptrIn;
     uint32_t stride_in;
-    uint8_t *ptrDenoised;
+    uint8_t *ptr_denoised;
 
     uint32_t strideOut;
-    uint32_t idx = (sb_origin_x + BLOCK_SIZE_64 > inputPicturePtr->width) ? sb_origin_x : 0;
+    uint32_t idx = (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width) ? sb_origin_x : 0;
 
     //Luma
     {
-        picHeight = inputPicturePtr->height;
-        picWidth = inputPicturePtr->width;
+        picHeight = input_picture_ptr->height;
+        picWidth = input_picture_ptr->width;
         sb_height = MIN(BLOCK_SIZE_64, picHeight - sb_origin_y);
 
-        stride_in = inputPicturePtr->strideY;
-        inputOriginIndex = inputPicturePtr->origin_x + (inputPicturePtr->origin_y + sb_origin_y)* inputPicturePtr->strideY;
-        ptrIn = &(inputPicturePtr->bufferY[inputOriginIndex]);
+        stride_in = input_picture_ptr->strideY;
+        inputOriginIndex = input_picture_ptr->origin_x + (input_picture_ptr->origin_y + sb_origin_y)* input_picture_ptr->strideY;
+        ptrIn = &(input_picture_ptr->bufferY[inputOriginIndex]);
 
-        inputOriginIndexPad = denoisedPicturePtr->origin_x + (denoisedPicturePtr->origin_y + sb_origin_y) * denoisedPicturePtr->strideY;
-        strideOut = denoisedPicturePtr->strideY;
-        ptrDenoised = &(denoisedPicturePtr->bufferY[inputOriginIndexPad]);
+        inputOriginIndexPad = denoised_picture_ptr->origin_x + (denoised_picture_ptr->origin_y + sb_origin_y) * denoised_picture_ptr->strideY;
+        strideOut = denoised_picture_ptr->strideY;
+        ptr_denoised = &(denoised_picture_ptr->bufferY[inputOriginIndexPad]);
 
         for (jj = 0; jj < sb_height; jj++) {
             for (ii = idx; ii < picWidth; ii++) {
 
                 if ((jj > 0 || sb_origin_y > 0) && (jj < sb_height - 1 || sb_origin_y + sb_height < picHeight) && ii > 0 && ii < picWidth - 1) {
 
-                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 4);
+                    ptr_denoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 4);
 
                 }
                 else {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
+                    ptr_denoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
 
                 }
 
@@ -1327,8 +1327,8 @@ void noiseExtractLumaStrong(
 *  strong filter chroma.
 *******************************************/
 void noiseExtractChromaStrong(
-    EbPictureBufferDesc_t       *inputPicturePtr,
-    EbPictureBufferDesc_t       *denoisedPicturePtr,
+    EbPictureBufferDesc_t       *input_picture_ptr,
+    EbPictureBufferDesc_t       *denoised_picture_ptr,
     uint32_t                       sb_origin_y
     , uint32_t                       sb_origin_x
 )
@@ -1341,24 +1341,24 @@ void noiseExtractChromaStrong(
 
     uint8_t *ptrIn;
     uint32_t stride_in;
-    uint8_t *ptrDenoised;
+    uint8_t *ptr_denoised;
 
     uint32_t strideOut;
-    uint32_t idx = (sb_origin_x + BLOCK_SIZE_64 > inputPicturePtr->width) ? sb_origin_x : 0;
+    uint32_t idx = (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width) ? sb_origin_x : 0;
 
     //Cb
     {
-        picHeight = inputPicturePtr->height / 2;
-        picWidth = inputPicturePtr->width / 2;
+        picHeight = input_picture_ptr->height / 2;
+        picWidth = input_picture_ptr->width / 2;
         sb_height = MIN(BLOCK_SIZE_64 / 2, picHeight - sb_origin_y);
 
-        stride_in = inputPicturePtr->strideCb;
-        inputOriginIndex = inputPicturePtr->origin_x / 2 + (inputPicturePtr->origin_y / 2 + sb_origin_y)  * inputPicturePtr->strideCb;
-        ptrIn = &(inputPicturePtr->bufferCb[inputOriginIndex]);
+        stride_in = input_picture_ptr->strideCb;
+        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)  * input_picture_ptr->strideCb;
+        ptrIn = &(input_picture_ptr->bufferCb[inputOriginIndex]);
 
-        inputOriginIndexPad = denoisedPicturePtr->origin_x / 2 + (denoisedPicturePtr->origin_y / 2 + sb_origin_y)  * denoisedPicturePtr->strideCb;
-        strideOut = denoisedPicturePtr->strideCb;
-        ptrDenoised = &(denoisedPicturePtr->bufferCb[inputOriginIndexPad]);
+        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)  * denoised_picture_ptr->strideCb;
+        strideOut = denoised_picture_ptr->strideCb;
+        ptr_denoised = &(denoised_picture_ptr->bufferCb[inputOriginIndexPad]);
 
 
         for (jj = 0; jj < sb_height; jj++) {
@@ -1366,10 +1366,10 @@ void noiseExtractChromaStrong(
 
 
                 if ((jj > 0 || sb_origin_y > 0) && (jj < sb_height - 1 || (sb_origin_y + sb_height) < picHeight) && ii > 0 && ii < picWidth - 1) {
-                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 6);
+                    ptr_denoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 6);
                 }
                 else {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
+                    ptr_denoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
                 }
 
             }
@@ -1378,27 +1378,27 @@ void noiseExtractChromaStrong(
 
     //Cr
     {
-        picHeight = inputPicturePtr->height / 2;
-        picWidth = inputPicturePtr->width / 2;
+        picHeight = input_picture_ptr->height / 2;
+        picWidth = input_picture_ptr->width / 2;
         sb_height = MIN(BLOCK_SIZE_64 / 2, picHeight - sb_origin_y);
 
-        stride_in = inputPicturePtr->strideCr;
-        inputOriginIndex = inputPicturePtr->origin_x / 2 + (inputPicturePtr->origin_y / 2 + sb_origin_y)  * inputPicturePtr->strideCr;
-        ptrIn = &(inputPicturePtr->bufferCr[inputOriginIndex]);
+        stride_in = input_picture_ptr->strideCr;
+        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)  * input_picture_ptr->strideCr;
+        ptrIn = &(input_picture_ptr->bufferCr[inputOriginIndex]);
 
-        inputOriginIndexPad = denoisedPicturePtr->origin_x / 2 + (denoisedPicturePtr->origin_y / 2 + sb_origin_y)  * denoisedPicturePtr->strideCr;
-        strideOut = denoisedPicturePtr->strideCr;
-        ptrDenoised = &(denoisedPicturePtr->bufferCr[inputOriginIndexPad]);
+        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)  * denoised_picture_ptr->strideCr;
+        strideOut = denoised_picture_ptr->strideCr;
+        ptr_denoised = &(denoised_picture_ptr->bufferCr[inputOriginIndexPad]);
 
 
         for (jj = 0; jj < sb_height; jj++) {
             for (ii = idx; ii < picWidth; ii++) {
 
                 if ((jj > 0 || sb_origin_y > 0) && (jj < sb_height - 1 || (sb_origin_y + sb_height) < picHeight) && ii > 0 && ii < picWidth - 1) {
-                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 6);
+                    ptr_denoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 6);
                 }
                 else {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
+                    ptr_denoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
                 }
 
             }
@@ -1412,8 +1412,8 @@ void noiseExtractChromaStrong(
 *  weak filter chroma.
 *******************************************/
 void noiseExtractChromaWeak(
-    EbPictureBufferDesc_t       *inputPicturePtr,
-    EbPictureBufferDesc_t       *denoisedPicturePtr,
+    EbPictureBufferDesc_t       *input_picture_ptr,
+    EbPictureBufferDesc_t       *denoised_picture_ptr,
     uint32_t                       sb_origin_y
     , uint32_t                       sb_origin_x
 )
@@ -1426,26 +1426,26 @@ void noiseExtractChromaWeak(
 
     uint8_t *ptrIn;
     uint32_t stride_in;
-    uint8_t *ptrDenoised;
+    uint8_t *ptr_denoised;
 
     uint32_t strideOut;
 
-    uint32_t idx = (sb_origin_x + BLOCK_SIZE_64 > inputPicturePtr->width) ? sb_origin_x : 0;
+    uint32_t idx = (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width) ? sb_origin_x : 0;
 
     //Cb
     {
-        picHeight = inputPicturePtr->height / 2;
-        picWidth = inputPicturePtr->width / 2;
+        picHeight = input_picture_ptr->height / 2;
+        picWidth = input_picture_ptr->width / 2;
 
         sb_height = MIN(BLOCK_SIZE_64 / 2, picHeight - sb_origin_y);
 
-        stride_in = inputPicturePtr->strideCb;
-        inputOriginIndex = inputPicturePtr->origin_x / 2 + (inputPicturePtr->origin_y / 2 + sb_origin_y)* inputPicturePtr->strideCb;
-        ptrIn = &(inputPicturePtr->bufferCb[inputOriginIndex]);
+        stride_in = input_picture_ptr->strideCb;
+        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)* input_picture_ptr->strideCb;
+        ptrIn = &(input_picture_ptr->bufferCb[inputOriginIndex]);
 
-        inputOriginIndexPad = denoisedPicturePtr->origin_x / 2 + (denoisedPicturePtr->origin_y / 2 + sb_origin_y)* denoisedPicturePtr->strideCb;
-        strideOut = denoisedPicturePtr->strideCb;
-        ptrDenoised = &(denoisedPicturePtr->bufferCb[inputOriginIndexPad]);
+        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)* denoised_picture_ptr->strideCb;
+        strideOut = denoised_picture_ptr->strideCb;
+        ptr_denoised = &(denoised_picture_ptr->bufferCb[inputOriginIndexPad]);
 
 
         for (jj = 0; jj < sb_height; jj++) {
@@ -1453,10 +1453,10 @@ void noiseExtractChromaWeak(
 
 
                 if ((jj > 0 || sb_origin_y > 0) && (jj < sb_height - 1 || (sb_origin_y + sb_height) < picHeight) && ii > 0 && ii < picWidth - 1) {
-                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 4);
+                    ptr_denoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 4);
                 }
                 else {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
+                    ptr_denoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
                 }
 
             }
@@ -1465,27 +1465,27 @@ void noiseExtractChromaWeak(
 
     //Cr
     {
-        picHeight = inputPicturePtr->height / 2;
-        picWidth = inputPicturePtr->width / 2;
+        picHeight = input_picture_ptr->height / 2;
+        picWidth = input_picture_ptr->width / 2;
         sb_height = MIN(BLOCK_SIZE_64 / 2, picHeight - sb_origin_y);
 
-        stride_in = inputPicturePtr->strideCr;
-        inputOriginIndex = inputPicturePtr->origin_x / 2 + (inputPicturePtr->origin_y / 2 + sb_origin_y)* inputPicturePtr->strideCr;
-        ptrIn = &(inputPicturePtr->bufferCr[inputOriginIndex]);
+        stride_in = input_picture_ptr->strideCr;
+        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)* input_picture_ptr->strideCr;
+        ptrIn = &(input_picture_ptr->bufferCr[inputOriginIndex]);
 
-        inputOriginIndexPad = denoisedPicturePtr->origin_x / 2 + (denoisedPicturePtr->origin_y / 2 + sb_origin_y)* denoisedPicturePtr->strideCr;
-        strideOut = denoisedPicturePtr->strideCr;
-        ptrDenoised = &(denoisedPicturePtr->bufferCr[inputOriginIndexPad]);
+        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)* denoised_picture_ptr->strideCr;
+        strideOut = denoised_picture_ptr->strideCr;
+        ptr_denoised = &(denoised_picture_ptr->bufferCr[inputOriginIndexPad]);
 
 
         for (jj = 0; jj < sb_height; jj++) {
             for (ii = idx; ii < picWidth; ii++) {
 
                 if ((jj > 0 || sb_origin_y > 0) && (jj < sb_height - 1 || (sb_origin_y + sb_height) < picHeight) && ii > 0 && ii < picWidth - 1) {
-                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 4);
+                    ptr_denoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 4);
                 }
                 else {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
+                    ptr_denoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
                 }
 
             }
@@ -1499,9 +1499,9 @@ void noiseExtractChromaWeak(
 *  weak filter Luma and store noise.
 *******************************************/
 void noiseExtractLumaWeak(
-    EbPictureBufferDesc_t       *inputPicturePtr,
-    EbPictureBufferDesc_t       *denoisedPicturePtr,
-    EbPictureBufferDesc_t       *noisePicturePtr,
+    EbPictureBufferDesc_t       *input_picture_ptr,
+    EbPictureBufferDesc_t       *denoised_picture_ptr,
+    EbPictureBufferDesc_t       *noise_picture_ptr,
     uint32_t                       sb_origin_y
     , uint32_t                         sb_origin_x
 )
@@ -1515,29 +1515,29 @@ void noiseExtractLumaWeak(
 
     uint8_t *ptrIn;
     uint32_t stride_in;
-    uint8_t *ptrDenoised;
+    uint8_t *ptr_denoised;
 
-    uint8_t *ptrNoise;
+    uint8_t *ptr_noise;
     uint32_t strideOut;
 
-    uint32_t idx = (sb_origin_x + BLOCK_SIZE_64 > inputPicturePtr->width) ? sb_origin_x : 0;
+    uint32_t idx = (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width) ? sb_origin_x : 0;
 
     //Luma
     {
-        picHeight = inputPicturePtr->height;
-        picWidth = inputPicturePtr->width;
+        picHeight = input_picture_ptr->height;
+        picWidth = input_picture_ptr->width;
         sb_height = MIN(BLOCK_SIZE_64, picHeight - sb_origin_y);
 
-        stride_in = inputPicturePtr->strideY;
-        inputOriginIndex = inputPicturePtr->origin_x + (inputPicturePtr->origin_y + sb_origin_y) * inputPicturePtr->strideY;
-        ptrIn = &(inputPicturePtr->bufferY[inputOriginIndex]);
+        stride_in = input_picture_ptr->strideY;
+        inputOriginIndex = input_picture_ptr->origin_x + (input_picture_ptr->origin_y + sb_origin_y) * input_picture_ptr->strideY;
+        ptrIn = &(input_picture_ptr->bufferY[inputOriginIndex]);
 
-        inputOriginIndexPad = denoisedPicturePtr->origin_x + (denoisedPicturePtr->origin_y + sb_origin_y) * denoisedPicturePtr->strideY;
-        strideOut = denoisedPicturePtr->strideY;
-        ptrDenoised = &(denoisedPicturePtr->bufferY[inputOriginIndexPad]);
+        inputOriginIndexPad = denoised_picture_ptr->origin_x + (denoised_picture_ptr->origin_y + sb_origin_y) * denoised_picture_ptr->strideY;
+        strideOut = denoised_picture_ptr->strideY;
+        ptr_denoised = &(denoised_picture_ptr->bufferY[inputOriginIndexPad]);
 
-        noiseOriginIndex = noisePicturePtr->origin_x + noisePicturePtr->origin_y * noisePicturePtr->strideY;
-        ptrNoise = &(noisePicturePtr->bufferY[noiseOriginIndex]);
+        noiseOriginIndex = noise_picture_ptr->origin_x + noise_picture_ptr->origin_y * noise_picture_ptr->strideY;
+        ptr_noise = &(noise_picture_ptr->bufferY[noiseOriginIndex]);
 
 
         for (jj = 0; jj < sb_height; jj++) {
@@ -1545,13 +1545,13 @@ void noiseExtractLumaWeak(
 
                 if ((jj > 0 || sb_origin_y > 0) && (jj < sb_height - 1 || sb_origin_y + sb_height < picHeight) && ii > 0 && ii < picWidth - 1) {
 
-                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 0);
-                    ptrNoise[ii + jj * strideOut] = CLIP3EQ(0, 255, ptrIn[ii + jj * stride_in] - ptrDenoised[ii + jj * strideOut]);
+                    ptr_denoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 0);
+                    ptr_noise[ii + jj * strideOut] = CLIP3EQ(0, 255, ptrIn[ii + jj * stride_in] - ptr_denoised[ii + jj * strideOut]);
 
                 }
                 else {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
-                    ptrNoise[ii + jj * strideOut] = 0;
+                    ptr_denoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
+                    ptr_noise[ii + jj * strideOut] = 0;
                 }
 
             }
@@ -1561,9 +1561,9 @@ void noiseExtractLumaWeak(
 }
 
 void noiseExtractLumaWeakLcu(
-    EbPictureBufferDesc_t       *inputPicturePtr,
-    EbPictureBufferDesc_t       *denoisedPicturePtr,
-    EbPictureBufferDesc_t       *noisePicturePtr,
+    EbPictureBufferDesc_t       *input_picture_ptr,
+    EbPictureBufferDesc_t       *denoised_picture_ptr,
+    EbPictureBufferDesc_t       *noise_picture_ptr,
     uint32_t                       sb_origin_y
     , uint32_t                         sb_origin_x
 )
@@ -1577,30 +1577,30 @@ void noiseExtractLumaWeakLcu(
 
     uint8_t *ptrIn;
     uint32_t stride_in;
-    uint8_t *ptrDenoised;
+    uint8_t *ptr_denoised;
 
-    uint8_t *ptrNoise;
+    uint8_t *ptr_noise;
     uint32_t strideOut;
 
-    uint32_t idx = (sb_origin_x + BLOCK_SIZE_64 > inputPicturePtr->width) ? sb_origin_x : 0;
+    uint32_t idx = (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width) ? sb_origin_x : 0;
 
     //Luma
     {
-        picHeight = inputPicturePtr->height;
-        picWidth = inputPicturePtr->width;
+        picHeight = input_picture_ptr->height;
+        picWidth = input_picture_ptr->width;
         sb_height = MIN(BLOCK_SIZE_64, picHeight - sb_origin_y);
         sb_width = MIN(BLOCK_SIZE_64, picWidth - sb_origin_x);
 
-        stride_in = inputPicturePtr->strideY;
-        inputOriginIndex = inputPicturePtr->origin_x + sb_origin_x + (inputPicturePtr->origin_y + sb_origin_y) * inputPicturePtr->strideY;
-        ptrIn = &(inputPicturePtr->bufferY[inputOriginIndex]);
+        stride_in = input_picture_ptr->strideY;
+        inputOriginIndex = input_picture_ptr->origin_x + sb_origin_x + (input_picture_ptr->origin_y + sb_origin_y) * input_picture_ptr->strideY;
+        ptrIn = &(input_picture_ptr->bufferY[inputOriginIndex]);
 
-        inputOriginIndexPad = denoisedPicturePtr->origin_x + sb_origin_x + (denoisedPicturePtr->origin_y + sb_origin_y) * denoisedPicturePtr->strideY;
-        strideOut = denoisedPicturePtr->strideY;
-        ptrDenoised = &(denoisedPicturePtr->bufferY[inputOriginIndexPad]);
+        inputOriginIndexPad = denoised_picture_ptr->origin_x + sb_origin_x + (denoised_picture_ptr->origin_y + sb_origin_y) * denoised_picture_ptr->strideY;
+        strideOut = denoised_picture_ptr->strideY;
+        ptr_denoised = &(denoised_picture_ptr->bufferY[inputOriginIndexPad]);
 
-        noiseOriginIndex = noisePicturePtr->origin_x + sb_origin_x + noisePicturePtr->origin_y * noisePicturePtr->strideY;
-        ptrNoise = &(noisePicturePtr->bufferY[noiseOriginIndex]);
+        noiseOriginIndex = noise_picture_ptr->origin_x + sb_origin_x + noise_picture_ptr->origin_y * noise_picture_ptr->strideY;
+        ptr_noise = &(noise_picture_ptr->bufferY[noiseOriginIndex]);
 
 
         for (jj = 0; jj < sb_height; jj++) {
@@ -1608,13 +1608,13 @@ void noiseExtractLumaWeakLcu(
 
                 if ((jj > 0 || sb_origin_y > 0) && (jj < sb_height - 1 || sb_origin_y + sb_height < picHeight) && (ii > 0 || sb_origin_x > 0) && (ii + sb_origin_x) < picWidth - 1/* & ii < sb_width - 1*/) {
 
-                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 0);
-                    ptrNoise[ii + jj * strideOut] = CLIP3EQ(0, 255, ptrIn[ii + jj * stride_in] - ptrDenoised[ii + jj * strideOut]);
+                    ptr_denoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 0);
+                    ptr_noise[ii + jj * strideOut] = CLIP3EQ(0, 255, ptrIn[ii + jj * stride_in] - ptr_denoised[ii + jj * strideOut]);
 
                 }
                 else {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
-                    ptrNoise[ii + jj * strideOut] = 0;
+                    ptr_denoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
+                    ptr_noise[ii + jj * strideOut] = 0;
                 }
 
             }
@@ -3009,8 +3009,8 @@ EbErrorType DenoiseInputPicture(
     SequenceControlSet_t        *sequence_control_set_ptr,
     PictureParentControlSet_t   *picture_control_set_ptr,
     uint32_t                       sb_total_count,
-    EbPictureBufferDesc_t       *inputPicturePtr,
-    EbPictureBufferDesc_t       *denoisedPicturePtr,
+    EbPictureBufferDesc_t       *input_picture_ptr,
+    EbPictureBufferDesc_t       *denoised_picture_ptr,
     uint32_t                         picture_width_in_sb,
     EbAsm                         asm_type)
 {
@@ -3023,10 +3023,10 @@ EbErrorType DenoiseInputPicture(
     //use denoised input if the source is extremly noisy
     if (picture_control_set_ptr->pic_noise_class >= PIC_NOISE_CLASS_4) {
 
-        uint32_t inLumaOffSet = inputPicturePtr->origin_x + inputPicturePtr->origin_y      * inputPicturePtr->strideY;
-        uint32_t inChromaOffSet = inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCb;
-        uint32_t denLumaOffSet = denoisedPicturePtr->origin_x + denoisedPicturePtr->origin_y   * denoisedPicturePtr->strideY;
-        uint32_t denChromaOffSet = denoisedPicturePtr->origin_x / 2 + denoisedPicturePtr->origin_y / 2 * denoisedPicturePtr->strideCb;
+        uint32_t inLumaOffSet = input_picture_ptr->origin_x + input_picture_ptr->origin_y      * input_picture_ptr->strideY;
+        uint32_t inChromaOffSet = input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb;
+        uint32_t denLumaOffSet = denoised_picture_ptr->origin_x + denoised_picture_ptr->origin_y   * denoised_picture_ptr->strideY;
+        uint32_t denChromaOffSet = denoised_picture_ptr->origin_x / 2 + denoised_picture_ptr->origin_y / 2 * denoised_picture_ptr->strideCb;
 
         //filter Luma
         for (lcuCodingOrder = 0; lcuCodingOrder < sb_total_count; ++lcuCodingOrder) {
@@ -3036,16 +3036,16 @@ EbErrorType DenoiseInputPicture(
 
             if (sb_origin_x == 0)
                 StrongLumaFilter_funcPtrArray[asm_type](
-                    inputPicturePtr,
-                    denoisedPicturePtr,
+                    input_picture_ptr,
+                    denoised_picture_ptr,
                     sb_origin_y,
                     sb_origin_x);
 
-            if (sb_origin_x + BLOCK_SIZE_64 > inputPicturePtr->width)
+            if (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width)
             {
                 noiseExtractLumaStrong(
-                    inputPicturePtr,
-                    denoisedPicturePtr,
+                    input_picture_ptr,
+                    denoised_picture_ptr,
                     sb_origin_y,
                     sb_origin_x);
             }
@@ -3053,10 +3053,10 @@ EbErrorType DenoiseInputPicture(
         }
 
         //copy Luma
-        for (verticalIdx = 0; verticalIdx < inputPicturePtr->height; ++verticalIdx) {
-            EB_MEMCPY(inputPicturePtr->bufferY + inLumaOffSet + verticalIdx * inputPicturePtr->strideY,
-                denoisedPicturePtr->bufferY + denLumaOffSet + verticalIdx * denoisedPicturePtr->strideY,
-                sizeof(uint8_t) * inputPicturePtr->width);
+        for (verticalIdx = 0; verticalIdx < input_picture_ptr->height; ++verticalIdx) {
+            EB_MEMCPY(input_picture_ptr->bufferY + inLumaOffSet + verticalIdx * input_picture_ptr->strideY,
+                denoised_picture_ptr->bufferY + denLumaOffSet + verticalIdx * denoised_picture_ptr->strideY,
+                sizeof(uint8_t) * input_picture_ptr->width);
         }
 
         //copy chroma
@@ -3067,16 +3067,16 @@ EbErrorType DenoiseInputPicture(
 
             if (sb_origin_x == 0)
                 StrongChromaFilter_funcPtrArray[asm_type](
-                    inputPicturePtr,
-                    denoisedPicturePtr,
+                    input_picture_ptr,
+                    denoised_picture_ptr,
                     sb_origin_y / 2,
                     sb_origin_x / 2);
 
-            if (sb_origin_x + BLOCK_SIZE_64 > inputPicturePtr->width)
+            if (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width)
             {
                 noiseExtractChromaStrong(
-                    inputPicturePtr,
-                    denoisedPicturePtr,
+                    input_picture_ptr,
+                    denoised_picture_ptr,
                     sb_origin_y / 2,
                     sb_origin_x / 2);
             }
@@ -3084,30 +3084,30 @@ EbErrorType DenoiseInputPicture(
         }
 
         //copy chroma
-        for (verticalIdx = 0; verticalIdx < inputPicturePtr->height / 2; ++verticalIdx) {
+        for (verticalIdx = 0; verticalIdx < input_picture_ptr->height / 2; ++verticalIdx) {
 
-            EB_MEMCPY(inputPicturePtr->bufferCb + inChromaOffSet + verticalIdx * inputPicturePtr->strideCb,
-                denoisedPicturePtr->bufferCb + denChromaOffSet + verticalIdx * denoisedPicturePtr->strideCb,
-                sizeof(uint8_t) * inputPicturePtr->width / 2);
+            EB_MEMCPY(input_picture_ptr->bufferCb + inChromaOffSet + verticalIdx * input_picture_ptr->strideCb,
+                denoised_picture_ptr->bufferCb + denChromaOffSet + verticalIdx * denoised_picture_ptr->strideCb,
+                sizeof(uint8_t) * input_picture_ptr->width / 2);
 
-            EB_MEMCPY(inputPicturePtr->bufferCr + inChromaOffSet + verticalIdx * inputPicturePtr->strideCr,
-                denoisedPicturePtr->bufferCr + denChromaOffSet + verticalIdx * denoisedPicturePtr->strideCr,
-                sizeof(uint8_t) * inputPicturePtr->width / 2);
+            EB_MEMCPY(input_picture_ptr->bufferCr + inChromaOffSet + verticalIdx * input_picture_ptr->strideCr,
+                denoised_picture_ptr->bufferCr + denChromaOffSet + verticalIdx * denoised_picture_ptr->strideCr,
+                sizeof(uint8_t) * input_picture_ptr->width / 2);
         }
 
     }
     else if (picture_control_set_ptr->pic_noise_class >= PIC_NOISE_CLASS_3_1) {
 
-        uint32_t inLumaOffSet = inputPicturePtr->origin_x + inputPicturePtr->origin_y      * inputPicturePtr->strideY;
-        uint32_t inChromaOffSet = inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCb;
-        uint32_t denLumaOffSet = denoisedPicturePtr->origin_x + denoisedPicturePtr->origin_y   * denoisedPicturePtr->strideY;
-        uint32_t denChromaOffSet = denoisedPicturePtr->origin_x / 2 + denoisedPicturePtr->origin_y / 2 * denoisedPicturePtr->strideCb;
+        uint32_t inLumaOffSet = input_picture_ptr->origin_x + input_picture_ptr->origin_y      * input_picture_ptr->strideY;
+        uint32_t inChromaOffSet = input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb;
+        uint32_t denLumaOffSet = denoised_picture_ptr->origin_x + denoised_picture_ptr->origin_y   * denoised_picture_ptr->strideY;
+        uint32_t denChromaOffSet = denoised_picture_ptr->origin_x / 2 + denoised_picture_ptr->origin_y / 2 * denoised_picture_ptr->strideCb;
 
 
-        for (verticalIdx = 0; verticalIdx < inputPicturePtr->height; ++verticalIdx) {
-            EB_MEMCPY(inputPicturePtr->bufferY + inLumaOffSet + verticalIdx * inputPicturePtr->strideY,
-                denoisedPicturePtr->bufferY + denLumaOffSet + verticalIdx * denoisedPicturePtr->strideY,
-                sizeof(uint8_t) * inputPicturePtr->width);
+        for (verticalIdx = 0; verticalIdx < input_picture_ptr->height; ++verticalIdx) {
+            EB_MEMCPY(input_picture_ptr->bufferY + inLumaOffSet + verticalIdx * input_picture_ptr->strideY,
+                denoised_picture_ptr->bufferY + denLumaOffSet + verticalIdx * denoised_picture_ptr->strideY,
+                sizeof(uint8_t) * input_picture_ptr->width);
         }
 
         //copy chroma
@@ -3118,16 +3118,16 @@ EbErrorType DenoiseInputPicture(
 
             if (sb_origin_x == 0)
                 WeakChromaFilter_funcPtrArray[asm_type](
-                    inputPicturePtr,
-                    denoisedPicturePtr,
+                    input_picture_ptr,
+                    denoised_picture_ptr,
                     sb_origin_y / 2,
                     sb_origin_x / 2);
 
-            if (sb_origin_x + BLOCK_SIZE_64 > inputPicturePtr->width)
+            if (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width)
             {
                 noiseExtractChromaWeak(
-                    inputPicturePtr,
-                    denoisedPicturePtr,
+                    input_picture_ptr,
+                    denoised_picture_ptr,
                     sb_origin_y / 2,
                     sb_origin_x / 2);
             }
@@ -3136,15 +3136,15 @@ EbErrorType DenoiseInputPicture(
 
 
 
-        for (verticalIdx = 0; verticalIdx < inputPicturePtr->height / 2; ++verticalIdx) {
+        for (verticalIdx = 0; verticalIdx < input_picture_ptr->height / 2; ++verticalIdx) {
 
-            EB_MEMCPY(inputPicturePtr->bufferCb + inChromaOffSet + verticalIdx * inputPicturePtr->strideCb,
-                denoisedPicturePtr->bufferCb + denChromaOffSet + verticalIdx * denoisedPicturePtr->strideCb,
-                sizeof(uint8_t) * inputPicturePtr->width / 2);
+            EB_MEMCPY(input_picture_ptr->bufferCb + inChromaOffSet + verticalIdx * input_picture_ptr->strideCb,
+                denoised_picture_ptr->bufferCb + denChromaOffSet + verticalIdx * denoised_picture_ptr->strideCb,
+                sizeof(uint8_t) * input_picture_ptr->width / 2);
 
-            EB_MEMCPY(inputPicturePtr->bufferCr + inChromaOffSet + verticalIdx * inputPicturePtr->strideCr,
-                denoisedPicturePtr->bufferCr + denChromaOffSet + verticalIdx * denoisedPicturePtr->strideCr,
-                sizeof(uint8_t) * inputPicturePtr->width / 2);
+            EB_MEMCPY(input_picture_ptr->bufferCr + inChromaOffSet + verticalIdx * input_picture_ptr->strideCr,
+                denoised_picture_ptr->bufferCr + denChromaOffSet + verticalIdx * denoised_picture_ptr->strideCr,
+                sizeof(uint8_t) * input_picture_ptr->width / 2);
         }
 
     }
@@ -3154,11 +3154,11 @@ EbErrorType DenoiseInputPicture(
 
             sb_origin_x = (lcuCodingOrder % picture_width_in_sb) * sequence_control_set_ptr->sb_sz;
             sb_origin_y = (lcuCodingOrder / picture_width_in_sb) * sequence_control_set_ptr->sb_sz;
-            uint32_t  sb_height = MIN(BLOCK_SIZE_64, inputPicturePtr->height - sb_origin_y);
-            uint32_t  sb_width = MIN(BLOCK_SIZE_64, inputPicturePtr->width - sb_origin_x);
+            uint32_t  sb_height = MIN(BLOCK_SIZE_64, input_picture_ptr->height - sb_origin_y);
+            uint32_t  sb_width = MIN(BLOCK_SIZE_64, input_picture_ptr->width - sb_origin_x);
 
-            uint32_t inLumaOffSet = inputPicturePtr->origin_x + sb_origin_x + (inputPicturePtr->origin_y + sb_origin_y) * inputPicturePtr->strideY;
-            uint32_t denLumaOffSet = denoisedPicturePtr->origin_x + sb_origin_x + (denoisedPicturePtr->origin_y + sb_origin_y) * denoisedPicturePtr->strideY;
+            uint32_t inLumaOffSet = input_picture_ptr->origin_x + sb_origin_x + (input_picture_ptr->origin_y + sb_origin_y) * input_picture_ptr->strideY;
+            uint32_t denLumaOffSet = denoised_picture_ptr->origin_x + sb_origin_x + (denoised_picture_ptr->origin_y + sb_origin_y) * denoised_picture_ptr->strideY;
 
 
             if (picture_control_set_ptr->sb_flat_noise_array[lcuCodingOrder] == 1) {
@@ -3166,8 +3166,8 @@ EbErrorType DenoiseInputPicture(
 
                 for (verticalIdx = 0; verticalIdx < sb_height; ++verticalIdx) {
 
-                    EB_MEMCPY(inputPicturePtr->bufferY + inLumaOffSet + verticalIdx * inputPicturePtr->strideY,
-                        denoisedPicturePtr->bufferY + denLumaOffSet + verticalIdx * denoisedPicturePtr->strideY,
+                    EB_MEMCPY(input_picture_ptr->bufferY + inLumaOffSet + verticalIdx * input_picture_ptr->strideY,
+                        denoised_picture_ptr->bufferY + denLumaOffSet + verticalIdx * denoised_picture_ptr->strideY,
                         sizeof(uint8_t) * sb_width);
 
                 }
@@ -3183,9 +3183,9 @@ EbErrorType DetectInputPictureNoise(
     SequenceControlSet_t        *sequence_control_set_ptr,
     PictureParentControlSet_t   *picture_control_set_ptr,
     uint32_t                       sb_total_count,
-    EbPictureBufferDesc_t       *inputPicturePtr,
-    EbPictureBufferDesc_t       *noisePicturePtr,
-    EbPictureBufferDesc_t       *denoisedPicturePtr,
+    EbPictureBufferDesc_t       *input_picture_ptr,
+    EbPictureBufferDesc_t       *noise_picture_ptr,
+    EbPictureBufferDesc_t       *denoised_picture_ptr,
     uint32_t                     picture_width_in_sb,
     EbAsm                        asm_type)
 {
@@ -3210,26 +3210,26 @@ EbErrorType DetectInputPictureNoise(
 
         sb_origin_x = (lcuCodingOrder % picture_width_in_sb) * sequence_control_set_ptr->sb_sz;
         sb_origin_y = (lcuCodingOrder / picture_width_in_sb) * sequence_control_set_ptr->sb_sz;
-        inputLumaOriginIndex = (noisePicturePtr->origin_y + sb_origin_y) * noisePicturePtr->strideY +
-            noisePicturePtr->origin_x + sb_origin_x;
+        inputLumaOriginIndex = (noise_picture_ptr->origin_y + sb_origin_y) * noise_picture_ptr->strideY +
+            noise_picture_ptr->origin_x + sb_origin_x;
 
 
-        uint32_t  noiseOriginIndex = noisePicturePtr->origin_x + sb_origin_x + noisePicturePtr->origin_y * noisePicturePtr->strideY;
+        uint32_t  noiseOriginIndex = noise_picture_ptr->origin_x + sb_origin_x + noise_picture_ptr->origin_y * noise_picture_ptr->strideY;
 
         if (sb_origin_x == 0)
             WeakLumaFilter_funcPtrArray[asm_type](
-                inputPicturePtr,
-                denoisedPicturePtr,
-                noisePicturePtr,
+                input_picture_ptr,
+                denoised_picture_ptr,
+                noise_picture_ptr,
                 sb_origin_y,
                 sb_origin_x);
 
-        if (sb_origin_x + BLOCK_SIZE_64 > inputPicturePtr->width)
+        if (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width)
         {
             noiseExtractLumaWeak(
-                inputPicturePtr,
-                denoisedPicturePtr,
-                noisePicturePtr,
+                input_picture_ptr,
+                denoised_picture_ptr,
+                noise_picture_ptr,
                 sb_origin_y,
                 sb_origin_x);
         }
@@ -3237,14 +3237,14 @@ EbErrorType DetectInputPictureNoise(
 
 
         //do it only for complete 64x64 blocks
-        if (sb_origin_x + 64 <= inputPicturePtr->width && sb_origin_y + 64 <= inputPicturePtr->height)
+        if (sb_origin_x + 64 <= input_picture_ptr->width && sb_origin_y + 64 <= input_picture_ptr->height)
         {
 
             uint64_t noiseBlkVar32x32[4], denoiseBlkVar32x32[4];
 
             uint64_t noiseBlkVar = ComputeVariance64x64(
                 sequence_control_set_ptr,
-                noisePicturePtr,
+                noise_picture_ptr,
                 noiseOriginIndex,
                 noiseBlkVar32x32,
                 asm_type);
@@ -3264,7 +3264,7 @@ EbErrorType DetectInputPictureNoise(
 
             uint64_t denBlkVar = ComputeVariance64x64(
                 sequence_control_set_ptr,
-                denoisedPicturePtr,
+                denoised_picture_ptr,
                 inputLumaOriginIndex,
                 denoiseBlkVar32x32,
                 asm_type) >> 16;
@@ -3340,11 +3340,11 @@ EbErrorType denoise_estimate_film_grain(
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    EbPictureBufferDesc_t    *inputPicturePtr = picture_control_set_ptr->enhanced_picture_ptr;
+    EbPictureBufferDesc_t    *input_picture_ptr = picture_control_set_ptr->enhanced_picture_ptr;
     picture_control_set_ptr->film_grain_params.apply_grain = 0;
 
     if (sequence_control_set_ptr->film_grain_denoise_strength) {
-        if (apply_denoise_2d(sequence_control_set_ptr, picture_control_set_ptr, inputPicturePtr, asm_type) < 0)
+        if (apply_denoise_2d(sequence_control_set_ptr, picture_control_set_ptr, input_picture_ptr, asm_type) < 0)
             return 1;
     }
 
@@ -3366,9 +3366,9 @@ EbErrorType FullSampleDenoise(
     EbErrorType return_error = EB_ErrorNone;
 
     uint32_t                     lcuCodingOrder;
-    EbPictureBufferDesc_t    *inputPicturePtr = picture_control_set_ptr->enhanced_picture_ptr;
-    EbPictureBufferDesc_t    *denoisedPicturePtr = context_ptr->denoisedPicturePtr;
-    EbPictureBufferDesc_t    *noisePicturePtr = context_ptr->noisePicturePtr;
+    EbPictureBufferDesc_t    *input_picture_ptr = picture_control_set_ptr->enhanced_picture_ptr;
+    EbPictureBufferDesc_t    *denoised_picture_ptr = context_ptr->denoised_picture_ptr;
+    EbPictureBufferDesc_t    *noise_picture_ptr = context_ptr->noise_picture_ptr;
 
     //Reset the flat noise flag array to False for both RealTime/HighComplexity Modes
     for (lcuCodingOrder = 0; lcuCodingOrder < sb_total_count; ++lcuCodingOrder) {
@@ -3382,9 +3382,9 @@ EbErrorType FullSampleDenoise(
         sequence_control_set_ptr,
         picture_control_set_ptr,
         sb_total_count,
-        inputPicturePtr,
-        noisePicturePtr,
-        denoisedPicturePtr,
+        input_picture_ptr,
+        noise_picture_ptr,
+        denoised_picture_ptr,
         picture_width_in_sb,
         asm_type);
 
@@ -3396,8 +3396,8 @@ EbErrorType FullSampleDenoise(
             sequence_control_set_ptr,
             picture_control_set_ptr,
             sb_total_count,
-            inputPicturePtr,
-            denoisedPicturePtr,
+            input_picture_ptr,
+            denoised_picture_ptr,
             picture_width_in_sb,
             asm_type);
     }
@@ -3410,9 +3410,9 @@ EbErrorType SubSampleFilterNoise(
     SequenceControlSet_t        *sequence_control_set_ptr,
     PictureParentControlSet_t   *picture_control_set_ptr,
     uint32_t                       sb_total_count,
-    EbPictureBufferDesc_t       *inputPicturePtr,
-    EbPictureBufferDesc_t       *noisePicturePtr,
-    EbPictureBufferDesc_t       *denoisedPicturePtr,
+    EbPictureBufferDesc_t       *input_picture_ptr,
+    EbPictureBufferDesc_t       *noise_picture_ptr,
+    EbPictureBufferDesc_t       *denoised_picture_ptr,
     uint32_t                         picture_width_in_sb,
     EbAsm                         asm_type)
 {
@@ -3424,10 +3424,10 @@ EbErrorType SubSampleFilterNoise(
     uint16_t        verticalIdx;
     if (picture_control_set_ptr->pic_noise_class == PIC_NOISE_CLASS_3_1) {
 
-        uint32_t inLumaOffSet = inputPicturePtr->origin_x + inputPicturePtr->origin_y      * inputPicturePtr->strideY;
-        uint32_t inChromaOffSet = inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCb;
-        uint32_t denLumaOffSet = denoisedPicturePtr->origin_x + denoisedPicturePtr->origin_y   * denoisedPicturePtr->strideY;
-        uint32_t denChromaOffSet = denoisedPicturePtr->origin_x / 2 + denoisedPicturePtr->origin_y / 2 * denoisedPicturePtr->strideCb;
+        uint32_t inLumaOffSet = input_picture_ptr->origin_x + input_picture_ptr->origin_y      * input_picture_ptr->strideY;
+        uint32_t inChromaOffSet = input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb;
+        uint32_t denLumaOffSet = denoised_picture_ptr->origin_x + denoised_picture_ptr->origin_y   * denoised_picture_ptr->strideY;
+        uint32_t denChromaOffSet = denoised_picture_ptr->origin_x / 2 + denoised_picture_ptr->origin_y / 2 * denoised_picture_ptr->strideCb;
 
 
         //filter Luma
@@ -3438,28 +3438,28 @@ EbErrorType SubSampleFilterNoise(
 
             if (sb_origin_x == 0)
                 WeakLumaFilter_funcPtrArray[asm_type](
-                    inputPicturePtr,
-                    denoisedPicturePtr,
-                    noisePicturePtr,
+                    input_picture_ptr,
+                    denoised_picture_ptr,
+                    noise_picture_ptr,
                     sb_origin_y,
                     sb_origin_x);
 
-            if (sb_origin_x + BLOCK_SIZE_64 > inputPicturePtr->width)
+            if (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width)
             {
                 noiseExtractLumaWeak(
-                    inputPicturePtr,
-                    denoisedPicturePtr,
-                    noisePicturePtr,
+                    input_picture_ptr,
+                    denoised_picture_ptr,
+                    noise_picture_ptr,
                     sb_origin_y,
                     sb_origin_x);
             }
         }
 
         //copy luma
-        for (verticalIdx = 0; verticalIdx < inputPicturePtr->height; ++verticalIdx) {
-            EB_MEMCPY(inputPicturePtr->bufferY + inLumaOffSet + verticalIdx * inputPicturePtr->strideY,
-                denoisedPicturePtr->bufferY + denLumaOffSet + verticalIdx * denoisedPicturePtr->strideY,
-                sizeof(uint8_t) * inputPicturePtr->width);
+        for (verticalIdx = 0; verticalIdx < input_picture_ptr->height; ++verticalIdx) {
+            EB_MEMCPY(input_picture_ptr->bufferY + inLumaOffSet + verticalIdx * input_picture_ptr->strideY,
+                denoised_picture_ptr->bufferY + denLumaOffSet + verticalIdx * denoised_picture_ptr->strideY,
+                sizeof(uint8_t) * input_picture_ptr->width);
         }
 
         //filter chroma
@@ -3470,16 +3470,16 @@ EbErrorType SubSampleFilterNoise(
 
             if (sb_origin_x == 0)
                 WeakChromaFilter_funcPtrArray[asm_type](
-                    inputPicturePtr,
-                    denoisedPicturePtr,
+                    input_picture_ptr,
+                    denoised_picture_ptr,
                     sb_origin_y / 2,
                     sb_origin_x / 2);
 
-            if (sb_origin_x + BLOCK_SIZE_64 > inputPicturePtr->width)
+            if (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width)
             {
                 noiseExtractChromaWeak(
-                    inputPicturePtr,
-                    denoisedPicturePtr,
+                    input_picture_ptr,
+                    denoised_picture_ptr,
                     sb_origin_y / 2,
                     sb_origin_x / 2);
             }
@@ -3487,15 +3487,15 @@ EbErrorType SubSampleFilterNoise(
         }
 
         //copy chroma
-        for (verticalIdx = 0; verticalIdx < inputPicturePtr->height / 2; ++verticalIdx) {
+        for (verticalIdx = 0; verticalIdx < input_picture_ptr->height / 2; ++verticalIdx) {
 
-            EB_MEMCPY(inputPicturePtr->bufferCb + inChromaOffSet + verticalIdx * inputPicturePtr->strideCb,
-                denoisedPicturePtr->bufferCb + denChromaOffSet + verticalIdx * denoisedPicturePtr->strideCb,
-                sizeof(uint8_t) * inputPicturePtr->width / 2);
+            EB_MEMCPY(input_picture_ptr->bufferCb + inChromaOffSet + verticalIdx * input_picture_ptr->strideCb,
+                denoised_picture_ptr->bufferCb + denChromaOffSet + verticalIdx * denoised_picture_ptr->strideCb,
+                sizeof(uint8_t) * input_picture_ptr->width / 2);
 
-            EB_MEMCPY(inputPicturePtr->bufferCr + inChromaOffSet + verticalIdx * inputPicturePtr->strideCr,
-                denoisedPicturePtr->bufferCr + denChromaOffSet + verticalIdx * denoisedPicturePtr->strideCr,
-                sizeof(uint8_t) * inputPicturePtr->width / 2);
+            EB_MEMCPY(input_picture_ptr->bufferCr + inChromaOffSet + verticalIdx * input_picture_ptr->strideCr,
+                denoised_picture_ptr->bufferCr + denChromaOffSet + verticalIdx * denoised_picture_ptr->strideCr,
+                sizeof(uint8_t) * input_picture_ptr->width / 2);
         }
 
     }
@@ -3508,25 +3508,25 @@ EbErrorType SubSampleFilterNoise(
 
             sb_origin_x = (lcuCodingOrder % picture_width_in_sb) * sequence_control_set_ptr->sb_sz;
             sb_origin_y = (lcuCodingOrder / picture_width_in_sb) * sequence_control_set_ptr->sb_sz;
-            uint32_t  inputLumaOriginIndex = noisePicturePtr->origin_x + sb_origin_x + (noisePicturePtr->origin_y + sb_origin_y) * noisePicturePtr->strideY;
-            uint32_t  noiseOriginIndex = noisePicturePtr->origin_x + sb_origin_x + (noisePicturePtr->origin_y * noisePicturePtr->strideY);
+            uint32_t  inputLumaOriginIndex = noise_picture_ptr->origin_x + sb_origin_x + (noise_picture_ptr->origin_y + sb_origin_y) * noise_picture_ptr->strideY;
+            uint32_t  noiseOriginIndex = noise_picture_ptr->origin_x + sb_origin_x + (noise_picture_ptr->origin_y * noise_picture_ptr->strideY);
 
-            if (sb_origin_x + 64 <= inputPicturePtr->width && sb_origin_y + 64 <= inputPicturePtr->height && picture_control_set_ptr->sb_flat_noise_array[lcuCodingOrder] == 1)
+            if (sb_origin_x + 64 <= input_picture_ptr->width && sb_origin_y + 64 <= input_picture_ptr->height && picture_control_set_ptr->sb_flat_noise_array[lcuCodingOrder] == 1)
             {
 
                 WeakLumaFilterLcu_funcPtrArray[asm_type](
-                    inputPicturePtr,
-                    denoisedPicturePtr,
-                    noisePicturePtr,
+                    input_picture_ptr,
+                    denoised_picture_ptr,
+                    noise_picture_ptr,
                     sb_origin_y,
                     sb_origin_x);
 
-                if (sb_origin_x + BLOCK_SIZE_64 > inputPicturePtr->width)
+                if (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width)
                 {
                     noiseExtractLumaWeakLcu(
-                        inputPicturePtr,
-                        denoisedPicturePtr,
-                        noisePicturePtr,
+                        input_picture_ptr,
+                        denoised_picture_ptr,
+                        noise_picture_ptr,
                         sb_origin_y,
                         sb_origin_x);
                 }
@@ -3534,13 +3534,13 @@ EbErrorType SubSampleFilterNoise(
                 uint64_t noiseBlkVar32x32[4], denoiseBlkVar32x32[4];
                 uint64_t noiseBlkVar = ComputeVariance64x64(
                     sequence_control_set_ptr,
-                    noisePicturePtr,
+                    noise_picture_ptr,
                     noiseOriginIndex,
                     noiseBlkVar32x32,
                     asm_type);
                 uint64_t denBlkVar = ComputeVariance64x64(
                     sequence_control_set_ptr,
-                    denoisedPicturePtr,
+                    denoised_picture_ptr,
                     inputLumaOriginIndex,
                     denoiseBlkVar32x32,
                     asm_type) >> 16;
@@ -3573,23 +3573,23 @@ EbErrorType SubSampleFilterNoise(
             sb_origin_x = (lcuCodingOrder % picture_width_in_sb) * sequence_control_set_ptr->sb_sz;
             sb_origin_y = (lcuCodingOrder / picture_width_in_sb) * sequence_control_set_ptr->sb_sz;
 
-            if (sb_origin_x + 64 <= inputPicturePtr->width && sb_origin_y + 64 <= inputPicturePtr->height)
+            if (sb_origin_x + 64 <= input_picture_ptr->width && sb_origin_y + 64 <= input_picture_ptr->height)
             {
 
 
                 //use the denoised for FN LCUs
                 if (picture_control_set_ptr->sb_flat_noise_array[lcuCodingOrder] == 1) {
 
-                    uint32_t  sb_height = MIN(BLOCK_SIZE_64, inputPicturePtr->height - sb_origin_y);
-                    uint32_t  sb_width = MIN(BLOCK_SIZE_64, inputPicturePtr->width - sb_origin_x);
+                    uint32_t  sb_height = MIN(BLOCK_SIZE_64, input_picture_ptr->height - sb_origin_y);
+                    uint32_t  sb_width = MIN(BLOCK_SIZE_64, input_picture_ptr->width - sb_origin_x);
 
-                    uint32_t inLumaOffSet = inputPicturePtr->origin_x + sb_origin_x + (inputPicturePtr->origin_y + sb_origin_y) * inputPicturePtr->strideY;
-                    uint32_t denLumaOffSet = denoisedPicturePtr->origin_x + sb_origin_x + (denoisedPicturePtr->origin_y + sb_origin_y) * denoisedPicturePtr->strideY;
+                    uint32_t inLumaOffSet = input_picture_ptr->origin_x + sb_origin_x + (input_picture_ptr->origin_y + sb_origin_y) * input_picture_ptr->strideY;
+                    uint32_t denLumaOffSet = denoised_picture_ptr->origin_x + sb_origin_x + (denoised_picture_ptr->origin_y + sb_origin_y) * denoised_picture_ptr->strideY;
 
                     for (verticalIdx = 0; verticalIdx < sb_height; ++verticalIdx) {
 
-                        EB_MEMCPY(inputPicturePtr->bufferY + inLumaOffSet + verticalIdx * inputPicturePtr->strideY,
-                            denoisedPicturePtr->bufferY + denLumaOffSet + verticalIdx * denoisedPicturePtr->strideY,
+                        EB_MEMCPY(input_picture_ptr->bufferY + inLumaOffSet + verticalIdx * input_picture_ptr->strideY,
+                            denoised_picture_ptr->bufferY + denLumaOffSet + verticalIdx * denoised_picture_ptr->strideY,
                             sizeof(uint8_t) * sb_width);
 
                     }
@@ -3607,8 +3607,8 @@ EbErrorType QuarterSampleDetectNoise(
     PictureAnalysisContext_t    *context_ptr,
     PictureParentControlSet_t   *picture_control_set_ptr,
     EbPictureBufferDesc_t       *quarterDecimatedPicturePtr,
-    EbPictureBufferDesc_t       *noisePicturePtr,
-    EbPictureBufferDesc_t       *denoisedPicturePtr,
+    EbPictureBufferDesc_t       *noise_picture_ptr,
+    EbPictureBufferDesc_t       *denoised_picture_ptr,
     uint32_t                         picture_width_in_sb,
     EbAsm                         asm_type)
 {
@@ -3646,8 +3646,8 @@ EbErrorType QuarterSampleDetectNoise(
             if (block64x64X == 0)
                 WeakLumaFilter_funcPtrArray[asm_type](
                     quarterDecimatedPicturePtr,
-                    denoisedPicturePtr,
-                    noisePicturePtr,
+                    denoised_picture_ptr,
+                    noise_picture_ptr,
                     block64x64Y,
                     block64x64X);
 
@@ -3655,8 +3655,8 @@ EbErrorType QuarterSampleDetectNoise(
             {
                 noiseExtractLumaWeak(
                     quarterDecimatedPicturePtr,
-                    denoisedPicturePtr,
-                    noisePicturePtr,
+                    denoised_picture_ptr,
+                    noise_picture_ptr,
                     block64x64Y,
                     block64x64X);
             }
@@ -3678,10 +3678,10 @@ EbErrorType QuarterSampleDetectNoise(
 
                         uint64_t noiseBlkVar8x8[16], denoiseBlkVar8x8[16];
 
-                        noiseOriginIndex = noisePicturePtr->origin_x + block32x32X + noisePicturePtr->origin_y * noisePicturePtr->strideY;
+                        noiseOriginIndex = noise_picture_ptr->origin_x + block32x32X + noise_picture_ptr->origin_y * noise_picture_ptr->strideY;
 
                         uint64_t noiseBlkVar = ComputeVariance32x32(
-                            noisePicturePtr,
+                            noise_picture_ptr,
                             noiseOriginIndex,
                             noiseBlkVar8x8,
                             asm_type);
@@ -3689,10 +3689,10 @@ EbErrorType QuarterSampleDetectNoise(
 
                         picNoiseVariance += (noiseBlkVar >> 16);
 
-                        blockIndex = (noisePicturePtr->origin_y + block32x32Y) * noisePicturePtr->strideY + noisePicturePtr->origin_x + block32x32X;
+                        blockIndex = (noise_picture_ptr->origin_y + block32x32Y) * noise_picture_ptr->strideY + noise_picture_ptr->origin_x + block32x32X;
 
                         uint64_t denBlkVar = ComputeVariance32x32(
-                            denoisedPicturePtr,
+                            denoised_picture_ptr,
                             blockIndex,
                             denoiseBlkVar8x8,
                             asm_type) >> 16;
@@ -3756,8 +3756,8 @@ EbErrorType SubSampleDetectNoise(
     SequenceControlSet_t        *sequence_control_set_ptr,
     PictureParentControlSet_t   *picture_control_set_ptr,
     EbPictureBufferDesc_t       *sixteenthDecimatedPicturePtr,
-    EbPictureBufferDesc_t       *noisePicturePtr,
-    EbPictureBufferDesc_t       *denoisedPicturePtr,
+    EbPictureBufferDesc_t       *noise_picture_ptr,
+    EbPictureBufferDesc_t       *denoised_picture_ptr,
     uint32_t                         picture_width_in_sb,
     EbAsm                         asm_type)
 {
@@ -3795,8 +3795,8 @@ EbErrorType SubSampleDetectNoise(
             if (block64x64X == 0)
                 WeakLumaFilter_funcPtrArray[asm_type](
                     sixteenthDecimatedPicturePtr,
-                    denoisedPicturePtr,
-                    noisePicturePtr,
+                    denoised_picture_ptr,
+                    noise_picture_ptr,
                     block64x64Y,
                     block64x64X);
 
@@ -3804,8 +3804,8 @@ EbErrorType SubSampleDetectNoise(
             {
                 noiseExtractLumaWeak(
                     sixteenthDecimatedPicturePtr,
-                    denoisedPicturePtr,
-                    noisePicturePtr,
+                    denoised_picture_ptr,
+                    noise_picture_ptr,
                     block64x64Y,
                     block64x64X);
             }
@@ -3827,10 +3827,10 @@ EbErrorType SubSampleDetectNoise(
 
                         uint64_t noiseBlkVar8x8[4], denoiseBlkVar8x8[4];
 
-                        noiseOriginIndex = noisePicturePtr->origin_x + block16x16X + noisePicturePtr->origin_y * noisePicturePtr->strideY;
+                        noiseOriginIndex = noise_picture_ptr->origin_x + block16x16X + noise_picture_ptr->origin_y * noise_picture_ptr->strideY;
 
                         uint64_t noiseBlkVar = ComputeVariance16x16(
-                            noisePicturePtr,
+                            noise_picture_ptr,
                             noiseOriginIndex,
                             noiseBlkVar8x8,
                             asm_type);
@@ -3838,10 +3838,10 @@ EbErrorType SubSampleDetectNoise(
 
                         picNoiseVariance += (noiseBlkVar >> 16);
 
-                        blockIndex = (noisePicturePtr->origin_y + block16x16Y) * noisePicturePtr->strideY + noisePicturePtr->origin_x + block16x16X;
+                        blockIndex = (noise_picture_ptr->origin_y + block16x16Y) * noise_picture_ptr->strideY + noise_picture_ptr->origin_x + block16x16X;
 
                         uint64_t denBlkVar = ComputeVariance16x16(
-                            denoisedPicturePtr,
+                            denoised_picture_ptr,
                             blockIndex,
                             denoiseBlkVar8x8,
                             asm_type) >> 16;
@@ -3911,9 +3911,9 @@ EbErrorType QuarterSampleDenoise(
     EbErrorType return_error = EB_ErrorNone;
 
     uint32_t                     lcuCodingOrder;
-    EbPictureBufferDesc_t    *inputPicturePtr = picture_control_set_ptr->enhanced_picture_ptr;
-    EbPictureBufferDesc_t    *denoisedPicturePtr = context_ptr->denoisedPicturePtr;
-    EbPictureBufferDesc_t    *noisePicturePtr = context_ptr->noisePicturePtr;
+    EbPictureBufferDesc_t    *input_picture_ptr = picture_control_set_ptr->enhanced_picture_ptr;
+    EbPictureBufferDesc_t    *denoised_picture_ptr = context_ptr->denoised_picture_ptr;
+    EbPictureBufferDesc_t    *noise_picture_ptr = context_ptr->noise_picture_ptr;
 
     //Reset the flat noise flag array to False for both RealTime/HighComplexity Modes
     for (lcuCodingOrder = 0; lcuCodingOrder < sb_total_count; ++lcuCodingOrder) {
@@ -3923,10 +3923,10 @@ EbErrorType QuarterSampleDenoise(
     picture_control_set_ptr->pic_noise_class = PIC_NOISE_CLASS_INV; //this init is for both REAL-TIME and BEST-QUALITY
 
     Decimation2D(
-        &inputPicturePtr->bufferY[inputPicturePtr->origin_x + inputPicturePtr->origin_y * inputPicturePtr->strideY],
-        inputPicturePtr->strideY,
-        inputPicturePtr->width,
-        inputPicturePtr->height,
+        &input_picture_ptr->bufferY[input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->strideY],
+        input_picture_ptr->strideY,
+        input_picture_ptr->width,
+        input_picture_ptr->height,
         &quarterDecimatedPicturePtr->bufferY[quarterDecimatedPicturePtr->origin_x + (quarterDecimatedPicturePtr->origin_y * quarterDecimatedPicturePtr->strideY)],
         quarterDecimatedPicturePtr->strideY,
         2);
@@ -3936,8 +3936,8 @@ EbErrorType QuarterSampleDenoise(
         context_ptr,
         picture_control_set_ptr,
         quarterDecimatedPicturePtr,
-        noisePicturePtr,
-        denoisedPicturePtr,
+        noise_picture_ptr,
+        denoised_picture_ptr,
         picture_width_in_sb,
         asm_type);
 
@@ -3951,9 +3951,9 @@ EbErrorType QuarterSampleDenoise(
                 sequence_control_set_ptr,
                 picture_control_set_ptr,
                 sb_total_count,
-                inputPicturePtr,
-                noisePicturePtr,
-                denoisedPicturePtr,
+                input_picture_ptr,
+                noise_picture_ptr,
+                denoised_picture_ptr,
                 picture_width_in_sb,
                 asm_type);
         }
@@ -3978,9 +3978,9 @@ EbErrorType SubSampleDenoise(
     EbErrorType return_error = EB_ErrorNone;
 
     uint32_t                     lcuCodingOrder;
-    EbPictureBufferDesc_t    *inputPicturePtr = picture_control_set_ptr->enhanced_picture_ptr;
-    EbPictureBufferDesc_t    *denoisedPicturePtr = context_ptr->denoisedPicturePtr;
-    EbPictureBufferDesc_t    *noisePicturePtr = context_ptr->noisePicturePtr;
+    EbPictureBufferDesc_t    *input_picture_ptr = picture_control_set_ptr->enhanced_picture_ptr;
+    EbPictureBufferDesc_t    *denoised_picture_ptr = context_ptr->denoised_picture_ptr;
+    EbPictureBufferDesc_t    *noise_picture_ptr = context_ptr->noise_picture_ptr;
 
     //Reset the flat noise flag array to False for both RealTime/HighComplexity Modes
     for (lcuCodingOrder = 0; lcuCodingOrder < sb_total_count; ++lcuCodingOrder) {
@@ -3990,10 +3990,10 @@ EbErrorType SubSampleDenoise(
     picture_control_set_ptr->pic_noise_class = PIC_NOISE_CLASS_INV; //this init is for both REAL-TIME and BEST-QUALITY
 
     Decimation2D(
-        &inputPicturePtr->bufferY[inputPicturePtr->origin_x + inputPicturePtr->origin_y * inputPicturePtr->strideY],
-        inputPicturePtr->strideY,
-        inputPicturePtr->width,
-        inputPicturePtr->height,
+        &input_picture_ptr->bufferY[input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->strideY],
+        input_picture_ptr->strideY,
+        input_picture_ptr->width,
+        input_picture_ptr->height,
         &sixteenthDecimatedPicturePtr->bufferY[sixteenthDecimatedPicturePtr->origin_x + (sixteenthDecimatedPicturePtr->origin_y * sixteenthDecimatedPicturePtr->strideY)],
         sixteenthDecimatedPicturePtr->strideY,
         4);
@@ -4003,8 +4003,8 @@ EbErrorType SubSampleDenoise(
         sequence_control_set_ptr,
         picture_control_set_ptr,
         sixteenthDecimatedPicturePtr,
-        noisePicturePtr,
-        denoisedPicturePtr,
+        noise_picture_ptr,
+        denoised_picture_ptr,
         picture_width_in_sb,
         asm_type);
 
@@ -4018,9 +4018,9 @@ EbErrorType SubSampleDenoise(
                 sequence_control_set_ptr,
                 picture_control_set_ptr,
                 sb_total_count,
-                inputPicturePtr,
-                noisePicturePtr,
-                denoisedPicturePtr,
+                input_picture_ptr,
+                noise_picture_ptr,
+                denoised_picture_ptr,
                 picture_width_in_sb,
                 asm_type);
         }
@@ -4056,7 +4056,7 @@ void SetPictureParametersForStatisticsGathering(
  ************************************************/
 void PicturePreProcessingOperations(
     PictureParentControlSet_t       *picture_control_set_ptr,
-    EbPictureBufferDesc_t           *inputPicturePtr,
+    EbPictureBufferDesc_t           *input_picture_ptr,
     PictureAnalysisContext_t        *context_ptr,
     SequenceControlSet_t            *sequence_control_set_ptr,
     EbPictureBufferDesc_t           *quarterDecimatedPicturePtr,
@@ -4065,7 +4065,7 @@ void PicturePreProcessingOperations(
     uint32_t                           picture_width_in_sb,
     EbAsm                           asm_type) {
 
-    (void)inputPicturePtr;
+    (void)input_picture_ptr;
 
     if (sequence_control_set_ptr->film_grain_denoise_strength) {
 
@@ -4129,7 +4129,7 @@ void PicturePreProcessingOperations(
 void SubSampleLumaGeneratePixelIntensityHistogramBins(
     SequenceControlSet_t            *sequence_control_set_ptr,
     PictureParentControlSet_t       *picture_control_set_ptr,
-    EbPictureBufferDesc_t           *inputPicturePtr,
+    EbPictureBufferDesc_t           *input_picture_ptr,
     uint64_t                          *sumAverageIntensityTotalRegionsLuma,
     EbAsm                           asm_type) {
 
@@ -4142,8 +4142,8 @@ void SubSampleLumaGeneratePixelIntensityHistogramBins(
     uint32_t                            histogramBin;
     uint64_t                          sum;
 
-    regionWidth = inputPicturePtr->width / sequence_control_set_ptr->picture_analysis_number_of_regions_per_width;
-    regionHeight = inputPicturePtr->height / sequence_control_set_ptr->picture_analysis_number_of_regions_per_height;
+    regionWidth = input_picture_ptr->width / sequence_control_set_ptr->picture_analysis_number_of_regions_per_width;
+    regionHeight = input_picture_ptr->height / sequence_control_set_ptr->picture_analysis_number_of_regions_per_height;
 
     // Loop over regions inside the picture
     for (regionInPictureWidthIndex = 0; regionInPictureWidthIndex < sequence_control_set_ptr->picture_analysis_number_of_regions_per_width; regionInPictureWidthIndex++) {  // loop over horizontal regions
@@ -4154,19 +4154,19 @@ void SubSampleLumaGeneratePixelIntensityHistogramBins(
             InitializeBuffer_32bits_funcPtrArray[asm_type](picture_control_set_ptr->picture_histogram[regionInPictureWidthIndex][regionInPictureHeightIndex][0], 64, 0, 1);
 
             regionWidthOffset = (regionInPictureWidthIndex == sequence_control_set_ptr->picture_analysis_number_of_regions_per_width - 1) ?
-                inputPicturePtr->width - (sequence_control_set_ptr->picture_analysis_number_of_regions_per_width * regionWidth) :
+                input_picture_ptr->width - (sequence_control_set_ptr->picture_analysis_number_of_regions_per_width * regionWidth) :
                 0;
 
             regionHeightOffset = (regionInPictureHeightIndex == sequence_control_set_ptr->picture_analysis_number_of_regions_per_height - 1) ?
-                inputPicturePtr->height - (sequence_control_set_ptr->picture_analysis_number_of_regions_per_height * regionHeight) :
+                input_picture_ptr->height - (sequence_control_set_ptr->picture_analysis_number_of_regions_per_height * regionHeight) :
                 0;
 
             // Y Histogram
             CalculateHistogram(
-                &inputPicturePtr->bufferY[(inputPicturePtr->origin_x + regionInPictureWidthIndex * regionWidth) + ((inputPicturePtr->origin_y + regionInPictureHeightIndex * regionHeight) * inputPicturePtr->strideY)],
+                &input_picture_ptr->bufferY[(input_picture_ptr->origin_x + regionInPictureWidthIndex * regionWidth) + ((input_picture_ptr->origin_y + regionInPictureHeightIndex * regionHeight) * input_picture_ptr->strideY)],
                 regionWidth + regionWidthOffset,
                 regionHeight + regionHeightOffset,
-                inputPicturePtr->strideY,
+                input_picture_ptr->strideY,
                 1,
                 picture_control_set_ptr->picture_histogram[regionInPictureWidthIndex][regionInPictureHeightIndex][0],
                 &sum);
@@ -4186,7 +4186,7 @@ void SubSampleLumaGeneratePixelIntensityHistogramBins(
 void SubSampleChromaGeneratePixelIntensityHistogramBins(
     SequenceControlSet_t            *sequence_control_set_ptr,
     PictureParentControlSet_t       *picture_control_set_ptr,
-    EbPictureBufferDesc_t           *inputPicturePtr,
+    EbPictureBufferDesc_t           *input_picture_ptr,
     uint64_t                          *sumAverageIntensityTotalRegionsCb,
     uint64_t                          *sumAverageIntensityTotalRegionsCr,
     EbAsm                           asm_type) {
@@ -4202,8 +4202,8 @@ void SubSampleChromaGeneratePixelIntensityHistogramBins(
     uint16_t                          histogramBin;
     uint8_t                           decimStep = 4;
 
-    regionWidth = inputPicturePtr->width / sequence_control_set_ptr->picture_analysis_number_of_regions_per_width;
-    regionHeight = inputPicturePtr->height / sequence_control_set_ptr->picture_analysis_number_of_regions_per_height;
+    regionWidth = input_picture_ptr->width / sequence_control_set_ptr->picture_analysis_number_of_regions_per_width;
+    regionHeight = input_picture_ptr->height / sequence_control_set_ptr->picture_analysis_number_of_regions_per_height;
 
     // Loop over regions inside the picture
     for (regionInPictureWidthIndex = 0; regionInPictureWidthIndex < sequence_control_set_ptr->picture_analysis_number_of_regions_per_width; regionInPictureWidthIndex++) {  // loop over horizontal regions
@@ -4215,20 +4215,20 @@ void SubSampleChromaGeneratePixelIntensityHistogramBins(
             InitializeBuffer_32bits_funcPtrArray[asm_type](picture_control_set_ptr->picture_histogram[regionInPictureWidthIndex][regionInPictureHeightIndex][2], 64, 0, 1);
 
             regionWidthOffset = (regionInPictureWidthIndex == sequence_control_set_ptr->picture_analysis_number_of_regions_per_width - 1) ?
-                inputPicturePtr->width - (sequence_control_set_ptr->picture_analysis_number_of_regions_per_width * regionWidth) :
+                input_picture_ptr->width - (sequence_control_set_ptr->picture_analysis_number_of_regions_per_width * regionWidth) :
                 0;
 
             regionHeightOffset = (regionInPictureHeightIndex == sequence_control_set_ptr->picture_analysis_number_of_regions_per_height - 1) ?
-                inputPicturePtr->height - (sequence_control_set_ptr->picture_analysis_number_of_regions_per_height * regionHeight) :
+                input_picture_ptr->height - (sequence_control_set_ptr->picture_analysis_number_of_regions_per_height * regionHeight) :
                 0;
 
 
             // U Histogram
             CalculateHistogram(
-                &inputPicturePtr->bufferCb[((inputPicturePtr->origin_x + regionInPictureWidthIndex * regionWidth) >> 1) + (((inputPicturePtr->origin_y + regionInPictureHeightIndex * regionHeight) >> 1) * inputPicturePtr->strideCb)],
+                &input_picture_ptr->bufferCb[((input_picture_ptr->origin_x + regionInPictureWidthIndex * regionWidth) >> 1) + (((input_picture_ptr->origin_y + regionInPictureHeightIndex * regionHeight) >> 1) * input_picture_ptr->strideCb)],
                 (regionWidth + regionWidthOffset) >> 1,
                 (regionHeight + regionHeightOffset) >> 1,
-                inputPicturePtr->strideCb,
+                input_picture_ptr->strideCb,
                 decimStep,
                 picture_control_set_ptr->picture_histogram[regionInPictureWidthIndex][regionInPictureHeightIndex][1],
                 &sum);
@@ -4244,10 +4244,10 @@ void SubSampleChromaGeneratePixelIntensityHistogramBins(
 
             // V Histogram
             CalculateHistogram(
-                &inputPicturePtr->bufferCr[((inputPicturePtr->origin_x + regionInPictureWidthIndex * regionWidth) >> 1) + (((inputPicturePtr->origin_y + regionInPictureHeightIndex * regionHeight) >> 1) * inputPicturePtr->strideCr)],
+                &input_picture_ptr->bufferCr[((input_picture_ptr->origin_x + regionInPictureWidthIndex * regionWidth) >> 1) + (((input_picture_ptr->origin_y + regionInPictureHeightIndex * regionHeight) >> 1) * input_picture_ptr->strideCr)],
                 (regionWidth + regionWidthOffset) >> 1,
                 (regionHeight + regionHeightOffset) >> 1,
-                inputPicturePtr->strideCr,
+                input_picture_ptr->strideCr,
                 decimStep,
                 picture_control_set_ptr->picture_histogram[regionInPictureWidthIndex][regionInPictureHeightIndex][2],
                 &sum);
@@ -4614,7 +4614,7 @@ void DetermineHomogeneousRegionInPicture(
 void ComputePictureSpatialStatistics(
     SequenceControlSet_t            *sequence_control_set_ptr,
     PictureParentControlSet_t       *picture_control_set_ptr,
-    EbPictureBufferDesc_t           *inputPicturePtr,
+    EbPictureBufferDesc_t           *input_picture_ptr,
     EbPictureBufferDesc_t           *inputPaddedPicturePtr,
     uint32_t                           sb_total_count,
     EbAsm                           asm_type)
@@ -4638,8 +4638,8 @@ void ComputePictureSpatialStatistics(
         inputLumaOriginIndex = (inputPaddedPicturePtr->origin_y + sb_origin_y) * inputPaddedPicturePtr->strideY +
             inputPaddedPicturePtr->origin_x + sb_origin_x;
 
-        inputCbOriginIndex = ((inputPicturePtr->origin_y + sb_origin_y) >> 1) * inputPicturePtr->strideCb + ((inputPicturePtr->origin_x + sb_origin_x) >> 1);
-        inputCrOriginIndex = ((inputPicturePtr->origin_y + sb_origin_y) >> 1) * inputPicturePtr->strideCr + ((inputPicturePtr->origin_x + sb_origin_x) >> 1);
+        inputCbOriginIndex = ((input_picture_ptr->origin_y + sb_origin_y) >> 1) * input_picture_ptr->strideCb + ((input_picture_ptr->origin_x + sb_origin_x) >> 1);
+        inputCrOriginIndex = ((input_picture_ptr->origin_y + sb_origin_y) >> 1) * input_picture_ptr->strideCr + ((input_picture_ptr->origin_x + sb_origin_x) >> 1);
 
         ComputeBlockMeanComputeVariance(
             sequence_control_set_ptr,
@@ -4654,7 +4654,7 @@ void ComputePictureSpatialStatistics(
             ComputeChromaBlockMean(
                 sequence_control_set_ptr,
                 picture_control_set_ptr,
-                inputPicturePtr,
+                input_picture_ptr,
                 sb_index,
                 inputCbOriginIndex,
                 inputCrOriginIndex,
@@ -4691,7 +4691,7 @@ void ComputePictureSpatialStatistics(
 void CalculateInputAverageIntensity(
     SequenceControlSet_t            *sequence_control_set_ptr,
     PictureParentControlSet_t       *picture_control_set_ptr,
-    EbPictureBufferDesc_t           *inputPicturePtr,
+    EbPictureBufferDesc_t           *input_picture_ptr,
     uint64_t                           sumAverageIntensityTotalRegionsLuma,
     uint64_t                           sumAverageIntensityTotalRegionsCb,
     uint64_t                           sumAverageIntensityTotalRegionsCr,
@@ -4704,31 +4704,31 @@ void CalculateInputAverageIntensity(
         uint64_t mean = 0;
 
         (void)(asm_type);
-        const uint16_t strideY = inputPicturePtr->strideY;
+        const uint16_t strideY = input_picture_ptr->strideY;
         // Loop over 8x8 blocks and calculates the mean value
         if (sequence_control_set_ptr->block_mean_calc_prec == BLOCK_MEAN_PREC_FULL) {
-            for (blockIndexInHeight = 0; blockIndexInHeight < inputPicturePtr->height >> 3; ++blockIndexInHeight) {
-                for (blockIndexInWidth = 0; blockIndexInWidth < inputPicturePtr->width >> 3; ++blockIndexInWidth) {
-                    mean += ComputeMeanFunc[0][asm_type](&(inputPicturePtr->bufferY[(blockIndexInWidth << 3) + (blockIndexInHeight << 3) * inputPicturePtr->strideY]), inputPicturePtr->strideY, 8, 8);
+            for (blockIndexInHeight = 0; blockIndexInHeight < input_picture_ptr->height >> 3; ++blockIndexInHeight) {
+                for (blockIndexInWidth = 0; blockIndexInWidth < input_picture_ptr->width >> 3; ++blockIndexInWidth) {
+                    mean += ComputeMeanFunc[0][asm_type](&(input_picture_ptr->bufferY[(blockIndexInWidth << 3) + (blockIndexInHeight << 3) * input_picture_ptr->strideY]), input_picture_ptr->strideY, 8, 8);
                 }
             }
         }
         else {
-            for (blockIndexInHeight = 0; blockIndexInHeight < inputPicturePtr->height >> 3; ++blockIndexInHeight) {
-                for (blockIndexInWidth = 0; blockIndexInWidth < inputPicturePtr->width >> 3; ++blockIndexInWidth) {
-                    mean += ComputeSubMean8x8_SSE2_INTRIN(&(inputPicturePtr->bufferY[(blockIndexInWidth << 3) + (blockIndexInHeight << 3) * strideY]), strideY);
+            for (blockIndexInHeight = 0; blockIndexInHeight < input_picture_ptr->height >> 3; ++blockIndexInHeight) {
+                for (blockIndexInWidth = 0; blockIndexInWidth < input_picture_ptr->width >> 3; ++blockIndexInWidth) {
+                    mean += ComputeSubMean8x8_SSE2_INTRIN(&(input_picture_ptr->bufferY[(blockIndexInWidth << 3) + (blockIndexInHeight << 3) * strideY]), strideY);
                 }
             }
         }
-        mean = ((mean + ((inputPicturePtr->height* inputPicturePtr->width) >> 7)) / ((inputPicturePtr->height* inputPicturePtr->width) >> 6));
+        mean = ((mean + ((input_picture_ptr->height* input_picture_ptr->width) >> 7)) / ((input_picture_ptr->height* input_picture_ptr->width) >> 6));
         mean = (mean + (1 << (MEAN_PRECISION - 1))) >> MEAN_PRECISION;
         picture_control_set_ptr->average_intensity[0] = (uint8_t)mean;
     }
 
     else {
-        picture_control_set_ptr->average_intensity[0] = (uint8_t)((sumAverageIntensityTotalRegionsLuma + ((inputPicturePtr->width*inputPicturePtr->height) >> 1)) / (inputPicturePtr->width*inputPicturePtr->height));
-        picture_control_set_ptr->average_intensity[1] = (uint8_t)((sumAverageIntensityTotalRegionsCb + ((inputPicturePtr->width*inputPicturePtr->height) >> 3)) / ((inputPicturePtr->width*inputPicturePtr->height) >> 2));
-        picture_control_set_ptr->average_intensity[2] = (uint8_t)((sumAverageIntensityTotalRegionsCr + ((inputPicturePtr->width*inputPicturePtr->height) >> 3)) / ((inputPicturePtr->width*inputPicturePtr->height) >> 2));
+        picture_control_set_ptr->average_intensity[0] = (uint8_t)((sumAverageIntensityTotalRegionsLuma + ((input_picture_ptr->width*input_picture_ptr->height) >> 1)) / (input_picture_ptr->width*input_picture_ptr->height));
+        picture_control_set_ptr->average_intensity[1] = (uint8_t)((sumAverageIntensityTotalRegionsCb + ((input_picture_ptr->width*input_picture_ptr->height) >> 3)) / ((input_picture_ptr->width*input_picture_ptr->height) >> 2));
+        picture_control_set_ptr->average_intensity[2] = (uint8_t)((sumAverageIntensityTotalRegionsCr + ((input_picture_ptr->width*input_picture_ptr->height) >> 3)) / ((input_picture_ptr->width*input_picture_ptr->height) >> 2));
     }
 
     return;
@@ -4742,7 +4742,7 @@ void CalculateInputAverageIntensity(
 void GatheringPictureStatistics(
     SequenceControlSet_t            *sequence_control_set_ptr,
     PictureParentControlSet_t       *picture_control_set_ptr,
-    EbPictureBufferDesc_t           *inputPicturePtr,
+    EbPictureBufferDesc_t           *input_picture_ptr,
     EbPictureBufferDesc_t           *inputPaddedPicturePtr,
     EbPictureBufferDesc_t            *sixteenthDecimatedPicturePtr,
     uint32_t                           sb_total_count,
@@ -4768,7 +4768,7 @@ void GatheringPictureStatistics(
     SubSampleChromaGeneratePixelIntensityHistogramBins(
         sequence_control_set_ptr,
         picture_control_set_ptr,
-        inputPicturePtr,
+        input_picture_ptr,
         &sumAverageIntensityTotalRegionsCb,
         &sumAverageIntensityTotalRegionsCr,
         asm_type);
@@ -4777,7 +4777,7 @@ void GatheringPictureStatistics(
     CalculateInputAverageIntensity(
         sequence_control_set_ptr,
         picture_control_set_ptr,
-        inputPicturePtr,
+        input_picture_ptr,
         sumAverageIntensityTotalRegionsLuma,
         sumAverageIntensityTotalRegionsCb,
         sumAverageIntensityTotalRegionsCr,
@@ -4787,7 +4787,7 @@ void GatheringPictureStatistics(
     ComputePictureSpatialStatistics(
         sequence_control_set_ptr,
         picture_control_set_ptr,
-        inputPicturePtr,
+        input_picture_ptr,
         inputPaddedPicturePtr,
         sb_total_count,
         asm_type);
@@ -4800,57 +4800,57 @@ void GatheringPictureStatistics(
  ************************************************/
 void PadPictureToMultipleOfMinCuSizeDimensions(
     SequenceControlSet_t            *sequence_control_set_ptr,
-    EbPictureBufferDesc_t           *inputPicturePtr)
+    EbPictureBufferDesc_t           *input_picture_ptr)
 {
     EbBool                          is16BitInput = (EbBool)(sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
     // Input Picture Padding
     pad_input_picture(
-        &inputPicturePtr->bufferY[inputPicturePtr->origin_x + (inputPicturePtr->origin_y * inputPicturePtr->strideY)],
-        inputPicturePtr->strideY,
-        (inputPicturePtr->width - sequence_control_set_ptr->pad_right),
-        (inputPicturePtr->height - sequence_control_set_ptr->pad_bottom),
+        &input_picture_ptr->bufferY[input_picture_ptr->origin_x + (input_picture_ptr->origin_y * input_picture_ptr->strideY)],
+        input_picture_ptr->strideY,
+        (input_picture_ptr->width - sequence_control_set_ptr->pad_right),
+        (input_picture_ptr->height - sequence_control_set_ptr->pad_bottom),
         sequence_control_set_ptr->pad_right,
         sequence_control_set_ptr->pad_bottom);
 
     pad_input_picture(
-        &inputPicturePtr->bufferCb[(inputPicturePtr->origin_x >> 1) + ((inputPicturePtr->origin_y >> 1) * inputPicturePtr->strideCb)],
-        inputPicturePtr->strideCb,
-        (inputPicturePtr->width - sequence_control_set_ptr->pad_right) >> 1,
-        (inputPicturePtr->height - sequence_control_set_ptr->pad_bottom) >> 1,
+        &input_picture_ptr->bufferCb[(input_picture_ptr->origin_x >> 1) + ((input_picture_ptr->origin_y >> 1) * input_picture_ptr->strideCb)],
+        input_picture_ptr->strideCb,
+        (input_picture_ptr->width - sequence_control_set_ptr->pad_right) >> 1,
+        (input_picture_ptr->height - sequence_control_set_ptr->pad_bottom) >> 1,
         sequence_control_set_ptr->pad_right >> 1,
         sequence_control_set_ptr->pad_bottom >> 1);
 
     pad_input_picture(
-        &inputPicturePtr->bufferCr[(inputPicturePtr->origin_x >> 1) + ((inputPicturePtr->origin_y >> 1) * inputPicturePtr->strideCr)],
-        inputPicturePtr->strideCr,
-        (inputPicturePtr->width - sequence_control_set_ptr->pad_right) >> 1,
-        (inputPicturePtr->height - sequence_control_set_ptr->pad_bottom) >> 1,
+        &input_picture_ptr->bufferCr[(input_picture_ptr->origin_x >> 1) + ((input_picture_ptr->origin_y >> 1) * input_picture_ptr->strideCr)],
+        input_picture_ptr->strideCr,
+        (input_picture_ptr->width - sequence_control_set_ptr->pad_right) >> 1,
+        (input_picture_ptr->height - sequence_control_set_ptr->pad_bottom) >> 1,
         sequence_control_set_ptr->pad_right >> 1,
         sequence_control_set_ptr->pad_bottom >> 1);
 
     if (is16BitInput)
     {
         pad_input_picture(
-            &inputPicturePtr->bufferBitIncY[inputPicturePtr->origin_x + (inputPicturePtr->origin_y * inputPicturePtr->strideBitIncY)],
-            inputPicturePtr->strideBitIncY,
-            (inputPicturePtr->width - sequence_control_set_ptr->pad_right),
-            (inputPicturePtr->height - sequence_control_set_ptr->pad_bottom),
+            &input_picture_ptr->bufferBitIncY[input_picture_ptr->origin_x + (input_picture_ptr->origin_y * input_picture_ptr->strideBitIncY)],
+            input_picture_ptr->strideBitIncY,
+            (input_picture_ptr->width - sequence_control_set_ptr->pad_right),
+            (input_picture_ptr->height - sequence_control_set_ptr->pad_bottom),
             sequence_control_set_ptr->pad_right,
             sequence_control_set_ptr->pad_bottom);
 
         pad_input_picture(
-            &inputPicturePtr->bufferBitIncCb[(inputPicturePtr->origin_x >> 1) + ((inputPicturePtr->origin_y >> 1) * inputPicturePtr->strideBitIncCb)],
-            inputPicturePtr->strideBitIncCb,
-            (inputPicturePtr->width - sequence_control_set_ptr->pad_right) >> 1,
-            (inputPicturePtr->height - sequence_control_set_ptr->pad_bottom) >> 1,
+            &input_picture_ptr->bufferBitIncCb[(input_picture_ptr->origin_x >> 1) + ((input_picture_ptr->origin_y >> 1) * input_picture_ptr->strideBitIncCb)],
+            input_picture_ptr->strideBitIncCb,
+            (input_picture_ptr->width - sequence_control_set_ptr->pad_right) >> 1,
+            (input_picture_ptr->height - sequence_control_set_ptr->pad_bottom) >> 1,
             sequence_control_set_ptr->pad_right >> 1,
             sequence_control_set_ptr->pad_bottom >> 1);
 
         pad_input_picture(
-            &inputPicturePtr->bufferBitIncCr[(inputPicturePtr->origin_x >> 1) + ((inputPicturePtr->origin_y >> 1) * inputPicturePtr->strideBitIncCr)],
-            inputPicturePtr->strideBitIncCr,
-            (inputPicturePtr->width - sequence_control_set_ptr->pad_right) >> 1,
-            (inputPicturePtr->height - sequence_control_set_ptr->pad_bottom) >> 1,
+            &input_picture_ptr->bufferBitIncCr[(input_picture_ptr->origin_x >> 1) + ((input_picture_ptr->origin_y >> 1) * input_picture_ptr->strideBitIncCr)],
+            input_picture_ptr->strideBitIncCr,
+            (input_picture_ptr->width - sequence_control_set_ptr->pad_right) >> 1,
+            (input_picture_ptr->height - sequence_control_set_ptr->pad_bottom) >> 1,
             sequence_control_set_ptr->pad_right >> 1,
             sequence_control_set_ptr->pad_bottom >> 1);
 
@@ -4960,7 +4960,7 @@ void* PictureAnalysisKernel(void *input_ptr)
     EbPictureBufferDesc_t           *inputPaddedPicturePtr;
     EbPictureBufferDesc_t           *quarterDecimatedPicturePtr;
     EbPictureBufferDesc_t           *sixteenthDecimatedPicturePtr;
-    EbPictureBufferDesc_t           *inputPicturePtr;
+    EbPictureBufferDesc_t           *input_picture_ptr;
 
     // Variance
     uint32_t                          picture_width_in_sb;
@@ -4978,7 +4978,7 @@ void* PictureAnalysisKernel(void *input_ptr)
         inputResultsPtr = (ResourceCoordinationResults_t*)inputResultsWrapperPtr->objectPtr;
         picture_control_set_ptr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->objectPtr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
-        inputPicturePtr = picture_control_set_ptr->enhanced_picture_ptr;
+        input_picture_ptr = picture_control_set_ptr->enhanced_picture_ptr;
 
         paReferenceObject = (EbPaReferenceObject_t*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->objectPtr;
         inputPaddedPicturePtr = (EbPictureBufferDesc_t*)paReferenceObject->inputPaddedPicturePtr;
@@ -4999,12 +4999,12 @@ void* PictureAnalysisKernel(void *input_ptr)
         // Pad pictures to multiple min cu size
         PadPictureToMultipleOfMinCuSizeDimensions(
             sequence_control_set_ptr,
-            inputPicturePtr);
+            input_picture_ptr);
 
         // Pre processing operations performed on the input picture
         PicturePreProcessingOperations(
             picture_control_set_ptr,
-            inputPicturePtr,
+            input_picture_ptr,
             context_ptr,
             sequence_control_set_ptr,
             quarterDecimatedPicturePtr,
@@ -5028,7 +5028,7 @@ void* PictureAnalysisKernel(void *input_ptr)
         GatheringPictureStatistics(
             sequence_control_set_ptr,
             picture_control_set_ptr,
-            inputPicturePtr,
+            input_picture_ptr,
             inputPaddedPicturePtr,
             sixteenthDecimatedPicturePtr,
             sb_total_count,

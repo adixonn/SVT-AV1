@@ -1194,7 +1194,7 @@ void ProductPerformFastLoop(
     ModeDecisionCandidateBuffer_t      **candidateBufferPtrArrayBase,
     ModeDecisionCandidate_t             *fast_candidate_array,
     uint32_t                             fastCandidateTotalCount,
-    EbPictureBufferDesc_t               *inputPicturePtr,
+    EbPictureBufferDesc_t               *input_picture_ptr,
     uint32_t                             inputOriginIndex,
     uint32_t                             inputCbOriginIndex,
     uint32_t                             inputCrOriginIndex,
@@ -1330,8 +1330,8 @@ void ProductPerformFastLoop(
                 asm_type);
 
             //Distortion
-            uint8_t * const inputBufferY = inputPicturePtr->bufferY + inputOriginIndex;
-            const unsigned inputStrideY = inputPicturePtr->strideY;
+            uint8_t * const inputBufferY = input_picture_ptr->bufferY + inputOriginIndex;
+            const unsigned inputStrideY = input_picture_ptr->strideY;
             uint8_t * const predBufferY = prediction_ptr->bufferY + cuOriginIndex;
             // Skip distortion computation if the candidate is MPM
             if (candidateBuffer->candidate_ptr->mpm_flag == EB_FALSE && !(candidate_ptr->motion_mode == WARPED_CAUSAL && candidate_ptr->local_warp_valid == 0)) {
@@ -1351,24 +1351,24 @@ void ProductPerformFastLoop(
                 // Cb
                 if (context_ptr->blk_geom->has_uv) {
 
-                    uint8_t * const inputBufferCb = inputPicturePtr->bufferCb + inputCbOriginIndex;
+                    uint8_t * const inputBufferCb = input_picture_ptr->bufferCb + inputCbOriginIndex;
                     uint8_t *  const predBufferCb = candidateBuffer->prediction_ptr->bufferCb + cuChromaOriginIndex;
 
                     chromaFastDistortion += NxMSadKernelSubSampled_funcPtrArray[asm_type][bwidth >> 4](
                         inputBufferCb,
-                        inputPicturePtr->strideCb << candidateBuffer->sub_sampled_pred_chroma,
+                        input_picture_ptr->strideCb << candidateBuffer->sub_sampled_pred_chroma,
                         predBufferCb,
                         prediction_ptr->strideCb,
                         bheight_uv >> candidateBuffer->sub_sampled_pred_chroma,
                         bwidth_uv) << candidateBuffer->sub_sampled_pred_chroma;
 
 
-                    uint8_t * const inputBufferCr = inputPicturePtr->bufferCr + inputCrOriginIndex;
+                    uint8_t * const inputBufferCr = input_picture_ptr->bufferCr + inputCrOriginIndex;
                     uint8_t * const predBufferCr = candidateBuffer->prediction_ptr->bufferCr + cuChromaOriginIndex;
 
                     chromaFastDistortion += NxMSadKernelSubSampled_funcPtrArray[asm_type][bwidth >> 4](
                         inputBufferCr,
-                        inputPicturePtr->strideCb << candidateBuffer->sub_sampled_pred_chroma,
+                        input_picture_ptr->strideCb << candidateBuffer->sub_sampled_pred_chroma,
                         predBufferCr,
                         prediction_ptr->strideCr,
                         bheight_uv >> candidateBuffer->sub_sampled_pred_chroma,
@@ -1547,7 +1547,7 @@ void AV1CostCalcCfl(
     LargestCodingUnit_t                *sb_ptr,
     ModeDecisionContext_t              *context_ptr,
     uint32_t                            component_mask,
-    EbPictureBufferDesc_t              *inputPicturePtr,
+    EbPictureBufferDesc_t              *input_picture_ptr,
     uint32_t                            inputCbOriginIndex,
     uint32_t                            cuChromaOriginIndex,
     uint64_t                            full_distortion[DIST_CALC_TOTAL],
@@ -1601,8 +1601,8 @@ void AV1CostCalcCfl(
         //Cb Residual
 
         ResidualKernel(
-            &(inputPicturePtr->bufferCb[inputCbOriginIndex]),
-            inputPicturePtr->strideCb,
+            &(input_picture_ptr->bufferCb[inputCbOriginIndex]),
+            input_picture_ptr->strideCb,
             &(candidateBuffer->cflTempPredictionPtr->bufferCb[cuChromaOriginIndex]),
             candidateBuffer->cflTempPredictionPtr->strideCb,
             &(((int16_t*)candidateBuffer->residual_ptr->bufferCb)[cuChromaOriginIndex]),
@@ -1614,7 +1614,7 @@ void AV1CostCalcCfl(
             sb_ptr,
             candidateBuffer,
             context_ptr,
-            inputPicturePtr,
+            input_picture_ptr,
             picture_control_set_ptr,
             PICTURE_BUFFER_DESC_Cb_FLAG,
             cbQp,
@@ -1676,8 +1676,8 @@ void AV1CostCalcCfl(
 
         //Cr Residual
         ResidualKernel(
-            &(inputPicturePtr->bufferCr[inputCbOriginIndex]),
-            inputPicturePtr->strideCr,
+            &(input_picture_ptr->bufferCr[inputCbOriginIndex]),
+            input_picture_ptr->strideCr,
             &(candidateBuffer->cflTempPredictionPtr->bufferCr[cuChromaOriginIndex]),
             candidateBuffer->cflTempPredictionPtr->strideCr,
             &(((int16_t*)candidateBuffer->residual_ptr->bufferCr)[cuChromaOriginIndex]),
@@ -1689,7 +1689,7 @@ void AV1CostCalcCfl(
             sb_ptr,
             candidateBuffer,
             context_ptr,
-            inputPicturePtr,
+            input_picture_ptr,
             picture_control_set_ptr,
             PICTURE_BUFFER_DESC_Cr_FLAG,
             cbQp,
@@ -1727,7 +1727,7 @@ static void cfl_rd_pick_alpha(
     ModeDecisionCandidateBuffer_t  *candidateBuffer,
     LargestCodingUnit_t     *sb_ptr,
     ModeDecisionContext_t   *context_ptr,
-    EbPictureBufferDesc_t   *inputPicturePtr,
+    EbPictureBufferDesc_t   *input_picture_ptr,
     uint32_t                   inputCbOriginIndex,
     uint32_t                     cuChromaOriginIndex,
     EbAsm                    asm_type) {
@@ -1763,7 +1763,7 @@ static void cfl_rd_pick_alpha(
                     sb_ptr,
                     context_ptr,
                     (plane == 0) ? COMPONENT_CHROMA_CB : COMPONENT_CHROMA_CR,
-                    inputPicturePtr,
+                    input_picture_ptr,
                     inputCbOriginIndex,
                     cuChromaOriginIndex,
                     full_distortion,
@@ -1802,7 +1802,7 @@ static void cfl_rd_pick_alpha(
                             sb_ptr,
                             context_ptr,
                             (plane == 0) ? COMPONENT_CHROMA_CB : COMPONENT_CHROMA_CR,
-                            inputPicturePtr,
+                            input_picture_ptr,
                             inputCbOriginIndex,
                             cuChromaOriginIndex,
                             full_distortion,
@@ -1845,7 +1845,7 @@ static void cfl_rd_pick_alpha(
         sb_ptr,
         context_ptr,
         COMPONENT_CHROMA,
-        inputPicturePtr,
+        input_picture_ptr,
         inputCbOriginIndex,
         cuChromaOriginIndex,
         full_distortion,
@@ -1891,7 +1891,7 @@ static void CflPrediction(
     ModeDecisionCandidateBuffer_t  *candidateBuffer,
     LargestCodingUnit_t     *sb_ptr,
     ModeDecisionContext_t   *context_ptr,
-    EbPictureBufferDesc_t   *inputPicturePtr,
+    EbPictureBufferDesc_t   *input_picture_ptr,
     uint32_t                   inputCbOriginIndex,
     uint32_t                     cuChromaOriginIndex,
     EbAsm                    asm_type)
@@ -1938,7 +1938,7 @@ static void CflPrediction(
         candidateBuffer,
         sb_ptr,
         context_ptr,
-        inputPicturePtr,
+        input_picture_ptr,
         inputCbOriginIndex,
         cuChromaOriginIndex,
         asm_type);
@@ -1979,8 +1979,8 @@ static void CflPrediction(
 
         //Cb Residual
         ResidualKernel(
-            &(inputPicturePtr->bufferCb[inputCbOriginIndex]),
-            inputPicturePtr->strideCb,
+            &(input_picture_ptr->bufferCb[inputCbOriginIndex]),
+            input_picture_ptr->strideCb,
             &(candidateBuffer->prediction_ptr->bufferCb[cuChromaOriginIndex]),
             candidateBuffer->prediction_ptr->strideCb,
             &(((int16_t*)candidateBuffer->residual_ptr->bufferCb)[cuChromaOriginIndex]),
@@ -1991,8 +1991,8 @@ static void CflPrediction(
 
         //Cr Residual
         ResidualKernel(
-            &(inputPicturePtr->bufferCr[inputCbOriginIndex]),
-            inputPicturePtr->strideCr,
+            &(input_picture_ptr->bufferCr[inputCbOriginIndex]),
+            input_picture_ptr->strideCr,
             &(candidateBuffer->prediction_ptr->bufferCr[cuChromaOriginIndex]),
             candidateBuffer->prediction_ptr->strideCr,
             &(((int16_t*)candidateBuffer->residual_ptr->bufferCr)[cuChromaOriginIndex]),
@@ -2026,7 +2026,7 @@ void AV1PerformFullLoop(
     LargestCodingUnit_t     *sb_ptr,
     CodingUnit_t            *cu_ptr,
     ModeDecisionContext_t   *context_ptr,
-    EbPictureBufferDesc_t   *inputPicturePtr,
+    EbPictureBufferDesc_t   *input_picture_ptr,
     uint32_t                 inputOriginIndex,
     uint32_t                 inputCbOriginIndex,
     uint32_t                 cuOriginIndex,
@@ -2117,8 +2117,8 @@ void AV1PerformFullLoop(
 
         //Y Residual
         ResidualKernel(
-            &(inputPicturePtr->bufferY[inputOriginIndex]),
-            inputPicturePtr->strideY,
+            &(input_picture_ptr->bufferY[inputOriginIndex]),
+            input_picture_ptr->strideY,
             &(candidateBuffer->prediction_ptr->bufferY[cuOriginIndex]),
             candidateBuffer->prediction_ptr->strideY/* 64*/,
             &(((int16_t*)candidateBuffer->residual_ptr->bufferY)[cuOriginIndex]),
@@ -2131,8 +2131,8 @@ void AV1PerformFullLoop(
         if (context_ptr->blk_geom->has_uv) {
 
             ResidualKernel(
-                &(inputPicturePtr->bufferCb[inputCbOriginIndex]),
-                inputPicturePtr->strideCb,
+                &(input_picture_ptr->bufferCb[inputCbOriginIndex]),
+                input_picture_ptr->strideCb,
                 &(candidateBuffer->prediction_ptr->bufferCb[cuChromaOriginIndex]),
                 candidateBuffer->prediction_ptr->strideCb,
                 &(((int16_t*)candidateBuffer->residual_ptr->bufferCb)[cuChromaOriginIndex]),
@@ -2142,8 +2142,8 @@ void AV1PerformFullLoop(
 
             //Cr Residual
             ResidualKernel(
-                &(inputPicturePtr->bufferCr[inputCbOriginIndex]),
-                inputPicturePtr->strideCr,
+                &(input_picture_ptr->bufferCr[inputCbOriginIndex]),
+                input_picture_ptr->strideCr,
                 &(candidateBuffer->prediction_ptr->bufferCr[cuChromaOriginIndex]),
                 candidateBuffer->prediction_ptr->strideCr,
                 &(((int16_t*)candidateBuffer->residual_ptr->bufferCr)[cuChromaOriginIndex]),
@@ -2213,7 +2213,7 @@ void AV1PerformFullLoop(
                 candidateBuffer,
                 sb_ptr,
                 context_ptr,
-                inputPicturePtr,
+                input_picture_ptr,
                 inputCbOriginIndex,
                 cuChromaOriginIndex,
                 asm_type);
@@ -2244,7 +2244,7 @@ void AV1PerformFullLoop(
                 sb_ptr,
                 candidateBuffer,
                 context_ptr,
-                inputPicturePtr,
+                input_picture_ptr,
                 picture_control_set_ptr,
                 PICTURE_BUFFER_DESC_CHROMA_MASK,
                 cbQp,
@@ -2511,7 +2511,7 @@ void inter_depth_tx_search(
     ModeDecisionCandidateBuffer_t            *candidateBuffer,
     CodingUnit_t                             *cu_ptr,
     ModeDecisionContext_t                    *context_ptr,
-    EbPictureBufferDesc_t                    *inputPicturePtr,
+    EbPictureBufferDesc_t                    *input_picture_ptr,
     uint64_t                                  ref_fast_cost,
     EbAsm                                     asm_type)
 {
@@ -2587,7 +2587,7 @@ void inter_depth_tx_search(
                 context_ptr->sb_ptr,
                 candidateBuffer,
                 context_ptr,
-                inputPicturePtr,
+                input_picture_ptr,
                 picture_control_set_ptr,
                 PICTURE_BUFFER_DESC_CHROMA_MASK,
                 cbQp,
@@ -2822,10 +2822,10 @@ void md_encode_block(
     EbAsm                                     asm_type = sequence_control_set_ptr->encode_context_ptr->asm_type;
     uint32_t                                  best_intra_mode = EB_INTRA_MODE_INVALID;
 
-    EbPictureBufferDesc_t                    *inputPicturePtr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
-    const uint32_t                            inputOriginIndex = (context_ptr->cu_origin_y + inputPicturePtr->origin_y) * inputPicturePtr->strideY + (context_ptr->cu_origin_x + inputPicturePtr->origin_x);
+    EbPictureBufferDesc_t                    *input_picture_ptr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+    const uint32_t                            inputOriginIndex = (context_ptr->cu_origin_y + input_picture_ptr->origin_y) * input_picture_ptr->strideY + (context_ptr->cu_origin_x + input_picture_ptr->origin_x);
 
-    const uint32_t inputCbOriginIndex = ((context_ptr->round_origin_y >> 1) + (inputPicturePtr->origin_y >> 1)) * inputPicturePtr->strideCb + ((context_ptr->round_origin_x >> 1) + (inputPicturePtr->origin_x >> 1));
+    const uint32_t inputCbOriginIndex = ((context_ptr->round_origin_y >> 1) + (input_picture_ptr->origin_y >> 1)) * input_picture_ptr->strideCb + ((context_ptr->round_origin_x >> 1) + (input_picture_ptr->origin_x >> 1));
     const uint32_t cuOriginIndex = blk_geom->origin_x + blk_geom->origin_y * SB_STRIDE_Y;
     const uint32_t cuChromaOriginIndex = ROUND_UV(blk_geom->origin_x) / 2 + ROUND_UV(blk_geom->origin_y) / 2 * SB_STRIDE_UV;
     CodingUnit_t *  cu_ptr = context_ptr->cu_ptr;
@@ -2888,7 +2888,7 @@ void md_encode_block(
             candidateBufferPtrArrayBase,
             fast_candidate_array,
             fastCandidateTotalCount,
-            inputPicturePtr,
+            input_picture_ptr,
             inputOriginIndex,
             inputCbOriginIndex,
             inputCbOriginIndex,
@@ -2928,7 +2928,7 @@ void md_encode_block(
             context_ptr->sb_ptr,
             cu_ptr,
             context_ptr,
-            inputPicturePtr,
+            input_picture_ptr,
             inputOriginIndex,
             inputCbOriginIndex,
             cuOriginIndex,
@@ -2979,7 +2979,7 @@ void md_encode_block(
             candidateBuffer,
             cu_ptr,
             context_ptr,
-            inputPicturePtr,
+            input_picture_ptr,
             ref_fast_cost,
             asm_type);
 #endif

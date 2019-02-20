@@ -1505,7 +1505,7 @@ uint64_t PictureSseCalculations(
 
     if (!is16bit) {
 
-        EbPictureBufferDesc_t *inputPicturePtr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+        EbPictureBufferDesc_t *input_picture_ptr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
 
         uint32_t   columnIndex;
         uint32_t   rowIndex = 0;
@@ -1514,7 +1514,7 @@ uint64_t PictureSseCalculations(
         EbByte  reconCoeffBuffer;
         if (plane == 0) {
             reconCoeffBuffer = &((recon_ptr->bufferY)[recon_ptr->origin_x + recon_ptr->origin_y * recon_ptr->strideY]);
-            inputBuffer = &((inputPicturePtr->bufferY)[inputPicturePtr->origin_x + inputPicturePtr->origin_y * inputPicturePtr->strideY]);
+            inputBuffer = &((input_picture_ptr->bufferY)[input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->strideY]);
 
             residualDistortion = 0;
 
@@ -1525,7 +1525,7 @@ uint64_t PictureSseCalculations(
                     residualDistortion += (int64_t)SQR((int64_t)(inputBuffer[columnIndex]) - (reconCoeffBuffer[columnIndex]));
                     ++columnIndex;
                 }
-                inputBuffer += inputPicturePtr->strideY;
+                inputBuffer += input_picture_ptr->strideY;
                 reconCoeffBuffer += recon_ptr->strideY;
                 ++rowIndex;
             }
@@ -1536,7 +1536,7 @@ uint64_t PictureSseCalculations(
         else if (plane == 1) {
 
             reconCoeffBuffer = &((recon_ptr->bufferCb)[recon_ptr->origin_x / 2 + recon_ptr->origin_y / 2 * recon_ptr->strideCb]);
-            inputBuffer = &((inputPicturePtr->bufferCb)[inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCb]);
+            inputBuffer = &((input_picture_ptr->bufferCb)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb]);
 
             residualDistortion = 0;
             rowIndex = 0;
@@ -1548,7 +1548,7 @@ uint64_t PictureSseCalculations(
                     ++columnIndex;
                 }
 
-                inputBuffer += inputPicturePtr->strideCb;
+                inputBuffer += input_picture_ptr->strideCb;
                 reconCoeffBuffer += recon_ptr->strideCb;
                 ++rowIndex;
             }
@@ -1557,7 +1557,7 @@ uint64_t PictureSseCalculations(
         }
         else if (plane == 2) {
             reconCoeffBuffer = &((recon_ptr->bufferCr)[recon_ptr->origin_x / 2 + recon_ptr->origin_y / 2 * recon_ptr->strideCr]);
-            inputBuffer = &((inputPicturePtr->bufferCr)[inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCr]);
+            inputBuffer = &((input_picture_ptr->bufferCr)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCr]);
             residualDistortion = 0;
             rowIndex = 0;
 
@@ -1569,7 +1569,7 @@ uint64_t PictureSseCalculations(
                     ++columnIndex;
                 }
 
-                inputBuffer += inputPicturePtr->strideCr;
+                inputBuffer += input_picture_ptr->strideCr;
                 reconCoeffBuffer += recon_ptr->strideCr;
                 ++rowIndex;
             }
@@ -1580,7 +1580,7 @@ uint64_t PictureSseCalculations(
     }
     else {
 #if LF_10BIT_FIX
-        EbPictureBufferDesc_t *inputPicturePtr = (EbPictureBufferDesc_t*)picture_control_set_ptr->input_frame16bit;
+        EbPictureBufferDesc_t *input_picture_ptr = (EbPictureBufferDesc_t*)picture_control_set_ptr->input_frame16bit;
 
         uint32_t   columnIndex;
         uint32_t   rowIndex = 0;
@@ -1589,7 +1589,7 @@ uint64_t PictureSseCalculations(
         uint16_t*  reconCoeffBuffer;
         if (plane == 0) {
             reconCoeffBuffer = (uint16_t*)&((recon_ptr->bufferY)[(recon_ptr->origin_x + recon_ptr->origin_y * recon_ptr->strideY) << is16bit]);
-            inputBuffer = (uint16_t*)&((inputPicturePtr->bufferY)[(inputPicturePtr->origin_x + inputPicturePtr->origin_y * inputPicturePtr->strideY) << is16bit]);
+            inputBuffer = (uint16_t*)&((input_picture_ptr->bufferY)[(input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->strideY) << is16bit]);
 
             residualDistortion = 0;
 
@@ -1601,7 +1601,7 @@ uint64_t PictureSseCalculations(
                     ++columnIndex;
                 }
 
-                inputBuffer += inputPicturePtr->strideY;
+                inputBuffer += input_picture_ptr->strideY;
                 reconCoeffBuffer += recon_ptr->strideY;
                 ++rowIndex;
             }
@@ -1612,7 +1612,7 @@ uint64_t PictureSseCalculations(
         else if (plane == 1) {
 
             reconCoeffBuffer = (uint16_t*)&((recon_ptr->bufferCb)[(recon_ptr->origin_x / 2 + recon_ptr->origin_y / 2 * recon_ptr->strideCb) << is16bit]);
-            inputBuffer = (uint16_t*)&((inputPicturePtr->bufferCb)[(inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCb) << is16bit]);
+            inputBuffer = (uint16_t*)&((input_picture_ptr->bufferCb)[(input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb) << is16bit]);
 
             residualDistortion = 0;
             rowIndex = 0;
@@ -1624,7 +1624,7 @@ uint64_t PictureSseCalculations(
                     ++columnIndex;
                 }
 
-                inputBuffer += inputPicturePtr->strideCb;
+                inputBuffer += input_picture_ptr->strideCb;
                 reconCoeffBuffer += recon_ptr->strideCb;
                 ++rowIndex;
             }
@@ -1633,7 +1633,7 @@ uint64_t PictureSseCalculations(
         }
         else if (plane == 2) {
             reconCoeffBuffer = (uint16_t*)&((recon_ptr->bufferCr)[(recon_ptr->origin_x / 2 + recon_ptr->origin_y / 2 * recon_ptr->strideCr) << is16bit]);
-            inputBuffer = (uint16_t*)&((inputPicturePtr->bufferCr)[(inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCr) << is16bit]);
+            inputBuffer = (uint16_t*)&((input_picture_ptr->bufferCr)[(input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCr) << is16bit]);
             residualDistortion = 0;
             rowIndex = 0;
 
@@ -1645,7 +1645,7 @@ uint64_t PictureSseCalculations(
                     ++columnIndex;
                 }
 
-                inputBuffer += inputPicturePtr->strideCr;
+                inputBuffer += input_picture_ptr->strideCr;
                 reconCoeffBuffer += recon_ptr->strideCr;
                 ++rowIndex;
             }

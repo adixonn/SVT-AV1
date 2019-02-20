@@ -787,7 +787,7 @@ void PsnrCalculations(
         else
             recon_ptr = picture_control_set_ptr->recon_picture_ptr;
 
-        EbPictureBufferDesc_t *inputPicturePtr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+        EbPictureBufferDesc_t *input_picture_ptr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
 
         uint64_t sseTotal[3] = { 0 };
         uint32_t   columnIndex;
@@ -797,7 +797,7 @@ void PsnrCalculations(
         EbByte  reconCoeffBuffer;
 
         reconCoeffBuffer = &((recon_ptr->bufferY)[recon_ptr->origin_x + recon_ptr->origin_y * recon_ptr->strideY]);
-        inputBuffer = &((inputPicturePtr->bufferY)[inputPicturePtr->origin_x + inputPicturePtr->origin_y * inputPicturePtr->strideY]);
+        inputBuffer = &((input_picture_ptr->bufferY)[input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->strideY]);
 
         residualDistortion = 0;
 
@@ -809,7 +809,7 @@ void PsnrCalculations(
                 ++columnIndex;
             }
 
-            inputBuffer += inputPicturePtr->strideY;
+            inputBuffer += input_picture_ptr->strideY;
             reconCoeffBuffer += recon_ptr->strideY;
             ++rowIndex;
         }
@@ -817,7 +817,7 @@ void PsnrCalculations(
         sseTotal[0] = residualDistortion;
 
         reconCoeffBuffer = &((recon_ptr->bufferCb)[recon_ptr->origin_x / 2 + recon_ptr->origin_y / 2 * recon_ptr->strideCb]);
-        inputBuffer = &((inputPicturePtr->bufferCb)[inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCb]);
+        inputBuffer = &((input_picture_ptr->bufferCb)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb]);
 
         residualDistortion = 0;
         rowIndex = 0;
@@ -829,7 +829,7 @@ void PsnrCalculations(
                 ++columnIndex;
             }
 
-            inputBuffer += inputPicturePtr->strideCb;
+            inputBuffer += input_picture_ptr->strideCb;
             reconCoeffBuffer += recon_ptr->strideCb;
             ++rowIndex;
         }
@@ -837,7 +837,7 @@ void PsnrCalculations(
         sseTotal[1] = residualDistortion;
 
         reconCoeffBuffer = &((recon_ptr->bufferCr)[recon_ptr->origin_x / 2 + recon_ptr->origin_y / 2 * recon_ptr->strideCr]);
-        inputBuffer = &((inputPicturePtr->bufferCr)[inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCr]);
+        inputBuffer = &((input_picture_ptr->bufferCr)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCr]);
         residualDistortion = 0;
         rowIndex = 0;
 
@@ -849,7 +849,7 @@ void PsnrCalculations(
                 ++columnIndex;
             }
 
-            inputBuffer += inputPicturePtr->strideCr;
+            inputBuffer += input_picture_ptr->strideCr;
             reconCoeffBuffer += recon_ptr->strideCr;
             ++rowIndex;
         }
@@ -867,7 +867,7 @@ void PsnrCalculations(
             recon_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture16bit;
         else
             recon_ptr = picture_control_set_ptr->recon_picture16bit_ptr;
-        EbPictureBufferDesc_t *inputPicturePtr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+        EbPictureBufferDesc_t *input_picture_ptr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
 
         uint64_t sseTotal[3] = { 0 };
         uint32_t   columnIndex;
@@ -889,13 +889,13 @@ void PsnrCalculations(
             const uint32_t chroma2BitWidth = luma_width / 8;
             uint32_t lcuNumberInHeight, lcuNumberInWidth;
 
-            EbByte  inputBufferOrg = &((inputPicturePtr->bufferY)[inputPicturePtr->origin_x + inputPicturePtr->origin_y * inputPicturePtr->strideY]);
+            EbByte  inputBufferOrg = &((input_picture_ptr->bufferY)[input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->strideY]);
             uint16_t*  reconBufferOrg = (uint16_t*)(&((recon_ptr->bufferY)[(recon_ptr->origin_x << is16bit) + (recon_ptr->origin_y << is16bit) * recon_ptr->strideY]));;
 
-            EbByte  inputBufferOrgU = &((inputPicturePtr->bufferCb)[inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCb]);;
+            EbByte  inputBufferOrgU = &((input_picture_ptr->bufferCb)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb]);;
             uint16_t*  reconBufferOrgU = reconCoeffBuffer = (uint16_t*)(&((recon_ptr->bufferCb)[(recon_ptr->origin_x << is16bit) / 2 + (recon_ptr->origin_y << is16bit) / 2 * recon_ptr->strideCb]));;
 
-            EbByte  inputBufferOrgV = &((inputPicturePtr->bufferCr)[inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCr]);;
+            EbByte  inputBufferOrgV = &((input_picture_ptr->bufferCr)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCr]);;
             uint16_t*  reconBufferOrgV = reconCoeffBuffer = (uint16_t*)(&((recon_ptr->bufferCr)[(recon_ptr->origin_x << is16bit) / 2 + (recon_ptr->origin_y << is16bit) / 2 * recon_ptr->strideCr]));;
 
             residualDistortion = 0;
@@ -912,8 +912,8 @@ void PsnrCalculations(
                     uint32_t sb_width = (luma_width - tbOriginX) < 64 ? (luma_width - tbOriginX) : 64;
                     uint32_t sb_height = (luma_height - tbOriginY) < 64 ? (luma_height - tbOriginY) : 64;
 
-                    inputBuffer = inputBufferOrg + tbOriginY * inputPicturePtr->strideY + tbOriginX;
-                    inputBufferBitInc = inputPicturePtr->bufferBitIncY + tbOriginY * luma2BitWidth + (tbOriginX / 4)*sb_height;
+                    inputBuffer = inputBufferOrg + tbOriginY * input_picture_ptr->strideY + tbOriginX;
+                    inputBufferBitInc = input_picture_ptr->bufferBitIncY + tbOriginY * luma2BitWidth + (tbOriginX / 4)*sb_height;
                     reconCoeffBuffer = reconBufferOrg + tbOriginY * recon_ptr->strideY + tbOriginX;
 
                     uint64_t   j, k;
@@ -930,24 +930,24 @@ void PsnrCalculations(
                             four2bitPels = inputBufferBitInc[k + j * inn_stride];
 
                             nBitPixel = (four2bitPels >> 6) & 3;
-                            outPixel = inputBuffer[k * 4 + 0 + j * inputPicturePtr->strideY] << 2;
+                            outPixel = inputBuffer[k * 4 + 0 + j * input_picture_ptr->strideY] << 2;
                             outPixel = outPixel | nBitPixel;
                             residualDistortion += (int64_t)SQR((int64_t)outPixel - (int64_t)reconCoeffBuffer[k * 4 + 0 + j * recon_ptr->strideY]);
 
 
                             nBitPixel = (four2bitPels >> 4) & 3;
-                            outPixel = inputBuffer[k * 4 + 1 + j * inputPicturePtr->strideY] << 2;
+                            outPixel = inputBuffer[k * 4 + 1 + j * input_picture_ptr->strideY] << 2;
                             outPixel = outPixel | nBitPixel;
                             residualDistortion += (int64_t)SQR((int64_t)outPixel - (int64_t)reconCoeffBuffer[k * 4 + 1 + j * recon_ptr->strideY]);
 
 
                             nBitPixel = (four2bitPels >> 2) & 3;
-                            outPixel = inputBuffer[k * 4 + 2 + j * inputPicturePtr->strideY] << 2;
+                            outPixel = inputBuffer[k * 4 + 2 + j * input_picture_ptr->strideY] << 2;
                             outPixel = outPixel | nBitPixel;
                             residualDistortion += (int64_t)SQR((int64_t)outPixel - (int64_t)reconCoeffBuffer[k * 4 + 2 + j * recon_ptr->strideY]);
 
                             nBitPixel = (four2bitPels >> 0) & 3;
-                            outPixel = inputBuffer[k * 4 + 3 + j * inputPicturePtr->strideY] << 2;
+                            outPixel = inputBuffer[k * 4 + 3 + j * input_picture_ptr->strideY] << 2;
                             outPixel = outPixel | nBitPixel;
                             residualDistortion += (int64_t)SQR((int64_t)outPixel - (int64_t)reconCoeffBuffer[k * 4 + 3 + j * recon_ptr->strideY]);
 
@@ -963,9 +963,9 @@ void PsnrCalculations(
 
                     inn_stride = sb_width / 4;
 
-                    inputBuffer = inputBufferOrgU + tbOriginY * inputPicturePtr->strideCb + tbOriginX;
+                    inputBuffer = inputBufferOrgU + tbOriginY * input_picture_ptr->strideCb + tbOriginX;
 
-                    inputBufferBitInc = inputPicturePtr->bufferBitIncCb + tbOriginY * chroma2BitWidth + (tbOriginX / 4)*sb_height;
+                    inputBufferBitInc = input_picture_ptr->bufferBitIncCb + tbOriginY * chroma2BitWidth + (tbOriginX / 4)*sb_height;
 
                     reconCoeffBuffer = reconBufferOrgU + tbOriginY * recon_ptr->strideCb + tbOriginX;
 
@@ -979,24 +979,24 @@ void PsnrCalculations(
                             four2bitPels = inputBufferBitInc[k + j * inn_stride];
 
                             nBitPixel = (four2bitPels >> 6) & 3;
-                            outPixel = inputBuffer[k * 4 + 0 + j * inputPicturePtr->strideCb] << 2;
+                            outPixel = inputBuffer[k * 4 + 0 + j * input_picture_ptr->strideCb] << 2;
                             outPixel = outPixel | nBitPixel;
                             residualDistortionU += (int64_t)SQR((int64_t)outPixel - (int64_t)reconCoeffBuffer[k * 4 + 0 + j * recon_ptr->strideCb]);
 
 
                             nBitPixel = (four2bitPels >> 4) & 3;
-                            outPixel = inputBuffer[k * 4 + 1 + j * inputPicturePtr->strideCb] << 2;
+                            outPixel = inputBuffer[k * 4 + 1 + j * input_picture_ptr->strideCb] << 2;
                             outPixel = outPixel | nBitPixel;
                             residualDistortionU += (int64_t)SQR((int64_t)outPixel - (int64_t)reconCoeffBuffer[k * 4 + 1 + j * recon_ptr->strideCb]);
 
 
                             nBitPixel = (four2bitPels >> 2) & 3;
-                            outPixel = inputBuffer[k * 4 + 2 + j * inputPicturePtr->strideCb] << 2;
+                            outPixel = inputBuffer[k * 4 + 2 + j * input_picture_ptr->strideCb] << 2;
                             outPixel = outPixel | nBitPixel;
                             residualDistortionU += (int64_t)SQR((int64_t)outPixel - (int64_t)reconCoeffBuffer[k * 4 + 2 + j * recon_ptr->strideCb]);
 
                             nBitPixel = (four2bitPels >> 0) & 3;
-                            outPixel = inputBuffer[k * 4 + 3 + j * inputPicturePtr->strideCb] << 2;
+                            outPixel = inputBuffer[k * 4 + 3 + j * input_picture_ptr->strideCb] << 2;
                             outPixel = outPixel | nBitPixel;
                             residualDistortionU += (int64_t)SQR((int64_t)outPixel - (int64_t)reconCoeffBuffer[k * 4 + 3 + j * recon_ptr->strideCb]);
 
@@ -1004,8 +1004,8 @@ void PsnrCalculations(
                     }
 
 
-                    inputBuffer = inputBufferOrgV + tbOriginY * inputPicturePtr->strideCr + tbOriginX;
-                    inputBufferBitInc = inputPicturePtr->bufferBitIncCr + tbOriginY * chroma2BitWidth + (tbOriginX / 4)*sb_height;
+                    inputBuffer = inputBufferOrgV + tbOriginY * input_picture_ptr->strideCr + tbOriginX;
+                    inputBufferBitInc = input_picture_ptr->bufferBitIncCr + tbOriginY * chroma2BitWidth + (tbOriginX / 4)*sb_height;
                     reconCoeffBuffer = reconBufferOrgV + tbOriginY * recon_ptr->strideCr + tbOriginX;
 
 
@@ -1017,24 +1017,24 @@ void PsnrCalculations(
                             four2bitPels = inputBufferBitInc[k + j * inn_stride];
 
                             nBitPixel = (four2bitPels >> 6) & 3;
-                            outPixel = inputBuffer[k * 4 + 0 + j * inputPicturePtr->strideCr] << 2;
+                            outPixel = inputBuffer[k * 4 + 0 + j * input_picture_ptr->strideCr] << 2;
                             outPixel = outPixel | nBitPixel;
                             residualDistortionV += (int64_t)SQR((int64_t)outPixel - (int64_t)reconCoeffBuffer[k * 4 + 0 + j * recon_ptr->strideCr]);
 
 
                             nBitPixel = (four2bitPels >> 4) & 3;
-                            outPixel = inputBuffer[k * 4 + 1 + j * inputPicturePtr->strideCr] << 2;
+                            outPixel = inputBuffer[k * 4 + 1 + j * input_picture_ptr->strideCr] << 2;
                             outPixel = outPixel | nBitPixel;
                             residualDistortionV += (int64_t)SQR((int64_t)outPixel - (int64_t)reconCoeffBuffer[k * 4 + 1 + j * recon_ptr->strideCr]);
 
 
                             nBitPixel = (four2bitPels >> 2) & 3;
-                            outPixel = inputBuffer[k * 4 + 2 + j * inputPicturePtr->strideCr] << 2;
+                            outPixel = inputBuffer[k * 4 + 2 + j * input_picture_ptr->strideCr] << 2;
                             outPixel = outPixel | nBitPixel;
                             residualDistortionV += (int64_t)SQR((int64_t)outPixel - (int64_t)reconCoeffBuffer[k * 4 + 2 + j * recon_ptr->strideCr]);
 
                             nBitPixel = (four2bitPels >> 0) & 3;
-                            outPixel = inputBuffer[k * 4 + 3 + j * inputPicturePtr->strideCr] << 2;
+                            outPixel = inputBuffer[k * 4 + 3 + j * input_picture_ptr->strideCr] << 2;
                             outPixel = outPixel | nBitPixel;
                             residualDistortionV += (int64_t)SQR((int64_t)outPixel - (int64_t)reconCoeffBuffer[k * 4 + 3 + j * recon_ptr->strideCr]);
 
@@ -1056,8 +1056,8 @@ void PsnrCalculations(
 
 
             reconCoeffBuffer = (uint16_t*)(&((recon_ptr->bufferY)[(recon_ptr->origin_x << is16bit) + (recon_ptr->origin_y << is16bit) * recon_ptr->strideY]));
-            inputBuffer = &((inputPicturePtr->bufferY)[inputPicturePtr->origin_x + inputPicturePtr->origin_y * inputPicturePtr->strideY]);
-            inputBufferBitInc = &((inputPicturePtr->bufferBitIncY)[inputPicturePtr->origin_x + inputPicturePtr->origin_y * inputPicturePtr->strideBitIncY]);
+            inputBuffer = &((input_picture_ptr->bufferY)[input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->strideY]);
+            inputBufferBitInc = &((input_picture_ptr->bufferBitIncY)[input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->strideBitIncY]);
 
             residualDistortion = 0;
 
@@ -1070,8 +1070,8 @@ void PsnrCalculations(
                     ++columnIndex;
                 }
 
-                inputBuffer += inputPicturePtr->strideY;
-                inputBufferBitInc += inputPicturePtr->strideBitIncY;
+                inputBuffer += input_picture_ptr->strideY;
+                inputBufferBitInc += input_picture_ptr->strideBitIncY;
                 reconCoeffBuffer += recon_ptr->strideY;
                 ++rowIndex;
             }
@@ -1079,8 +1079,8 @@ void PsnrCalculations(
             sseTotal[0] = residualDistortion;
 
             reconCoeffBuffer = (uint16_t*)(&((recon_ptr->bufferCb)[(recon_ptr->origin_x << is16bit) / 2 + (recon_ptr->origin_y << is16bit) / 2 * recon_ptr->strideCb]));
-            inputBuffer = &((inputPicturePtr->bufferCb)[inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCb]);
-            inputBufferBitInc = &((inputPicturePtr->bufferBitIncCb)[inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideBitIncCb]);
+            inputBuffer = &((input_picture_ptr->bufferCb)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb]);
+            inputBufferBitInc = &((input_picture_ptr->bufferBitIncCb)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideBitIncCb]);
 
             residualDistortion = 0;
             rowIndex = 0;
@@ -1092,8 +1092,8 @@ void PsnrCalculations(
                     ++columnIndex;
                 }
 
-                inputBuffer += inputPicturePtr->strideCb;
-                inputBufferBitInc += inputPicturePtr->strideBitIncCb;
+                inputBuffer += input_picture_ptr->strideCb;
+                inputBufferBitInc += input_picture_ptr->strideBitIncCb;
                 reconCoeffBuffer += recon_ptr->strideCb;
                 ++rowIndex;
             }
@@ -1101,8 +1101,8 @@ void PsnrCalculations(
             sseTotal[1] = residualDistortion;
 
             reconCoeffBuffer = (uint16_t*)(&((recon_ptr->bufferCr)[(recon_ptr->origin_x << is16bit) / 2 + (recon_ptr->origin_y << is16bit) / 2 * recon_ptr->strideCr]));
-            inputBuffer = &((inputPicturePtr->bufferCr)[inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCr]);
-            inputBufferBitInc = &((inputPicturePtr->bufferBitIncCr)[inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideBitIncCr]);
+            inputBuffer = &((input_picture_ptr->bufferCr)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCr]);
+            inputBufferBitInc = &((input_picture_ptr->bufferBitIncCr)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideBitIncCr]);
 
             residualDistortion = 0;
             rowIndex = 0;
@@ -1115,8 +1115,8 @@ void PsnrCalculations(
                     ++columnIndex;
                 }
 
-                inputBuffer += inputPicturePtr->strideCr;
-                inputBufferBitInc += inputPicturePtr->strideBitIncCr;
+                inputBuffer += input_picture_ptr->strideCr;
+                inputBufferBitInc += input_picture_ptr->strideBitIncCr;
                 reconCoeffBuffer += recon_ptr->strideCr;
                 ++rowIndex;
             }
@@ -1507,12 +1507,12 @@ void* EncDecKernel(void *input_ptr)
                     uint32_t lcuRow;
                     if (picture_control_set_ptr->parent_pcs_ptr->enable_in_loop_motion_estimation_flag) {
 
-                        EbPictureBufferDesc_t       *inputPicturePtr;
+                        EbPictureBufferDesc_t       *input_picture_ptr;
 
-                        inputPicturePtr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+                        input_picture_ptr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
 
                         // Load the SB from the input to the intermediate SB buffer
-                        uint32_t bufferIndex = (inputPicturePtr->origin_y + sb_origin_y) * inputPicturePtr->strideY + inputPicturePtr->origin_x + sb_origin_x;
+                        uint32_t bufferIndex = (input_picture_ptr->origin_y + sb_origin_y) * input_picture_ptr->strideY + input_picture_ptr->origin_x + sb_origin_x;
 
                         // Copy the source superblock to the me local buffer
                         uint32_t sb_height = (sequence_control_set_ptr->luma_height - sb_origin_y) < MAX_SB_SIZE ? sequence_control_set_ptr->luma_height - sb_origin_y : MAX_SB_SIZE;
@@ -1523,7 +1523,7 @@ void* EncDecKernel(void *input_ptr)
                             memset(context_ptr->ss_mecontext->sb_buffer, 0, MAX_SB_SIZE*MAX_SB_SIZE);
                         }
                         for (lcuRow = 0; lcuRow < sb_height; lcuRow++) {
-                            EB_MEMCPY((&(context_ptr->ss_mecontext->sb_buffer[lcuRow * MAX_SB_SIZE])), (&(inputPicturePtr->bufferY[bufferIndex + lcuRow * inputPicturePtr->strideY])), sb_width * sizeof(uint8_t));
+                            EB_MEMCPY((&(context_ptr->ss_mecontext->sb_buffer[lcuRow * MAX_SB_SIZE])), (&(input_picture_ptr->bufferY[bufferIndex + lcuRow * input_picture_ptr->strideY])), sb_width * sizeof(uint8_t));
                         }
 
                         context_ptr->ss_mecontext->sb_src_ptr = &(context_ptr->ss_mecontext->sb_buffer[0]);
@@ -1872,10 +1872,10 @@ void* EncDecKernel(void *input_ptr)
 
             if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE && picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr)
             {
-                EbPictureBufferDesc_t *inputPicturePtr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
-                const uint32_t  SrclumaOffSet = inputPicturePtr->origin_x + inputPicturePtr->origin_y    *inputPicturePtr->strideY;
-                const uint32_t  SrccbOffset = (inputPicturePtr->origin_x >> 1) + (inputPicturePtr->origin_y >> 1)*inputPicturePtr->strideCb;
-                const uint32_t  SrccrOffset = (inputPicturePtr->origin_x >> 1) + (inputPicturePtr->origin_y >> 1)*inputPicturePtr->strideCr;
+                EbPictureBufferDesc_t *input_picture_ptr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+                const uint32_t  SrclumaOffSet = input_picture_ptr->origin_x + input_picture_ptr->origin_y    *input_picture_ptr->strideY;
+                const uint32_t  SrccbOffset = (input_picture_ptr->origin_x >> 1) + (input_picture_ptr->origin_y >> 1)*input_picture_ptr->strideCb;
+                const uint32_t  SrccrOffset = (input_picture_ptr->origin_x >> 1) + (input_picture_ptr->origin_y >> 1)*input_picture_ptr->strideCr;
 
                 EbReferenceObject_t   *referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr;
                 EbPictureBufferDesc_t *refDenPic = referenceObject->refDenSrcPicture;
@@ -1888,19 +1888,19 @@ void* EncDecKernel(void *input_ptr)
                 for (verticalIdx = 0; verticalIdx < refDenPic->height; ++verticalIdx)
                 {
                     EB_MEMCPY(refDenPic->bufferY + ReflumaOffSet + verticalIdx * refDenPic->strideY,
-                        inputPicturePtr->bufferY + SrclumaOffSet + verticalIdx * inputPicturePtr->strideY,
-                        inputPicturePtr->width);
+                        input_picture_ptr->bufferY + SrclumaOffSet + verticalIdx * input_picture_ptr->strideY,
+                        input_picture_ptr->width);
                 }
 
-                for (verticalIdx = 0; verticalIdx < inputPicturePtr->height / 2; ++verticalIdx)
+                for (verticalIdx = 0; verticalIdx < input_picture_ptr->height / 2; ++verticalIdx)
                 {
                     EB_MEMCPY(refDenPic->bufferCb + RefcbOffset + verticalIdx * refDenPic->strideCb,
-                        inputPicturePtr->bufferCb + SrccbOffset + verticalIdx * inputPicturePtr->strideCb,
-                        inputPicturePtr->width / 2);
+                        input_picture_ptr->bufferCb + SrccbOffset + verticalIdx * input_picture_ptr->strideCb,
+                        input_picture_ptr->width / 2);
 
                     EB_MEMCPY(refDenPic->bufferCr + RefcrOffset + verticalIdx * refDenPic->strideCr,
-                        inputPicturePtr->bufferCr + SrccrOffset + verticalIdx * inputPicturePtr->strideCr,
-                        inputPicturePtr->width / 2);
+                        input_picture_ptr->bufferCr + SrccrOffset + verticalIdx * input_picture_ptr->strideCr,
+                        input_picture_ptr->width / 2);
                 }
 
                 generate_padding(

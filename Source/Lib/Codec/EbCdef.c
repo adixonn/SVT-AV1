@@ -1729,10 +1729,10 @@ void av1_cdef_search(
     EbByte  reconBufferCr = &((recon_picture_ptr->bufferCr)[recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->strideCr]);
 
 
-    EbPictureBufferDesc_t *inputPicturePtr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
-    EbByte  inputBufferY = &((inputPicturePtr->bufferY)[inputPicturePtr->origin_x + inputPicturePtr->origin_y * inputPicturePtr->strideY]);
-    EbByte  inputBufferCb = &((inputPicturePtr->bufferCb)[inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCb]);
-    EbByte  inputBufferCr = &((inputPicturePtr->bufferCr)[inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCr]);
+    EbPictureBufferDesc_t *input_picture_ptr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+    EbByte  inputBufferY = &((input_picture_ptr->bufferY)[input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->strideY]);
+    EbByte  inputBufferCb = &((input_picture_ptr->bufferCb)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb]);
+    EbByte  inputBufferCr = &((input_picture_ptr->bufferCr)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCr]);
 
 
     int32_t r, c;
@@ -1812,19 +1812,19 @@ void av1_cdef_search(
         switch (pli) {
         case 0:
             ref_buffer = inputBufferY;
-            ref_stride = inputPicturePtr->strideY;
+            ref_stride = input_picture_ptr->strideY;
             in_buffer = reconBufferY;
             in_stride = recon_picture_ptr->strideY;
             break;
         case 1:
             ref_buffer = inputBufferCb;
-            ref_stride = inputPicturePtr->strideCb;
+            ref_stride = input_picture_ptr->strideCb;
             in_buffer = reconBufferCb;
             in_stride = recon_picture_ptr->strideCb;
             break;
         case 2:
             ref_buffer = inputBufferCr;
-            ref_stride = inputPicturePtr->strideCr;
+            ref_stride = input_picture_ptr->strideCr;
             in_buffer = reconBufferCr;
             in_stride = recon_picture_ptr->strideCr;
             break;
@@ -2115,10 +2115,10 @@ void av1_cdef_search16bit(
     uint16_t*  reconBufferCr = (uint16_t*)recon_picture_ptr->bufferCr + (recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->strideCr);
 
 
-    EbPictureBufferDesc_t *inputPicturePtr = picture_control_set_ptr->input_frame16bit;
-    uint16_t*  inputBufferY = (uint16_t*)inputPicturePtr->bufferY + (inputPicturePtr->origin_x + inputPicturePtr->origin_y * inputPicturePtr->strideY);
-    uint16_t*  inputBufferCb = (uint16_t*)inputPicturePtr->bufferCb + (inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCb);
-    uint16_t*  inputBufferCr = (uint16_t*)inputPicturePtr->bufferCr + (inputPicturePtr->origin_x / 2 + inputPicturePtr->origin_y / 2 * inputPicturePtr->strideCr);
+    EbPictureBufferDesc_t *input_picture_ptr = picture_control_set_ptr->input_frame16bit;
+    uint16_t*  inputBufferY = (uint16_t*)input_picture_ptr->bufferY + (input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->strideY);
+    uint16_t*  inputBufferCb = (uint16_t*)input_picture_ptr->bufferCb + (input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb);
+    uint16_t*  inputBufferCr = (uint16_t*)input_picture_ptr->bufferCr + (input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCr);
 
 
     int32_t r, c;
@@ -2199,19 +2199,19 @@ void av1_cdef_search16bit(
 #if CDEF_10BIT_FIX
         case 0:
             ref_buffer = inputBufferY;
-            ref_stride = inputPicturePtr->strideY;
+            ref_stride = input_picture_ptr->strideY;
             in_buffer = reconBufferY;
             in_stride = recon_picture_ptr->strideY;
             break;
         case 1:
             ref_buffer = inputBufferCb;
-            ref_stride = inputPicturePtr->strideCb;
+            ref_stride = input_picture_ptr->strideCb;
             in_buffer = reconBufferCb;
             in_stride = recon_picture_ptr->strideCb;
             break;
         case 2:
             ref_buffer = inputBufferCr;
-            ref_stride = inputPicturePtr->strideCr;
+            ref_stride = input_picture_ptr->strideCr;
             in_buffer = reconBufferCr;
             in_stride = recon_picture_ptr->strideCr;
             break;
@@ -2220,19 +2220,19 @@ void av1_cdef_search16bit(
             ref_buffer = reconBufferY;
             ref_stride = recon_picture_ptr->strideY;
             in_buffer = inputBufferY;
-            in_stride = inputPicturePtr->strideY;
+            in_stride = input_picture_ptr->strideY;
             break;
         case 1:
             ref_buffer = reconBufferCb;
             ref_stride = recon_picture_ptr->strideCb;
             in_buffer = inputBufferCb;
-            in_stride = inputPicturePtr->strideCb;
+            in_stride = input_picture_ptr->strideCb;
             break;
         case 2:
             ref_buffer = reconBufferCr;
             ref_stride = recon_picture_ptr->strideCr;
             in_buffer = inputBufferCr;
-            in_stride = inputPicturePtr->strideCr;
+            in_stride = input_picture_ptr->strideCr;
             break;
 #endif
         }

@@ -369,7 +369,7 @@ void* MotionEstimationKernel(void *input_ptr)
     EbObjectWrapper_t           *outputResultsWrapperPtr;
     MotionEstimationResults_t   *outputResultsPtr;
 
-    EbPictureBufferDesc_t       *inputPicturePtr;
+    EbPictureBufferDesc_t       *input_picture_ptr;
 
     EbPictureBufferDesc_t       *inputPaddedPicturePtr;
 
@@ -424,7 +424,7 @@ void* MotionEstimationKernel(void *input_ptr)
 
         inputPaddedPicturePtr = (EbPictureBufferDesc_t*)paReferenceObject->inputPaddedPicturePtr;
 
-        inputPicturePtr = picture_control_set_ptr->enhanced_picture_ptr;
+        input_picture_ptr = picture_control_set_ptr->enhanced_picture_ptr;
 
         // Segments
         segment_index = inputResultsPtr->segment_index;
@@ -487,12 +487,12 @@ void* MotionEstimationKernel(void *input_ptr)
                     sb_height = (sequence_control_set_ptr->luma_height - sb_origin_y) < BLOCK_SIZE_64 ? sequence_control_set_ptr->luma_height - sb_origin_y : BLOCK_SIZE_64;
 
                     // Load the SB from the input to the intermediate SB buffer
-                    bufferIndex = (inputPicturePtr->origin_y + sb_origin_y) * inputPicturePtr->strideY + inputPicturePtr->origin_x + sb_origin_x;
+                    bufferIndex = (input_picture_ptr->origin_y + sb_origin_y) * input_picture_ptr->strideY + input_picture_ptr->origin_x + sb_origin_x;
 
                     context_ptr->me_context_ptr->hme_search_type = HME_RECTANGULAR;
 
                     for (lcuRow = 0; lcuRow < BLOCK_SIZE_64; lcuRow++) {
-                        EB_MEMCPY((&(context_ptr->me_context_ptr->sb_buffer[lcuRow * BLOCK_SIZE_64])), (&(inputPicturePtr->bufferY[bufferIndex + lcuRow * inputPicturePtr->strideY])), BLOCK_SIZE_64 * sizeof(uint8_t));
+                        EB_MEMCPY((&(context_ptr->me_context_ptr->sb_buffer[lcuRow * BLOCK_SIZE_64])), (&(input_picture_ptr->bufferY[bufferIndex + lcuRow * input_picture_ptr->strideY])), BLOCK_SIZE_64 * sizeof(uint8_t));
 
                     }
 
@@ -547,7 +547,7 @@ void* MotionEstimationKernel(void *input_ptr)
                         sb_origin_x,
                         sb_origin_y,
                         context_ptr->me_context_ptr,
-                        inputPicturePtr);
+                        input_picture_ptr);
 
                 }
             }
@@ -570,7 +570,7 @@ void* MotionEstimationKernel(void *input_ptr)
                         picture_control_set_ptr,
                         sb_index,
                         context_ptr,
-                        inputPicturePtr,
+                        input_picture_ptr,
                         asm_type);
 
 
