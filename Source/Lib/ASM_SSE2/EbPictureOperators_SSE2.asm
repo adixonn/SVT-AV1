@@ -211,7 +211,7 @@ Label_PictureCopyKernel_SSE2_WIDTH16:
 ; ----------------------------------------------------------------------------------------
 
 cglobal _ZeroOutCoeff4x4_SSE
-cglobal ZeroOutCoeff4x4_SSE
+cglobal zero_out_coeff4x4_sse
 
     lea             r0,             [r0+2*r2]
     lea             r3,             [r1+2*r1]
@@ -231,7 +231,7 @@ cglobal ZeroOutCoeff4x4_SSE
 ; ----------------------------------------------------------------------------------------
 
 cglobal _ZeroOutCoeff8x8_SSE2
-cglobal ZeroOutCoeff8x8_SSE2
+cglobal zero_out_coeff8x8_sse2
 
 ; TODO: use "movdqa" if coeffbuffer is guaranteed to be 16-byte aligned.
 
@@ -254,7 +254,7 @@ cglobal ZeroOutCoeff8x8_SSE2
 ; ----------------------------------------------------------------------------------------
 
 cglobal _ZeroOutCoeff16x16_SSE2
-cglobal ZeroOutCoeff16x16_SSE2
+cglobal zero_out_coeff16x16_sse2
 
 ; TODO: use "movdqa" if coeffbuffer is guaranteed to be 16-byte aligned.
 
@@ -304,7 +304,7 @@ cglobal ZeroOutCoeff16x16_SSE2
 ; ----------------------------------------------------------------------------------------
 
 cglobal _ZeroOutCoeff32x32_SSE2
-cglobal ZeroOutCoeff32x32_SSE2
+cglobal zero_out_coeff32x32_sse2
 
 ; TODO: use "movdqa" if coeffbuffer is guaranteed to be 16-byte aligned.
 

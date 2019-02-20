@@ -10,7 +10,7 @@
 /*******************************************************************************
                       PictureAdditionKernel_INTRIN
 *******************************************************************************/
-void PictureAdditionKernel4x4_SSE_INTRIN(
+void picture_addition_kernel4x4_sse_intrin(
     uint8_t  *pred_ptr,
     uint32_t  pred_stride,
     int16_t *residual_ptr,
@@ -39,7 +39,7 @@ void PictureAdditionKernel4x4_SSE_INTRIN(
     return;
 }
 
-void PictureAdditionKernel8x8_SSE2_INTRIN(
+void picture_addition_kernel8x8_sse2_intrin(
     uint8_t  *pred_ptr,
     uint32_t  pred_stride,
     int16_t *residual_ptr,
@@ -70,7 +70,7 @@ void PictureAdditionKernel8x8_SSE2_INTRIN(
     return;
 }
 
-void PictureAdditionKernel16x16_SSE2_INTRIN(
+void picture_addition_kernel16x16_sse2_intrin(
     uint8_t  *pred_ptr,
     uint32_t  pred_stride,
     int16_t *residual_ptr,
@@ -104,7 +104,7 @@ void PictureAdditionKernel16x16_SSE2_INTRIN(
     return;
 
 }
-void PictureAdditionKernel32x32_SSE2_INTRIN(
+void picture_addition_kernel32x32_sse2_intrin(
     uint8_t  *pred_ptr,
     uint32_t  pred_stride,
     int16_t *residual_ptr,
@@ -143,7 +143,7 @@ void PictureAdditionKernel32x32_SSE2_INTRIN(
     return;
 }
 
-void PictureAdditionKernel64x64_SSE2_INTRIN(
+void picture_addition_kernel64x64_sse2_intrin(
     uint8_t  *pred_ptr,
     uint32_t  pred_stride,
     int16_t *residual_ptr,
@@ -200,7 +200,7 @@ void PictureAdditionKernel64x64_SSE2_INTRIN(
 /******************************************************************************************************
 ResidualKernel
 ***********************************************************************************************************/
-void ResidualKernelSubSampled4x4_SSE_INTRIN(
+void residual_kernel_sub_sampled4x4_sse_intrin(
     uint8_t   *input,
     uint32_t   input_stride,
     uint8_t   *pred,
@@ -209,7 +209,7 @@ void ResidualKernelSubSampled4x4_SSE_INTRIN(
     uint32_t   residual_stride,
     uint32_t   area_width,
     uint32_t   area_height,
-    uint8_t    lastLine)
+    uint8_t    last_line)
 {
     __m128i residual_0_3, xmm0 = _mm_setzero_si128();
     uint32_t y;
@@ -235,7 +235,7 @@ void ResidualKernelSubSampled4x4_SSE_INTRIN(
     (void)area_width;
     //compute the last line
 
-    if (lastLine) {
+    if (last_line) {
         input -= (input_stride) >> 1;
         pred -= (pred_stride) >> 1;
         residual -= residual_stride;
@@ -248,7 +248,7 @@ void ResidualKernelSubSampled4x4_SSE_INTRIN(
     return;
 }
 
-void ResidualKernelSubSampled8x8_SSE2_INTRIN(
+void residual_kernel_sub_sampled8x8_sse2_intrin(
     uint8_t   *input,
     uint32_t   input_stride,
     uint8_t   *pred,
@@ -257,7 +257,7 @@ void ResidualKernelSubSampled8x8_SSE2_INTRIN(
     uint32_t   residual_stride,
     uint32_t   area_width,
     uint32_t   area_height,
-    uint8_t    lastLine
+    uint8_t    last_line
 
 )
 {
@@ -285,7 +285,7 @@ void ResidualKernelSubSampled8x8_SSE2_INTRIN(
     }
     (void)area_width;
     //compute the last line
-    if (lastLine) {
+    if (last_line) {
 
         input -= (input_stride) >> 1;
         pred -= (pred_stride) >> 1;
@@ -300,7 +300,7 @@ void ResidualKernelSubSampled8x8_SSE2_INTRIN(
     return;
 }
 
-void ResidualKernelSubSampled16x16_SSE2_INTRIN(
+void residual_kernel_sub_sampled16x16_sse2_intrin(
     uint8_t   *input,
     uint32_t   input_stride,
     uint8_t   *pred,
@@ -309,7 +309,7 @@ void ResidualKernelSubSampled16x16_SSE2_INTRIN(
     uint32_t   residual_stride,
     uint32_t   area_width,
     uint32_t   area_height,
-    uint8_t    lastLine
+    uint8_t    last_line
 
 )
 {
@@ -341,7 +341,7 @@ void ResidualKernelSubSampled16x16_SSE2_INTRIN(
     (void)area_width;
     //compute the last line
 
-    if (lastLine) {
+    if (last_line) {
 
         input -= (input_stride) >> 1;
         pred -= (pred_stride) >> 1;
@@ -357,7 +357,7 @@ void ResidualKernelSubSampled16x16_SSE2_INTRIN(
     return;
 }
 
-void ResidualKernelSubSampled32x32_SSE2_INTRIN(
+void residual_kernel_sub_sampled32x32_sse2_intrin(
     uint8_t   *input,
     uint32_t   input_stride,
     uint8_t   *pred,
@@ -366,7 +366,7 @@ void ResidualKernelSubSampled32x32_SSE2_INTRIN(
     uint32_t   residual_stride,
     uint32_t   area_width,
     uint32_t   area_height,
-    uint8_t    lastLine)
+    uint8_t    last_line)
 {
     __m128i xmm0, residual_0_7, residual_8_15, residual_16_23, residual_24_31;
     uint32_t y;
@@ -404,7 +404,7 @@ void ResidualKernelSubSampled32x32_SSE2_INTRIN(
     (void)area_width;
     //compute the last line
 
-    if (lastLine) {
+    if (last_line) {
         input -= (input_stride) >> 1;
         pred -= (pred_stride) >> 1;
         residual -= residual_stride;
@@ -424,7 +424,7 @@ void ResidualKernelSubSampled32x32_SSE2_INTRIN(
 }
 
 
-void ResidualKernelSubSampled64x64_SSE2_INTRIN(
+void residual_kernel_sub_sampled64x64_sse2_intrin(
     uint8_t   *input,
     uint32_t   input_stride,
     uint8_t   *pred,
@@ -433,7 +433,7 @@ void ResidualKernelSubSampled64x64_SSE2_INTRIN(
     uint32_t   residual_stride,
     uint32_t   area_width,
     uint32_t   area_height,
-    uint8_t    lastLine)
+    uint8_t    last_line)
 {
     __m128i xmm0, residual_0_7, residual_8_15, residual_16_23, residual_24_31, resdiaul_32_39, residual_40_47, residual_48_55, residual_56_63;
     uint32_t y;
@@ -483,7 +483,7 @@ void ResidualKernelSubSampled64x64_SSE2_INTRIN(
     (void)area_width;
     //compute the last line
 
-    if (lastLine) {
+    if (last_line) {
         input -= (input_stride) >> 1;
         pred -= (pred_stride) >> 1;
         residual -= residual_stride;
@@ -511,9 +511,9 @@ void ResidualKernelSubSampled64x64_SSE2_INTRIN(
     return;
 }
 /******************************************************************************************************
-                                       ResidualKernel16bit_SSE2_INTRIN
+                                       residual_kernel16bit_sse2_intrin
 ******************************************************************************************************/
-void ResidualKernel16bit_SSE2_INTRIN(
+void residual_kernel16bit_sse2_intrin(
     uint16_t   *input,
     uint32_t   input_stride,
     uint16_t   *pred,
@@ -670,11 +670,11 @@ void ResidualKernel16bit_SSE2_INTRIN(
 }
 
 /******************************************************************************************************
-                                   PictureAdditionKernel16bit_SSE2_INTRIN
+                                   picture_addition_kernel16bit_sse2_intrin
 ******************************************************************************************************/
 
 
-void PictureAdditionKernel16bit_SSE2_INTRIN(
+void picture_addition_kernel16bit_sse2_intrin(
     uint16_t  *pred_ptr,
     uint32_t  pred_stride,
     int16_t *residual_ptr,

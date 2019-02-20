@@ -335,7 +335,7 @@ extern "C" {
     typedef void(*EB_ZEROCOEFF_TYPE)(
         int16_t*                  coeffbuffer,
         uint32_t                   coeff_stride,
-        uint32_t                   coeffOriginIndex,
+        uint32_t                   coeff_origin_index,
         uint32_t                   area_width,
         uint32_t                   area_height);
 
@@ -362,27 +362,27 @@ extern "C" {
     static EB_ADDDKERNEL_TYPE FUNC_TABLE AdditionKernel_funcPtrArray[ASM_TYPE_TOTAL][9] = {
         // NON_AVX2
         {
-            /*0 4x4   */    PictureAdditionKernel4x4_SSE_INTRIN,
-            /*1 8x8   */    PictureAdditionKernel8x8_SSE2_INTRIN,
-            /*2 16x16 */    PictureAdditionKernel16x16_SSE2_INTRIN,
+            /*0 4x4   */    picture_addition_kernel4x4_sse_intrin,
+            /*1 8x8   */    picture_addition_kernel8x8_sse2_intrin,
+            /*2 16x16 */    picture_addition_kernel16x16_sse2_intrin,
             /*3       */    (EB_ADDDKERNEL_TYPE)PictureAdditionVoidFunc,
-            /*4 32x32 */    PictureAdditionKernel32x32_SSE2_INTRIN,
+            /*4 32x32 */    picture_addition_kernel32x32_sse2_intrin,
             /*5       */    (EB_ADDDKERNEL_TYPE)PictureAdditionVoidFunc,
             /*6       */    (EB_ADDDKERNEL_TYPE)PictureAdditionVoidFunc,
             /*7       */    (EB_ADDDKERNEL_TYPE)PictureAdditionVoidFunc,
-            /*8 64x64 */    PictureAdditionKernel64x64_SSE2_INTRIN,
+            /*8 64x64 */    picture_addition_kernel64x64_sse2_intrin,
         },
         // AVX2
         {
-            /*0 4x4   */    PictureAdditionKernel4x4_SSE_INTRIN,
-            /*1 8x8   */    PictureAdditionKernel8x8_SSE2_INTRIN,
-            /*2 16x16 */    PictureAdditionKernel16x16_SSE2_INTRIN,
+            /*0 4x4   */    picture_addition_kernel4x4_sse_intrin,
+            /*1 8x8   */    picture_addition_kernel8x8_sse2_intrin,
+            /*2 16x16 */    picture_addition_kernel16x16_sse2_intrin,
             /*3       */    (EB_ADDDKERNEL_TYPE)PictureAdditionVoidFunc,
-            /*4 32x32 */    PictureAdditionKernel32x32_SSE2_INTRIN,
+            /*4 32x32 */    picture_addition_kernel32x32_sse2_intrin,
             /*5       */    (EB_ADDDKERNEL_TYPE)PictureAdditionVoidFunc,
             /*6       */    (EB_ADDDKERNEL_TYPE)PictureAdditionVoidFunc,
             /*7       */    (EB_ADDDKERNEL_TYPE)PictureAdditionVoidFunc,
-            /*8 64x64 */    PictureAdditionKernel64x64_SSE2_INTRIN,
+            /*8 64x64 */    picture_addition_kernel64x64_sse2_intrin,
         },
     };
 
@@ -416,9 +416,9 @@ extern "C" {
 
     static EB_ADDDKERNEL_TYPE_16BIT FUNC_TABLE AdditionKernel_funcPtrArray16bit[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        PictureAdditionKernel16bit_SSE2_INTRIN,
+        picture_addition_kernel16bit_sse2_intrin,
         // AVX2
-        PictureAdditionKernel16bit_SSE2_INTRIN,
+        picture_addition_kernel16bit_sse2_intrin,
     };
 
     typedef void(*EB_RESDKERNELSUBSAMPLED_TYPE)(
@@ -430,32 +430,32 @@ extern "C" {
         uint32_t   residual_stride,
         uint32_t   area_width,
         uint32_t   area_height,
-        uint8_t    lastLine
+        uint8_t    last_line
         );
     static EB_RESDKERNELSUBSAMPLED_TYPE FUNC_TABLE ResidualKernelSubSampled_funcPtrArray[ASM_TYPE_TOTAL][9] = {
         // NON_AVX2
         {
-            /*0 4x4  */     ResidualKernelSubSampled4x4_SSE_INTRIN,
-            /*1 8x8  */     ResidualKernelSubSampled8x8_SSE2_INTRIN,
-            /*2 16x16 */    ResidualKernelSubSampled16x16_SSE2_INTRIN,
+            /*0 4x4  */     residual_kernel_sub_sampled4x4_sse_intrin,
+            /*1 8x8  */     residual_kernel_sub_sampled8x8_sse2_intrin,
+            /*2 16x16 */    residual_kernel_sub_sampled16x16_sse2_intrin,
             /*3  */         (EB_RESDKERNELSUBSAMPLED_TYPE)PicResdVoidFunc,
-            /*4 32x32 */    ResidualKernelSubSampled32x32_SSE2_INTRIN,
+            /*4 32x32 */    residual_kernel_sub_sampled32x32_sse2_intrin,
             /*5      */     (EB_RESDKERNELSUBSAMPLED_TYPE)PicResdVoidFunc,
             /*6  */         (EB_RESDKERNELSUBSAMPLED_TYPE)PicResdVoidFunc,
             /*7      */     (EB_RESDKERNELSUBSAMPLED_TYPE)PicResdVoidFunc,
-            /*8 64x64 */    ResidualKernelSubSampled64x64_SSE2_INTRIN,
+            /*8 64x64 */    residual_kernel_sub_sampled64x64_sse2_intrin,
         },
         // AVX2
         {
-            /*0 4x4  */     ResidualKernelSubSampled4x4_SSE_INTRIN,
-            /*1 8x8  */     ResidualKernelSubSampled8x8_SSE2_INTRIN,
-            /*2 16x16 */    ResidualKernelSubSampled16x16_SSE2_INTRIN,
+            /*0 4x4  */     residual_kernel_sub_sampled4x4_sse_intrin,
+            /*1 8x8  */     residual_kernel_sub_sampled8x8_sse2_intrin,
+            /*2 16x16 */    residual_kernel_sub_sampled16x16_sse2_intrin,
             /*3  */         (EB_RESDKERNELSUBSAMPLED_TYPE)PicResdVoidFunc,
-            /*4 32x32 */    ResidualKernelSubSampled32x32_SSE2_INTRIN,
+            /*4 32x32 */    residual_kernel_sub_sampled32x32_sse2_intrin,
             /*5      */     (EB_RESDKERNELSUBSAMPLED_TYPE)PicResdVoidFunc,
             /*6  */         (EB_RESDKERNELSUBSAMPLED_TYPE)PicResdVoidFunc,
             /*7      */     (EB_RESDKERNELSUBSAMPLED_TYPE)PicResdVoidFunc,
-            /*8 64x64 */    ResidualKernelSubSampled64x64_SSE2_INTRIN,
+            /*8 64x64 */    residual_kernel_sub_sampled64x64_sse2_intrin,
         },
     };
 
@@ -481,27 +481,27 @@ extern "C" {
 
     static EB_RESDKERNEL_TYPE_16BIT FUNC_TABLE ResidualKernel_funcPtrArray16Bit[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        ResidualKernel16bit_SSE2_INTRIN,
+        residual_kernel16bit_sse2_intrin,
         // AVX2
-        ResidualKernel16bit_SSE2_INTRIN,
+        residual_kernel16bit_sse2_intrin,
     };
 
     static EB_ZEROCOEFF_TYPE FUNC_TABLE PicZeroOutCoef_funcPtrArray[ASM_TYPE_TOTAL][5] = {
         // NON_AVX2
         {
-            /*0 4x4   */     ZeroOutCoeff4x4_SSE,
-            /*1 8x8   */     ZeroOutCoeff8x8_SSE2,
-            /*2 16x16 */     ZeroOutCoeff16x16_SSE2,
+            /*0 4x4   */     zero_out_coeff4x4_sse,
+            /*1 8x8   */     zero_out_coeff8x8_sse2,
+            /*2 16x16 */     zero_out_coeff16x16_sse2,
             /*3       */     (EB_ZEROCOEFF_TYPE)PicZeroOutCoefVoidFunc,
-            /*4 32x32 */     ZeroOutCoeff32x32_SSE2
+            /*4 32x32 */     zero_out_coeff32x32_sse2
         },
         // AVX2
         {
-            /*0 4x4   */     ZeroOutCoeff4x4_SSE,
-            /*1 8x8   */     ZeroOutCoeff8x8_SSE2,
-            /*2 16x16 */     ZeroOutCoeff16x16_SSE2,
+            /*0 4x4   */     zero_out_coeff4x4_sse,
+            /*1 8x8   */     zero_out_coeff8x8_sse2,
+            /*2 16x16 */     zero_out_coeff16x16_sse2,
             /*3       */     (EB_ZEROCOEFF_TYPE)PicZeroOutCoefVoidFunc,
-            /*4 32x32 */     ZeroOutCoeff32x32_SSE2
+            /*4 32x32 */     zero_out_coeff32x32_sse2
         },
     };
 
