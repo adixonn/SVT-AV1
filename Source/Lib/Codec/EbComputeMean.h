@@ -24,15 +24,15 @@ extern "C" {
     static const EB_COMPUTE_MEAN_FUNC ComputeMeanFunc[2][ASM_TYPE_TOTAL] = {
         {
             // NON_AVX2
-            ComputeMean8x8_SSE2_INTRIN,
+            compute_mean8x8_sse2_intrin,
             // AVX2
             compute_mean8x8_avx2_intrin
         },
         {
             // NON_AVX2
-            ComputeMeanOfSquaredValues8x8_SSE2_INTRIN,
+            compute_mean_of_squared_values8x8_sse2_intrin,
             // AVX2
-            ComputeMeanOfSquaredValues8x8_SSE2_INTRIN
+            compute_mean_of_squared_values8x8_sse2_intrin
         }
     };
 

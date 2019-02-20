@@ -6,7 +6,7 @@
 #include "emmintrin.h"
 #include "EbComputeMean_SSE2.h"
 
-uint64_t ComputeSubdMeanOfSquaredValues8x8_SSE2_INTRIN(
+uint64_t compute_subd_mean_of_squared_values8x8_sse2_intrin(
     uint8_t *  input_samples,      // input parameter, input samples Ptr
     uint16_t   input_stride)       // input parameter, input stride
 
@@ -49,7 +49,7 @@ uint64_t ComputeSubdMeanOfSquaredValues8x8_SSE2_INTRIN(
 
 }
 
-uint64_t ComputeSubMean8x8_SSE2_INTRIN(
+uint64_t compute_sub_mean8x8_sse2_intrin(
     uint8_t *  input_samples,      // input parameter, input samples Ptr
     uint16_t   input_stride)       // input parameter, input stride
 
@@ -77,7 +77,7 @@ uint64_t ComputeSubMean8x8_SSE2_INTRIN(
 
 
 
-uint64_t ComputeMeanOfSquaredValues8x8_SSE2_INTRIN(
+uint64_t compute_mean_of_squared_values8x8_sse2_intrin(
     uint8_t *  input_samples,      // input parameter, input samples Ptr
     uint32_t   input_stride,       // input parameter, input stride
     uint32_t   input_area_width,    // input parameter, input area width
@@ -117,7 +117,7 @@ uint64_t ComputeMeanOfSquaredValues8x8_SSE2_INTRIN(
     return (uint64_t)_mm_cvtsi128_si32(xmm_blockMean) << 10;
 }
 
-uint64_t ComputeMean8x8_SSE2_INTRIN(
+uint64_t compute_mean8x8_sse2_intrin(
     uint8_t *  input_samples,      // input parameter, input samples Ptr
     uint32_t   input_stride,       // input parameter, input stride
     uint32_t   input_area_width,    // input parameter, input area width
