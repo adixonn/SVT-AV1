@@ -4105,15 +4105,15 @@ extern "C" {
     static EB_QIQ_TYPE FUNC_TABLE QiQ_funcPtrArray[ASM_TYPE_TOTAL][5] = {
         // NON_AVX2
         {
-            /*0 4x4   */     QuantizeInvQuantize4x4_SSE3,
-            /*1 8x8   */     QuantizeInvQuantize8x8_SSE3,
-            /*2 16x16 */     QuantizeInvQuantizeNxN_SSE3,
+            /*0 4x4   */     quantize_inv_quantize4x4_sse3,
+            /*1 8x8   */     quantize_inv_quantize8x8_sse3,
+            /*2 16x16 */     quantize_inv_quantize_nx_n_sse3,
             /*3       */     (EB_QIQ_TYPE)QiQVoidFunc,
-            /*4 32x32 */     QuantizeInvQuantizeNxN_SSE3
+            /*4 32x32 */     quantize_inv_quantize_nx_n_sse3
         },
         // AVX2
         {
-            /*0 4x4   */    QuantizeInvQuantize4x4_SSE3,
+            /*0 4x4   */    quantize_inv_quantize4x4_sse3,
             /*1 8x8   */     quantize_inv_quantize8x8_avx2_intrin,
             /*2 16x16 */     quantize_inv_quantize_nxn_avx2_intrin,
             /*3       */    (EB_QIQ_TYPE)QiQVoidFunc,
@@ -4144,8 +4144,8 @@ extern "C" {
     static const EB_TRANSFORM_FUNC transformFunctionTableEstimate[ASM_TYPE_TOTAL][5] = {
         // NON_AVX2
         {
-            lowPrecisionTransform32x32_SSSE3,
-            lowPrecisionTransform16x16_SSSE3,
+            low_precision_transform32x32_ssse3,
+            low_precision_transform16x16_ssse3,
             transform8x8_sse4_1_intrin,
             transform4x4_sse2_intrin,
             dst_transform4x4_sse2_intrin
@@ -4235,16 +4235,16 @@ extern "C" {
     static const EB_INVTRANSFORM_FUNC invTransformFunctionTableEncode[ASM_TYPE_TOTAL][5] = {
         // NON_AVX2
         {
-            PFinvTransform32x32_SSSE3,
-            PFinvTransform16x16_SSSE3,
+            p_finv_transform32x32_ssse3,
+            p_finv_transform16x16_ssse3,
             inv_transform8x8_sse2_intrin,
             inv_transform4x4_sse2_intrin,
             inv_dst_transform4x4_sse2_intrin
         },
         // AVX2
         {
-            PFinvTransform32x32_SSSE3,
-            PFinvTransform16x16_SSSE3,
+            p_finv_transform32x32_ssse3,
+            p_finv_transform16x16_ssse3,
             inv_transform8x8_sse2_intrin,
             inv_transform4x4_sse2_intrin,
             inv_dst_transform4x4_sse2_intrin

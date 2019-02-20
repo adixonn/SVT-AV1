@@ -302,7 +302,7 @@ static void transform16(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_
 
 
 // forward 16x16 transform
-void lowPrecisionTransform16x16_SSSE3(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride, int16_t *intermediate, uint32_t addshift)
+void low_precision_transform16x16_ssse3(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride, int16_t *intermediate, uint32_t addshift)
 {
     transform16(src, src_stride, intermediate, 16, (int16_t)(4 + addshift));
     transpose16(intermediate, 16, dst, dst_stride);
@@ -463,7 +463,7 @@ static void invTransform16Partial(int16_t *src, uint32_t src_stride, int16_t *ds
 }
 
 // inverse 16x16 transform
-void PFinvTransform16x16_SSSE3(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride, int16_t *intermediate, uint32_t addshift)
+void p_finv_transform16x16_ssse3(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride, int16_t *intermediate, uint32_t addshift)
 {
 
     uint32_t pattern = transpose16Check0s(src, src_stride, intermediate, 16);
@@ -812,7 +812,7 @@ static void transform32(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_
 }
 
 // forward 32x32 transform
-void lowPrecisionTransform32x32_SSSE3(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride, int16_t *intermediate, uint32_t addshift)
+void low_precision_transform32x32_ssse3(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride, int16_t *intermediate, uint32_t addshift)
 {
     transform32(src, src_stride, intermediate, 32, 6 + addshift);
     transpose32(intermediate, 32, dst, dst_stride);
@@ -1498,7 +1498,7 @@ static void invTransform32Partial(int16_t *src, uint32_t src_stride, int16_t *ds
 }
 
 // inverse 32x32 transform
-void PFinvTransform32x32_SSSE3(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride, int16_t *intermediate, uint32_t addshift)
+void p_finv_transform32x32_ssse3(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride, int16_t *intermediate, uint32_t addshift)
 {
 
     uint32_t pattern = transpose32Check0s(src, src_stride, intermediate, 32);
@@ -1511,7 +1511,7 @@ void PFinvTransform32x32_SSSE3(int16_t *src, uint32_t src_stride, int16_t *dst, 
 }
 
 
-void QuantizeInvQuantizeNxN_SSE3(
+void quantize_inv_quantize_nx_n_sse3(
     int16_t          *coeff,
     const uint32_t     coeff_stride,
     int16_t          *quant_coeff,
@@ -1592,7 +1592,7 @@ void QuantizeInvQuantizeNxN_SSE3(
     *nonzerocoeff = _mm_cvtsi128_si32(z);
 }
 
-void QuantizeInvQuantize8x8_SSE3(
+void quantize_inv_quantize8x8_sse3(
     int16_t          *coeff,
     const uint32_t     coeff_stride,
     int16_t          *quant_coeff,
@@ -1671,7 +1671,7 @@ void QuantizeInvQuantize8x8_SSE3(
     *nonzerocoeff = _mm_cvtsi128_si32(z);
 }
 
-void QuantizeInvQuantize4x4_SSE3(
+void quantize_inv_quantize4x4_sse3(
     int16_t          *coeff,
     const uint32_t     coeff_stride,
     int16_t          *quant_coeff,
