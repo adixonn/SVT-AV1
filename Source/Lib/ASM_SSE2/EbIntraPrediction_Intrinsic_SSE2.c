@@ -97,7 +97,7 @@
     _mm_storeu_si128((__m128i *)(prediction_ptr+3*pStride+16), left14);
 
 
-void IntraModeVerticalLuma_SSE2_INTRIN(
+void intra_mode_vertical_luma_sse2_intrin(
     const uint32_t      size,                   //input parameter, denotes the size of the current PU
     uint8_t            *ref_samples,             //input parameter, pointer to the reference samples
     uint8_t            *prediction_ptr,          //output parameter, pointer to the prediction
@@ -218,7 +218,7 @@ void IntraModeVerticalLuma_SSE2_INTRIN(
     return;
 }
 
-void IntraModeVerticalChroma_SSE2_INTRIN(
+void intra_mode_vertical_chroma_sse2_intrin(
     const uint32_t      size,                   //input parameter, denotes the size of the current PU
     uint8_t            *ref_samples,             //input parameter, pointer to the reference samples
     uint8_t            *prediction_ptr,          //output parameter, pointer to the prediction
@@ -303,7 +303,7 @@ void IntraModeVerticalChroma_SSE2_INTRIN(
     }
 }
 
-void IntraModeHorizontalLuma_SSE2_INTRIN(
+void intra_mode_horizontal_luma_sse2_intrin(
     const uint32_t      size,                   //input parameter, denotes the size of the current PU
     uint8_t            *ref_samples,             //input parameter, pointer to the reference samples
     uint8_t            *prediction_ptr,          //output parameter, pointer to the prediction
@@ -607,7 +607,7 @@ void IntraModeHorizontalLuma_SSE2_INTRIN(
 }
 
 
-void IntraModeHorizontalChroma_SSE2_INTRIN(
+void intra_mode_horizontal_chroma_sse2_intrin(
     const uint32_t      size,                   //input parameter, denotes the size of the current PU
     uint8_t            *ref_samples,             //input parameter, pointer to the reference samples
     uint8_t            *prediction_ptr,          //output parameter, pointer to the prediction
@@ -746,7 +746,7 @@ void IntraModeHorizontalChroma_SSE2_INTRIN(
     }
 }
 
-void IntraModeDCLuma_SSE2_INTRIN(
+void intra_mode_dc_luma_sse2_intrin(
     const uint32_t      size,                       //input parameter, denotes the size of the current PU
     uint8_t            *ref_samples,                 //input parameter, pointer to the reference samples
     uint8_t            *prediction_ptr,              //output parameter, pointer to the prediction
@@ -1019,7 +1019,7 @@ void IntraModeDCLuma_SSE2_INTRIN(
 }
 
 
-void IntraModeDCChroma_SSE2_INTRIN(
+void intra_mode_dc_chroma_sse2_intrin(
     const uint32_t      size,                       //input parameter, denotes the size of the current PU
     uint8_t            *ref_samples,                 //input parameter, pointer to the reference samples
     uint8_t            *prediction_ptr,              //output parameter, pointer to the prediction
@@ -1162,7 +1162,7 @@ void IntraModeDCChroma_SSE2_INTRIN(
     }
 }
 
-void IntraModePlanar16bit_SSE2_INTRIN(
+void intra_mode_planar16bit_sse2_intrin(
     const uint32_t   size,                       //input parameter, denotes the size of the current PU
     uint16_t         *ref_samples,                 //input parameter, pointer to the reference samples
     uint16_t         *prediction_ptr,              //output parameter, pointer to the prediction
@@ -1478,7 +1478,7 @@ void IntraModePlanar16bit_SSE2_INTRIN(
 
 
 
-void IntraModeAngular_2_SSE2_INTRIN(
+void intra_mode_angular_2_sse2_intrin(
     const uint32_t      size,                       //input parameter, denotes the size of the current PU
     uint8_t            *ref_samples,                 //input parameter, pointer to the reference samples
     uint8_t            *prediction_ptr,              //output parameter, pointer to the prediction
@@ -1593,7 +1593,7 @@ void IntraModeAngular_2_SSE2_INTRIN(
 
 
 
-void IntraModeAngular_34_SSE2_INTRIN(
+void intra_mode_angular_34_sse2_intrin(
     const uint32_t      size,                       //input parameter, denotes the size of the current PU
     uint8_t            *ref_samples,                 //input parameter, pointer to the reference samples
     uint8_t            *prediction_ptr,              //output parameter, pointer to the prediction
@@ -1709,7 +1709,7 @@ void IntraModeAngular_34_SSE2_INTRIN(
 
 
 
-void IntraModeAngular_18_SSE2_INTRIN(
+void intra_mode_angular_18_sse2_intrin(
     const uint32_t      size,                       //input parameter, denotes the size of the current PU
     uint8_t            *ref_samples,                 //input parameter, pointer to the reference samples
     uint8_t            *prediction_ptr,              //output parameter, pointer to the prediction
@@ -1823,7 +1823,7 @@ void IntraModeAngular_18_SSE2_INTRIN(
     }
 }
 
-void IntraModePlanar_SSE2_INTRIN(
+void intra_mode_planar_sse2_intrin(
     const uint32_t      size,                       //input parameter, denotes the size of the current PU
     uint8_t            *ref_samples,                 //input parameter, pointer to the reference samples
     uint8_t            *prediction_ptr,              //output parameter, pointer to the prediction

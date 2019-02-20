@@ -75,7 +75,7 @@ static INLINE void dc_store_16xh(const __m128i *row, int32_t height, uint8_t *ds
     }
 }
 
-void IntraModeDC_16x16_AV1_SSE2_INTRIN(
+void intra_mode_dc_16x16_av1_sse2_intrin(
     EbBool                         is_left_availble,
     EbBool                         is_above_availble,
     const uint32_t   size,                       //input parameter, denotes the size of the current PU
@@ -140,7 +140,7 @@ static INLINE __m128i dc_sum_8(const uint8_t *ref) {
     return _mm_sad_epu8(x, zero);
 }
 
-void IntraModeDC_8x8_AV1_SSE2_INTRIN(
+void intra_mode_dc_8x8_av1_sse2_intrin(
     EbBool                         is_left_availble,
     EbBool                         is_above_availble,
     const uint32_t   size,                       //input parameter, denotes the size of the current PU
@@ -204,7 +204,7 @@ static INLINE void dc_store_4x4(uint32_t dc, uint8_t *dst, ptrdiff_t stride) {
         dst += stride;
     }
 }
-void IntraModeDC_4x4_AV1_SSE2_INTRIN(
+void intra_mode_dc_4x4_av1_sse2_intrin(
     EbBool                         is_left_availble,
     EbBool                         is_above_availble,
     const uint32_t   size,                       //input parameter, denotes the size of the current PU

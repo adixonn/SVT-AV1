@@ -538,7 +538,7 @@ extern "C" {
     ***************************************/
     static EB_INTRA_NOANG_TYPE FUNC_TABLE IntraVerticalLuma_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        IntraModeVerticalLuma_SSE2_INTRIN,
+        intra_mode_vertical_luma_sse2_intrin,
         // AVX2
         intra_mode_vertical_luma_avx2_intrin,
 
@@ -547,25 +547,25 @@ extern "C" {
 
     static EB_INTRA_NOANG_TYPE FUNC_TABLE IntraVerticalChroma_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        IntraModeVerticalChroma_SSE2_INTRIN,
+        intra_mode_vertical_chroma_sse2_intrin,
         // AVX2
-        IntraModeVerticalChroma_SSE2_INTRIN,
+        intra_mode_vertical_chroma_sse2_intrin,
     };
 
 
     static EB_INTRA_NOANG_TYPE FUNC_TABLE IntraHorzLuma_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        IntraModeHorizontalLuma_SSE2_INTRIN,
+        intra_mode_horizontal_luma_sse2_intrin,
         // AVX2
-        IntraModeHorizontalLuma_SSE2_INTRIN,
+        intra_mode_horizontal_luma_sse2_intrin,
     };
 
 
     static EB_INTRA_NOANG_TYPE FUNC_TABLE IntraHorzChroma_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        IntraModeHorizontalChroma_SSE2_INTRIN,
+        intra_mode_horizontal_chroma_sse2_intrin,
         // AVX2
-        IntraModeHorizontalChroma_SSE2_INTRIN,
+        intra_mode_horizontal_chroma_sse2_intrin,
     };
 
 #if !QT_10BIT_SUPPORT
@@ -576,21 +576,21 @@ extern "C" {
             // NON_AVX2
             highbd_dc_predictor,
             // AVX2
-            IntraModeDC_4x4_AV1_SSE2_INTRIN,
+            intra_mode_dc_4x4_av1_sse2_intrin,
         },
         // 8x8
         {
             // NON_AVX2
             highbd_dc_predictor,
             // AVX2
-            IntraModeDC_8x8_AV1_SSE2_INTRIN,
+            intra_mode_dc_8x8_av1_sse2_intrin,
         },
         // 16x16
         {
             // NON_AVX2
             highbd_dc_predictor,
             // AVX2
-            IntraModeDC_16x16_AV1_SSE2_INTRIN,
+            intra_mode_dc_16x16_av1_sse2_intrin,
 
         },
         // NxN
@@ -647,7 +647,7 @@ extern "C" {
 #endif
     static EB_INTRA_NOANG_TYPE FUNC_TABLE IntraDCLuma_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        IntraModeDCLuma_SSE2_INTRIN,
+        intra_mode_dc_luma_sse2_intrin,
         // AVX2
         intra_mode_dc_luma_avx2_intrin,
 
@@ -670,15 +670,15 @@ extern "C" {
 
     static EB_INTRA_NOANG_TYPE FUNC_TABLE IntraDCChroma_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        IntraModeDCChroma_SSE2_INTRIN,
+        intra_mode_dc_chroma_sse2_intrin,
         // AVX2
-        IntraModeDCChroma_SSE2_INTRIN,
+        intra_mode_dc_chroma_sse2_intrin,
     };
 
 
     static EB_INTRA_NOANG_TYPE FUNC_TABLE IntraPlanar_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        IntraModePlanar_SSE2_INTRIN,
+        intra_mode_planar_sse2_intrin,
         // AVX2
         intra_mode_planar_avx2_intrin,
     };
@@ -724,14 +724,14 @@ extern "C" {
 
     static EB_INTRA_NOANG_16bit_TYPE FUNC_TABLE IntraPlanar_16bit_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        IntraModePlanar16bit_SSE2_INTRIN,
+        intra_mode_planar16bit_sse2_intrin,
         // AVX2
-        IntraModePlanar16bit_SSE2_INTRIN,
+        intra_mode_planar16bit_sse2_intrin,
     };
 
     static EB_INTRA_NOANG_TYPE FUNC_TABLE IntraAng34_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        IntraModeAngular_34_SSE2_INTRIN,
+        intra_mode_angular_34_sse2_intrin,
         // AVX2
         intra_mode_angular_34_avx2_intrin,
     };
@@ -739,7 +739,7 @@ extern "C" {
 
     static EB_INTRA_NOANG_TYPE FUNC_TABLE IntraAng18_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        IntraModeAngular_18_SSE2_INTRIN,
+        intra_mode_angular_18_sse2_intrin,
         // AVX2
         intra_mode_angular_18_avx2_intrin,
 
@@ -748,7 +748,7 @@ extern "C" {
 
     static EB_INTRA_NOANG_TYPE FUNC_TABLE IntraAng2_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        IntraModeAngular_2_SSE2_INTRIN,
+        intra_mode_angular_2_sse2_intrin,
         // AVX2
         intra_mode_angular_2_avx2_intrin,
     };
