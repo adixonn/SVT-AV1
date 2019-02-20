@@ -230,40 +230,40 @@ extern "C" {
         // NON_AVX2
         {
             avc_style_copy_sse2,                                    //A
-            AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN,       //a
-            AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN,       //b
-            AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN,       //c
-            AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN,         //d
-            AvcStyleLumaInterpolationFilterPose_SSSE3,             //e
-            AvcStyleLumaInterpolationFilterPosf_SSSE3,             //f
-            AvcStyleLumaInterpolationFilterPosg_SSSE3,             //g
-            AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN,         //h
-            AvcStyleLumaInterpolationFilterPosi_SSSE3,             //i
-            AvcStyleLumaInterpolationFilterPosj_SSSE3,             //j
-            AvcStyleLumaInterpolationFilterPosk_SSSE3,             //k
-            AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN,         //n
-            AvcStyleLumaInterpolationFilterPosp_SSSE3,             //p
-            AvcStyleLumaInterpolationFilterPosq_SSSE3,             //q
-            AvcStyleLumaInterpolationFilterPosr_SSSE3,             //r
+            avc_style_luma_interpolation_filter_horizontal_ssse3_intrin,       //a
+            avc_style_luma_interpolation_filter_horizontal_ssse3_intrin,       //b
+            avc_style_luma_interpolation_filter_horizontal_ssse3_intrin,       //c
+            avc_style_luma_interpolation_filter_vertical_ssse3_intrin,         //d
+            avc_style_luma_interpolation_filter_pose_ssse3,             //e
+            avc_style_luma_interpolation_filter_posf_ssse3,             //f
+            avc_style_luma_interpolation_filter_posg_ssse3,             //g
+            avc_style_luma_interpolation_filter_vertical_ssse3_intrin,         //h
+            avc_style_luma_interpolation_filter_posi_ssse3,             //i
+            avc_style_luma_interpolation_filter_posj_ssse3,             //j
+            avc_style_luma_interpolation_filter_posk_ssse3,             //k
+            avc_style_luma_interpolation_filter_vertical_ssse3_intrin,         //n
+            avc_style_luma_interpolation_filter_posp_ssse3,             //p
+            avc_style_luma_interpolation_filter_posq_ssse3,             //q
+            avc_style_luma_interpolation_filter_posr_ssse3,             //r
         },
         // AVX2
         {
             avc_style_copy_sse2,                                    //A
-            AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN,       //a
-            AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN,       //b
-            AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN,       //c
-            AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN,         //d
-            AvcStyleLumaInterpolationFilterPose_SSSE3,             //e
-            AvcStyleLumaInterpolationFilterPosf_SSSE3,             //f
-            AvcStyleLumaInterpolationFilterPosg_SSSE3,             //g
-            AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN,         //h
-            AvcStyleLumaInterpolationFilterPosi_SSSE3,             //i
-            AvcStyleLumaInterpolationFilterPosj_SSSE3,             //j
-            AvcStyleLumaInterpolationFilterPosk_SSSE3,             //k
-            AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN,         //n
-            AvcStyleLumaInterpolationFilterPosp_SSSE3,             //p
-            AvcStyleLumaInterpolationFilterPosq_SSSE3,             //q
-            AvcStyleLumaInterpolationFilterPosr_SSSE3,             //r
+            avc_style_luma_interpolation_filter_horizontal_ssse3_intrin,       //a
+            avc_style_luma_interpolation_filter_horizontal_ssse3_intrin,       //b
+            avc_style_luma_interpolation_filter_horizontal_ssse3_intrin,       //c
+            avc_style_luma_interpolation_filter_vertical_ssse3_intrin,         //d
+            avc_style_luma_interpolation_filter_pose_ssse3,             //e
+            avc_style_luma_interpolation_filter_posf_ssse3,             //f
+            avc_style_luma_interpolation_filter_posg_ssse3,             //g
+            avc_style_luma_interpolation_filter_vertical_ssse3_intrin,         //h
+            avc_style_luma_interpolation_filter_posi_ssse3,             //i
+            avc_style_luma_interpolation_filter_posj_ssse3,             //j
+            avc_style_luma_interpolation_filter_posk_ssse3,             //k
+            avc_style_luma_interpolation_filter_vertical_ssse3_intrin,         //n
+            avc_style_luma_interpolation_filter_posp_ssse3,             //p
+            avc_style_luma_interpolation_filter_posq_ssse3,             //q
+            avc_style_luma_interpolation_filter_posr_ssse3,             //r
         },
     };
 
