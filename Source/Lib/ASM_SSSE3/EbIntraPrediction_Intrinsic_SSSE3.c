@@ -151,8 +151,8 @@ extern void IntraModeAngular_Horizontal_Kernel_SSSE3_INTRIN(
     int32_t deltaInt;
     uint32_t deltaFract;
     __m128i top0, top1, top2, sum0, sum1, a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11;
-    uint8_t tempBuf[32 * 32];
-    uint8_t *p = tempBuf;
+    uint8_t temp_buf[32 * 32];
+    uint8_t *p = temp_buf;
 
     // --------- Reference Samples Structure ---------
     // ref_samp_main[-size+1] to ref_samp_main[-1] must be prepared (from right to left) for mode 11 to 17 (not required for mode 3 to 9)
@@ -222,9 +222,9 @@ extern void IntraModeAngular_Horizontal_Kernel_SSSE3_INTRIN(
                 *(uint32_t *)p = _mm_cvtsi128_si32(sum0);
                 p += 4;
             }
-            a0 = _mm_loadu_si128((__m128i *)tempBuf);
+            a0 = _mm_loadu_si128((__m128i *)temp_buf);
             a0 = _mm_shuffle_epi8(a0, _mm_setr_epi8(0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15));
-            a1 = _mm_loadu_si128((__m128i *)(tempBuf + 16));
+            a1 = _mm_loadu_si128((__m128i *)(temp_buf + 16));
             a1 = _mm_shuffle_epi8(a1, _mm_setr_epi8(0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15));
             a2 = _mm_unpackhi_epi32(a0, a1);
             a0 = _mm_unpacklo_epi32(a0, a1);
@@ -249,7 +249,7 @@ extern void IntraModeAngular_Horizontal_Kernel_SSSE3_INTRIN(
                 _mm_storel_epi64((__m128i *)p, sum0);
                 p += 8;
             }
-            p = tempBuf;
+            p = temp_buf;
             a0 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(p + 0x00)), _mm_loadl_epi64((__m128i *)(p + 0x08)));
             a1 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(p + 0x10)), _mm_loadl_epi64((__m128i *)(p + 0x18)));
             a2 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(p + 0x20)), _mm_loadl_epi64((__m128i *)(p + 0x28)));
@@ -312,7 +312,7 @@ extern void IntraModeAngular_Horizontal_Kernel_SSSE3_INTRIN(
                 _mm_storeu_si128((__m128i *)p, sum0);
                 p += 16;
             }
-            p = tempBuf;
+            p = temp_buf;
             for (colIndex = 0; colIndex < 2; colIndex++) {
                 for (rowIndex = 0; rowIndex < 2; rowIndex++) {
                     a0 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(p + 0x00)), _mm_loadl_epi64((__m128i *)(p + 0x10)));
@@ -361,7 +361,7 @@ extern void IntraModeAngular_Horizontal_Kernel_SSSE3_INTRIN(
                     _mm_storeu_si128((__m128i *)prediction_ptr, a11); prediction_ptr += prediction_buffer_stride;
                     p += 8;
                 }
-                p = tempBuf + 0x100;
+                p = temp_buf + 0x100;
                 prediction_ptr -= 16 * prediction_buffer_stride - 16;
             }
         }
@@ -389,7 +389,7 @@ extern void IntraModeAngular_Horizontal_Kernel_SSSE3_INTRIN(
                 *(uint32_t *)(p + 4) = _mm_cvtsi128_si32(_mm_srli_si128(sum0, 4));
                 p += 8;
             }
-            a0 = _mm_loadu_si128((__m128i *)tempBuf);
+            a0 = _mm_loadu_si128((__m128i *)temp_buf);
             a0 = _mm_shuffle_epi8(a0, _mm_setr_epi8(0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15));
             *(uint32_t *)prediction_ptr = _mm_cvtsi128_si32(a0); a0 = _mm_srli_si128(a0, 4); prediction_ptr += prediction_buffer_stride;
             *(uint32_t *)prediction_ptr = _mm_cvtsi128_si32(a0); a0 = _mm_srli_si128(a0, 4); prediction_ptr += prediction_buffer_stride;
@@ -411,10 +411,10 @@ extern void IntraModeAngular_Horizontal_Kernel_SSSE3_INTRIN(
                 _mm_storel_epi64((__m128i *)p, sum0);
                 p += 8;
             }
-            a0 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(tempBuf + 0x00)), _mm_loadl_epi64((__m128i *)(tempBuf + 0x08)));
-            a1 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(tempBuf + 0x10)), _mm_loadl_epi64((__m128i *)(tempBuf + 0x18)));
-            a2 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(tempBuf + 0x20)), _mm_loadl_epi64((__m128i *)(tempBuf + 0x28)));
-            a3 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(tempBuf + 0x30)), _mm_loadl_epi64((__m128i *)(tempBuf + 0x38)));
+            a0 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(temp_buf + 0x00)), _mm_loadl_epi64((__m128i *)(temp_buf + 0x08)));
+            a1 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(temp_buf + 0x10)), _mm_loadl_epi64((__m128i *)(temp_buf + 0x18)));
+            a2 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(temp_buf + 0x20)), _mm_loadl_epi64((__m128i *)(temp_buf + 0x28)));
+            a3 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(temp_buf + 0x30)), _mm_loadl_epi64((__m128i *)(temp_buf + 0x38)));
             a4 = _mm_unpackhi_epi16(a0, a1);
             a0 = _mm_unpacklo_epi16(a0, a1);
             a5 = _mm_unpackhi_epi16(a2, a3);
@@ -451,7 +451,7 @@ extern void IntraModeAngular_Horizontal_Kernel_SSSE3_INTRIN(
                 _mm_storeu_si128((__m128i *)p, sum0);
                 p += 16;
             }
-            p = tempBuf;
+            p = temp_buf;
             for (colIndex = 0; colIndex < 2; colIndex++) {
                 a0 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(p + 0x00)), _mm_loadl_epi64((__m128i *)(p + 0x10)));
                 a1 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(p + 0x20)), _mm_loadl_epi64((__m128i *)(p + 0x30)));
@@ -529,7 +529,7 @@ extern void IntraModeAngular_Horizontal_Kernel_SSSE3_INTRIN(
                 _mm_storeu_si128((__m128i *)(p + 16), sum0);
                 p += 32;
             }
-            p = tempBuf;
+            p = temp_buf;
             for (colIndex = 0; colIndex < 2; colIndex++) {
                 for (rowIndex = 0; rowIndex < 4; rowIndex++) {
                     a0 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(p + 0x000)), _mm_loadl_epi64((__m128i *)(p + 0x020)));
@@ -578,7 +578,7 @@ extern void IntraModeAngular_Horizontal_Kernel_SSSE3_INTRIN(
                     _mm_storeu_si128((__m128i *)prediction_ptr, a11); prediction_ptr += prediction_buffer_stride;
                     p += 8;
                 }
-                p = tempBuf + 0x200;
+                p = temp_buf + 0x200;
                 prediction_ptr -= 32 * prediction_buffer_stride - 16;
             }
         }

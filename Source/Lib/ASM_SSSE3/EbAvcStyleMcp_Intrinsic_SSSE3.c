@@ -38,15 +38,15 @@ void AvcStyleLumaInterpolationFilterPose_SSSE3(
     uint32_t                dst_stride,
     uint32_t                pu_width,
     uint32_t                pu_height,
-    EbByte               tempBuf,
+    EbByte               temp_buf,
     EbBool               skip,
-    uint32_t                fracPos)
+    uint32_t                frac_pos)
 {
     uint32_t tempBufSize = pu_width * pu_height;
-    (void)fracPos;
-    AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(ref_pic, src_stride, tempBuf, pu_width, pu_width, pu_height, 0, skip, 2);
-    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(ref_pic, src_stride, tempBuf + tempBufSize, pu_width, pu_width, pu_height, 0, skip, 2);
-    picture_average_kernel_sse2(tempBuf, pu_width, tempBuf + tempBufSize, pu_width, dst, dst_stride, pu_width, pu_height);
+    (void)frac_pos;
+    AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(ref_pic, src_stride, temp_buf, pu_width, pu_width, pu_height, 0, skip, 2);
+    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(ref_pic, src_stride, temp_buf + tempBufSize, pu_width, pu_width, pu_height, 0, skip, 2);
+    picture_average_kernel_sse2(temp_buf, pu_width, temp_buf + tempBufSize, pu_width, dst, dst_stride, pu_width, pu_height);
 }
 
 void AvcStyleLumaInterpolationFilterPosf_SSSE3(
@@ -56,15 +56,15 @@ void AvcStyleLumaInterpolationFilterPosf_SSSE3(
     uint32_t                dst_stride,
     uint32_t                pu_width,
     uint32_t                pu_height,
-    EbByte               tempBuf,
+    EbByte               temp_buf,
     EbBool               skip,
-    uint32_t                fracPos)
+    uint32_t                frac_pos)
 {
     uint32_t tempBufSize = pu_width * pu_height;
-    (void)fracPos;
-    AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(ref_pic - src_stride, src_stride, tempBuf + tempBufSize, pu_width, pu_width, skip ? (2 * pu_height + 3) : (pu_height + 3), 0, EB_FALSE, 2);
-    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(tempBuf + tempBufSize + pu_width, pu_width, tempBuf, pu_width, pu_width, pu_height, 0, skip, 2);
-    picture_average_kernel_sse2(tempBuf + tempBufSize + pu_width, skip ? 2 * pu_width : pu_width, tempBuf, pu_width, dst, dst_stride, pu_width, pu_height);
+    (void)frac_pos;
+    AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(ref_pic - src_stride, src_stride, temp_buf + tempBufSize, pu_width, pu_width, skip ? (2 * pu_height + 3) : (pu_height + 3), 0, EB_FALSE, 2);
+    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(temp_buf + tempBufSize + pu_width, pu_width, temp_buf, pu_width, pu_width, pu_height, 0, skip, 2);
+    picture_average_kernel_sse2(temp_buf + tempBufSize + pu_width, skip ? 2 * pu_width : pu_width, temp_buf, pu_width, dst, dst_stride, pu_width, pu_height);
 }
 
 void AvcStyleLumaInterpolationFilterPosg_SSSE3(
@@ -74,15 +74,15 @@ void AvcStyleLumaInterpolationFilterPosg_SSSE3(
     uint32_t                dst_stride,
     uint32_t                pu_width,
     uint32_t                pu_height,
-    EbByte               tempBuf,
+    EbByte               temp_buf,
     EbBool               skip,
-    uint32_t                fracPos)
+    uint32_t                frac_pos)
 {
     uint32_t tempBufSize = pu_width * pu_height;
-    (void)fracPos;
-    AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(ref_pic, src_stride, tempBuf, pu_width, pu_width, pu_height, 0, skip, 2);
-    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(ref_pic + 1, src_stride, tempBuf + tempBufSize, pu_width, pu_width, pu_height, 0, skip, 2);
-    picture_average_kernel_sse2(tempBuf, pu_width, tempBuf + tempBufSize, pu_width, dst, dst_stride, pu_width, pu_height);
+    (void)frac_pos;
+    AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(ref_pic, src_stride, temp_buf, pu_width, pu_width, pu_height, 0, skip, 2);
+    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(ref_pic + 1, src_stride, temp_buf + tempBufSize, pu_width, pu_width, pu_height, 0, skip, 2);
+    picture_average_kernel_sse2(temp_buf, pu_width, temp_buf + tempBufSize, pu_width, dst, dst_stride, pu_width, pu_height);
 }
 
 void AvcStyleLumaInterpolationFilterPosi_SSSE3(
@@ -92,15 +92,15 @@ void AvcStyleLumaInterpolationFilterPosi_SSSE3(
     uint32_t                dst_stride,
     uint32_t                pu_width,
     uint32_t                pu_height,
-    EbByte               tempBuf,
+    EbByte               temp_buf,
     EbBool               skip,
-    uint32_t                fracPos)
+    uint32_t                frac_pos)
 {
     uint32_t tempBufSize = pu_width * pu_height;
-    (void)fracPos;
-    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(ref_pic, src_stride, tempBuf, pu_width, pu_width, pu_height, 0, skip, 2);
-    AvcStyleLumaInterpolationFilterPosj_SSSE3(ref_pic, src_stride, tempBuf + tempBufSize, pu_width, pu_width, pu_height, tempBuf + 2 * tempBufSize, skip, 2);
-    picture_average_kernel_sse2(tempBuf, pu_width, tempBuf + tempBufSize, pu_width, dst, dst_stride, pu_width, pu_height);
+    (void)frac_pos;
+    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(ref_pic, src_stride, temp_buf, pu_width, pu_width, pu_height, 0, skip, 2);
+    AvcStyleLumaInterpolationFilterPosj_SSSE3(ref_pic, src_stride, temp_buf + tempBufSize, pu_width, pu_width, pu_height, temp_buf + 2 * tempBufSize, skip, 2);
+    picture_average_kernel_sse2(temp_buf, pu_width, temp_buf + tempBufSize, pu_width, dst, dst_stride, pu_width, pu_height);
 }
 
 void AvcStyleLumaInterpolationFilterPosj_SSSE3(
@@ -110,17 +110,17 @@ void AvcStyleLumaInterpolationFilterPosj_SSSE3(
     uint32_t                dst_stride,
     uint32_t                pu_width,
     uint32_t                pu_height,
-    EbByte               tempBuf,
+    EbByte               temp_buf,
     EbBool               skip,
-    uint32_t                fracPos)
+    uint32_t                frac_pos)
 {
-    (void)fracPos;
+    (void)frac_pos;
     if (skip)
-        AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(ref_pic - src_stride, src_stride, tempBuf, pu_width, pu_width, (pu_height + 3), 0, EB_FALSE, 2);
+        AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(ref_pic - src_stride, src_stride, temp_buf, pu_width, pu_width, (pu_height + 3), 0, EB_FALSE, 2);
     else
-        AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(ref_pic - src_stride, src_stride, tempBuf, pu_width, pu_width, skip ? (2 * pu_height + 3) : (pu_height + 3), 0, EB_FALSE, 2);
+        AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(ref_pic - src_stride, src_stride, temp_buf, pu_width, pu_width, skip ? (2 * pu_height + 3) : (pu_height + 3), 0, EB_FALSE, 2);
 
-    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(tempBuf + pu_width, pu_width, dst, dst_stride, pu_width, pu_height, 0, skip, 2);
+    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(temp_buf + pu_width, pu_width, dst, dst_stride, pu_width, pu_height, 0, skip, 2);
 }
 
 
@@ -131,15 +131,15 @@ void AvcStyleLumaInterpolationFilterPosk_SSSE3(
     uint32_t                dst_stride,
     uint32_t                pu_width,
     uint32_t                pu_height,
-    EbByte               tempBuf,
+    EbByte               temp_buf,
     EbBool               skip,
-    uint32_t                fracPos)
+    uint32_t                frac_pos)
 {
     uint32_t tempBufSize = pu_width * pu_height;
-    (void)fracPos;
-    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(ref_pic + 1, src_stride, tempBuf, pu_width, pu_width, pu_height, 0, skip, 2);
-    AvcStyleLumaInterpolationFilterPosj_SSSE3(ref_pic, src_stride, tempBuf + tempBufSize, pu_width, pu_width, pu_height, tempBuf + 2 * tempBufSize, skip, 2);
-    picture_average_kernel_sse2(tempBuf, pu_width, tempBuf + tempBufSize, pu_width, dst, dst_stride, pu_width, pu_height);
+    (void)frac_pos;
+    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(ref_pic + 1, src_stride, temp_buf, pu_width, pu_width, pu_height, 0, skip, 2);
+    AvcStyleLumaInterpolationFilterPosj_SSSE3(ref_pic, src_stride, temp_buf + tempBufSize, pu_width, pu_width, pu_height, temp_buf + 2 * tempBufSize, skip, 2);
+    picture_average_kernel_sse2(temp_buf, pu_width, temp_buf + tempBufSize, pu_width, dst, dst_stride, pu_width, pu_height);
 }
 
 void AvcStyleLumaInterpolationFilterPosp_SSSE3(
@@ -149,15 +149,15 @@ void AvcStyleLumaInterpolationFilterPosp_SSSE3(
     uint32_t                dst_stride,
     uint32_t                pu_width,
     uint32_t                pu_height,
-    EbByte               tempBuf,
+    EbByte               temp_buf,
     EbBool               skip,
-    uint32_t                fracPos)
+    uint32_t                frac_pos)
 {
     uint32_t tempBufSize = pu_width * pu_height;
-    (void)fracPos;
-    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(ref_pic, src_stride, tempBuf, pu_width, pu_width, pu_height, 0, skip, 2);
-    AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(ref_pic + src_stride, src_stride, tempBuf + tempBufSize, pu_width, pu_width, pu_height, 0, skip, 2);
-    picture_average_kernel_sse2(tempBuf, pu_width, tempBuf + tempBufSize, pu_width, dst, dst_stride, pu_width, pu_height);
+    (void)frac_pos;
+    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(ref_pic, src_stride, temp_buf, pu_width, pu_width, pu_height, 0, skip, 2);
+    AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(ref_pic + src_stride, src_stride, temp_buf + tempBufSize, pu_width, pu_width, pu_height, 0, skip, 2);
+    picture_average_kernel_sse2(temp_buf, pu_width, temp_buf + tempBufSize, pu_width, dst, dst_stride, pu_width, pu_height);
 }
 
 
@@ -168,15 +168,15 @@ void AvcStyleLumaInterpolationFilterPosq_SSSE3(
     uint32_t                dst_stride,
     uint32_t                pu_width,
     uint32_t                pu_height,
-    EbByte               tempBuf,
+    EbByte               temp_buf,
     EbBool               skip,
-    uint32_t                fracPos)
+    uint32_t                frac_pos)
 {
     uint32_t tempBufSize = pu_width * pu_height;
-    (void)fracPos;
-    AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(ref_pic - src_stride, src_stride, tempBuf + tempBufSize, pu_width, pu_width, skip ? (2 * pu_height + 3) : (pu_height + 3), 0, EB_FALSE, 2);
-    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(tempBuf + tempBufSize + pu_width, pu_width, tempBuf, pu_width, pu_width, pu_height, 0, skip, 2);
-    picture_average_kernel_sse2(tempBuf + tempBufSize + 2 * pu_width, skip ? 2 * pu_width : pu_width, tempBuf, pu_width, dst, dst_stride, pu_width, pu_height);
+    (void)frac_pos;
+    AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(ref_pic - src_stride, src_stride, temp_buf + tempBufSize, pu_width, pu_width, skip ? (2 * pu_height + 3) : (pu_height + 3), 0, EB_FALSE, 2);
+    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(temp_buf + tempBufSize + pu_width, pu_width, temp_buf, pu_width, pu_width, pu_height, 0, skip, 2);
+    picture_average_kernel_sse2(temp_buf + tempBufSize + 2 * pu_width, skip ? 2 * pu_width : pu_width, temp_buf, pu_width, dst, dst_stride, pu_width, pu_height);
 }
 
 void AvcStyleLumaInterpolationFilterPosr_SSSE3(
@@ -186,15 +186,15 @@ void AvcStyleLumaInterpolationFilterPosr_SSSE3(
     uint32_t                dst_stride,
     uint32_t                pu_width,
     uint32_t                pu_height,
-    EbByte               tempBuf,
+    EbByte               temp_buf,
     EbBool               skip,
-    uint32_t                fracPos)
+    uint32_t                frac_pos)
 {
     uint32_t tempBufSize = pu_width * pu_height;
-    (void)fracPos;
-    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(ref_pic + 1, src_stride, tempBuf, pu_width, pu_width, pu_height, 0, skip, 2);
-    AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(ref_pic + src_stride, src_stride, tempBuf + tempBufSize, pu_width, pu_width, pu_height, 0, skip, 2);
-    picture_average_kernel_sse2(tempBuf, pu_width, tempBuf + tempBufSize, pu_width, dst, dst_stride, pu_width, pu_height);
+    (void)frac_pos;
+    AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(ref_pic + 1, src_stride, temp_buf, pu_width, pu_width, pu_height, 0, skip, 2);
+    AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(ref_pic + src_stride, src_stride, temp_buf + tempBufSize, pu_width, pu_width, pu_height, 0, skip, 2);
+    picture_average_kernel_sse2(temp_buf, pu_width, temp_buf + tempBufSize, pu_width, dst, dst_stride, pu_width, pu_height);
 }
 
 void AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(
@@ -204,11 +204,11 @@ void AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(
     uint32_t dst_stride,
     uint32_t pu_width,
     uint32_t pu_height,
-    EbByte tempBuf,
+    EbByte temp_buf,
     EbBool skip,
-    uint32_t fracPos)
+    uint32_t frac_pos)
 {
-    (void)tempBuf;
+    (void)temp_buf;
     __m128i IFOffset, IFCoeff_1_0, IFCoeff_3_2, sum_clip_U8;
     uint32_t width_cnt, height_cnt;
     uint32_t IFShift = 5;
@@ -216,10 +216,10 @@ void AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN(
     src_stride <<= skip;
     dst_stride <<= skip;
     pu_height >>= skip;
-    fracPos <<= 5;
+    frac_pos <<= 5;
     IFOffset = _mm_set1_epi16(0x0010);
-    IFCoeff_1_0 = _mm_load_si128((__m128i *)(AvcStyleLumaIFCoeff8_SSSE3 + fracPos - 32));
-    IFCoeff_3_2 = _mm_load_si128((__m128i *)(AvcStyleLumaIFCoeff8_SSSE3 + fracPos - 16));
+    IFCoeff_1_0 = _mm_load_si128((__m128i *)(AvcStyleLumaIFCoeff8_SSSE3 + frac_pos - 32));
+    IFCoeff_3_2 = _mm_load_si128((__m128i *)(AvcStyleLumaIFCoeff8_SSSE3 + frac_pos - 16));
 
     if (!(pu_width & 15)) { // 16x
         __m128i ref0, ref1, ref2, ref3, ref01_lo, ref01_hi, ref23_lo, ref23_hi, sum_lo, sum_hi;
@@ -317,22 +317,22 @@ void AvcStyleLumaInterpolationFilterVertical_SSSE3_INTRIN(
     uint32_t dst_stride,
     uint32_t pu_width,
     uint32_t pu_height,
-    EbByte tempBuf,
+    EbByte temp_buf,
     EbBool skip,
-    uint32_t fracPos)
+    uint32_t frac_pos)
 {
-    (void)tempBuf;
+    (void)temp_buf;
     __m128i IFOffset, IFCoeff_1_0, IFCoeff_3_2, sum_clip_U8;
     uint32_t width_cnt, height_cnt;
     uint32_t IFShift = 5;
     uint32_t srcStrideSkip = src_stride << (skip ? 1 : 0);
     EbByte refPicTemp, dstTemp;
 
-    fracPos <<= 5;
+    frac_pos <<= 5;
     ref_pic -= src_stride;
     IFOffset = _mm_set1_epi16(0x0010);
-    IFCoeff_1_0 = _mm_load_si128((__m128i *)(AvcStyleLumaIFCoeff8_SSSE3 + fracPos - 32));
-    IFCoeff_3_2 = _mm_load_si128((__m128i *)(AvcStyleLumaIFCoeff8_SSSE3 + fracPos - 16));
+    IFCoeff_1_0 = _mm_load_si128((__m128i *)(AvcStyleLumaIFCoeff8_SSSE3 + frac_pos - 32));
+    IFCoeff_3_2 = _mm_load_si128((__m128i *)(AvcStyleLumaIFCoeff8_SSSE3 + frac_pos - 16));
     dst_stride <<= skip;
     pu_height >>= skip;
     if (!(pu_width & 15)) { //16x

@@ -7,7 +7,7 @@
 #include "emmintrin.h"
 #include "EbComputeSAD_SSE2.h"
 
-uint32_t Compute4xMSadSub_SSE2_INTRIN(
+uint32_t compute4x_m_sad_sub_sse2_intrin(
     uint8_t  *src,                            // input parameter, source samples Ptr
     uint32_t  src_stride,                      // input parameter, source stride
     uint8_t  *ref,                            // input parameter, reference samples Ptr
@@ -35,7 +35,7 @@ uint32_t Compute4xMSadSub_SSE2_INTRIN(
     return _mm_cvtsi128_si32(xmm_sad);
 }
 
-uint32_t CombinedAveraging4xMSAD_SSE2_INTRIN(
+uint32_t combined_averaging4x_msad_sse2_intrin(
     uint8_t  *src,
     uint32_t  src_stride,
     uint8_t  *ref1,

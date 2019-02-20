@@ -7,19 +7,19 @@
 #include "EbAvcStyleMcp_SSE2.h"
 #include "EbMcp_SSE2.h" // THIS SHOULD BE _SSE2 in the future
 #include "emmintrin.h"
-void AvcStyleCopy_SSE2(
+void avc_style_copy_sse2(
     EbByte               ref_pic,
     uint32_t                src_stride,
     EbByte               dst,
     uint32_t                dst_stride,
     uint32_t                pu_width,
     uint32_t                pu_height,
-    EbByte               tempBuf,
+    EbByte               temp_buf,
     EbBool               skip,
-    uint32_t                fracPos)
+    uint32_t                frac_pos)
 {
-    (void)tempBuf;
-    (void)fracPos;
+    (void)temp_buf;
+    (void)frac_pos;
     if (skip) {
         //do the last row too.
         EB_MEMCPY(dst + (pu_height - 1)*dst_stride, ref_pic + (pu_height - 1)*src_stride, pu_width);
@@ -32,7 +32,7 @@ void AvcStyleCopy_SSE2(
     picture_copy_kernel_sse2(ref_pic, src_stride, dst, dst_stride, pu_width, pu_height);
 }
 
-//This function should be removed and replace by AvcStyleCopy_SSE2
+//This function should be removed and replace by avc_style_copy_sse2
 
 void picture_average_kernel_sse2_intrin(
     EbByte                  src0,

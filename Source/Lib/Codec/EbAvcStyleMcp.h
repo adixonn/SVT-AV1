@@ -50,7 +50,7 @@ extern "C" {
         uint32_t                 dstLumaIndex,
         uint32_t                 dstChromaIndex,
         uint32_t                 component_mask,
-        EbByte                tempBuf,
+        EbByte                temp_buf,
         EbBool                subSamplePredFlag,
         EbAsm                 asm_type);
 
@@ -83,7 +83,7 @@ extern "C" {
         uint32_t                 dstLumaIndex,
         uint32_t                 dstChromaIndex,
         uint32_t                 component_mask,
-        EbByte                tempBuf,
+        EbByte                temp_buf,
         EbBool                subSamplePredFlag,
         EbAsm                 asm_type);
 
@@ -97,7 +97,7 @@ extern "C" {
         uint32_t                 dstLumaIndex,
         uint32_t                 dstChromaIndex,          //input parameter, please refer to the detailed explanation above.
         uint32_t                 component_mask,
-        EbByte                tempBuf,
+        EbByte                temp_buf,
         EbBool                sub_pred,
         EbAsm                 asm_type);
     void estimate_bi_pred_interpolation_avc_chroma_ref10_bit(
@@ -129,7 +129,7 @@ extern "C" {
         uint32_t                 dstLumaIndex,
         uint32_t                 dstChromaIndex,          //input parameter, please refer to the detailed explanation above.
         uint32_t                 component_mask,
-        EbByte                tempBuf,
+        EbByte                temp_buf,
         EbBool                sub_pred,
         EbBool                subPredChroma,
         EbAsm                 asm_type);
@@ -164,7 +164,7 @@ extern "C" {
         uint32_t                 dstLumaIndex,
         uint32_t                 dstChromaIndex,          //input parameter, please refer to the detailed explanation above.
         uint32_t                 component_mask,
-        EbByte                tempBuf,
+        EbByte                temp_buf,
         EbBool                subSamplePredFlag,
         EbBool                subSamplePredFlagChroma,
         EbAsm                 asm_type);
@@ -196,9 +196,9 @@ extern "C" {
         uint32_t                dst_stride,
         uint32_t                pu_width,
         uint32_t                pu_height,
-        EbByte               tempBuf,
+        EbByte               temp_buf,
         EbBool               skip,
-        uint32_t                fracPos);
+        uint32_t                frac_pos);
 
     typedef void(*AvcStyleChromaInterpolationFilterNew)(
         EbByte               ref_pic,
@@ -207,7 +207,7 @@ extern "C" {
         uint32_t                dst_stride,
         uint32_t                pu_width,
         uint32_t                pu_height,
-        EbByte               tempBuf,
+        EbByte               temp_buf,
         EbBool               skip,
         uint32_t                frac_pos_x,
         uint32_t                frac_pos_y);
@@ -229,7 +229,7 @@ extern "C" {
     static const AvcStyleInterpolationFilterNew FUNC_TABLE avc_style_uni_pred_luma_if_function_ptr_array[ASM_TYPE_TOTAL][16] = {
         // NON_AVX2
         {
-            AvcStyleCopy_SSE2,                                    //A
+            avc_style_copy_sse2,                                    //A
             AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN,       //a
             AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN,       //b
             AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN,       //c
@@ -248,7 +248,7 @@ extern "C" {
         },
         // AVX2
         {
-            AvcStyleCopy_SSE2,                                    //A
+            avc_style_copy_sse2,                                    //A
             AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN,       //a
             AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN,       //b
             AvcStyleLumaInterpolationFilterHorizontal_SSSE3_INTRIN,       //c
