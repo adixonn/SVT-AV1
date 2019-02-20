@@ -52,9 +52,9 @@ extern "C" {
         uint8_t  *src,
         uint32_t  src_stride,
         uint8_t  *ref1,
-        uint32_t  ref1Stride,
+        uint32_t  ref1_stride,
         uint8_t  *ref2,
-        uint32_t  ref2Stride,
+        uint32_t  ref2_stride,
         uint32_t  height,
         uint32_t  width);
 
@@ -178,14 +178,14 @@ extern "C" {
         // AVX2
         {
             /*0 4xM  */     CombinedAveraging4xMSAD_SSE2_INTRIN,
-            /*1 8xM  */     CombinedAveraging8xMSAD_AVX2_INTRIN,
-            /*2 16xM */     CombinedAveraging16xMSAD_AVX2_INTRIN,
-            /*3 24xM */     CombinedAveraging24xMSAD_AVX2_INTRIN,
-            /*4 32xM */     CombinedAveraging32xMSAD_AVX2_INTRIN,
+            /*1 8xM  */     combined_averaging8x_msad_avx2_intrin,
+            /*2 16xM */     combined_averaging16x_msad_avx2_intrin,
+            /*3 24xM */     combined_averaging24x_msad_avx2_intrin,
+            /*4 32xM */     combined_averaging32x_msad_avx2_intrin,
             /*5      */     (EB_SADAVGKERNELNxM_TYPE)NxMSadKernelVoidFunc,
-            /*6 48xM */     CombinedAveraging48xMSAD_AVX2_INTRIN,
+            /*6 48xM */     combined_averaging48x_msad_avx2_intrin,
             /*7      */     (EB_SADAVGKERNELNxM_TYPE)NxMSadKernelVoidFunc,
-            /*8 64xM */     CombinedAveraging64xMSAD_AVX2_INTRIN
+            /*8 64xM */     combined_averaging64x_msad_avx2_intrin
         },
     };
 

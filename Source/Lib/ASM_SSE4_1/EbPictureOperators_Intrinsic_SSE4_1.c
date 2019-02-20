@@ -496,7 +496,7 @@ uint64_t Compute8x8Satd_U8_SSE4(
 
 uint64_t SpatialFullDistortionKernel4x4_SSSE3_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *recon,
     uint32_t   recon_stride,
     uint32_t   area_width,
@@ -513,7 +513,7 @@ uint64_t SpatialFullDistortionKernel4x4_SSSE3_INTRIN(
         __m128i y0;
         x0 = _mm_setr_epi32(*((uint32_t *)input), 0, 0, 0);
         y0 = _mm_setr_epi32(*((uint32_t *)recon), 0, 0, 0);
-        input += inputStride;
+        input += input_stride;
         recon += recon_stride;
         x0 = _mm_sub_epi8(x0, y0);
         x0 = _mm_sign_epi8(x0, x0);
@@ -533,7 +533,7 @@ uint64_t SpatialFullDistortionKernel4x4_SSSE3_INTRIN(
 
 uint64_t SpatialFullDistortionKernel8x8_SSSE3_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *recon,
     uint32_t   recon_stride,
     uint32_t   area_width,
@@ -550,7 +550,7 @@ uint64_t SpatialFullDistortionKernel8x8_SSSE3_INTRIN(
         __m128i y0;
         x0 = _mm_loadl_epi64/*_mm_loadu_si128*/((__m128i *)(input + 0x00));
         y0 = _mm_loadl_epi64((__m128i *)(recon + 0x00));
-        input += inputStride;
+        input += input_stride;
         recon += recon_stride;
         x0 = _mm_sub_epi8(x0, y0);
         x0 = _mm_sign_epi8(x0, x0);
@@ -572,7 +572,7 @@ uint64_t SpatialFullDistortionKernel8x8_SSSE3_INTRIN(
 
 uint64_t SpatialFullDistortionKernel16MxN_SSSE3_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *recon,
     uint32_t   recon_stride,
     uint32_t   area_width,
@@ -594,7 +594,7 @@ uint64_t SpatialFullDistortionKernel16MxN_SSSE3_INTRIN(
         {
             x0 = _mm_loadu_si128((__m128i *)(coeffTemp + 0x00));
             y0 = _mm_loadu_si128((__m128i *)(reconCoeffTemp + 0x00));
-            coeffTemp += inputStride;
+            coeffTemp += input_stride;
             reconCoeffTemp += recon_stride;
             x0 = _mm_sub_epi8(x0, y0);
             x0 = _mm_sign_epi8(x0, x0);

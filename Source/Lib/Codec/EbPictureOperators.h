@@ -314,7 +314,7 @@ extern "C" {
 
     typedef void(*EB_RESDKERNEL_TYPE)(
         uint8_t   *input,
-        uint32_t   inputStride,
+        uint32_t   input_stride,
         uint8_t   *pred,
         uint32_t   pred_stride,
         int16_t  *residual,
@@ -324,7 +324,7 @@ extern "C" {
 
     typedef void(*EB_RESDKERNEL_TYPE_16BIT)(
         uint16_t   *input,
-        uint32_t   inputStride,
+        uint32_t   input_stride,
         uint16_t   *pred,
         uint32_t   pred_stride,
         int16_t  *residual,
@@ -423,7 +423,7 @@ extern "C" {
 
     typedef void(*EB_RESDKERNELSUBSAMPLED_TYPE)(
         uint8_t   *input,
-        uint32_t   inputStride,
+        uint32_t   input_stride,
         uint8_t   *pred,
         uint32_t   pred_stride,
         int16_t  *residual,
@@ -461,7 +461,7 @@ extern "C" {
 
     void ResidualKernel16bit(
         uint16_t   *input,
-        uint32_t   inputStride,
+        uint32_t   input_stride,
         uint16_t   *pred,
         uint32_t   pred_stride,
         int16_t  *residual,
@@ -471,7 +471,7 @@ extern "C" {
 
     void ResidualKernel_c(
         uint8_t   *input,
-        uint32_t   inputStride,
+        uint32_t   input_stride,
         uint8_t   *pred,
         uint32_t   pred_stride,
         int16_t  *residual,
@@ -523,7 +523,7 @@ extern "C" {
 #if  M0_SPATIAL_SSE || SPATIAL_SSE_I_B_SLICES || M0_SSD_HALF_QUARTER_PEL_BIPRED_SEARCH
     typedef uint64_t(*EB_SPATIALFULLDIST_TYPE)(
         uint8_t   *input,
-        uint32_t   inputStride,
+        uint32_t   input_stride,
         uint8_t   *recon,
         uint32_t   recon_stride,
         uint32_t   area_width,

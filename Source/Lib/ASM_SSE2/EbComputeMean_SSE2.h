@@ -13,22 +13,22 @@ extern "C" {
 
     uint64_t ComputeSubMean8x8_SSE2_INTRIN(
         uint8_t *  input_samples,      // input parameter, input samples Ptr
-        uint16_t   inputStride);
+        uint16_t   input_stride);
     uint64_t ComputeSubdMeanOfSquaredValues8x8_SSE2_INTRIN(
         uint8_t *  input_samples,      // input parameter, input samples Ptr
-        uint16_t   inputStride);
+        uint16_t   input_stride);
 
     uint64_t ComputeMean8x8_SSE2_INTRIN(
         uint8_t *  input_samples,      // input parameter, input samples Ptr
-        uint32_t   inputStride,       // input parameter, input stride
-        uint32_t   inputAreaWidth,    // input parameter, input area width
-        uint32_t   inputAreaHeight);   // input parameter, input area height
+        uint32_t   input_stride,       // input parameter, input stride
+        uint32_t   input_area_width,    // input parameter, input area width
+        uint32_t   input_area_height);   // input parameter, input area height
 
     uint64_t ComputeMeanOfSquaredValues8x8_SSE2_INTRIN(
         uint8_t *  input_samples,      // input parameter, input samples Ptr
-        uint32_t   inputStride,       // input parameter, input stride
-        uint32_t   inputAreaWidth,    // input parameter, input area width
-        uint32_t   inputAreaHeight);   // input parameter, input area height
+        uint32_t   input_stride,       // input parameter, input stride
+        uint32_t   input_area_width,    // input parameter, input area width
+        uint32_t   input_area_height);   // input parameter, input area height
 
 
 #ifdef __cplusplus

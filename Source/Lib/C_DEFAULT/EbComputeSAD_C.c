@@ -14,9 +14,9 @@ uint32_t CombinedAveragingSAD(
     uint8_t  *src,
     uint32_t  src_stride,
     uint8_t  *ref1,
-    uint32_t  ref1Stride,
+    uint32_t  ref1_stride,
     uint8_t  *ref2,
-    uint32_t  ref2Stride,
+    uint32_t  ref2_stride,
     uint32_t  height,
     uint32_t  width)
 {
@@ -32,8 +32,8 @@ uint32_t CombinedAveragingSAD(
             sad += EB_ABS_DIFF(src[x], avgpel);
         }
         src += src_stride;
-        ref1 += ref1Stride;
-        ref2 += ref2Stride;
+        ref1 += ref1_stride;
+        ref2 += ref2_stride;
     }
 
     return sad;

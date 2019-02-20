@@ -224,7 +224,7 @@ Computes the residual data
 *******************************************/
 void ResidualKernel16bit(
     uint16_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint16_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -242,7 +242,7 @@ void ResidualKernel16bit(
             ++columnIndex;
         }
 
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
         ++rowIndex;
@@ -256,7 +256,7 @@ Computes the residual data
 *******************************************/
 void ResidualKernel_c(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -274,7 +274,7 @@ void ResidualKernel_c(
             ++columnIndex;
         }
 
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
         ++rowIndex;

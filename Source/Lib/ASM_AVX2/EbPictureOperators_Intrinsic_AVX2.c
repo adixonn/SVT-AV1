@@ -2060,7 +2060,7 @@ static INLINE void _mm_storeh_epi64(__m128i *const d, const __m128i s) {
 
 void ResidualKernel4x4_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2069,7 +2069,7 @@ void ResidualKernel4x4_AVX2_INTRIN(
     uint32_t   area_height)
 {
     const __m256i zero = _mm256_setzero_si256();
-    const __m256i in = load8bit_4x4_avx2(input, inputStride);
+    const __m256i in = load8bit_4x4_avx2(input, input_stride);
     const __m256i pr = load8bit_4x4_avx2(pred, pred_stride);
     const __m256i in_lo = _mm256_unpacklo_epi8(in, zero);
     const __m256i pr_lo = _mm256_unpacklo_epi8(pr, zero);
@@ -2086,7 +2086,7 @@ void ResidualKernel4x4_AVX2_INTRIN(
 }
 void ResidualKernel4x8_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2100,7 +2100,7 @@ void ResidualKernel4x8_AVX2_INTRIN(
     (void)area_height;
 
     for (y = 0; y < 8; y += 4) {
-        const __m256i in = load8bit_4x4_avx2(input, inputStride);
+        const __m256i in = load8bit_4x4_avx2(input, input_stride);
         const __m256i pr = load8bit_4x4_avx2(pred, pred_stride);
         const __m256i in_lo = _mm256_unpacklo_epi8(in, zero);
         const __m256i pr_lo = _mm256_unpacklo_epi8(pr, zero);
@@ -2112,14 +2112,14 @@ void ResidualKernel4x8_AVX2_INTRIN(
         _mm_storeh_epi64((__m128i*)(residual + 1 * residual_stride), re_01);
         _mm_storel_epi64((__m128i*)(residual + 2 * residual_stride), re_23);
         _mm_storeh_epi64((__m128i*)(residual + 3 * residual_stride), re_23);
-        input += 4 * inputStride;
+        input += 4 * input_stride;
         pred += 4 * pred_stride;
         residual += 4 * residual_stride;
     }
 }
 void ResidualKernel4x16_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2133,7 +2133,7 @@ void ResidualKernel4x16_AVX2_INTRIN(
     (void)area_height;
 
     for (y = 0; y < 16; y += 4) {
-        const __m256i in = load8bit_4x4_avx2(input, inputStride);
+        const __m256i in = load8bit_4x4_avx2(input, input_stride);
         const __m256i pr = load8bit_4x4_avx2(pred, pred_stride);
         const __m256i in_lo = _mm256_unpacklo_epi8(in, zero);
         const __m256i pr_lo = _mm256_unpacklo_epi8(pr, zero);
@@ -2145,14 +2145,14 @@ void ResidualKernel4x16_AVX2_INTRIN(
         _mm_storeh_epi64((__m128i*)(residual + 1 * residual_stride), re_01);
         _mm_storel_epi64((__m128i*)(residual + 2 * residual_stride), re_23);
         _mm_storeh_epi64((__m128i*)(residual + 3 * residual_stride), re_23);
-        input += 4 * inputStride;
+        input += 4 * input_stride;
         pred += 4 * pred_stride;
         residual += 4 * residual_stride;
     }
 }
 void ResidualKernel8x32_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2166,7 +2166,7 @@ void ResidualKernel8x32_AVX2_INTRIN(
     (void)area_height;
 
     for (y = 0; y < 32; y += 4) {
-        const __m256i in = load8bit_8x4_avx2(input, inputStride);
+        const __m256i in = load8bit_8x4_avx2(input, input_stride);
         const __m256i pr = load8bit_8x4_avx2(pred, pred_stride);
         const __m256i in_lo = _mm256_unpacklo_epi8(in, zero);
         const __m256i in_hi = _mm256_unpackhi_epi8(in, zero);
@@ -2183,14 +2183,14 @@ void ResidualKernel8x32_AVX2_INTRIN(
         _mm_storeu_si128((__m128i*)(residual + 1 * residual_stride), re_1);
         _mm_storeu_si128((__m128i*)(residual + 2 * residual_stride), re_2);
         _mm_storeu_si128((__m128i*)(residual + 3 * residual_stride), re_3);
-        input += 4 * inputStride;
+        input += 4 * input_stride;
         pred += 4 * pred_stride;
         residual += 4 * residual_stride;
     }
 }
 void ResidualKernel8x16_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2204,7 +2204,7 @@ void ResidualKernel8x16_AVX2_INTRIN(
     (void)area_height;
 
     for (y = 0; y < 16; y += 4) {
-        const __m256i in = load8bit_8x4_avx2(input, inputStride);
+        const __m256i in = load8bit_8x4_avx2(input, input_stride);
         const __m256i pr = load8bit_8x4_avx2(pred, pred_stride);
         const __m256i in_lo = _mm256_unpacklo_epi8(in, zero);
         const __m256i in_hi = _mm256_unpackhi_epi8(in, zero);
@@ -2221,7 +2221,7 @@ void ResidualKernel8x16_AVX2_INTRIN(
         _mm_storeu_si128((__m128i*)(residual + 1 * residual_stride), re_1);
         _mm_storeu_si128((__m128i*)(residual + 2 * residual_stride), re_2);
         _mm_storeu_si128((__m128i*)(residual + 3 * residual_stride), re_3);
-        input += 4 * inputStride;
+        input += 4 * input_stride;
         pred += 4 * pred_stride;
         residual += 4 * residual_stride;
     }
@@ -2229,7 +2229,7 @@ void ResidualKernel8x16_AVX2_INTRIN(
 
 void ResidualKernel8x8_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2243,7 +2243,7 @@ void ResidualKernel8x8_AVX2_INTRIN(
     (void)area_height;
 
     for (y = 0; y < 8; y += 4) {
-        const __m256i in = load8bit_8x4_avx2(input, inputStride);
+        const __m256i in = load8bit_8x4_avx2(input, input_stride);
         const __m256i pr = load8bit_8x4_avx2(pred, pred_stride);
         const __m256i in_lo = _mm256_unpacklo_epi8(in, zero);
         const __m256i in_hi = _mm256_unpackhi_epi8(in, zero);
@@ -2260,7 +2260,7 @@ void ResidualKernel8x8_AVX2_INTRIN(
         _mm_storeu_si128((__m128i*)(residual + 1 * residual_stride), re_1);
         _mm_storeu_si128((__m128i*)(residual + 2 * residual_stride), re_2);
         _mm_storeu_si128((__m128i*)(residual + 3 * residual_stride), re_3);
-        input += 4 * inputStride;
+        input += 4 * input_stride;
         pred += 4 * pred_stride;
         residual += 4 * residual_stride;
     }
@@ -2268,7 +2268,7 @@ void ResidualKernel8x8_AVX2_INTRIN(
 
 void ResidualKernel8x4_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2282,7 +2282,7 @@ void ResidualKernel8x4_AVX2_INTRIN(
     (void)area_height;
 
     //for (y = 0; y < 8; y += 4) {
-        const __m256i in = load8bit_8x4_avx2(input, inputStride);
+        const __m256i in = load8bit_8x4_avx2(input, input_stride);
         const __m256i pr = load8bit_8x4_avx2(pred, pred_stride);
         const __m256i in_lo = _mm256_unpacklo_epi8(in, zero);
         const __m256i in_hi = _mm256_unpackhi_epi8(in, zero);
@@ -2299,7 +2299,7 @@ void ResidualKernel8x4_AVX2_INTRIN(
         _mm_storeu_si128((__m128i*)(residual + 1 * residual_stride), re_1);
         _mm_storeu_si128((__m128i*)(residual + 2 * residual_stride), re_2);
         _mm_storeu_si128((__m128i*)(residual + 3 * residual_stride), re_3);
-        //input += 4 * inputStride;
+        //input += 4 * input_stride;
         //pred += 4 * pred_stride;
         //residual += 4 * residual_stride;
     //}
@@ -2307,7 +2307,7 @@ void ResidualKernel8x4_AVX2_INTRIN(
 
 void ResidualKernel16x16_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2321,7 +2321,7 @@ void ResidualKernel16x16_AVX2_INTRIN(
     (void)area_height;
 
     for (y = 0; y < 16; y += 2) {
-        const __m256i in0 = load8bit_16x2_unaligned_avx2(input, inputStride);
+        const __m256i in0 = load8bit_16x2_unaligned_avx2(input, input_stride);
         const __m256i pr0 = load8bit_16x2_unaligned_avx2(pred, pred_stride);
         const __m256i in1 = _mm256_permute4x64_epi64(in0, 0xD8);
         const __m256i pr1 = _mm256_permute4x64_epi64(pr0, 0xD8);
@@ -2334,7 +2334,7 @@ void ResidualKernel16x16_AVX2_INTRIN(
 
         _mm256_storeu_si256((__m256i*)(residual + 0 * residual_stride), re_lo);
         _mm256_storeu_si256((__m256i*)(residual + 1 * residual_stride), re_hi);
-        input += 2 * inputStride;
+        input += 2 * input_stride;
         pred += 2 * pred_stride;
         residual += 2 * residual_stride;
     }
@@ -2342,7 +2342,7 @@ void ResidualKernel16x16_AVX2_INTRIN(
 
 void ResidualKernel16x4_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2356,7 +2356,7 @@ void ResidualKernel16x4_AVX2_INTRIN(
     (void)area_height;
 
     for (y = 0; y < 4; y += 2) {
-        const __m256i in0 = load8bit_16x2_unaligned_avx2(input, inputStride);
+        const __m256i in0 = load8bit_16x2_unaligned_avx2(input, input_stride);
         const __m256i pr0 = load8bit_16x2_unaligned_avx2(pred, pred_stride);
         const __m256i in1 = _mm256_permute4x64_epi64(in0, 0xD8);
         const __m256i pr1 = _mm256_permute4x64_epi64(pr0, 0xD8);
@@ -2369,7 +2369,7 @@ void ResidualKernel16x4_AVX2_INTRIN(
 
         _mm256_storeu_si256((__m256i*)(residual + 0 * residual_stride), re_lo);
         _mm256_storeu_si256((__m256i*)(residual + 1 * residual_stride), re_hi);
-        input += 2 * inputStride;
+        input += 2 * input_stride;
         pred += 2 * pred_stride;
         residual += 2 * residual_stride;
     }
@@ -2377,7 +2377,7 @@ void ResidualKernel16x4_AVX2_INTRIN(
 
 void ResidualKernel16x8_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2391,7 +2391,7 @@ void ResidualKernel16x8_AVX2_INTRIN(
     (void)area_height;
 
     for (y = 0; y < 8; y += 2) {
-        const __m256i in0 = load8bit_16x2_unaligned_avx2(input, inputStride);
+        const __m256i in0 = load8bit_16x2_unaligned_avx2(input, input_stride);
         const __m256i pr0 = load8bit_16x2_unaligned_avx2(pred, pred_stride);
         const __m256i in1 = _mm256_permute4x64_epi64(in0, 0xD8);
         const __m256i pr1 = _mm256_permute4x64_epi64(pr0, 0xD8);
@@ -2404,7 +2404,7 @@ void ResidualKernel16x8_AVX2_INTRIN(
 
         _mm256_storeu_si256((__m256i*)(residual + 0 * residual_stride), re_lo);
         _mm256_storeu_si256((__m256i*)(residual + 1 * residual_stride), re_hi);
-        input += 2 * inputStride;
+        input += 2 * input_stride;
         pred += 2 * pred_stride;
         residual += 2 * residual_stride;
     }
@@ -2412,7 +2412,7 @@ void ResidualKernel16x8_AVX2_INTRIN(
 
 void ResidualKernel16x32_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2426,7 +2426,7 @@ void ResidualKernel16x32_AVX2_INTRIN(
     (void)area_height;
 
     for (y = 0; y < 32; y += 2) {
-        const __m256i in0 = load8bit_16x2_unaligned_avx2(input, inputStride);
+        const __m256i in0 = load8bit_16x2_unaligned_avx2(input, input_stride);
         const __m256i pr0 = load8bit_16x2_unaligned_avx2(pred, pred_stride);
         const __m256i in1 = _mm256_permute4x64_epi64(in0, 0xD8);
         const __m256i pr1 = _mm256_permute4x64_epi64(pr0, 0xD8);
@@ -2439,7 +2439,7 @@ void ResidualKernel16x32_AVX2_INTRIN(
 
         _mm256_storeu_si256((__m256i*)(residual + 0 * residual_stride), re_lo);
         _mm256_storeu_si256((__m256i*)(residual + 1 * residual_stride), re_hi);
-        input += 2 * inputStride;
+        input += 2 * input_stride;
         pred += 2 * pred_stride;
         residual += 2 * residual_stride;
     }
@@ -2447,7 +2447,7 @@ void ResidualKernel16x32_AVX2_INTRIN(
 
 void ResidualKernel16x64_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2461,7 +2461,7 @@ void ResidualKernel16x64_AVX2_INTRIN(
     (void)area_height;
 
     for (y = 0; y < 64; y += 2) {
-        const __m256i in0 = load8bit_16x2_unaligned_avx2(input, inputStride);
+        const __m256i in0 = load8bit_16x2_unaligned_avx2(input, input_stride);
         const __m256i pr0 = load8bit_16x2_unaligned_avx2(pred, pred_stride);
         const __m256i in1 = _mm256_permute4x64_epi64(in0, 0xD8);
         const __m256i pr1 = _mm256_permute4x64_epi64(pr0, 0xD8);
@@ -2474,7 +2474,7 @@ void ResidualKernel16x64_AVX2_INTRIN(
 
         _mm256_storeu_si256((__m256i*)(residual + 0 * residual_stride), re_lo);
         _mm256_storeu_si256((__m256i*)(residual + 1 * residual_stride), re_hi);
-        input += 2 * inputStride;
+        input += 2 * input_stride;
         pred += 2 * pred_stride;
         residual += 2 * residual_stride;
     }
@@ -2499,7 +2499,7 @@ static INLINE void ResidualKernel32_AVX2(const uint8_t *const input,
 
 void ResidualKernel32x8_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2513,7 +2513,7 @@ void ResidualKernel32x8_AVX2_INTRIN(
 
     for (y = 0; y < 8; ++y) {
         ResidualKernel32_AVX2(input, pred, residual);
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
     }
@@ -2521,7 +2521,7 @@ void ResidualKernel32x8_AVX2_INTRIN(
 
 void ResidualKernel32x16_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2535,7 +2535,7 @@ void ResidualKernel32x16_AVX2_INTRIN(
 
     for (y = 0; y < 16; ++y) {
         ResidualKernel32_AVX2(input, pred, residual);
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
     }
@@ -2543,7 +2543,7 @@ void ResidualKernel32x16_AVX2_INTRIN(
 
 void ResidualKernel32x32_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2557,7 +2557,7 @@ void ResidualKernel32x32_AVX2_INTRIN(
 
     for (y = 0; y < 32; ++y) {
         ResidualKernel32_AVX2(input, pred, residual);
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
     }
@@ -2566,7 +2566,7 @@ void ResidualKernel32x32_AVX2_INTRIN(
 
 void ResidualKernel32x64_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2580,7 +2580,7 @@ void ResidualKernel32x64_AVX2_INTRIN(
 
     for (y = 0; y < 64; ++y) {
         ResidualKernel32_AVX2(input, pred, residual);
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
     }
@@ -2588,7 +2588,7 @@ void ResidualKernel32x64_AVX2_INTRIN(
 
 void ResidualKernel64x16_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2603,7 +2603,7 @@ void ResidualKernel64x16_AVX2_INTRIN(
     for (y = 0; y < 16; ++y) {
         ResidualKernel32_AVX2(input + 0x00, pred + 0x00, residual + 0x00);
         ResidualKernel32_AVX2(input + 0x20, pred + 0x20, residual + 0x20);
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
     }
@@ -2611,7 +2611,7 @@ void ResidualKernel64x16_AVX2_INTRIN(
 
 void ResidualKernel64x32_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2626,7 +2626,7 @@ void ResidualKernel64x32_AVX2_INTRIN(
     for (y = 0; y < 32; ++y) {
         ResidualKernel32_AVX2(input + 0x00, pred + 0x00, residual + 0x00);
         ResidualKernel32_AVX2(input + 0x20, pred + 0x20, residual + 0x20);
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
     }
@@ -2634,7 +2634,7 @@ void ResidualKernel64x32_AVX2_INTRIN(
 
 void ResidualKernel64x64_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2649,7 +2649,7 @@ void ResidualKernel64x64_AVX2_INTRIN(
     for (y = 0; y < 64; ++y) {
         ResidualKernel32_AVX2(input + 0x00, pred + 0x00, residual + 0x00);
         ResidualKernel32_AVX2(input + 0x20, pred + 0x20, residual + 0x20);
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
     }
@@ -2657,7 +2657,7 @@ void ResidualKernel64x64_AVX2_INTRIN(
 
 void ResidualKernel64x128_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2672,7 +2672,7 @@ void ResidualKernel64x128_AVX2_INTRIN(
     for (y = 0; y < 128; ++y) {
         ResidualKernel32_AVX2(input + 0x00, pred + 0x00, residual + 0x00);
         ResidualKernel32_AVX2(input + 0x20, pred + 0x20, residual + 0x20);
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
     }
@@ -2681,7 +2681,7 @@ void ResidualKernel64x128_AVX2_INTRIN(
 
 void ResidualKernel128x128_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2698,7 +2698,7 @@ void ResidualKernel128x128_AVX2_INTRIN(
         ResidualKernel32_AVX2(input + 0x20, pred + 0x20, residual + 0x20);
         ResidualKernel32_AVX2(input + 0x40, pred + 0x40, residual + 0x40);
         ResidualKernel32_AVX2(input + 0x60, pred + 0x60, residual + 0x60);
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
     }
@@ -2706,7 +2706,7 @@ void ResidualKernel128x128_AVX2_INTRIN(
 
 void ResidualKernel128x64_AVX2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2723,14 +2723,14 @@ void ResidualKernel128x64_AVX2_INTRIN(
         ResidualKernel32_AVX2(input + 0x20, pred + 0x20, residual + 0x20);
         ResidualKernel32_AVX2(input + 0x40, pred + 0x40, residual + 0x40);
         ResidualKernel32_AVX2(input + 0x60, pred + 0x60, residual + 0x60);
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
     }
 }
 void ResidualKernel_avx2(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -2741,22 +2741,22 @@ void ResidualKernel_avx2(
     if (area_width == area_height) {
         switch (area_width) {
         case 4:
-            ResidualKernel4x4_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+            ResidualKernel4x4_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
             break;
         case 8:
-            ResidualKernel8x8_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+            ResidualKernel8x8_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
             break;
         case 16:
-            ResidualKernel16x16_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+            ResidualKernel16x16_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
             break;
         case 32:
-            ResidualKernel32x32_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+            ResidualKernel32x32_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
             break;
         case 64:
-            ResidualKernel64x64_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+            ResidualKernel64x64_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
             break;
         case 128:
-            ResidualKernel128x128_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+            ResidualKernel128x128_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
             break;
         }
     }
@@ -2765,32 +2765,32 @@ void ResidualKernel_avx2(
             if (area_width + area_width == area_height) {
                 switch (area_width) {
                 case 4:
-                    ResidualKernel4x8_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+                    ResidualKernel4x8_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
                     break;
                 case 8:
-                    ResidualKernel8x16_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+                    ResidualKernel8x16_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
                     break;
                 case 16:
-                    ResidualKernel16x32_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+                    ResidualKernel16x32_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
                     break;
                 case 32:
-                    ResidualKernel32x64_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+                    ResidualKernel32x64_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
                     break;
                 case 64:
-                    ResidualKernel64x128_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+                    ResidualKernel64x128_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
                     break;
                 }
             }
             else {
                 switch (area_width) {
                 case 4:
-                    ResidualKernel4x16_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+                    ResidualKernel4x16_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
                     break;
                 case 8:
-                    ResidualKernel8x32_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+                    ResidualKernel8x32_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
                     break;
                 case 16:
-                    ResidualKernel16x64_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+                    ResidualKernel16x64_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
                     break;
                 }
             }
@@ -2799,32 +2799,32 @@ void ResidualKernel_avx2(
             if (area_height + area_height == area_width) {
                 switch (area_height) {
                 case 4:
-                    ResidualKernel8x4_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+                    ResidualKernel8x4_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
                     break;
                 case 8:
-                    ResidualKernel16x8_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+                    ResidualKernel16x8_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
                     break;
                 case 16:
-                    ResidualKernel32x16_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+                    ResidualKernel32x16_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
                     break;
                 case 32:
-                    ResidualKernel64x32_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+                    ResidualKernel64x32_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
                     break;
                 case 64:
-                    ResidualKernel128x64_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+                    ResidualKernel128x64_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
                     break;
                 }
             }
             else {
                 switch (area_height) {
                 case 4:
-                    ResidualKernel16x4_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+                    ResidualKernel16x4_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
                     break;
                 case 8:
-                    ResidualKernel32x8_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+                    ResidualKernel32x8_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
                     break;
                 case 16:
-                    ResidualKernel64x16_AVX2_INTRIN(input, inputStride, pred, pred_stride, residual, residual_stride, area_width, area_height);
+                    ResidualKernel64x16_AVX2_INTRIN(input, input_stride, pred, pred_stride, residual, residual_stride, area_width, area_height);
                     break;
                 }
             }

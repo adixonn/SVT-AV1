@@ -202,7 +202,7 @@ ResidualKernel
 ***********************************************************************************************************/
 void ResidualKernelSubSampled4x4_SSE_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -215,7 +215,7 @@ void ResidualKernelSubSampled4x4_SSE_INTRIN(
     uint32_t y;
     //hard code subampling dimensions, keep residual_stride
     area_height >>= 1;
-    inputStride <<= 1;
+    input_stride <<= 1;
     pred_stride <<= 1;
 
     for (y = 0; y < area_height; ++y) {
@@ -228,7 +228,7 @@ void ResidualKernelSubSampled4x4_SSE_INTRIN(
         residual += residual_stride;
         *(uint64_t *)residual = _mm_cvtsi128_si64(residual_0_3);
 
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
     }
@@ -236,7 +236,7 @@ void ResidualKernelSubSampled4x4_SSE_INTRIN(
     //compute the last line
 
     if (lastLine) {
-        input -= (inputStride) >> 1;
+        input -= (input_stride) >> 1;
         pred -= (pred_stride) >> 1;
         residual -= residual_stride;
         residual_0_3 = _mm_sub_epi16(_mm_unpacklo_epi8(_mm_cvtsi32_si128(*(uint32_t *)input), xmm0),
@@ -250,7 +250,7 @@ void ResidualKernelSubSampled4x4_SSE_INTRIN(
 
 void ResidualKernelSubSampled8x8_SSE2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -267,7 +267,7 @@ void ResidualKernelSubSampled8x8_SSE2_INTRIN(
     xmm0 = _mm_setzero_si128();
     //hard code subampling dimensions, keep residual_stride
     area_height >>= 1;
-    inputStride <<= 1;
+    input_stride <<= 1;
     pred_stride <<= 1;
 
     for (y = 0; y < area_height; ++y) {
@@ -279,7 +279,7 @@ void ResidualKernelSubSampled8x8_SSE2_INTRIN(
         residual += residual_stride;
         _mm_storeu_si128((__m128i*)residual, residual_0_7);
 
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
     }
@@ -287,7 +287,7 @@ void ResidualKernelSubSampled8x8_SSE2_INTRIN(
     //compute the last line
     if (lastLine) {
 
-        input -= (inputStride) >> 1;
+        input -= (input_stride) >> 1;
         pred -= (pred_stride) >> 1;
         residual -= residual_stride;
 
@@ -302,7 +302,7 @@ void ResidualKernelSubSampled8x8_SSE2_INTRIN(
 
 void ResidualKernelSubSampled16x16_SSE2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -319,7 +319,7 @@ void ResidualKernelSubSampled16x16_SSE2_INTRIN(
     xmm0 = _mm_setzero_si128();
     //hard code subampling dimensions, keep residual_stride
     area_height >>= 1;
-    inputStride <<= 1;
+    input_stride <<= 1;
     pred_stride <<= 1;
 
     for (y = 0; y < area_height; ++y) {
@@ -334,7 +334,7 @@ void ResidualKernelSubSampled16x16_SSE2_INTRIN(
         _mm_storeu_si128((__m128i*)residual, residual_0_7);
         _mm_storeu_si128((__m128i*)(residual + 8), residual_8_15);
 
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
     }
@@ -343,7 +343,7 @@ void ResidualKernelSubSampled16x16_SSE2_INTRIN(
 
     if (lastLine) {
 
-        input -= (inputStride) >> 1;
+        input -= (input_stride) >> 1;
         pred -= (pred_stride) >> 1;
         residual -= residual_stride;
 
@@ -359,7 +359,7 @@ void ResidualKernelSubSampled16x16_SSE2_INTRIN(
 
 void ResidualKernelSubSampled32x32_SSE2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -375,7 +375,7 @@ void ResidualKernelSubSampled32x32_SSE2_INTRIN(
 
     //hard code subampling dimensions, keep residual_stride
     area_height >>= 1;
-    inputStride <<= 1;
+    input_stride <<= 1;
     pred_stride <<= 1;
 
 
@@ -397,7 +397,7 @@ void ResidualKernelSubSampled32x32_SSE2_INTRIN(
         _mm_storeu_si128((__m128i*)(residual + 16), residual_16_23);
         _mm_storeu_si128((__m128i*)(residual + 24), residual_24_31);
 
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
     }
@@ -405,7 +405,7 @@ void ResidualKernelSubSampled32x32_SSE2_INTRIN(
     //compute the last line
 
     if (lastLine) {
-        input -= (inputStride) >> 1;
+        input -= (input_stride) >> 1;
         pred -= (pred_stride) >> 1;
         residual -= residual_stride;
 
@@ -426,7 +426,7 @@ void ResidualKernelSubSampled32x32_SSE2_INTRIN(
 
 void ResidualKernelSubSampled64x64_SSE2_INTRIN(
     uint8_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint8_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -442,7 +442,7 @@ void ResidualKernelSubSampled64x64_SSE2_INTRIN(
 
     //hard code subampling dimensions, keep residual_stride
     area_height >>= 1;
-    inputStride <<= 1;
+    input_stride <<= 1;
     pred_stride <<= 1;
 
     for (y = 0; y < area_height; ++y) {
@@ -476,7 +476,7 @@ void ResidualKernelSubSampled64x64_SSE2_INTRIN(
         _mm_storeu_si128((__m128i*)(residual + 48), residual_48_55);
         _mm_storeu_si128((__m128i*)(residual + 56), residual_56_63);
 
-        input += inputStride;
+        input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
     }
@@ -484,7 +484,7 @@ void ResidualKernelSubSampled64x64_SSE2_INTRIN(
     //compute the last line
 
     if (lastLine) {
-        input -= (inputStride) >> 1;
+        input -= (input_stride) >> 1;
         pred -= (pred_stride) >> 1;
         residual -= residual_stride;
 
@@ -515,7 +515,7 @@ void ResidualKernelSubSampled64x64_SSE2_INTRIN(
 ******************************************************************************************************/
 void ResidualKernel16bit_SSE2_INTRIN(
     uint16_t   *input,
-    uint32_t   inputStride,
+    uint32_t   input_stride,
     uint16_t   *pred,
     uint32_t   pred_stride,
     int16_t  *residual,
@@ -531,12 +531,12 @@ void ResidualKernel16bit_SSE2_INTRIN(
         for (y = 0; y < area_height; y += 2) {
 
             residual0 = _mm_sub_epi16(_mm_loadl_epi64((__m128i*)input), _mm_loadl_epi64((__m128i*)pred));
-            residual1 = _mm_sub_epi16(_mm_loadl_epi64((__m128i*)(input + inputStride)), _mm_loadl_epi64((__m128i*)(pred + pred_stride)));
+            residual1 = _mm_sub_epi16(_mm_loadl_epi64((__m128i*)(input + input_stride)), _mm_loadl_epi64((__m128i*)(pred + pred_stride)));
 
             _mm_storel_epi64((__m128i*)residual, residual0);
             _mm_storel_epi64((__m128i*)(residual + residual_stride), residual1);
 
-            input += inputStride << 1;
+            input += input_stride << 1;
             pred += pred_stride << 1;
             residual += residual_stride << 1;
         }
@@ -545,12 +545,12 @@ void ResidualKernel16bit_SSE2_INTRIN(
         for (y = 0; y < area_height; y += 2) {
 
             residual0 = _mm_sub_epi16(_mm_loadu_si128((__m128i*)input), _mm_loadu_si128((__m128i*)pred));
-            residual1 = _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride)), _mm_loadu_si128((__m128i*)(pred + pred_stride)));
+            residual1 = _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride)), _mm_loadu_si128((__m128i*)(pred + pred_stride)));
 
             _mm_storeu_si128((__m128i*) residual, residual0);
             _mm_storeu_si128((__m128i*) (residual + residual_stride), residual1);
 
-            input += inputStride << 1;
+            input += input_stride << 1;
             pred += pred_stride << 1;
             residual += residual_stride << 1;
         }
@@ -563,15 +563,15 @@ void ResidualKernel16bit_SSE2_INTRIN(
 
             residual0 = _mm_sub_epi16(_mm_loadu_si128((__m128i*)input), _mm_loadu_si128((__m128i*)pred));
             residual1 = _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + 8)), _mm_loadu_si128((__m128i*)(pred + 8)));
-            residual2 = _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride)), _mm_loadu_si128((__m128i*)(pred + pred_stride)));
-            residual3 = _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride + 8)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 8)));
+            residual2 = _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride)), _mm_loadu_si128((__m128i*)(pred + pred_stride)));
+            residual3 = _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride + 8)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 8)));
 
             _mm_storeu_si128((__m128i*)residual, residual0);
             _mm_storeu_si128((__m128i*)(residual + 8), residual1);
             _mm_storeu_si128((__m128i*)(residual + residual_stride), residual2);
             _mm_storeu_si128((__m128i*)(residual + residual_stride + 8), residual3);
 
-            input += inputStride << 1;
+            input += input_stride << 1;
             pred += pred_stride << 1;
             residual += residual_stride << 1;
         }
@@ -585,12 +585,12 @@ void ResidualKernel16bit_SSE2_INTRIN(
             _mm_storeu_si128((__m128i*) (residual + 16), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + 16)), _mm_loadu_si128((__m128i*)(pred + 16))));
             _mm_storeu_si128((__m128i*) (residual + 24), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + 24)), _mm_loadu_si128((__m128i*)(pred + 24))));
 
-            _mm_storeu_si128((__m128i*) (residual + residual_stride), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride)), _mm_loadu_si128((__m128i*)(pred + pred_stride))));
-            _mm_storeu_si128((__m128i*) (residual + residual_stride + 8), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride + 8)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 8))));
-            _mm_storeu_si128((__m128i*) (residual + residual_stride + 16), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride + 16)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 16))));
-            _mm_storeu_si128((__m128i*) (residual + residual_stride + 24), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride + 24)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 24))));
+            _mm_storeu_si128((__m128i*) (residual + residual_stride), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride)), _mm_loadu_si128((__m128i*)(pred + pred_stride))));
+            _mm_storeu_si128((__m128i*) (residual + residual_stride + 8), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride + 8)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 8))));
+            _mm_storeu_si128((__m128i*) (residual + residual_stride + 16), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride + 16)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 16))));
+            _mm_storeu_si128((__m128i*) (residual + residual_stride + 24), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride + 24)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 24))));
 
-            input += inputStride << 1;
+            input += input_stride << 1;
             pred += pred_stride << 1;
             residual += residual_stride << 1;
         }
@@ -609,23 +609,23 @@ void ResidualKernel16bit_SSE2_INTRIN(
             _mm_storeu_si128((__m128i*) (residual + 48), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + 48)), _mm_loadu_si128((__m128i*)(pred + 48))));
             _mm_storeu_si128((__m128i*) (residual + 56), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + 56)), _mm_loadu_si128((__m128i*)(pred + 56))));
 
-            _mm_storeu_si128((__m128i*) (residual + residual_stride), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride)), _mm_loadu_si128((__m128i*)(pred + pred_stride))));
-            _mm_storeu_si128((__m128i*) (residual + residual_stride + 8), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride + 8)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 8))));
-            _mm_storeu_si128((__m128i*) (residual + residual_stride + 16), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride + 16)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 16))));
-            _mm_storeu_si128((__m128i*) (residual + residual_stride + 24), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride + 24)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 24))));
-            _mm_storeu_si128((__m128i*) (residual + residual_stride + 32), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride + 32)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 32))));
-            _mm_storeu_si128((__m128i*) (residual + residual_stride + 40), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride + 40)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 40))));
-            _mm_storeu_si128((__m128i*) (residual + residual_stride + 48), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride + 48)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 48))));
-            _mm_storeu_si128((__m128i*) (residual + residual_stride + 56), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride + 56)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 56))));
+            _mm_storeu_si128((__m128i*) (residual + residual_stride), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride)), _mm_loadu_si128((__m128i*)(pred + pred_stride))));
+            _mm_storeu_si128((__m128i*) (residual + residual_stride + 8), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride + 8)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 8))));
+            _mm_storeu_si128((__m128i*) (residual + residual_stride + 16), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride + 16)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 16))));
+            _mm_storeu_si128((__m128i*) (residual + residual_stride + 24), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride + 24)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 24))));
+            _mm_storeu_si128((__m128i*) (residual + residual_stride + 32), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride + 32)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 32))));
+            _mm_storeu_si128((__m128i*) (residual + residual_stride + 40), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride + 40)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 40))));
+            _mm_storeu_si128((__m128i*) (residual + residual_stride + 48), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride + 48)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 48))));
+            _mm_storeu_si128((__m128i*) (residual + residual_stride + 56), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride + 56)), _mm_loadu_si128((__m128i*)(pred + pred_stride + 56))));
 
-            input += inputStride << 1;
+            input += input_stride << 1;
             pred += pred_stride << 1;
             residual += residual_stride << 1;
         }
     }
     else {
 
-        uint32_t inputStrideDiff = 2 * inputStride;
+        uint32_t inputStrideDiff = 2 * input_stride;
         uint32_t predStrideDiff = 2 * pred_stride;
         uint32_t residualStrideDiff = 2 * residual_stride;
         inputStrideDiff -= area_width;
@@ -638,7 +638,7 @@ void ResidualKernel16bit_SSE2_INTRIN(
                 for (y = 0; y < area_width; y += 8) {
 
                     _mm_storeu_si128((__m128i*) residual, _mm_sub_epi16(_mm_loadu_si128((__m128i*)input), _mm_loadu_si128((__m128i*)pred)));
-                    _mm_storeu_si128((__m128i*) (residual + residual_stride), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride)), _mm_loadu_si128((__m128i*)(pred + pred_stride))));
+                    _mm_storeu_si128((__m128i*) (residual + residual_stride), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride)), _mm_loadu_si128((__m128i*)(pred + pred_stride))));
 
                     input += 8;
                     pred += 8;
@@ -654,7 +654,7 @@ void ResidualKernel16bit_SSE2_INTRIN(
                 for (y = 0; y < area_width; y += 4) {
 
                     _mm_storel_epi64((__m128i*) residual, _mm_sub_epi16(_mm_loadu_si128((__m128i*)input), _mm_loadu_si128((__m128i*)pred)));
-                    _mm_storel_epi64((__m128i*) (residual + residual_stride), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + inputStride)), _mm_loadu_si128((__m128i*)(pred + pred_stride))));
+                    _mm_storel_epi64((__m128i*) (residual + residual_stride), _mm_sub_epi16(_mm_loadu_si128((__m128i*)(input + input_stride)), _mm_loadu_si128((__m128i*)(pred + pred_stride))));
 
                     input += 4;
                     pred += 4;

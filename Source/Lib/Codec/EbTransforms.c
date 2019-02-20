@@ -3700,7 +3700,7 @@ void av1_round_shift_array_c(int32_t *arr, int32_t size, int32_t bit) {
 //fwd_txfm2d_c
 static INLINE void Av1TranformTwoDCore_c(
     int16_t                     *input,
-    uint32_t                      inputStride,
+    uint32_t                      input_stride,
     int32_t                      *output,
     const TXFM_2D_FLIP_CFG      *cfg,
     int32_t                      *buf,
@@ -3737,12 +3737,12 @@ static INLINE void Av1TranformTwoDCore_c(
     // Columns
     for (c = 0; c < txfm_size_col; ++c) {
         if (cfg->ud_flip == 0) {
-            for (r = 0; r < txfm_size_row; ++r) temp_in[r] = input[r * inputStride + c];
+            for (r = 0; r < txfm_size_row; ++r) temp_in[r] = input[r * input_stride + c];
         }
         else {
             for (r = 0; r < txfm_size_row; ++r)
                 // flip upside down
-                temp_in[r] = input[(txfm_size_row - r - 1) * inputStride + c];
+                temp_in[r] = input[(txfm_size_row - r - 1) * input_stride + c];
         }
         av1_round_shift_array_c(temp_in, txfm_size_row, -shift[0]); // NM av1_round_shift_array_c
         txfm_func_col(temp_in, temp_out, cos_bit_col, stage_range_col);
@@ -3928,7 +3928,7 @@ uint64_t  HandleTransform64x64_c(
 void Av1TransformTwoD_64x64_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth)
 {
@@ -3942,7 +3942,7 @@ void Av1TransformTwoD_64x64_c(
     //fwd_txfm2d_c
     Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -3953,7 +3953,7 @@ void Av1TransformTwoD_64x64_c(
 void Av1TransformTwoD_32x32_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth)
 {
@@ -3967,7 +3967,7 @@ void Av1TransformTwoD_32x32_c(
 
     Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -3977,7 +3977,7 @@ void Av1TransformTwoD_32x32_c(
 void Av1TransformTwoD_16x16_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth)
 {
@@ -3991,7 +3991,7 @@ void Av1TransformTwoD_16x16_c(
 
     Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -4001,7 +4001,7 @@ void Av1TransformTwoD_16x16_c(
 void Av1TransformTwoD_8x8_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth)
 {
@@ -4015,7 +4015,7 @@ void Av1TransformTwoD_8x8_c(
 
     Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -4025,7 +4025,7 @@ void Av1TransformTwoD_8x8_c(
 void Av1TransformTwoD_4x4_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth)
 {
@@ -4039,7 +4039,7 @@ void Av1TransformTwoD_4x4_c(
 
     Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -4052,7 +4052,7 @@ void Av1TransformTwoD_4x4_c(
 void av1_fwd_txfm2d_64x32_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth) {
     int32_t intermediateTransformBuffer[64 * 32];
@@ -4062,7 +4062,7 @@ void av1_fwd_txfm2d_64x32_c(
     (transform_type, TX_64X32, &cfg);
     /*fwd_txfm2d_c*/Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -4095,7 +4095,7 @@ uint64_t  HandleTransform64x32_c(
 void av1_fwd_txfm2d_32x64_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth) {
     int32_t intermediateTransformBuffer[32 * 64];
@@ -4106,7 +4106,7 @@ void av1_fwd_txfm2d_32x64_c(
     /*fwd_txfm2d_c*/
     Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -4138,7 +4138,7 @@ uint64_t  HandleTransform32x64_c(
 void av1_fwd_txfm2d_64x16_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth) {
     int32_t intermediateTransformBuffer[64 * 16];
@@ -4148,7 +4148,7 @@ void av1_fwd_txfm2d_64x16_c(
     (transform_type, TX_64X16, &cfg);
     /*fwd_txfm2d_c*/Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -4180,7 +4180,7 @@ uint64_t  HandleTransform64x16_c(
 void av1_fwd_txfm2d_16x64_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth) {
     int32_t intermediateTransformBuffer[16 * 64];
@@ -4191,7 +4191,7 @@ void av1_fwd_txfm2d_16x64_c(
     /*fwd_txfm2d_c*/
     Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -4225,7 +4225,7 @@ uint64_t  HandleTransform16x64_c(
 void av1_fwd_txfm2d_32x16_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth) {
     int32_t intermediateTransformBuffer[32 * 16];
@@ -4233,7 +4233,7 @@ void av1_fwd_txfm2d_32x16_c(
     /*av1_get_fwd_txfm_cfg*/Av1TransformConfig(transform_type, TX_32X16, &cfg);
     /*fwd_txfm2d_c*/Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -4243,7 +4243,7 @@ void av1_fwd_txfm2d_32x16_c(
 void av1_fwd_txfm2d_16x32_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth) {
     int32_t intermediateTransformBuffer[16 * 32];
@@ -4251,7 +4251,7 @@ void av1_fwd_txfm2d_16x32_c(
     /*av1_get_fwd_txfm_cfg*/Av1TransformConfig(transform_type, TX_16X32, &cfg);
     /*fwd_txfm2d_c*/Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -4261,7 +4261,7 @@ void av1_fwd_txfm2d_16x32_c(
 void av1_fwd_txfm2d_16x8_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth) {
     int32_t intermediateTransformBuffer[16 * 8];
@@ -4269,7 +4269,7 @@ void av1_fwd_txfm2d_16x8_c(
     /*av1_get_fwd_txfm_cfg*/Av1TransformConfig(transform_type, TX_16X8, &cfg);
     /*fwd_txfm2d_c*/Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -4279,7 +4279,7 @@ void av1_fwd_txfm2d_16x8_c(
 void av1_fwd_txfm2d_8x16_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth) {
     int32_t intermediateTransformBuffer[8 * 16];
@@ -4287,7 +4287,7 @@ void av1_fwd_txfm2d_8x16_c(
     /*av1_get_fwd_txfm_cfg*/Av1TransformConfig(transform_type, TX_8X16, &cfg);
     /*fwd_txfm2d_c*/Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -4297,7 +4297,7 @@ void av1_fwd_txfm2d_8x16_c(
 void av1_fwd_txfm2d_32x8_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth) {
     int32_t intermediateTransformBuffer[32 * 8];
@@ -4305,7 +4305,7 @@ void av1_fwd_txfm2d_32x8_c(
     /*av1_get_fwd_txfm_cfg*/Av1TransformConfig(transform_type, TX_32X8, &cfg);
     /*fwd_txfm2d_c*/Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -4315,7 +4315,7 @@ void av1_fwd_txfm2d_32x8_c(
 void av1_fwd_txfm2d_8x32_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth) {
     int32_t intermediateTransformBuffer[8 * 32];
@@ -4323,7 +4323,7 @@ void av1_fwd_txfm2d_8x32_c(
     /*av1_get_fwd_txfm_cfg*/Av1TransformConfig(transform_type, TX_8X32, &cfg);
     /*fwd_txfm2d_c*/Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -4333,7 +4333,7 @@ void av1_fwd_txfm2d_8x32_c(
 void av1_fwd_txfm2d_16x4_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth) {
     int32_t intermediateTransformBuffer[16 * 4];
@@ -4341,7 +4341,7 @@ void av1_fwd_txfm2d_16x4_c(
     /*av1_get_fwd_txfm_cfg*/Av1TransformConfig(transform_type, TX_16X4, &cfg);
     /*fwd_txfm2d_c*/Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -4351,7 +4351,7 @@ void av1_fwd_txfm2d_16x4_c(
 void av1_fwd_txfm2d_4x16_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth) {
     int32_t intermediateTransformBuffer[4 * 16];
@@ -4359,7 +4359,7 @@ void av1_fwd_txfm2d_4x16_c(
     /*av1_get_fwd_txfm_cfg*/Av1TransformConfig(transform_type, TX_4X16, &cfg);
     /*fwd_txfm2d_c*/Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -4369,7 +4369,7 @@ void av1_fwd_txfm2d_4x16_c(
 void av1_fwd_txfm2d_8x4_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth) {
     int32_t intermediateTransformBuffer[8 * 4];
@@ -4377,7 +4377,7 @@ void av1_fwd_txfm2d_8x4_c(
     /*av1_get_fwd_txfm_cfg*/Av1TransformConfig(transform_type, TX_8X4, &cfg);
     /*fwd_txfm2d_c*/Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -4387,7 +4387,7 @@ void av1_fwd_txfm2d_8x4_c(
 void av1_fwd_txfm2d_4x8_c(
     int16_t         *input,
     int32_t         *output,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     TxType        transform_type,
     uint8_t          bit_depth) {
     int32_t intermediateTransformBuffer[4 * 8];
@@ -4395,7 +4395,7 @@ void av1_fwd_txfm2d_4x8_c(
     /*av1_get_fwd_txfm_cfg*/Av1TransformConfig(transform_type, TX_4X8, &cfg);
     /*fwd_txfm2d_c*/Av1TranformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         &cfg,
         intermediateTransformBuffer,
@@ -7342,7 +7342,7 @@ static INLINE void Av1InverseTransformTwoDCore_c(
 
 void Av1InverseTransformTwoD_4x4_c(
     int32_t        *input,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     int32_t        *output,
     uint32_t         outputStride,
     TxType        transform_type,
@@ -7359,7 +7359,7 @@ void Av1InverseTransformTwoD_4x4_c(
     // av1_gen_inv_stage_range() does for inverse shifts.
     Av1InverseTransformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         outputStride,
         &cfg,
@@ -7370,7 +7370,7 @@ void Av1InverseTransformTwoD_4x4_c(
 
 void Av1InverseTransformTwoD_8x8_c(
     int32_t        *input,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     int32_t        *output,
     uint32_t         outputStride,
     TxType        transform_type,
@@ -7387,7 +7387,7 @@ void Av1InverseTransformTwoD_8x8_c(
     // av1_gen_inv_stage_range() does for inverse shifts.
     Av1InverseTransformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         outputStride,
         &cfg,
@@ -7398,7 +7398,7 @@ void Av1InverseTransformTwoD_8x8_c(
 
 void Av1InverseTransformTwoD_16x16_c(
     int32_t        *input,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     int32_t        *output,
     uint32_t         outputStride,
     TxType        transform_type,
@@ -7415,7 +7415,7 @@ void Av1InverseTransformTwoD_16x16_c(
     // av1_gen_inv_stage_range() does for inverse shifts.
     Av1InverseTransformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         outputStride,
         &cfg,
@@ -7426,7 +7426,7 @@ void Av1InverseTransformTwoD_16x16_c(
 
 void Av1InverseTransformTwoD_32x32_c(
     int32_t        *input,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     int32_t        *output,
     uint32_t         outputStride,
     TxType        transform_type,
@@ -7443,7 +7443,7 @@ void Av1InverseTransformTwoD_32x32_c(
     // av1_gen_inv_stage_range() does for inverse shifts.
     Av1InverseTransformTwoDCore_c(
         input,
-        inputStride,
+        input_stride,
         output,
         outputStride,
         &cfg,
@@ -7454,13 +7454,13 @@ void Av1InverseTransformTwoD_32x32_c(
 
 void Av1InverseTransformTwoD_64x64_c(
     int32_t        *input,
-    uint32_t         inputStride,
+    uint32_t         input_stride,
     int32_t        *output,
     uint32_t         outputStride,
     TxType        transform_type,
     uint8_t          bit_depth)
 {
-    (void)inputStride;
+    (void)input_stride;
     // TODO(urvang): Can the same array be reused, instead of using a new array?
     // Remap 32x32 input into a modified 64x64 by:
     // - Copying over these values in top-left 32x32 locations.

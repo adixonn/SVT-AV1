@@ -40,7 +40,7 @@ extern "C" {
 
     extern void ResidualKernel16bit_SSE2_INTRIN(
         uint16_t   *input,
-        uint32_t   inputStride,
+        uint32_t   input_stride,
         uint16_t   *pred,
         uint32_t   pred_stride,
         int16_t  *residual,
@@ -100,7 +100,7 @@ extern "C" {
 
     void ResidualKernelSubSampled4x4_SSE_INTRIN(
         uint8_t   *input,
-        uint32_t   inputStride,
+        uint32_t   input_stride,
         uint8_t   *pred,
         uint32_t   pred_stride,
         int16_t  *residual,
@@ -111,7 +111,7 @@ extern "C" {
 
     void ResidualKernelSubSampled8x8_SSE2_INTRIN(
         uint8_t   *input,
-        uint32_t   inputStride,
+        uint32_t   input_stride,
         uint8_t   *pred,
         uint32_t   pred_stride,
         int16_t  *residual,
@@ -122,7 +122,7 @@ extern "C" {
 
     void ResidualKernelSubSampled16x16_SSE2_INTRIN(
         uint8_t   *input,
-        uint32_t   inputStride,
+        uint32_t   input_stride,
         uint8_t   *pred,
         uint32_t   pred_stride,
         int16_t  *residual,
@@ -133,7 +133,7 @@ extern "C" {
 
     void ResidualKernelSubSampled32x32_SSE2_INTRIN(
         uint8_t   *input,
-        uint32_t   inputStride,
+        uint32_t   input_stride,
         uint8_t   *pred,
         uint32_t   pred_stride,
         int16_t  *residual,
@@ -144,7 +144,7 @@ extern "C" {
 
     void ResidualKernelSubSampled64x64_SSE2_INTRIN(
         uint8_t   *input,
-        uint32_t   inputStride,
+        uint32_t   input_stride,
         uint8_t   *pred,
         uint32_t   pred_stride,
         int16_t  *residual,
