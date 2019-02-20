@@ -9,7 +9,7 @@ section .text
 ; ----------------------------------------------------------------------------------------
 
 cglobal _PictureCopyKernel_SSE2
-cglobal PictureCopyKernel_SSE2
+cglobal picture_copy_kernel_sse2
 
 ; Requirement: areaWidthInBytes = 4, 8, 12, 16, 24, 32, 48, 64 or 128
 ; Requirement: area_height % 2 = 0
@@ -356,21 +356,21 @@ Label_ZeroOutCoeff32x32_SSE2_01:
 ; ----------------------------------------------------------------------------------------
 
 cglobal _PictureAverageKernel_SSE2
-cglobal PictureAverageKernel_SSE2
+cglobal picture_average_kernel_sse2
 
 ; Requirement: pu_width         = 4, 8, 12, 16, 24, 32, 48 or 64
 ; Requirement: pu_height   %  2 = 0
 ; Requirement: src0       % 16 = 0 when pu_width >= 16
 ; Requirement: src1       % 16 = 0 when pu_width >= 16
 ; Requirement: dst        % 16 = 0 when pu_width >= 16
-; Requirement: src0Stride % 16 = 0 when pu_width >= 16
-; Requirement: src1Stride % 16 = 0 when pu_width >= 16
+; Requirement: src0_stride % 16 = 0 when pu_width >= 16
+; Requirement: src1_stride % 16 = 0 when pu_width >= 16
 ; Requirement: dst_stride  % 16 = 0 when pu_width >= 16
 
 %define src0       r0
-%define src0Stride r1
+%define src0_stride r1
 %define src1       r2
-%define src1Stride r3
+%define src1_stride r3
 %define dst        r4
 %define dst_stride  r5
 %define area_width  r6
@@ -396,14 +396,14 @@ cglobal PictureAverageKernel_SSE2
 Label_PictureAverageKernel_SSE2_WIDTH12:
     movq            mm0,            [src0]
     movd            mm1,            [src0+8]
-    movq            mm2,            [src0+src0Stride]
-    movd            mm3,            [src0+src0Stride+8]
+    movq            mm2,            [src0+src0_stride]
+    movd            mm3,            [src0+src0_stride+8]
     pavgb           mm0,            [src1]
     pavgb           mm1,            [src1+8]
-    pavgb           mm2,            [src1+src1Stride]
-    pavgb           mm3,            [src1+src1Stride+8]
-    lea             src0,           [src0+2*src0Stride]
-    lea             src1,           [src1+2*src1Stride]
+    pavgb           mm2,            [src1+src1_stride]
+    pavgb           mm3,            [src1+src1_stride+8]
+    lea             src0,           [src0+2*src0_stride]
+    lea             src1,           [src1+2*src1_stride]
     movq            [dst],          mm0
     movd            [dst+8],        mm1
     movq            [dst+dst_stride], mm2
@@ -422,11 +422,11 @@ Label_PictureAverageKernel_SSE2_WIDTH12:
 
 Label_PictureAverageKernel_SSE2_WIDTH8:
     movq            mm0,            [src0]
-    movq            mm1,            [src0+src0Stride]
+    movq            mm1,            [src0+src0_stride]
     pavgb           mm0,            [src1]
-    pavgb           mm1,            [src1+src1Stride]
-    lea             src0,           [src0+2*src0Stride]
-    lea             src1,           [src1+2*src1Stride]
+    pavgb           mm1,            [src1+src1_stride]
+    lea             src0,           [src0+2*src0_stride]
+    lea             src1,           [src1+2*src1_stride]
     movq            [dst],          mm0
     movq            [dst+dst_stride], mm1
     lea             dst,            [dst+2*dst_stride]
@@ -443,11 +443,11 @@ Label_PictureAverageKernel_SSE2_WIDTH8:
 
 Label_PictureAverageKernel_SSE2_WIDTH4:
     movd            mm0,            [src0]
-    movd            mm1,            [src0+src0Stride]
+    movd            mm1,            [src0+src0_stride]
     pavgb           mm0,            [src1]
-    pavgb           mm1,            [src1+src1Stride]
-    lea             src0,           [src0+2*src0Stride]
-    lea             src1,           [src1+2*src1Stride]
+    pavgb           mm1,            [src1+src1_stride]
+    lea             src0,           [src0+2*src0_stride]
+    lea             src1,           [src1+2*src1_stride]
     movd            [dst],          mm0
     movd            [dst+dst_stride], mm1
     lea             dst,            [dst+2*dst_stride]
@@ -477,10 +477,10 @@ Label_PictureAverageKernel_SSE2_WIDTH64:
     movdqu          xmm1,           [src0+16]
     movdqu          xmm2,           [src0+32]
     movdqu          xmm3,           [src0+48]
-    movdqu          xmm4,           [src0+src0Stride]
-    movdqu          xmm5,           [src0+src0Stride+16]
-    movdqu          xmm6,           [src0+src0Stride+32]
-    movdqu          xmm7,           [src0+src0Stride+48]
+    movdqu          xmm4,           [src0+src0_stride]
+    movdqu          xmm5,           [src0+src0_stride+16]
+    movdqu          xmm6,           [src0+src0_stride+32]
+    movdqu          xmm7,           [src0+src0_stride+48]
     movdqu            xmm8,            [src1]
     pavgb           xmm0,            xmm8
     movdqu            xmm8,            [src1+16]
@@ -489,16 +489,16 @@ Label_PictureAverageKernel_SSE2_WIDTH64:
     pavgb           xmm2,            xmm8
     movdqu            xmm8,            [src1+48]
     pavgb           xmm3,            xmm8
-    movdqu            xmm8,            [src1+src1Stride]
+    movdqu            xmm8,            [src1+src1_stride]
     pavgb           xmm4,            xmm8
-    movdqu            xmm8,            [src1+src1Stride+16]
+    movdqu            xmm8,            [src1+src1_stride+16]
     pavgb           xmm5,            xmm8
-    movdqu            xmm8,            [src1+src1Stride+32]
+    movdqu            xmm8,            [src1+src1_stride+32]
     pavgb           xmm6,            xmm8
-    movdqu            xmm8,            [src1+src1Stride+48]
+    movdqu            xmm8,            [src1+src1_stride+48]
     pavgb           xmm7,            xmm8
-    lea             src0,           [src0+2*src0Stride]
-    lea             src1,           [src1+2*src1Stride]
+    lea             src0,           [src0+2*src0_stride]
+    lea             src1,           [src1+2*src1_stride]
     movdqu          [dst],          xmm0
     movdqu          [dst+16],       xmm1
     movdqu          [dst+32],       xmm2
@@ -519,23 +519,23 @@ Label_PictureAverageKernel_SSE2_WIDTH48:
     movdqu          xmm0,           [src0]
     movdqu          xmm1,           [src0+16]
     movdqu          xmm2,           [src0+32]
-    movdqu          xmm3,           [src0+src0Stride]
-    movdqu          xmm4,           [src0+src0Stride+16]
-    movdqu          xmm5,           [src0+src0Stride+32]
+    movdqu          xmm3,           [src0+src0_stride]
+    movdqu          xmm4,           [src0+src0_stride+16]
+    movdqu          xmm5,           [src0+src0_stride+32]
     movdqu          xmm6,            [src1]
     pavgb           xmm0,            xmm6
     movdqu          xmm6,            [src1+16]
     pavgb           xmm1,            xmm6
     movdqu          xmm6,            [src1+32]            
     pavgb           xmm2,            xmm6
-    movdqu          xmm6,            [src1+src1Stride]
+    movdqu          xmm6,            [src1+src1_stride]
     pavgb           xmm3,            xmm6
-    movdqu          xmm6,            [src1+src1Stride+16]
+    movdqu          xmm6,            [src1+src1_stride+16]
     pavgb           xmm4,            xmm6
-    movdqu          xmm6,            [src1+src1Stride+32]
+    movdqu          xmm6,            [src1+src1_stride+32]
     pavgb           xmm5,            xmm6
-    lea             src0,           [src0+2*src0Stride]
-    lea             src1,           [src1+2*src1Stride]
+    lea             src0,           [src0+2*src0_stride]
+    lea             src1,           [src1+2*src1_stride]
     movdqu          [dst],          xmm0
     movdqu          [dst+16],       xmm1
     movdqu          [dst+32],       xmm2
@@ -553,18 +553,18 @@ Label_PictureAverageKernel_SSE2_WIDTH48:
 Label_PictureAverageKernel_SSE2_WIDTH32:
     movdqu          xmm0,           [src0]
     movdqu          xmm1,           [src0+16]
-    movdqu          xmm2,           [src0+src0Stride]
-    movdqu          xmm3,           [src0+src0Stride+16]
+    movdqu          xmm2,           [src0+src0_stride]
+    movdqu          xmm3,           [src0+src0_stride+16]
     movdqu            xmm4,            [src1]
     pavgb           xmm0,           xmm4
     movdqu            xmm4,            [src1+16]
     pavgb           xmm1,           xmm4
-    movdqu            xmm4,            [src1+src1Stride]
+    movdqu            xmm4,            [src1+src1_stride]
     pavgb           xmm2,           xmm4
-    movdqu            xmm4,            [src1+src1Stride+16]
+    movdqu            xmm4,            [src1+src1_stride+16]
     pavgb           xmm3,           xmm4
-    lea             src0,           [src0+2*src0Stride]
-    lea             src1,           [src1+2*src1Stride]
+    lea             src0,           [src0+2*src0_stride]
+    lea             src1,           [src1+2*src1_stride]
     movdqu          [dst],          xmm0
     movdqu          [dst+16],       xmm1
     movdqu          [dst+dst_stride], xmm2
@@ -580,16 +580,16 @@ Label_PictureAverageKernel_SSE2_WIDTH32:
 Label_PictureAverageKernel_SSE2_WIDTH24:
     movdqu          xmm0,           [src0]
     movq            mm0,            [src0+16]
-    movdqu          xmm1,           [src0+src0Stride]
-    movq            mm1,            [src0+src0Stride+16]
+    movdqu          xmm1,           [src0+src0_stride]
+    movq            mm1,            [src0+src0_stride+16]
     movdqu          xmm2,           [src1]
     pavgb           xmm0,           xmm2
     pavgb           mm0,            [src1+16]
-    movdqu          xmm3,           [src1+src1Stride]
+    movdqu          xmm3,           [src1+src1_stride]
     pavgb           xmm1,           xmm3
-    pavgb           mm1,            [src1+src1Stride+16]
-    lea             src0,           [src0+2*src0Stride]
-    lea             src1,           [src1+2*src1Stride]
+    pavgb           mm1,            [src1+src1_stride+16]
+    lea             src0,           [src0+2*src0_stride]
+    lea             src1,           [src1+2*src1_stride]
     movdqu          [dst],          xmm0
     movq            [dst+16],       mm0
     movdqu          [dst+dst_stride], xmm1
@@ -608,13 +608,13 @@ Label_PictureAverageKernel_SSE2_WIDTH24:
 
 Label_PictureAverageKernel_SSE2_WIDTH16:
     movdqu          xmm0,           [src0]
-    movdqu          xmm1,           [src0+src0Stride]
+    movdqu          xmm1,           [src0+src0_stride]
     movdqu          xmm4,           [src1]
     pavgb           xmm0,           xmm4
-    movdqu          xmm4,           [src1+src1Stride]
+    movdqu          xmm4,           [src1+src1_stride]
     pavgb           xmm1,           xmm4
-    lea             src0,           [src0+2*src0Stride]
-    lea             src1,           [src1+2*src1Stride]
+    lea             src0,           [src0+2*src0_stride]
+    lea             src1,           [src1+2*src1_stride]
     movdqu          [dst],          xmm0
     movdqu          [dst+dst_stride], xmm1
     lea             dst,            [dst+2*dst_stride]

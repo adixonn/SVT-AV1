@@ -1176,7 +1176,7 @@ void IntraModePlanar16bit_SSE2_INTRIN(
     uint32_t pStride = prediction_buffer_stride;
     uint32_t count, reverseCnt, coefOffset;
     __m128i  leftCoeff, pred, left, left16, top, topRight, topRightAddSize, bottomLeft, bottomLeftTotal, bottomLeftTotal16;
-    EB_ALIGN(16) const int16_t * coeffArray = IntraPredictionConst_SSE2;
+    EB_ALIGN(16) const int16_t * coeffArray = intra_prediction_const_sse2;
 
     if (size != 4) {
         __m128i xmm_TopRight, xmm_BottomLeft;
@@ -1839,7 +1839,7 @@ void IntraModePlanar_SSE2_INTRIN(
     __m128i xmm_TRP, xmm_BLP, xmm_LP, xmm_TO;
     __m128i xmm_TRP_tot, xmm_BLP_tot, xmm_LP_tot, xmm_TO_tot;
     __m128i xmm_LP_Coeff, xmm_LP_shift, xmm0 = _mm_setzero_si128(), xmm_sum, xmm_BLP_tot_shift;
-    EB_ALIGN(16) const int16_t * IntraPredictionConst = IntraPredictionConst_SSE2;
+    EB_ALIGN(16) const int16_t * IntraPredictionConst = intra_prediction_const_sse2;
 
     if (size == 4) {
 

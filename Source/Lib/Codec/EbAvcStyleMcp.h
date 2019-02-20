@@ -214,9 +214,9 @@ extern "C" {
 
     typedef void(*PictureAverage)(
         EbByte                  src0,
-        uint32_t                   src0Stride,
+        uint32_t                   src0_stride,
         EbByte                  src1,
-        uint32_t                   src1Stride,
+        uint32_t                   src1_stride,
         EbByte                  dst,
         uint32_t                   dst_stride,
         uint32_t                   area_width,
@@ -269,9 +269,9 @@ extern "C" {
 
     static const PictureAverage FUNC_TABLE picture_average_array[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        PictureAverageKernel_SSE2_INTRIN,
+        picture_average_kernel_sse2_intrin,
         // AVX2
-        PictureAverageKernel_SSE2_INTRIN,
+        picture_average_kernel_sse2_intrin,
     };
 
     typedef void(*PictureAverage1Line)(
@@ -282,9 +282,9 @@ extern "C" {
 
     static const PictureAverage1Line FUNC_TABLE picture_average1_line_array[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        PictureAverageKernel1Line_SSE2_INTRIN,
+        picture_average_kernel1_line_sse2_intrin,
         // AVX2
-        PictureAverageKernel1Line_SSE2_INTRIN,
+        picture_average_kernel1_line_sse2_intrin,
     };
 
 #ifdef __cplusplus
