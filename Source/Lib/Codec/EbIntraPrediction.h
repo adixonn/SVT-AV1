@@ -351,7 +351,7 @@ extern "C" {
         32,    //  Intra mode 34
     };
 
-    extern void IntraModeAngular_Horizontal_Kernel_SSSE3_INTRIN(
+    extern void intra_mode_angular_horizontal_kernel_ssse3_intrin(
         uint32_t            size,
         uint8_t            *ref_samp_main,
         uint8_t            *prediction_ptr,
@@ -756,7 +756,7 @@ extern "C" {
 
     static EB_INTRA_ANG_TYPE FUNC_TABLE IntraAngVertical_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        IntraModeAngular_Vertical_Kernel_SSSE3_INTRIN,
+        intra_mode_angular_vertical_kernel_ssse3_intrin,
         // AVX2
         intra_mode_angular_vertical_kernel_avx2_intrin,
     };
@@ -764,7 +764,7 @@ extern "C" {
 
     static EB_INTRA_ANG_TYPE FUNC_TABLE IntraAngHorizontal_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        IntraModeAngular_Horizontal_Kernel_SSSE3_INTRIN,
+        intra_mode_angular_horizontal_kernel_ssse3_intrin,
         // AVX2
         intra_mode_angular_horizontal_kernel_avx2_intrin,
     };

@@ -12,7 +12,7 @@ static void _mm_storeh_epi64(__m128i * p, __m128i x)
     _mm_storeh_pd((double *)p, _mm_castsi128_pd(x));
 }
 
-extern void IntraModeAngular_Vertical_Kernel_SSSE3_INTRIN(
+extern void intra_mode_angular_vertical_kernel_ssse3_intrin(
     uint32_t         size,                       //input parameter, denotes the size of the current PU
     uint8_t         *ref_samp_main,                //input parameter, pointer to the reference samples
     uint8_t         *prediction_ptr,              //output parameter, pointer to the prediction
@@ -138,7 +138,7 @@ extern void IntraModeAngular_Vertical_Kernel_SSSE3_INTRIN(
     }
 }
 
-extern void IntraModeAngular_Horizontal_Kernel_SSSE3_INTRIN(
+extern void intra_mode_angular_horizontal_kernel_ssse3_intrin(
     uint32_t         size,                       //input parameter, denotes the size of the current PU
     uint8_t         *ref_samp_main,                //input parameter, pointer to the reference samples
     uint8_t         *prediction_ptr,              //output parameter, pointer to the prediction
