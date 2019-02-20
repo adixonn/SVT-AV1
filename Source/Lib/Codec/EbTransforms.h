@@ -4146,7 +4146,7 @@ extern "C" {
         {
             lowPrecisionTransform32x32_SSSE3,
             lowPrecisionTransform16x16_SSSE3,
-            Transform8x8_SSE4_1_INTRIN,
+            transform8x8_sse4_1_intrin,
             transform4x4_sse2_intrin,
             dst_transform4x4_sse2_intrin
         },
@@ -4154,7 +4154,7 @@ extern "C" {
         {
             low_precision_transform32x32_avx2_intrin,
             low_precision_transform16x16_avx2_intrin,
-            Transform8x8_SSE4_1_INTRIN,
+            transform8x8_sse4_1_intrin,
             transform4x4_sse2_intrin,
             dst_transform4x4_sse2_intrin
         },
@@ -4173,7 +4173,7 @@ extern "C" {
         {
             pfreq_transform32x32_avx2_intrin,
             pfreq_transform16x16_sse2,
-            PfreqTransform8x8_SSE4_1_INTRIN,
+            pfreq_transform8x8_sse4_1_intrin,
             transform4x4_sse2_intrin,
             dst_transform4x4_sse2_intrin
         }
@@ -4191,7 +4191,7 @@ extern "C" {
         {
             pfreq_n4_transform32x32_avx2_intrin,
             pfreq_n4_transform16x16_sse2,
-            PfreqN4Transform8x8_SSE4_1_INTRIN,
+            pfreq_n4_transform8x8_sse4_1_intrin,
             transform4x4_sse2_intrin,
             dst_transform4x4_sse2_intrin
         }
@@ -4209,7 +4209,7 @@ extern "C" {
         {
             transform32x32_sse2,
             transform16x16_sse2,
-            Transform8x8_SSE4_1_INTRIN,
+            transform8x8_sse4_1_intrin,
             transform4x4_sse2_intrin,
             dst_transform4x4_sse2_intrin
         },

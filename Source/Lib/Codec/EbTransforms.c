@@ -216,7 +216,7 @@ EB_EXTERN EB_ALIGN(16) const int16_t TransformAsmConst[] = {
     87, -90, 87, -90, 87, -90, 87, -90,
 };
 
-EB_ALIGN(16) const int16_t TransformAsmConst_SSE4_1[] = {
+EB_ALIGN(16) const int16_t transform_asm_const_sse4_1[] = {
     2, 0, 2, 0, 2, 0, 2, 0,
     4, 0, 4, 0, 4, 0, 4, 0,
     8, 0, 8, 0, 8, 0, 8, 0,
