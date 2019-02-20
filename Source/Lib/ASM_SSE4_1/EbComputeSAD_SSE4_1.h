@@ -15,13 +15,13 @@ extern "C" {
         uint8_t  *src,                            // input parameter, source samples Ptr
         uint32_t  src_stride,                      // input parameter, source stride
         uint8_t  *ref,                            // input parameter, reference samples Ptr
-        uint32_t  refStride,                      // input parameter, reference stride
+        uint32_t  ref_stride,                      // input parameter, reference stride
         uint32_t  height,                         // input parameter, block height (M)
         uint32_t  width,                          // input parameter, block width (N)
-        uint64_t *bestSad,
-        int16_t *xSearchCenter,
-        int16_t *ySearchCenter,
-        uint32_t  srcStrideRaw,                   // input parameter, source stride (no line skipping)
+        uint64_t *best_sad,
+        int16_t *x_search_center,
+        int16_t *y_search_center,
+        uint32_t  src_stride_raw,                   // input parameter, source stride (no line skipping)
         int16_t search_area_width,
         int16_t search_area_height);
 
@@ -29,13 +29,13 @@ extern "C" {
         uint8_t  *src,                            // input parameter, source samples Ptr
         uint32_t  src_stride,                      // input parameter, source stride
         uint8_t  *ref,                            // input parameter, reference samples Ptr
-        uint32_t  refStride,                      // input parameter, reference stride
+        uint32_t  ref_stride,                      // input parameter, reference stride
         uint32_t  height,                         // input parameter, block height (M)
         uint32_t  width,                          // input parameter, block width (N)
-        uint64_t *bestSad,
-        int16_t *xSearchCenter,
-        int16_t *ySearchCenter,
-        uint32_t  srcStrideRaw,                   // input parameter, source stride (no line skipping)
+        uint64_t *best_sad,
+        int16_t *x_search_center,
+        int16_t *y_search_center,
+        uint32_t  src_stride_raw,                   // input parameter, source stride (no line skipping)
         int16_t search_area_width,
         int16_t search_area_height);
 
@@ -43,13 +43,13 @@ extern "C" {
         uint8_t  *src,                            // input parameter, source samples Ptr
         uint32_t  src_stride,                      // input parameter, source stride
         uint8_t  *ref,                            // input parameter, reference samples Ptr
-        uint32_t  refStride,                      // input parameter, reference stride
+        uint32_t  ref_stride,                      // input parameter, reference stride
         uint32_t  height,                         // input parameter, block height (M)
         uint32_t  width,                          // input parameter, block width (N)
-        uint64_t *bestSad,
-        int16_t *xSearchCenter,
-        int16_t *ySearchCenter,
-        uint32_t  srcStrideRaw,                   // input parameter, source stride (no line skipping)
+        uint64_t *best_sad,
+        int16_t *x_search_center,
+        int16_t *y_search_center,
+        uint32_t  src_stride_raw,                   // input parameter, source stride (no line skipping)
         int16_t search_area_width,
         int16_t search_area_height);
 
@@ -57,7 +57,7 @@ extern "C" {
         uint8_t   *src,
         uint32_t   src_stride,
         uint8_t   *ref,
-        uint32_t   refStride,
+        uint32_t   ref_stride,
         uint32_t  *p_best_sad8x8,
         uint32_t  *p_best_mv8x8,
         uint32_t  *p_best_sad16x16,
@@ -77,7 +77,7 @@ extern "C" {
         uint8_t   *src,
         uint32_t   src_stride,
         uint8_t   *ref,
-        uint32_t   refStride,
+        uint32_t   ref_stride,
         uint32_t  *p_best_sad8x8,
         uint32_t  *p_best_sad16x16,
         uint32_t  *p_best_mv8x8,
@@ -90,7 +90,7 @@ extern "C" {
         uint8_t   *src,
         uint32_t   src_stride,
         uint8_t   *ref,
-        uint32_t   refStride,
+        uint32_t   ref_stride,
         uint32_t  *p_best_sad8x8,
         uint32_t  *p_best_sad16x16,
         uint32_t  *p_best_mv8x8,

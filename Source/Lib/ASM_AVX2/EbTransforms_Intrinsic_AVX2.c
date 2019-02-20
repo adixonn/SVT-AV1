@@ -561,7 +561,7 @@ void transform16_AVX2_INTRIN(int16_t *src, uint32_t src_stride, int16_t *dst, ui
         __m256i y0, y1;
         __m256i a0, a1, a2, a3;
         __m256i b0, b1, b2, b3;
-        //_mm_loadu_si128((__m128i*)(ref + refStride))
+        //_mm_loadu_si128((__m128i*)(ref + ref_stride))
         y0 = _mm256_insertf128_si256(_mm256_castsi128_si256(_mm_loadu_si128((const __m128i *)(src + i * src_stride + 0x00))), _mm_loadu_si128((const __m128i *)(src + (i + 1)*src_stride + 0x00)), 0x1);
         y1 = _mm256_insertf128_si256(_mm256_castsi128_si256(_mm_loadu_si128((const __m128i *)(src + i * src_stride + 0x08))), _mm_loadu_si128((const __m128i *)(src + (i + 1)*src_stride + 0x08)), 0x1);
 

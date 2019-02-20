@@ -61,7 +61,7 @@ extern "C" {
         const EbBool  skip,
         int32_t       intra_pred_angle);
 
-    extern void IntraModeAngular_Horizontal_Kernel_AVX2_INTRIN(
+    extern void intra_mode_angular_horizontal_kernel_avx2_intrin(
         uint32_t      size,                             //input parameter, denotes the size of the current PU
         uint8_t      *ref_samp_main,                    //input parameter, pointer to the reference samples
         uint8_t      *prediction_ptr,                   //output parameter, pointer to the prediction
@@ -69,7 +69,7 @@ extern "C" {
         const EbBool  skip,
         int32_t       intra_pred_angle);
 
-    extern void IntraModeVerticalLuma_AVX2_INTRIN(
+    extern void intra_mode_vertical_luma_avx2_intrin(
         const uint32_t  size,                           //input parameter, denotes the size of the current PU
         uint8_t        *ref_samples,                    //input parameter, pointer to the reference samples
         uint8_t        *prediction_ptr,                 //output parameter, pointer to the prediction

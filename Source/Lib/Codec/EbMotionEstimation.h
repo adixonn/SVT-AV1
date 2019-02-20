@@ -1529,7 +1529,7 @@ extern "C" {
         uint8_t  *src,                            // input parameter, source samples Ptr
         uint32_t  src_stride,                      // input parameter, source stride
         uint8_t  *ref,                            // input parameter, reference samples Ptr
-        uint32_t  refStride);
+        uint32_t  ref_stride);
 
     // Nader - to be replaced by loock-up table
     /*******************************************

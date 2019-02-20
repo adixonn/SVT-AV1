@@ -49,7 +49,7 @@ uint32_t FastLoop_NxMSadKernel(
     uint8_t  *src,                            // input parameter, source samples Ptr
     uint32_t  src_stride,                      // input parameter, source stride
     uint8_t  *ref,                            // input parameter, reference samples Ptr
-    uint32_t  refStride,                      // input parameter, reference stride
+    uint32_t  ref_stride,                      // input parameter, reference stride
     uint32_t  height,                         // input parameter, block height (M)
     uint32_t  width)                          // input parameter, block width (N)
 {
@@ -63,7 +63,7 @@ uint32_t FastLoop_NxMSadKernel(
             sad += EB_ABS_DIFF(src[x], ref[x]);
         }
         src += src_stride;
-        ref += refStride;
+        ref += ref_stride;
     }
 
     return sad;
@@ -73,20 +73,20 @@ void SadLoopKernel(
     uint8_t  *src,                            // input parameter, source samples Ptr
     uint32_t  src_stride,                      // input parameter, source stride
     uint8_t  *ref,                            // input parameter, reference samples Ptr
-    uint32_t  refStride,                      // input parameter, reference stride
+    uint32_t  ref_stride,                      // input parameter, reference stride
     uint32_t  height,                         // input parameter, block height (M)
     uint32_t  width,                          // input parameter, block width (N)
-    uint64_t *bestSad,
-    int16_t *xSearchCenter,
-    int16_t *ySearchCenter,
-    uint32_t  srcStrideRaw,                   // input parameter, source stride (no line skipping)
+    uint64_t *best_sad,
+    int16_t *x_search_center,
+    int16_t *y_search_center,
+    uint32_t  src_stride_raw,                   // input parameter, source stride (no line skipping)
     int16_t search_area_width,
     int16_t search_area_height)
 {
     int16_t xSearchIndex;
     int16_t ySearchIndex;
 
-    *bestSad = 0xffffff;
+    *best_sad = 0xffffff;
 
     for (ySearchIndex = 0; ySearchIndex < search_area_height; ySearchIndex++)
     {
@@ -99,21 +99,21 @@ void SadLoopKernel(
             {
                 for (x = 0; x < width; x++)
                 {
-                    sad += EB_ABS_DIFF(src[y*src_stride + x], ref[xSearchIndex + y * refStride + x]);
+                    sad += EB_ABS_DIFF(src[y*src_stride + x], ref[xSearchIndex + y * ref_stride + x]);
                 }
 
             }
 
             // Update results
-            if (sad < *bestSad)
+            if (sad < *best_sad)
             {
-                *bestSad = sad;
-                *xSearchCenter = xSearchIndex;
-                *ySearchCenter = ySearchIndex;
+                *best_sad = sad;
+                *x_search_center = xSearchIndex;
+                *y_search_center = ySearchIndex;
             }
         }
 
-        ref += srcStrideRaw;
+        ref += src_stride_raw;
     }
 
     return;

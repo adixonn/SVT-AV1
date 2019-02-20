@@ -3304,7 +3304,7 @@ uint32_t Compute4x4SAD_Kernel(
     uint8_t  *src,                            // input parameter, source samples Ptr
     uint32_t  src_stride,                      // input parameter, source stride
     uint8_t  *ref,                            // input parameter, reference samples Ptr
-    uint32_t  refStride,                      // input parameter, reference stride
+    uint32_t  ref_stride,                      // input parameter, reference stride
     uint32_t  height,                         // input parameter, block height (M)
     uint32_t  width)                          // input parameter, block width (N)
 {
@@ -3318,7 +3318,7 @@ uint32_t Compute4x4SAD_Kernel(
         sadBlock4x4 += EB_ABS_DIFF(src[0x03], ref[0x03]);
 
         src += src_stride;
-        ref += refStride;
+        ref += ref_stride;
     }
     (void)height;
     (void)width;
@@ -3331,7 +3331,7 @@ static EB_SADKERNELNxM_TYPE FUNC_TABLE compute4x4SAD_funcPtrArray[ASM_TYPE_TOTAL
     Compute4x4SAD_Kernel,
 #if INTRINSIC_OPT_2
     // SSE2
-    Compute4xMSad_AVX2_INTRIN,
+    compute4x_m_sad_avx2_intrin,
 #else
     // SSE2
     Compute4x4SAD_Kernel,
@@ -6738,8 +6738,8 @@ EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
 
     uint8_t                   refPicIndex = 0;
     // Final ME Search Center
-    int16_t                  xSearchCenter = 0;
-    int16_t                  ySearchCenter = 0;
+    int16_t                  x_search_center = 0;
+    int16_t                  y_search_center = 0;
 
     uint32_t                  numOfListToSearch;
     uint32_t                  listIndex;
@@ -6797,11 +6797,11 @@ EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
         refPicPtr = is16bit ? (EbPictureBufferDesc_t*)referenceObject->referencePicture16bit : (EbPictureBufferDesc_t*)referenceObject->referencePicture;
         search_area_width = (int16_t)MIN(context_ptr->search_area_width, 127);
         search_area_height = (int16_t)MIN(context_ptr->search_area_height, 127);
-        xSearchCenter = listIndex == REF_LIST_0 ? xMvL0 : xMvL1;
-        ySearchCenter = listIndex == REF_LIST_0 ? yMvL0 : yMvL1;
+        x_search_center = listIndex == REF_LIST_0 ? xMvL0 : xMvL1;
+        y_search_center = listIndex == REF_LIST_0 ? yMvL0 : yMvL1;
 
-        x_search_area_origin = xSearchCenter - (search_area_width >> 1);
-        y_search_area_origin = ySearchCenter - (search_area_height >> 1);
+        x_search_area_origin = x_search_center - (search_area_width >> 1);
+        y_search_area_origin = y_search_center - (search_area_height >> 1);
 
         // Correct the left edge of the Search Area if it is not on the reference Picture
         x_search_area_origin = ((origin_x + x_search_area_origin) < -padWidth) ?

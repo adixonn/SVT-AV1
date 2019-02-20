@@ -48,8 +48,8 @@ EbErrorType CheckZeroZeroCenter(
     uint32_t                       sb_origin_y,
     uint32_t                       sb_width,
     uint32_t                       sb_height,
-    int16_t                       *xSearchCenter,
-    int16_t                       *ySearchCenter,
+    int16_t                       *x_search_center,
+    int16_t                       *y_search_center,
     EbAsm                       asm_type);
 
 #if ME_HME_OQ

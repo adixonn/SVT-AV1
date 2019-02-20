@@ -28,7 +28,7 @@ extern "C" {
         uint8_t  *src,
         uint32_t  src_stride,
         uint8_t  *ref,
-        uint32_t  refStride,
+        uint32_t  ref_stride,
         uint32_t  height,
         uint32_t  width);
 
@@ -38,13 +38,13 @@ extern "C" {
         uint8_t  *src,                            // input parameter, source samples Ptr
         uint32_t  src_stride,                      // input parameter, source stride
         uint8_t  *ref,                            // input parameter, reference samples Ptr
-        uint32_t  refStride,                      // input parameter, reference stride
+        uint32_t  ref_stride,                      // input parameter, reference stride
         uint32_t  height,                         // input parameter, block height (M)
         uint32_t  width,                          // input parameter, block width (N)
-        uint64_t *bestSad,
-        int16_t *xSearchCenter,
-        int16_t *ySearchCenter,
-        uint32_t  srcStrideRaw,                   // input parameter, source stride (no line skipping)
+        uint64_t *best_sad,
+        int16_t *x_search_center,
+        int16_t *y_search_center,
+        uint32_t  src_stride_raw,                   // input parameter, source stride (no line skipping)
         int16_t search_area_width,
         int16_t search_area_height);
 
@@ -62,19 +62,19 @@ extern "C" {
         uint8_t  *src,                            // input parameter, source samples Ptr
         uint32_t  src_stride,                      // input parameter, source stride
         uint8_t  *ref,                            // input parameter, reference samples Ptr
-        uint32_t  refStride);                     // input parameter, reference stride
+        uint32_t  ref_stride);                     // input parameter, reference stride
 
     typedef uint32_t(*EB_COMPUTE8X8SAD_TYPE)(
         uint8_t  *src,                            // input parameter, source samples Ptr
         uint32_t  src_stride,                      // input parameter, source stride
         uint8_t  *ref,                            // input parameter, reference samples Ptr
-        uint32_t  refStride);                     // input parameter, reference stride
+        uint32_t  ref_stride);                     // input parameter, reference stride
 
     typedef void(*EB_GETEIGHTSAD8x8)(
         uint8_t   *src,
         uint32_t   src_stride,
         uint8_t   *ref,
-        uint32_t   refStride,
+        uint32_t   ref_stride,
         uint32_t  *p_best_sad8x8,
         uint32_t  *p_best_mv8x8,
         uint32_t  *p_best_sad16x16,
@@ -122,14 +122,14 @@ extern "C" {
         // AVX2
         {
             /*0 4xM  */ Compute4xMSadSub_SSE2_INTRIN,
-            /*1 8xM  */ Compute8xMSad_AVX2_INTRIN,
-            /*2 16xM */ Compute16xMSad_AVX2_INTRIN,
+            /*1 8xM  */ compute8x_m_sad_avx2_intrin,
+            /*2 16xM */ compute16x_m_sad_avx2_intrin,
             /*3 24xM */ FastLoop_NxMSadKernel,
-            /*4 32xM */ Compute32xMSad_AVX2_INTRIN,
+            /*4 32xM */ compute32x_m_sad_avx2_intrin,
             /*5      */ 0,
             /*6 48xM */ FastLoop_NxMSadKernel,
             /*7      */ 0,
-            /*8 64xM */ Compute64xMSad_AVX2_INTRIN,
+            /*8 64xM */ compute64x_m_sad_avx2_intrin,
             0,0,0,0,0,0,0,FastLoop_NxMSadKernel
         },
     };
@@ -149,15 +149,15 @@ extern "C" {
         },
         // AVX2
         {
-            /*0 4xM  */ Compute4xMSad_AVX2_INTRIN,
-            /*1 8xM  */ Compute8xMSad_AVX2_INTRIN,
-            /*2 16xM */ Compute16xMSad_AVX2_INTRIN,//Compute16xMSad_AVX2_INTRIN is slower than the SSE2 version
-            /*3 24xM */ Compute24xMSad_AVX2_INTRIN,
-            /*4 32xM */ Compute32xMSad_AVX2_INTRIN,
+            /*0 4xM  */ compute4x_m_sad_avx2_intrin,
+            /*1 8xM  */ compute8x_m_sad_avx2_intrin,
+            /*2 16xM */ compute16x_m_sad_avx2_intrin,//compute16x_m_sad_avx2_intrin is slower than the SSE2 version
+            /*3 24xM */ compute24x_m_sad_avx2_intrin,
+            /*4 32xM */ compute32x_m_sad_avx2_intrin,
             /*5      */ (EB_SADKERNELNxM_TYPE)NxMSadKernelVoidFunc,
-            /*6 48xM */ Compute48xMSad_AVX2_INTRIN,
+            /*6 48xM */ compute48x_m_sad_avx2_intrin,
             /*7      */ (EB_SADKERNELNxM_TYPE)NxMSadKernelVoidFunc,
-            /*8 64xM */ Compute64xMSad_AVX2_INTRIN,
+            /*8 64xM */ compute64x_m_sad_avx2_intrin,
         },
     };
 
@@ -194,7 +194,7 @@ extern "C" {
         // NON_AVX2
         SadLoopKernelSparse_SSE4_1_INTRIN,
         // AVX2
-        SadLoopKernelSparse_AVX2_INTRIN,
+        sad_loop_kernel_sparse_avx2_intrin,
     };
 
 
@@ -203,7 +203,7 @@ extern "C" {
         // NON_AVX2
         SadLoopKernel_SSE4_1_INTRIN,
         // AVX2
-        SadLoopKernel_AVX2_INTRIN,
+        sad_loop_kernel_avx2_intrin,
     };
 
     static EB_GETEIGHTSAD8x8 FUNC_TABLE GetEightHorizontalSearchPointResults_8x8_16x16_funcPtrArray[ASM_TYPE_TOTAL] =
@@ -211,7 +211,7 @@ extern "C" {
         // NON_AVX2
         GetEightHorizontalSearchPointResults_8x8_16x16_PU_SSE41_INTRIN,
         // AVX2
-        GetEightHorizontalSearchPointResults_8x8_16x16_PU_AVX2_INTRIN,
+        get_eight_horizontal_search_point_results_8x8_16x16_pu_avx2_intrin,
     };
 
     static EB_GETEIGHTSAD32x32 FUNC_TABLE GetEightHorizontalSearchPointResults_32x32_64x64_funcPtrArray[ASM_TYPE_TOTAL] =
@@ -219,7 +219,7 @@ extern "C" {
         // NON_AVX2
         GetEightHorizontalSearchPointResults_32x32_64x64_PU_SSE41_INTRIN,
         // AVX2
-        GetEightHorizontalSearchPointResults_32x32_64x64_PU_AVX2_INTRIN,
+        get_eight_horizontal_search_point_results_32x32_64x64_pu_avx2_intrin,
     };
 
     uint32_t combined_averaging_ssd_c(

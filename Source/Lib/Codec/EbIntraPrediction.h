@@ -540,7 +540,7 @@ extern "C" {
         // NON_AVX2
         IntraModeVerticalLuma_SSE2_INTRIN,
         // AVX2
-        IntraModeVerticalLuma_AVX2_INTRIN,
+        intra_mode_vertical_luma_avx2_intrin,
 
     };
 
@@ -766,7 +766,7 @@ extern "C" {
         // NON_AVX2
         IntraModeAngular_Horizontal_Kernel_SSSE3_INTRIN,
         // AVX2
-        IntraModeAngular_Horizontal_Kernel_AVX2_INTRIN,
+        intra_mode_angular_horizontal_kernel_avx2_intrin,
     };
 
 
