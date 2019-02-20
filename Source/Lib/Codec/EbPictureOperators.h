@@ -46,7 +46,7 @@ extern "C" {
         EbPictureBufferDesc_t   *coeff,
         uint32_t                   coeffLumaOriginIndex,
         uint32_t                   coeffChromaOriginIndex,
-        EbPictureBufferDesc_t   *reconCoeff,
+        EbPictureBufferDesc_t   *recon_coeff,
         uint32_t                   reconCoeffLumaOriginIndex,
         uint32_t                   reconCoeffChromaOriginIndex,
         uint32_t                   bwidth,
@@ -220,8 +220,8 @@ extern "C" {
 
     void FullDistortionKernelCbfZero32Bits(
         int32_t  *coeff,
-        uint32_t   coeffStride,
-        int32_t  *reconCoeff,
+        uint32_t   coeff_stride,
+        int32_t  *recon_coeff,
         uint32_t   reconCoeffStride,
         uint64_t   distortionResult[DIST_CALC_TOTAL],
         uint32_t   areaWidth,
@@ -229,8 +229,8 @@ extern "C" {
 
     void FullDistortionKernel32Bits(
         int32_t  *coeff,
-        uint32_t   coeffStride,
-        int32_t  *reconCoeff,
+        uint32_t   coeff_stride,
+        int32_t  *recon_coeff,
         uint32_t   reconCoeffStride,
         uint64_t   distortionResult[DIST_CALC_TOTAL],
         uint32_t   areaWidth,
@@ -238,8 +238,8 @@ extern "C" {
 
     typedef void(*EB_FUllDISTORTIONKERNELCBFZERO32BITS)(
         int32_t  *coeff,
-        uint32_t   coeffStride,
-        int32_t  *reconCoeff,
+        uint32_t   coeff_stride,
+        int32_t  *recon_coeff,
         uint32_t   reconCoeffStride,
         uint64_t   distortionResult[DIST_CALC_TOTAL],
         uint32_t   areaWidth,
@@ -247,8 +247,8 @@ extern "C" {
 
     typedef void(*EB_FUllDISTORTIONKERNEL32BITS)(
         int32_t  *coeff,
-        uint32_t   coeffStride,
-        int32_t  *reconCoeff,
+        uint32_t   coeff_stride,
+        int32_t  *recon_coeff,
         uint32_t   reconCoeffStride,
         uint64_t   distortionResult[DIST_CALC_TOTAL],
         uint32_t   areaWidth,
@@ -334,15 +334,15 @@ extern "C" {
 
     typedef void(*EB_ZEROCOEFF_TYPE)(
         int16_t*                  coeffbuffer,
-        uint32_t                   coeffStride,
+        uint32_t                   coeff_stride,
         uint32_t                   coeffOriginIndex,
         uint32_t                   areaWidth,
         uint32_t                   areaHeight);
 
     typedef void(*EB_FULLDIST_TYPE)(
         int16_t  *coeff,
-        uint32_t   coeffStride,
-        int16_t  *reconCoeff,
+        uint32_t   coeff_stride,
+        int16_t  *recon_coeff,
         uint32_t   reconCoeffStride,
         uint64_t   distortionResult[DIST_CALC_TOTAL],
         uint32_t   areaWidth,

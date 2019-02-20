@@ -15,25 +15,25 @@ extern "C" {
     //-----
     extern void ZeroOutCoeff4x4_SSE(
         int16_t*                  coeffbuffer,
-        uint32_t                   coeffStride,
+        uint32_t                   coeff_stride,
         uint32_t                   coeffOriginIndex,
         uint32_t                   areaWidth,
         uint32_t                   areaHeight);
     extern void ZeroOutCoeff8x8_SSE2(
         int16_t*                  coeffbuffer,
-        uint32_t                   coeffStride,
+        uint32_t                   coeff_stride,
         uint32_t                   coeffOriginIndex,
         uint32_t                   areaWidth,
         uint32_t                   areaHeight);
     extern void ZeroOutCoeff16x16_SSE2(
         int16_t*                  coeffbuffer,
-        uint32_t                   coeffStride,
+        uint32_t                   coeff_stride,
         uint32_t                   coeffOriginIndex,
         uint32_t                   areaWidth,
         uint32_t                   areaHeight);
     extern void ZeroOutCoeff32x32_SSE2(
         int16_t*                  coeffbuffer,
-        uint32_t                   coeffStride,
+        uint32_t                   coeff_stride,
         uint32_t                   coeffOriginIndex,
         uint32_t                   areaWidth,
         uint32_t                   areaHeight);

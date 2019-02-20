@@ -673,9 +673,9 @@ void av1_quantize_b_facade_II(
 void Av1QuantizeInvQuantize_II(
     PictureControlSet_t  *picture_control_set_ptr,
     int32_t               *coeff,
-    const uint32_t          coeffStride,
-    int32_t               *quantCoeff,
-    int32_t               *reconCoeff,
+    const uint32_t          coeff_stride,
+    int32_t               *quant_coeff,
+    int32_t               *recon_coeff,
     uint32_t                qp,
     uint32_t                width,
     uint32_t                height,
@@ -842,33 +842,33 @@ void Av1QuantizeInvQuantize_II(
         (tran_low_t*)coeff,
             n_coeffs,
             &candidate_plane,
-            quantCoeff,
-            (tran_low_t*)reconCoeff,
+            quant_coeff,
+            (tran_low_t*)recon_coeff,
             eob,
             scan_order,
             &qparam);
     else
         av1_quantize_b_facade_II(
         (tran_low_t*)coeff,
-            coeffStride,
+            coeff_stride,
             width,
             height,
             n_coeffs,
             &candidate_plane,
-            quantCoeff,
-            (tran_low_t*)reconCoeff,
+            quant_coeff,
+            (tran_low_t*)recon_coeff,
             eob,
             scan_order,
             &qparam);
 #else
     av1_quantize_b_facade_II(
         (tran_low_t*)coeff,
-        coeffStride,
-        areaSize,
+        coeff_stride,
+        area_size,
         n_coeffs,
         &candidate_plane,
-        quantCoeff,
-        (tran_low_t*)reconCoeff,
+        quant_coeff,
+        (tran_low_t*)recon_coeff,
         eob,
         scan_order,
         &qparam);
@@ -879,9 +879,9 @@ void Av1QuantizeInvQuantize_II(
 void Av1QuantizeInvQuantize(
     PictureControlSet_t  *picture_control_set_ptr,
     int32_t               *coeff,
-    const uint32_t          coeffStride,
-    int32_t               *quantCoeff,
-    int32_t               *reconCoeff,
+    const uint32_t          coeff_stride,
+    int32_t               *quant_coeff,
+    int32_t               *recon_coeff,
     uint32_t                qp,
     uint32_t                width,
     uint32_t                height,
@@ -899,7 +899,7 @@ void Av1QuantizeInvQuantize(
     TxType               tx_type,
     EbBool               cleanSparseCoeffFlag)
 {
-    (void)coeffStride;
+    (void)coeff_stride;
     (void)candidate_plane;
     (void)enableContouringQCUpdateFlag;
     (void)pfMode;
@@ -909,8 +909,8 @@ void Av1QuantizeInvQuantize(
 
     for (i = 0; i < height; i++)
     {
-        memset(quantCoeff + i * width, 0, width * sizeof(int32_t));
-        memset(reconCoeff + i * width, 0, width * sizeof(int32_t));
+        memset(quant_coeff + i * width, 0, width * sizeof(int32_t));
+        memset(recon_coeff + i * width, 0, width * sizeof(int32_t));
     }
 
 
@@ -920,8 +920,8 @@ void Av1QuantizeInvQuantize(
         picture_control_set_ptr,
         coeff,
         0,
-        quantCoeff,
-        reconCoeff,
+        quant_coeff,
+        recon_coeff,
         qp,
         width,
         height,

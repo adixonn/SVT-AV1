@@ -243,7 +243,7 @@ static INLINE uint8_t *SetLevels(uint8_t *const levelsBuf, const int32_t width) 
 
 static INLINE void av1TxbInitLevels(
     int32_t         *coeffBufferPtr,
-    const uint32_t    coeffStride,
+    const uint32_t    coeff_stride,
     const int16_t    width,
     const int16_t    height,
     uint8_t *const    levels) {
@@ -258,7 +258,7 @@ static INLINE void av1TxbInitLevels(
 
     for (int16_t i = 0; i < height; i++) {
         for (int16_t j = 0; j < width; j++) {
-            *ls++ = (uint8_t)CLIP3(0, INT8_MAX, abs(coeffBufferPtr[i * coeffStride + j]));
+            *ls++ = (uint8_t)CLIP3(0, INT8_MAX, abs(coeffBufferPtr[i * coeff_stride + j]));
         }
         for (int16_t j = 0; j < TX_PAD_HOR; j++) {
             *ls++ = 0;
@@ -504,14 +504,14 @@ int32_t  Av1WriteCoeffsTxb1D(
     uint32_t                       tu_index,
     uint32_t                       intraLumaDir,
     int32_t                     *coeffBufferPtr,
-    const uint16_t                coeffStride,
+    const uint16_t                coeff_stride,
     COMPONENT_TYPE              componentType,
     int16_t                      txbSkipCtx,
     int16_t                      dcSignCtx,
     int16_t                      eob)
 {
     (void)pu_index;
-    (void)coeffStride;
+    (void)coeff_stride;
     const TxSize txs_ctx = (TxSize)((txsize_sqr_map[txSize] + txsize_sqr_up_map[txSize] + 1) >> 1);
     TxType txType = cu_ptr->transform_unit_array[tu_index].transform_type[componentType];
     const SCAN_ORDER *const scan_order = &av1_scan_orders[txSize][txType];

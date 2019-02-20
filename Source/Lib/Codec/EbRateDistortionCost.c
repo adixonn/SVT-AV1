@@ -414,7 +414,7 @@ uint64_t av1_cost_coeffs_txb(
     uint16_t                                   eob,
     PLANE_TYPE                               plane_type,
     TxSize                                  transform_size,
-    /*const uint32_t                             areaSize,
+    /*const uint32_t                             area_size,
     const uint32_t                             stride,*/
     int16_t                                   txb_skip_ctx,
     int16_t                                   dc_sign_ctx,

@@ -1954,8 +1954,8 @@ void PictureAdditionKernel64x64_AV1_SSE2_INTRIN(
 
 void FullDistortionKernel32Bits_AVX2(
     int32_t  *coeff,
-    uint32_t   coeffStride,
-    int32_t  *reconCoeff,
+    uint32_t   coeff_stride,
+    int32_t  *recon_coeff,
     uint32_t   reconCoeffStride,
     uint64_t   distortionResult[DIST_CALC_TOTAL],
     uint32_t   areaWidth,
@@ -1970,7 +1970,7 @@ void FullDistortionKernel32Bits_AVX2(
     do
     {
         int32_t *coeffTemp = coeff;
-        int32_t *reconCoeffTemp = reconCoeff;
+        int32_t *reconCoeffTemp = recon_coeff;
 
         colCount = areaWidth / 4;
         do
@@ -1990,8 +1990,8 @@ void FullDistortionKernel32Bits_AVX2(
             reconCoeffTemp += 4;
         } while (--colCount);
 
-        coeff += coeffStride;
-        reconCoeff += reconCoeffStride;
+        coeff += coeff_stride;
+        recon_coeff += reconCoeffStride;
         rowCount -= 1;
     } while (rowCount > 0);
 
@@ -2012,8 +2012,8 @@ void FullDistortionKernel32Bits_AVX2(
 
 void FullDistortionKernelCbfZero32Bits_AVX2(
     int32_t  *coeff,
-    uint32_t   coeffStride,
-    int32_t  *reconCoeff,
+    uint32_t   coeff_stride,
+    int32_t  *recon_coeff,
     uint32_t   reconCoeffStride,
     uint64_t   distortionResult[DIST_CALC_TOTAL],
     uint32_t   areaWidth,
@@ -2040,8 +2040,8 @@ void FullDistortionKernelCbfZero32Bits_AVX2(
             sum = _mm256_add_epi64(sum, z0);
         } while (--colCount);
 
-        coeff += coeffStride;
-        reconCoeff += coeffStride;
+        coeff += coeff_stride;
+        recon_coeff += coeff_stride;
         rowCount -= 1;
     } while (rowCount > 0);
 

@@ -23,9 +23,9 @@
 
 uint32_t CheckNZero4x4(
     int16_t  *coeff,
-    uint32_t   coeffStride){
+    uint32_t   coeff_stride){
 
-    const uint32_t stride = coeffStride / 4;
+    const uint32_t stride = coeff_stride / 4;
 
     uint64_t * coefPtr = (uint64_t *)coeff;
 
@@ -70,14 +70,14 @@ static const int8_t *fwd_txfm_shift_ls[TX_SIZES_ALL] = {
 
 void MatMultOut(
     int16_t           *coeff,
-    const uint32_t     coeffStride,
-    int16_t*          coeffOut,
-    const uint32_t     coeffOutStride,
-    const uint16_t     *maskingMatrix,
-    const uint32_t     maskingMatrixStride,
-    const uint32_t     computeSize,
+    const uint32_t     coeff_stride,
+    int16_t*          coeff_out,
+    const uint32_t     coeff_out_stride,
+    const uint16_t     *masking_matrix,
+    const uint32_t     masking_matrix_stride,
+    const uint32_t     compute_size,
     const int32_t     offset,
-    const int32_t     shiftNum,
+    const int32_t     shift_num,
     uint32_t             *nonzerocoeff) {
 
     uint32_t coeffLocation = 0, coeffOutLocation = 0;
@@ -86,19 +86,19 @@ void MatMultOut(
 
     *nonzerocoeff = 0;
 
-    for (rowIndex = 0; rowIndex < computeSize; ++rowIndex) {
-        for (colIndex = 0; colIndex < computeSize; ++colIndex) {
-            coeffTemp = (ABS(coeff[coeffLocation]) * maskingMatrix[colIndex + rowIndex * maskingMatrixStride] + offset) >> shiftNum;
+    for (rowIndex = 0; rowIndex < compute_size; ++rowIndex) {
+        for (colIndex = 0; colIndex < compute_size; ++colIndex) {
+            coeffTemp = (ABS(coeff[coeffLocation]) * masking_matrix[colIndex + rowIndex * masking_matrix_stride] + offset) >> shift_num;
             coeffTemp = (coeff[coeffLocation] < 0) ? -coeffTemp : coeffTemp;
 
-            coeffOut[coeffOutLocation] = (int16_t)CLIP3(MIN_NEG_16BIT_NUM, MAX_POS_16BIT_NUM, coeffTemp);
+            coeff_out[coeffOutLocation] = (int16_t)CLIP3(MIN_NEG_16BIT_NUM, MAX_POS_16BIT_NUM, coeffTemp);
 
             (*nonzerocoeff) += (coeffTemp != 0);
             ++coeffLocation;
             ++coeffOutLocation;
         }
-        coeffLocation += coeffStride - computeSize;
-        coeffOutLocation += coeffOutStride - computeSize;
+        coeffLocation += coeff_stride - compute_size;
+        coeffOutLocation += coeff_out_stride - compute_size;
     }
 }
 
@@ -1127,7 +1127,7 @@ static const uint16_t MaskingMatrix32x32_Level7_4K_Set2[] = {
 
 };
 
-static const uint16_t *MaskingMatrix[2][8][4] =//
+static const uint16_t *masking_matrix[2][8][4] =//
 {
     /****************** 4K ************************/
     {
@@ -1161,12 +1161,12 @@ static const uint16_t *MaskingMatrix[2][8][4] =//
 
 void MatMult(
     int16_t           *coeff,
-    const uint32_t     coeffStride,
-    const uint16_t    *maskingMatrix,
-    const uint32_t     maskingMatrixStride,
-    const uint32_t     computeSize,
+    const uint32_t     coeff_stride,
+    const uint16_t    *masking_matrix,
+    const uint32_t     masking_matrix_stride,
+    const uint32_t     compute_size,
     const int32_t      offset,
-    const int32_t      shiftNum,
+    const int32_t      shift_num,
     uint32_t          *nonzerocoeff) {
 
     uint32_t coeffLocation = 0;
@@ -1175,16 +1175,16 @@ void MatMult(
 
     *nonzerocoeff = 0;
 
-    for (rowIndex = 0; rowIndex < computeSize; ++rowIndex) {
-        for (colIndex = 0; colIndex < computeSize; ++colIndex) {
-            coeffTemp = (ABS(coeff[coeffLocation]) * maskingMatrix[colIndex + rowIndex * maskingMatrixStride] + offset) >> shiftNum;
+    for (rowIndex = 0; rowIndex < compute_size; ++rowIndex) {
+        for (colIndex = 0; colIndex < compute_size; ++colIndex) {
+            coeffTemp = (ABS(coeff[coeffLocation]) * masking_matrix[colIndex + rowIndex * masking_matrix_stride] + offset) >> shift_num;
             coeffTemp = (coeff[coeffLocation] < 0) ? -coeffTemp : coeffTemp;
 
             coeff[coeffLocation] = (int16_t)CLIP3(MIN_NEG_16BIT_NUM, MAX_POS_16BIT_NUM, coeffTemp);
             (*nonzerocoeff) += (coeffTemp != 0);
             ++coeffLocation;
         }
-        coeffLocation += coeffStride - computeSize;
+        coeffLocation += coeff_stride - compute_size;
     }
 }
 
@@ -3868,7 +3868,7 @@ void Av1TransformConfig(
 
 uint64_t EnergyComputation(
     int32_t  *coeff,
-    uint32_t   coeffStride,
+    uint32_t   coeff_stride,
     uint32_t   areaWidth,
     uint32_t   areaHeight)
 {
@@ -3885,7 +3885,7 @@ uint64_t EnergyComputation(
             ++columnIndex;
         }
 
-        coeff += coeffStride;
+        coeff += coeff_stride;
         ++rowIndex;
     }
 
@@ -4411,7 +4411,7 @@ EbErrorType Av1EstimateTransform(
     int16_t              *residual_buffer,
     uint32_t              residualStride,
     int32_t              *coeffBuffer,
-    uint32_t              coeffStride,
+    uint32_t              coeff_stride,
     TxSize                transform_size,
     uint64_t             *three_quad_energy,
     int16_t              *transform_inner_array_ptr,
@@ -4427,7 +4427,7 @@ EbErrorType Av1EstimateTransform(
     (void)asm_type;
     (void)transCoeffShape;
     (void)transform_inner_array_ptr;
-    (void)coeffStride;
+    (void)coeff_stride;
     (void)componentType;
     uint8_t      bit_depth = bitIncrement ? 10 : 8;// NM - Set to zero for the moment
 
@@ -4736,7 +4736,7 @@ EbErrorType EncodeTransform(
     int16_t               *residual_buffer,
     uint32_t               residualStride,
     int16_t               *coeffBuffer,
-    uint32_t               coeffStride,
+    uint32_t               coeff_stride,
     uint32_t               transform_size,
     int16_t               *transform_inner_array_ptr,
     uint32_t               bitIncrement,
@@ -4754,7 +4754,7 @@ EbErrorType EncodeTransform(
             residual_buffer,
             residualStride,
             coeffBuffer,
-            coeffStride,
+            coeff_stride,
             transform_inner_array_ptr,
             bitIncrement
             );
@@ -4765,7 +4765,7 @@ EbErrorType EncodeTransform(
             residual_buffer,
             residualStride,
             coeffBuffer,
-            coeffStride,
+            coeff_stride,
             transform_inner_array_ptr,
             bitIncrement
             );
@@ -4776,7 +4776,7 @@ EbErrorType EncodeTransform(
             residual_buffer,
             residualStride,
             coeffBuffer,
-            coeffStride,
+            coeff_stride,
             transform_inner_array_ptr,
             bitIncrement);
     }
@@ -7500,7 +7500,7 @@ void Av1InverseTransformTwoD_64x64_c(
 *********************************************************************/
 EbErrorType Av1EstimateInvTransform(
     int32_t      *coeffBuffer,
-    uint32_t      coeffStride,
+    uint32_t      coeff_stride,
     int32_t      *reconBuffer,
     uint32_t      reconStride,
     TxSize        transform_size,
@@ -7530,7 +7530,7 @@ EbErrorType Av1EstimateInvTransform(
         case TX_32X32:
             Av1InverseTransformTwoD_32x32_c(
                 coeffBuffer,
-                coeffStride,
+                coeff_stride,
                 reconBuffer,
                 reconStride,
                 transform_type,
@@ -7539,7 +7539,7 @@ EbErrorType Av1EstimateInvTransform(
         case TX_16X16:
             Av1InverseTransformTwoD_16x16_c(
                 coeffBuffer,
-                coeffStride,
+                coeff_stride,
                 reconBuffer,
                 reconStride,
                 transform_type,
@@ -7548,7 +7548,7 @@ EbErrorType Av1EstimateInvTransform(
         case TX_8X8:
             Av1InverseTransformTwoD_8x8_c(
                 coeffBuffer,
-                coeffStride,
+                coeff_stride,
                 reconBuffer,
                 reconStride,
                 transform_type,
@@ -7557,7 +7557,7 @@ EbErrorType Av1EstimateInvTransform(
         case TX_64X64:
             Av1InverseTransformTwoD_64x64_c(
                 coeffBuffer,
-                coeffStride,
+                coeff_stride,
                 reconBuffer,
                 reconStride,
                 transform_type,
@@ -7569,7 +7569,7 @@ EbErrorType Av1EstimateInvTransform(
             // case.
             Av1InverseTransformTwoD_4x4_c(
                 coeffBuffer,
-                coeffStride,
+                coeff_stride,
                 reconBuffer,
                 reconStride,
                 transform_type,
@@ -8403,7 +8403,7 @@ EbErrorType Av1InvTransformRecon8bit(
 EbErrorType EncodeInvTransform(
     EbBool      is_only_dc,
     int16_t      *coeffBuffer,
-    uint32_t       coeffStride,
+    uint32_t       coeff_stride,
     int16_t      *reconBuffer,
     uint32_t       reconStride,
     uint32_t       transform_size,
@@ -8446,7 +8446,7 @@ EbErrorType EncodeInvTransform(
         //   input(residual_buffer) is the SB residual buffer
         (*invTransformFunctionTableEncode[asm_type][transformSizeFlag + dstTransformFlag])(
             coeffBuffer,
-            coeffStride,
+            coeff_stride,
             reconBuffer,
             reconStride,
             transform_inner_array_ptr,
@@ -8465,7 +8465,7 @@ uint8_t MapChromaQp(
 
 }
 
-uint8_t ConstructPmTransCoeffShapingKnob(const uint16_t *maskingMatrix, uint8_t txb_size) // M_Processing is an function of type uint16_t
+uint8_t ConstructPmTransCoeffShapingKnob(const uint16_t *masking_matrix, uint8_t txb_size) // M_Processing is an function of type uint16_t
 {
 
     uint8_t  stride = txb_size;
@@ -8481,30 +8481,30 @@ uint8_t ConstructPmTransCoeffShapingKnob(const uint16_t *maskingMatrix, uint8_t 
         columnIndex = index % stride;
         if ((columnIndex >= strideN2) && (rowIndex < strideN2))
         {
-            h1 += maskingMatrix[index];
+            h1 += masking_matrix[index];
         }
         else if ((rowIndex >= strideN2) && (columnIndex < strideN2))
         {
-            h2 += maskingMatrix[index];
+            h2 += masking_matrix[index];
         }
         else if ((rowIndex > strideN2) && (columnIndex > strideN2))
         {
-            h3 += maskingMatrix[index];
+            h3 += masking_matrix[index];
         }
         else if ((columnIndex >= strideN4) && (rowIndex < strideN4))
         {
-            q1 += maskingMatrix[index];
+            q1 += masking_matrix[index];
         }
         else if ((rowIndex >= strideN4) && (columnIndex < strideN4))
         {
-            q2 += maskingMatrix[index];
+            q2 += masking_matrix[index];
         }
         else if ((rowIndex > strideN4) && (columnIndex > strideN4))
         {
-            q3 += maskingMatrix[index];
+            q3 += masking_matrix[index];
         }
         else if ((rowIndex != 0) && (columnIndex != 0)) {
-            dc += maskingMatrix[index];
+            dc += masking_matrix[index];
         }
     }
 
@@ -8547,7 +8547,7 @@ void ConstructPmTransCoeffShaping(
     for (resolutionIndex = 0; resolutionIndex < 2; resolutionIndex++) {
         for (levelIndex = 0; levelIndex < 8; levelIndex++) {
             for (tuSizeIndex = 0; tuSizeIndex < 4; tuSizeIndex++) {
-                sequence_control_set_ptr->trans_coeff_shape_array[resolutionIndex][levelIndex][tuSizeIndex] = ConstructPmTransCoeffShapingKnob(MaskingMatrix[resolutionIndex][levelIndex][tuSizeIndex], arrayLength[tuSizeIndex]);
+                sequence_control_set_ptr->trans_coeff_shape_array[resolutionIndex][levelIndex][tuSizeIndex] = ConstructPmTransCoeffShapingKnob(masking_matrix[resolutionIndex][levelIndex][tuSizeIndex], arrayLength[tuSizeIndex]);
             }
         }
     }

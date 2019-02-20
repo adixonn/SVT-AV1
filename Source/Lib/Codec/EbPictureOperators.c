@@ -373,8 +373,8 @@ uint64_t ComputeNxMSatdSadLCU(
 
 void FullDistortionKernel32Bits(
     int32_t  *coeff,
-    uint32_t   coeffStride,
-    int32_t  *reconCoeff,
+    uint32_t   coeff_stride,
+    int32_t  *recon_coeff,
     uint32_t   reconCoeffStride,
     uint64_t   distortionResult[DIST_CALC_TOTAL],
     uint32_t   areaWidth,
@@ -389,13 +389,13 @@ void FullDistortionKernel32Bits(
 
         columnIndex = 0;
         while (columnIndex < areaWidth) {
-            residualDistortion += (int64_t)SQR((int64_t)(coeff[columnIndex]) - (reconCoeff[columnIndex]));
+            residualDistortion += (int64_t)SQR((int64_t)(coeff[columnIndex]) - (recon_coeff[columnIndex]));
             predictionDistortion += (int64_t)SQR((int64_t)(coeff[columnIndex]));
             ++columnIndex;
         }
 
-        coeff += coeffStride;
-        reconCoeff += reconCoeffStride;
+        coeff += coeff_stride;
+        recon_coeff += reconCoeffStride;
         ++rowIndex;
     }
 
@@ -408,8 +408,8 @@ void FullDistortionKernel32Bits(
 *******************************************/
 void FullDistortionKernelCbfZero32Bits(
     int32_t  *coeff,
-    uint32_t   coeffStride,
-    int32_t  *reconCoeff,
+    uint32_t   coeff_stride,
+    int32_t  *recon_coeff,
     uint32_t   reconCoeffStride,
     uint64_t   distortionResult[DIST_CALC_TOTAL],
     uint32_t   areaWidth,
@@ -418,7 +418,7 @@ void FullDistortionKernelCbfZero32Bits(
     uint32_t  columnIndex;
     uint32_t  rowIndex = 0;
     uint64_t  predictionDistortion = 0;
-    (void)reconCoeff;
+    (void)recon_coeff;
     (void)reconCoeffStride;
 
     while (rowIndex < areaHeight) {
@@ -429,7 +429,7 @@ void FullDistortionKernelCbfZero32Bits(
             ++columnIndex;
         }
 
-        coeff += coeffStride;
+        coeff += coeff_stride;
         ++rowIndex;
     }
 
@@ -441,7 +441,7 @@ EbErrorType PictureFullDistortion32Bits(
     EbPictureBufferDesc_t   *coeff,
     uint32_t                   coeffLumaOriginIndex,
     uint32_t                   coeffChromaOriginIndex,
-    EbPictureBufferDesc_t   *reconCoeff,
+    EbPictureBufferDesc_t   *recon_coeff,
     uint32_t                   reconCoeffLumaOriginIndex,
     uint32_t                   reconCoeffChromaOriginIndex,
     uint32_t                   bwidth,
@@ -474,7 +474,7 @@ EbErrorType PictureFullDistortion32Bits(
             FullDistortionKernel32Bits_funcPtrArray[asm_type](
                 &(((int32_t*)coeff->bufferY)[coeffLumaOriginIndex]),
                 bwidth,
-                &(((int32_t*)reconCoeff->bufferY)[reconCoeffLumaOriginIndex]),
+                &(((int32_t*)recon_coeff->bufferY)[reconCoeffLumaOriginIndex]),
                 bwidth,
                 y_distortion,
                 bwidth,
@@ -484,7 +484,7 @@ EbErrorType PictureFullDistortion32Bits(
             FullDistortionKernelCbfZero32Bits_funcPtrArray[asm_type](
                 &(((int32_t*)coeff->bufferY)[coeffLumaOriginIndex]),
                 bwidth,
-                &(((int32_t*)reconCoeff->bufferY)[reconCoeffLumaOriginIndex]),
+                &(((int32_t*)recon_coeff->bufferY)[reconCoeffLumaOriginIndex]),
                 bwidth,
                 y_distortion,
                 bwidth,
@@ -501,7 +501,7 @@ EbErrorType PictureFullDistortion32Bits(
             FullDistortionKernel32Bits_funcPtrArray[asm_type](
                 &(((int32_t*)coeff->bufferCb)[coeffChromaOriginIndex]),
                 bwidth_uv,
-                &(((int32_t*)reconCoeff->bufferCb)[reconCoeffChromaOriginIndex]),
+                &(((int32_t*)recon_coeff->bufferCb)[reconCoeffChromaOriginIndex]),
                 bwidth_uv,
                 cb_distortion,
                 bwidth_uv,
@@ -511,7 +511,7 @@ EbErrorType PictureFullDistortion32Bits(
             FullDistortionKernelCbfZero32Bits_funcPtrArray[asm_type](
                 &(((int32_t*)coeff->bufferCb)[coeffChromaOriginIndex]),
                 bwidth_uv,
-                &(((int32_t*)reconCoeff->bufferCb)[reconCoeffChromaOriginIndex]),
+                &(((int32_t*)recon_coeff->bufferCb)[reconCoeffChromaOriginIndex]),
                 bwidth_uv,
                 cb_distortion,
                 bwidth_uv,
@@ -526,7 +526,7 @@ EbErrorType PictureFullDistortion32Bits(
             FullDistortionKernel32Bits_funcPtrArray[asm_type](
                 &(((int32_t*)coeff->bufferCr)[coeffChromaOriginIndex]),
                 bwidth_uv,
-                &(((int32_t*)reconCoeff->bufferCr)[reconCoeffChromaOriginIndex]),
+                &(((int32_t*)recon_coeff->bufferCr)[reconCoeffChromaOriginIndex]),
                 bwidth_uv,
                 cr_distortion,
                 bwidth_uv,
@@ -536,7 +536,7 @@ EbErrorType PictureFullDistortion32Bits(
             FullDistortionKernelCbfZero32Bits_funcPtrArray[asm_type](
                 &(((int32_t*)coeff->bufferCr)[coeffChromaOriginIndex]),
                 bwidth_uv,
-                &(((int32_t*)reconCoeff->bufferCr)[reconCoeffChromaOriginIndex]),
+                &(((int32_t*)recon_coeff->bufferCr)[reconCoeffChromaOriginIndex]),
                 bwidth_uv,
                 cr_distortion,
                 bwidth_uv,

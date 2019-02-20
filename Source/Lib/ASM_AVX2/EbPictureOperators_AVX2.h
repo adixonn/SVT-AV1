@@ -128,8 +128,8 @@ extern "C" {
 
     void FullDistortionKernelCbfZero32Bits_AVX2(
         int32_t  *coeff,
-        uint32_t   coeffStride,
-        int32_t  *reconCoeff,
+        uint32_t   coeff_stride,
+        int32_t  *recon_coeff,
         uint32_t   reconCoeffStride,
         uint64_t   distortionResult[DIST_CALC_TOTAL],
         uint32_t   areaWidth,
@@ -137,8 +137,8 @@ extern "C" {
 
     void FullDistortionKernel32Bits_AVX2(
         int32_t  *coeff,
-        uint32_t   coeffStride,
-        int32_t  *reconCoeff,
+        uint32_t   coeff_stride,
+        int32_t  *recon_coeff,
         uint32_t   reconCoeffStride,
         uint64_t   distortionResult[DIST_CALC_TOTAL],
         uint32_t   areaWidth,
