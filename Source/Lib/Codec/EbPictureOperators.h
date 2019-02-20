@@ -19,12 +19,12 @@ extern "C" {
 #endif
 
     extern void PictureAddition(
-        uint8_t  *predPtr,
-        uint32_t  predStride,
+        uint8_t  *pred_ptr,
+        uint32_t  pred_stride,
         int16_t *residual_ptr,
-        uint32_t  residualStride,
-        uint8_t  *reconPtr,
-        uint32_t  reconStride,
+        uint32_t  residual_stride,
+        uint8_t  *recon_ptr,
+        uint32_t  recon_stride,
         uint32_t  width,
         uint32_t  height,
         EbAsm  asm_type);
@@ -36,8 +36,8 @@ extern "C" {
         EbPictureBufferDesc_t   *dst,
         uint32_t                   dstLumaOriginIndex,
         uint32_t                   dstChromaOriginIndex,
-        uint32_t                   areaWidth,
-        uint32_t                   areaHeight,
+        uint32_t                   area_width,
+        uint32_t                   area_height,
         uint32_t                   chromaAreaWidth,
         uint32_t                   chromaAreaHeight,
         uint32_t                   component_mask,
@@ -72,34 +72,34 @@ extern "C" {
     //Residual Data
 
     void CompressedPackLcu(
-        uint8_t     *in8BitBuffer,
-        uint32_t     in8Stride,
-        uint8_t     *innBitBuffer,
-        uint32_t     innStride,
-        uint16_t    *out16BitBuffer,
-        uint32_t     outStride,
+        uint8_t     *in8_bit_buffer,
+        uint32_t     in8_stride,
+        uint8_t     *inn_bit_buffer,
+        uint32_t     inn_stride,
+        uint16_t    *out16_bit_buffer,
+        uint32_t     out_stride,
         uint32_t     width,
         uint32_t     height,
         EbAsm     asm_type
     );
     void Conv2bToCPackLcu(
-        const uint8_t     *innBitBuffer,
-        uint32_t     innStride,
-        uint8_t     *inCompnBitBuffer,
-        uint32_t     outStride,
-        uint8_t    *localCache,
+        const uint8_t     *inn_bit_buffer,
+        uint32_t     inn_stride,
+        uint8_t     *in_compn_bit_buffer,
+        uint32_t     out_stride,
+        uint8_t    *local_cache,
         uint32_t     width,
         uint32_t     height,
         EbAsm     asm_type);
 
 
     void Pack2D_SRC(
-        uint8_t     *in8BitBuffer,
-        uint32_t     in8Stride,
-        uint8_t     *innBitBuffer,
-        uint32_t     innStride,
-        uint16_t    *out16BitBuffer,
-        uint32_t     outStride,
+        uint8_t     *in8_bit_buffer,
+        uint32_t     in8_stride,
+        uint8_t     *inn_bit_buffer,
+        uint32_t     inn_stride,
+        uint16_t    *out16_bit_buffer,
+        uint32_t     out_stride,
         uint32_t     width,
         uint32_t     height,
         EbAsm      asm_type);
@@ -125,11 +125,11 @@ extern "C" {
         EbAsm       asm_type
     );
     void unpack_l0l1_avg(
-        uint16_t *ref16L0,
-        uint32_t  refL0Stride,
-        uint16_t *ref16L1,
-        uint32_t  refL1Stride,
-        uint8_t  *dstPtr,
+        uint16_t *ref16_l0,
+        uint32_t  ref_l0_stride,
+        uint16_t *ref16_l1,
+        uint32_t  ref_l1_stride,
+        uint8_t  *dst_ptr,
         uint32_t  dst_stride,
         uint32_t  width,
         uint32_t  height,
@@ -141,39 +141,39 @@ extern "C" {
         uint32_t       out8Stride,
         uint32_t       width,
         uint32_t       height,
-        EbBool      subPred,
+        EbBool      sub_pred,
         EbAsm       asm_type
     );
     void unpack_l0l1_avg_safe_sub(
-        uint16_t *ref16L0,
-        uint32_t  refL0Stride,
-        uint16_t *ref16L1,
-        uint32_t  refL1Stride,
-        uint8_t  *dstPtr,
+        uint16_t *ref16_l0,
+        uint32_t  ref_l0_stride,
+        uint16_t *ref16_l1,
+        uint32_t  ref_l1_stride,
+        uint8_t  *dst_ptr,
         uint32_t  dst_stride,
         uint32_t  width,
         uint32_t  height,
-        EbBool      subPred,
+        EbBool      sub_pred,
         EbAsm  asm_type);
 
     void memcpy16bit(
         uint16_t                     * outPtr,
-        uint16_t                     * inPtr,
+        uint16_t                     * in_ptr,
         uint64_t                       numOfElements);
 
     void memcpy32bit(
         uint32_t                     * outPtr,
-        uint32_t                     * inPtr,
+        uint32_t                     * in_ptr,
         uint64_t                       numOfElements);
 
     void memset16bit(
-        uint16_t                     * inPtr,
+        uint16_t                     * in_ptr,
         uint16_t                       value,
         uint64_t                       numOfElements);
 
 
     void memset32bit(
-        uint32_t                     * inPtr,
+        uint32_t                     * in_ptr,
         uint32_t                       value,
         uint64_t                       numOfElements);
 
@@ -181,33 +181,33 @@ extern "C" {
     static void PicResdVoidFunc() {}
     static void PicZeroOutCoefVoidFunc() {}
 
-    int32_t  sumResidual(int16_t * inPtr,
+    int32_t  sumResidual(int16_t * in_ptr,
         uint32_t   size,
-        uint32_t   strideIn);
+        uint32_t   stride_in);
 
 
     typedef int32_t(*EB_SUM_RES)(
-        int16_t * inPtr,
+        int16_t * in_ptr,
         uint32_t   size,
-        uint32_t   strideIn);
+        uint32_t   stride_in);
 
     static EB_SUM_RES FUNC_TABLE SumResidual_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
         sumResidual,
         // AVX2
-        sumResidual8bit_AVX2_INTRIN,
+        sum_residual8bit_avx2_intrin,
     };
 
     void memset16bitBlock(
-        int16_t * inPtr,
-        uint32_t   strideIn,
+        int16_t * in_ptr,
+        uint32_t   stride_in,
         uint32_t   size,
         int16_t   value
     );
 
     typedef void(*EB_MEMSET16bitBLK)(
-        int16_t * inPtr,
-        uint32_t   strideIn,
+        int16_t * in_ptr,
+        uint32_t   stride_in,
         uint32_t   size,
         int16_t   value);
 
@@ -215,90 +215,90 @@ extern "C" {
         // NON_AVX2
         memset16bitBlock,
         // AVX2
-        memset16bitBlock_AVX2_INTRIN,
+        memset16bit_block_avx2_intrin,
     };
 
     void FullDistortionKernelCbfZero32Bits(
         int32_t  *coeff,
         uint32_t   coeff_stride,
         int32_t  *recon_coeff,
-        uint32_t   reconCoeffStride,
-        uint64_t   distortionResult[DIST_CALC_TOTAL],
-        uint32_t   areaWidth,
-        uint32_t   areaHeight);
+        uint32_t   recon_coeff_stride,
+        uint64_t   distortion_result[DIST_CALC_TOTAL],
+        uint32_t   area_width,
+        uint32_t   area_height);
 
     void FullDistortionKernel32Bits(
         int32_t  *coeff,
         uint32_t   coeff_stride,
         int32_t  *recon_coeff,
-        uint32_t   reconCoeffStride,
-        uint64_t   distortionResult[DIST_CALC_TOTAL],
-        uint32_t   areaWidth,
-        uint32_t   areaHeight);
+        uint32_t   recon_coeff_stride,
+        uint64_t   distortion_result[DIST_CALC_TOTAL],
+        uint32_t   area_width,
+        uint32_t   area_height);
 
     typedef void(*EB_FUllDISTORTIONKERNELCBFZERO32BITS)(
         int32_t  *coeff,
         uint32_t   coeff_stride,
         int32_t  *recon_coeff,
-        uint32_t   reconCoeffStride,
-        uint64_t   distortionResult[DIST_CALC_TOTAL],
-        uint32_t   areaWidth,
-        uint32_t   areaHeight);
+        uint32_t   recon_coeff_stride,
+        uint64_t   distortion_result[DIST_CALC_TOTAL],
+        uint32_t   area_width,
+        uint32_t   area_height);
 
     typedef void(*EB_FUllDISTORTIONKERNEL32BITS)(
         int32_t  *coeff,
         uint32_t   coeff_stride,
         int32_t  *recon_coeff,
-        uint32_t   reconCoeffStride,
-        uint64_t   distortionResult[DIST_CALC_TOTAL],
-        uint32_t   areaWidth,
-        uint32_t   areaHeight);
+        uint32_t   recon_coeff_stride,
+        uint64_t   distortion_result[DIST_CALC_TOTAL],
+        uint32_t   area_width,
+        uint32_t   area_height);
 
     static EB_FUllDISTORTIONKERNELCBFZERO32BITS FUNC_TABLE FullDistortionKernelCbfZero32Bits_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
         FullDistortionKernelCbfZero32Bits,
         // AVX2
-        FullDistortionKernelCbfZero32Bits_AVX2,
+        full_distortion_kernel_cbf_zero32_bits_avx2,
     };
 
     static EB_FUllDISTORTIONKERNEL32BITS FUNC_TABLE FullDistortionKernel32Bits_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
         FullDistortionKernel32Bits,
         // AVX2
-        FullDistortionKernel32Bits_AVX2,
+        full_distortion_kernel32_bits_avx2,
     };
 
     /***************************************
     * Function Types
     ***************************************/
     typedef void(*EB_ADDDKERNEL_TYPE)(
-        uint8_t  *predPtr,
-        uint32_t  predStride,
+        uint8_t  *pred_ptr,
+        uint32_t  pred_stride,
         int16_t *residual_ptr,
-        uint32_t  residualStride,
-        uint8_t  *reconPtr,
-        uint32_t  reconStride,
+        uint32_t  residual_stride,
+        uint8_t  *recon_ptr,
+        uint32_t  recon_stride,
         uint32_t  width,
         uint32_t  height);
 
     typedef void(*EB_ADDDKERNEL_AV1_TYPE)(
-        uint8_t  *predPtr,
-        uint32_t  predStride,
+        uint8_t  *pred_ptr,
+        uint32_t  pred_stride,
         int32_t *residual_ptr,
-        uint32_t  residualStride,
-        uint8_t  *reconPtr,
-        uint32_t  reconStride,
+        uint32_t  residual_stride,
+        uint8_t  *recon_ptr,
+        uint32_t  recon_stride,
         uint32_t  width,
         uint32_t  height,
         int32_t     bd);
 
     typedef void(*EB_ADDDKERNEL_TYPE_16BIT)(
-        uint16_t  *predPtr,
-        uint32_t  predStride,
+        uint16_t  *pred_ptr,
+        uint32_t  pred_stride,
         int16_t *residual_ptr,
-        uint32_t  residualStride,
-        uint16_t  *reconPtr,
-        uint32_t  reconStride,
+        uint32_t  residual_stride,
+        uint16_t  *recon_ptr,
+        uint32_t  recon_stride,
         uint32_t  width,
         uint32_t  height);
 
@@ -307,8 +307,8 @@ extern "C" {
         uint32_t                   src_stride,
         EbByte                  dst,
         uint32_t                   dst_stride,
-        uint32_t                   areaWidth,
-        uint32_t                   areaHeight);
+        uint32_t                   area_width,
+        uint32_t                   area_height);
 
 
 
@@ -316,37 +316,37 @@ extern "C" {
         uint8_t   *input,
         uint32_t   inputStride,
         uint8_t   *pred,
-        uint32_t   predStride,
+        uint32_t   pred_stride,
         int16_t  *residual,
-        uint32_t   residualStride,
-        uint32_t   areaWidth,
-        uint32_t   areaHeight);
+        uint32_t   residual_stride,
+        uint32_t   area_width,
+        uint32_t   area_height);
 
     typedef void(*EB_RESDKERNEL_TYPE_16BIT)(
         uint16_t   *input,
         uint32_t   inputStride,
         uint16_t   *pred,
-        uint32_t   predStride,
+        uint32_t   pred_stride,
         int16_t  *residual,
-        uint32_t   residualStride,
-        uint32_t   areaWidth,
-        uint32_t   areaHeight);
+        uint32_t   residual_stride,
+        uint32_t   area_width,
+        uint32_t   area_height);
 
     typedef void(*EB_ZEROCOEFF_TYPE)(
         int16_t*                  coeffbuffer,
         uint32_t                   coeff_stride,
         uint32_t                   coeffOriginIndex,
-        uint32_t                   areaWidth,
-        uint32_t                   areaHeight);
+        uint32_t                   area_width,
+        uint32_t                   area_height);
 
     typedef void(*EB_FULLDIST_TYPE)(
         int16_t  *coeff,
         uint32_t   coeff_stride,
         int16_t  *recon_coeff,
-        uint32_t   reconCoeffStride,
-        uint64_t   distortionResult[DIST_CALC_TOTAL],
-        uint32_t   areaWidth,
-        uint32_t   areaHeight);
+        uint32_t   recon_coeff_stride,
+        uint64_t   distortion_result[DIST_CALC_TOTAL],
+        uint32_t   area_width,
+        uint32_t   area_height);
 
     typedef uint64_t(*EB_SATD_TYPE)(
         int16_t *diff);
@@ -402,15 +402,15 @@ extern "C" {
         },
         // AVX2
         {
-            /*0 4x4   */    PictureAdditionKernel4x4_AV1_SSE2_INTRIN,
-            /*1 8x8   */    PictureAdditionKernel8x8_AV1_SSE2_INTRIN,
-            /*2 16x16 */    PictureAdditionKernel16x16_AV1_SSE2_INTRIN,
+            /*0 4x4   */    picture_addition_kernel4x4_av1_sse2_intrin,
+            /*1 8x8   */    picture_addition_kernel8x8_av1_sse2_intrin,
+            /*2 16x16 */    picture_addition_kernel16x16_av1_sse2_intrin,
             /*3       */    (EB_ADDDKERNEL_AV1_TYPE)PictureAdditionVoidFunc,
-            /*4 32x32 */    PictureAdditionKernel32x32_AV1_SSE2_INTRIN,
+            /*4 32x32 */    picture_addition_kernel32x32_av1_sse2_intrin,
             /*5       */    (EB_ADDDKERNEL_AV1_TYPE)PictureAdditionVoidFunc,
             /*6       */    (EB_ADDDKERNEL_AV1_TYPE)PictureAdditionVoidFunc,
             /*7       */    (EB_ADDDKERNEL_AV1_TYPE)PictureAdditionVoidFunc,
-            /*8 64x64 */    PictureAdditionKernel64x64_AV1_SSE2_INTRIN,
+            /*8 64x64 */    picture_addition_kernel64x64_av1_sse2_intrin,
         },
     };
 
@@ -425,11 +425,11 @@ extern "C" {
         uint8_t   *input,
         uint32_t   inputStride,
         uint8_t   *pred,
-        uint32_t   predStride,
+        uint32_t   pred_stride,
         int16_t  *residual,
-        uint32_t   residualStride,
-        uint32_t   areaWidth,
-        uint32_t   areaHeight,
+        uint32_t   residual_stride,
+        uint32_t   area_width,
+        uint32_t   area_height,
         uint8_t    lastLine
         );
     static EB_RESDKERNELSUBSAMPLED_TYPE FUNC_TABLE ResidualKernelSubSampled_funcPtrArray[ASM_TYPE_TOTAL][9] = {
@@ -463,21 +463,21 @@ extern "C" {
         uint16_t   *input,
         uint32_t   inputStride,
         uint16_t   *pred,
-        uint32_t   predStride,
+        uint32_t   pred_stride,
         int16_t  *residual,
-        uint32_t   residualStride,
-        uint32_t   areaWidth,
-        uint32_t   areaHeight);
+        uint32_t   residual_stride,
+        uint32_t   area_width,
+        uint32_t   area_height);
 
     void ResidualKernel_c(
         uint8_t   *input,
         uint32_t   inputStride,
         uint8_t   *pred,
-        uint32_t   predStride,
+        uint32_t   pred_stride,
         int16_t  *residual,
-        uint32_t   residualStride,
-        uint32_t   areaWidth,
-        uint32_t   areaHeight);
+        uint32_t   residual_stride,
+        uint32_t   area_width,
+        uint32_t   area_height);
 
     static EB_RESDKERNEL_TYPE_16BIT FUNC_TABLE ResidualKernel_funcPtrArray16Bit[ASM_TYPE_TOTAL] = {
         // NON_AVX2
@@ -525,9 +525,9 @@ extern "C" {
         uint8_t   *input,
         uint32_t   inputStride,
         uint8_t   *recon,
-        uint32_t   reconStride,
-        uint32_t   areaWidth,
-        uint32_t   areaHeight);
+        uint32_t   recon_stride,
+        uint32_t   area_width,
+        uint32_t   area_height);
 
     static EB_SPATIALFULLDIST_TYPE FUNC_TABLE SpatialFullDistortionKernel_funcPtrArray[ASM_TYPE_TOTAL][5] = {
         // NON_AVX2
@@ -560,12 +560,12 @@ extern "C" {
 #endif
 
     void PictureAdditionKernel16Bit(
-        uint16_t  *predPtr,
-        uint32_t  predStride,
+        uint16_t  *pred_ptr,
+        uint32_t  pred_stride,
         int32_t *residual_ptr,
-        uint32_t  residualStride,
-        uint16_t  *reconPtr,
-        uint32_t  reconStride,
+        uint32_t  residual_stride,
+        uint16_t  *recon_ptr,
+        uint32_t  recon_stride,
         uint32_t  width,
         uint32_t  height,
         int32_t     bd);

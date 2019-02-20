@@ -4770,7 +4770,7 @@ static void SelectBuffer(
     uint8_t                 *pos_j,                           //[IN]
     uint32_t                 refHalfStride,                       //[IN]
     uint32_t                 refBufferFullStride,
-    uint8_t                 **DstPtr,                             //[OUT]
+    uint8_t                 **dst_ptr,                             //[OUT]
     uint32_t                 *DstPtrStride,                       //[OUT]
     EbAsm                 asm_type)
 {
@@ -4807,7 +4807,7 @@ static void SelectBuffer(
 
     buf1 = buf1 + puShiftXIndex + puShiftYIndex * refStride;
 
-    *DstPtr = buf1;
+    *dst_ptr = buf1;
     *DstPtrStride = refStride;
 
 

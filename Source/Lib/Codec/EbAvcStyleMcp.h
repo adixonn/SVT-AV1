@@ -98,7 +98,7 @@ extern "C" {
         uint32_t                 dstChromaIndex,          //input parameter, please refer to the detailed explanation above.
         uint32_t                 component_mask,
         EbByte                tempBuf,
-        EbBool                subPred,
+        EbBool                sub_pred,
         EbAsm                 asm_type);
     void estimate_bi_pred_interpolation_avc_chroma_ref10_bit(
         EbPictureBufferDesc_t *refFramePicList0,
@@ -116,7 +116,7 @@ extern "C" {
         EbByte                refList0TempDst,
         EbByte                refList1TempDst,
         EbByte                firstPassIFTempDst,
-        EbBool                subPred,
+        EbBool                sub_pred,
         EbAsm                 asm_type);
 
     void estimate_uni_pred_interpolation_avc_lumaRef10Bit(
@@ -130,7 +130,7 @@ extern "C" {
         uint32_t                 dstChromaIndex,          //input parameter, please refer to the detailed explanation above.
         uint32_t                 component_mask,
         EbByte                tempBuf,
-        EbBool                subPred,
+        EbBool                sub_pred,
         EbBool                subPredChroma,
         EbAsm                 asm_type);
 
@@ -150,7 +150,7 @@ extern "C" {
         EbByte                refList0TempDst,
         EbByte                refList1TempDst,
         EbByte                firstPassIFTempDst,
-        EbBool                subPred,
+        EbBool                sub_pred,
         EbBool                subPredChroma,
         EbAsm                 asm_type);
 
@@ -219,8 +219,8 @@ extern "C" {
         uint32_t                   src1Stride,
         EbByte                  dst,
         uint32_t                   dst_stride,
-        uint32_t                   areaWidth,
-        uint32_t                   areaHeight);
+        uint32_t                   area_width,
+        uint32_t                   area_height);
 
 
     /***************************************
@@ -278,7 +278,7 @@ extern "C" {
         EbByte                  src0,
         EbByte                  src1,
         EbByte                  dst,
-        uint32_t                   areaWidth);
+        uint32_t                   area_width);
 
     static const PictureAverage1Line FUNC_TABLE picture_average1_line_array[ASM_TYPE_TOTAL] = {
         // NON_AVX2

@@ -270,7 +270,7 @@ void noiseExtractLumaWeak_AVX2_INTRIN(
     uint32_t  noiseOriginIndex;
 
     uint8_t *ptrIn;
-    uint32_t strideIn;
+    uint32_t stride_in;
     uint8_t *ptrDenoised, *ptrDenoisedInterm;
 
     uint8_t *ptrNoise, *ptrNoiseInterm;
@@ -286,7 +286,7 @@ void noiseExtractLumaWeak_AVX2_INTRIN(
         picWidth = inputPicturePtr->width;
         sb_height = MIN(BLOCK_SIZE_64, picHeight - sb_origin_y);
         sb_height = ((sb_origin_y + BLOCK_SIZE_64 >= picHeight) || (sb_origin_y == 0)) ? sb_height - 1 : sb_height;
-        strideIn = inputPicturePtr->strideY;
+        stride_in = inputPicturePtr->strideY;
         inputOriginIndex = inputPicturePtr->origin_x + (inputPicturePtr->origin_y + sb_origin_y) * inputPicturePtr->strideY;
         ptrIn = &(inputPicturePtr->bufferY[inputOriginIndex]);
 
@@ -314,21 +314,21 @@ void noiseExtractLumaWeak_AVX2_INTRIN(
                 {
                     if (jj == 0)
                     {
-                        top = _mm256_loadu_si256((__m256i*)(ptrIn + kk + jj * strideIn));
-                        secondtop = _mm256_loadu_si256((__m256i*)(ptrIn + kk + 32 + jj * strideIn));
-                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + kk + (1 + jj)*strideIn));
-                        secondcurr = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + (1 + jj)*strideIn));
+                        top = _mm256_loadu_si256((__m256i*)(ptrIn + kk + jj * stride_in));
+                        secondtop = _mm256_loadu_si256((__m256i*)(ptrIn + kk + 32 + jj * stride_in));
+                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + kk + (1 + jj)*stride_in));
+                        secondcurr = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + (1 + jj)*stride_in));
                         _mm256_storeu_si256((__m256i *)(ptrDenoised + kk), top);
                         _mm256_storeu_si256((__m256i *)(ptrDenoised + kk + 32), secondtop);
                         _mm256_storeu_si256((__m256i *)(ptrNoise + kk), _mm256_setzero_si256());
                         _mm256_storeu_si256((__m256i *)(ptrNoise + kk + 32), _mm256_setzero_si256());
                     }
-                    currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((1 + jj)*strideIn)));
-                    currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((1 + jj)*strideIn)));
-                    secondcurrPrev = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) - 1 + ((1 + jj)*strideIn)));
-                    secondcurrNext = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + 1 + ((1 + jj)*strideIn)));
-                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk) + (2 + jj)* strideIn));
-                    secondbottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + (2 + jj)* strideIn));
+                    currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((1 + jj)*stride_in)));
+                    currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((1 + jj)*stride_in)));
+                    secondcurrPrev = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) - 1 + ((1 + jj)*stride_in)));
+                    secondcurrNext = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + 1 + ((1 + jj)*stride_in)));
+                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk) + (2 + jj)* stride_in));
+                    secondbottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + (2 + jj)* stride_in));
                     ptrDenoisedInterm = ptrDenoised + kk + ((1 + jj)*strideOut);
                     ptrNoiseInterm = ptrNoise + kk + ((1 + jj)*strideOut);
 
@@ -337,17 +337,17 @@ void noiseExtractLumaWeak_AVX2_INTRIN(
                 {
                     if (jj == 0)
                     {
-                        top = _mm256_loadu_si256((__m256i*)(ptrIn + kk + jj * strideIn - strideIn));
-                        secondtop = _mm256_loadu_si256((__m256i*)(ptrIn + kk + 32 + jj * strideIn - strideIn));
-                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + kk + (1 + jj)*strideIn - strideIn));
-                        secondcurr = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + (1 + jj)*strideIn - strideIn));
+                        top = _mm256_loadu_si256((__m256i*)(ptrIn + kk + jj * stride_in - stride_in));
+                        secondtop = _mm256_loadu_si256((__m256i*)(ptrIn + kk + 32 + jj * stride_in - stride_in));
+                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + kk + (1 + jj)*stride_in - stride_in));
+                        secondcurr = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + (1 + jj)*stride_in - stride_in));
                     }
-                    currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((1 + jj)*strideIn - strideIn)));
-                    currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((1 + jj)*strideIn - strideIn)));
-                    secondcurrPrev = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) - 1 + ((1 + jj)*strideIn - strideIn)));
-                    secondcurrNext = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + 1 + ((1 + jj)*strideIn - strideIn)));
-                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk) + (2 + jj)* strideIn - strideIn));
-                    secondbottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + (2 + jj)* strideIn - strideIn));
+                    currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((1 + jj)*stride_in - stride_in)));
+                    currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((1 + jj)*stride_in - stride_in)));
+                    secondcurrPrev = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) - 1 + ((1 + jj)*stride_in - stride_in)));
+                    secondcurrNext = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + 1 + ((1 + jj)*stride_in - stride_in)));
+                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk) + (2 + jj)* stride_in - stride_in));
+                    secondbottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + (2 + jj)* stride_in - stride_in));
                     ptrDenoisedInterm = ptrDenoised + kk + ((1 + jj)*strideOut - strideOut);
                     ptrNoiseInterm = ptrNoise + kk + jj * strideOut;
 
@@ -388,7 +388,7 @@ void noiseExtractLumaWeak_AVX2_INTRIN(
 
                 if (!((jj < sb_height - 1 || sb_origin_y + sb_height < picHeight) && ii > 0 && ii < picWidth - 1)) {
 
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * strideIn];
+                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
                     ptrNoise[ii + jj * strideOut] = 0;
                 }
 
@@ -415,7 +415,7 @@ void noiseExtractLumaWeakLcu_AVX2_INTRIN(
     uint32_t  noiseOriginIndex;
 
     uint8_t *ptrIn;
-    uint32_t strideIn;
+    uint32_t stride_in;
     uint8_t *ptrDenoised, *ptrDenoisedInterm;
 
     uint8_t *ptrNoise, *ptrNoiseInterm;
@@ -432,7 +432,7 @@ void noiseExtractLumaWeakLcu_AVX2_INTRIN(
         sb_height = MIN(BLOCK_SIZE_64, picHeight - sb_origin_y);
         sb_width = MIN(BLOCK_SIZE_64, picWidth - sb_origin_x);
         sb_height = ((sb_origin_y + BLOCK_SIZE_64 >= picHeight) || (sb_origin_y == 0)) ? sb_height - 1 : sb_height;
-        strideIn = inputPicturePtr->strideY;
+        stride_in = inputPicturePtr->strideY;
         inputOriginIndex = inputPicturePtr->origin_x + sb_origin_x + (inputPicturePtr->origin_y + sb_origin_y) * inputPicturePtr->strideY;
         ptrIn = &(inputPicturePtr->bufferY[inputOriginIndex]);
 
@@ -460,21 +460,21 @@ void noiseExtractLumaWeakLcu_AVX2_INTRIN(
                 {
                     if (jj == 0)
                     {
-                        top = _mm256_loadu_si256((__m256i*)(ptrIn + jj * strideIn));
-                        secondtop = _mm256_loadu_si256((__m256i*)(ptrIn + 32 + jj * strideIn));
-                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + (1 + jj)*strideIn));
-                        secondcurr = _mm256_loadu_si256((__m256i*)((ptrIn + 32) + (1 + jj)*strideIn));
+                        top = _mm256_loadu_si256((__m256i*)(ptrIn + jj * stride_in));
+                        secondtop = _mm256_loadu_si256((__m256i*)(ptrIn + 32 + jj * stride_in));
+                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + (1 + jj)*stride_in));
+                        secondcurr = _mm256_loadu_si256((__m256i*)((ptrIn + 32) + (1 + jj)*stride_in));
                         _mm256_storeu_si256((__m256i *)(ptrDenoised), top);
                         _mm256_storeu_si256((__m256i *)(ptrDenoised + 32), secondtop);
                         _mm256_storeu_si256((__m256i *)(ptrNoise), _mm256_setzero_si256());
                         _mm256_storeu_si256((__m256i *)(ptrNoise + 32), _mm256_setzero_si256());
                     }
-                    currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + ((1 + jj)*strideIn)));
-                    currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + ((1 + jj)*strideIn)));
-                    secondcurrPrev = _mm256_loadu_si256((__m256i*)((ptrIn + 32) - 1 + ((1 + jj)*strideIn)));
-                    secondcurrNext = _mm256_loadu_si256((__m256i*)((ptrIn + 32) + 1 + ((1 + jj)*strideIn)));
-                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn)+(2 + jj)* strideIn));
-                    secondbottom = _mm256_loadu_si256((__m256i*)((ptrIn + 32) + (2 + jj)* strideIn));
+                    currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + ((1 + jj)*stride_in)));
+                    currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + ((1 + jj)*stride_in)));
+                    secondcurrPrev = _mm256_loadu_si256((__m256i*)((ptrIn + 32) - 1 + ((1 + jj)*stride_in)));
+                    secondcurrNext = _mm256_loadu_si256((__m256i*)((ptrIn + 32) + 1 + ((1 + jj)*stride_in)));
+                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn)+(2 + jj)* stride_in));
+                    secondbottom = _mm256_loadu_si256((__m256i*)((ptrIn + 32) + (2 + jj)* stride_in));
                     ptrDenoisedInterm = ptrDenoised + ((1 + jj)*strideOut);
                     ptrNoiseInterm = ptrNoise + ((1 + jj)*strideOut);
 
@@ -483,17 +483,17 @@ void noiseExtractLumaWeakLcu_AVX2_INTRIN(
                 {
                     if (jj == 0)
                     {
-                        top = _mm256_loadu_si256((__m256i*)(ptrIn + jj * strideIn - strideIn));
-                        secondtop = _mm256_loadu_si256((__m256i*)(ptrIn + 32 + jj * strideIn - strideIn));
-                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + (1 + jj)*strideIn - strideIn));
-                        secondcurr = _mm256_loadu_si256((__m256i*)((ptrIn + 32) + (1 + jj)*strideIn - strideIn));
+                        top = _mm256_loadu_si256((__m256i*)(ptrIn + jj * stride_in - stride_in));
+                        secondtop = _mm256_loadu_si256((__m256i*)(ptrIn + 32 + jj * stride_in - stride_in));
+                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + (1 + jj)*stride_in - stride_in));
+                        secondcurr = _mm256_loadu_si256((__m256i*)((ptrIn + 32) + (1 + jj)*stride_in - stride_in));
                     }
-                    currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + ((1 + jj)*strideIn - strideIn)));
-                    currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + ((1 + jj)*strideIn - strideIn)));
-                    secondcurrPrev = _mm256_loadu_si256((__m256i*)((ptrIn + 32) - 1 + ((1 + jj)*strideIn - strideIn)));
-                    secondcurrNext = _mm256_loadu_si256((__m256i*)((ptrIn + 32) + 1 + ((1 + jj)*strideIn - strideIn)));
-                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn)+(2 + jj)* strideIn - strideIn));
-                    secondbottom = _mm256_loadu_si256((__m256i*)((ptrIn + 32) + (2 + jj)* strideIn - strideIn));
+                    currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + ((1 + jj)*stride_in - stride_in)));
+                    currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + ((1 + jj)*stride_in - stride_in)));
+                    secondcurrPrev = _mm256_loadu_si256((__m256i*)((ptrIn + 32) - 1 + ((1 + jj)*stride_in - stride_in)));
+                    secondcurrNext = _mm256_loadu_si256((__m256i*)((ptrIn + 32) + 1 + ((1 + jj)*stride_in - stride_in)));
+                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn)+(2 + jj)* stride_in - stride_in));
+                    secondbottom = _mm256_loadu_si256((__m256i*)((ptrIn + 32) + (2 + jj)* stride_in - stride_in));
                     ptrDenoisedInterm = ptrDenoised + ((1 + jj)*strideOut - strideOut);
                     ptrNoiseInterm = ptrNoise + jj * strideOut;
 
@@ -534,7 +534,7 @@ void noiseExtractLumaWeakLcu_AVX2_INTRIN(
 
                 if (!((jj > 0 || sb_origin_y > 0) && (jj < sb_height - 1 || sb_origin_y + sb_height < picHeight) && (ii > 0 || sb_origin_x > 0) && (ii + sb_origin_x) < picWidth - 1)) {
 
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * strideIn];
+                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
                     ptrNoise[ii + jj * strideOut] = 0;
                 }
 
@@ -562,7 +562,7 @@ void noiseExtractLumaStrong_AVX2_INTRIN(
     uint32_t  inputOriginIndexPad;
 
     uint8_t *ptrIn;
-    uint32_t strideIn;
+    uint32_t stride_in;
     uint8_t *ptrDenoised, *ptrDenoisedInterm;
 
     uint32_t strideOut;
@@ -576,7 +576,7 @@ void noiseExtractLumaStrong_AVX2_INTRIN(
         sb_height = MIN(BLOCK_SIZE_64, picHeight - sb_origin_y);
 
         sb_height = ((sb_origin_y + BLOCK_SIZE_64 >= picHeight) || (sb_origin_y == 0)) ? sb_height - 1 : sb_height;
-        strideIn = inputPicturePtr->strideY;
+        stride_in = inputPicturePtr->strideY;
         inputOriginIndex = inputPicturePtr->origin_x + (inputPicturePtr->origin_y + sb_origin_y)* inputPicturePtr->strideY;
         ptrIn = &(inputPicturePtr->bufferY[inputOriginIndex]);
 
@@ -595,65 +595,65 @@ void noiseExtractLumaStrong_AVX2_INTRIN(
                 {
                     if (jj == 0)
                     {
-                        top = _mm256_loadu_si256((__m256i*)(ptrIn + kk + jj * strideIn));
-                        secondtop = _mm256_loadu_si256((__m256i*)(ptrIn + kk + 32 + jj * strideIn));
+                        top = _mm256_loadu_si256((__m256i*)(ptrIn + kk + jj * stride_in));
+                        secondtop = _mm256_loadu_si256((__m256i*)(ptrIn + kk + 32 + jj * stride_in));
 
-                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + kk + (1 + jj)*strideIn));
-                        secondcurr = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + (1 + jj)*strideIn));
+                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + kk + (1 + jj)*stride_in));
+                        secondcurr = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + (1 + jj)*stride_in));
 
-                        topPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((jj)*strideIn)));
-                        secondtopPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + 32 + ((jj)*strideIn)));
+                        topPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((jj)*stride_in)));
+                        secondtopPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + 32 + ((jj)*stride_in)));
 
-                        topNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((jj)*strideIn)));
-                        secondtopNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + 32 + ((jj)*strideIn)));
+                        topNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((jj)*stride_in)));
+                        secondtopNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + 32 + ((jj)*stride_in)));
 
-                        currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((1 + jj)*strideIn)));
-                        secondcurrPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + 32 + ((1 + jj)*strideIn)));
+                        currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((1 + jj)*stride_in)));
+                        secondcurrPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + 32 + ((1 + jj)*stride_in)));
 
-                        currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((1 + jj)*strideIn)));
-                        secondcurrNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + 32 + ((1 + jj)*strideIn)));
+                        currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((1 + jj)*stride_in)));
+                        secondcurrNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + 32 + ((1 + jj)*stride_in)));
 
                         _mm256_storeu_si256((__m256i *)(ptrDenoised + kk), top);
                         _mm256_storeu_si256((__m256i *)(ptrDenoised + kk + 32), secondtop);
                     }
-                    bottomPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((2 + jj)*strideIn)));
-                    secondbottomPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + 32 + ((2 + jj)*strideIn)));
+                    bottomPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((2 + jj)*stride_in)));
+                    secondbottomPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + 32 + ((2 + jj)*stride_in)));
 
-                    bottomNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((2 + jj)*strideIn)));
-                    secondbottomNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + 32 + ((2 + jj)*strideIn)));
+                    bottomNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((2 + jj)*stride_in)));
+                    secondbottomNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + 32 + ((2 + jj)*stride_in)));
 
-                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk) + (2 + jj)* strideIn));
-                    secondbottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + (2 + jj)* strideIn));
+                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk) + (2 + jj)* stride_in));
+                    secondbottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + (2 + jj)* stride_in));
                     ptrDenoisedInterm = ptrDenoised + kk + ((1 + jj)*strideOut);
                 }
                 else
                 {
                     if (jj == 0)
                     {
-                        top = _mm256_loadu_si256((__m256i*)(ptrIn + kk + jj * strideIn - strideIn));
-                        secondtop = _mm256_loadu_si256((__m256i*)(ptrIn + kk + 32 + jj * strideIn - strideIn));
-                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + kk + (1 + jj)*strideIn - strideIn));
-                        secondcurr = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + (1 + jj)*strideIn - strideIn));
-                        topPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((jj)*strideIn) - strideIn));
-                        secondtopPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + 32 + ((jj)*strideIn) - strideIn));
+                        top = _mm256_loadu_si256((__m256i*)(ptrIn + kk + jj * stride_in - stride_in));
+                        secondtop = _mm256_loadu_si256((__m256i*)(ptrIn + kk + 32 + jj * stride_in - stride_in));
+                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + kk + (1 + jj)*stride_in - stride_in));
+                        secondcurr = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + (1 + jj)*stride_in - stride_in));
+                        topPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((jj)*stride_in) - stride_in));
+                        secondtopPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + 32 + ((jj)*stride_in) - stride_in));
 
-                        topNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((jj)*strideIn) - strideIn));
-                        secondtopNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + 32 + ((jj)*strideIn) - strideIn));
+                        topNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((jj)*stride_in) - stride_in));
+                        secondtopNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + 32 + ((jj)*stride_in) - stride_in));
 
-                        currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((1 + jj)*strideIn - strideIn)));
-                        secondcurrPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + 32 + ((1 + jj)*strideIn - strideIn)));
+                        currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((1 + jj)*stride_in - stride_in)));
+                        secondcurrPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + 32 + ((1 + jj)*stride_in - stride_in)));
 
-                        currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((1 + jj)*strideIn - strideIn)));
-                        secondcurrNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + 32 + ((1 + jj)*strideIn - strideIn)));
+                        currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((1 + jj)*stride_in - stride_in)));
+                        secondcurrNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + 32 + ((1 + jj)*stride_in - stride_in)));
                     }
-                    bottomPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((2 + jj)*strideIn) - strideIn));
-                    secondbottomPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + 32 + ((2 + jj)*strideIn - strideIn)));
+                    bottomPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((2 + jj)*stride_in) - stride_in));
+                    secondbottomPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + 32 + ((2 + jj)*stride_in - stride_in)));
 
-                    bottomNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((2 + jj)*strideIn) - strideIn));
-                    secondbottomNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + 32 + ((2 + jj)*strideIn - strideIn)));
+                    bottomNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((2 + jj)*stride_in) - stride_in));
+                    secondbottomNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + 32 + ((2 + jj)*stride_in - stride_in)));
 
-                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk) + (2 + jj)* strideIn - strideIn));
-                    secondbottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + (2 + jj)* strideIn - strideIn));
+                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk) + (2 + jj)* stride_in - stride_in));
+                    secondbottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk + 32) + (2 + jj)* stride_in - stride_in));
 
                     ptrDenoisedInterm = ptrDenoised + kk + ((1 + jj)*strideOut - strideOut);
 
@@ -709,7 +709,7 @@ void noiseExtractLumaStrong_AVX2_INTRIN(
             for (ii = 0; ii < picWidth; ii++) {
 
                 if (!((jj < sb_height - 1 || sb_origin_y + sb_height < picHeight) && ii > 0 && ii < picWidth - 1)) {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * strideIn];
+                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
                 }
 
             }
@@ -737,7 +737,7 @@ void noiseExtractChromaStrong_AVX2_INTRIN(
     uint32_t  inputOriginIndexPad;
 
     uint8_t *ptrIn, *ptrInCr;
-    uint32_t strideIn, strideInCr;
+    uint32_t stride_in, strideInCr;
     uint8_t *ptrDenoised, *ptrDenoisedInterm, *ptrDenoisedCr, *ptrDenoisedIntermCr;
 
     uint32_t strideOut, strideOutCr;
@@ -751,7 +751,7 @@ void noiseExtractChromaStrong_AVX2_INTRIN(
 
         sb_height = ((sb_origin_y + BLOCK_SIZE_64 / 2 >= picHeight) || (sb_origin_y == 0)) ? sb_height - 1 : sb_height;
 
-        strideIn = inputPicturePtr->strideCb;
+        stride_in = inputPicturePtr->strideCb;
         inputOriginIndex = inputPicturePtr->origin_x / 2 + (inputPicturePtr->origin_y / 2 + sb_origin_y)  * inputPicturePtr->strideCb;
         ptrIn = &(inputPicturePtr->bufferCb[inputOriginIndex]);
 
@@ -784,12 +784,12 @@ void noiseExtractChromaStrong_AVX2_INTRIN(
                 {
                     if (jj == 0)
                     {
-                        top = _mm256_loadu_si256((__m256i*)(ptrIn + kk + jj * strideIn));
-                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + kk + (1 + jj)*strideIn));
-                        topPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((jj)*strideIn)));
-                        topNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((jj)*strideIn)));
-                        currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((1 + jj)*strideIn)));
-                        currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((1 + jj)*strideIn)));
+                        top = _mm256_loadu_si256((__m256i*)(ptrIn + kk + jj * stride_in));
+                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + kk + (1 + jj)*stride_in));
+                        topPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((jj)*stride_in)));
+                        topNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((jj)*stride_in)));
+                        currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((1 + jj)*stride_in)));
+                        currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((1 + jj)*stride_in)));
                         topCr = _mm256_loadu_si256((__m256i*)(ptrInCr + kk + jj * strideInCr));
                         currCr = _mm256_loadu_si256((__m256i*)(ptrInCr + kk + (1 + jj)*strideInCr));
                         topPrevCr = _mm256_loadu_si256((__m256i*)(ptrInCr - 1 + kk + ((jj)*strideInCr)));
@@ -799,9 +799,9 @@ void noiseExtractChromaStrong_AVX2_INTRIN(
                         _mm256_storeu_si256((__m256i *)(ptrDenoised + kk), top);
                         _mm256_storeu_si256((__m256i *)(ptrDenoisedCr + kk), topCr);
                     }
-                    bottomPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((2 + jj)*strideIn)));
-                    bottomNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((2 + jj)*strideIn)));
-                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk) + (2 + jj)* strideIn));
+                    bottomPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((2 + jj)*stride_in)));
+                    bottomNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((2 + jj)*stride_in)));
+                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk) + (2 + jj)* stride_in));
                     bottomPrevCr = _mm256_loadu_si256((__m256i*)(ptrInCr - 1 + kk + ((2 + jj)*strideInCr)));
                     bottomNextCr = _mm256_loadu_si256((__m256i*)(ptrInCr + 1 + kk + ((2 + jj)*strideInCr)));
                     bottomCr = _mm256_loadu_si256((__m256i*)((ptrInCr + kk) + (2 + jj)* strideInCr));
@@ -812,12 +812,12 @@ void noiseExtractChromaStrong_AVX2_INTRIN(
                 {
                     if (jj == 0)
                     {
-                        top = _mm256_loadu_si256((__m256i*)(ptrIn + kk + jj * strideIn - strideIn));
-                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + kk + (1 + jj)*strideIn - strideIn));
-                        topPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((jj)*strideIn) - strideIn));
-                        topNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((jj)*strideIn) - strideIn));
-                        currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((1 + jj)*strideIn - strideIn)));
-                        currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((1 + jj)*strideIn - strideIn)));
+                        top = _mm256_loadu_si256((__m256i*)(ptrIn + kk + jj * stride_in - stride_in));
+                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + kk + (1 + jj)*stride_in - stride_in));
+                        topPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((jj)*stride_in) - stride_in));
+                        topNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((jj)*stride_in) - stride_in));
+                        currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((1 + jj)*stride_in - stride_in)));
+                        currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((1 + jj)*stride_in - stride_in)));
                         topCr = _mm256_loadu_si256((__m256i*)(ptrInCr + kk + jj * strideInCr - strideInCr));
                         currCr = _mm256_loadu_si256((__m256i*)(ptrInCr + kk + (1 + jj)*strideInCr - strideInCr));
                         topPrevCr = _mm256_loadu_si256((__m256i*)(ptrInCr - 1 + kk + ((jj)*strideInCr) - strideInCr));
@@ -825,9 +825,9 @@ void noiseExtractChromaStrong_AVX2_INTRIN(
                         currPrevCr = _mm256_loadu_si256((__m256i*)(ptrInCr - 1 + kk + ((1 + jj)*strideInCr - strideInCr)));
                         currNextCr = _mm256_loadu_si256((__m256i*)(ptrInCr + 1 + kk + ((1 + jj)*strideInCr - strideInCr)));
                     }
-                    bottomPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((2 + jj)*strideIn) - strideIn));
-                    bottomNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((2 + jj)*strideIn) - strideIn));
-                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk) + (2 + jj)* strideIn - strideIn));
+                    bottomPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((2 + jj)*stride_in) - stride_in));
+                    bottomNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((2 + jj)*stride_in) - stride_in));
+                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk) + (2 + jj)* stride_in - stride_in));
                     ptrDenoisedInterm = ptrDenoised + kk + ((1 + jj)*strideOut - strideOut);
                     bottomPrevCr = _mm256_loadu_si256((__m256i*)(ptrInCr - 1 + kk + ((2 + jj)*strideInCr) - strideInCr));
                     bottomNextCr = _mm256_loadu_si256((__m256i*)(ptrInCr + 1 + kk + ((2 + jj)*strideInCr) - strideInCr));
@@ -885,8 +885,8 @@ void noiseExtractChromaStrong_AVX2_INTRIN(
             for (ii = 0; ii < picWidth; ii++) {
 
                 if (!((jj < sb_height - 1 || (sb_origin_y + sb_height) < picHeight) && ii > 0 && ii < picWidth - 1)) {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * strideIn];
-                    ptrDenoisedCr[ii + jj * strideOut] = ptrInCr[ii + jj * strideIn];
+                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
+                    ptrDenoisedCr[ii + jj * strideOut] = ptrInCr[ii + jj * stride_in];
                 }
 
             }
@@ -914,7 +914,7 @@ void noiseExtractChromaWeak_AVX2_INTRIN(
     uint32_t  inputOriginIndexPad;
 
     uint8_t *ptrIn, *ptrInCr;
-    uint32_t strideIn, strideInCr;
+    uint32_t stride_in, strideInCr;
     uint8_t *ptrDenoised, *ptrDenoisedInterm, *ptrDenoisedCr, *ptrDenoisedIntermCr;
 
     uint32_t strideOut, strideOutCr;
@@ -934,7 +934,7 @@ void noiseExtractChromaWeak_AVX2_INTRIN(
         sb_height = MIN(BLOCK_SIZE_64 / 2, picHeight - sb_origin_y);
 
         sb_height = ((sb_origin_y + BLOCK_SIZE_64 / 2 >= picHeight) || (sb_origin_y == 0)) ? sb_height - 1 : sb_height;
-        strideIn = inputPicturePtr->strideCb;
+        stride_in = inputPicturePtr->strideCb;
         inputOriginIndex = inputPicturePtr->origin_x / 2 + (inputPicturePtr->origin_y / 2 + sb_origin_y)* inputPicturePtr->strideCb;
         ptrIn = &(inputPicturePtr->bufferCb[inputOriginIndex]);
 
@@ -963,12 +963,12 @@ void noiseExtractChromaWeak_AVX2_INTRIN(
                 {
                     if (jj == 0)
                     {
-                        top = _mm256_loadu_si256((__m256i*)(ptrIn + kk + jj * strideIn));
-                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + kk + (1 + jj)*strideIn));
-                        topPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((jj)*strideIn)));
-                        topNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((jj)*strideIn)));
-                        currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((1 + jj)*strideIn)));
-                        currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((1 + jj)*strideIn)));
+                        top = _mm256_loadu_si256((__m256i*)(ptrIn + kk + jj * stride_in));
+                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + kk + (1 + jj)*stride_in));
+                        topPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((jj)*stride_in)));
+                        topNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((jj)*stride_in)));
+                        currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((1 + jj)*stride_in)));
+                        currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((1 + jj)*stride_in)));
                         _mm256_storeu_si256((__m256i *)(ptrDenoised + kk), top);
                         topCr = _mm256_loadu_si256((__m256i*)(ptrInCr + kk + jj * strideInCr));
                         currCr = _mm256_loadu_si256((__m256i*)(ptrInCr + kk + (1 + jj)*strideInCr));
@@ -978,9 +978,9 @@ void noiseExtractChromaWeak_AVX2_INTRIN(
                         currNextCr = _mm256_loadu_si256((__m256i*)(ptrInCr + 1 + kk + ((1 + jj)*strideInCr)));
                         _mm256_storeu_si256((__m256i *)(ptrDenoisedCr + kk), topCr);
                     }
-                    bottomPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((2 + jj)*strideIn)));
-                    bottomNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((2 + jj)*strideIn)));
-                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk) + (2 + jj)* strideIn));
+                    bottomPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((2 + jj)*stride_in)));
+                    bottomNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((2 + jj)*stride_in)));
+                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk) + (2 + jj)* stride_in));
                     ptrDenoisedInterm = ptrDenoised + kk + ((1 + jj)*strideOut);
                     bottomPrevCr = _mm256_loadu_si256((__m256i*)(ptrInCr - 1 + kk + ((2 + jj)*strideInCr)));
                     bottomNextCr = _mm256_loadu_si256((__m256i*)(ptrInCr + 1 + kk + ((2 + jj)*strideInCr)));
@@ -991,12 +991,12 @@ void noiseExtractChromaWeak_AVX2_INTRIN(
                 {
                     if (jj == 0)
                     {
-                        top = _mm256_loadu_si256((__m256i*)(ptrIn + kk + jj * strideIn - strideIn));
-                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + kk + (1 + jj)*strideIn - strideIn));
-                        topPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((jj)*strideIn) - strideIn));
-                        topNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((jj)*strideIn) - strideIn));
-                        currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((1 + jj)*strideIn - strideIn)));
-                        currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((1 + jj)*strideIn - strideIn)));
+                        top = _mm256_loadu_si256((__m256i*)(ptrIn + kk + jj * stride_in - stride_in));
+                        curr = _mm256_loadu_si256((__m256i*)(ptrIn + kk + (1 + jj)*stride_in - stride_in));
+                        topPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((jj)*stride_in) - stride_in));
+                        topNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((jj)*stride_in) - stride_in));
+                        currPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((1 + jj)*stride_in - stride_in)));
+                        currNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((1 + jj)*stride_in - stride_in)));
                         topCr = _mm256_loadu_si256((__m256i*)(ptrInCr + kk + jj * strideInCr - strideInCr));
                         currCr = _mm256_loadu_si256((__m256i*)(ptrInCr + kk + (1 + jj)*strideInCr - strideInCr));
                         topPrevCr = _mm256_loadu_si256((__m256i*)(ptrInCr - 1 + kk + ((jj)*strideInCr) - strideInCr));
@@ -1004,9 +1004,9 @@ void noiseExtractChromaWeak_AVX2_INTRIN(
                         currPrevCr = _mm256_loadu_si256((__m256i*)(ptrInCr - 1 + kk + ((1 + jj)*strideInCr - strideInCr)));
                         currNextCr = _mm256_loadu_si256((__m256i*)(ptrInCr + 1 + kk + ((1 + jj)*strideInCr - strideInCr)));
                     }
-                    bottomPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((2 + jj)*strideIn) - strideIn));
-                    bottomNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((2 + jj)*strideIn) - strideIn));
-                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk) + (2 + jj)* strideIn - strideIn));
+                    bottomPrev = _mm256_loadu_si256((__m256i*)(ptrIn - 1 + kk + ((2 + jj)*stride_in) - stride_in));
+                    bottomNext = _mm256_loadu_si256((__m256i*)(ptrIn + 1 + kk + ((2 + jj)*stride_in) - stride_in));
+                    bottom = _mm256_loadu_si256((__m256i*)((ptrIn + kk) + (2 + jj)* stride_in - stride_in));
                     ptrDenoisedInterm = ptrDenoised + kk + ((1 + jj)*strideOut - strideOut);
                     bottomPrevCr = _mm256_loadu_si256((__m256i*)(ptrInCr - 1 + kk + ((2 + jj)*strideInCr) - strideInCr));
                     bottomNextCr = _mm256_loadu_si256((__m256i*)(ptrInCr + 1 + kk + ((2 + jj)*strideInCr) - strideInCr));
@@ -1064,7 +1064,7 @@ void noiseExtractChromaWeak_AVX2_INTRIN(
             for (ii = 0; ii < picWidth; ii++) {
 
                 if (!((jj < sb_height - 1 || (sb_origin_y + sb_height) < picHeight) && ii > 0 && ii < picWidth - 1)) {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * strideIn];
+                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
                     ptrDenoisedCr[ii + jj * strideOut] = ptrInCr[ii + jj * strideInCr];
                 }
 

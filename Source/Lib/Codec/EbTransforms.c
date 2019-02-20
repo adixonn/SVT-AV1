@@ -3869,18 +3869,18 @@ void Av1TransformConfig(
 uint64_t EnergyComputation(
     int32_t  *coeff,
     uint32_t   coeff_stride,
-    uint32_t   areaWidth,
-    uint32_t   areaHeight)
+    uint32_t   area_width,
+    uint32_t   area_height)
 {
     uint32_t  columnIndex;
     uint32_t  rowIndex = 0;
     uint64_t  predictionDistortion = 0;
 
 
-    while (rowIndex < areaHeight) {
+    while (rowIndex < area_height) {
 
         columnIndex = 0;
-        while (columnIndex < areaWidth) {
+        while (columnIndex < area_width) {
             predictionDistortion += (int64_t)SQR((int64_t)(coeff[columnIndex]));
             ++columnIndex;
         }
@@ -4409,7 +4409,7 @@ void av1_fwd_txfm2d_4x8_c(
 *********************************************************************/
 EbErrorType Av1EstimateTransform(
     int16_t              *residual_buffer,
-    uint32_t              residualStride,
+    uint32_t              residual_stride,
     int32_t              *coeffBuffer,
     uint32_t              coeff_stride,
     TxSize                transform_size,
@@ -4437,14 +4437,14 @@ EbErrorType Av1EstimateTransform(
             av1_fwd_txfm2d_64x32(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
         else
             av1_fwd_txfm2d_64x32_c(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
         
@@ -4462,14 +4462,14 @@ EbErrorType Av1EstimateTransform(
             av1_fwd_txfm2d_32x64(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
         else
             av1_fwd_txfm2d_32x64_c(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
 
@@ -4483,14 +4483,14 @@ EbErrorType Av1EstimateTransform(
             av1_fwd_txfm2d_64x16(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
         else
             av1_fwd_txfm2d_64x16_c(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
 
@@ -4506,14 +4506,14 @@ EbErrorType Av1EstimateTransform(
             av1_fwd_txfm2d_16x64(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
         else
             av1_fwd_txfm2d_16x64_c(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
         *three_quad_energy = HandleTransform16x64_c(coeffBuffer,
@@ -4527,14 +4527,14 @@ EbErrorType Av1EstimateTransform(
             av1_fwd_txfm2d_32x16(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
         else
             av1_fwd_txfm2d_32x16_c(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
         break;
@@ -4544,14 +4544,14 @@ EbErrorType Av1EstimateTransform(
             av1_fwd_txfm2d_16x32(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
         else
             av1_fwd_txfm2d_16x32_c(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
         break;
@@ -4560,7 +4560,7 @@ EbErrorType Av1EstimateTransform(
         av1_fwd_txfm2d_16x8(
             residual_buffer,
             coeffBuffer,
-            residualStride,
+            residual_stride,
             transform_type,
             bit_depth);
         break;
@@ -4569,7 +4569,7 @@ EbErrorType Av1EstimateTransform(
         av1_fwd_txfm2d_8x16(
             residual_buffer,
             coeffBuffer,
-            residualStride,
+            residual_stride,
             transform_type,
             bit_depth);
         break;
@@ -4579,14 +4579,14 @@ EbErrorType Av1EstimateTransform(
             av1_fwd_txfm2d_32x8(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
         else
             av1_fwd_txfm2d_32x8_c(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
         break;
@@ -4596,14 +4596,14 @@ EbErrorType Av1EstimateTransform(
             av1_fwd_txfm2d_8x32(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
         else
             av1_fwd_txfm2d_8x32_c(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
         break;
@@ -4611,7 +4611,7 @@ EbErrorType Av1EstimateTransform(
         av1_fwd_txfm2d_16x4(
             residual_buffer,
             coeffBuffer,
-            residualStride,
+            residual_stride,
             transform_type,
             bit_depth);
         break;
@@ -4619,7 +4619,7 @@ EbErrorType Av1EstimateTransform(
         av1_fwd_txfm2d_4x16(
             residual_buffer,
             coeffBuffer,
-            residualStride,
+            residual_stride,
             transform_type,
             bit_depth);
         break;
@@ -4628,7 +4628,7 @@ EbErrorType Av1EstimateTransform(
         av1_fwd_txfm2d_8x4(
             residual_buffer,
             coeffBuffer,
-            residualStride,
+            residual_stride,
             transform_type,
             bit_depth);
 
@@ -4638,7 +4638,7 @@ EbErrorType Av1EstimateTransform(
         av1_fwd_txfm2d_4x8(
             residual_buffer,
             coeffBuffer,
-            residualStride,
+            residual_stride,
             transform_type,
             bit_depth);
 
@@ -4651,7 +4651,7 @@ EbErrorType Av1EstimateTransform(
         av1_fwd_txfm2d_64x64(
             residual_buffer,
             coeffBuffer,
-            residualStride,
+            residual_stride,
             transform_type,
             bit_depth);
 
@@ -4673,7 +4673,7 @@ EbErrorType Av1EstimateTransform(
             Av1TransformTwoD_32x32_c(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
 
@@ -4682,7 +4682,7 @@ EbErrorType Av1EstimateTransform(
             av1_fwd_txfm2d_32x32(
                 residual_buffer,
                 coeffBuffer,
-                residualStride,
+                residual_stride,
                 transform_type,
                 bit_depth);
         }
@@ -4696,7 +4696,7 @@ EbErrorType Av1EstimateTransform(
         av1_fwd_txfm2d_16x16(
             residual_buffer,
             coeffBuffer,
-            residualStride,
+            residual_stride,
             transform_type,
             bit_depth);
 
@@ -4706,7 +4706,7 @@ EbErrorType Av1EstimateTransform(
         av1_fwd_txfm2d_8x8(
             residual_buffer,
             coeffBuffer,
-            residualStride,
+            residual_stride,
             transform_type,
             bit_depth);
 
@@ -4716,7 +4716,7 @@ EbErrorType Av1EstimateTransform(
         av1_fwd_txfm2d_4x4(
             residual_buffer,
             coeffBuffer,
-            residualStride,
+            residual_stride,
             transform_type,
             bit_depth);
 
@@ -4734,7 +4734,7 @@ EbErrorType Av1EstimateTransform(
  *********************************************************************/
 EbErrorType EncodeTransform(
     int16_t               *residual_buffer,
-    uint32_t               residualStride,
+    uint32_t               residual_stride,
     int16_t               *coeffBuffer,
     uint32_t               coeff_stride,
     uint32_t               transform_size,
@@ -4752,7 +4752,7 @@ EbErrorType EncodeTransform(
     if (transCoeffShape == DEFAULT_SHAPE) {
         (*transformFunctionTableEncode[/*asm_type*/(bitIncrement & 2) ? ASM_NON_AVX2 : asm_type][transformSizeFlag + dstTransformFlag])(
             residual_buffer,
-            residualStride,
+            residual_stride,
             coeffBuffer,
             coeff_stride,
             transform_inner_array_ptr,
@@ -4763,7 +4763,7 @@ EbErrorType EncodeTransform(
     else if (transCoeffShape == N2_SHAPE) {
         (*PfreqN2TransformTable[/*asm_type*/(bitIncrement & 2) ? ASM_NON_AVX2 : asm_type][transformSizeFlag + dstTransformFlag])(
             residual_buffer,
-            residualStride,
+            residual_stride,
             coeffBuffer,
             coeff_stride,
             transform_inner_array_ptr,
@@ -4774,7 +4774,7 @@ EbErrorType EncodeTransform(
     else if (transCoeffShape == N4_SHAPE) {
         (*PfreqN4TransformTable[/*asm_type*/(bitIncrement & 2) ? ASM_NON_AVX2 : asm_type][transformSizeFlag + dstTransformFlag])(
             residual_buffer,
-            residualStride,
+            residual_stride,
             coeffBuffer,
             coeff_stride,
             transform_inner_array_ptr,
@@ -4788,7 +4788,7 @@ EbErrorType EncodeTransform(
         sumResidual = SumResidual_funcPtrArray[asm_type](
             residual_buffer,
             transform_size,
-            residualStride);
+            residual_stride);
 
         uint32_t shift1st = Log2f(transform_size) - 1 + bitIncrement;
         int32_t offset1st = 1 << (shift1st - 1);
@@ -7502,7 +7502,7 @@ EbErrorType Av1EstimateInvTransform(
     int32_t      *coeffBuffer,
     uint32_t      coeff_stride,
     int32_t      *reconBuffer,
-    uint32_t      reconStride,
+    uint32_t      recon_stride,
     TxSize        transform_size,
     int16_t      *transform_inner_array_ptr,
     uint32_t      bitIncrement,
@@ -7532,7 +7532,7 @@ EbErrorType Av1EstimateInvTransform(
                 coeffBuffer,
                 coeff_stride,
                 reconBuffer,
-                reconStride,
+                recon_stride,
                 transform_type,
                 bit_depth);
             break;
@@ -7541,7 +7541,7 @@ EbErrorType Av1EstimateInvTransform(
                 coeffBuffer,
                 coeff_stride,
                 reconBuffer,
-                reconStride,
+                recon_stride,
                 transform_type,
                 bit_depth);
             break;
@@ -7550,7 +7550,7 @@ EbErrorType Av1EstimateInvTransform(
                 coeffBuffer,
                 coeff_stride,
                 reconBuffer,
-                reconStride,
+                recon_stride,
                 transform_type,
                 bit_depth);
             break;
@@ -7559,7 +7559,7 @@ EbErrorType Av1EstimateInvTransform(
                 coeffBuffer,
                 coeff_stride,
                 reconBuffer,
-                reconStride,
+                recon_stride,
                 transform_type,
                 bit_depth);
             break;
@@ -7571,7 +7571,7 @@ EbErrorType Av1EstimateInvTransform(
                 coeffBuffer,
                 coeff_stride,
                 reconBuffer,
-                reconStride,
+                recon_stride,
                 transform_type,
                 bit_depth);
             break;
@@ -8344,7 +8344,7 @@ void av1_inv_txfm_add_c(const tran_low_t *dqcoeff, uint8_t *dst, int32_t stride,
 EbErrorType Av1InvTransformRecon(
     int32_t      *coeffBuffer,//1D buffer
     uint8_t      *reconBuffer,
-    uint32_t      reconStride,
+    uint32_t      recon_stride,
     TxSize        txsize,
     uint32_t      bitIncrement,
     TxType        transform_type,
@@ -8365,7 +8365,7 @@ EbErrorType Av1InvTransformRecon(
     //txfm_param.tx_set_type = av1_get_ext_tx_set_type(   txfm_param->tx_size, is_inter_block(xd->mi[0]), reduced_tx_set);
 
     highbd_inv_txfm_add((const tran_low_t *)coeffBuffer, reconBuffer,
-        reconStride, &txfm_param);
+        recon_stride, &txfm_param);
 
     return return_error;
 }
@@ -8374,7 +8374,7 @@ EbErrorType Av1InvTransformRecon(
 EbErrorType Av1InvTransformRecon8bit(
     int32_t       *coeffBuffer,//1D buffer
     uint8_t       *reconBuffer,
-    uint32_t       reconStride,
+    uint32_t       recon_stride,
     TxSize         txsize,
     TxType         transform_type,
     PLANE_TYPE     componentType,
@@ -8393,7 +8393,7 @@ EbErrorType Av1InvTransformRecon8bit(
     //txfm_param.tx_set_type = av1_get_ext_tx_set_type(   txfm_param->tx_size, is_inter_block(xd->mi[0]), reduced_tx_set);
 
     av1_inv_txfm_add((const tran_low_t *)coeffBuffer, reconBuffer,
-        reconStride, &txfm_param);
+        recon_stride, &txfm_param);
 
     return return_error;
 }
@@ -8405,7 +8405,7 @@ EbErrorType EncodeInvTransform(
     int16_t      *coeffBuffer,
     uint32_t       coeff_stride,
     int16_t      *reconBuffer,
-    uint32_t       reconStride,
+    uint32_t       recon_stride,
     uint32_t       transform_size,
     int16_t      *transform_inner_array_ptr,
     uint32_t       bitIncrement,
@@ -8432,7 +8432,7 @@ EbErrorType EncodeInvTransform(
 
         memset16bitBlock_funcPtrArray[asm_type](
             reconBuffer,
-            reconStride,
+            recon_stride,
             transform_size,
             invTranformedDcCoef);
 
@@ -8448,7 +8448,7 @@ EbErrorType EncodeInvTransform(
             coeffBuffer,
             coeff_stride,
             reconBuffer,
-            reconStride,
+            recon_stride,
             transform_inner_array_ptr,
             bitIncrement);
     }

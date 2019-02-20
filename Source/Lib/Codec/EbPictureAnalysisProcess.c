@@ -1284,7 +1284,7 @@ void noiseExtractLumaStrong(
     uint32_t  inputOriginIndexPad;
 
     uint8_t *ptrIn;
-    uint32_t strideIn;
+    uint32_t stride_in;
     uint8_t *ptrDenoised;
 
     uint32_t strideOut;
@@ -1296,7 +1296,7 @@ void noiseExtractLumaStrong(
         picWidth = inputPicturePtr->width;
         sb_height = MIN(BLOCK_SIZE_64, picHeight - sb_origin_y);
 
-        strideIn = inputPicturePtr->strideY;
+        stride_in = inputPicturePtr->strideY;
         inputOriginIndex = inputPicturePtr->origin_x + (inputPicturePtr->origin_y + sb_origin_y)* inputPicturePtr->strideY;
         ptrIn = &(inputPicturePtr->bufferY[inputOriginIndex]);
 
@@ -1309,11 +1309,11 @@ void noiseExtractLumaStrong(
 
                 if ((jj > 0 || sb_origin_y > 0) && (jj < sb_height - 1 || sb_origin_y + sb_height < picHeight) && ii > 0 && ii < picWidth - 1) {
 
-                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * strideIn], strideIn, 4);
+                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 4);
 
                 }
                 else {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * strideIn];
+                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
 
                 }
 
@@ -1340,7 +1340,7 @@ void noiseExtractChromaStrong(
     uint32_t  inputOriginIndexPad;
 
     uint8_t *ptrIn;
-    uint32_t strideIn;
+    uint32_t stride_in;
     uint8_t *ptrDenoised;
 
     uint32_t strideOut;
@@ -1352,7 +1352,7 @@ void noiseExtractChromaStrong(
         picWidth = inputPicturePtr->width / 2;
         sb_height = MIN(BLOCK_SIZE_64 / 2, picHeight - sb_origin_y);
 
-        strideIn = inputPicturePtr->strideCb;
+        stride_in = inputPicturePtr->strideCb;
         inputOriginIndex = inputPicturePtr->origin_x / 2 + (inputPicturePtr->origin_y / 2 + sb_origin_y)  * inputPicturePtr->strideCb;
         ptrIn = &(inputPicturePtr->bufferCb[inputOriginIndex]);
 
@@ -1366,10 +1366,10 @@ void noiseExtractChromaStrong(
 
 
                 if ((jj > 0 || sb_origin_y > 0) && (jj < sb_height - 1 || (sb_origin_y + sb_height) < picHeight) && ii > 0 && ii < picWidth - 1) {
-                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * strideIn], strideIn, 6);
+                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 6);
                 }
                 else {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * strideIn];
+                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
                 }
 
             }
@@ -1382,7 +1382,7 @@ void noiseExtractChromaStrong(
         picWidth = inputPicturePtr->width / 2;
         sb_height = MIN(BLOCK_SIZE_64 / 2, picHeight - sb_origin_y);
 
-        strideIn = inputPicturePtr->strideCr;
+        stride_in = inputPicturePtr->strideCr;
         inputOriginIndex = inputPicturePtr->origin_x / 2 + (inputPicturePtr->origin_y / 2 + sb_origin_y)  * inputPicturePtr->strideCr;
         ptrIn = &(inputPicturePtr->bufferCr[inputOriginIndex]);
 
@@ -1395,10 +1395,10 @@ void noiseExtractChromaStrong(
             for (ii = idx; ii < picWidth; ii++) {
 
                 if ((jj > 0 || sb_origin_y > 0) && (jj < sb_height - 1 || (sb_origin_y + sb_height) < picHeight) && ii > 0 && ii < picWidth - 1) {
-                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * strideIn], strideIn, 6);
+                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 6);
                 }
                 else {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * strideIn];
+                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
                 }
 
             }
@@ -1425,7 +1425,7 @@ void noiseExtractChromaWeak(
     uint32_t  inputOriginIndexPad;
 
     uint8_t *ptrIn;
-    uint32_t strideIn;
+    uint32_t stride_in;
     uint8_t *ptrDenoised;
 
     uint32_t strideOut;
@@ -1439,7 +1439,7 @@ void noiseExtractChromaWeak(
 
         sb_height = MIN(BLOCK_SIZE_64 / 2, picHeight - sb_origin_y);
 
-        strideIn = inputPicturePtr->strideCb;
+        stride_in = inputPicturePtr->strideCb;
         inputOriginIndex = inputPicturePtr->origin_x / 2 + (inputPicturePtr->origin_y / 2 + sb_origin_y)* inputPicturePtr->strideCb;
         ptrIn = &(inputPicturePtr->bufferCb[inputOriginIndex]);
 
@@ -1453,10 +1453,10 @@ void noiseExtractChromaWeak(
 
 
                 if ((jj > 0 || sb_origin_y > 0) && (jj < sb_height - 1 || (sb_origin_y + sb_height) < picHeight) && ii > 0 && ii < picWidth - 1) {
-                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * strideIn], strideIn, 4);
+                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 4);
                 }
                 else {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * strideIn];
+                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
                 }
 
             }
@@ -1469,7 +1469,7 @@ void noiseExtractChromaWeak(
         picWidth = inputPicturePtr->width / 2;
         sb_height = MIN(BLOCK_SIZE_64 / 2, picHeight - sb_origin_y);
 
-        strideIn = inputPicturePtr->strideCr;
+        stride_in = inputPicturePtr->strideCr;
         inputOriginIndex = inputPicturePtr->origin_x / 2 + (inputPicturePtr->origin_y / 2 + sb_origin_y)* inputPicturePtr->strideCr;
         ptrIn = &(inputPicturePtr->bufferCr[inputOriginIndex]);
 
@@ -1482,10 +1482,10 @@ void noiseExtractChromaWeak(
             for (ii = idx; ii < picWidth; ii++) {
 
                 if ((jj > 0 || sb_origin_y > 0) && (jj < sb_height - 1 || (sb_origin_y + sb_height) < picHeight) && ii > 0 && ii < picWidth - 1) {
-                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * strideIn], strideIn, 4);
+                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 4);
                 }
                 else {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * strideIn];
+                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
                 }
 
             }
@@ -1514,7 +1514,7 @@ void noiseExtractLumaWeak(
     uint32_t  noiseOriginIndex;
 
     uint8_t *ptrIn;
-    uint32_t strideIn;
+    uint32_t stride_in;
     uint8_t *ptrDenoised;
 
     uint8_t *ptrNoise;
@@ -1528,7 +1528,7 @@ void noiseExtractLumaWeak(
         picWidth = inputPicturePtr->width;
         sb_height = MIN(BLOCK_SIZE_64, picHeight - sb_origin_y);
 
-        strideIn = inputPicturePtr->strideY;
+        stride_in = inputPicturePtr->strideY;
         inputOriginIndex = inputPicturePtr->origin_x + (inputPicturePtr->origin_y + sb_origin_y) * inputPicturePtr->strideY;
         ptrIn = &(inputPicturePtr->bufferY[inputOriginIndex]);
 
@@ -1545,12 +1545,12 @@ void noiseExtractLumaWeak(
 
                 if ((jj > 0 || sb_origin_y > 0) && (jj < sb_height - 1 || sb_origin_y + sb_height < picHeight) && ii > 0 && ii < picWidth - 1) {
 
-                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * strideIn], strideIn, 0);
-                    ptrNoise[ii + jj * strideOut] = CLIP3EQ(0, 255, ptrIn[ii + jj * strideIn] - ptrDenoised[ii + jj * strideOut]);
+                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 0);
+                    ptrNoise[ii + jj * strideOut] = CLIP3EQ(0, 255, ptrIn[ii + jj * stride_in] - ptrDenoised[ii + jj * strideOut]);
 
                 }
                 else {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * strideIn];
+                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
                     ptrNoise[ii + jj * strideOut] = 0;
                 }
 
@@ -1576,7 +1576,7 @@ void noiseExtractLumaWeakLcu(
     uint32_t  noiseOriginIndex;
 
     uint8_t *ptrIn;
-    uint32_t strideIn;
+    uint32_t stride_in;
     uint8_t *ptrDenoised;
 
     uint8_t *ptrNoise;
@@ -1591,7 +1591,7 @@ void noiseExtractLumaWeakLcu(
         sb_height = MIN(BLOCK_SIZE_64, picHeight - sb_origin_y);
         sb_width = MIN(BLOCK_SIZE_64, picWidth - sb_origin_x);
 
-        strideIn = inputPicturePtr->strideY;
+        stride_in = inputPicturePtr->strideY;
         inputOriginIndex = inputPicturePtr->origin_x + sb_origin_x + (inputPicturePtr->origin_y + sb_origin_y) * inputPicturePtr->strideY;
         ptrIn = &(inputPicturePtr->bufferY[inputOriginIndex]);
 
@@ -1608,12 +1608,12 @@ void noiseExtractLumaWeakLcu(
 
                 if ((jj > 0 || sb_origin_y > 0) && (jj < sb_height - 1 || sb_origin_y + sb_height < picHeight) && (ii > 0 || sb_origin_x > 0) && (ii + sb_origin_x) < picWidth - 1/* & ii < sb_width - 1*/) {
 
-                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * strideIn], strideIn, 0);
-                    ptrNoise[ii + jj * strideOut] = CLIP3EQ(0, 255, ptrIn[ii + jj * strideIn] - ptrDenoised[ii + jj * strideOut]);
+                    ptrDenoised[ii + jj * strideOut] = getFilteredTypes(&ptrIn[ii + jj * stride_in], stride_in, 0);
+                    ptrNoise[ii + jj * strideOut] = CLIP3EQ(0, 255, ptrIn[ii + jj * stride_in] - ptrDenoised[ii + jj * strideOut]);
 
                 }
                 else {
-                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * strideIn];
+                    ptrDenoised[ii + jj * strideOut] = ptrIn[ii + jj * stride_in];
                     ptrNoise[ii + jj * strideOut] = 0;
                 }
 

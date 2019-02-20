@@ -106,14 +106,14 @@ void eb_memcpySSE_intel(void* dst_ptr, void const* src_ptr, size_t size)
         eb_memcpy_small(dst + i, src + i, size - i);
 }
 
-void  DRDmemcpy(void  *dstPtr, void  *srcPtr, uint32_t  cnt)
+void  DRDmemcpy(void  *dst_ptr, void  *srcPtr, uint32_t  cnt)
 {
     if (cnt > 64)
     {
-        eb_memcpySSE_intel(dstPtr, srcPtr, cnt);
+        eb_memcpySSE_intel(dst_ptr, srcPtr, cnt);
     }
     else {
-        eb_memcpy_small(dstPtr, srcPtr, cnt);
+        eb_memcpy_small(dst_ptr, srcPtr, cnt);
     }
 }
 
@@ -122,24 +122,24 @@ void  DRDmemcpy(void  *dstPtr, void  *srcPtr, uint32_t  cnt)
  * x86 implememtation of Picture Addition
  *********************************/
 void PictureAddition(
-    uint8_t  *predPtr,
-    uint32_t  predStride,
+    uint8_t  *pred_ptr,
+    uint32_t  pred_stride,
     int16_t *residual_ptr,
-    uint32_t  residualStride,
-    uint8_t  *reconPtr,
-    uint32_t  reconStride,
+    uint32_t  residual_stride,
+    uint8_t  *recon_ptr,
+    uint32_t  recon_stride,
     uint32_t  width,
     uint32_t  height,
     EbAsm  asm_type)
 {
 
     AdditionKernel_funcPtrArray[asm_type][width >> 3](
-        predPtr,
-        predStride,
+        pred_ptr,
+        pred_stride,
         residual_ptr,
-        residualStride,
-        reconPtr,
-        reconStride,
+        residual_stride,
+        recon_ptr,
+        recon_stride,
         width,
         height
         );
@@ -152,13 +152,13 @@ void pic_copy_kernel(
     uint32_t                   src_stride,
     EbByte                  dst,
     uint32_t                   dst_stride,
-    uint32_t                   areaWidth,
-    uint32_t                   areaHeight)
+    uint32_t                   area_width,
+    uint32_t                   area_height)
 {
     uint32_t   j;
 
-    for (j = 0; j < areaHeight; j++)
-        memcpy(dst + j * dst_stride, src + j * src_stride, areaWidth);
+    for (j = 0; j < area_height; j++)
+        memcpy(dst + j * dst_stride, src + j * src_stride, area_width);
 
 }
 /*********************************
@@ -171,8 +171,8 @@ EbErrorType PictureCopy8Bit(
     EbPictureBufferDesc_t   *dst,
     uint32_t                   dstLumaOriginIndex,
     uint32_t                   dstChromaOriginIndex,
-    uint32_t                   areaWidth,
-    uint32_t                   areaHeight,
+    uint32_t                   area_width,
+    uint32_t                   area_height,
     uint32_t                   chromaAreaWidth,
     uint32_t                   chromaAreaHeight,
     uint32_t                   component_mask,
@@ -189,8 +189,8 @@ EbErrorType PictureCopy8Bit(
             src->strideY,
             &(dst->bufferY[dstLumaOriginIndex]),
             dst->strideY,
-            areaWidth,
-            areaHeight);
+            area_width,
+            area_height);
     }
 
     if (component_mask & PICTURE_BUFFER_DESC_Cb_FLAG) {
@@ -226,25 +226,25 @@ void ResidualKernel16bit(
     uint16_t   *input,
     uint32_t   inputStride,
     uint16_t   *pred,
-    uint32_t   predStride,
+    uint32_t   pred_stride,
     int16_t  *residual,
-    uint32_t   residualStride,
-    uint32_t   areaWidth,
-    uint32_t   areaHeight)
+    uint32_t   residual_stride,
+    uint32_t   area_width,
+    uint32_t   area_height)
 {
     uint32_t  columnIndex;
     uint32_t  rowIndex = 0;
 
-    while (rowIndex < areaHeight) {
+    while (rowIndex < area_height) {
         columnIndex = 0;
-        while (columnIndex < areaWidth) {
+        while (columnIndex < area_width) {
             residual[columnIndex] = ((int16_t)input[columnIndex]) - ((int16_t)pred[columnIndex]);
             ++columnIndex;
         }
 
         input += inputStride;
-        pred += predStride;
-        residual += residualStride;
+        pred += pred_stride;
+        residual += residual_stride;
         ++rowIndex;
     }
 
@@ -258,25 +258,25 @@ void ResidualKernel_c(
     uint8_t   *input,
     uint32_t   inputStride,
     uint8_t   *pred,
-    uint32_t   predStride,
+    uint32_t   pred_stride,
     int16_t  *residual,
-    uint32_t   residualStride,
-    uint32_t   areaWidth,
-    uint32_t   areaHeight)
+    uint32_t   residual_stride,
+    uint32_t   area_width,
+    uint32_t   area_height)
 {
     uint32_t  columnIndex;
     uint32_t  rowIndex = 0;
 
-    while (rowIndex < areaHeight) {
+    while (rowIndex < area_height) {
         columnIndex = 0;
-        while (columnIndex < areaWidth) {
+        while (columnIndex < area_width) {
             residual[columnIndex] = ((int16_t)input[columnIndex]) - ((int16_t)pred[columnIndex]);
             ++columnIndex;
         }
 
         input += inputStride;
-        pred += predStride;
-        residual += residualStride;
+        pred += pred_stride;
+        residual += residual_stride;
         ++rowIndex;
     }
 
@@ -375,32 +375,32 @@ void FullDistortionKernel32Bits(
     int32_t  *coeff,
     uint32_t   coeff_stride,
     int32_t  *recon_coeff,
-    uint32_t   reconCoeffStride,
-    uint64_t   distortionResult[DIST_CALC_TOTAL],
-    uint32_t   areaWidth,
-    uint32_t   areaHeight)
+    uint32_t   recon_coeff_stride,
+    uint64_t   distortion_result[DIST_CALC_TOTAL],
+    uint32_t   area_width,
+    uint32_t   area_height)
 {
     uint32_t  columnIndex;
     uint32_t  rowIndex = 0;
     uint64_t  residualDistortion = 0;
     uint64_t  predictionDistortion = 0;
 
-    while (rowIndex < areaHeight) {
+    while (rowIndex < area_height) {
 
         columnIndex = 0;
-        while (columnIndex < areaWidth) {
+        while (columnIndex < area_width) {
             residualDistortion += (int64_t)SQR((int64_t)(coeff[columnIndex]) - (recon_coeff[columnIndex]));
             predictionDistortion += (int64_t)SQR((int64_t)(coeff[columnIndex]));
             ++columnIndex;
         }
 
         coeff += coeff_stride;
-        recon_coeff += reconCoeffStride;
+        recon_coeff += recon_coeff_stride;
         ++rowIndex;
     }
 
-    distortionResult[DIST_CALC_RESIDUAL] = residualDistortion;
-    distortionResult[DIST_CALC_PREDICTION] = predictionDistortion;
+    distortion_result[DIST_CALC_RESIDUAL] = residualDistortion;
+    distortion_result[DIST_CALC_PREDICTION] = predictionDistortion;
 }
 
 /*******************************************
@@ -410,21 +410,21 @@ void FullDistortionKernelCbfZero32Bits(
     int32_t  *coeff,
     uint32_t   coeff_stride,
     int32_t  *recon_coeff,
-    uint32_t   reconCoeffStride,
-    uint64_t   distortionResult[DIST_CALC_TOTAL],
-    uint32_t   areaWidth,
-    uint32_t   areaHeight)
+    uint32_t   recon_coeff_stride,
+    uint64_t   distortion_result[DIST_CALC_TOTAL],
+    uint32_t   area_width,
+    uint32_t   area_height)
 {
     uint32_t  columnIndex;
     uint32_t  rowIndex = 0;
     uint64_t  predictionDistortion = 0;
     (void)recon_coeff;
-    (void)reconCoeffStride;
+    (void)recon_coeff_stride;
 
-    while (rowIndex < areaHeight) {
+    while (rowIndex < area_height) {
 
         columnIndex = 0;
-        while (columnIndex < areaWidth) {
+        while (columnIndex < area_width) {
             predictionDistortion += (int64_t)SQR((int64_t)(coeff[columnIndex]));
             ++columnIndex;
         }
@@ -433,8 +433,8 @@ void FullDistortionKernelCbfZero32Bits(
         ++rowIndex;
     }
 
-    distortionResult[DIST_CALC_RESIDUAL] = predictionDistortion;
-    distortionResult[DIST_CALC_PREDICTION] = predictionDistortion;
+    distortion_result[DIST_CALC_RESIDUAL] = predictionDistortion;
+    distortion_result[DIST_CALC_PREDICTION] = predictionDistortion;
 }
 
 EbErrorType PictureFullDistortion32Bits(
@@ -567,11 +567,11 @@ void extract_8bit_data(
         height);
 }
 void unpack_l0l1_avg(
-    uint16_t *ref16L0,
-    uint32_t  refL0Stride,
-    uint16_t *ref16L1,
-    uint32_t  refL1Stride,
-    uint8_t  *dstPtr,
+    uint16_t *ref16_l0,
+    uint32_t  ref_l0_stride,
+    uint16_t *ref16_l1,
+    uint32_t  ref_l1_stride,
+    uint8_t  *dst_ptr,
     uint32_t  dst_stride,
     uint32_t  width,
     uint32_t  height,
@@ -579,11 +579,11 @@ void unpack_l0l1_avg(
 {
 
     UnPackAvg_funcPtrArray[asm_type](
-        ref16L0,
-        refL0Stride,
-        ref16L1,
-        refL1Stride,
-        dstPtr,
+        ref16_l0,
+        ref_l0_stride,
+        ref16_l1,
+        ref_l1_stride,
+        dst_ptr,
         dst_stride,
         width,
         height);
@@ -597,7 +597,7 @@ void extract8_bitdata_safe_sub(
     uint32_t       out8Stride,
     uint32_t       width,
     uint32_t       height,
-    EbBool      subPred,
+    EbBool      sub_pred,
     EbAsm       asm_type
 )
 {
@@ -609,31 +609,31 @@ void extract8_bitdata_safe_sub(
         out8Stride,
         width,
         height,
-        subPred
+        sub_pred
         );
 }
 void unpack_l0l1_avg_safe_sub(
-    uint16_t *ref16L0,
-    uint32_t  refL0Stride,
-    uint16_t *ref16L1,
-    uint32_t  refL1Stride,
-    uint8_t  *dstPtr,
+    uint16_t *ref16_l0,
+    uint32_t  ref_l0_stride,
+    uint16_t *ref16_l1,
+    uint32_t  ref_l1_stride,
+    uint8_t  *dst_ptr,
     uint32_t  dst_stride,
     uint32_t  width,
     uint32_t  height,
-    EbBool      subPred,
+    EbBool      sub_pred,
     EbAsm  asm_type)
 {
     //fix C
 
     UnPackAvgSafeSub_funcPtrArray[asm_type](
-        ref16L0,
-        refL0Stride,
-        ref16L1,
-        refL1Stride,
-        dstPtr,
+        ref16_l0,
+        ref_l0_stride,
+        ref16_l1,
+        ref_l1_stride,
+        dst_ptr,
         dst_stride,
-        subPred,
+        sub_pred,
         width,
         height);
 
@@ -664,12 +664,12 @@ void UnPack2D(
 }
 
 void Pack2D_SRC(
-    uint8_t     *in8BitBuffer,
-    uint32_t     in8Stride,
-    uint8_t     *innBitBuffer,
-    uint32_t     innStride,
-    uint16_t    *out16BitBuffer,
-    uint32_t     outStride,
+    uint8_t     *in8_bit_buffer,
+    uint32_t     in8_stride,
+    uint8_t     *inn_bit_buffer,
+    uint32_t     inn_stride,
+    uint16_t    *out16_bit_buffer,
+    uint32_t     out_stride,
     uint32_t     width,
     uint32_t     height,
     EbAsm     asm_type
@@ -677,23 +677,23 @@ void Pack2D_SRC(
 {
 
     Pack2D_funcPtrArray_16Bit_SRC[((width & 3) == 0) && ((height & 1) == 0)][asm_type](
-        in8BitBuffer,
-        in8Stride,
-        innBitBuffer,
-        out16BitBuffer,
-        innStride,
-        outStride,
+        in8_bit_buffer,
+        in8_stride,
+        inn_bit_buffer,
+        out16_bit_buffer,
+        inn_stride,
+        out_stride,
         width,
         height);
 }
 
 void CompressedPackLcu(
-    uint8_t     *in8BitBuffer,
-    uint32_t     in8Stride,
-    uint8_t     *innBitBuffer,
-    uint32_t     innStride,
-    uint16_t    *out16BitBuffer,
-    uint32_t     outStride,
+    uint8_t     *in8_bit_buffer,
+    uint32_t     in8_stride,
+    uint8_t     *inn_bit_buffer,
+    uint32_t     inn_stride,
+    uint16_t    *out16_bit_buffer,
+    uint32_t     out_stride,
     uint32_t     width,
     uint32_t     height,
     EbAsm     asm_type
@@ -702,34 +702,34 @@ void CompressedPackLcu(
 
 
     CompressedPack_funcPtrArray[(width == 64 || width == 32) ? asm_type : ASM_NON_AVX2](
-        in8BitBuffer,
-        in8Stride,
-        innBitBuffer,
-        out16BitBuffer,
-        innStride,
-        outStride,
+        in8_bit_buffer,
+        in8_stride,
+        inn_bit_buffer,
+        out16_bit_buffer,
+        inn_stride,
+        out_stride,
         width,
         height);
 
 }
 
 void Conv2bToCPackLcu(
-    const uint8_t     *innBitBuffer,
-    uint32_t     innStride,
-    uint8_t     *inCompnBitBuffer,
-    uint32_t     outStride,
-    uint8_t    *localCache,
+    const uint8_t     *inn_bit_buffer,
+    uint32_t     inn_stride,
+    uint8_t     *in_compn_bit_buffer,
+    uint32_t     out_stride,
+    uint8_t    *local_cache,
     uint32_t     width,
     uint32_t     height,
     EbAsm     asm_type)
 {
 
     Convert_Unpack_CPack_funcPtrArray[(width == 64 || width == 32) ? asm_type : ASM_NON_AVX2](
-        innBitBuffer,
-        innStride,
-        inCompnBitBuffer,
-        outStride,
-        localCache,
+        inn_bit_buffer,
+        inn_stride,
+        in_compn_bit_buffer,
+        out_stride,
+        local_cache,
         width,
         height);
 
@@ -740,25 +740,25 @@ void Conv2bToCPackLcu(
  * memset16bit
  *******************************************/
 void memset16bit(
-    uint16_t                     * inPtr,
+    uint16_t                     * in_ptr,
     uint16_t                       value,
     uint64_t                       numOfElements)
 {
     uint64_t i;
 
     for (i = 0; i < numOfElements; i++) {
-        inPtr[i] = value;
+        in_ptr[i] = value;
     }
 }
 void memset32bit(
-    uint32_t                     * inPtr,
+    uint32_t                     * in_ptr,
     uint32_t                       value,
     uint64_t                       numOfElements)
 {
     uint64_t i;
 
     for (i = 0; i < numOfElements; i++) {
-        inPtr[i] = value;
+        in_ptr[i] = value;
     }
 }
 
@@ -768,13 +768,13 @@ void memset32bit(
  *******************************************/
 void memcpy16bit(
     uint16_t                     * outPtr,
-    uint16_t                     * inPtr,
+    uint16_t                     * in_ptr,
     uint64_t                       numOfElements)
 {
     uint64_t i;
 
     for (i = 0; i < numOfElements; i++) {
-        outPtr[i] = inPtr[i];
+        outPtr[i] = in_ptr[i];
     }
 }
 
@@ -783,19 +783,19 @@ void memcpy16bit(
  *******************************************/
 void memcpy32bit(
     uint32_t                     * outPtr,
-    uint32_t                     * inPtr,
+    uint32_t                     * in_ptr,
     uint64_t                       numOfElements)
 {
     uint64_t i;
 
     for (i = 0; i < numOfElements; i++) {
-        outPtr[i] = inPtr[i];
+        outPtr[i] = in_ptr[i];
     }
 }
 
-int32_t  sumResidual(int16_t * inPtr,
+int32_t  sumResidual(int16_t * in_ptr,
     uint32_t   size,
-    uint32_t   strideIn)
+    uint32_t   stride_in)
 {
 
     int32_t sumBlock = 0;
@@ -803,22 +803,22 @@ int32_t  sumResidual(int16_t * inPtr,
 
     for (j = 0; j < size; j++)
         for (i = 0; i < size; i++)
-            sumBlock += inPtr[j*strideIn + i];
+            sumBlock += in_ptr[j*stride_in + i];
 
     return sumBlock;
 
 }
 
 void memset16bitBlock(
-    int16_t * inPtr,
-    uint32_t   strideIn,
+    int16_t * in_ptr,
+    uint32_t   stride_in,
     uint32_t   size,
     int16_t   value)
 {
 
     uint32_t i;
     for (i = 0; i < size; i++)
-        memset16bit((uint16_t*)inPtr + i * strideIn, value, size);
+        memset16bit((uint16_t*)in_ptr + i * stride_in, value, size);
 
 }
 

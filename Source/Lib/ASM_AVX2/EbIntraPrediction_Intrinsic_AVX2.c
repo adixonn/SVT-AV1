@@ -2236,7 +2236,7 @@ uint32_t UpdateNeighborDcIntraPred_AVX2_INTRIN(
 
     uint32_t idx;
     uint8_t  *srcPtr;
-    uint8_t  *dstPtr;
+    uint8_t  *dst_ptr;
     uint8_t  *readPtr;
 
     uint32_t count;
@@ -2257,12 +2257,12 @@ uint32_t UpdateNeighborDcIntraPred_AVX2_INTRIN(
     srcPtr = bufferY + (((srcOriginY + originY) * stride) + (srcOriginX + originX));
 
     // Adjust the Destination ptr to start at the origin of the Intra reference array
-    dstPtr = yBorderReverse;
+    dst_ptr = yBorderReverse;
 
     //CHKn here we need ref on Top+Left only. and memset is done only for border CUs
 
     //Initialise the Luma Intra Reference Array to the mid range value 128 (for CUs at the picture boundaries)
-    memset(dstPtr, MIDRANGE_VALUE_8BIT, (blockSize << 2) + 1);
+    memset(dst_ptr, MIDRANGE_VALUE_8BIT, (blockSize << 2) + 1);
 
     // Get the left-column
     count = blockSizeHalf;
@@ -2274,17 +2274,17 @@ uint32_t UpdateNeighborDcIntraPred_AVX2_INTRIN(
 
         for (idx = 0; idx < count; ++idx) {
 
-            *dstPtr = *readPtr;
+            *dst_ptr = *readPtr;
             readPtr += stride;
-            dstPtr++;
+            dst_ptr++;
         }
 
-        dstPtr += (blockSizeHalf - count);
+        dst_ptr += (blockSizeHalf - count);
 
     }
     else {
 
-        dstPtr += count;
+        dst_ptr += count;
     }
 
 

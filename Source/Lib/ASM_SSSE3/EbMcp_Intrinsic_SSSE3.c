@@ -90,8 +90,8 @@ void PictureCopyKernel_SSSE3(
     uint32_t                   src_stride,
     EbByte                  dst,
     uint32_t                   dst_stride,
-    uint32_t                   areaWidth,
-    uint32_t                   areaHeight,
+    uint32_t                   area_width,
+    uint32_t                   area_height,
     uint32_t                   bytesPerSample)
 {
 
@@ -99,15 +99,15 @@ void PictureCopyKernel_SSSE3(
     (void)bytesPerSample;
 
 
-    PrefetchBlock(src, src_stride, areaWidth, areaHeight);
+    PrefetchBlock(src, src_stride, area_width, area_height);
 
 
 
-    if (areaWidth & 2)
+    if (area_width & 2)
     {
         EbByte ptr = src;
         EbByte qtr = dst;
-        row_count = areaHeight;
+        row_count = area_height;
         do
         {
             // Note: do only one at a time to minimize number of registers used
@@ -116,8 +116,8 @@ void PictureCopyKernel_SSSE3(
             *(uint16_t *)qtr = a0; qtr += dst_stride;
             row_count--;
         } while (row_count != 0);
-        areaWidth -= 2;
-        if (areaWidth == 0)
+        area_width -= 2;
+        if (area_width == 0)
         {
             return;
         }
@@ -125,11 +125,11 @@ void PictureCopyKernel_SSSE3(
         dst += 2;
     }
 
-    if (areaWidth & 4)
+    if (area_width & 4)
     {
         EbByte ptr = src;
         EbByte qtr = dst;
-        row_count = areaHeight;
+        row_count = area_height;
         do
         {
             __m128i a0, a1;
@@ -139,8 +139,8 @@ void PictureCopyKernel_SSSE3(
             *(uint32_t *)qtr = _mm_cvtsi128_si32(a1); qtr += dst_stride;
             row_count -= 2;
         } while (row_count != 0);
-        areaWidth -= 4;
-        if (areaWidth == 0)
+        area_width -= 4;
+        if (area_width == 0)
         {
             return;
         }
@@ -148,11 +148,11 @@ void PictureCopyKernel_SSSE3(
         dst += 4;
     }
 
-    if (areaWidth & 8)
+    if (area_width & 8)
     {
         EbByte ptr = src;
         EbByte qtr = dst;
-        row_count = areaHeight;
+        row_count = area_height;
         do
         {
             __m128i a0, a1;
@@ -162,8 +162,8 @@ void PictureCopyKernel_SSSE3(
             _mm_storel_epi64((__m128i *)qtr, a1); qtr += dst_stride;
             row_count -= 2;
         } while (row_count != 0);
-        areaWidth -= 8;
-        if (areaWidth == 0)
+        area_width -= 8;
+        if (area_width == 0)
         {
             return;
         }
@@ -171,12 +171,12 @@ void PictureCopyKernel_SSSE3(
         dst += 8;
     }
 
-    colCount = areaWidth;
+    colCount = area_width;
     do
     {
         EbByte ptr = src;
         EbByte qtr = dst;
-        row_count = areaHeight;
+        row_count = area_height;
         do
         {
             __m128i a0, a1;

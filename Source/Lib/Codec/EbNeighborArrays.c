@@ -208,27 +208,27 @@ void update_recon_neighbor_array(
     uint32_t               blockHeight)
 {
 
-    uint8_t  *dstPtr;
+    uint8_t  *dst_ptr;
 
-    dstPtr = naUnitPtr->topArray +
+    dst_ptr = naUnitPtr->topArray +
         GetNeighborArrayUnitTopIndex(
             naUnitPtr,
             picOriginX) * naUnitPtr->unitSize;
 #if OPT_MEMCPY
-    EB_MEMCPY(dstPtr, srcPtrTop, blockWidth);
+    EB_MEMCPY(dst_ptr, srcPtrTop, blockWidth);
 #else
-    memcpy(dstPtr, srcPtrTop, blockWidth);
+    memcpy(dst_ptr, srcPtrTop, blockWidth);
 #endif
 
 
-    dstPtr = naUnitPtr->leftArray +
+    dst_ptr = naUnitPtr->leftArray +
         GetNeighborArrayUnitLeftIndex(
             naUnitPtr,
             picOriginY) * naUnitPtr->unitSize;
 #if OPT_MEMCPY
-    EB_MEMCPY(dstPtr, srcPtrLeft, blockHeight);
+    EB_MEMCPY(dst_ptr, srcPtrLeft, blockHeight);
 #else
-    memcpy(dstPtr, srcPtrLeft, blockHeight);
+    memcpy(dst_ptr, srcPtrLeft, blockHeight);
 #endif
 
 
@@ -265,7 +265,7 @@ void update_recon_neighbor_array(
     readPtr = srcPtrTop;//+ ((blockHeight - 1) * stride);
 
       // Copy bottom row
-    dstPtr =
+    dst_ptr =
         //    topLeftArray_chkn+
         naUnitPtr->topLeftArray +
         GetNeighborArrayUnitTopLeftIndex(
@@ -273,13 +273,13 @@ void update_recon_neighbor_array(
             picOriginX,
             picOriginY + (blockHeight - 1)) * naUnitPtr->unitSize;
 
-    EB_MEMCPY(dstPtr, readPtr, blockWidth);
+    EB_MEMCPY(dst_ptr, readPtr, blockWidth);
 
     // Reset readPtr to the right-column
     readPtr = srcPtrLeft;// + (blockWidth - 1);
 
     // Copy right column
-    dstPtr =
+    dst_ptr =
         //  topLeftArray_chkn+
         naUnitPtr->topLeftArray +
         GetNeighborArrayUnitTopLeftIndex(
@@ -293,9 +293,9 @@ void update_recon_neighbor_array(
 
     for (idx = 0; idx < count; ++idx) {
 
-        *dstPtr = *readPtr;
+        *dst_ptr = *readPtr;
 
-        dstPtr += dstStep;
+        dst_ptr += dstStep;
         readPtr += readStep;
     }
 
@@ -319,7 +319,7 @@ void NeighborArrayUnitSampleWrite(
     uint32_t               neighborArrayTypeMask)
 {
     uint32_t idx;
-    uint8_t  *dstPtr;
+    uint8_t  *dst_ptr;
     uint8_t  *readPtr;
 
     int32_t dstStep;
@@ -349,7 +349,7 @@ void NeighborArrayUnitSampleWrite(
         // Adjust readPtr to the bottom-row
         readPtr = srcPtr + ((blockHeight - 1) * stride);
 
-        dstPtr = naUnitPtr->topArray +
+        dst_ptr = naUnitPtr->topArray +
             GetNeighborArrayUnitTopIndex(
                 naUnitPtr,
                 picOriginX) * naUnitPtr->unitSize;
@@ -360,9 +360,9 @@ void NeighborArrayUnitSampleWrite(
 
         for (idx = 0; idx < count; ++idx) {
 
-            *dstPtr = *readPtr;
+            *dst_ptr = *readPtr;
 
-            dstPtr += dstStep;
+            dst_ptr += dstStep;
             readPtr += readStep;
         }
 
@@ -389,7 +389,7 @@ void NeighborArrayUnitSampleWrite(
         // Adjust readPtr to the right-column
         readPtr = srcPtr + (blockWidth - 1);
 
-        dstPtr = naUnitPtr->leftArray +
+        dst_ptr = naUnitPtr->leftArray +
             GetNeighborArrayUnitLeftIndex(
                 naUnitPtr,
                 picOriginY) * naUnitPtr->unitSize;
@@ -400,9 +400,9 @@ void NeighborArrayUnitSampleWrite(
 
         for (idx = 0; idx < count; ++idx) {
 
-            *dstPtr = *readPtr;
+            *dst_ptr = *readPtr;
 
-            dstPtr += dstStep;
+            dst_ptr += dstStep;
             readPtr += readStep;
         }
 
@@ -433,20 +433,20 @@ void NeighborArrayUnitSampleWrite(
         readPtr = srcPtr + ((blockHeight - 1) * stride);
 
         // Copy bottom row
-        dstPtr =
+        dst_ptr =
             naUnitPtr->topLeftArray +
             GetNeighborArrayUnitTopLeftIndex(
                 naUnitPtr,
                 picOriginX,
                 picOriginY + (blockHeight - 1)) * naUnitPtr->unitSize;
 
-        EB_MEMCPY(dstPtr, readPtr, blockWidth);
+        EB_MEMCPY(dst_ptr, readPtr, blockWidth);
 
         // Reset readPtr to the right-column
         readPtr = srcPtr + (blockWidth - 1);
 
         // Copy right column
-        dstPtr =
+        dst_ptr =
             naUnitPtr->topLeftArray +
             GetNeighborArrayUnitTopLeftIndex(
                 naUnitPtr,
@@ -459,9 +459,9 @@ void NeighborArrayUnitSampleWrite(
 
         for (idx = 0; idx < count; ++idx) {
 
-            *dstPtr = *readPtr;
+            *dst_ptr = *readPtr;
 
-            dstPtr += dstStep;
+            dst_ptr += dstStep;
             readPtr += readStep;
         }
 
@@ -486,7 +486,7 @@ void NeighborArrayUnit16bitSampleWrite(
     uint32_t               neighborArrayTypeMask)
 {
     uint32_t idx;
-    uint16_t  *dstPtr;
+    uint16_t  *dst_ptr;
     uint16_t  *readPtr;
 
     int32_t dstStep;
@@ -516,7 +516,7 @@ void NeighborArrayUnit16bitSampleWrite(
         // Adjust readPtr to the bottom-row
         readPtr = srcPtr + ((blockHeight - 1) * stride);
 
-        dstPtr = (uint16_t*)(naUnitPtr->topArray) +
+        dst_ptr = (uint16_t*)(naUnitPtr->topArray) +
             GetNeighborArrayUnitTopIndex(
                 naUnitPtr,
                 picOriginX);//CHKN * naUnitPtr->unitSize;
@@ -527,9 +527,9 @@ void NeighborArrayUnit16bitSampleWrite(
 
         for (idx = 0; idx < count; ++idx) {
 
-            *dstPtr = *readPtr;
+            *dst_ptr = *readPtr;
 
-            dstPtr += 1;
+            dst_ptr += 1;
             readPtr += 1;
         }
 
@@ -556,7 +556,7 @@ void NeighborArrayUnit16bitSampleWrite(
         // Adjust readPtr to the right-column
         readPtr = srcPtr + (blockWidth - 1);
 
-        dstPtr = (uint16_t*)(naUnitPtr->leftArray) +
+        dst_ptr = (uint16_t*)(naUnitPtr->leftArray) +
             GetNeighborArrayUnitLeftIndex(
                 naUnitPtr,
                 picOriginY);//CHKN * naUnitPtr->unitSize;
@@ -567,9 +567,9 @@ void NeighborArrayUnit16bitSampleWrite(
 
         for (idx = 0; idx < count; ++idx) {
 
-            *dstPtr = *readPtr;
+            *dst_ptr = *readPtr;
 
-            dstPtr += dstStep;
+            dst_ptr += dstStep;
             readPtr += readStep;
         }
 
@@ -600,7 +600,7 @@ void NeighborArrayUnit16bitSampleWrite(
         readPtr = srcPtr + ((blockHeight - 1) * stride);
 
         // Copy bottom row
-        dstPtr =
+        dst_ptr =
             (uint16_t*)(naUnitPtr->topLeftArray) +
             GetNeighborArrayUnitTopLeftIndex(
                 naUnitPtr,
@@ -613,9 +613,9 @@ void NeighborArrayUnit16bitSampleWrite(
 
         for (idx = 0; idx < count; ++idx) {
 
-            *dstPtr = *readPtr;
+            *dst_ptr = *readPtr;
 
-            dstPtr += dstStep;
+            dst_ptr += dstStep;
             readPtr += readStep;
         }
 
@@ -623,7 +623,7 @@ void NeighborArrayUnit16bitSampleWrite(
         readPtr = srcPtr + (blockWidth - 1);
 
         // Copy right column
-        dstPtr =
+        dst_ptr =
             (uint16_t*)(naUnitPtr->topLeftArray) +
             GetNeighborArrayUnitTopLeftIndex(
                 naUnitPtr,
@@ -636,9 +636,9 @@ void NeighborArrayUnit16bitSampleWrite(
 
         for (idx = 0; idx < count; ++idx) {
 
-            *dstPtr = *readPtr;
+            *dst_ptr = *readPtr;
 
-            dstPtr += dstStep;
+            dst_ptr += dstStep;
             readPtr += readStep;
         }
 
@@ -659,7 +659,7 @@ void NeighborArrayUnitModeWrite32(
     uint32_t               neighborArrayTypeMask)
 {
     uint32_t idx;
-    uint32_t  *dstPtr;
+    uint32_t  *dst_ptr;
 
     uint32_t count;
     uint32_t naOffset;
@@ -688,16 +688,16 @@ void NeighborArrayUnitModeWrite32(
             naUnitPtr,
             origin_x);
 
-        dstPtr = naUnitPtr->topArray +
+        dst_ptr = naUnitPtr->topArray +
             naOffset * naUnitSize;
 
         count = blockWidth >> naUnitPtr->granularityNormalLog2;
 
         for (idx = 0; idx < count; ++idx) {
 
-            memset32bit(dstPtr, value, naUnitSize);
+            memset32bit(dst_ptr, value, naUnitSize);
 
-            dstPtr += naUnitSize;
+            dst_ptr += naUnitSize;
         }
     }
 
@@ -723,16 +723,16 @@ void NeighborArrayUnitModeWrite32(
             naUnitPtr,
             origin_y);
 
-        dstPtr = naUnitPtr->leftArray +
+        dst_ptr = naUnitPtr->leftArray +
             naOffset * naUnitSize;
 
         count = blockHeight >> naUnitPtr->granularityNormalLog2;
 
         for (idx = 0; idx < count; ++idx) {
 
-            memset32bit(dstPtr, value, naUnitSize);
+            memset32bit(dst_ptr, value, naUnitSize);
 
-            dstPtr += naUnitSize;
+            dst_ptr += naUnitSize;
         }
     }
 
@@ -764,16 +764,16 @@ void NeighborArrayUnitModeWrite32(
 
         // Copy bottom-row + right-column
         // *Note - start from the bottom-left corner
-        dstPtr = naUnitPtr->topLeftArray +
+        dst_ptr = naUnitPtr->topLeftArray +
             naOffset * naUnitSize;
 
         count = ((blockWidth + blockHeight) >> naUnitPtr->granularityTopLeftLog2) - 1;
 
         for (idx = 0; idx < count; ++idx) {
 
-            memset32bit(dstPtr, value, naUnitSize);
+            memset32bit(dst_ptr, value, naUnitSize);
 
-            dstPtr += naUnitSize;
+            dst_ptr += naUnitSize;
         }
     }
 
@@ -790,7 +790,7 @@ void NeighborArrayUnitModeWrite(
     uint32_t               neighborArrayTypeMask)
 {
     uint32_t idx;
-    uint8_t  *dstPtr;
+    uint8_t  *dst_ptr;
 
     uint32_t count;
     uint32_t naOffset;
@@ -819,16 +819,16 @@ void NeighborArrayUnitModeWrite(
             naUnitPtr,
             origin_x);
 
-        dstPtr = naUnitPtr->topArray +
+        dst_ptr = naUnitPtr->topArray +
             naOffset * naUnitSize;
 
         count = blockWidth >> naUnitPtr->granularityNormalLog2;
 
         for (idx = 0; idx < count; ++idx) {
 
-            EB_MEMCPY(dstPtr, value, naUnitSize);
+            EB_MEMCPY(dst_ptr, value, naUnitSize);
 
-            dstPtr += naUnitSize;
+            dst_ptr += naUnitSize;
         }
     }
 
@@ -854,16 +854,16 @@ void NeighborArrayUnitModeWrite(
             naUnitPtr,
             origin_y);
 
-        dstPtr = naUnitPtr->leftArray +
+        dst_ptr = naUnitPtr->leftArray +
             naOffset * naUnitSize;
 
         count = blockHeight >> naUnitPtr->granularityNormalLog2;
 
         for (idx = 0; idx < count; ++idx) {
 
-            EB_MEMCPY(dstPtr, value, naUnitSize);
+            EB_MEMCPY(dst_ptr, value, naUnitSize);
 
-            dstPtr += naUnitSize;
+            dst_ptr += naUnitSize;
         }
     }
 
@@ -895,16 +895,16 @@ void NeighborArrayUnitModeWrite(
 
         // Copy bottom-row + right-column
         // *Note - start from the bottom-left corner
-        dstPtr = naUnitPtr->topLeftArray +
+        dst_ptr = naUnitPtr->topLeftArray +
             naOffset * naUnitSize;
 
         count = ((blockWidth + blockHeight) >> naUnitPtr->granularityTopLeftLog2) - 1;
 
         for (idx = 0; idx < count; ++idx) {
 
-            EB_MEMCPY(dstPtr, value, naUnitSize);
+            EB_MEMCPY(dst_ptr, value, naUnitSize);
 
-            dstPtr += naUnitSize;
+            dst_ptr += naUnitSize;
         }
     }
 
@@ -922,7 +922,7 @@ void copy_neigh_arr(
 {
 
     uint32_t idx;
-    uint8_t  *dstPtr, *srcPtr;
+    uint8_t  *dst_ptr, *srcPtr;
 
     uint32_t count;
     uint32_t naOffset;
@@ -935,10 +935,10 @@ void copy_neigh_arr(
 
         naOffset = GetNeighborArrayUnitTopIndex(na_src, origin_x);
         srcPtr = na_src->topArray + naOffset * naUnitSize;
-        dstPtr = na_dst->topArray + naOffset * naUnitSize;
+        dst_ptr = na_dst->topArray + naOffset * naUnitSize;
         count = bw >> na_src->granularityNormalLog2;
 
-        EB_MEMCPY(dstPtr, srcPtr, naUnitSize*count);
+        EB_MEMCPY(dst_ptr, srcPtr, naUnitSize*count);
 
     }
 
@@ -946,10 +946,10 @@ void copy_neigh_arr(
 
         naOffset = GetNeighborArrayUnitLeftIndex(na_src, origin_y);
         srcPtr = na_src->leftArray + naOffset * naUnitSize;
-        dstPtr = na_dst->leftArray + naOffset * naUnitSize;
+        dst_ptr = na_dst->leftArray + naOffset * naUnitSize;
         count = bh >> na_src->granularityNormalLog2;
 
-        EB_MEMCPY(dstPtr, srcPtr, naUnitSize*count);
+        EB_MEMCPY(dst_ptr, srcPtr, naUnitSize*count);
     }
 
     if (neighborArrayTypeMask & NEIGHBOR_ARRAY_UNIT_TOPLEFT_MASK) {
@@ -981,11 +981,11 @@ void copy_neigh_arr(
         // Copy bottom-row + right-column
         // *Note - start from the bottom-left corner
         srcPtr = na_src->topLeftArray + naOffset * naUnitSize;
-        dstPtr = na_dst->topLeftArray + naOffset * naUnitSize;
+        dst_ptr = na_dst->topLeftArray + naOffset * naUnitSize;
 
         count = ((bw + bh) >> na_src->granularityTopLeftLog2) - 1;
 
-        EB_MEMCPY(dstPtr, srcPtr, naUnitSize*count);
+        EB_MEMCPY(dst_ptr, srcPtr, naUnitSize*count);
     }
 
     return;
@@ -1002,7 +1002,7 @@ void copy_neigh_arr_32(
 {
 
     uint32_t idx;
-    uint32_t  *dstPtr, *srcPtr;
+    uint32_t  *dst_ptr, *srcPtr;
 
     uint32_t count;
     uint32_t naOffset;
@@ -1016,10 +1016,10 @@ void copy_neigh_arr_32(
 
         naOffset = GetNeighborArrayUnitTopIndex32(na_src, origin_x);
         srcPtr = na_src->topArray + naOffset;
-        dstPtr = na_dst->topArray + naOffset;
+        dst_ptr = na_dst->topArray + naOffset;
         count = bw >> na_src->granularityNormalLog2;
 
-        EB_MEMCPY(dstPtr, srcPtr, naUnitSize*count);
+        EB_MEMCPY(dst_ptr, srcPtr, naUnitSize*count);
 
     }
 
@@ -1027,10 +1027,10 @@ void copy_neigh_arr_32(
 
         naOffset = GetNeighborArrayUnitLeftIndex32(na_src, origin_y);
         srcPtr = na_src->leftArray + naOffset;
-        dstPtr = na_dst->leftArray + naOffset;
+        dst_ptr = na_dst->leftArray + naOffset;
         count = bh >> na_src->granularityNormalLog2;
 
-        EB_MEMCPY(dstPtr, srcPtr, naUnitSize*count);
+        EB_MEMCPY(dst_ptr, srcPtr, naUnitSize*count);
     }
     if (neighborArrayTypeMask & NEIGHBOR_ARRAY_UNIT_TOPLEFT_MASK) {
 
@@ -1063,11 +1063,11 @@ void copy_neigh_arr_32(
         // Copy bottom-row + right-column
         // *Note - start from the bottom-left corner
         srcPtr = na_src->topLeftArray + naOffset;
-        dstPtr = na_dst->topLeftArray + naOffset;
+        dst_ptr = na_dst->topLeftArray + naOffset;
 
         count = ((bw + bh) >> na_src->granularityTopLeftLog2) - 1;
 
-        EB_MEMCPY(dstPtr, srcPtr, naUnitSize*count);
+        EB_MEMCPY(dst_ptr, srcPtr, naUnitSize*count);
     }
     return;
 }
@@ -1083,7 +1083,7 @@ void NeighborArrayUnitMvWrite(
     uint32_t               blockSize)
 {
     uint32_t idx;
-    uint8_t  *dstPtr;
+    uint8_t  *dst_ptr;
     uint8_t   *naUnittopArray;
     uint8_t   *naUnitleftArray;
     uint8_t   *naUnittopLeftArray;
@@ -1115,7 +1115,7 @@ void NeighborArrayUnitMvWrite(
 
     naOffset = origin_x >> 2;
 
-    dstPtr = naUnittopArray +
+    dst_ptr = naUnittopArray +
         naOffset * naUnitSize;
 
     //dstStep = naUnitSize;
@@ -1123,9 +1123,9 @@ void NeighborArrayUnitMvWrite(
 
     for (idx = 0; idx < count; ++idx) {
 
-        EB_MEMCPY(dstPtr, value, naUnitSize);
+        EB_MEMCPY(dst_ptr, value, naUnitSize);
 
-        dstPtr += naUnitSize;
+        dst_ptr += naUnitSize;
     }
 
 
@@ -1147,15 +1147,15 @@ void NeighborArrayUnitMvWrite(
 
     naOffset = origin_y >> 2;
 
-    dstPtr = naUnitleftArray +
+    dst_ptr = naUnitleftArray +
         naOffset * naUnitSize;
 
 
     for (idx = 0; idx < count; ++idx) {
 
-        EB_MEMCPY(dstPtr, value, naUnitSize);
+        EB_MEMCPY(dst_ptr, value, naUnitSize);
 
-        dstPtr += naUnitSize;
+        dst_ptr += naUnitSize;
     }
 
 
@@ -1185,16 +1185,16 @@ void NeighborArrayUnitMvWrite(
 
     // Copy bottom-row + right-column
     // *Note - start from the bottom-left corner
-    dstPtr = naUnittopLeftArray +
+    dst_ptr = naUnittopLeftArray +
         naOffset * naUnitSize;
 
     count = ((blockSize + blockSize) >> 2) - 1;
 
     for (idx = 0; idx < count; ++idx) {
 
-        EB_MEMCPY(dstPtr, value, naUnitSize);
+        EB_MEMCPY(dst_ptr, value, naUnitSize);
 
-        dstPtr += naUnitSize;
+        dst_ptr += naUnitSize;
     }
 
     return;

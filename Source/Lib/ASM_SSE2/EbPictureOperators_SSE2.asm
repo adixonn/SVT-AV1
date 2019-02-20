@@ -12,14 +12,14 @@ cglobal _PictureCopyKernel_SSE2
 cglobal PictureCopyKernel_SSE2
 
 ; Requirement: areaWidthInBytes = 4, 8, 12, 16, 24, 32, 48, 64 or 128
-; Requirement: areaHeight % 2 = 0
+; Requirement: area_height % 2 = 0
 
 %define src              r0
 %define srcStrideInBytes r1
 %define dst              r2
 %define dstStrideInBytes r3
 %define areaWidthInBytes r4
-%define areaHeight       r5
+%define area_height       r5
 
     GET_PARAM_5UXD
     GET_PARAM_6UXD
@@ -46,7 +46,7 @@ Label_PictureCopyKernel_SSE2_WIDTH12:
     movq            [dst+dstStrideInBytes], xmm2
     movd            [dst+dstStrideInBytes+8], xmm3
     lea             dst,            [dst+2*dstStrideInBytes]
-    sub             areaHeight,     2
+    sub             area_height,     2
     jne             Label_PictureCopyKernel_SSE2_WIDTH12
 
     XMM_RESTORE
@@ -59,7 +59,7 @@ Label_PictureCopyKernel_SSE2_WIDTH8:
     movq            [dst],          xmm0
     movq            [dst+dstStrideInBytes], xmm1
     lea             dst,            [dst+2*dstStrideInBytes]
-    sub             areaHeight,     2
+    sub             area_height,     2
     jne             Label_PictureCopyKernel_SSE2_WIDTH8
 
     XMM_RESTORE
@@ -72,7 +72,7 @@ Label_PictureCopyKernel_SSE2_WIDTH4:
     movd            [dst],          xmm0
     movd            [dst+dstStrideInBytes], xmm1
     lea             dst,            [dst+2*dstStrideInBytes]
-    sub             areaHeight,     2
+    sub             area_height,     2
     jne             Label_PictureCopyKernel_SSE2_WIDTH4
 
     XMM_RESTORE
@@ -110,7 +110,7 @@ Label_PictureCopyKernel_SSE2_WIDTH128:
     movdqu          [dst+96],       xmm6
     movdqu          [dst+112],      xmm7
     lea             dst,            [dst+dstStrideInBytes]
-    sub             areaHeight,     1
+    sub             area_height,     1
     jne             Label_PictureCopyKernel_SSE2_WIDTH128
 
     XMM_RESTORE
@@ -135,7 +135,7 @@ Label_PictureCopyKernel_SSE2_WIDTH64:
     movdqu          [dst+dstStrideInBytes+32], xmm6
     movdqu          [dst+dstStrideInBytes+48], xmm7
     lea             dst,            [dst+2*dstStrideInBytes]
-    sub             areaHeight,     2
+    sub             area_height,     2
     jne             Label_PictureCopyKernel_SSE2_WIDTH64
 
     XMM_RESTORE
@@ -156,7 +156,7 @@ Label_PictureCopyKernel_SSE2_WIDTH48:
     movdqu          [dst+dstStrideInBytes+16], xmm4
     movdqu          [dst+dstStrideInBytes+32], xmm5
     lea             dst,            [dst+2*dstStrideInBytes]
-    sub             areaHeight,     2
+    sub             area_height,     2
     jne             Label_PictureCopyKernel_SSE2_WIDTH48
 
     XMM_RESTORE
@@ -173,7 +173,7 @@ Label_PictureCopyKernel_SSE2_WIDTH32:
     movdqu          [dst+dstStrideInBytes], xmm2
     movdqu          [dst+dstStrideInBytes+16], xmm3
     lea             dst,            [dst+2*dstStrideInBytes]
-    sub             areaHeight,     2
+    sub             area_height,     2
     jne             Label_PictureCopyKernel_SSE2_WIDTH32
 
     XMM_RESTORE
@@ -190,7 +190,7 @@ Label_PictureCopyKernel_SSE2_WIDTH24:
     movdqu          [dst+dstStrideInBytes], xmm2
     movq            [dst+dstStrideInBytes+16], xmm3
     lea             dst,            [dst+2*dstStrideInBytes]
-    sub             areaHeight,     2
+    sub             area_height,     2
     jne             Label_PictureCopyKernel_SSE2_WIDTH24
 
     XMM_RESTORE
@@ -203,7 +203,7 @@ Label_PictureCopyKernel_SSE2_WIDTH16:
     movdqu          [dst],          xmm0
     movdqu          [dst+dstStrideInBytes], xmm1
     lea             dst,            [dst+2*dstStrideInBytes]
-    sub             areaHeight,     2
+    sub             area_height,     2
     jne             Label_PictureCopyKernel_SSE2_WIDTH16
 
     XMM_RESTORE
@@ -373,24 +373,24 @@ cglobal PictureAverageKernel_SSE2
 %define src1Stride r3
 %define dst        r4
 %define dst_stride  r5
-%define areaWidth  r6
-%define areaHeight r7
+%define area_width  r6
+%define area_height r7
 
     GET_PARAM_5Q
     GET_PARAM_6UXD
     GET_PARAM_7UXD
     PUSH_REG 7
     XMM_SAVE
-    GET_PARAM_8UXD  r7d                         ; areaHeight
+    GET_PARAM_8UXD  r7d                         ; area_height
 
-    cmp             areaWidth,      16
+    cmp             area_width,      16
     jg              Label_PictureAverageKernel_SSE2_WIDTH_Big
     je              Label_PictureAverageKernel_SSE2_WIDTH16
 
-    cmp             areaWidth,      4
+    cmp             area_width,      4
     je              Label_PictureAverageKernel_SSE2_WIDTH4
 
-    cmp             areaWidth,      8
+    cmp             area_width,      8
     je              Label_PictureAverageKernel_SSE2_WIDTH8
 
 Label_PictureAverageKernel_SSE2_WIDTH12:
@@ -409,7 +409,7 @@ Label_PictureAverageKernel_SSE2_WIDTH12:
     movq            [dst+dst_stride], mm2
     movd            [dst+dst_stride+8], mm3
     lea             dst,            [dst+2*dst_stride]
-    sub             areaHeight,     2
+    sub             area_height,     2
     jne             Label_PictureAverageKernel_SSE2_WIDTH12
 
     XMM_RESTORE
@@ -430,7 +430,7 @@ Label_PictureAverageKernel_SSE2_WIDTH8:
     movq            [dst],          mm0
     movq            [dst+dst_stride], mm1
     lea             dst,            [dst+2*dst_stride]
-    sub             areaHeight,     2
+    sub             area_height,     2
     jne             Label_PictureAverageKernel_SSE2_WIDTH8
 
     XMM_RESTORE
@@ -451,7 +451,7 @@ Label_PictureAverageKernel_SSE2_WIDTH4:
     movd            [dst],          mm0
     movd            [dst+dst_stride], mm1
     lea             dst,            [dst+2*dst_stride]
-    sub             areaHeight,     2
+    sub             area_height,     2
     jne             Label_PictureAverageKernel_SSE2_WIDTH4
 
     XMM_RESTORE
@@ -463,13 +463,13 @@ Label_PictureAverageKernel_SSE2_WIDTH4:
     ret
 
 Label_PictureAverageKernel_SSE2_WIDTH_Big:
-    cmp             areaWidth,      24
+    cmp             area_width,      24
     je              Label_PictureAverageKernel_SSE2_WIDTH24
 
-    cmp             areaWidth,      32
+    cmp             area_width,      32
     je              Label_PictureAverageKernel_SSE2_WIDTH32
 
-    cmp             areaWidth,      48
+    cmp             area_width,      48
     je              Label_PictureAverageKernel_SSE2_WIDTH48
 
 Label_PictureAverageKernel_SSE2_WIDTH64:
@@ -508,7 +508,7 @@ Label_PictureAverageKernel_SSE2_WIDTH64:
     movdqu          [dst+dst_stride+32], xmm6
     movdqu          [dst+dst_stride+48], xmm7
     lea             dst,            [dst+2*dst_stride]
-    sub             areaHeight,     2
+    sub             area_height,     2
     jne             Label_PictureAverageKernel_SSE2_WIDTH64
 
     XMM_RESTORE
@@ -543,7 +543,7 @@ Label_PictureAverageKernel_SSE2_WIDTH48:
     movdqu          [dst+dst_stride+16], xmm4
     movdqu          [dst+dst_stride+32], xmm5
     lea             dst,            [dst+2*dst_stride]
-    sub             areaHeight,     2
+    sub             area_height,     2
     jne             Label_PictureAverageKernel_SSE2_WIDTH48
 
     XMM_RESTORE
@@ -570,7 +570,7 @@ Label_PictureAverageKernel_SSE2_WIDTH32:
     movdqu          [dst+dst_stride], xmm2
     movdqu          [dst+dst_stride+16], xmm3
     lea             dst,            [dst+2*dst_stride]
-    sub             areaHeight,     2
+    sub             area_height,     2
     jne             Label_PictureAverageKernel_SSE2_WIDTH32
 
     XMM_RESTORE
@@ -595,7 +595,7 @@ Label_PictureAverageKernel_SSE2_WIDTH24:
     movdqu          [dst+dst_stride], xmm1
     movq            [dst+dst_stride+16], mm1
     lea             dst,            [dst+2*dst_stride]
-    sub             areaHeight,     2
+    sub             area_height,     2
     jne             Label_PictureAverageKernel_SSE2_WIDTH24
 
     XMM_RESTORE
@@ -618,7 +618,7 @@ Label_PictureAverageKernel_SSE2_WIDTH16:
     movdqu          [dst],          xmm0
     movdqu          [dst+dst_stride], xmm1
     lea             dst,            [dst+2*dst_stride]
-    sub             areaHeight,     2
+    sub             area_height,     2
     jne             Label_PictureAverageKernel_SSE2_WIDTH16
 
     XMM_RESTORE

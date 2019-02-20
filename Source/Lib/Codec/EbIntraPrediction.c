@@ -5014,7 +5014,7 @@ EbErrorType UpdateNeighborSamplesArrayOpenLoop(
 
     uint32_t idx;
     uint8_t  *srcPtr;
-    uint8_t  *dstPtr;
+    uint8_t  *dst_ptr;
     uint8_t  *readPtr;
 
     uint32_t count;
@@ -5031,10 +5031,10 @@ EbErrorType UpdateNeighborSamplesArrayOpenLoop(
     srcPtr = inputPtr->bufferY + (((srcOriginY + inputPtr->origin_y) * stride) + (srcOriginX + inputPtr->origin_x));
 
     // Adjust the Destination ptr to start at the origin of the Intra reference array
-    dstPtr = yBorderReverse;
+    dst_ptr = yBorderReverse;
 
     //Initialise the Luma Intra Reference Array to the mid range value 128 (for CUs at the picture boundaries)
-    EB_MEMSET(dstPtr, MIDRANGE_VALUE_8BIT, (blockSize << 2) + 1);
+    EB_MEMSET(dst_ptr, MIDRANGE_VALUE_8BIT, (blockSize << 2) + 1);
 
     // Get the left-column
     count = blockSizeHalf;
@@ -5046,29 +5046,29 @@ EbErrorType UpdateNeighborSamplesArrayOpenLoop(
 
         for (idx = 0; idx < count; ++idx) {
 
-            *dstPtr = *readPtr;
+            *dst_ptr = *readPtr;
             readPtr += stride;
-            dstPtr++;
+            dst_ptr++;
         }
 
-        dstPtr += (blockSizeHalf - count);
+        dst_ptr += (blockSizeHalf - count);
 
     }
     else {
 
-        dstPtr += count;
+        dst_ptr += count;
     }
 
     // Get the upper left sample
     if (srcOriginX != 0 && srcOriginY != 0) {
 
         readPtr = srcPtr - stride - 1;
-        *dstPtr = *readPtr;
-        dstPtr++;
+        *dst_ptr = *readPtr;
+        dst_ptr++;
     }
     else {
 
-        dstPtr++;
+        dst_ptr++;
     }
 
     // Get the top-row
@@ -5078,13 +5078,13 @@ EbErrorType UpdateNeighborSamplesArrayOpenLoop(
         readPtr = srcPtr - stride;
 
         count = ((srcOriginX + count) > width) ? count - ((srcOriginX + count) - width) : count;
-        EB_MEMCPY(dstPtr, readPtr, count);
-        dstPtr += (blockSizeHalf - count);
+        EB_MEMCPY(dst_ptr, readPtr, count);
+        dst_ptr += (blockSizeHalf - count);
 
     }
     else {
 
-        dstPtr += count;
+        dst_ptr += count;
     }
 
 

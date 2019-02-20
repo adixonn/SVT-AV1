@@ -1956,9 +1956,9 @@ extern "C" {
     void highbd_variance64_avx2(const uint8_t *a8, int32_t a_stride, const uint8_t *b8, int32_t b_stride, int32_t w, int32_t h, uint64_t *sse, int64_t *sum);
     RTCD_EXTERN void (*highbd_variance64)(const uint8_t *a8, int32_t a_stride, const uint8_t *b8, int32_t b_stride, int32_t w, int32_t h, uint64_t *sse, int64_t *sum);
     
-    void ResidualKernel_c(uint8_t *input, uint32_t inputStride, uint8_t *pred, uint32_t predStride, int16_t *residual, uint32_t residualStride, uint32_t areaWidth, uint32_t areaHeight);
-    void ResidualKernel_avx2(uint8_t *input, uint32_t inputStride, uint8_t *pred, uint32_t predStride, int16_t *residual, uint32_t residualStride, uint32_t areaWidth, uint32_t areaHeight);
-    RTCD_EXTERN void(*ResidualKernel)(uint8_t *input, uint32_t inputStride, uint8_t *pred, uint32_t predStride, int16_t *residual, uint32_t residualStride, uint32_t areaWidth, uint32_t areaHeight);
+    void ResidualKernel_c(uint8_t *input, uint32_t inputStride, uint8_t *pred, uint32_t pred_stride, int16_t *residual, uint32_t residual_stride, uint32_t area_width, uint32_t area_height);
+    void ResidualKernel_avx2(uint8_t *input, uint32_t inputStride, uint8_t *pred, uint32_t pred_stride, int16_t *residual, uint32_t residual_stride, uint32_t area_width, uint32_t area_height);
+    RTCD_EXTERN void(*ResidualKernel)(uint8_t *input, uint32_t inputStride, uint8_t *pred, uint32_t pred_stride, int16_t *residual, uint32_t residual_stride, uint32_t area_width, uint32_t area_height);
     
     void av1_txb_init_levels_c(const tran_low_t *const coeff, const int32_t width, const int32_t height, uint8_t *const levels);
     void av1_txb_init_levels_avx2(const tran_low_t *const coeff, const int32_t width, const int32_t height, uint8_t *const levels);

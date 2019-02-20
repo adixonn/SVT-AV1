@@ -35,12 +35,12 @@ void UnPack2D(
     EbAsm       asm_type);
 
 void Pack2D_SRC(
-    uint8_t     *in8BitBuffer,
-    uint32_t     in8Stride,
-    uint8_t     *innBitBuffer,
-    uint32_t     innStride,
-    uint16_t    *out16BitBuffer,
-    uint32_t     outStride,
+    uint8_t     *in8_bit_buffer,
+    uint32_t     in8_stride,
+    uint8_t     *inn_bit_buffer,
+    uint32_t     inn_stride,
+    uint16_t    *out16_bit_buffer,
+    uint32_t     out_stride,
     uint32_t     width,
     uint32_t     height,
     EbAsm      asm_type);

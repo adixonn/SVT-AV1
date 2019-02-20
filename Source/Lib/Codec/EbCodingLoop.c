@@ -4233,12 +4233,12 @@ EB_EXTERN void no_enc_dec_pass(
                     uint32_t  bheight = context_ptr->blk_geom->tx_height[txb_itr] < 64 ? context_ptr->blk_geom->tx_height[txb_itr] : 32;
 
                     int32_t* srcPtr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferY)[txb_1d_offset]);
-                    int32_t* dstPtr = &(((int32_t*)sb_ptr->quantized_coeff->bufferY)[context_ptr->coded_area_sb]);
+                    int32_t* dst_ptr = &(((int32_t*)sb_ptr->quantized_coeff->bufferY)[context_ptr->coded_area_sb]);
 
                     uint32_t j;
                     for (j = 0; j < bheight; j++)
                     {
-                        memcpy(dstPtr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
+                        memcpy(dst_ptr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
                     }
 
                     if (context_ptr->blk_geom->has_uv)
@@ -4248,20 +4248,20 @@ EB_EXTERN void no_enc_dec_pass(
                         bheight = context_ptr->blk_geom->tx_height_uv[txb_itr];
 
                         srcPtr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferCb)[txb_1d_offset_uv]);
-                        dstPtr = &(((int32_t*)sb_ptr->quantized_coeff->bufferCb)[context_ptr->coded_area_sb_uv]);
+                        dst_ptr = &(((int32_t*)sb_ptr->quantized_coeff->bufferCb)[context_ptr->coded_area_sb_uv]);
 
                         for (j = 0; j < bheight; j++)
                         {
-                            memcpy(dstPtr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
+                            memcpy(dst_ptr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
                         }
 
                         //Cr
                         srcPtr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferCr)[txb_1d_offset_uv]);
-                        dstPtr = &(((int32_t*)sb_ptr->quantized_coeff->bufferCr)[context_ptr->coded_area_sb_uv]);
+                        dst_ptr = &(((int32_t*)sb_ptr->quantized_coeff->bufferCr)[context_ptr->coded_area_sb_uv]);
 
                         for (j = 0; j < bheight; j++)
                         {
-                            memcpy(dstPtr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
+                            memcpy(dst_ptr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
                         }
 
                     }
@@ -4303,12 +4303,12 @@ EB_EXTERN void no_enc_dec_pass(
                     uint32_t  bheight = context_ptr->blk_geom->bheight;
 
                     uint8_t* srcPtr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->bufferY)[0]);
-                    uint8_t* dstPtr = ref_pic->bufferY + ref_pic->origin_x + context_ptr->cu_origin_x + (ref_pic->origin_y + context_ptr->cu_origin_y)*ref_pic->strideY;
+                    uint8_t* dst_ptr = ref_pic->bufferY + ref_pic->origin_x + context_ptr->cu_origin_x + (ref_pic->origin_y + context_ptr->cu_origin_y)*ref_pic->strideY;
 
                     uint32_t j;
                     for (j = 0; j < bheight; j++)
                     {
-                        memcpy(dstPtr + j * ref_pic->strideY, srcPtr + j * 128, bwidth * sizeof(uint8_t));
+                        memcpy(dst_ptr + j * ref_pic->strideY, srcPtr + j * 128, bwidth * sizeof(uint8_t));
                     }
 
                     if (context_ptr->blk_geom->has_uv)
@@ -4319,21 +4319,21 @@ EB_EXTERN void no_enc_dec_pass(
 
                         srcPtr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->bufferCb)[0]);
 
-                        dstPtr = ref_pic->bufferCb + ref_pic->origin_x / 2 + ((context_ptr->cu_origin_x >> 3) << 3) / 2 + (ref_pic->origin_y / 2 + ((context_ptr->cu_origin_y >> 3) << 3) / 2)*ref_pic->strideCb;
+                        dst_ptr = ref_pic->bufferCb + ref_pic->origin_x / 2 + ((context_ptr->cu_origin_x >> 3) << 3) / 2 + (ref_pic->origin_y / 2 + ((context_ptr->cu_origin_y >> 3) << 3) / 2)*ref_pic->strideCb;
 
                         for (j = 0; j < bheight; j++)
                         {
-                            memcpy(dstPtr + j * ref_pic->strideCb, srcPtr + j * 64, bwidth * sizeof(uint8_t));
+                            memcpy(dst_ptr + j * ref_pic->strideCb, srcPtr + j * 64, bwidth * sizeof(uint8_t));
                         }
 
                         srcPtr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->bufferCr)[0]);
 
-                        dstPtr = ref_pic->bufferCr + ref_pic->origin_x / 2 + ((context_ptr->cu_origin_x >> 3) << 3) / 2 + (ref_pic->origin_y / 2 + ((context_ptr->cu_origin_y >> 3) << 3) / 2)*ref_pic->strideCr;
+                        dst_ptr = ref_pic->bufferCr + ref_pic->origin_x / 2 + ((context_ptr->cu_origin_x >> 3) << 3) / 2 + (ref_pic->origin_y / 2 + ((context_ptr->cu_origin_y >> 3) << 3) / 2)*ref_pic->strideCr;
 
 
                         for (j = 0; j < bheight; j++)
                         {
-                            memcpy(dstPtr + j * ref_pic->strideCr, srcPtr + j * 64, bwidth * sizeof(uint8_t));
+                            memcpy(dst_ptr + j * ref_pic->strideCr, srcPtr + j * 64, bwidth * sizeof(uint8_t));
                         }
 
                     }

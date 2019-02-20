@@ -3898,7 +3898,7 @@ extern "C" {
 
     extern EbErrorType EncodeTransform(
         int16_t             *residual_buffer,
-        uint32_t             residualStride,
+        uint32_t             residual_stride,
         int16_t             *coeffBuffer,
         uint32_t             coeff_stride,
         uint32_t             transform_size,
@@ -3910,7 +3910,7 @@ extern "C" {
 
     extern EbErrorType Av1EstimateTransform(
         int16_t             *residual_buffer,
-        uint32_t             residualStride,
+        uint32_t             residual_stride,
         int32_t             *coeffBuffer,
         uint32_t             coeff_stride,
         TxSize               transform_size,
@@ -3971,7 +3971,7 @@ extern "C" {
         int32_t       *coeffBuffer,
         uint32_t       coeff_stride,
         int32_t       *reconBuffer,
-        uint32_t       reconStride,
+        uint32_t       recon_stride,
         TxSize         transform_size,
         int16_t       *transform_inner_array_ptr,
         uint32_t       bitIncrement,
@@ -3984,7 +3984,7 @@ extern "C" {
     EbErrorType Av1InvTransformRecon(
         int32_t       *coeffBuffer,//1D buffer
         uint8_t       *reconBuffer,
-        uint32_t       reconStride,
+        uint32_t       recon_stride,
         TxSize         txsize,
         uint32_t       bitIncrement,
         TxType         transform_type,
@@ -3994,7 +3994,7 @@ extern "C" {
     EbErrorType Av1InvTransformRecon8bit(
         int32_t      *coeffBuffer,//1D buffer
         uint8_t      *reconBuffer,
-        uint32_t      reconStride,
+        uint32_t      recon_stride,
         TxSize        txsize,
         TxType        transform_type,
         PLANE_TYPE    componentType,
@@ -4005,7 +4005,7 @@ extern "C" {
         int16_t      *coeffBuffer,
         uint32_t      coeff_stride,
         int16_t      *reconBuffer,
-        uint32_t      reconStride,
+        uint32_t      recon_stride,
         uint32_t      transform_size,
         int16_t      *transform_inner_array_ptr,
         uint32_t      bitIncrement,

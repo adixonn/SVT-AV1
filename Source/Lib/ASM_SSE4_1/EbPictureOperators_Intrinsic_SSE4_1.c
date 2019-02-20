@@ -498,9 +498,9 @@ uint64_t SpatialFullDistortionKernel4x4_SSSE3_INTRIN(
     uint8_t   *input,
     uint32_t   inputStride,
     uint8_t   *recon,
-    uint32_t   reconStride,
-    uint32_t   areaWidth,
-    uint32_t   areaHeight)
+    uint32_t   recon_stride,
+    uint32_t   area_width,
+    uint32_t   area_height)
 {
     uint64_t  spatialDistortion = 0;
     int32_t row_count;
@@ -514,7 +514,7 @@ uint64_t SpatialFullDistortionKernel4x4_SSSE3_INTRIN(
         x0 = _mm_setr_epi32(*((uint32_t *)input), 0, 0, 0);
         y0 = _mm_setr_epi32(*((uint32_t *)recon), 0, 0, 0);
         input += inputStride;
-        recon += reconStride;
+        recon += recon_stride;
         x0 = _mm_sub_epi8(x0, y0);
         x0 = _mm_sign_epi8(x0, x0);
         x0 = _mm_unpacklo_epi8(x0, _mm_setzero_si128());
@@ -525,8 +525,8 @@ uint64_t SpatialFullDistortionKernel4x4_SSSE3_INTRIN(
     sum = _mm_add_epi32(sum, _mm_shuffle_epi32(sum, 0xe1)); // 11100001
     spatialDistortion = _mm_extract_epi32(sum, 0);
 
-    (void)areaWidth;
-    (void)areaHeight;
+    (void)area_width;
+    (void)area_height;
     return spatialDistortion;
 
 };
@@ -535,9 +535,9 @@ uint64_t SpatialFullDistortionKernel8x8_SSSE3_INTRIN(
     uint8_t   *input,
     uint32_t   inputStride,
     uint8_t   *recon,
-    uint32_t   reconStride,
-    uint32_t   areaWidth,
-    uint32_t   areaHeight)
+    uint32_t   recon_stride,
+    uint32_t   area_width,
+    uint32_t   area_height)
 {
     uint64_t  spatialDistortion = 0;
     int32_t row_count;
@@ -551,7 +551,7 @@ uint64_t SpatialFullDistortionKernel8x8_SSSE3_INTRIN(
         x0 = _mm_loadl_epi64/*_mm_loadu_si128*/((__m128i *)(input + 0x00));
         y0 = _mm_loadl_epi64((__m128i *)(recon + 0x00));
         input += inputStride;
-        recon += reconStride;
+        recon += recon_stride;
         x0 = _mm_sub_epi8(x0, y0);
         x0 = _mm_sign_epi8(x0, x0);
         x0 = _mm_unpacklo_epi8(x0, _mm_setzero_si128());
@@ -564,8 +564,8 @@ uint64_t SpatialFullDistortionKernel8x8_SSSE3_INTRIN(
     sum = _mm_add_epi32(sum, _mm_shuffle_epi32(sum, 0x4e)); // 01001110
     spatialDistortion = _mm_extract_epi32(sum, 0);
 
-    (void)areaWidth;
-    (void)areaHeight;
+    (void)area_width;
+    (void)area_height;
     return spatialDistortion;
 
 };
@@ -574,28 +574,28 @@ uint64_t SpatialFullDistortionKernel16MxN_SSSE3_INTRIN(
     uint8_t   *input,
     uint32_t   inputStride,
     uint8_t   *recon,
-    uint32_t   reconStride,
-    uint32_t   areaWidth,
-    uint32_t   areaHeight)
+    uint32_t   recon_stride,
+    uint32_t   area_width,
+    uint32_t   area_height)
 {
     uint64_t  spatialDistortion = 0;
     int32_t row_count, colCount;
     __m128i sum = _mm_setzero_si128();
     __m128i x0, y0, x0_L, x0_H;
 
-    colCount = areaWidth;
+    colCount = area_width;
     do
     {
         uint8_t *coeffTemp = input;
         uint8_t *reconCoeffTemp = recon;
 
-        row_count = areaHeight;
+        row_count = area_height;
         do
         {
             x0 = _mm_loadu_si128((__m128i *)(coeffTemp + 0x00));
             y0 = _mm_loadu_si128((__m128i *)(reconCoeffTemp + 0x00));
             coeffTemp += inputStride;
-            reconCoeffTemp += reconStride;
+            reconCoeffTemp += recon_stride;
             x0 = _mm_sub_epi8(x0, y0);
             x0 = _mm_sign_epi8(x0, x0);
 

@@ -15,7 +15,7 @@
  **************************************/
 typedef struct PictureAnalysisContext_s
 {
-    EB_ALIGN(64) uint8_t            localCache[64];
+    EB_ALIGN(64) uint8_t            local_cache[64];
     EbFifo_t                     *resourceCoordinationResultsInputFifoPtr;
     EbFifo_t                     *pictureAnalysisResultsOutputFifoPtr;
     EbPictureBufferDesc_t        *denoisedPicturePtr;

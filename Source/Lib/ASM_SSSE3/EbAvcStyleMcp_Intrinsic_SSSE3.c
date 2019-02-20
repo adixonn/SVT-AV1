@@ -27,8 +27,8 @@ void PictureCopyKernel_SSSE3(
     uint32_t                   src_stride,
     EbByte                  dst,
     uint32_t                   dst_stride,
-    uint32_t                   areaWidth,
-    uint32_t                   areaHeight,
+    uint32_t                   area_width,
+    uint32_t                   area_height,
     uint32_t                   bytesPerSample);
 
 void AvcStyleLumaInterpolationFilterPose_SSSE3(

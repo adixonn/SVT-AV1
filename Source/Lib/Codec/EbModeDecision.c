@@ -235,7 +235,7 @@ EbErrorType mode_decision_candidate_buffer_ctor(
     }
 
     return_error = EbPictureBufferDescCtor(
-        (EbPtr*)&(bufferPtr->reconPtr),
+        (EbPtr*)&(bufferPtr->recon_ptr),
         (EbPtr)&pictureBufferDescInitData);
 
     if (return_error == EB_ErrorInsufficientResources) {
@@ -2304,13 +2304,13 @@ uint8_t product_full_mode_decision(
             uint32_t  bheight = context_ptr->blk_geom->tx_height[txb_itr] < 64 ? context_ptr->blk_geom->tx_height[txb_itr] : 32;
 
             int32_t* srcPtr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->bufferY)[txb_1d_offset]);
-            int32_t* dstPtr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferY)[txb_1d_offset]);
+            int32_t* dst_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferY)[txb_1d_offset]);
 
             uint32_t j;
 
             for (j = 0; j < bheight; j++)
             {
-                memcpy(dstPtr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
+                memcpy(dst_ptr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
             }
 
             if (context_ptr->blk_geom->has_uv)
@@ -2320,19 +2320,19 @@ uint8_t product_full_mode_decision(
                 bheight = context_ptr->blk_geom->tx_height_uv[txb_itr];
 
                 srcPtr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->bufferCb)[txb_1d_offset_uv]);
-                dstPtr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferCb)[txb_1d_offset_uv]);
+                dst_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferCb)[txb_1d_offset_uv]);
 
                 for (j = 0; j < bheight; j++)
                 {
-                    memcpy(dstPtr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
+                    memcpy(dst_ptr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
                 }
 
                 srcPtr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->bufferCr)[txb_1d_offset_uv]);
-                dstPtr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferCr)[txb_1d_offset_uv]);
+                dst_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferCr)[txb_1d_offset_uv]);
 
                 for (j = 0; j < bheight; j++)
                 {
-                    memcpy(dstPtr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
+                    memcpy(dst_ptr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
                 }
             }
 

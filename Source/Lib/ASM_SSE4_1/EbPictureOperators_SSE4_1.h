@@ -25,25 +25,25 @@ extern "C" {
         uint8_t   *input,
         uint32_t   inputStride,
         uint8_t   *recon,
-        uint32_t   reconStride,
-        uint32_t   areaWidth,
-        uint32_t   areaHeight);
+        uint32_t   recon_stride,
+        uint32_t   area_width,
+        uint32_t   area_height);
 
     uint64_t SpatialFullDistortionKernel8x8_SSSE3_INTRIN(
         uint8_t   *input,
         uint32_t   inputStride,
         uint8_t   *recon,
-        uint32_t   reconStride,
-        uint32_t   areaWidth,
-        uint32_t   areaHeight);
+        uint32_t   recon_stride,
+        uint32_t   area_width,
+        uint32_t   area_height);
 
     uint64_t SpatialFullDistortionKernel16MxN_SSSE3_INTRIN(
         uint8_t   *input,
         uint32_t   inputStride,
         uint8_t   *recon,
-        uint32_t   reconStride,
-        uint32_t   areaWidth,
-        uint32_t   areaHeight);
+        uint32_t   recon_stride,
+        uint32_t   area_width,
+        uint32_t   area_height);
 #endif
 
 #ifdef __cplusplus
