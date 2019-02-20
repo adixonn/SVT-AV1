@@ -663,9 +663,9 @@ extern "C" {
 
     static EB_INTRA_NOANG_16bit_TYPE FUNC_TABLE IntraDCLuma_16bit_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        IntraModeDCLuma16bit_SSE4_1_INTRIN,
+        intra_mode_dc_luma16bit_sse4_1_intrin,
         // AVX2
-        IntraModeDCLuma16bit_SSE4_1_INTRIN,
+        intra_mode_dc_luma16bit_sse4_1_intrin,
     };
 
     static EB_INTRA_NOANG_TYPE FUNC_TABLE IntraDCChroma_funcPtrArray[ASM_TYPE_TOTAL] = {

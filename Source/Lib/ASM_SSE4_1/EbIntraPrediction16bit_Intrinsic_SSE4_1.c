@@ -6,7 +6,7 @@
 #include "EbDefinitions.h"
 #include "smmintrin.h"
 #include "aom_dsp_rtcd.h"
-EB_EXTERN void IntraModeDCLuma16bit_SSE4_1_INTRIN(
+EB_EXTERN void intra_mode_dc_luma16bit_sse4_1_intrin(
     const uint32_t   size,                       //input parameter, denotes the size of the current PU
     const uint16_t   *ref_samples,                 //input parameter, pointer to the reference samples
     uint16_t         *prediction_ptr,              //output parameter, pointer to the prediction
