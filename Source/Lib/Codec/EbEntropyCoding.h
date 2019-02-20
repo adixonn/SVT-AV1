@@ -212,7 +212,7 @@ extern "C" {
         NeighborArrayUnit_t     *dcSignLevelCoeffNeighborArray,
         uint32_t                  cu_origin_x,
         uint32_t                  cu_origin_y,
-        const BlockSize        plane_bsize,
+        const block_size        plane_bsize,
         const TxSize           tx_size,
         int16_t *const           txb_skip_ctx,
         int16_t *const           dc_sign_ctx);
@@ -310,14 +310,14 @@ extern "C" {
     void av1_count_overlappable_neighbors(
         const PictureControlSet_t        *picture_control_set_ptr,
         CodingUnit_t                     *cu_ptr,
-        const BlockSize                   bsize,
+        const block_size                   bsize,
         int32_t                           mi_row,
         int32_t                           mi_col);
 
     MOTION_MODE motion_mode_allowed(
         const PictureControlSet_t       *picture_control_set_ptr,
         const CodingUnit_t              *cu_ptr,
-        const BlockSize                 bsize,
+        const block_size                 bsize,
         MvReferenceFrame                rf0,
         MvReferenceFrame                rf1,
         PredictionMode                  mode);

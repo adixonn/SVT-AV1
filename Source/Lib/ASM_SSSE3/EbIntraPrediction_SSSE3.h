@@ -14,19 +14,19 @@ extern "C" {
 
 extern void IntraModeAngular_Vertical_Kernel_SSSE3_INTRIN(
     uint32_t            size,
-    uint8_t            *refSampMain,
+    uint8_t            *ref_samp_main,
     uint8_t            *prediction_ptr,
-    uint32_t            predictionBufferStride,
+    uint32_t            prediction_buffer_stride,
     const EbBool     skip,
-    int32_t            intraPredAngle);
+    int32_t            intra_pred_angle);
 
 extern void IntraModeAngular_Horizontal_Kernel_SSSE3_INTRIN(
     uint32_t            size,
-    uint8_t            *refSampMain,
+    uint8_t            *ref_samp_main,
     uint8_t            *prediction_ptr,
-    uint32_t            predictionBufferStride,
+    uint32_t            prediction_buffer_stride,
     const EbBool     skip,
-    int32_t            intraPredAngle);
+    int32_t            intra_pred_angle);
 
 
 #ifdef __cplusplus

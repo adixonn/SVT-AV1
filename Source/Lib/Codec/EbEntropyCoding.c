@@ -33,7 +33,7 @@
 #define S4  4*4
 
 int32_t av1_loop_restoration_corners_in_sb(Av1Common *cm, int32_t plane,
-    int32_t mi_row, int32_t mi_col, BlockSize bsize,
+    int32_t mi_row, int32_t mi_col, block_size bsize,
     int32_t *rcol0, int32_t *rcol1, int32_t *rrow0,
     int32_t *rrow1, int32_t *tile_tl_idx);
 
@@ -44,11 +44,11 @@ int32_t av1_loop_restoration_corners_in_sb(Av1Common *cm, int32_t plane,
 #define OD_ILOG_NZ(x) (OD_CLZ0 - OD_CLZ(x))
 #endif
 
-static INLINE int32_t is_comp_ref_allowed(BlockSize bsize) {
+static INLINE int32_t is_comp_ref_allowed(block_size bsize) {
     return AOMMIN(block_size_wide[bsize], block_size_high[bsize]) >= 8;
 }
 int32_t av1_loop_restoration_corners_in_sb(Av1Common *cm, int32_t plane,
-    int32_t mi_row, int32_t mi_col, BlockSize bsize,
+    int32_t mi_row, int32_t mi_col, block_size bsize,
     int32_t *rcol0, int32_t *rcol1, int32_t *rrow0,
     int32_t *rrow1, int32_t *tile_tl_idx);
 
@@ -329,7 +329,7 @@ void GetTxbCtx(
     NeighborArrayUnit_t     *dcSignLevelCoeffNeighborArray,
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
-    const BlockSize        plane_bsize,
+    const block_size        plane_bsize,
     const TxSize           tx_size,
     int16_t *const           txb_skip_ctx,
     int16_t *const           dc_sign_ctx) {
@@ -693,7 +693,7 @@ static EbErrorType Av1EncodeCoeff1D(
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
     uint32_t                  intraLumaDir,
-    BlockSize              plane_bsize,
+    block_size              plane_bsize,
     EbPictureBufferDesc_t  *coeffPtr,
     NeighborArrayUnit_t     *luma_dc_sign_level_coeff_neighbor_array,
     NeighborArrayUnit_t     *cr_dc_sign_level_coeff_neighbor_array,
@@ -719,7 +719,7 @@ static EbErrorType Av1EncodeCoeff1D(
 
         const uint32_t coeff1dOffset = context_ptr->coded_area_sb;
 
-        coeffBuffer = (int32_t*)coeffPtr->bufferY + coeff1dOffset;
+        coeffBuffer = (int32_t*)coeffPtr->buffer_y + coeff1dOffset;
 
         {
             int16_t txbSkipCtx = 0;
@@ -747,7 +747,7 @@ static EbErrorType Av1EncodeCoeff1D(
                     txb_itr,
                     intraLumaDir,
                     coeffBuffer,
-                    coeffPtr->strideY,
+                    coeffPtr->stride_y,
                     COMPONENT_LUMA,
                     txbSkipCtx,
                     dcSignCtx,
@@ -891,7 +891,7 @@ static EbErrorType Av1EncodeCoeff1D(
 *********************************************************************/
 // Return the number of elements in the partition CDF when
 // partitioning the (square) block with luma block size of bsize.
-static INLINE int32_t partition_cdf_length(BlockSize bsize) {
+static INLINE int32_t partition_cdf_length(block_size bsize) {
     if (bsize <= BLOCK_8X8)
         return PARTITION_TYPES;
     else if (bsize == BLOCK_128X128)
@@ -906,7 +906,7 @@ static int32_t cdf_element_prob(const aom_cdf_prob *const cdf,
 }
 static void partition_gather_horz_alike(aom_cdf_prob *out,
     const aom_cdf_prob *const in,
-    BlockSize bsize) {
+    block_size bsize) {
 
 
     out[0] = CDF_PROB_TOP;
@@ -921,7 +921,7 @@ static void partition_gather_horz_alike(aom_cdf_prob *out,
 }
 static void partition_gather_vert_alike(aom_cdf_prob *out,
     const aom_cdf_prob *const in,
-    BlockSize bsize) {
+    block_size bsize) {
     out[0] = CDF_PROB_TOP;
     out[0] -= cdf_element_prob(in, PARTITION_VERT);
     out[0] -= cdf_element_prob(in, PARTITION_SPLIT);
@@ -936,7 +936,7 @@ static void EncodePartitionAv1(
     SequenceControlSet_t    *sequence_control_set_ptr,
     FRAME_CONTEXT           *frameContext,
     aom_writer              *ecWriter,
-    BlockSize              bsize,
+    block_size              bsize,
     PartitionType          p,
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
@@ -1116,7 +1116,7 @@ static void EncodeIntraLumaModeNonKeyAv1(
     aom_writer              *ecWriter,
     CodingUnit_t            *cu_ptr,
 
-    BlockSize                bsize,
+    block_size                bsize,
     uint32_t                  lumaMode)
 {
 
@@ -1282,14 +1282,14 @@ static INLINE int is_inter_mode(PredictionMode mode)
     return mode >= SINGLE_INTER_MODE_START && mode < SINGLE_INTER_MODE_END;
 }
 
-static INLINE EbBool is_motion_variation_allowed_bsize(const BlockSize bsize)
+static INLINE EbBool is_motion_variation_allowed_bsize(const block_size bsize)
 {
     return (block_size_wide[bsize] >= 8 && block_size_high[bsize] >= 8);
 }
 
 static INLINE int is_global_mv_block(
     const PredictionMode          mode,
-    const BlockSize               bsize,
+    const block_size               bsize,
     TransformationType            type)
 {
     return (mode == GLOBALMV || mode == GLOBAL_GLOBALMV)
@@ -1380,7 +1380,7 @@ int count_overlappable_nb_left(
 void av1_count_overlappable_neighbors(
     const PictureControlSet_t        *picture_control_set_ptr,
     CodingUnit_t                     *cu_ptr,
-    const BlockSize                   bsize,
+    const block_size                   bsize,
     int32_t                           mi_row,
     int32_t                           mi_col)
 {
@@ -1406,7 +1406,7 @@ void av1_count_overlappable_neighbors(
 MOTION_MODE motion_mode_allowed(
     const PictureControlSet_t       *picture_control_set_ptr,
     const CodingUnit_t              *cu_ptr,
-    const BlockSize                 bsize,
+    const block_size                 bsize,
     MvReferenceFrame                rf0,
     MvReferenceFrame                rf1,
     PredictionMode                  mode)
@@ -1452,7 +1452,7 @@ MOTION_MODE motion_mode_allowed(
 static void write_motion_mode(
     FRAME_CONTEXT            *frame_context,
     aom_writer               *ec_writer,
-    BlockSize                 bsize,
+    block_size                 bsize,
     MOTION_MODE               motion_mode,
     MvReferenceFrame          rf0,
     MvReferenceFrame          rf1,
@@ -1984,7 +1984,7 @@ int32_t av1_get_pred_context_switchable_interp(
     MvReferenceFrame             rf0,
     MvReferenceFrame             rf1,
     CodingUnit_t                  *cu_ptr,
-    BlockSize sb_type,
+    block_size sb_type,
     PictureParentControlSet_t   *pcsPtr) {
     int32_t ref;
 
@@ -2006,7 +2006,7 @@ static int32_t av1_is_interp_needed(
     MvReferenceFrame            rf0,
     MvReferenceFrame            rf1,
     CodingUnit_t               *cu_ptr,
-    BlockSize                   bsize,
+    block_size                   bsize,
     PictureParentControlSet_t  *pcsPtr)
 {
     if (cu_ptr->skip_flag)
@@ -2023,7 +2023,7 @@ static int32_t av1_is_interp_needed(
 
 void write_mb_interp_filter(
     NeighborArrayUnit_t     *ref_frame_type_neighbor_array,
-    BlockSize bsize,
+    block_size bsize,
     MvReferenceFrame rf0,
     MvReferenceFrame rf1,
     PictureParentControlSet_t   *pcsPtr,
@@ -2527,7 +2527,7 @@ static void WriteRefFrames(
     aom_writer                  *ecWriter,
     PictureParentControlSet_t   *pcsPtr,
     CodingUnit_t                *cu_ptr,
-    BlockSize                   bsize,
+    block_size                   bsize,
     uint32_t                       cu_origin_x,
     uint32_t                       cu_origin_y,
     NeighborArrayUnit_t         *mode_type_neighbor_array,
@@ -4738,7 +4738,7 @@ EbErrorType ec_update_neighbors(
     uint32_t                 blkOriginX,
     uint32_t                 blkOriginY,
     CodingUnit_t            *cu_ptr,
-    BlockSize                bsize,
+    block_size                bsize,
     EbPictureBufferDesc_t   *coeffPtr)
 {
     UNUSED(coeffPtr);
@@ -4921,7 +4921,7 @@ EbErrorType write_modes_b(
     const BlockGeom          *blk_geom = Get_blk_geom_mds(cu_ptr->mds_idx);
     uint32_t blkOriginX = context_ptr->sb_origin_x + blk_geom->origin_x;
     uint32_t blkOriginY = context_ptr->sb_origin_y + blk_geom->origin_y;
-    BlockSize bsize = blk_geom->bsize;
+    block_size bsize = blk_geom->bsize;
     EbBool                   skipCoeff = EB_FALSE;
     skipCoeff = cu_ptr->block_has_coeff ? 0 : 1;
 
@@ -4952,7 +4952,7 @@ EbErrorType write_modes_b(
             int32_t super_block_upper_left = (((blkOriginY >> 2) & (sequence_control_set_ptr->mib_size - 1)) == 0) && (((blkOriginX >> 2) & (sequence_control_set_ptr->mib_size - 1)) == 0);
             /*((mi_row & (cm->seq_params.mib_size - 1)) == 0) && ((mi_col & (cm->seq_params.mib_size - 1)) == 0);*/
 
-            BlockSize bsize = cu_size == 64 ? BLOCK_64X64 : cu_size == 32 ? BLOCK_32X32 : cu_size == 16 ? BLOCK_16X16 : cu_size == 8 ? BLOCK_8X8 : BLOCK_4X4;
+            block_size bsize = cu_size == 64 ? BLOCK_64X64 : cu_size == 32 ? BLOCK_32X32 : cu_size == 16 ? BLOCK_16X16 : cu_size == 8 ? BLOCK_8X8 : BLOCK_4X4;
             if (cu_size == 8 && cu_ptr->prediction_mode_flag == INTRA_MODE && cu_ptr->pred_mode == INTRA_MODE_4x4) {
                 bsize = BLOCK_4X4;
             }
@@ -5070,7 +5070,7 @@ EbErrorType write_modes_b(
             int32_t super_block_upper_left = (((blkOriginY >> 2) & (sequence_control_set_ptr->mib_size - 1)) == 0) && (((blkOriginX >> 2) & (sequence_control_set_ptr->mib_size - 1)) == 0);
             /*((mi_row & (cm->seq_params.mib_size - 1)) == 0) && ((mi_col & (cm->seq_params.mib_size - 1)) == 0);*/
 
-            BlockSize bsize = cu_size == 64 ? BLOCK_64X64 : cu_size == 32 ? BLOCK_32X32 : cu_size == 16 ? BLOCK_16X16 : cu_size == 8 ? BLOCK_8X8 : BLOCK_4X4;
+            block_size bsize = cu_size == 64 ? BLOCK_64X64 : cu_size == 32 ? BLOCK_32X32 : cu_size == 16 ? BLOCK_16X16 : cu_size == 8 ? BLOCK_8X8 : BLOCK_4X4;
             if (cu_size == 8 && cu_ptr->prediction_mode_flag == INTRA_MODE && cu_ptr->pred_mode == INTRA_MODE_4x4) {
                 bsize = BLOCK_4X4;
             }
@@ -5366,7 +5366,7 @@ EB_EXTERN EbErrorType write_sb(
     uint32_t                    final_cu_index = 0;
     uint32_t                    cu_origin_x;
     uint32_t                    cu_origin_y;
-    BlockSize                bsize;
+    block_size                bsize;
 
     context_ptr->coded_area_sb = 0;
     context_ptr->coded_area_sb_uv = 0;

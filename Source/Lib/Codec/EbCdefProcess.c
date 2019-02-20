@@ -36,11 +36,11 @@ void *aom_memalign(size_t align, size_t size);
 void aom_free(void *memblk);
 void *aom_malloc(size_t size);
 uint64_t compute_cdef_dist(uint16_t *dst, int32_t dstride, uint16_t *src,
-    cdef_list *dlist, int32_t cdef_count, BlockSize bsize,
+    cdef_list *dlist, int32_t cdef_count, block_size bsize,
     int32_t coeff_shift, int32_t pli);
 int32_t sb_all_skip(PictureControlSet_t   *picture_control_set_ptr, const Av1Common *const cm, int32_t mi_row, int32_t mi_col);
 int32_t sb_compute_cdef_list(PictureControlSet_t   *picture_control_set_ptr, const Av1Common *const cm, int32_t mi_row, int32_t mi_col,
-    cdef_list *dlist, BlockSize bs);
+    cdef_list *dlist, block_size bs);
 void finish_cdef_search(
     EncDecContext_t                *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
@@ -175,7 +175,7 @@ void cdef_seg_search(
             nvb = AOMMIN(MI_SIZE_64X64, cm->mi_rows - MI_SIZE_64X64 * fbr);
             int32_t hb_step = 1; //these should be all time with 64x64 LCUs
             int32_t vb_step = 1;
-            BlockSize bs = BLOCK_64X64;
+            block_size bs = BLOCK_64X64;
             ModeInfo **mi = picture_control_set_ptr->mi_grid_base + MI_SIZE_64X64 * fbr * cm->mi_stride + MI_SIZE_64X64 * fbc;
             const MbModeInfo *mbmi = &mi[0]->mbmi;
 
@@ -247,7 +247,7 @@ void cdef_seg_search(
                         ref_coeff[pli] +
                         (fbr * MI_SIZE_64X64 << mi_high_l2[pli]) * stride[pli] +
                         (fbc * MI_SIZE_64X64 << mi_wide_l2[pli]),
-                        stride[pli], tmp_dst, dlist, cdef_count, (BlockSize)bsize[pli], coeff_shift,
+                        stride[pli], tmp_dst, dlist, cdef_count, (block_size)bsize[pli], coeff_shift,
                         pli);
 
                     if (pli < 2)
@@ -339,8 +339,8 @@ void cdef_seg_search16bit(
 
         src[pli] = picture_control_set_ptr->src[pli];
         ref_coeff[pli] = picture_control_set_ptr->ref_coeff[pli];
-        stride_src[pli] = pli == 0 ? recon_pic_ptr->strideY : (pli == 1 ? recon_pic_ptr->strideCb : recon_pic_ptr->strideCr);
-        stride_ref[pli] = pli == 0 ? input_pic_ptr->strideY : (pli == 1 ? input_pic_ptr->strideCb : input_pic_ptr->strideCr);
+        stride_src[pli] = pli == 0 ? recon_pic_ptr->stride_y : (pli == 1 ? recon_pic_ptr->strideCb : recon_pic_ptr->strideCr);
+        stride_ref[pli] = pli == 0 ? input_pic_ptr->stride_y : (pli == 1 ? input_pic_ptr->strideCb : input_pic_ptr->strideCr);
 
     }
 
@@ -356,7 +356,7 @@ void cdef_seg_search16bit(
             nvb = AOMMIN(MI_SIZE_64X64, cm->mi_rows - MI_SIZE_64X64 * fbr);
             int32_t hb_step = 1; //these should be all time with 64x64 LCUs
             int32_t vb_step = 1;
-            BlockSize bs = BLOCK_64X64;
+            block_size bs = BLOCK_64X64;
             ModeInfo **mi = picture_control_set_ptr->mi_grid_base + MI_SIZE_64X64 * fbr * cm->mi_stride + MI_SIZE_64X64 * fbc;
             const MbModeInfo *mbmi = &mi[0]->mbmi;
 
@@ -427,7 +427,7 @@ void cdef_seg_search16bit(
                         ref_coeff[pli] +
                         (fbr * MI_SIZE_64X64 << mi_high_l2[pli]) * stride_ref[pli] +
                         (fbc * MI_SIZE_64X64 << mi_wide_l2[pli]),
-                        stride_ref[pli], tmp_dst, dlist, cdef_count, (BlockSize)bsize[pli], coeff_shift,
+                        stride_ref[pli], tmp_dst, dlist, cdef_count, (block_size)bsize[pli], coeff_shift,
                         pli);
 
                     if (pli < 2)

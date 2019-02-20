@@ -155,17 +155,17 @@ void   get_own_recon(
         else
             recon_picture_ptr = picture_control_set_ptr->recon_picture16bit_ptr;
 
-        uint16_t*  rec_ptr = (uint16_t*)recon_picture_ptr->bufferY + recon_picture_ptr->origin_x + recon_picture_ptr->origin_y     * recon_picture_ptr->strideY;
+        uint16_t*  rec_ptr = (uint16_t*)recon_picture_ptr->buffer_y + recon_picture_ptr->origin_x + recon_picture_ptr->origin_y     * recon_picture_ptr->stride_y;
         uint16_t*  rec_ptr_cb = (uint16_t*)recon_picture_ptr->bufferCb + recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->strideCb;
         uint16_t*  rec_ptr_cr = (uint16_t*)recon_picture_ptr->bufferCr + recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->strideCr;
 
         EbPictureBufferDesc_t *org_rec = context_ptr->org_rec_frame;
-        uint16_t*  org_ptr = (uint16_t*)org_rec->bufferY + org_rec->origin_x + org_rec->origin_y     * org_rec->strideY;
+        uint16_t*  org_ptr = (uint16_t*)org_rec->buffer_y + org_rec->origin_x + org_rec->origin_y     * org_rec->stride_y;
         uint16_t*  org_ptr_cb = (uint16_t*)org_rec->bufferCb + org_rec->origin_x / 2 + org_rec->origin_y / 2 * org_rec->strideCb;
         uint16_t*  org_ptr_cr = (uint16_t*)org_rec->bufferCr + org_rec->origin_x / 2 + org_rec->origin_y / 2 * org_rec->strideCr;
 
         for (int r = 0; r < sequence_control_set_ptr->luma_height; ++r) {
-            memcpy(org_ptr + r * org_rec->strideY, rec_ptr + r * recon_picture_ptr->strideY, sequence_control_set_ptr->luma_width << 1);
+            memcpy(org_ptr + r * org_rec->stride_y, rec_ptr + r * recon_picture_ptr->stride_y, sequence_control_set_ptr->luma_width << 1);
         }
 
         for (int r = 0; r < sequence_control_set_ptr->luma_height / 2; ++r) {
@@ -179,17 +179,17 @@ void   get_own_recon(
         else
             recon_picture_ptr = picture_control_set_ptr->recon_picture_ptr;
 
-        uint8_t * rec_ptr = &((recon_picture_ptr->bufferY)[recon_picture_ptr->origin_x + recon_picture_ptr->origin_y * recon_picture_ptr->strideY]);
+        uint8_t * rec_ptr = &((recon_picture_ptr->buffer_y)[recon_picture_ptr->origin_x + recon_picture_ptr->origin_y * recon_picture_ptr->stride_y]);
         uint8_t *  rec_ptr_cb = &((recon_picture_ptr->bufferCb)[recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->strideCb]);
         uint8_t *  rec_ptr_cr = &((recon_picture_ptr->bufferCr)[recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->strideCr]);
 
         EbPictureBufferDesc_t *org_rec = context_ptr->org_rec_frame;
-        uint8_t *  org_ptr = &((org_rec->bufferY)[org_rec->origin_x + org_rec->origin_y * org_rec->strideY]);
+        uint8_t *  org_ptr = &((org_rec->buffer_y)[org_rec->origin_x + org_rec->origin_y * org_rec->stride_y]);
         uint8_t *  org_ptr_cb = &((org_rec->bufferCb)[org_rec->origin_x / 2 + org_rec->origin_y / 2 * org_rec->strideCb]);
         uint8_t *  org_ptr_cr = &((org_rec->bufferCr)[org_rec->origin_x / 2 + org_rec->origin_y / 2 * org_rec->strideCr]);
 
         for (int r = 0; r < sequence_control_set_ptr->luma_height; ++r) {
-            memcpy(org_ptr + r * org_rec->strideY, rec_ptr + r * recon_picture_ptr->strideY, sequence_control_set_ptr->luma_width);
+            memcpy(org_ptr + r * org_rec->stride_y, rec_ptr + r * recon_picture_ptr->stride_y, sequence_control_set_ptr->luma_width);
         }
 
         for (int r = 0; r < sequence_control_set_ptr->luma_height / 2; ++r) {
@@ -366,13 +366,13 @@ void* rest_kernel(void *input_ptr)
             if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE && picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr)
             {
                 EbPictureBufferDesc_t *input_picture_ptr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
-                const uint32_t  SrclumaOffSet = input_picture_ptr->origin_x + input_picture_ptr->origin_y    *input_picture_ptr->strideY;
+                const uint32_t  SrclumaOffSet = input_picture_ptr->origin_x + input_picture_ptr->origin_y    *input_picture_ptr->stride_y;
                 const uint32_t  SrccbOffset = (input_picture_ptr->origin_x >> 1) + (input_picture_ptr->origin_y >> 1)*input_picture_ptr->strideCb;
                 const uint32_t  SrccrOffset = (input_picture_ptr->origin_x >> 1) + (input_picture_ptr->origin_y >> 1)*input_picture_ptr->strideCr;
 
                 EbReferenceObject_t   *referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr;
                 EbPictureBufferDesc_t *refDenPic = referenceObject->refDenSrcPicture;
-                const uint32_t           ReflumaOffSet = refDenPic->origin_x + refDenPic->origin_y    *refDenPic->strideY;
+                const uint32_t           ReflumaOffSet = refDenPic->origin_x + refDenPic->origin_y    *refDenPic->stride_y;
                 const uint32_t           RefcbOffset = (refDenPic->origin_x >> 1) + (refDenPic->origin_y >> 1)*refDenPic->strideCb;
                 const uint32_t           RefcrOffset = (refDenPic->origin_x >> 1) + (refDenPic->origin_y >> 1)*refDenPic->strideCr;
 
@@ -380,8 +380,8 @@ void* rest_kernel(void *input_ptr)
 
                 for (verticalIdx = 0; verticalIdx < refDenPic->height; ++verticalIdx)
                 {
-                    EB_MEMCPY(refDenPic->bufferY + ReflumaOffSet + verticalIdx * refDenPic->strideY,
-                        input_picture_ptr->bufferY + SrclumaOffSet + verticalIdx * input_picture_ptr->strideY,
+                    EB_MEMCPY(refDenPic->buffer_y + ReflumaOffSet + verticalIdx * refDenPic->stride_y,
+                        input_picture_ptr->buffer_y + SrclumaOffSet + verticalIdx * input_picture_ptr->stride_y,
                         input_picture_ptr->width);
                 }
 
@@ -397,8 +397,8 @@ void* rest_kernel(void *input_ptr)
                 }
 
                 generate_padding(
-                    refDenPic->bufferY,
-                    refDenPic->strideY,
+                    refDenPic->buffer_y,
+                    refDenPic->stride_y,
                     refDenPic->width,
                     refDenPic->height,
                     refDenPic->origin_x,

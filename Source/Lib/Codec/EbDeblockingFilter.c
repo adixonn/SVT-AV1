@@ -775,7 +775,7 @@ static INLINE int32_t scaled_buffer_offset(int32_t x_offset, int32_t y_offset, i
         /*sf ? sf->scale_value_y(y_offset, sf) >> SCALE_EXTRA_BITS :*/ y_offset;
     return y * stride + x;
 }
-static INLINE void setup_pred_plane(struct Buf2d *dst, BlockSize bsize,
+static INLINE void setup_pred_plane(struct Buf2d *dst, block_size bsize,
     uint8_t *src, int32_t width, int32_t height,
     int32_t stride, int32_t mi_row, int32_t mi_col,
     /*const struct scale_factors *scale,*/
@@ -795,7 +795,7 @@ static INLINE void setup_pred_plane(struct Buf2d *dst, BlockSize bsize,
     dst->height = height;
     dst->stride = stride;
 }
-void av1_setup_dst_planes(struct MacroblockdPlane *planes, BlockSize bsize,
+void av1_setup_dst_planes(struct MacroblockdPlane *planes, block_size bsize,
     //const Yv12BufferConfig *src,
     const EbPictureBufferDesc_t *src,
     int32_t mi_row, int32_t mi_col,
@@ -812,8 +812,8 @@ void av1_setup_dst_planes(struct MacroblockdPlane *planes, BlockSize bsize,
     for (int32_t i = plane_start; i < AOMMIN(plane_end, 3); ++i) {
         if (i == 0) {
             struct MacroblockdPlane *const pd = &planes[0];
-            setup_pred_plane(&pd->dst, bsize, &src->bufferY[(src->origin_x + src->origin_y*src->strideY) << pd->is16Bit], src->width,
-                src->height, src->strideY, mi_row,
+            setup_pred_plane(&pd->dst, bsize, &src->buffer_y[(src->origin_x + src->origin_y*src->stride_y) << pd->is16Bit], src->width,
+                src->height, src->stride_y, mi_row,
                 mi_col, /*NULL,*/ pd->subsampling_x, pd->subsampling_y, pd->is16Bit); //AMIR: Updated to point to the right location
         }
         else if (i == 1) {
@@ -835,9 +835,9 @@ void av1_setup_dst_planes(struct MacroblockdPlane *planes, BlockSize bsize,
 
 
 static INLINE TxSize
-av1_get_max_uv_txsize(BlockSize bsize, const struct MacroblockdPlane *pd) {
+av1_get_max_uv_txsize(block_size bsize, const struct MacroblockdPlane *pd) {
 
-    const BlockSize plane_bsize = get_plane_block_size(bsize, pd->subsampling_x, pd->subsampling_y);
+    const block_size plane_bsize = get_plane_block_size(bsize, pd->subsampling_x, pd->subsampling_y);
 
     assert(plane_bsize < BlockSizeS_ALL);
     const TxSize uv_tx = max_txsize_rect_lookup[plane_bsize];
@@ -861,7 +861,7 @@ static TxSize get_transform_size(const MacroBlockD *const xd,
         : av1_get_max_uv_txsize(mbmi->sb_type, plane_ptr);
     assert(tx_size < TX_SIZES_ALL);
     //if ((plane == COMPONENT_LUMA) && is_inter_block(mbmi) && !mbmi->skip) {
-    //    const BlockSize sb_type = mbmi->sb_type;
+    //    const block_size sb_type = mbmi->sb_type;
     //    const int32_t blk_row = mi_row & (mi_size_high[sb_type] - 1);
     //    const int32_t blk_col = mi_col & (mi_size_wide[sb_type] - 1);
     //    const TxSize mb_tx_size =
@@ -963,7 +963,7 @@ static TxSize set_lpf_parameters(
 
                     const int32_t pv_skip = mi_prev->skip && is_inter_block(mi_prev);
 
-                    const BlockSize bsize =
+                    const block_size bsize =
                         get_plane_block_size(mbmi->sb_type, plane_ptr->subsampling_x, plane_ptr->subsampling_y);
                     ASSERT(bsize < BlockSizeS_ALL);
                     const int32_t prediction_masks = edge_dir == VERT_EDGE
@@ -1408,25 +1408,25 @@ void EbCopyBuffer(
     dstBuffer->chromaSize = srcBuffer->chromaSize;
     dstBuffer->packedFlag = srcBuffer->packedFlag;
 
-    uint32_t   lumaBufferOffset = (srcBuffer->origin_x + srcBuffer->origin_y*srcBuffer->strideY) << is16bit;
+    uint32_t   lumaBufferOffset = (srcBuffer->origin_x + srcBuffer->origin_y*srcBuffer->stride_y) << is16bit;
     uint16_t   luma_width = (uint16_t)(srcBuffer->width - pcsPtr->parent_pcs_ptr->sequence_control_set_ptr->pad_right) << is16bit;
     uint16_t   luma_height = (uint16_t)(srcBuffer->height - pcsPtr->parent_pcs_ptr->sequence_control_set_ptr->pad_bottom);
     uint16_t   chroma_width = (luma_width >> 1);
     if (plane == 0) {
 #if LF_10BIT_FIX
-        uint16_t strideY = srcBuffer->strideY << is16bit;
+        uint16_t stride_y = srcBuffer->stride_y << is16bit;
 #endif
-        dstBuffer->strideY = srcBuffer->strideY;
+        dstBuffer->stride_y = srcBuffer->stride_y;
         dstBuffer->strideBitIncY = srcBuffer->strideBitIncY;
 
         for (int32_t inputRowIndex = 0; inputRowIndex < luma_height; inputRowIndex++) {
 #if LF_10BIT_FIX
-            EB_MEMCPY((dstBuffer->bufferY + lumaBufferOffset + strideY * inputRowIndex),
-                (srcBuffer->bufferY + lumaBufferOffset + strideY * inputRowIndex),
+            EB_MEMCPY((dstBuffer->buffer_y + lumaBufferOffset + stride_y * inputRowIndex),
+                (srcBuffer->buffer_y + lumaBufferOffset + stride_y * inputRowIndex),
                 luma_width);
 #else
-            EB_MEMCPY((dstBuffer->bufferY + lumaBufferOffset + dstBuffer->strideY*inputRowIndex),
-                (srcBuffer->bufferY + lumaBufferOffset + srcBuffer->strideY*inputRowIndex),
+            EB_MEMCPY((dstBuffer->buffer_y + lumaBufferOffset + dstBuffer->stride_y*inputRowIndex),
+                (srcBuffer->buffer_y + lumaBufferOffset + srcBuffer->stride_y*inputRowIndex),
                 luma_width);
 #endif
         }
@@ -1513,8 +1513,8 @@ uint64_t PictureSseCalculations(
         EbByte  inputBuffer;
         EbByte  reconCoeffBuffer;
         if (plane == 0) {
-            reconCoeffBuffer = &((recon_ptr->bufferY)[recon_ptr->origin_x + recon_ptr->origin_y * recon_ptr->strideY]);
-            inputBuffer = &((input_picture_ptr->bufferY)[input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->strideY]);
+            reconCoeffBuffer = &((recon_ptr->buffer_y)[recon_ptr->origin_x + recon_ptr->origin_y * recon_ptr->stride_y]);
+            inputBuffer = &((input_picture_ptr->buffer_y)[input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->stride_y]);
 
             residualDistortion = 0;
 
@@ -1525,8 +1525,8 @@ uint64_t PictureSseCalculations(
                     residualDistortion += (int64_t)SQR((int64_t)(inputBuffer[columnIndex]) - (reconCoeffBuffer[columnIndex]));
                     ++columnIndex;
                 }
-                inputBuffer += input_picture_ptr->strideY;
-                reconCoeffBuffer += recon_ptr->strideY;
+                inputBuffer += input_picture_ptr->stride_y;
+                reconCoeffBuffer += recon_ptr->stride_y;
                 ++rowIndex;
             }
 
@@ -1588,8 +1588,8 @@ uint64_t PictureSseCalculations(
         uint16_t*  inputBuffer;
         uint16_t*  reconCoeffBuffer;
         if (plane == 0) {
-            reconCoeffBuffer = (uint16_t*)&((recon_ptr->bufferY)[(recon_ptr->origin_x + recon_ptr->origin_y * recon_ptr->strideY) << is16bit]);
-            inputBuffer = (uint16_t*)&((input_picture_ptr->bufferY)[(input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->strideY) << is16bit]);
+            reconCoeffBuffer = (uint16_t*)&((recon_ptr->buffer_y)[(recon_ptr->origin_x + recon_ptr->origin_y * recon_ptr->stride_y) << is16bit]);
+            inputBuffer = (uint16_t*)&((input_picture_ptr->buffer_y)[(input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->stride_y) << is16bit]);
 
             residualDistortion = 0;
 
@@ -1601,8 +1601,8 @@ uint64_t PictureSseCalculations(
                     ++columnIndex;
                 }
 
-                inputBuffer += input_picture_ptr->strideY;
-                reconCoeffBuffer += recon_ptr->strideY;
+                inputBuffer += input_picture_ptr->stride_y;
+                reconCoeffBuffer += recon_ptr->stride_y;
                 ++rowIndex;
             }
 

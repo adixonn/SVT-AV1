@@ -185,10 +185,10 @@ EbErrorType PictureCopy8Bit(
     if (component_mask & PICTURE_BUFFER_DESC_Y_FLAG) {
 
         pic_copy_kernel(
-            &(src->bufferY[srcLumaOriginIndex]),
-            src->strideY,
-            &(dst->bufferY[dstLumaOriginIndex]),
-            dst->strideY,
+            &(src->buffer_y[srcLumaOriginIndex]),
+            src->stride_y,
+            &(dst->buffer_y[dstLumaOriginIndex]),
+            dst->stride_y,
             area_width,
             area_height);
     }
@@ -472,9 +472,9 @@ EbErrorType PictureFullDistortion32Bits(
 
         if (y_count_non_zero_coeffs) {
             FullDistortionKernel32Bits_funcPtrArray[asm_type](
-                &(((int32_t*)coeff->bufferY)[coeffLumaOriginIndex]),
+                &(((int32_t*)coeff->buffer_y)[coeffLumaOriginIndex]),
                 bwidth,
-                &(((int32_t*)recon_coeff->bufferY)[reconCoeffLumaOriginIndex]),
+                &(((int32_t*)recon_coeff->buffer_y)[reconCoeffLumaOriginIndex]),
                 bwidth,
                 y_distortion,
                 bwidth,
@@ -482,9 +482,9 @@ EbErrorType PictureFullDistortion32Bits(
         }
         else {
             FullDistortionKernelCbfZero32Bits_funcPtrArray[asm_type](
-                &(((int32_t*)coeff->bufferY)[coeffLumaOriginIndex]),
+                &(((int32_t*)coeff->buffer_y)[coeffLumaOriginIndex]),
                 bwidth,
-                &(((int32_t*)recon_coeff->bufferY)[reconCoeffLumaOriginIndex]),
+                &(((int32_t*)recon_coeff->buffer_y)[reconCoeffLumaOriginIndex]),
                 bwidth,
                 y_distortion,
                 bwidth,

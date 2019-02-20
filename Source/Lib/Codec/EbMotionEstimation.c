@@ -1072,16 +1072,16 @@ static void open_loop_me_get_search_point_results_block(
 {
     uint8_t  *srcPtr = context_ptr->sb_src_ptr;
 
-    // uint8_t  *refPtr = refPicPtr->bufferY; // NADER
+    // uint8_t  *refPtr = refPicPtr->buffer_y; // NADER
     uint8_t  *refPtr = context_ptr->integer_buffer_ptr[listIndex][0] + (ME_FILTER_TAP >> 1) + ((ME_FILTER_TAP >> 1) * context_ptr->interpolated_full_stride[listIndex][0]);
 
-    // uint32_t reflumaStride = refPicPtr->strideY; // NADER
+    // uint32_t reflumaStride = refPicPtr->stride_y; // NADER
     uint32_t reflumaStride = context_ptr->interpolated_full_stride[listIndex][0];
     uint32_t searchPositionTLIndex = searchRegionIndex;
     uint32_t searchPositionIndex;
     uint32_t blockIndex;
     uint32_t srcNext16x16Offset = (BLOCK_SIZE_64 << 4);
-    //uint32_t refNext16x16Offset = (refPicPtr->strideY << 4); // NADER
+    //uint32_t refNext16x16Offset = (refPicPtr->stride_y << 4); // NADER
     uint32_t refNext16x16Offset = (reflumaStride << 4);
     uint32_t   currMV1 = (((uint16_t)ySearchIndex) << 18);
     uint16_t   currMV2 = (((uint16_t)xSearchIndex << 2));
@@ -1244,10 +1244,10 @@ static void GetSearchPointResults(
 {
     uint8_t  *srcPtr = context_ptr->sb_src_ptr;
 
-    // uint8_t  *refPtr = refPicPtr->bufferY; // NADER
+    // uint8_t  *refPtr = refPicPtr->buffer_y; // NADER
     uint8_t  *refPtr = context_ptr->integer_buffer_ptr[listIndex][0] + (ME_FILTER_TAP >> 1) + ((ME_FILTER_TAP >> 1) * context_ptr->interpolated_full_stride[listIndex][0]);
 
-    // uint32_t reflumaStride = refPicPtr->strideY; // NADER
+    // uint32_t reflumaStride = refPicPtr->stride_y; // NADER
     uint32_t reflumaStride = context_ptr->interpolated_full_stride[listIndex][0];
 
     uint32_t searchPositionTLIndex = searchRegionIndex;
@@ -1255,7 +1255,7 @@ static void GetSearchPointResults(
     uint32_t blockIndex;
 
     uint32_t srcNext16x16Offset = (BLOCK_SIZE_64 << 4);
-    //uint32_t refNext16x16Offset = (refPicPtr->strideY << 4); // NADER
+    //uint32_t refNext16x16Offset = (refPicPtr->stride_y << 4); // NADER
     uint32_t refNext16x16Offset = (reflumaStride << 4);
 
     uint32_t currMV1 = (((uint16_t)ySearchIndex) << 18);
@@ -4202,7 +4202,7 @@ void HmeOneQuadrantLevel0(
 
     xTopLeftSearchRegion = ((int16_t)sixteenthRefPicPtr->origin_x + origin_x) + x_search_area_origin;
     yTopLeftSearchRegion = ((int16_t)sixteenthRefPicPtr->origin_y + origin_y) + y_search_area_origin;
-    searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * sixteenthRefPicPtr->strideY;
+    searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * sixteenthRefPicPtr->stride_y;
 
     if (context_ptr->hme_search_type == HME_SPARSE)
     {
@@ -4212,15 +4212,15 @@ void HmeOneQuadrantLevel0(
         NxMSadLoopKernelSparse_funcPtrArray[asm_type](
             &context_ptr->sixteenth_sb_buffer[0],
             context_ptr->sixteenth_sb_buffer_stride,
-            &sixteenthRefPicPtr->bufferY[searchRegionIndex],
-            sixteenthRefPicPtr->strideY * 2,
+            &sixteenthRefPicPtr->buffer_y[searchRegionIndex],
+            sixteenthRefPicPtr->stride_y * 2,
             sb_height >> 1, sb_width,
             /* results */
             level0BestSad,
             xLevel0SearchCenter,
             yLevel0SearchCenter,
             /* range */
-            sixteenthRefPicPtr->strideY,
+            sixteenthRefPicPtr->stride_y,
             search_area_width,
             search_area_height
             );
@@ -4239,15 +4239,15 @@ void HmeOneQuadrantLevel0(
             SadLoopKernel_AVX2_HmeL0_INTRIN(
                 &context_ptr->sixteenth_sb_buffer[0],
                 context_ptr->sixteenth_sb_buffer_stride,
-                &sixteenthRefPicPtr->bufferY[searchRegionIndex],
-                sixteenthRefPicPtr->strideY * 2,
+                &sixteenthRefPicPtr->buffer_y[searchRegionIndex],
+                sixteenthRefPicPtr->stride_y * 2,
                 sb_height >> 1, sb_width,
                 // results
                 level0BestSad,
                 xLevel0SearchCenter,
                 yLevel0SearchCenter,
                 // range
-                sixteenthRefPicPtr->strideY,
+                sixteenthRefPicPtr->stride_y,
                 search_area_width,
                 search_area_height
             );
@@ -4259,15 +4259,15 @@ void HmeOneQuadrantLevel0(
             SadLoopKernel_SSE4_1_HmeL0_INTRIN(
                 &context_ptr->sixteenth_sb_buffer[0],
                 context_ptr->sixteenth_sb_buffer_stride,
-                &sixteenthRefPicPtr->bufferY[searchRegionIndex],
-                sixteenthRefPicPtr->strideY * 2,
+                &sixteenthRefPicPtr->buffer_y[searchRegionIndex],
+                sixteenthRefPicPtr->stride_y * 2,
                 sb_height >> 1, sb_width,
                 /* results */
                 level0BestSad,
                 xLevel0SearchCenter,
                 yLevel0SearchCenter,
                 /* range */
-                sixteenthRefPicPtr->strideY,
+                sixteenthRefPicPtr->stride_y,
                 search_area_width,
                 search_area_height
             );
@@ -4278,15 +4278,15 @@ void HmeOneQuadrantLevel0(
             NxMSadLoopKernel_funcPtrArray[asm_type](
                 &context_ptr->sixteenth_sb_buffer[0],
                 context_ptr->sixteenth_sb_buffer_stride,
-                &sixteenthRefPicPtr->bufferY[searchRegionIndex],
-                sixteenthRefPicPtr->strideY * 2,
+                &sixteenthRefPicPtr->buffer_y[searchRegionIndex],
+                sixteenthRefPicPtr->stride_y * 2,
                 sb_height >> 1, sb_width,
                 /* results */
                 level0BestSad,
                 xLevel0SearchCenter,
                 yLevel0SearchCenter,
                 /* range */
-                sixteenthRefPicPtr->strideY,
+                sixteenthRefPicPtr->stride_y,
                 search_area_width,
                 search_area_height
                 );
@@ -4412,7 +4412,7 @@ void HmeLevel0(
 
     xTopLeftSearchRegion = ((int16_t)sixteenthRefPicPtr->origin_x + origin_x) + x_search_area_origin;
     yTopLeftSearchRegion = ((int16_t)sixteenthRefPicPtr->origin_y + origin_y) + y_search_area_origin;
-    searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * sixteenthRefPicPtr->strideY;
+    searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * sixteenthRefPicPtr->stride_y;
 
     if (((sb_width & 7) == 0) || (sb_width == 4))
     {
@@ -4421,15 +4421,15 @@ void HmeLevel0(
             SadLoopKernel_AVX2_HmeL0_INTRIN(
                 &context_ptr->sixteenth_sb_buffer[0],
                 context_ptr->sixteenth_sb_buffer_stride,
-                &sixteenthRefPicPtr->bufferY[searchRegionIndex],
-                sixteenthRefPicPtr->strideY * 2,
+                &sixteenthRefPicPtr->buffer_y[searchRegionIndex],
+                sixteenthRefPicPtr->stride_y * 2,
                 sb_height >> 1, sb_width,
                 // results
                 level0BestSad,
                 xLevel0SearchCenter,
                 yLevel0SearchCenter,
                 // range
-                sixteenthRefPicPtr->strideY,
+                sixteenthRefPicPtr->stride_y,
                 search_area_width,
                 search_area_height
             );
@@ -4441,15 +4441,15 @@ void HmeLevel0(
             SadLoopKernel_SSE4_1_HmeL0_INTRIN(
                 &context_ptr->sixteenth_sb_buffer[0],
                 context_ptr->sixteenth_sb_buffer_stride,
-                &sixteenthRefPicPtr->bufferY[searchRegionIndex],
-                sixteenthRefPicPtr->strideY * 2,
+                &sixteenthRefPicPtr->buffer_y[searchRegionIndex],
+                sixteenthRefPicPtr->stride_y * 2,
                 sb_height >> 1, sb_width,
                 /* results */
                 level0BestSad,
                 xLevel0SearchCenter,
                 yLevel0SearchCenter,
                 /* range */
-                sixteenthRefPicPtr->strideY,
+                sixteenthRefPicPtr->stride_y,
                 search_area_width,
                 search_area_height
             );
@@ -4460,15 +4460,15 @@ void HmeLevel0(
             NxMSadLoopKernel_funcPtrArray[asm_type](
                 &context_ptr->sixteenth_sb_buffer[0],
                 context_ptr->sixteenth_sb_buffer_stride,
-                &sixteenthRefPicPtr->bufferY[searchRegionIndex],
-                sixteenthRefPicPtr->strideY * 2,
+                &sixteenthRefPicPtr->buffer_y[searchRegionIndex],
+                sixteenthRefPicPtr->stride_y * 2,
                 sb_height >> 1, sb_width,
                 /* results */
                 level0BestSad,
                 xLevel0SearchCenter,
                 yLevel0SearchCenter,
                 /* range */
-                sixteenthRefPicPtr->strideY,
+                sixteenthRefPicPtr->stride_y,
                 search_area_width,
                 search_area_height
                 );
@@ -4479,15 +4479,15 @@ void HmeLevel0(
         SadLoopKernel(
             &context_ptr->sixteenth_sb_buffer[0],
             context_ptr->sixteenth_sb_buffer_stride,
-            &sixteenthRefPicPtr->bufferY[searchRegionIndex],
-            sixteenthRefPicPtr->strideY * 2,
+            &sixteenthRefPicPtr->buffer_y[searchRegionIndex],
+            sixteenthRefPicPtr->stride_y * 2,
             sb_height >> 1, sb_width,
             /* results */
             level0BestSad,
             xLevel0SearchCenter,
             yLevel0SearchCenter,
             /* range */
-            sixteenthRefPicPtr->strideY,
+            sixteenthRefPicPtr->stride_y,
             search_area_width,
             search_area_height
         );
@@ -4575,7 +4575,7 @@ void HmeLevel1(
     // Move to the top left of the search region
     xTopLeftSearchRegion = ((int16_t)quarterRefPicPtr->origin_x + origin_x) + x_search_area_origin;
     yTopLeftSearchRegion = ((int16_t)quarterRefPicPtr->origin_y + origin_y) + y_search_area_origin;
-    searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * quarterRefPicPtr->strideY;
+    searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * quarterRefPicPtr->stride_y;
 
     if (((sb_width & 7) == 0) || (sb_width == 4))
     {
@@ -4583,15 +4583,15 @@ void HmeLevel1(
         NxMSadLoopKernel_funcPtrArray[asm_type](
             &context_ptr->quarter_sb_buffer[0],
             context_ptr->quarter_sb_buffer_stride * 2,
-            &quarterRefPicPtr->bufferY[searchRegionIndex],
-            quarterRefPicPtr->strideY * 2,
+            &quarterRefPicPtr->buffer_y[searchRegionIndex],
+            quarterRefPicPtr->stride_y * 2,
             sb_height >> 1, sb_width,
             /* results */
             level1BestSad,
             xLevel1SearchCenter,
             yLevel1SearchCenter,
             /* range */
-            quarterRefPicPtr->strideY,
+            quarterRefPicPtr->stride_y,
             search_area_width,
             search_area_height
             );
@@ -4601,15 +4601,15 @@ void HmeLevel1(
         SadLoopKernel(
             &context_ptr->quarter_sb_buffer[0],
             context_ptr->quarter_sb_buffer_stride * 2,
-            &quarterRefPicPtr->bufferY[searchRegionIndex],
-            quarterRefPicPtr->strideY * 2,
+            &quarterRefPicPtr->buffer_y[searchRegionIndex],
+            quarterRefPicPtr->stride_y * 2,
             sb_height >> 1, sb_width,
             /* results */
             level1BestSad,
             xLevel1SearchCenter,
             yLevel1SearchCenter,
             /* range */
-            quarterRefPicPtr->strideY,
+            quarterRefPicPtr->stride_y,
             search_area_width,
             search_area_height
         );
@@ -4709,22 +4709,22 @@ void HmeLevel2(
     // Move to the top left of the search region
     xTopLeftSearchRegion = ((int16_t)refPicPtr->origin_x + origin_x) + x_search_area_origin;
     yTopLeftSearchRegion = ((int16_t)refPicPtr->origin_y + origin_y) + y_search_area_origin;
-    searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * refPicPtr->strideY;
+    searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * refPicPtr->stride_y;
     if ((((sb_width & 7) == 0) && (sb_width != 40) && (sb_width != 56)))
     {
         // Put the first search location into level0 results
         NxMSadLoopKernel_funcPtrArray[asm_type](
             context_ptr->sb_src_ptr,
             context_ptr->sb_src_stride * 2,
-            &refPicPtr->bufferY[searchRegionIndex],
-            refPicPtr->strideY * 2,
+            &refPicPtr->buffer_y[searchRegionIndex],
+            refPicPtr->stride_y * 2,
             sb_height >> 1, sb_width,
             /* results */
             level2BestSad,
             xLevel2SearchCenter,
             yLevel2SearchCenter,
             /* range */
-            refPicPtr->strideY,
+            refPicPtr->stride_y,
             search_area_width,
             search_area_height
             );
@@ -4735,15 +4735,15 @@ void HmeLevel2(
         SadLoopKernel(
             context_ptr->sb_src_ptr,
             context_ptr->sb_src_stride * 2,
-            &refPicPtr->bufferY[searchRegionIndex],
-            refPicPtr->strideY * 2,
+            &refPicPtr->buffer_y[searchRegionIndex],
+            refPicPtr->stride_y * 2,
             sb_height >> 1, sb_width,
             /* results */
             level2BestSad,
             xLevel2SearchCenter,
             yLevel2SearchCenter,
             /* range */
-            refPicPtr->strideY,
+            refPicPtr->stride_y,
             search_area_width,
             search_area_height
         );
@@ -4924,10 +4924,10 @@ static void QuarterPelCompensation(
 * Requirement: pu_height % 2 = 0
 * Requirement: skip         = 0 or 1
 * Requirement (x86 only): tempBuf % 16 = 0
-* Requirement (x86 only): (dst->bufferY  + dstLumaIndex  ) % 16 = 0 when pu_width %16 = 0
+* Requirement (x86 only): (dst->buffer_y  + dstLumaIndex  ) % 16 = 0 when pu_width %16 = 0
 * Requirement (x86 only): (dst->bufferCb + dstChromaIndex) % 16 = 0 when pu_width %32 = 0
 * Requirement (x86 only): (dst->bufferCr + dstChromaIndex) % 16 = 0 when pu_width %32 = 0
-* Requirement (x86 only): dst->strideY   % 16 = 0 when pu_width %16 = 0
+* Requirement (x86 only): dst->stride_y   % 16 = 0 when pu_width %16 = 0
 * Requirement (x86 only): dst->chromaStride % 16 = 0 when pu_width %32 = 0
 *******************************************************************************/
 uint32_t BiPredAverging(
@@ -5485,13 +5485,13 @@ EbErrorType CheckZeroZeroCenter(
     int16_t        pad_height = (int16_t)BLOCK_SIZE_64 - 1;
     
     searchRegionIndex = (int16_t)refPicPtr->origin_x + origin_x +
-        ((int16_t)refPicPtr->origin_y + origin_y) * refPicPtr->strideY;
+        ((int16_t)refPicPtr->origin_y + origin_y) * refPicPtr->stride_y;
 
     zeroMvSad = NxMSadKernel_funcPtrArray[asm_type][sb_width >> 3](
         context_ptr->sb_src_ptr,
         context_ptr->sb_src_stride << subsampleSad,
-        &(refPicPtr->bufferY[searchRegionIndex]),
-        refPicPtr->strideY << subsampleSad,
+        &(refPicPtr->buffer_y[searchRegionIndex]),
+        refPicPtr->stride_y << subsampleSad,
         sb_height >> subsampleSad,
         sb_width);
 
@@ -5519,13 +5519,13 @@ EbErrorType CheckZeroZeroCenter(
 
     zeroMvCost = zeroMvSad << COST_PRECISION;
     searchRegionIndex = (int16_t)(refPicPtr->origin_x + origin_x) + *xSearchCenter +
-        ((int16_t)(refPicPtr->origin_y + origin_y) + *ySearchCenter) * refPicPtr->strideY;
+        ((int16_t)(refPicPtr->origin_y + origin_y) + *ySearchCenter) * refPicPtr->stride_y;
 
     hmeMvSad = NxMSadKernel_funcPtrArray[asm_type][sb_width >> 3](
         context_ptr->sb_src_ptr,
         context_ptr->sb_src_stride << subsampleSad,
-        &(refPicPtr->bufferY[searchRegionIndex]),
-        refPicPtr->strideY << subsampleSad,
+        &(refPicPtr->buffer_y[searchRegionIndex]),
+        refPicPtr->stride_y << subsampleSad,
         sb_height >> subsampleSad,
         sb_width);
 
@@ -5910,14 +5910,14 @@ static void hme_mv_center_check(
     // O pos
 
     search_region_index = (int16_t)ref_pic_ptr->origin_x + origin_x +
-        ((int16_t)ref_pic_ptr->origin_y + origin_y) * ref_pic_ptr->strideY;
+        ((int16_t)ref_pic_ptr->origin_y + origin_y) * ref_pic_ptr->stride_y;
 
     uint32_t sub_sampled_sad = 1;
     uint64_t zero_mv_sad = NxMSadKernel_funcPtrArray[asm_type][sb_width >> 3](
         context_ptr->sb_src_ptr,
         context_ptr->sb_src_stride << sub_sampled_sad,
-        &(ref_pic_ptr->bufferY[search_region_index]),
-        ref_pic_ptr->strideY << sub_sampled_sad,
+        &(ref_pic_ptr->buffer_y[search_region_index]),
+        ref_pic_ptr->stride_y << sub_sampled_sad,
         sb_height >> sub_sampled_sad,
         sb_width);
 
@@ -5951,8 +5951,8 @@ static void hme_mv_center_check(
     uint64_t mv_a_sad = NxMSadKernel_funcPtrArray[asm_type][sb_width >> 3](
         context_ptr->sb_src_ptr,
         context_ptr->sb_src_stride << sub_sampled_sad,
-        &(ref_pic_ptr->bufferY[search_region_index]),
-        ref_pic_ptr->strideY << sub_sampled_sad,
+        &(ref_pic_ptr->buffer_y[search_region_index]),
+        ref_pic_ptr->stride_y << sub_sampled_sad,
         sb_height >> sub_sampled_sad,
         sb_width);
 
@@ -5983,13 +5983,13 @@ static void hme_mv_center_check(
 
 
     search_region_index = (int16_t)(ref_pic_ptr->origin_x + origin_x) + search_center_x +
-        ((int16_t)(ref_pic_ptr->origin_y + origin_y) + search_center_y) * ref_pic_ptr->strideY;
+        ((int16_t)(ref_pic_ptr->origin_y + origin_y) + search_center_y) * ref_pic_ptr->stride_y;
 
     uint64_t mv_b_sad = NxMSadKernel_funcPtrArray[asm_type][sb_width >> 3](
         context_ptr->sb_src_ptr,
         context_ptr->sb_src_stride << sub_sampled_sad,
-        &(ref_pic_ptr->bufferY[search_region_index]),
-        ref_pic_ptr->strideY << sub_sampled_sad,
+        &(ref_pic_ptr->buffer_y[search_region_index]),
+        ref_pic_ptr->stride_y << sub_sampled_sad,
         sb_height >> sub_sampled_sad,
         sb_width);
 
@@ -6022,13 +6022,13 @@ static void hme_mv_center_check(
         search_center_y;
 
     search_region_index = (int16_t)(ref_pic_ptr->origin_x + origin_x) + search_center_x +
-        ((int16_t)(ref_pic_ptr->origin_y + origin_y) + search_center_y) * ref_pic_ptr->strideY;
+        ((int16_t)(ref_pic_ptr->origin_y + origin_y) + search_center_y) * ref_pic_ptr->stride_y;
 
     uint64_t mv_c_sad = NxMSadKernel_funcPtrArray[asm_type][sb_width >> 3](
         context_ptr->sb_src_ptr,
         context_ptr->sb_src_stride << sub_sampled_sad,
-        &(ref_pic_ptr->bufferY[search_region_index]),
-        ref_pic_ptr->strideY << sub_sampled_sad,
+        &(ref_pic_ptr->buffer_y[search_region_index]),
+        ref_pic_ptr->stride_y << sub_sampled_sad,
         sb_height >> sub_sampled_sad,
         sb_width);
 
@@ -6056,12 +6056,12 @@ static void hme_mv_center_check(
         search_center_y - ((origin_y + search_center_y) - ((int16_t)ref_pic_ptr->height - 1)) :
         search_center_y;
     search_region_index = (int16_t)(ref_pic_ptr->origin_x + origin_x) + search_center_x +
-        ((int16_t)(ref_pic_ptr->origin_y + origin_y) + search_center_y) * ref_pic_ptr->strideY;
+        ((int16_t)(ref_pic_ptr->origin_y + origin_y) + search_center_y) * ref_pic_ptr->stride_y;
     uint64_t mv_d_sad = NxMSadKernel_funcPtrArray[asm_type][sb_width >> 3](
         context_ptr->sb_src_ptr,
         context_ptr->sb_src_stride << sub_sampled_sad,
-        &(ref_pic_ptr->bufferY[search_region_index]),
-        ref_pic_ptr->strideY << sub_sampled_sad,
+        &(ref_pic_ptr->buffer_y[search_region_index]),
+        ref_pic_ptr->stride_y << sub_sampled_sad,
         sb_height >> sub_sampled_sad,
         sb_width);
 
@@ -6092,13 +6092,13 @@ static void hme_mv_center_check(
             search_center_y;
 
         search_region_index = (int16_t)(ref_pic_ptr->origin_x + origin_x) + search_center_x +
-            ((int16_t)(ref_pic_ptr->origin_y + origin_y) + search_center_y) * ref_pic_ptr->strideY;
+            ((int16_t)(ref_pic_ptr->origin_y + origin_y) + search_center_y) * ref_pic_ptr->stride_y;
 
         uint64_t direct_mv_sad = NxMSadKernel_funcPtrArray[asm_type][sb_width >> 3](
             context_ptr->sb_src_ptr,
             context_ptr->sb_src_stride << sub_sampled_sad,
-            &(ref_pic_ptr->bufferY[search_region_index]),
-            ref_pic_ptr->strideY << sub_sampled_sad,
+            &(ref_pic_ptr->buffer_y[search_region_index]),
+            ref_pic_ptr->stride_y << sub_sampled_sad,
             sb_height >> sub_sampled_sad,
             sb_width);
 
@@ -6723,15 +6723,15 @@ EbErrorType MotionEstimateLcu(
 
             xTopLeftSearchRegion = (int16_t)(refPicPtr->origin_x + sb_origin_x) - (ME_FILTER_TAP >> 1) + x_search_area_origin;
             yTopLeftSearchRegion = (int16_t)(refPicPtr->origin_y + sb_origin_y) - (ME_FILTER_TAP >> 1) + y_search_area_origin;
-            searchRegionIndex = (xTopLeftSearchRegion)+(yTopLeftSearchRegion)* refPicPtr->strideY;
+            searchRegionIndex = (xTopLeftSearchRegion)+(yTopLeftSearchRegion)* refPicPtr->stride_y;
 
-            context_ptr->integer_buffer_ptr[listIndex][0] = &(refPicPtr->bufferY[searchRegionIndex]);
-            context_ptr->interpolated_full_stride[listIndex][0] = refPicPtr->strideY;
+            context_ptr->integer_buffer_ptr[listIndex][0] = &(refPicPtr->buffer_y[searchRegionIndex]);
+            context_ptr->interpolated_full_stride[listIndex][0] = refPicPtr->stride_y;
 
             // Move to the top left of the search region
             xTopLeftSearchRegion = (int16_t)(refPicPtr->origin_x + sb_origin_x) + x_search_area_origin;
             yTopLeftSearchRegion = (int16_t)(refPicPtr->origin_y + sb_origin_y) + y_search_area_origin;
-            searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * refPicPtr->strideY;
+            searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * refPicPtr->stride_y;
 
             {
                 {
@@ -6882,7 +6882,7 @@ EbErrorType MotionEstimateLcu(
                         // Move to the top left of the search region
                         xTopLeftSearchRegion = (int16_t)(refPicPtr->origin_x + sb_origin_x) + x_search_area_origin;
                         yTopLeftSearchRegion = (int16_t)(refPicPtr->origin_y + sb_origin_y) + y_search_area_origin;
-                        searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * refPicPtr->strideY;
+                        searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * refPicPtr->stride_y;
 
                         // Interpolate the search region for Half-Pel Refinements
                         // H - AVC Style
@@ -7228,22 +7228,22 @@ uint64_t SixteenthDecimatedSearch(
 
     xTopLeftSearchRegion = ((int16_t)sixteenthRefPicPtr->origin_x + origin_x) + x_search_area_origin;
     yTopLeftSearchRegion = ((int16_t)sixteenthRefPicPtr->origin_y + origin_y) + y_search_area_origin;
-    searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * sixteenthRefPicPtr->strideY;
+    searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * sixteenthRefPicPtr->stride_y;
 
     if (((search_area_width & 15) == 0) && (asm_type == ASM_AVX2))
     {
         SadLoopKernel_AVX2_HmeL0_INTRIN(
             &context_ptr->sixteenth_sb_buffer[0],
             context_ptr->sixteenth_sb_buffer_stride * 2,
-            &sixteenthRefPicPtr->bufferY[searchRegionIndex],
-            sixteenthRefPicPtr->strideY * 2,
+            &sixteenthRefPicPtr->buffer_y[searchRegionIndex],
+            sixteenthRefPicPtr->stride_y * 2,
             sb_height >> 1, sb_width,
             // results
             &bestSad,
             &xSearchCenter,
             &ySearchCenter,
             // range
-            sixteenthRefPicPtr->strideY,
+            sixteenthRefPicPtr->stride_y,
             search_area_width,
             search_area_height
         );
@@ -7255,15 +7255,15 @@ uint64_t SixteenthDecimatedSearch(
         SadLoopKernel_SSE4_1_HmeL0_INTRIN(
             &context_ptr->sixteenth_sb_buffer[0],
             context_ptr->sixteenth_sb_buffer_stride * 2,
-            &sixteenthRefPicPtr->bufferY[searchRegionIndex],
-            sixteenthRefPicPtr->strideY * 2,
+            &sixteenthRefPicPtr->buffer_y[searchRegionIndex],
+            sixteenthRefPicPtr->stride_y * 2,
             sb_height >> 1, sb_width,
             /* results */
             &bestSad,
             &xSearchCenter,
             &ySearchCenter,
             /* range */
-            sixteenthRefPicPtr->strideY,
+            sixteenthRefPicPtr->stride_y,
             search_area_width,
             search_area_height
         );
@@ -7274,15 +7274,15 @@ uint64_t SixteenthDecimatedSearch(
         NxMSadLoopKernel_funcPtrArray[asm_type](
             &context_ptr->sixteenth_sb_buffer[0],
             context_ptr->sixteenth_sb_buffer_stride * 2,
-            &sixteenthRefPicPtr->bufferY[searchRegionIndex],
-            sixteenthRefPicPtr->strideY * 2,
+            &sixteenthRefPicPtr->buffer_y[searchRegionIndex],
+            sixteenthRefPicPtr->stride_y * 2,
             sb_height >> 1, sb_width,
             /* results */
             &bestSad,
             &xSearchCenter,
             &ySearchCenter,
             /* range */
-            sixteenthRefPicPtr->strideY,
+            sixteenthRefPicPtr->stride_y,
             search_area_width,
             search_area_height
             );
@@ -7753,7 +7753,7 @@ int32_t GetInterIntraSadDistance(
 
 {
     int32_t   sadDiff = 0;
-    uint8_t   *src = &(input_ptr->bufferY[(input_ptr->origin_y + cu_origin_y) * input_ptr->strideY + (input_ptr->origin_x + cu_origin_x)]);
+    uint8_t   *src = &(input_ptr->buffer_y[(input_ptr->origin_y + cu_origin_y) * input_ptr->stride_y + (input_ptr->origin_x + cu_origin_x)]);
     // Compute Prediction & SAD for Intra Planer
 
     // Intra Prediction
@@ -7766,7 +7766,7 @@ int32_t GetInterIntraSadDistance(
     //Distortion
     stage1SadArray[0] = (uint32_t)NxMSadKernel_funcPtrArray[asm_type][cu_size >> 3]( // Always SAD without weighting
         src,
-        input_ptr->strideY,
+        input_ptr->stride_y,
         &(context_ptr->me_context_ptr->sb_buffer[0]),
         BLOCK_SIZE_64,
         cu_size,
@@ -7922,7 +7922,7 @@ uint32_t UpdateNeighborDcIntraPred(
     UpdateNeighborSamplesArrayOpenLoop(
         context_ptr->intra_ref_ptr,
         input_ptr,
-        input_ptr->strideY,
+        input_ptr->stride_y,
         cu_origin_x,
         cu_origin_y,
         cu_size);
@@ -7935,8 +7935,8 @@ uint32_t UpdateNeighborDcIntraPred(
         asm_type);
 
     distortion = (uint32_t)NxMSadKernel_funcPtrArray[asm_type][cu_size >> 3]( // Always SAD without weighting
-        &(input_ptr->bufferY[(input_ptr->origin_y + cu_origin_y) * input_ptr->strideY + (input_ptr->origin_x + cu_origin_x)]),
-        input_ptr->strideY,
+        &(input_ptr->buffer_y[(input_ptr->origin_y + cu_origin_y) * input_ptr->stride_y + (input_ptr->origin_x + cu_origin_x)]),
+        input_ptr->stride_y,
         &(context_ptr->me_context_ptr->sb_buffer[0]),
         BLOCK_SIZE_64,
         cu_size,
@@ -7966,11 +7966,11 @@ EbErrorType OpenLoopIntraDC(
     {
         if (asm_type == ASM_AVX2)
         {
-            OisCuPtr[0].distortion = (uint32_t)UpdateNeighborDcIntraPred_AVX2_INTRIN(
+            OisCuPtr[0].distortion = (uint32_t)update_neighbor_dc_intra_pred_avx2_intrin(
                 context_ptr->intra_ref_ptr->y_intra_reference_array_reverse,
                 input_ptr->height,
-                input_ptr->strideY,
-                input_ptr->bufferY,
+                input_ptr->stride_y,
+                input_ptr->buffer_y,
                 input_ptr->origin_y,
                 input_ptr->origin_x,
                 cu_origin_x,
@@ -8091,7 +8091,7 @@ EbErrorType OpenLoopIntraSearchLcu(
                 UpdateNeighborSamplesArrayOpenLoop(
                     context_ptr->intra_ref_ptr,
                     input_ptr,
-                    input_ptr->strideY,
+                    input_ptr->stride_y,
                     cu_origin_x,
                     cu_origin_y,
                     cu_size);
@@ -8107,8 +8107,8 @@ EbErrorType OpenLoopIntraSearchLcu(
 
                     //Distortion
                     OisCuPtr[0].distortion = (uint32_t)NxMSadKernel_funcPtrArray[asm_type][cu_size >> 3]( // Always SAD without weighting
-                        &(input_ptr->bufferY[(input_ptr->origin_y + cu_origin_y) * input_ptr->strideY + (input_ptr->origin_x + cu_origin_x)]),
-                        input_ptr->strideY,
+                        &(input_ptr->buffer_y[(input_ptr->origin_y + cu_origin_y) * input_ptr->stride_y + (input_ptr->origin_x + cu_origin_x)]),
+                        input_ptr->stride_y,
                         &(context_ptr->me_context_ptr->sb_buffer[0]),
                         BLOCK_SIZE_64,
                         cu_size,
@@ -8124,8 +8124,8 @@ EbErrorType OpenLoopIntraSearchLcu(
                     IntraOpenLoopSearchTheseModesOutputBest(cu_size,
                         context_ptr,
                         asm_type,
-                        &(input_ptr->bufferY[(input_ptr->origin_y + cu_origin_y) * input_ptr->strideY + (input_ptr->origin_x + cu_origin_x)]),
-                        input_ptr->strideY,
+                        &(input_ptr->buffer_y[(input_ptr->origin_y + cu_origin_y) * input_ptr->stride_y + (input_ptr->origin_x + cu_origin_x)]),
+                        input_ptr->stride_y,
                         7, // PL ,DC ,  2 , H , 18, V , 34
                         iSliceModesArray,
                         stage1SadArray,
@@ -8207,7 +8207,7 @@ EbErrorType OpenLoopIntraSearchLcu(
                     UpdateNeighborSamplesArrayOpenLoop(
                         context_ptr->intra_ref_ptr,
                         input_ptr,
-                        input_ptr->strideY,
+                        input_ptr->stride_y,
                         cu_origin_x,
                         cu_origin_y,
                         cu_size);
@@ -8235,8 +8235,8 @@ EbErrorType OpenLoopIntraSearchLcu(
 
                         //Distortion
                         sadDistortion = (uint32_t)NxMSadKernel_funcPtrArray[asm_type][cu_size >> 3](
-                            &(input_ptr->bufferY[(input_ptr->origin_y + cu_origin_y) * input_ptr->strideY + (input_ptr->origin_x + cu_origin_x)]),
-                            input_ptr->strideY,
+                            &(input_ptr->buffer_y[(input_ptr->origin_y + cu_origin_y) * input_ptr->stride_y + (input_ptr->origin_x + cu_origin_x)]),
+                            input_ptr->stride_y,
                             &(context_ptr->me_context_ptr->sb_buffer[0]),
                             BLOCK_SIZE_64,
                             cu_size,
@@ -8324,8 +8324,8 @@ EbErrorType OpenLoopIntraSearchLcu(
                             IntraOpenLoopSearchTheseModesOutputBest(cu_size,
                                 context_ptr,
                                 asm_type,
-                                &(input_ptr->bufferY[(input_ptr->origin_y + cu_origin_y) * input_ptr->strideY + (input_ptr->origin_x + cu_origin_x)]),
-                                input_ptr->strideY,
+                                &(input_ptr->buffer_y[(input_ptr->origin_y + cu_origin_y) * input_ptr->stride_y + (input_ptr->origin_x + cu_origin_x)]),
+                                input_ptr->stride_y,
                                 stage1NumOfModes,
                                 stage1ModesArray,
                                 stage1SadArray,

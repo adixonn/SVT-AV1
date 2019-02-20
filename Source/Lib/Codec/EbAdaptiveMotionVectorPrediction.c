@@ -1102,7 +1102,7 @@ static INLINE void integer_mv_precision(MV *mv) {
 static INLINE IntMv gm_get_motion_vector(
     const EbWarpedMotionParams *gm,
     int32_t allow_hp,
-    BlockSize bsize,
+    block_size bsize,
     int32_t mi_col, int32_t mi_row,
     int32_t is_integer)
 
@@ -1161,7 +1161,7 @@ void generate_av1_mvp_table(
     xd->n8_h = blk_geom->bheight >> MI_SIZE_LOG2;
     xd->n4_w = blk_geom->bwidth >> MI_SIZE_LOG2;
     xd->n4_h = blk_geom->bheight >> MI_SIZE_LOG2;
-    BlockSize bsize = blk_geom->bsize;
+    block_size bsize = blk_geom->bsize;
     const int32_t bw = mi_size_wide[bsize];
     const int32_t bh = mi_size_high[bsize];
 
@@ -1508,7 +1508,7 @@ int select_samples(
     int *pts,
     int *pts_inref,
     int len,
-    BlockSize bsize)
+    block_size bsize)
 {
   const uint8_t bw = block_size_wide[bsize];
   const uint8_t bh = block_size_high[bsize];
@@ -1739,7 +1739,7 @@ EbBool warped_motion_parameters(
     uint16_t                         *num_samples)
 {
     MacroBlockD  *xd = cu_ptr->av1xd;
-    BlockSize bsize = blk_geom->bsize;
+    block_size bsize = blk_geom->bsize;
     EbBool apply_wm = EB_FALSE;
 
     int pts[SAMPLES_ARRAY_SIZE], pts_inref[SAMPLES_ARRAY_SIZE];

@@ -60,7 +60,7 @@ extern void av1_predict_intra_block(
     int32_t row_off,
 #endif
     int32_t plane,
-    BlockSize bsize,
+    block_size bsize,
     uint32_t bl_org_x_pict,
     uint32_t bl_org_y_pict,
     uint32_t bl_org_x_mb,
@@ -84,7 +84,7 @@ void av1_predict_intra_block_16bit(
     int32_t col_off,
     int32_t row_off,
     int32_t plane,
-    BlockSize bsize,
+    block_size bsize,
     uint32_t bl_org_x_pict,
     uint32_t bl_org_y_pict);
 #endif
@@ -327,8 +327,8 @@ static void EncodePassUpdateReconSampleNeighborArrays(
             // Recon Samples - Luma
             NeighborArrayUnit16bitSampleWrite(
                 lumaReconSampleNeighborArray,
-                (uint16_t*)(reconBuffer->bufferY),
-                reconBuffer->strideY,
+                (uint16_t*)(reconBuffer->buffer_y),
+                reconBuffer->stride_y,
                 reconBuffer->origin_x + origin_x,
                 reconBuffer->origin_y + origin_y,
                 origin_x,
@@ -374,8 +374,8 @@ static void EncodePassUpdateReconSampleNeighborArrays(
             // Recon Samples - Luma
             NeighborArrayUnitSampleWrite(
                 lumaReconSampleNeighborArray,
-                reconBuffer->bufferY,
-                reconBuffer->strideY,
+                reconBuffer->buffer_y,
+                reconBuffer->stride_y,
                 reconBuffer->origin_x + origin_x,
                 reconBuffer->origin_y + origin_y,
                 origin_x,
@@ -590,10 +590,10 @@ static void Av1EncodeLoop(
     uint32_t                 round_origin_x = (origin_x >> 3) << 3;// for Chroma blocks with size of 4
     uint32_t                 round_origin_y = (origin_y >> 3) << 3;// for Chroma blocks with size of 4
 
-    const uint32_t inputLumaOffset = ((origin_y + input_samples->origin_y)          * input_samples->strideY) + (origin_x + input_samples->origin_x);
+    const uint32_t inputLumaOffset = ((origin_y + input_samples->origin_y)          * input_samples->stride_y) + (origin_x + input_samples->origin_x);
     const uint32_t inputCbOffset = (((round_origin_y + input_samples->origin_y) >> 1)    * input_samples->strideCb) + ((round_origin_x + input_samples->origin_x) >> 1);
     const uint32_t inputCrOffset = (((round_origin_y + input_samples->origin_y) >> 1)    * input_samples->strideCr) + ((round_origin_x + input_samples->origin_x) >> 1);
-    const uint32_t predLumaOffset = ((predSamples->origin_y + origin_y)        * predSamples->strideY) + (predSamples->origin_x + origin_x);
+    const uint32_t predLumaOffset = ((predSamples->origin_y + origin_y)        * predSamples->stride_y) + (predSamples->origin_x + origin_x);
     const uint32_t predCbOffset = (((predSamples->origin_y + round_origin_y) >> 1)  * predSamples->strideCb) + ((predSamples->origin_x + round_origin_x) >> 1);
     const uint32_t predCrOffset = (((predSamples->origin_y + round_origin_y) >> 1)  * predSamples->strideCr) + ((predSamples->origin_x + round_origin_x) >> 1);
 
@@ -625,12 +625,12 @@ static void Av1EncodeLoop(
     {
 
         ResidualKernel(
-            input_samples->bufferY + inputLumaOffset,
-            input_samples->strideY,
-            predSamples->bufferY + predLumaOffset,
-            predSamples->strideY,
-            ((int16_t*)residual16bit->bufferY) + scratchLumaOffset,
-            residual16bit->strideY,
+            input_samples->buffer_y + inputLumaOffset,
+            input_samples->stride_y,
+            predSamples->buffer_y + predLumaOffset,
+            predSamples->stride_y,
+            ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
+            residual16bit->stride_y,
             context_ptr->blk_geom->tx_width[context_ptr->txb_itr],
             context_ptr->blk_geom->tx_height[context_ptr->txb_itr]);
 #if TX_SEARCH_LEVELS
@@ -673,9 +673,9 @@ static void Av1EncodeLoop(
 #endif
 
         Av1EstimateTransform(
-            ((int16_t*)residual16bit->bufferY) + scratchLumaOffset,
-            residual16bit->strideY,
-            ((tran_low_t*)transform16bit->bufferY) + coeff1dOffset,
+            ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
+            residual16bit->stride_y,
+            ((tran_low_t*)transform16bit->buffer_y) + coeff1dOffset,
             NOT_USED_VALUE,
             context_ptr->blk_geom->txsize[context_ptr->txb_itr],
             &context_ptr->three_quad_energy,
@@ -688,10 +688,10 @@ static void Av1EncodeLoop(
 
         Av1QuantizeInvQuantize(
             sb_ptr->picture_control_set_ptr,
-            ((tran_low_t*)transform16bit->bufferY) + coeff1dOffset,
+            ((tran_low_t*)transform16bit->buffer_y) + coeff1dOffset,
             NOT_USED_VALUE,
-            ((int32_t*)coeffSamplesTB->bufferY) + coeff1dOffset,
-            ((int32_t*)inverse_quant_buffer->bufferY) + coeff1dOffset,
+            ((int32_t*)coeffSamplesTB->buffer_y) + coeff1dOffset,
+            ((int32_t*)inverse_quant_buffer->buffer_y) + coeff1dOffset,
             qp,
             context_ptr->blk_geom->tx_width[context_ptr->txb_itr],
             context_ptr->blk_geom->tx_height[context_ptr->txb_itr],
@@ -727,19 +727,19 @@ static void Av1EncodeLoop(
 
         if (cu_ptr->prediction_mode_flag == INTRA_MODE && cu_ptr->prediction_unit_array->intra_chroma_mode == UV_CFL_PRED) {
             EbPictureBufferDesc_t *reconSamples = predSamples;
-            uint32_t reconLumaOffset = (reconSamples->origin_y + origin_y)            * reconSamples->strideY + (reconSamples->origin_x + origin_x);
+            uint32_t reconLumaOffset = (reconSamples->origin_y + origin_y)            * reconSamples->stride_y + (reconSamples->origin_x + origin_x);
 
             if (txb_ptr->y_has_coeff == EB_TRUE && cu_ptr->skip_flag == EB_FALSE) {
 
 
 
 
-                uint8_t     *predBuffer = predSamples->bufferY + predLumaOffset;
+                uint8_t     *predBuffer = predSamples->buffer_y + predLumaOffset;
 
                 Av1InvTransformRecon8bit(
-                    ((int32_t*)inverse_quant_buffer->bufferY) + coeff1dOffset,
+                    ((int32_t*)inverse_quant_buffer->buffer_y) + coeff1dOffset,
                     predBuffer,
-                    predSamples->strideY,
+                    predSamples->stride_y,
                     context_ptr->blk_geom->txsize[context_ptr->txb_itr],
                     txb_ptr->transform_type[PLANE_TYPE_Y],
                     PLANE_TYPE_Y,
@@ -749,8 +749,8 @@ static void Av1EncodeLoop(
 
             // Down sample Luma
             cfl_luma_subsampling_420_lbd_c(
-                reconSamples->bufferY + reconLumaOffset,
-                reconSamples->strideY,
+                reconSamples->buffer_y + reconLumaOffset,
+                reconSamples->stride_y,
                 context_ptr->pred_buf_q3,
                 context_ptr->blk_geom->tx_width[context_ptr->txb_itr],
                 context_ptr->blk_geom->tx_height[context_ptr->txb_itr]);
@@ -1009,7 +1009,7 @@ static void Av1EncodeLoop16bit(
     const uint32_t           inputLumaOffset = context_ptr->blk_geom->tx_org_x[context_ptr->txb_itr] + context_ptr->blk_geom->tx_org_y[context_ptr->txb_itr] * SB_STRIDE_Y;
     const uint32_t           inputCbOffset = ROUND_UV(context_ptr->blk_geom->tx_org_x[context_ptr->txb_itr]) / 2 + ROUND_UV(context_ptr->blk_geom->tx_org_y[context_ptr->txb_itr]) / 2 * SB_STRIDE_UV;
     const uint32_t           inputCrOffset = ROUND_UV(context_ptr->blk_geom->tx_org_x[context_ptr->txb_itr]) / 2 + ROUND_UV(context_ptr->blk_geom->tx_org_y[context_ptr->txb_itr]) / 2 * SB_STRIDE_UV;
-    const uint32_t           predLumaOffset = ((predSamples16bit->origin_y + origin_y)        * predSamples16bit->strideY) + (predSamples16bit->origin_x + origin_x);
+    const uint32_t           predLumaOffset = ((predSamples16bit->origin_y + origin_y)        * predSamples16bit->stride_y) + (predSamples16bit->origin_x + origin_x);
     const uint32_t           predCbOffset = (((predSamples16bit->origin_y + round_origin_y) >> 1)  * predSamples16bit->strideCb) + ((predSamples16bit->origin_x + round_origin_x) >> 1);
     const uint32_t           predCrOffset = (((predSamples16bit->origin_y + round_origin_y) >> 1)  * predSamples16bit->strideCr) + ((predSamples16bit->origin_x + round_origin_x) >> 1);
     const uint32_t scratchLumaOffset = context_ptr->blk_geom->origin_x + context_ptr->blk_geom->origin_y * SB_STRIDE_Y;
@@ -1038,12 +1038,12 @@ static void Av1EncodeLoop16bit(
         if (component_mask == PICTURE_BUFFER_DESC_FULL_MASK || component_mask == PICTURE_BUFFER_DESC_LUMA_MASK) {
 
             ResidualKernel16bit(
-                ((uint16_t*)inputSamples16bit->bufferY) + inputLumaOffset,
-                inputSamples16bit->strideY,
-                ((uint16_t*)predSamples16bit->bufferY) + predLumaOffset,
-                predSamples16bit->strideY,
-                ((int16_t*)residual16bit->bufferY) + scratchLumaOffset,
-                residual16bit->strideY,
+                ((uint16_t*)inputSamples16bit->buffer_y) + inputLumaOffset,
+                inputSamples16bit->stride_y,
+                ((uint16_t*)predSamples16bit->buffer_y) + predLumaOffset,
+                predSamples16bit->stride_y,
+                ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
+                residual16bit->stride_y,
                 context_ptr->blk_geom->tx_width[context_ptr->txb_itr],
                 context_ptr->blk_geom->tx_height[context_ptr->txb_itr]);
 
@@ -1086,9 +1086,9 @@ static void Av1EncodeLoop16bit(
 
 
             Av1EstimateTransform(
-                ((int16_t*)residual16bit->bufferY) + scratchLumaOffset,
-                residual16bit->strideY,
-                ((tran_low_t*)transform16bit->bufferY) + coeff1dOffset,
+                ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
+                residual16bit->stride_y,
+                ((tran_low_t*)transform16bit->buffer_y) + coeff1dOffset,
                 NOT_USED_VALUE,
                 context_ptr->blk_geom->txsize[context_ptr->txb_itr],
                 &context_ptr->three_quad_energy,
@@ -1101,14 +1101,14 @@ static void Av1EncodeLoop16bit(
 
             Av1QuantizeInvQuantize(
                 sb_ptr->picture_control_set_ptr,
-                ((int32_t*)transform16bit->bufferY) + coeff1dOffset,
+                ((int32_t*)transform16bit->buffer_y) + coeff1dOffset,
                 NOT_USED_VALUE,
 #if QT_10BIT_SUPPORT
-                ((int32_t*)coeffSamplesTB->bufferY) + coeff1dOffset,
+                ((int32_t*)coeffSamplesTB->buffer_y) + coeff1dOffset,
 #else
-                ((int32_t*)coeffSamplesTB->bufferY) + scratchLumaOffset,
+                ((int32_t*)coeffSamplesTB->buffer_y) + scratchLumaOffset,
 #endif
-                ((int32_t*)inverse_quant_buffer->bufferY) + coeff1dOffset,
+                ((int32_t*)inverse_quant_buffer->buffer_y) + coeff1dOffset,
                 qp,
                 context_ptr->blk_geom->tx_width[context_ptr->txb_itr],
                 context_ptr->blk_geom->tx_height[context_ptr->txb_itr],
@@ -1145,14 +1145,14 @@ static void Av1EncodeLoop16bit(
 
             if (cu_ptr->prediction_mode_flag == INTRA_MODE && cu_ptr->prediction_unit_array->intra_chroma_mode == UV_CFL_PRED) {
                 EbPictureBufferDesc_t *reconSamples = predSamples16bit;
-                uint32_t reconLumaOffset = (reconSamples->origin_y + origin_y)            * reconSamples->strideY + (reconSamples->origin_x + origin_x);
+                uint32_t reconLumaOffset = (reconSamples->origin_y + origin_y)            * reconSamples->stride_y + (reconSamples->origin_x + origin_x);
                 if (txb_ptr->y_has_coeff == EB_TRUE && cu_ptr->skip_flag == EB_FALSE) {
 #if QT_10BIT_SUPPORT
-                    uint16_t     *predBuffer = ((uint16_t*)predSamples16bit->bufferY) + predLumaOffset;
+                    uint16_t     *predBuffer = ((uint16_t*)predSamples16bit->buffer_y) + predLumaOffset;
                     Av1InvTransformRecon(
-                        ((int32_t*)inverse_quant_buffer->bufferY) + coeff1dOffset,
+                        ((int32_t*)inverse_quant_buffer->buffer_y) + coeff1dOffset,
                         CONVERT_TO_BYTEPTR(predBuffer),
-                        predSamples->strideY,
+                        predSamples->stride_y,
                         context_ptr->blk_geom->txsize[context_ptr->txb_itr],
                         BIT_INCREMENT_10BIT,
                         txb_ptr->transform_type[PLANE_TYPE_Y],
@@ -1160,9 +1160,9 @@ static void Av1EncodeLoop16bit(
                         eob[0]);
 #else
                     Av1EstimateInvTransform(
-                        ((int32_t*)inverse_quant_buffer->bufferY) + scratchLumaOffset,
+                        ((int32_t*)inverse_quant_buffer->buffer_y) + scratchLumaOffset,
                         64,
-                        ((int32_t*)inverse_quant_buffer->bufferY) + scratchLumaOffset,
+                        ((int32_t*)inverse_quant_buffer->buffer_y) + scratchLumaOffset,
                         64,
                         txb_size,
                         transformScratchBuffer,
@@ -1173,12 +1173,12 @@ static void Av1EncodeLoop16bit(
                         0);
 
                     PictureAdditionKernel16Bit(
-                        ((uint16_t*)predSamples16bit->bufferY) + predLumaOffset,
-                        predSamples16bit->strideY,
-                        ((int32_t*)inverse_quant_buffer->bufferY) + scratchLumaOffset,
+                        ((uint16_t*)predSamples16bit->buffer_y) + predLumaOffset,
+                        predSamples16bit->stride_y,
+                        ((int32_t*)inverse_quant_buffer->buffer_y) + scratchLumaOffset,
                         64,
-                        ((uint16_t*)reconSamples->bufferY) + reconLumaOffset,
-                        reconSamples->strideY,
+                        ((uint16_t*)reconSamples->buffer_y) + reconLumaOffset,
+                        reconSamples->stride_y,
                         txb_size,
                         txb_size,
                         10);
@@ -1187,8 +1187,8 @@ static void Av1EncodeLoop16bit(
 
                 // Down sample Luma
                 cfl_luma_subsampling_420_hbd_c(
-                    ((uint16_t*)reconSamples->bufferY) + reconLumaOffset,
-                    reconSamples->strideY,
+                    ((uint16_t*)reconSamples->buffer_y) + reconLumaOffset,
+                    reconSamples->stride_y,
                     context_ptr->pred_buf_q3,
                     context_ptr->blk_geom->tx_width[context_ptr->txb_itr],
                     context_ptr->blk_geom->tx_height[context_ptr->txb_itr]);
@@ -1436,15 +1436,15 @@ static void Av1EncodeGenerateRecon(
         if (cu_ptr->prediction_mode_flag != INTRA_MODE || cu_ptr->prediction_unit_array->intra_chroma_mode != UV_CFL_PRED)
 
         {
-            predLumaOffset = (predSamples->origin_y + origin_y)             * predSamples->strideY + (predSamples->origin_x + origin_x);
+            predLumaOffset = (predSamples->origin_y + origin_y)             * predSamples->stride_y + (predSamples->origin_x + origin_x);
             if (txb_ptr->y_has_coeff == EB_TRUE && cu_ptr->skip_flag == EB_FALSE) {
                 (void)asm_type;
                 (void)transformScratchBuffer;
-                uint8_t     *predBuffer = predSamples->bufferY + predLumaOffset;
+                uint8_t     *predBuffer = predSamples->buffer_y + predLumaOffset;
                 Av1InvTransformRecon8bit(
-                    ((int32_t*)residual16bit->bufferY) + context_ptr->coded_area_sb,
+                    ((int32_t*)residual16bit->buffer_y) + context_ptr->coded_area_sb,
                     predBuffer,
-                    predSamples->strideY,
+                    predSamples->stride_y,
                     context_ptr->blk_geom->txsize[context_ptr->txb_itr],
                     txb_ptr->transform_type[PLANE_TYPE_Y],
                     PLANE_TYPE_Y,
@@ -1563,19 +1563,19 @@ static void Av1EncodeGenerateRecon16bit(
         if (cu_ptr->prediction_mode_flag != INTRA_MODE || cu_ptr->prediction_unit_array->intra_chroma_mode != UV_CFL_PRED)
 
         {
-            predLumaOffset = (predSamples->origin_y + origin_y)* predSamples->strideY + (predSamples->origin_x + origin_x);
+            predLumaOffset = (predSamples->origin_y + origin_y)* predSamples->stride_y + (predSamples->origin_x + origin_x);
 #if !QT_10BIT_SUPPORT
             scratchLumaOffset = context_ptr->blk_geom->tx_org_x[context_ptr->txb_itr] + context_ptr->blk_geom->tx_org_y[context_ptr->txb_itr] * SB_STRIDE_Y;
-            reconLumaOffset = (predSamples->origin_y + origin_y)* predSamples->strideY + (predSamples->origin_x + origin_x);
+            reconLumaOffset = (predSamples->origin_y + origin_y)* predSamples->stride_y + (predSamples->origin_x + origin_x);
 #endif
             if (txb_ptr->y_has_coeff == EB_TRUE && cu_ptr->skip_flag == EB_FALSE) {
 
 #if QT_10BIT_SUPPORT
-                uint16_t     *predBuffer = ((uint16_t*)predSamples->bufferY) + predLumaOffset;
+                uint16_t     *predBuffer = ((uint16_t*)predSamples->buffer_y) + predLumaOffset;
                 Av1InvTransformRecon(
-                    ((int32_t*)residual16bit->bufferY) + context_ptr->coded_area_sb,
+                    ((int32_t*)residual16bit->buffer_y) + context_ptr->coded_area_sb,
                     CONVERT_TO_BYTEPTR(predBuffer),
-                    predSamples->strideY,
+                    predSamples->stride_y,
                     context_ptr->blk_geom->txsize[context_ptr->txb_itr],
                     BIT_INCREMENT_10BIT,
                     txb_ptr->transform_type[PLANE_TYPE_Y],
@@ -1584,9 +1584,9 @@ static void Av1EncodeGenerateRecon16bit(
                 );
 #else
                 Av1EstimateInvTransform(
-                    ((int32_t*)residual16bit->bufferY) + scratchLumaOffset,
+                    ((int32_t*)residual16bit->buffer_y) + scratchLumaOffset,
                     64,
-                    ((int32_t*)residual16bit->bufferY) + scratchLumaOffset,
+                    ((int32_t*)residual16bit->buffer_y) + scratchLumaOffset,
                     64,
                     txb_size,
                     transformScratchBuffer,
@@ -1597,12 +1597,12 @@ static void Av1EncodeGenerateRecon16bit(
                     0);
 
                 PictureAdditionKernel16Bit(
-                    (uint16_t*)predSamples->bufferY + predLumaOffset,
-                    predSamples->strideY,
-                    ((int32_t*)residual16bit->bufferY) + scratchLumaOffset,
+                    (uint16_t*)predSamples->buffer_y + predLumaOffset,
+                    predSamples->stride_y,
+                    ((int32_t*)residual16bit->buffer_y) + scratchLumaOffset,
                     64,
-                    (uint16_t*)predSamples->bufferY + reconLumaOffset,
-                    predSamples->strideY,
+                    (uint16_t*)predSamples->buffer_y + reconLumaOffset,
+                    predSamples->stride_y,
                     txb_size,
                     txb_size,
                     10);
@@ -1777,16 +1777,16 @@ static void EncodeGenerateRecon(
     //**********************************
 
     {
-        predLumaOffset = (predSamples->origin_y + origin_y)             * predSamples->strideY + (predSamples->origin_x + origin_x);
+        predLumaOffset = (predSamples->origin_y + origin_y)             * predSamples->stride_y + (predSamples->origin_x + origin_x);
         scratchLumaOffset = ((origin_y & (63)) * 64) + (origin_x & (63));
-        reconLumaOffset = (reconSamples->origin_y + origin_y)            * reconSamples->strideY + (reconSamples->origin_x + origin_x);
+        reconLumaOffset = (reconSamples->origin_y + origin_y)            * reconSamples->stride_y + (reconSamples->origin_x + origin_x);
         if (txb_ptr->lumaCbf == EB_TRUE && cu_ptr->skip_flag == EB_FALSE) {
 
             EncodeInvTransform(
                 txb_ptr->trans_coeff_shape_luma == ONLY_DC_SHAPE || txb_ptr->is_only_dc[0],
-                ((int16_t*)residual16bit->bufferY) + scratchLumaOffset,
+                ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
                 64,
-                ((int16_t*)residual16bit->bufferY) + scratchLumaOffset,
+                ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
                 64,
                 txb_size,
                 transformScratchBuffer,
@@ -1795,12 +1795,12 @@ static void EncodeGenerateRecon(
                 asm_type);
 
             AdditionKernel_funcPtrArray[asm_type][txb_size >> 3](
-                predSamples->bufferY + predLumaOffset,
-                predSamples->strideY,
-                ((int16_t*)residual16bit->bufferY) + scratchLumaOffset,
+                predSamples->buffer_y + predLumaOffset,
+                predSamples->stride_y,
+                ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
                 64,
-                reconSamples->bufferY + reconLumaOffset,
-                reconSamples->strideY,
+                reconSamples->buffer_y + reconLumaOffset,
+                reconSamples->stride_y,
                 txb_size,
                 txb_size);
         }
@@ -1922,16 +1922,16 @@ static void EncodeGenerateRecon16bit(
     //**********************************
 
     {
-        predLumaOffset = (predSamples->origin_y + origin_y)* predSamples->strideY + (predSamples->origin_x + origin_x);
+        predLumaOffset = (predSamples->origin_y + origin_y)* predSamples->stride_y + (predSamples->origin_x + origin_x);
         scratchLumaOffset = ((origin_y & (63)) * 64) + (origin_x & (63));
-        reconLumaOffset = (predSamples->origin_y + origin_y)* predSamples->strideY + (predSamples->origin_x + origin_x);
+        reconLumaOffset = (predSamples->origin_y + origin_y)* predSamples->stride_y + (predSamples->origin_x + origin_x);
         if (txb_ptr->lumaCbf == EB_TRUE && cu_ptr->skip_flag == EB_FALSE) {
 
             EncodeInvTransform(
                 txb_ptr->trans_coeff_shape_luma == ONLY_DC_SHAPE || txb_ptr->is_only_dc[0],
-                ((int16_t*)residual16bit->bufferY) + scratchLumaOffset,
+                ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
                 64,
-                ((int16_t*)residual16bit->bufferY) + scratchLumaOffset,
+                ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
                 64,
                 txb_size,
                 transformScratchBuffer,
@@ -1940,12 +1940,12 @@ static void EncodeGenerateRecon16bit(
                 asm_type);
 
             AdditionKernel_funcPtrArray16bit[asm_type](
-                (uint16_t*)predSamples->bufferY + predLumaOffset,
-                predSamples->strideY,
-                ((int16_t*)residual16bit->bufferY) + scratchLumaOffset,
+                (uint16_t*)predSamples->buffer_y + predLumaOffset,
+                predSamples->stride_y,
+                ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
                 64,
-                (uint16_t*)predSamples->bufferY + reconLumaOffset,
-                predSamples->strideY,
+                (uint16_t*)predSamples->buffer_y + reconLumaOffset,
+                predSamples->stride_y,
                 txb_size,
                 txb_size);
 
@@ -2686,12 +2686,12 @@ void Store16bitInputSrc(
     uint16_t* fromPtr;
     uint16_t* toPtr;
 
-    fromPtr = (uint16_t*)context_ptr->input_sample16bit_buffer->bufferY;
-    toPtr = (uint16_t*)picture_control_set_ptr->input_frame16bit->bufferY + (lcuX + picture_control_set_ptr->input_frame16bit->origin_x) + (lcuY + picture_control_set_ptr->input_frame16bit->origin_y)*picture_control_set_ptr->input_frame16bit->strideY;
+    fromPtr = (uint16_t*)context_ptr->input_sample16bit_buffer->buffer_y;
+    toPtr = (uint16_t*)picture_control_set_ptr->input_frame16bit->buffer_y + (lcuX + picture_control_set_ptr->input_frame16bit->origin_x) + (lcuY + picture_control_set_ptr->input_frame16bit->origin_y)*picture_control_set_ptr->input_frame16bit->stride_y;
 
     for (rowIt = 0; rowIt < lcuH; rowIt++)
     {
-        memcpy(toPtr + rowIt * picture_control_set_ptr->input_frame16bit->strideY, fromPtr + rowIt * context_ptr->input_sample16bit_buffer->strideY, lcuW * 2);
+        memcpy(toPtr + rowIt * picture_control_set_ptr->input_frame16bit->stride_y, fromPtr + rowIt * context_ptr->input_sample16bit_buffer->stride_y, lcuW * 2);
     }
 
     lcuX = lcuX / 2;
@@ -2913,7 +2913,7 @@ EB_EXTERN void AV1EncodePass(
         if ((sequence_control_set_ptr->static_config.ten_bit_format == 1) || (sequence_control_set_ptr->static_config.compressed_ten_bit_format == 1))
         {
 
-            const uint32_t inputLumaOffset = ((sb_origin_y + inputPicture->origin_y)         * inputPicture->strideY) + (sb_origin_x + inputPicture->origin_x);
+            const uint32_t inputLumaOffset = ((sb_origin_y + inputPicture->origin_y)         * inputPicture->stride_y) + (sb_origin_x + inputPicture->origin_x);
             const uint32_t inputCbOffset = (((sb_origin_y + inputPicture->origin_y) >> 1)  * inputPicture->strideCb) + ((sb_origin_x + inputPicture->origin_x) >> 1);
             const uint32_t inputCrOffset = (((sb_origin_y + inputPicture->origin_y) >> 1)  * inputPicture->strideCr) + ((sb_origin_x + inputPicture->origin_x) >> 1);
             const uint16_t luma2BitWidth = inputPicture->width / 4;
@@ -2921,12 +2921,12 @@ EB_EXTERN void AV1EncodePass(
 
 
             CompressedPackLcu(
-                inputPicture->bufferY + inputLumaOffset,
-                inputPicture->strideY,
+                inputPicture->buffer_y + inputLumaOffset,
+                inputPicture->stride_y,
                 inputPicture->bufferBitIncY + sb_origin_y * luma2BitWidth + (sb_origin_x / 4)*sb_height,
                 sb_width / 4,
-                (uint16_t *)context_ptr->input_sample16bit_buffer->bufferY,
-                context_ptr->input_sample16bit_buffer->strideY,
+                (uint16_t *)context_ptr->input_sample16bit_buffer->buffer_y,
+                context_ptr->input_sample16bit_buffer->stride_y,
                 sb_width,
                 sb_height,
                 asm_type);
@@ -2956,7 +2956,7 @@ EB_EXTERN void AV1EncodePass(
         }
         else {
 
-            const uint32_t inputLumaOffset = ((sb_origin_y + inputPicture->origin_y)         * inputPicture->strideY) + (sb_origin_x + inputPicture->origin_x);
+            const uint32_t inputLumaOffset = ((sb_origin_y + inputPicture->origin_y)         * inputPicture->stride_y) + (sb_origin_x + inputPicture->origin_x);
             const uint32_t inputBitIncLumaOffset = ((sb_origin_y + inputPicture->origin_y)         * inputPicture->strideBitIncY) + (sb_origin_x + inputPicture->origin_x);
             const uint32_t inputCbOffset = (((sb_origin_y + inputPicture->origin_y) >> 1)  * inputPicture->strideCb) + ((sb_origin_x + inputPicture->origin_x) >> 1);
             const uint32_t inputBitIncCbOffset = (((sb_origin_y + inputPicture->origin_y) >> 1)  * inputPicture->strideBitIncCb) + ((sb_origin_x + inputPicture->origin_x) >> 1);
@@ -2964,12 +2964,12 @@ EB_EXTERN void AV1EncodePass(
             const uint32_t inputBitIncCrOffset = (((sb_origin_y + inputPicture->origin_y) >> 1)  * inputPicture->strideBitIncCr) + ((sb_origin_x + inputPicture->origin_x) >> 1);
 
             Pack2D_SRC(
-                inputPicture->bufferY + inputLumaOffset,
-                inputPicture->strideY,
+                inputPicture->buffer_y + inputLumaOffset,
+                inputPicture->stride_y,
                 inputPicture->bufferBitIncY + inputBitIncLumaOffset,
                 inputPicture->strideBitIncY,
-                (uint16_t *)context_ptr->input_sample16bit_buffer->bufferY,
-                context_ptr->input_sample16bit_buffer->strideY,
+                (uint16_t *)context_ptr->input_sample16bit_buffer->buffer_y,
+                context_ptr->input_sample16bit_buffer->stride_y,
                 sb_width,
                 sb_height,
                 asm_type);
@@ -4232,8 +4232,8 @@ EB_EXTERN void no_enc_dec_pass(
                     uint32_t  bwidth = context_ptr->blk_geom->tx_width[txb_itr] < 64 ? context_ptr->blk_geom->tx_width[txb_itr] : 32;
                     uint32_t  bheight = context_ptr->blk_geom->tx_height[txb_itr] < 64 ? context_ptr->blk_geom->tx_height[txb_itr] : 32;
 
-                    int32_t* srcPtr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferY)[txb_1d_offset]);
-                    int32_t* dst_ptr = &(((int32_t*)sb_ptr->quantized_coeff->bufferY)[context_ptr->coded_area_sb]);
+                    int32_t* srcPtr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->buffer_y)[txb_1d_offset]);
+                    int32_t* dst_ptr = &(((int32_t*)sb_ptr->quantized_coeff->buffer_y)[context_ptr->coded_area_sb]);
 
                     uint32_t j;
                     for (j = 0; j < bheight; j++)
@@ -4302,13 +4302,13 @@ EB_EXTERN void no_enc_dec_pass(
                     uint32_t  bwidth = context_ptr->blk_geom->bwidth;
                     uint32_t  bheight = context_ptr->blk_geom->bheight;
 
-                    uint8_t* srcPtr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->bufferY)[0]);
-                    uint8_t* dst_ptr = ref_pic->bufferY + ref_pic->origin_x + context_ptr->cu_origin_x + (ref_pic->origin_y + context_ptr->cu_origin_y)*ref_pic->strideY;
+                    uint8_t* srcPtr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->buffer_y)[0]);
+                    uint8_t* dst_ptr = ref_pic->buffer_y + ref_pic->origin_x + context_ptr->cu_origin_x + (ref_pic->origin_y + context_ptr->cu_origin_y)*ref_pic->stride_y;
 
                     uint32_t j;
                     for (j = 0; j < bheight; j++)
                     {
-                        memcpy(dst_ptr + j * ref_pic->strideY, srcPtr + j * 128, bwidth * sizeof(uint8_t));
+                        memcpy(dst_ptr + j * ref_pic->stride_y, srcPtr + j * 128, bwidth * sizeof(uint8_t));
                     }
 
                     if (context_ptr->blk_geom->has_uv)

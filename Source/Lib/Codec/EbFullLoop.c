@@ -971,14 +971,14 @@ void ProductFullLoop(
     {
         uint16_t tx_org_x = context_ptr->blk_geom->tx_org_x[txb_itr];
         uint16_t tx_org_y = context_ptr->blk_geom->tx_org_y[txb_itr];
-        tuOriginIndex = tx_org_x + (tx_org_y * candidateBuffer->residual_ptr->strideY);
+        tuOriginIndex = tx_org_x + (tx_org_y * candidateBuffer->residual_ptr->stride_y);
         yTuCoeffBits = 0;
 
         // Y: T Q iQ
         Av1EstimateTransform(
-            &(((int16_t*)candidateBuffer->residual_ptr->bufferY)[tuOriginIndex]),
-            candidateBuffer->residual_ptr->strideY,
-            &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->bufferY)[txb_1d_offset]),
+            &(((int16_t*)candidateBuffer->residual_ptr->buffer_y)[tuOriginIndex]),
+            candidateBuffer->residual_ptr->stride_y,
+            &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->buffer_y)[txb_1d_offset]),
             NOT_USED_VALUE,
             context_ptr->blk_geom->txsize[txb_itr],
             &context_ptr->three_quad_energy,
@@ -991,10 +991,10 @@ void ProductFullLoop(
 
         Av1QuantizeInvQuantize(
             picture_control_set_ptr,
-            &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->bufferY)[txb_1d_offset]),
+            &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->buffer_y)[txb_1d_offset]),
             NOT_USED_VALUE,
-            &(((int32_t*)candidateBuffer->residualQuantCoeffPtr->bufferY)[txb_1d_offset]),
-            &(((int32_t*)candidateBuffer->reconCoeffPtr->bufferY)[txb_1d_offset]),
+            &(((int32_t*)candidateBuffer->residualQuantCoeffPtr->buffer_y)[txb_1d_offset]),
+            &(((int32_t*)candidateBuffer->reconCoeffPtr->buffer_y)[txb_1d_offset]),
             qp,
             context_ptr->blk_geom->tx_width[txb_itr],
             context_ptr->blk_geom->tx_height[txb_itr],
@@ -1012,7 +1012,7 @@ void ProductFullLoop(
             candidateBuffer->candidate_ptr->transform_type[PLANE_TYPE_Y],
             cleanSparseCoeffFlag);
 
-        candidateBuffer->candidate_ptr->quantized_dc[0] = (((int32_t*)candidateBuffer->residualQuantCoeffPtr->bufferY)[txb_1d_offset]);
+        candidateBuffer->candidate_ptr->quantized_dc[0] = (((int32_t*)candidateBuffer->residualQuantCoeffPtr->buffer_y)[txb_1d_offset]);
 
 
 
@@ -1208,14 +1208,14 @@ void ProductFullLoopTxSearch(
 
 
         {
-            tuOriginIndex = context_ptr->blk_geom->origin_x + (context_ptr->blk_geom->origin_y * candidateBuffer->residual_ptr->strideY);
+            tuOriginIndex = context_ptr->blk_geom->origin_x + (context_ptr->blk_geom->origin_y * candidateBuffer->residual_ptr->stride_y);
             yTuCoeffBits = 0;
             // Y: T Q iQ
             Av1EstimateTransform(
-                &(((int16_t*)candidateBuffer->residual_ptr->bufferY)[tuOriginIndex]),
-                candidateBuffer->residual_ptr->strideY,
+                &(((int16_t*)candidateBuffer->residual_ptr->buffer_y)[tuOriginIndex]),
+                candidateBuffer->residual_ptr->stride_y,
 
-                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->bufferY)[tuOriginIndex]),
+                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->buffer_y)[tuOriginIndex]),
                 NOT_USED_VALUE,
                 context_ptr->blk_geom->txsize[txb_itr],
                 &context_ptr->three_quad_energy,
@@ -1228,10 +1228,10 @@ void ProductFullLoopTxSearch(
 
             Av1QuantizeInvQuantize(
                 picture_control_set_ptr,
-                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->bufferY)[tuOriginIndex]),
+                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->buffer_y)[tuOriginIndex]),
                 NOT_USED_VALUE,
-                &(((int32_t*)candidateBuffer->residualQuantCoeffPtr->bufferY)[tuOriginIndex]),
-                &(((int32_t*)candidateBuffer->reconCoeffPtr->bufferY)[tuOriginIndex]),
+                &(((int32_t*)candidateBuffer->residualQuantCoeffPtr->buffer_y)[tuOriginIndex]),
+                &(((int32_t*)candidateBuffer->reconCoeffPtr->buffer_y)[tuOriginIndex]),
                 context_ptr->cu_ptr->qp,
                 context_ptr->blk_geom->bwidth,
                 context_ptr->blk_geom->bheight,
@@ -1249,7 +1249,7 @@ void ProductFullLoopTxSearch(
                 tx_type,
                 cleanSparseCoeffFlag);
 
-            candidateBuffer->candidate_ptr->quantized_dc[0] = (((int32_t*)candidateBuffer->residualQuantCoeffPtr->bufferY)[tuOriginIndex]);
+            candidateBuffer->candidate_ptr->quantized_dc[0] = (((int32_t*)candidateBuffer->residualQuantCoeffPtr->buffer_y)[tuOriginIndex]);
 
 
 #if TX_TYPE_FIX
@@ -1429,9 +1429,9 @@ void encode_pass_tx_search(
         yTuCoeffBits = 0;
 
         Av1EstimateTransform(
-            ((int16_t*)residual16bit->bufferY) + scratchLumaOffset,
-            residual16bit->strideY,
-            ((tran_low_t*)transform16bit->bufferY) + coeff1dOffset,
+            ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
+            residual16bit->stride_y,
+            ((tran_low_t*)transform16bit->buffer_y) + coeff1dOffset,
             NOT_USED_VALUE,
             context_ptr->blk_geom->txsize[context_ptr->txb_itr],
             &context_ptr->three_quad_energy,
@@ -1444,10 +1444,10 @@ void encode_pass_tx_search(
 
         Av1QuantizeInvQuantize(
             sb_ptr->picture_control_set_ptr,
-            ((tran_low_t*)transform16bit->bufferY) + coeff1dOffset,
+            ((tran_low_t*)transform16bit->buffer_y) + coeff1dOffset,
             NOT_USED_VALUE,
-            ((int32_t*)coeffSamplesTB->bufferY) + coeff1dOffset,
-            ((int32_t*)inverse_quant_buffer->bufferY) + coeff1dOffset,
+            ((int32_t*)coeffSamplesTB->buffer_y) + coeff1dOffset,
+            ((int32_t*)inverse_quant_buffer->buffer_y) + coeff1dOffset,
             qp,
             context_ptr->blk_geom->tx_width[context_ptr->txb_itr],
             context_ptr->blk_geom->tx_height[context_ptr->txb_itr],
@@ -1635,9 +1635,9 @@ void encode_pass_tx_search_hbd(
         yTuCoeffBits = 0;
 
         Av1EstimateTransform(
-            ((int16_t*)residual16bit->bufferY) + scratchLumaOffset,
-            residual16bit->strideY,
-            ((tran_low_t*)transform16bit->bufferY) + coeff1dOffset,
+            ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
+            residual16bit->stride_y,
+            ((tran_low_t*)transform16bit->buffer_y) + coeff1dOffset,
             NOT_USED_VALUE,
             context_ptr->blk_geom->txsize[context_ptr->txb_itr],
             &context_ptr->three_quad_energy,
@@ -1650,14 +1650,14 @@ void encode_pass_tx_search_hbd(
 
         Av1QuantizeInvQuantize(
             sb_ptr->picture_control_set_ptr,
-            ((int32_t*)transform16bit->bufferY) + coeff1dOffset,
+            ((int32_t*)transform16bit->buffer_y) + coeff1dOffset,
             NOT_USED_VALUE,
 #if QT_10BIT_SUPPORT
-            ((int32_t*)coeffSamplesTB->bufferY) + coeff1dOffset,
+            ((int32_t*)coeffSamplesTB->buffer_y) + coeff1dOffset,
 #else
-            ((int32_t*)coeffSamplesTB->bufferY) + scratchLumaOffset,
+            ((int32_t*)coeffSamplesTB->buffer_y) + scratchLumaOffset,
 #endif
-            ((int32_t*)inverse_quant_buffer->bufferY) + coeff1dOffset,
+            ((int32_t*)inverse_quant_buffer->buffer_y) + coeff1dOffset,
             qp,
             context_ptr->blk_geom->tx_width[context_ptr->txb_itr],
             context_ptr->blk_geom->tx_height[context_ptr->txb_itr],
@@ -1822,7 +1822,7 @@ void FullLoop_R(
 
 
         // NADER - TU
-        tuOriginIndex = txb_origin_x + txb_origin_y * candidateBuffer->residualQuantCoeffPtr->strideY;
+        tuOriginIndex = txb_origin_x + txb_origin_y * candidateBuffer->residualQuantCoeffPtr->stride_y;
         tuCbOriginIndex = (((txb_origin_x >> 3) << 3) + (((txb_origin_y >> 3) << 3) * candidateBuffer->residualQuantCoeffPtr->strideCb)) >> 1;
         tuCrOriginIndex = (((txb_origin_x >> 3) << 3) + (((txb_origin_y >> 3) << 3) * candidateBuffer->residualQuantCoeffPtr->strideCr)) >> 1;
 
@@ -1986,7 +1986,7 @@ void CuFullDistortionFastTuMode_R(
 
 
 
-        tuOriginIndex = txb_origin_x + txb_origin_y * candidateBuffer->residualQuantCoeffPtr->strideY;
+        tuOriginIndex = txb_origin_x + txb_origin_y * candidateBuffer->residualQuantCoeffPtr->stride_y;
         tuChromaOriginIndex = txb_1d_offset;
         // Reset the Bit Costs
         yTuCoeffBits = 0;

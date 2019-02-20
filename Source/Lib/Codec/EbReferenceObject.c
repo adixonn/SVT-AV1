@@ -81,8 +81,8 @@ void InitializeSamplesNeighboringReferencePicture(
     if (bit_depth == EB_10BIT) {
 
         InitializeSamplesNeighboringReferencePicture16Bit(
-            referenceObject->referencePicture16bit->bufferY,
-            referenceObject->referencePicture16bit->strideY,
+            referenceObject->referencePicture16bit->buffer_y,
+            referenceObject->referencePicture16bit->stride_y,
             referenceObject->referencePicture16bit->width,
             referenceObject->referencePicture16bit->height,
             pictureBufferDescInitDataPtr->left_padding,
@@ -107,8 +107,8 @@ void InitializeSamplesNeighboringReferencePicture(
     else {
 
         InitializeSamplesNeighboringReferencePicture8Bit(
-            referenceObject->referencePicture->bufferY,
-            referenceObject->referencePicture->strideY,
+            referenceObject->referencePicture->buffer_y,
+            referenceObject->referencePicture->stride_y,
             referenceObject->referencePicture->width,
             referenceObject->referencePicture->height,
             pictureBufferDescInitDataPtr->left_padding,

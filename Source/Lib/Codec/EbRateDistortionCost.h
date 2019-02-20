@@ -305,7 +305,7 @@ extern "C" {
         uint64_t                                 *y_coeff_bits,
         uint64_t                                 *cb_coeff_bits,
         uint64_t                                 *cr_coeff_bits,
-        BlockSize                              bsize);
+        block_size                              bsize);
 
 
 
@@ -321,7 +321,7 @@ extern "C" {
         uint64_t                                 *y_coeff_bits,
         uint64_t                                 *cb_coeff_bits,
         uint64_t                                 *cr_coeff_bits,
-        BlockSize                              bsize);
+        block_size                              bsize);
 
 
 

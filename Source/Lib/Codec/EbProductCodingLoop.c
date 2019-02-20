@@ -53,7 +53,7 @@ extern void av1_predict_intra_block_md(
     int32_t col_off,
     int32_t row_off,
     int32_t plane,
-    BlockSize bsize,
+    block_size bsize,
     uint32_t cuOrgX,
     uint32_t cuOrgY,
     uint32_t OrgX,
@@ -829,7 +829,7 @@ void AV1PerformInverseTransformReconLuma(
         tuTotalCount = blk_geom->txb_count;
         txb_itr = 0;
         uint32_t txb_1d_offset = 0;
-        uint32_t recLumaOffset = (blk_geom->origin_y) * candidateBuffer->recon_ptr->strideY +
+        uint32_t recLumaOffset = (blk_geom->origin_y) * candidateBuffer->recon_ptr->stride_y +
             (blk_geom->origin_x);
         do {
             txb_origin_x = context_ptr->blk_geom->tx_org_x[txb_itr];
@@ -837,25 +837,25 @@ void AV1PerformInverseTransformReconLuma(
             tu_width = context_ptr->blk_geom->tx_width[txb_itr];
             tu_height = context_ptr->blk_geom->tx_height[txb_itr];
 
-            tuOriginIndex = txb_origin_x + txb_origin_y * candidateBuffer->prediction_ptr->strideY;
+            tuOriginIndex = txb_origin_x + txb_origin_y * candidateBuffer->prediction_ptr->stride_y;
 
             uint32_t y_has_coeff = (candidateBuffer->candidate_ptr->y_has_coeff & (1 << txb_itr)) > 0;
 
             if (y_has_coeff) {
                 (void)context_ptr;
-                uint8_t     *predBuffer = &(candidateBuffer->prediction_ptr->bufferY[tuOriginIndex]);
-                uint8_t     *recBuffer = &(candidateBuffer->recon_ptr->bufferY[recLumaOffset]);
+                uint8_t     *predBuffer = &(candidateBuffer->prediction_ptr->buffer_y[tuOriginIndex]);
+                uint8_t     *recBuffer = &(candidateBuffer->recon_ptr->buffer_y[recLumaOffset]);
 
                 uint32_t j;
 
                 for (j = 0; j < tu_height; j++)
-                    memcpy(recBuffer + j * candidateBuffer->recon_ptr->strideY, predBuffer + j * candidateBuffer->prediction_ptr->strideY, tu_width);
+                    memcpy(recBuffer + j * candidateBuffer->recon_ptr->stride_y, predBuffer + j * candidateBuffer->prediction_ptr->stride_y, tu_width);
 
                 Av1InvTransformRecon8bit(
 
-                    &(((int32_t*)candidateBuffer->reconCoeffPtr->bufferY)[txb_1d_offset]),
+                    &(((int32_t*)candidateBuffer->reconCoeffPtr->buffer_y)[txb_1d_offset]),
                     recBuffer,
-                    candidateBuffer->recon_ptr->strideY,
+                    candidateBuffer->recon_ptr->stride_y,
                     context_ptr->blk_geom->txsize[txb_itr],
                     candidateBuffer->candidate_ptr->transform_type[PLANE_TYPE_Y],
                     PLANE_TYPE_Y,
@@ -918,22 +918,22 @@ void AV1PerformInverseTransformRecon(
             tu_width = context_ptr->blk_geom->tx_width[txb_itr];
             tu_height = context_ptr->blk_geom->tx_height[txb_itr];
             txb_ptr = &cu_ptr->transform_unit_array[tu_index];
-            recLumaOffset = context_ptr->blk_geom->tx_org_x[txb_itr] + context_ptr->blk_geom->tx_org_y[txb_itr] * candidateBuffer->recon_ptr->strideY;
+            recLumaOffset = context_ptr->blk_geom->tx_org_x[txb_itr] + context_ptr->blk_geom->tx_org_y[txb_itr] * candidateBuffer->recon_ptr->stride_y;
             recCbOffset = ((((context_ptr->blk_geom->tx_org_x[txb_itr] >> 3) << 3) + ((context_ptr->blk_geom->tx_org_y[txb_itr] >> 3) << 3) * candidateBuffer->recon_ptr->strideCb) >> 1);
             recCrOffset = ((((context_ptr->blk_geom->tx_org_x[txb_itr] >> 3) << 3) + ((context_ptr->blk_geom->tx_org_y[txb_itr] >> 3) << 3) * candidateBuffer->recon_ptr->strideCr) >> 1);
-            tuOriginIndex = txb_origin_x + txb_origin_y * candidateBuffer->prediction_ptr->strideY;
+            tuOriginIndex = txb_origin_x + txb_origin_y * candidateBuffer->prediction_ptr->stride_y;
             if (txb_ptr->y_has_coeff) {
-                uint8_t     *predBuffer = &(candidateBuffer->prediction_ptr->bufferY[tuOriginIndex]);
-                uint8_t     *recBuffer = &(candidateBuffer->recon_ptr->bufferY[recLumaOffset]);
+                uint8_t     *predBuffer = &(candidateBuffer->prediction_ptr->buffer_y[tuOriginIndex]);
+                uint8_t     *recBuffer = &(candidateBuffer->recon_ptr->buffer_y[recLumaOffset]);
                 uint32_t     j;
 
                 for (j = 0; j < tu_height; j++)
-                    memcpy(recBuffer + j * candidateBuffer->recon_ptr->strideY, predBuffer + j * candidateBuffer->prediction_ptr->strideY, tu_width);
+                    memcpy(recBuffer + j * candidateBuffer->recon_ptr->stride_y, predBuffer + j * candidateBuffer->prediction_ptr->stride_y, tu_width);
 
                 Av1InvTransformRecon8bit(
-                    &(((int32_t*)candidateBuffer->reconCoeffPtr->bufferY)[txb_1d_offset]),
+                    &(((int32_t*)candidateBuffer->reconCoeffPtr->buffer_y)[txb_1d_offset]),
                     recBuffer,
-                    candidateBuffer->recon_ptr->strideY,
+                    candidateBuffer->recon_ptr->stride_y,
                     context_ptr->blk_geom->txsize[txb_itr],
                     candidateBuffer->candidate_ptr->transform_type[PLANE_TYPE_Y],
                     PLANE_TYPE_Y,
@@ -1215,7 +1215,7 @@ void ProductPerformFastLoop(
     uint32_t                            isCandzz = 0;
     const uint8_t bwidth = context_ptr->blk_geom->bwidth;
     const uint8_t bheight = context_ptr->blk_geom->bheight;
-    const BlockSize bsize = context_ptr->blk_geom->bsize;
+    const block_size bsize = context_ptr->blk_geom->bsize;
     const uint8_t bwidth_uv = context_ptr->blk_geom->bwidth_uv;
     const uint8_t bheight_uv = context_ptr->blk_geom->bheight_uv;
 
@@ -1330,9 +1330,9 @@ void ProductPerformFastLoop(
                 asm_type);
 
             //Distortion
-            uint8_t * const inputBufferY = input_picture_ptr->bufferY + inputOriginIndex;
-            const unsigned inputStrideY = input_picture_ptr->strideY;
-            uint8_t * const predBufferY = prediction_ptr->bufferY + cuOriginIndex;
+            uint8_t * const inputBufferY = input_picture_ptr->buffer_y + inputOriginIndex;
+            const unsigned inputStrideY = input_picture_ptr->stride_y;
+            uint8_t * const predBufferY = prediction_ptr->buffer_y + cuOriginIndex;
             // Skip distortion computation if the candidate is MPM
             if (candidateBuffer->candidate_ptr->mpm_flag == EB_FALSE && !(candidate_ptr->motion_mode == WARPED_CAUSAL && candidate_ptr->local_warp_valid == 0)) {
                 if (fastLoopCandidateIndex == bestFirstFastCostSearchCandidateIndex && candidate_ptr->type == INTRA_MODE)
@@ -1343,7 +1343,7 @@ void ProductPerformFastLoop(
                         inputBufferY,
                         inputStrideY << candidateBuffer->sub_sampled_pred,
                         predBufferY,
-                        prediction_ptr->strideY,
+                        prediction_ptr->stride_y,
                         bheight >> candidateBuffer->sub_sampled_pred,
                         bwidth)) << candidateBuffer->sub_sampled_pred;
                 }
@@ -1910,13 +1910,13 @@ static void CflPrediction(
     uint32_t chroma_width = context_ptr->blk_geom->bwidth_uv;
     uint32_t chroma_height = context_ptr->blk_geom->bheight_uv;
 
-    uint32_t recLumaOffset = (context_ptr->blk_geom->origin_y) * candidateBuffer->recon_ptr->strideY +
+    uint32_t recLumaOffset = (context_ptr->blk_geom->origin_y) * candidateBuffer->recon_ptr->stride_y +
         (context_ptr->blk_geom->origin_x);
 
     // Down sample Luma
     cfl_luma_subsampling_420_lbd_c(
-        &(candidateBuffer->recon_ptr->bufferY[recLumaOffset]),
-        candidateBuffer->recon_ptr->strideY,
+        &(candidateBuffer->recon_ptr->buffer_y[recLumaOffset]),
+        candidateBuffer->recon_ptr->stride_y,
         context_ptr->pred_buf_q3,
         context_ptr->blk_geom->bwidth,
         context_ptr->blk_geom->bheight);
@@ -2117,12 +2117,12 @@ void AV1PerformFullLoop(
 
         //Y Residual
         ResidualKernel(
-            &(input_picture_ptr->bufferY[inputOriginIndex]),
-            input_picture_ptr->strideY,
-            &(candidateBuffer->prediction_ptr->bufferY[cuOriginIndex]),
-            candidateBuffer->prediction_ptr->strideY/* 64*/,
-            &(((int16_t*)candidateBuffer->residual_ptr->bufferY)[cuOriginIndex]),
-            candidateBuffer->residual_ptr->strideY,
+            &(input_picture_ptr->buffer_y[inputOriginIndex]),
+            input_picture_ptr->stride_y,
+            &(candidateBuffer->prediction_ptr->buffer_y[cuOriginIndex]),
+            candidateBuffer->prediction_ptr->stride_y/* 64*/,
+            &(((int16_t*)candidateBuffer->residual_ptr->buffer_y)[cuOriginIndex]),
+            candidateBuffer->residual_ptr->stride_y,
             context_ptr->blk_geom->bwidth,
             context_ptr->blk_geom->bheight);
 
@@ -2750,8 +2750,8 @@ void inter_depth_tx_search(
                 uint32_t  bwidth = context_ptr->blk_geom->tx_width[txb_itr] < 64 ? context_ptr->blk_geom->tx_width[txb_itr] : 32;
                 uint32_t  bheight = context_ptr->blk_geom->tx_height[txb_itr] < 64 ? context_ptr->blk_geom->tx_height[txb_itr] : 32;
 
-                int32_t* srcPtr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->bufferY)[txb_1d_offset]);
-                int32_t* dst_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferY)[txb_1d_offset]);
+                int32_t* srcPtr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->buffer_y)[txb_1d_offset]);
+                int32_t* dst_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->buffer_y)[txb_1d_offset]);
 
                 uint32_t j;
 
@@ -2823,7 +2823,7 @@ void md_encode_block(
     uint32_t                                  best_intra_mode = EB_INTRA_MODE_INVALID;
 
     EbPictureBufferDesc_t                    *input_picture_ptr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
-    const uint32_t                            inputOriginIndex = (context_ptr->cu_origin_y + input_picture_ptr->origin_y) * input_picture_ptr->strideY + (context_ptr->cu_origin_x + input_picture_ptr->origin_x);
+    const uint32_t                            inputOriginIndex = (context_ptr->cu_origin_y + input_picture_ptr->origin_y) * input_picture_ptr->stride_y + (context_ptr->cu_origin_x + input_picture_ptr->origin_x);
 
     const uint32_t inputCbOriginIndex = ((context_ptr->round_origin_y >> 1) + (input_picture_ptr->origin_y >> 1)) * input_picture_ptr->strideCb + ((context_ptr->round_origin_x >> 1) + (input_picture_ptr->origin_x >> 1));
     const uint32_t cuOriginIndex = blk_geom->origin_x + blk_geom->origin_y * SB_STRIDE_Y;
@@ -3010,12 +3010,12 @@ void md_encode_block(
         {
             uint32_t j;
             EbPictureBufferDesc_t  *recon_ptr = candidateBuffer->recon_ptr;
-            uint32_t recLumaOffset = context_ptr->blk_geom->origin_x + context_ptr->blk_geom->origin_y * recon_ptr->strideY;
+            uint32_t recLumaOffset = context_ptr->blk_geom->origin_x + context_ptr->blk_geom->origin_y * recon_ptr->stride_y;
 
             uint32_t recCbOffset = ((((context_ptr->blk_geom->origin_x >> 3) << 3) + ((context_ptr->blk_geom->origin_y >> 3) << 3) * candidateBuffer->recon_ptr->strideCb) >> 1);
             uint32_t recCrOffset = ((((context_ptr->blk_geom->origin_x >> 3) << 3) + ((context_ptr->blk_geom->origin_y >> 3) << 3) * candidateBuffer->recon_ptr->strideCr) >> 1);
 
-            memcpy(cu_ptr->neigh_top_recon[0], recon_ptr->bufferY + recLumaOffset + (context_ptr->blk_geom->bheight - 1)*recon_ptr->strideY, context_ptr->blk_geom->bwidth);
+            memcpy(cu_ptr->neigh_top_recon[0], recon_ptr->buffer_y + recLumaOffset + (context_ptr->blk_geom->bheight - 1)*recon_ptr->stride_y, context_ptr->blk_geom->bwidth);
 
             if (context_ptr->blk_geom->has_uv)
             {
@@ -3024,7 +3024,7 @@ void md_encode_block(
             }
 
             for (j = 0; j < context_ptr->blk_geom->bheight; ++j)
-                cu_ptr->neigh_left_recon[0][j] = recon_ptr->bufferY[recLumaOffset + context_ptr->blk_geom->bwidth - 1 + j * recon_ptr->strideY];
+                cu_ptr->neigh_left_recon[0][j] = recon_ptr->buffer_y[recLumaOffset + context_ptr->blk_geom->bwidth - 1 + j * recon_ptr->stride_y];
 
             if (context_ptr->blk_geom->has_uv)
             {
@@ -3044,8 +3044,8 @@ void md_encode_block(
             uint32_t  bwidth = context_ptr->blk_geom->bwidth;
             uint32_t  bheight = context_ptr->blk_geom->bheight;
 
-            uint8_t* srcPtr = &(((uint8_t*)candidateBuffer->recon_ptr->bufferY)[tuOriginIndex]);
-            uint8_t* dst_ptr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->bufferY)[0]);
+            uint8_t* srcPtr = &(((uint8_t*)candidateBuffer->recon_ptr->buffer_y)[tuOriginIndex]);
+            uint8_t* dst_ptr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->buffer_y)[0]);
 
             uint32_t j;
             for (j = 0; j < bheight; j++)
@@ -6859,18 +6859,18 @@ EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
 
         xTopLeftSearchRegion = (int16_t)(refPicPtr->origin_x + sb_origin_x) - (ME_FILTER_TAP >> 1) + x_search_area_origin;
         yTopLeftSearchRegion = (int16_t)(refPicPtr->origin_y + sb_origin_y) - (ME_FILTER_TAP >> 1) + y_search_area_origin;
-        searchRegionIndex = (xTopLeftSearchRegion)+(yTopLeftSearchRegion)* refPicPtr->strideY;
+        searchRegionIndex = (xTopLeftSearchRegion)+(yTopLeftSearchRegion)* refPicPtr->stride_y;
 
         // Umpack the reference for 16bit reference picture.
         if (is16bit) {
 
-            uint16_t *ptr16 = (uint16_t *)refPicPtr->bufferY + searchRegionIndex;
+            uint16_t *ptr16 = (uint16_t *)refPicPtr->buffer_y + searchRegionIndex;
 
             uint8_t searchAreaBuffer[MAX_SEARCH_AREA_SIZE];
 
             extract8_bitdata_safe_sub(
                 ptr16,
-                refPicPtr->strideY,
+                refPicPtr->stride_y,
                 searchAreaBuffer,
                 MAX_TATAL_SEARCH_AREA_WIDTH,
 #if FIX_ME_SR_10BIT
@@ -6888,14 +6888,14 @@ EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
 
         }
         else {
-            context_ptr->integer_buffer_ptr[listIndex][0] = &(refPicPtr->bufferY[searchRegionIndex]);
-            context_ptr->interpolated_full_stride[listIndex][0] = refPicPtr->strideY;
+            context_ptr->integer_buffer_ptr[listIndex][0] = &(refPicPtr->buffer_y[searchRegionIndex]);
+            context_ptr->interpolated_full_stride[listIndex][0] = refPicPtr->stride_y;
         }
 
         // Move to the top left of the search region
         xTopLeftSearchRegion = (int16_t)(refPicPtr->origin_x + sb_origin_x) + x_search_area_origin;
         yTopLeftSearchRegion = (int16_t)(refPicPtr->origin_y + sb_origin_y) + y_search_area_origin;
-        searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * refPicPtr->strideY;
+        searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * refPicPtr->stride_y;
 
         //849 * 4 + 5 block are supported
         InitializeBuffer_32bits_funcPtrArray[(uint32_t)asm_type](context_ptr->p_sb_best_sad[listIndex][refPicIndex], (MAX_SS_ME_PU_COUNT / 4), 1, MAX_SAD_VALUE);
@@ -6987,7 +6987,7 @@ EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
             // Move to the top left of the search region
             xTopLeftSearchRegion = (int16_t)(refPicPtr->origin_x + sb_origin_x) + x_search_area_origin;
             yTopLeftSearchRegion = (int16_t)(refPicPtr->origin_y + sb_origin_y) + y_search_area_origin;
-            searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * refPicPtr->strideY;
+            searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * refPicPtr->stride_y;
 
             // Interpolate the search region for Half-Pel Refinements
             // H - AVC Style

@@ -28,7 +28,7 @@ extern "C" {
     typedef struct EbPictureBufferDesc_s
     {
         // Buffer Ptrs
-        EbByte         bufferY;             // Pointer to the Y luma buffer
+        EbByte         buffer_y;             // Pointer to the Y luma buffer
         EbByte         bufferCb;            // Pointer to the U chroma buffer
         EbByte         bufferCr;            // Pointer to the V chroma buffer
         //Bit increment
@@ -36,7 +36,7 @@ extern "C" {
         EbByte         bufferBitIncCb;      // Pointer to the U chroma buffer Bit increment
         EbByte         bufferBitIncCr;      // Pointer to the V chroma buffer Bit increment
 
-        uint16_t          strideY;          // Pointer to the Y luma buffer
+        uint16_t          stride_y;          // Pointer to the Y luma buffer
         uint16_t          strideCb;         // Pointer to the U chroma buffer
         uint16_t          strideCr;         // Pointer to the V chroma buffer
 

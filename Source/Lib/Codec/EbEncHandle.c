@@ -2884,9 +2884,9 @@ static EbErrorType CopyFrameBuffer(
 
     if (!is16BitInput) {
 
-        uint32_t     lumaBufferOffset = (input_picture_ptr->strideY*sequence_control_set_ptr->top_padding + sequence_control_set_ptr->left_padding) << is16BitInput;
+        uint32_t     lumaBufferOffset = (input_picture_ptr->stride_y*sequence_control_set_ptr->top_padding + sequence_control_set_ptr->left_padding) << is16BitInput;
         uint32_t     chromaBufferOffset = (input_picture_ptr->strideCr*(sequence_control_set_ptr->top_padding >> 1) + (sequence_control_set_ptr->left_padding >> 1)) << is16BitInput;
-        uint16_t     lumaStride = input_picture_ptr->strideY << is16BitInput;
+        uint16_t     lumaStride = input_picture_ptr->stride_y << is16BitInput;
         uint16_t     chromaStride = input_picture_ptr->strideCb << is16BitInput;
         uint16_t     lumaWidth = (uint16_t)(input_picture_ptr->width - sequence_control_set_ptr->max_input_pad_right) << is16BitInput;
         uint16_t     chromaWidth = (lumaWidth >> 1) << is16BitInput;
@@ -2900,7 +2900,7 @@ static EbErrorType CopyFrameBuffer(
         // Y
         for (inputRowIndex = 0; inputRowIndex < lumaHeight; inputRowIndex++) {
 
-            EB_MEMCPY((input_picture_ptr->bufferY + lumaBufferOffset + lumaStride * inputRowIndex),
+            EB_MEMCPY((input_picture_ptr->buffer_y + lumaBufferOffset + lumaStride * inputRowIndex),
                 (inputPtr->luma + sourceLumaStride * inputRowIndex),
                 lumaWidth);
         }
@@ -2923,9 +2923,9 @@ static EbErrorType CopyFrameBuffer(
     else if (is16BitInput && config->compressed_ten_bit_format == 1)
     {
         {
-            uint32_t  lumaBufferOffset = (input_picture_ptr->strideY*sequence_control_set_ptr->top_padding + sequence_control_set_ptr->left_padding);
+            uint32_t  lumaBufferOffset = (input_picture_ptr->stride_y*sequence_control_set_ptr->top_padding + sequence_control_set_ptr->left_padding);
             uint32_t  chromaBufferOffset = (input_picture_ptr->strideCr*(sequence_control_set_ptr->top_padding >> 1) + (sequence_control_set_ptr->left_padding >> 1));
-            uint16_t  lumaStride = input_picture_ptr->strideY;
+            uint16_t  lumaStride = input_picture_ptr->stride_y;
             uint16_t  chromaStride = input_picture_ptr->strideCb;
             uint16_t  lumaWidth = (uint16_t)(input_picture_ptr->width - sequence_control_set_ptr->max_input_pad_right);
             uint16_t  chromaWidth = (lumaWidth >> 1);
@@ -2938,7 +2938,7 @@ static EbErrorType CopyFrameBuffer(
             // Y 8bit
             for (inputRowIndex = 0; inputRowIndex < lumaHeight; inputRowIndex++) {
 
-                EB_MEMCPY((input_picture_ptr->bufferY + lumaBufferOffset + lumaStride * inputRowIndex),
+                EB_MEMCPY((input_picture_ptr->buffer_y + lumaBufferOffset + lumaStride * inputRowIndex),
                     (inputPtr->luma + sourceLumaStride * inputRowIndex),
                     lumaWidth);
             }
@@ -2985,7 +2985,7 @@ static EbErrorType CopyFrameBuffer(
     else { // 10bit packed 
 
         uint32_t lumaOffset = 0, chromaOffset = 0;
-        uint32_t lumaBufferOffset = (input_picture_ptr->strideY*sequence_control_set_ptr->top_padding + sequence_control_set_ptr->left_padding);
+        uint32_t lumaBufferOffset = (input_picture_ptr->stride_y*sequence_control_set_ptr->top_padding + sequence_control_set_ptr->left_padding);
         uint32_t chromaBufferOffset = (input_picture_ptr->strideCr*(sequence_control_set_ptr->top_padding >> 1) + (sequence_control_set_ptr->left_padding >> 1));
         uint16_t lumaWidth = (uint16_t)(input_picture_ptr->width - sequence_control_set_ptr->max_input_pad_right);
         uint16_t chromaWidth = (lumaWidth >> 1);
@@ -2998,8 +2998,8 @@ static EbErrorType CopyFrameBuffer(
         UnPack2D(
             (uint16_t*)(inputPtr->luma + lumaOffset),
             sourceLumaStride,
-            input_picture_ptr->bufferY + lumaBufferOffset,
-            input_picture_ptr->strideY,
+            input_picture_ptr->buffer_y + lumaBufferOffset,
+            input_picture_ptr->stride_y,
             input_picture_ptr->bufferBitIncY + lumaBufferOffset,
             input_picture_ptr->strideBitIncY,
             lumaWidth,

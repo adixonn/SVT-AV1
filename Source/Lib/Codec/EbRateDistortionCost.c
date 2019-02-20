@@ -25,11 +25,11 @@
 #define AV1_COST_PRECISION          0
 #define MV_COST_WEIGHT              108
 
-BlockSize GetBlockSize(uint8_t cu_size) {
+block_size GetBlockSize(uint8_t cu_size) {
     return (cu_size == 64 ? BLOCK_64X64 : cu_size == 32 ? BLOCK_32X32 : cu_size == 16 ? BLOCK_16X16 : cu_size == 8 ? BLOCK_8X8 : BLOCK_4X4);
 }
 
-static INLINE int32_t is_chroma_reference(int32_t mi_row, int32_t mi_col, BlockSize bsize,
+static INLINE int32_t is_chroma_reference(int32_t mi_row, int32_t mi_col, block_size bsize,
     int32_t subsampling_x, int32_t subsampling_y) {
     const int32_t bw = mi_size_wide[bsize];
     const int32_t bh = mi_size_high[bsize];
@@ -575,7 +575,7 @@ EbErrorType Av1IntraFastCost(
     uint8_t   subSamplingX = 1; // NM - subsampling_x is harcoded to 1 for 420 chroma sampling.
     uint8_t   subSamplingY = 1; // NM - subsampling_y is harcoded to 1 for 420 chroma sampling.
 
-    BlockSize cuSizeIndex = context_ptr->blk_geom->bsize;
+    block_size cuSizeIndex = context_ptr->blk_geom->bsize;
 
     uint32_t miRow = context_ptr->cu_origin_y >> MI_SIZE_LOG2;
     uint32_t miCol = context_ptr->cu_origin_x >> MI_SIZE_LOG2;
@@ -1179,7 +1179,7 @@ EbErrorType Av1InterFastCost(
         && rf[1] != INTRA_FRAME)
     {
         MOTION_MODE motion_mode_rd = candidate_buffer_ptr->candidate_ptr->motion_mode;
-        BlockSize bsize = context_ptr->blk_geom->bsize;
+        block_size bsize = context_ptr->blk_geom->bsize;
 
         cu_ptr->prediction_unit_array[0].overlappable_neighbors[0] = 1;
         cu_ptr->prediction_unit_array[0].overlappable_neighbors[1] = 1;
@@ -1303,7 +1303,7 @@ EbErrorType Av1TuEstimateCoeffBits(
 
     if (componentType == COMPONENT_LUMA || componentType == COMPONENT_ALL) {
         if (yEob) {
-            coeffBuffer = (int32_t*)&coeff_buffer_sb->bufferY[tuOriginIndex * sizeof(int32_t)];
+            coeffBuffer = (int32_t*)&coeff_buffer_sb->buffer_y[tuOriginIndex * sizeof(int32_t)];
 
             *yTuCoeffBits = av1_cost_coeffs_txb(
                 candidate_buffer_ptr,
@@ -1409,7 +1409,7 @@ EbErrorType Av1FullCost(
     uint64_t                               *y_coeff_bits,
     uint64_t                               *cb_coeff_bits,
     uint64_t                               *cr_coeff_bits,
-    BlockSize                               bsize)
+    block_size                               bsize)
 {
     UNUSED(picture_control_set_ptr);
     UNUSED(bsize);
@@ -1504,7 +1504,7 @@ EbErrorType  Av1MergeSkipFullCost(
     uint64_t                               *y_coeff_bits,
     uint64_t                               *cb_coeff_bits,
     uint64_t                               *cr_coeff_bits,
-    BlockSize                               bsize)
+    block_size                               bsize)
 {
     UNUSED(bsize);
     UNUSED(context_ptr);
@@ -1661,7 +1661,7 @@ EbErrorType Av1IntraFullCost(
     uint64_t                                 *y_coeff_bits,
     uint64_t                                 *cb_coeff_bits,
     uint64_t                                 *cr_coeff_bits,
-    BlockSize                              bsize)
+    block_size                              bsize)
 
 
 {
@@ -1714,7 +1714,7 @@ EbErrorType Av1InterFullCost(
     uint64_t                                 *y_coeff_bits,
     uint64_t                                 *cb_coeff_bits,
     uint64_t                                 *cr_coeff_bits,
-    BlockSize                              bsize
+    block_size                              bsize
 )
 {
     EbErrorType  return_error = EB_ErrorNone;
@@ -1887,7 +1887,7 @@ void CodingLoopContextGeneration(
 
     // Skip and Dc sign context generation
 
-    BlockSize plane_bsize = context_ptr->blk_geom->bsize;
+    block_size plane_bsize = context_ptr->blk_geom->bsize;
 
     cu_ptr->luma_txb_skip_context = 0;
     cu_ptr->luma_dc_sign_context = 0;
@@ -2144,7 +2144,7 @@ EbErrorType Av1TuCalcCostLuma(
     return return_error;
     }
 
-static INLINE int32_t partition_cdf_length(BlockSize bsize) {
+static INLINE int32_t partition_cdf_length(block_size bsize) {
     if (bsize <= BLOCK_8X8)
         return PARTITION_TYPES;
     else if (bsize == BLOCK_128X128)
@@ -2159,7 +2159,7 @@ static int32_t cdf_element_prob(const int32_t *cdf,
     return (element > 0 ? cdf[element - 1] : CDF_PROB_TOP) - cdf[element];
 }
 static void partition_gather_horz_alike(int32_t *out,
-    BlockSize bsize,
+    block_size bsize,
     const int32_t *const in) {
     out[0] = CDF_PROB_TOP;
     out[0] -= cdf_element_prob(in, PARTITION_HORZ);
@@ -2173,7 +2173,7 @@ static void partition_gather_horz_alike(int32_t *out,
 }
 
 static void partition_gather_vert_alike(int32_t *out,
-    BlockSize bsize,
+    block_size bsize,
     const int32_t *const in) {
     out[0] = CDF_PROB_TOP;
     out[0] -= cdf_element_prob(in, PARTITION_VERT);
@@ -2187,7 +2187,7 @@ static void partition_gather_vert_alike(int32_t *out,
 }
 
 //static INLINE int32_t partition_plane_context(const MacroBlockD *xd, int32_t mi_row,
-//    int32_t mi_col, BlockSize bsize) {
+//    int32_t mi_col, block_size bsize) {
 //    const PARTITION_CONTEXT *above_ctx = xd->above_seg_context + mi_col;
 //    const PARTITION_CONTEXT *left_ctx =
 //        xd->left_seg_context + (mi_row & MAX_MIB_MASK);
@@ -2240,7 +2240,7 @@ EbErrorType Av1SplitFlagRate(
 
     uint32_t cu_depth = blk_geom->depth;
     UNUSED(cu_depth);
-    BlockSize bsize = blk_geom->bsize;
+    block_size bsize = blk_geom->bsize;
     ASSERT(bsize<BlockSizeS_ALL);
     const int32_t is_partition_point = blk_geom->bsize >= BLOCK_8X8;
 

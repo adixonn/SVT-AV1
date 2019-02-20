@@ -310,8 +310,8 @@ void NeighborArrayUnitSampleWrite(
     NeighborArrayUnit_t *naUnitPtr,
     uint8_t               *srcPtr,
     uint32_t               stride,
-    uint32_t               srcOriginX,
-    uint32_t               srcOriginY,
+    uint32_t               src_origin_x,
+    uint32_t               src_origin_y,
     uint32_t               picOriginX,
     uint32_t               picOriginY,
     uint32_t               blockWidth,
@@ -327,7 +327,7 @@ void NeighborArrayUnitSampleWrite(
     uint32_t count;
 
     // Adjust the Source ptr to start at the origin of the block being updated.
-    srcPtr += ((srcOriginY * stride) + srcOriginX) * naUnitPtr->unitSize;
+    srcPtr += ((src_origin_y * stride) + src_origin_x) * naUnitPtr->unitSize;
 
     if (neighborArrayTypeMask & NEIGHBOR_ARRAY_UNIT_TOP_MASK) {
 
@@ -477,8 +477,8 @@ void NeighborArrayUnit16bitSampleWrite(
     NeighborArrayUnit_t *naUnitPtr,
     uint16_t               *srcPtr,
     uint32_t               stride,
-    uint32_t               srcOriginX,
-    uint32_t               srcOriginY,
+    uint32_t               src_origin_x,
+    uint32_t               src_origin_y,
     uint32_t               picOriginX,
     uint32_t               picOriginY,
     uint32_t               blockWidth,
@@ -494,7 +494,7 @@ void NeighborArrayUnit16bitSampleWrite(
     uint32_t count;
 
     // Adjust the Source ptr to start at the origin of the block being updated.
-    srcPtr += ((srcOriginY * stride) + srcOriginX)/*CHKN  * naUnitPtr->unitSize*/;
+    srcPtr += ((src_origin_y * stride) + src_origin_x)/*CHKN  * naUnitPtr->unitSize*/;
 
     if (neighborArrayTypeMask & NEIGHBOR_ARRAY_UNIT_TOP_MASK) {
 
@@ -1080,7 +1080,7 @@ void NeighborArrayUnitMvWrite(
     uint8_t               *value,
     uint32_t               origin_x,
     uint32_t               origin_y,
-    uint32_t               blockSize)
+    uint32_t               block_size)
 {
     uint32_t idx;
     uint8_t  *dst_ptr;
@@ -1119,7 +1119,7 @@ void NeighborArrayUnitMvWrite(
         naOffset * naUnitSize;
 
     //dstStep = naUnitSize;
-    count = blockSize >> 2;
+    count = block_size >> 2;
 
     for (idx = 0; idx < count; ++idx) {
 
@@ -1181,14 +1181,14 @@ void NeighborArrayUnitMvWrite(
     naOffset = GetNeighborArrayUnitTopLeftIndex(
         naUnitPtr,
         origin_x,
-        origin_y + (blockSize - 1));
+        origin_y + (block_size - 1));
 
     // Copy bottom-row + right-column
     // *Note - start from the bottom-left corner
     dst_ptr = naUnittopLeftArray +
         naOffset * naUnitSize;
 
-    count = ((blockSize + blockSize) >> 2) - 1;
+    count = ((block_size + block_size) >> 2) - 1;
 
     for (idx = 0; idx < count; ++idx) {
 

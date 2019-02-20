@@ -233,7 +233,7 @@ extern "C" {
 
         EbBool                         is_left_availble,
         EbBool                         is_above_availble,
-        void                                   *refSamples,
+        void                                   *ref_samples,
         uint32_t                                  origin_x,
         uint32_t                                  origin_y,
         uint32_t                                  puSize,
@@ -252,7 +252,7 @@ extern "C" {
 
         EbBool                         is_left_availble,
         EbBool                         is_above_availble,
-        void                                   *refSamples,
+        void                                   *ref_samples,
         uint32_t                                  origin_x,
         uint32_t                                  origin_y,
         uint32_t                                  puSize,
@@ -353,11 +353,11 @@ extern "C" {
 
     extern void IntraModeAngular_Horizontal_Kernel_SSSE3_INTRIN(
         uint32_t            size,
-        uint8_t            *refSampMain,
+        uint8_t            *ref_samp_main,
         uint8_t            *prediction_ptr,
-        uint32_t            predictionBufferStride,
+        uint32_t            prediction_buffer_stride,
         const EbBool     skip,
-        int32_t            intraPredAngle);
+        int32_t            intra_pred_angle);
 
 
 
@@ -370,9 +370,9 @@ extern "C" {
         IntraReferenceSamplesOpenLoop_t *intra_ref_ptr,
         EbPictureBufferDesc_t           *input_ptr,
         uint32_t                           stride,
-        uint32_t                           srcOriginX,
-        uint32_t                           srcOriginY,
-        uint32_t                           blockSize);
+        uint32_t                           src_origin_x,
+        uint32_t                           src_origin_y,
+        uint32_t                           block_size);
 
     extern EbErrorType IntraPredictionOpenLoop(
         uint32_t                       cu_size,
@@ -400,41 +400,41 @@ extern "C" {
     ***************************************/
     typedef void(*EB_INTRA_NOANG_TYPE)(
         const uint32_t      size,
-        uint8_t            *refSamples,
+        uint8_t            *ref_samples,
         uint8_t            *prediction_ptr,
-        const uint32_t      predictionBufferStride,
+        const uint32_t      prediction_buffer_stride,
         const EbBool        skip);
 
     typedef void(*EB_INTRA_DC_AV1_TYPE)(
         EbBool        is_left_availble,
         EbBool        is_above_availble,
         const uint32_t   size,                       //input parameter, denotes the size of the current PU
-        uint8_t         *refSamples,                 //input parameter, pointer to the reference samples
+        uint8_t         *ref_samples,                 //input parameter, pointer to the reference samples
         uint8_t         *dst,              //output parameter, pointer to the prediction
-        const uint32_t   predictionBufferStride,     //input parameter, denotes the stride for the prediction ptr
+        const uint32_t   prediction_buffer_stride,     //input parameter, denotes the stride for the prediction ptr
         const EbBool  skip);                       //skip half rows
 
     typedef uint32_t(*EB_NEIGHBOR_DC_INTRA_TYPE)(
         MotionEstimationContext_t       *context_ptr,
         EbPictureBufferDesc_t           *input_ptr,
-        uint32_t                           srcOriginX,
-        uint32_t                           srcOriginY,
-        uint32_t                           blockSize,
+        uint32_t                           src_origin_x,
+        uint32_t                           src_origin_y,
+        uint32_t                           block_size,
         EbAsm                              asm_type);
 
     typedef void(*EB_INTRA_NOANG_16bit_TYPE)(
         const uint32_t   size,
-        uint16_t         *refSamples,
+        uint16_t         *ref_samples,
         uint16_t         *prediction_ptr,
-        const uint32_t   predictionBufferStride,
+        const uint32_t   prediction_buffer_stride,
         const EbBool  skip);
 
 
     typedef void(*EB_INTRA_ANG_Z1_Z2_Z3_16bit_TYPE)(
         const uint32_t   size,
-        uint16_t         *refSamples,
+        uint16_t         *ref_samples,
         uint16_t         *dst,
-        const uint32_t   predictionBufferStride,
+        const uint32_t   prediction_buffer_stride,
         const EbBool  skip,
         uint16_t          dx,
         uint16_t          dy,
@@ -443,70 +443,70 @@ extern "C" {
 
     typedef void(*EB_INTRA_ANG_TYPE)(
         uint32_t            size,
-        uint8_t            *refSampMain,
+        uint8_t            *ref_samp_main,
         uint8_t            *prediction_ptr,
-        uint32_t            predictionBufferStride,
+        uint32_t            prediction_buffer_stride,
         const EbBool     skip,
-        int32_t            intraPredAngle);
+        int32_t            intra_pred_angle);
 
     typedef void(*EB_INTRA_ANG_16BIT_TYPE)(
         uint32_t          size,                       //input parameter, denotes the size of the current PU
-        uint16_t         *refSampMain,                //input parameter, pointer to the reference samples
+        uint16_t         *ref_samp_main,                //input parameter, pointer to the reference samples
         uint16_t         *prediction_ptr,              //output parameter, pointer to the prediction
-        uint32_t            predictionBufferStride,     //input parameter, denotes the stride for the prediction ptr
+        uint32_t            prediction_buffer_stride,     //input parameter, denotes the stride for the prediction ptr
         const EbBool   skip,
-        int32_t   intraPredAngle);
+        int32_t   intra_pred_angle);
 
     extern void IntraModePlanar(
         const uint32_t   size,                       //input parameter, denotes the size of the current PU
-        uint8_t         *refSamples,                 //input parameter, pointer to the reference samples
+        uint8_t         *ref_samples,                 //input parameter, pointer to the reference samples
         uint8_t         *dst,              //output parameter, pointer to the prediction
-        const uint32_t   predictionBufferStride,     //input parameter, denotes the stride for the prediction ptr
+        const uint32_t   prediction_buffer_stride,     //input parameter, denotes the stride for the prediction ptr
         const EbBool  skip);
 #if !QT_10BIT_SUPPORT
     extern void highbd_smooth_v_predictor(
         const uint32_t   size,                       //input parameter, denotes the size of the current PU
-        uint16_t         *refSamples,                 //input parameter, pointer to the reference samples
+        uint16_t         *ref_samples,                 //input parameter, pointer to the reference samples
         uint16_t         *dst,              //output parameter, pointer to the prediction
-        const uint32_t   predictionBufferStride,     //input parameter, denotes the stride for the prediction ptr
+        const uint32_t   prediction_buffer_stride,     //input parameter, denotes the stride for the prediction ptr
         const EbBool  skip);
 #endif
     extern void ebav1_smooth_v_predictor(
         const uint32_t   size,                       //input parameter, denotes the size of the current PU
-        uint8_t         *refSamples,                 //input parameter, pointer to the reference samples
+        uint8_t         *ref_samples,                 //input parameter, pointer to the reference samples
         uint8_t         *dst,              //output parameter, pointer to the prediction
-        const uint32_t   predictionBufferStride,     //input parameter, denotes the stride for the prediction ptr
+        const uint32_t   prediction_buffer_stride,     //input parameter, denotes the stride for the prediction ptr
         const EbBool  skip);
 #if !QT_10BIT_SUPPORT
     extern void highbd_smooth_h_predictor(
         const uint32_t   size,                       //input parameter, denotes the size of the current PU
-        uint16_t         *refSamples,                 //input parameter, pointer to the reference samples
+        uint16_t         *ref_samples,                 //input parameter, pointer to the reference samples
         uint16_t         *dst,              //output parameter, pointer to the prediction
-        const uint32_t   predictionBufferStride,     //input parameter, denotes the stride for the prediction ptr
+        const uint32_t   prediction_buffer_stride,     //input parameter, denotes the stride for the prediction ptr
         const EbBool  skip);
 #endif
     extern void ebav1_smooth_h_predictor(
         const uint32_t   size,                       //input parameter, denotes the size of the current PU
-        uint8_t         *refSamples,                 //input parameter, pointer to the reference samples
+        uint8_t         *ref_samples,                 //input parameter, pointer to the reference samples
         uint8_t         *dst,              //output parameter, pointer to the prediction
-        const uint32_t   predictionBufferStride,     //input parameter, denotes the stride for the prediction ptr
+        const uint32_t   prediction_buffer_stride,     //input parameter, denotes the stride for the prediction ptr
         const EbBool  skip);
 #if !QT_10BIT_SUPPORT
     extern void highbd_dc_predictor(
         EbBool                         is_left_availble,
         EbBool                         is_above_availble,
         const uint32_t   size,                       //input parameter, denotes the size of the current PU
-        uint8_t         *refSamples,                 //input parameter, pointer to the reference samples
+        uint8_t         *ref_samples,                 //input parameter, pointer to the reference samples
         uint8_t         *dst,              //output parameter, pointer to the prediction
-        const uint32_t   predictionBufferStride,     //input parameter, denotes the stride for the prediction ptr
+        const uint32_t   prediction_buffer_stride,     //input parameter, denotes the stride for the prediction ptr
         const EbBool  skip);                     //skip half rows
 #endif
 
     void IntraModeAngular_AV1_Z1_16bit(
         const uint32_t   size,                    //input parameter, denotes the size of the current PU
-        uint16_t         *refSamples,             //input parameter, pointer to the reference samples
+        uint16_t         *ref_samples,             //input parameter, pointer to the reference samples
         uint16_t         *dst,                    //output parameter, pointer to the prediction
-        const uint32_t   predictionBufferStride,  //input parameter, denotes the stride for the prediction ptr
+        const uint32_t   prediction_buffer_stride,  //input parameter, denotes the stride for the prediction ptr
         const EbBool  skip,
         uint16_t          dx,                     //output parameter, pointer to the prediction
         uint16_t          dy,                      //output parameter, pointer to the prediction
@@ -514,9 +514,9 @@ extern "C" {
 
     void IntraModeAngular_AV1_Z2_16bit(
         const uint32_t   size,                       //input parameter, denotes the size of the current PU
-        uint16_t         *refSamples,                 //input parameter, pointer to the reference samples
+        uint16_t         *ref_samples,                 //input parameter, pointer to the reference samples
         uint16_t         *dst,              //output parameter, pointer to the prediction
-        const uint32_t   predictionBufferStride,     //input parameter, denotes the stride for the prediction ptr
+        const uint32_t   prediction_buffer_stride,     //input parameter, denotes the stride for the prediction ptr
         const EbBool  skip,
         uint16_t          dx,              //output parameter, pointer to the prediction
         uint16_t          dy,              //output parameter, pointer to the prediction
@@ -524,9 +524,9 @@ extern "C" {
 
     void IntraModeAngular_AV1_Z3_16bit(
         const uint32_t   size,                       //input parameter, denotes the size of the current PU
-        uint16_t         *refSamples,                 //input parameter, pointer to the reference samples
+        uint16_t         *ref_samples,                 //input parameter, pointer to the reference samples
         uint16_t         *dst,              //output parameter, pointer to the prediction
-        const uint32_t   predictionBufferStride,     //input parameter, denotes the stride for the prediction ptr
+        const uint32_t   prediction_buffer_stride,     //input parameter, denotes the stride for the prediction ptr
         const EbBool  skip,
         uint16_t          dx,              //output parameter, pointer to the prediction
         uint16_t          dy,              //output parameter, pointer to the prediction
@@ -606,7 +606,7 @@ extern "C" {
             // NON_AVX2
             highbd_dc_predictor,
             // AVX2
-            IntraModeDC_32x32_AV1_AVX2_INTRIN,
+            intra_mode_dc_32x32_av1_avx2_intrin,
 
         } ,
         // NxN
@@ -639,7 +639,7 @@ extern "C" {
             highbd_dc_predictor,
             // AVX2
 
-            IntraModeDC_64x64_AV1_AVX2_INTRIN,
+            intra_mode_dc_64x64_av1_avx2_intrin,
 
         }
 
@@ -649,16 +649,16 @@ extern "C" {
         // NON_AVX2
         IntraModeDCLuma_SSE2_INTRIN,
         // AVX2
-        IntraModeDCLuma_AVX2_INTRIN,
+        intra_mode_dc_luma_avx2_intrin,
 
     };
 
     uint32_t UpdateNeighborDcIntraPred(
         MotionEstimationContext_t       *context_ptr,
         EbPictureBufferDesc_t           *input_ptr,
-        uint32_t                           srcOriginX,
-        uint32_t                           srcOriginY,
-        uint32_t                           blockSize,
+        uint32_t                           src_origin_x,
+        uint32_t                           src_origin_y,
+        uint32_t                           block_size,
         EbAsm                             asm_type);
 
     static EB_INTRA_NOANG_16bit_TYPE FUNC_TABLE IntraDCLuma_16bit_funcPtrArray[ASM_TYPE_TOTAL] = {
@@ -680,7 +680,7 @@ extern "C" {
         // NON_AVX2
         IntraModePlanar_SSE2_INTRIN,
         // AVX2
-        IntraModePlanar_AVX2_INTRIN,
+        intra_mode_planar_avx2_intrin,
     };
 
     void smooth_v_predictor_c(uint8_t *dst, ptrdiff_t stride, int32_t bw,
@@ -691,7 +691,7 @@ extern "C" {
         // NON_AVX2
         IntraModePlanar,
         // AVX2
-        IntraModePlanar_AV1_AVX2_INTRIN,
+        intra_mode_planar_av1_avx2_intrin,
     };
 #if !QT_10BIT_SUPPORT
     static EB_INTRA_NOANG_16bit_TYPE FUNC_TABLE IntraSmoothV_16bit_Av1_funcPtrArray[ASM_TYPE_TOTAL] = {
@@ -733,7 +733,7 @@ extern "C" {
         // NON_AVX2
         IntraModeAngular_34_SSE2_INTRIN,
         // AVX2
-        IntraModeAngular_34_AVX2_INTRIN,
+        intra_mode_angular_34_avx2_intrin,
     };
 
 
@@ -741,7 +741,7 @@ extern "C" {
         // NON_AVX2
         IntraModeAngular_18_SSE2_INTRIN,
         // AVX2
-        IntraModeAngular_18_AVX2_INTRIN,
+        intra_mode_angular_18_avx2_intrin,
 
     };
 
@@ -750,7 +750,7 @@ extern "C" {
         // NON_AVX2
         IntraModeAngular_2_SSE2_INTRIN,
         // AVX2
-        IntraModeAngular_2_AVX2_INTRIN,
+        intra_mode_angular_2_avx2_intrin,
     };
 
 
@@ -758,7 +758,7 @@ extern "C" {
         // NON_AVX2
         IntraModeAngular_Vertical_Kernel_SSSE3_INTRIN,
         // AVX2
-        IntraModeAngular_Vertical_Kernel_AVX2_INTRIN,
+        intra_mode_angular_vertical_kernel_avx2_intrin,
     };
 
 
@@ -776,21 +776,21 @@ extern "C" {
             // NON_AVX2
             IntraModeAngular_AV1_Z1_16bit,
             // AVX2
-            IntraModeAngular_AV1_Z1_16bit_4x4_AVX2,
+            intra_mode_angular_av1_z1_16bit_4x4_avx2,
         },
         // 8x8
         {
             // NON_AVX2
             IntraModeAngular_AV1_Z1_16bit,
             // AVX2
-            IntraModeAngular_AV1_Z1_16bit_8x8_AVX2,
+            intra_mode_angular_av1_z1_16bit_8x8_avx2,
         },
         // 16x16
         {
             // NON_AVX2
             IntraModeAngular_AV1_Z1_16bit,
             // AVX2
-            IntraModeAngular_AV1_Z1_16bit_16x16_AVX2,
+            intra_mode_angular_av1_z1_16bit_16x16_avx2,
         },
         // NxN
         {
@@ -804,7 +804,7 @@ extern "C" {
             // NON_AVX2
             IntraModeAngular_AV1_Z1_16bit,
             // AVX2
-            IntraModeAngular_AV1_Z1_16bit_32x32_AVX2,
+            intra_mode_angular_av1_z1_16bit_32x32_avx2,
         },
         // NxN
         {
@@ -832,7 +832,7 @@ extern "C" {
             // NON_AVX2
             IntraModeAngular_AV1_Z1_16bit,
             // AVX2
-            IntraModeAngular_AV1_Z1_16bit_64x64_AVX2,
+            intra_mode_angular_av1_z1_16bit_64x64_avx2,
         }
     };
     static EB_INTRA_ANG_Z1_Z2_Z3_16bit_TYPE FUNC_TABLE IntraModeAngular_AV1_Z2_16bit_funcPtrArray[9][ASM_TYPE_TOTAL] = {
@@ -841,21 +841,21 @@ extern "C" {
             // NON_AVX2
             IntraModeAngular_AV1_Z2_16bit,
             // AVX2
-            IntraModeAngular_AV1_Z2_16bit_4x4_AVX2,
+            intra_mode_angular_av1_z2_16bit_4x4_avx2,
         },
         // 8x8
         {
             // NON_AVX2
             IntraModeAngular_AV1_Z2_16bit,
             // AVX2
-            IntraModeAngular_AV1_Z2_16bit_8x8_AVX2,
+            intra_mode_angular_av1_z2_16bit_8x8_avx2,
         },
         // 16x16
         {
             // NON_AVX2
             IntraModeAngular_AV1_Z2_16bit,
             // AVX2
-            IntraModeAngular_AV1_Z2_16bit_16x16_AVX2,
+            intra_mode_angular_av1_z2_16bit_16x16_avx2,
         },
         // NxN
         {
@@ -869,7 +869,7 @@ extern "C" {
             // NON_AVX2
             IntraModeAngular_AV1_Z2_16bit,
             // AVX2
-            IntraModeAngular_AV1_Z2_16bit_32x32_AVX2,
+            intra_mode_angular_av1_z2_16bit_32x32_avx2,
         },
         // NxN
         {
@@ -897,7 +897,7 @@ extern "C" {
             // NON_AVX2
             IntraModeAngular_AV1_Z2_16bit,
             // AVX2
-            IntraModeAngular_AV1_Z2_16bit_64x64_AVX2,
+            intra_mode_angular_av1_z2_16bit_64x64_avx2,
         }
     };
     static EB_INTRA_ANG_Z1_Z2_Z3_16bit_TYPE FUNC_TABLE IntraModeAngular_AV1_Z3_16bit_funcPtrArray[9][ASM_TYPE_TOTAL] = {
@@ -906,21 +906,21 @@ extern "C" {
             // NON_AVX2
             IntraModeAngular_AV1_Z3_16bit,
             // AVX2
-            IntraModeAngular_AV1_Z3_16bit_4x4_AVX2,
+            intra_mode_angular_av1_z3_16bit_4x4_avx2,
         },
         // 8x8
         {
             // NON_AVX2
             IntraModeAngular_AV1_Z3_16bit,
             // AVX2
-            IntraModeAngular_AV1_Z3_16bit_8x8_AVX2,
+            intra_mode_angular_av1_z3_16bit_8x8_avx2,
         },
         // 16x16
         {
             // NON_AVX2
             IntraModeAngular_AV1_Z3_16bit,
             // AVX2
-            IntraModeAngular_AV1_Z3_16bit_16x16_AVX2,
+            intra_mode_angular_av1_z3_16bit_16x16_avx2,
         },
         // NxN
         {
@@ -934,7 +934,7 @@ extern "C" {
             // NON_AVX2
             IntraModeAngular_AV1_Z3_16bit,
             // AVX2
-            IntraModeAngular_AV1_Z3_16bit_32x32_AVX2,
+            intra_mode_angular_av1_z3_16bit_32x32_avx2,
         },
         // NxN
         {
@@ -962,7 +962,7 @@ extern "C" {
             // NON_AVX2
             IntraModeAngular_AV1_Z3_16bit,
             // AVX2
-            IntraModeAngular_AV1_Z3_16bit_64x64_AVX2,
+            intra_mode_angular_av1_z3_16bit_64x64_avx2,
         }
     };
 
@@ -1039,7 +1039,7 @@ extern "C" {
     // Can we use CfL for the current block?
     //static INLINE CFL_ALLOWED_TYPE is_cfl_allowed(const MacroBlockD *xd) {
     //    const MbModeInfo *mbmi = xd->mi[0];
-    //    const BlockSize bsize = mbmi->sb_type;
+    //    const block_size bsize = mbmi->sb_type;
     //    assert(bsize < BlockSizeS_ALL);
     //    //if (0/*xd->lossless[mbmi->segment_id]*/) {
     //    //    // In lossless, CfL is available when the partition size is equal to the

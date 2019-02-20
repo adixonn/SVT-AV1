@@ -957,7 +957,7 @@ void* ResourceCoordinationKernel(void *input_ptr)
             pictureControlSetWrapperPtr,
             2);
     
-        ((EbPaReferenceObject_t*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->objectPtr)->inputPaddedPicturePtr->bufferY = picture_control_set_ptr->enhanced_picture_ptr->bufferY;
+        ((EbPaReferenceObject_t*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->objectPtr)->inputPaddedPicturePtr->buffer_y = picture_control_set_ptr->enhanced_picture_ptr->buffer_y;
         // Get Empty Output Results Object
         if (picture_control_set_ptr->picture_number > 0 && (prevPictureControlSetWrapperPtr != NULL))
         {

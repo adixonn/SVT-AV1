@@ -126,10 +126,10 @@ void encode_uni_pred_interpolation(
     frac_pos_y = posY & 0x03;
 
     uniPredLumaIFFunctionPtrArrayNew[asm_type][frac_pos_x + (frac_pos_y << 2)](
-        ref_pic->bufferY + integPosx + integPosy * ref_pic->strideY,
-        ref_pic->strideY,
-        dst->bufferY + dstLumaIndex,
-        dst->strideY,
+        ref_pic->buffer_y + integPosx + integPosy * ref_pic->stride_y,
+        ref_pic->stride_y,
+        dst->buffer_y + dstLumaIndex,
+        dst->stride_y,
         pu_width,
         pu_height,
         tempBuf0);

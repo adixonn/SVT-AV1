@@ -274,14 +274,14 @@ EbErrorType ComputeDecimatedZzSad(
             if (sb_params->is_complete_sb)
             {
 
-                blkDisplacementDecimated = (sixteenthDecimatedPicturePtr->origin_y + (sb_origin_y >> 2)) * sixteenthDecimatedPicturePtr->strideY + sixteenthDecimatedPicturePtr->origin_x + (sb_origin_x >> 2);
-                blkDisplacementFull = (previousInputPictureFull->origin_y + sb_origin_y)* previousInputPictureFull->strideY + (previousInputPictureFull->origin_x + sb_origin_x);
+                blkDisplacementDecimated = (sixteenthDecimatedPicturePtr->origin_y + (sb_origin_y >> 2)) * sixteenthDecimatedPicturePtr->stride_y + sixteenthDecimatedPicturePtr->origin_x + (sb_origin_x >> 2);
+                blkDisplacementFull = (previousInputPictureFull->origin_y + sb_origin_y)* previousInputPictureFull->stride_y + (previousInputPictureFull->origin_x + sb_origin_x);
 
 
                 // 1/16 collocated SB decimation
                 Decimation2D(
-                    &previousInputPictureFull->bufferY[blkDisplacementFull],
-                    previousInputPictureFull->strideY,
+                    &previousInputPictureFull->buffer_y[blkDisplacementFull],
+                    previousInputPictureFull->stride_y,
                     BLOCK_SIZE_64,
                     BLOCK_SIZE_64,
                     context_ptr->me_context_ptr->sixteenth_sb_buffer,
@@ -291,8 +291,8 @@ EbErrorType ComputeDecimatedZzSad(
                 if (asm_type >= ASM_NON_AVX2 && asm_type < ASM_TYPE_TOTAL)
                     // ZZ SAD between 1/16 current & 1/16 collocated
                     decimatedLcuCollocatedSad = NxMSadKernel_funcPtrArray[asm_type][2](
-                        &(sixteenthDecimatedPicturePtr->bufferY[blkDisplacementDecimated]),
-                        sixteenthDecimatedPicturePtr->strideY,
+                        &(sixteenthDecimatedPicturePtr->buffer_y[blkDisplacementDecimated]),
+                        sixteenthDecimatedPicturePtr->stride_y,
                         context_ptr->me_context_ptr->sixteenth_sb_buffer,
                         context_ptr->me_context_ptr->sixteenth_sb_buffer_stride,
                         16, 16);
@@ -487,39 +487,39 @@ void* MotionEstimationKernel(void *input_ptr)
                     sb_height = (sequence_control_set_ptr->luma_height - sb_origin_y) < BLOCK_SIZE_64 ? sequence_control_set_ptr->luma_height - sb_origin_y : BLOCK_SIZE_64;
 
                     // Load the SB from the input to the intermediate SB buffer
-                    bufferIndex = (input_picture_ptr->origin_y + sb_origin_y) * input_picture_ptr->strideY + input_picture_ptr->origin_x + sb_origin_x;
+                    bufferIndex = (input_picture_ptr->origin_y + sb_origin_y) * input_picture_ptr->stride_y + input_picture_ptr->origin_x + sb_origin_x;
 
                     context_ptr->me_context_ptr->hme_search_type = HME_RECTANGULAR;
 
                     for (lcuRow = 0; lcuRow < BLOCK_SIZE_64; lcuRow++) {
-                        EB_MEMCPY((&(context_ptr->me_context_ptr->sb_buffer[lcuRow * BLOCK_SIZE_64])), (&(input_picture_ptr->bufferY[bufferIndex + lcuRow * input_picture_ptr->strideY])), BLOCK_SIZE_64 * sizeof(uint8_t));
+                        EB_MEMCPY((&(context_ptr->me_context_ptr->sb_buffer[lcuRow * BLOCK_SIZE_64])), (&(input_picture_ptr->buffer_y[bufferIndex + lcuRow * input_picture_ptr->stride_y])), BLOCK_SIZE_64 * sizeof(uint8_t));
 
                     }
 
                     {
-                        uint8_t * srcPtr = &inputPaddedPicturePtr->bufferY[bufferIndex];
+                        uint8_t * srcPtr = &inputPaddedPicturePtr->buffer_y[bufferIndex];
 
                         //_MM_HINT_T0     //_MM_HINT_T1    //_MM_HINT_T2//_MM_HINT_NTA
                         uint32_t i;
                         for (i = 0; i < sb_height; i++)
                         {
-                            char const* p = (char const*)(srcPtr + i * inputPaddedPicturePtr->strideY);
+                            char const* p = (char const*)(srcPtr + i * inputPaddedPicturePtr->stride_y);
                             _mm_prefetch(p, _MM_HINT_T2);
                         }
                     }
 
 
-                    context_ptr->me_context_ptr->sb_src_ptr = &inputPaddedPicturePtr->bufferY[bufferIndex];
-                    context_ptr->me_context_ptr->sb_src_stride = inputPaddedPicturePtr->strideY;
+                    context_ptr->me_context_ptr->sb_src_ptr = &inputPaddedPicturePtr->buffer_y[bufferIndex];
+                    context_ptr->me_context_ptr->sb_src_stride = inputPaddedPicturePtr->stride_y;
 
 
                     // Load the 1/4 decimated SB from the 1/4 decimated input to the 1/4 intermediate SB buffer
                     if (picture_control_set_ptr->enable_hme_level1_flag) {
 
-                        bufferIndex = (quarterDecimatedPicturePtr->origin_y + (sb_origin_y >> 1)) * quarterDecimatedPicturePtr->strideY + quarterDecimatedPicturePtr->origin_x + (sb_origin_x >> 1);
+                        bufferIndex = (quarterDecimatedPicturePtr->origin_y + (sb_origin_y >> 1)) * quarterDecimatedPicturePtr->stride_y + quarterDecimatedPicturePtr->origin_x + (sb_origin_x >> 1);
 
                         for (lcuRow = 0; lcuRow < (sb_height >> 1); lcuRow++) {
-                            EB_MEMCPY((&(context_ptr->me_context_ptr->quarter_sb_buffer[lcuRow * context_ptr->me_context_ptr->quarter_sb_buffer_stride])), (&(quarterDecimatedPicturePtr->bufferY[bufferIndex + lcuRow * quarterDecimatedPicturePtr->strideY])), (sb_width >> 1) * sizeof(uint8_t));
+                            EB_MEMCPY((&(context_ptr->me_context_ptr->quarter_sb_buffer[lcuRow * context_ptr->me_context_ptr->quarter_sb_buffer_stride])), (&(quarterDecimatedPicturePtr->buffer_y[bufferIndex + lcuRow * quarterDecimatedPicturePtr->stride_y])), (sb_width >> 1) * sizeof(uint8_t));
 
                         }
                     }
@@ -527,16 +527,16 @@ void* MotionEstimationKernel(void *input_ptr)
                     // Load the 1/16 decimated SB from the 1/16 decimated input to the 1/16 intermediate SB buffer
                     if (picture_control_set_ptr->enable_hme_level0_flag) {
 
-                        bufferIndex = (sixteenthDecimatedPicturePtr->origin_y + (sb_origin_y >> 2)) * sixteenthDecimatedPicturePtr->strideY + sixteenthDecimatedPicturePtr->origin_x + (sb_origin_x >> 2);
+                        bufferIndex = (sixteenthDecimatedPicturePtr->origin_y + (sb_origin_y >> 2)) * sixteenthDecimatedPicturePtr->stride_y + sixteenthDecimatedPicturePtr->origin_x + (sb_origin_x >> 2);
 
                         {
-                            uint8_t  *framePtr = &sixteenthDecimatedPicturePtr->bufferY[bufferIndex];
+                            uint8_t  *framePtr = &sixteenthDecimatedPicturePtr->buffer_y[bufferIndex];
                             uint8_t  *localPtr = context_ptr->me_context_ptr->sixteenth_sb_buffer;
 
                             for (lcuRow = 0; lcuRow < (sb_height >> 2); lcuRow += 2) {
                                 EB_MEMCPY(localPtr, framePtr, (sb_width >> 2) * sizeof(uint8_t));
                                 localPtr += 16;
-                                framePtr += sixteenthDecimatedPicturePtr->strideY << 1;
+                                framePtr += sixteenthDecimatedPicturePtr->stride_y << 1;
                             }
                         }
                     }

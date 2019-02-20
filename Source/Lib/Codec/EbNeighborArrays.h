@@ -116,8 +116,8 @@ extern "C" {
         NeighborArrayUnit_t *naUnitPtr,
         uint8_t               *srcPtr,
         uint32_t               stride,
-        uint32_t               srcOriginX,
-        uint32_t               srcOriginY,
+        uint32_t               src_origin_x,
+        uint32_t               src_origin_y,
         uint32_t               picOriginX,
         uint32_t               picOriginY,
         uint32_t               blockWidth,
@@ -156,8 +156,8 @@ extern "C" {
         NeighborArrayUnit_t *naUnitPtr,
         uint16_t               *srcPtr,
         uint32_t               stride,
-        uint32_t               srcOriginX,
-        uint32_t               srcOriginY,
+        uint32_t               src_origin_x,
+        uint32_t               src_origin_y,
         uint32_t               picOriginX,
         uint32_t               picOriginY,
         uint32_t               blockWidth,
@@ -187,7 +187,7 @@ extern "C" {
         uint8_t               *value,
         uint32_t               origin_x,
         uint32_t               origin_y,
-        uint32_t               blockSize);
+        uint32_t               block_size);
 #ifdef __cplusplus
 }
 #endif
