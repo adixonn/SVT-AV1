@@ -192,7 +192,7 @@ extern "C" {
     static EB_SADLOOPKERNELNxM_TYPE FUNC_TABLE NxMSadLoopKernelSparse_funcPtrArray[ASM_TYPE_TOTAL] =
     {
         // NON_AVX2
-        SadLoopKernelSparse_SSE4_1_INTRIN,
+        sad_loop_kernel_sparse_sse4_1_intrin,
         // AVX2
         sad_loop_kernel_sparse_avx2_intrin,
     };
@@ -201,7 +201,7 @@ extern "C" {
     static EB_SADLOOPKERNELNxM_TYPE FUNC_TABLE NxMSadLoopKernel_funcPtrArray[ASM_TYPE_TOTAL] =
     {
         // NON_AVX2
-        SadLoopKernel_SSE4_1_INTRIN,
+        sad_loop_kernel_sse4_1_intrin,
         // AVX2
         sad_loop_kernel_avx2_intrin,
     };
@@ -209,7 +209,7 @@ extern "C" {
     static EB_GETEIGHTSAD8x8 FUNC_TABLE GetEightHorizontalSearchPointResults_8x8_16x16_funcPtrArray[ASM_TYPE_TOTAL] =
     {
         // NON_AVX2
-        GetEightHorizontalSearchPointResults_8x8_16x16_PU_SSE41_INTRIN,
+        get_eight_horizontal_search_point_results_8x8_16x16_pu_sse41_intrin,
         // AVX2
         get_eight_horizontal_search_point_results_8x8_16x16_pu_avx2_intrin,
     };
@@ -217,7 +217,7 @@ extern "C" {
     static EB_GETEIGHTSAD32x32 FUNC_TABLE GetEightHorizontalSearchPointResults_32x32_64x64_funcPtrArray[ASM_TYPE_TOTAL] =
     {
         // NON_AVX2
-        GetEightHorizontalSearchPointResults_32x32_64x64_PU_SSE41_INTRIN,
+        get_eight_horizontal_search_point_results_32x32_64x64_pu_sse41_intrin,
         // AVX2
         get_eight_horizontal_search_point_results_32x32_64x64_pu_avx2_intrin,
     };

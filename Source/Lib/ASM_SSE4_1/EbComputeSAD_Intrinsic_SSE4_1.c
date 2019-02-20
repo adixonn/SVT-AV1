@@ -18,7 +18,7 @@
     yBest = i; \
   }
 
-void ExtSadCalculation_8x8_16x16_SSE4_INTRIN(
+void ext_sad_calculation_8x8_16x16_sse4_intrin(
     uint8_t   *src,
     uint32_t   src_stride,
     uint8_t   *ref,
@@ -107,7 +107,7 @@ void ExtSadCalculation_8x8_16x16_SSE4_INTRIN(
 
 }
 
-void ExtSadCalculation_32x32_64x64_SSE4_INTRIN(
+void ext_sad_calculation_32x32_64x64_sse4_intrin(
     uint32_t  *p_sad16x16,
     uint32_t  *p_best_sad32x32,
     uint32_t  *p_best_sad64x64,
@@ -167,7 +167,7 @@ void ExtSadCalculation_32x32_64x64_SSE4_INTRIN(
  * Requirement: height <= 64
  * Requirement: height % 2 = 0 when width = 4 or 8
 *******************************************************************************/
-void SadLoopKernel_SSE4_1_INTRIN(
+void sad_loop_kernel_sse4_1_intrin(
     uint8_t  *src,                            // input parameter, source samples Ptr
     uint32_t  src_stride,                      // input parameter, source stride
     uint8_t  *ref,                            // input parameter, reference samples Ptr
@@ -1826,7 +1826,7 @@ void SadLoopKernel_SSE4_1_INTRIN(
     *y_search_center = yBest;
 }
 
-void SadLoopKernelSparse_SSE4_1_INTRIN(
+void sad_loop_kernel_sparse_sse4_1_intrin(
     uint8_t  *src,                            // input parameter, source samples Ptr
     uint32_t  src_stride,                      // input parameter, source stride
     uint8_t  *ref,                            // input parameter, reference samples Ptr
@@ -3491,7 +3491,7 @@ void SadLoopKernelSparse_SSE4_1_INTRIN(
 * Requirement: height <= 64
 * Requirement: height % 2 = 0 when width = 4 or 8
 *******************************************************************************/
-void SadLoopKernel_SSE4_1_HmeL0_INTRIN(
+void sad_loop_kernel_sse4_1_hme_l0_intrin(
     uint8_t  *src,                            // input parameter, source samples Ptr
     uint32_t  src_stride,                      // input parameter, source stride
     uint8_t  *ref,                            // input parameter, reference samples Ptr
@@ -4423,7 +4423,7 @@ void SadLoopKernel_SSE4_1_HmeL0_INTRIN(
 /*******************************************
  * GetEightHorizontalSearchPointResults_8x8_16x16_PU
  *******************************************/
-void GetEightHorizontalSearchPointResults_8x8_16x16_PU_SSE41_INTRIN(
+void get_eight_horizontal_search_point_results_8x8_16x16_pu_sse41_intrin(
     uint8_t   *src,
     uint32_t   src_stride,
     uint8_t   *ref,
@@ -4668,7 +4668,7 @@ void GetEightHorizontalSearchPointResults_8x8_16x16_PU_SSE41_INTRIN(
  and check if there is improvement, if yes keep
  the best SAD+MV
  *******************************************/
-void GetEightHorizontalSearchPointResults_32x32_64x64_PU_SSE41_INTRIN(
+void get_eight_horizontal_search_point_results_32x32_64x64_pu_sse41_intrin(
     uint16_t  *p_sad16x16,
     uint32_t  *p_best_sad32x32,
     uint32_t  *p_best_sad64x64,

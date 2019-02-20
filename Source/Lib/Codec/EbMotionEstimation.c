@@ -128,15 +128,15 @@ static EB_COMPUTE8X4SAD_TYPE FUNC_TABLE compute8x4SAD_funcPtrArray[ASM_TYPE_TOTA
 ***************************************/
 static EB_EXTSADCALCULATION8X8AND16X16_TYPE ExtSadCalculation_8x8_16x16_funcPtrArray[ASM_TYPE_TOTAL] = {
     // NON_AVX2
-    ExtSadCalculation_8x8_16x16,
+    ext_sad_calculation_8x8_16x16,
     // AVX2
-    ExtSadCalculation_8x8_16x16_SSE4_INTRIN
+    ext_sad_calculation_8x8_16x16_sse4_intrin
 };
 static EB_EXTSADCALCULATION32X32AND64X64_TYPE ExtSadCalculation_32x32_64x64_funcPtrArray[ASM_TYPE_TOTAL] = {
     // NON_AVX2
-    ExtSadCalculation_32x32_64x64,
+    ext_sad_calculation_32x32_64x64,
     // AVX2
-    ExtSadCalculation_32x32_64x64_SSE4_INTRIN
+    ext_sad_calculation_32x32_64x64_sse4_intrin
 };
 static EB_SADCALCULATION8X8AND16X16_TYPE SadCalculation_8x8_16x16_funcPtrArray[ASM_TYPE_TOTAL] = {
     // NON_AVX2
@@ -156,7 +156,7 @@ Calcualte SAD for 16x16 and its 8x8 sublcoks
 and check if there is improvment, if yes keep
 the best SAD+MV
 *******************************************/
-void ExtSadCalculation_8x8_16x16(
+void ext_sad_calculation_8x8_16x16(
     uint8_t   *src,
     uint32_t   src_stride,
     uint8_t   *ref,
@@ -215,7 +215,7 @@ Calcualte SAD for 32x32,64x64 from 16x16
 and check if there is improvment, if yes keep
 the best SAD+MV
 *******************************************/
-void ExtSadCalculation_32x32_64x64(
+void ext_sad_calculation_32x32_64x64(
     uint32_t  *p_sad16x16,
     uint32_t  *p_best_sad32x32,
     uint32_t  *p_best_sad64x64,
@@ -4255,8 +4255,8 @@ void HmeOneQuadrantLevel0(
         else if ((search_area_width & 15) == 0)
         {
             // Only width equals 16 (LCU equals 64) is updated
-            // other width sizes work with the old code as the one in"SadLoopKernel_SSE4_1_INTRIN"
-            SadLoopKernel_SSE4_1_HmeL0_INTRIN(
+            // other width sizes work with the old code as the one in"sad_loop_kernel_sse4_1_intrin"
+            sad_loop_kernel_sse4_1_hme_l0_intrin(
                 &context_ptr->sixteenth_sb_buffer[0],
                 context_ptr->sixteenth_sb_buffer_stride,
                 &sixteenthRefPicPtr->buffer_y[searchRegionIndex],
@@ -4437,8 +4437,8 @@ void HmeLevel0(
         else if ((search_area_width & 15) == 0)
         {
             // Only width equals 16 (LCU equals 64) is updated
-            // other width sizes work with the old code as the one in"SadLoopKernel_SSE4_1_INTRIN"
-            SadLoopKernel_SSE4_1_HmeL0_INTRIN(
+            // other width sizes work with the old code as the one in"sad_loop_kernel_sse4_1_intrin"
+            sad_loop_kernel_sse4_1_hme_l0_intrin(
                 &context_ptr->sixteenth_sb_buffer[0],
                 context_ptr->sixteenth_sb_buffer_stride,
                 &sixteenthRefPicPtr->buffer_y[searchRegionIndex],
@@ -7251,8 +7251,8 @@ uint64_t SixteenthDecimatedSearch(
     else if ((search_area_width & 15) == 0)
     {
         // Only width equals 16 (LCU equals 64) is updated
-        // other width sizes work with the old code as the one in"SadLoopKernel_SSE4_1_INTRIN"
-        SadLoopKernel_SSE4_1_HmeL0_INTRIN(
+        // other width sizes work with the old code as the one in"sad_loop_kernel_sse4_1_intrin"
+        sad_loop_kernel_sse4_1_hme_l0_intrin(
             &context_ptr->sixteenth_sb_buffer[0],
             context_ptr->sixteenth_sb_buffer_stride * 2,
             &sixteenthRefPicPtr->buffer_y[searchRegionIndex],
