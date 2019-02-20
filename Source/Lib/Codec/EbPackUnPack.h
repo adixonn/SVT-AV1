@@ -33,7 +33,7 @@ extern "C" {
         },
         {
             // NON_AVX2
-            EB_ENC_msbPack2D_SSE2_INTRIN,
+            eb_enc_msb_pack2d_sse2_intrin,
             // AVX2
             eb_enc_msb_pack2d_avx2_intrin_al,//EB_ENC_msbPack2D_AVX2
         }
@@ -68,12 +68,12 @@ extern "C" {
     };
 
     typedef void(*EB_ENC_UnPack2D_TYPE)(
-        uint16_t      *in16BitBuffer,
-        uint32_t       inStride,
-        uint8_t       *out8BitBuffer,
-        uint8_t       *outnBitBuffer,
-        uint32_t       out8Stride,
-        uint32_t       outnStride,
+        uint16_t      *in16_bit_buffer,
+        uint32_t       in_stride,
+        uint8_t       *out8_bit_buffer,
+        uint8_t       *outn_bit_buffer,
+        uint32_t       out8_stride,
+        uint32_t       outn_stride,
         uint32_t       width,
         uint32_t       height);
 
@@ -87,9 +87,9 @@ extern "C" {
         },
         {
             // NON_AVX2
-            EB_ENC_msbUnPack2D_SSE2_INTRIN,
+            eb_enc_msb_un_pack2d_sse2_intrin,
             // AVX2
-            EB_ENC_msbUnPack2D_SSE2_INTRIN,
+            eb_enc_msb_un_pack2d_sse2_intrin,
         }
     };
 
@@ -107,7 +107,7 @@ extern "C" {
         // NON_AVX2
         UnpackAvg,
         // AVX2
-        unpack_avg_avx2_intrin,//UnpackAvg_SSE2_INTRIN,
+        unpack_avg_avx2_intrin,//unpack_avg_sse2_intrin,
 
     };
     typedef void(*EB_ENC_UnpackAvgSub_TYPE)(
@@ -125,15 +125,15 @@ extern "C" {
         // NON_AVX2
         UnpackAvgSafeSub,
         // AVX2  SafeSub
-        unpack_avg_safe_sub_avx2_intrin,//UnpackAvg_SSE2_INTRIN,
+        unpack_avg_safe_sub_avx2_intrin,//unpack_avg_sse2_intrin,
 
     };
 
     typedef void(*EB_ENC_UnPack8BitData_TYPE)(
-        uint16_t      *in16BitBuffer,
-        uint32_t       inStride,
-        uint8_t       *out8BitBuffer,
-        uint32_t       out8Stride,
+        uint16_t      *in16_bit_buffer,
+        uint32_t       in_stride,
+        uint8_t       *out8_bit_buffer,
+        uint32_t       out8_stride,
         uint32_t       width,
         uint32_t       height);
     EB_ENC_UnPack8BitData_TYPE UnPack8BIT_funcPtrArray_16Bit[2][ASM_TYPE_TOTAL] =
@@ -144,16 +144,16 @@ extern "C" {
         },
         {
             // NON_AVX2
-            EB_ENC_UnPack8BitData_SSE2_INTRIN,
+            eb_enc_un_pack8_bit_data_sse2_intrin,
             // AVX2
-            EB_ENC_UnPack8BitData_SSE2_INTRIN,
+            eb_enc_un_pack8_bit_data_sse2_intrin,
         }
     };
     typedef void(*EB_ENC_UnPack8BitDataSUB_TYPE)(
-        uint16_t      *in16BitBuffer,
-        uint32_t       inStride,
-        uint8_t       *out8BitBuffer,
-        uint32_t       out8Stride,
+        uint16_t      *in16_bit_buffer,
+        uint32_t       in_stride,
+        uint8_t       *out8_bit_buffer,
+        uint32_t       out8_stride,
         uint32_t       width,
         uint32_t       height,
         EbBool      sub_pred
@@ -161,9 +161,9 @@ extern "C" {
     EB_ENC_UnPack8BitDataSUB_TYPE UnPack8BITSafeSub_funcPtrArray_16Bit[ASM_TYPE_TOTAL] =
     {
         // NON_AVX2
-        EB_ENC_UnPack8BitDataSafeSub_SSE2_INTRIN,
+        eb_enc_un_pack8_bit_data_safe_sub_sse2_intrin,
         // AVX2
-        EB_ENC_UnPack8BitDataSafeSub_SSE2_INTRIN,
+        eb_enc_un_pack8_bit_data_safe_sub_sse2_intrin,
 
     };
 

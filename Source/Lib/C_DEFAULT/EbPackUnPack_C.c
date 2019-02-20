@@ -125,12 +125,12 @@ void CPack_C(
 * unpack 10 bit data into  8 and 2 bit 2D data
 ************************************************/
 void EB_ENC_msbUnPack2D(
-    uint16_t      *in16BitBuffer,
-    uint32_t       inStride,
-    uint8_t       *out8BitBuffer,
-    uint8_t       *outnBitBuffer,
-    uint32_t       out8Stride,
-    uint32_t       outnStride,
+    uint16_t      *in16_bit_buffer,
+    uint32_t       in_stride,
+    uint8_t       *out8_bit_buffer,
+    uint8_t       *outn_bit_buffer,
+    uint32_t       out8_stride,
+    uint32_t       outn_stride,
     uint32_t       width,
     uint32_t       height)
 {
@@ -141,19 +141,19 @@ void EB_ENC_msbUnPack2D(
     {
         for (k = 0; k < width; k++)
         {
-            inPixel = in16BitBuffer[k + j * inStride];
-            out8BitBuffer[k + j * out8Stride] = (uint8_t)(inPixel >> 2);
+            inPixel = in16_bit_buffer[k + j * in_stride];
+            out8_bit_buffer[k + j * out8_stride] = (uint8_t)(inPixel >> 2);
             tmpPixel = (uint8_t)(inPixel << 6);
-            outnBitBuffer[k + j * outnStride] = tmpPixel;
+            outn_bit_buffer[k + j * outn_stride] = tmpPixel;
         }
     }
 
 }
 void UnPack8BitData(
-    uint16_t      *in16BitBuffer,
-    uint32_t       inStride,
-    uint8_t       *out8BitBuffer,
-    uint32_t       out8Stride,
+    uint16_t      *in16_bit_buffer,
+    uint32_t       in_stride,
+    uint8_t       *out8_bit_buffer,
+    uint32_t       out8_stride,
     uint32_t       width,
     uint32_t       height)
 {
@@ -164,10 +164,10 @@ void UnPack8BitData(
     {
         for (k = 0; k < width; k++)
         {
-            inPixel = in16BitBuffer[k + j * inStride];
-            out8BitBuffer[k + j * out8Stride] = (uint8_t)(inPixel >> 2);
+            inPixel = in16_bit_buffer[k + j * in_stride];
+            out8_bit_buffer[k + j * out8_stride] = (uint8_t)(inPixel >> 2);
             //tmpPixel = (uint8_t)(inPixel << 6);
-            //outnBitBuffer[k + j*outnStride] = tmpPixel;
+            //outn_bit_buffer[k + j*outn_stride] = tmpPixel;
         }
     }
 

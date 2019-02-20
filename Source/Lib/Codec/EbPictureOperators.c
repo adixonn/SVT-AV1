@@ -548,10 +548,10 @@ EbErrorType PictureFullDistortion32Bits(
 }
 
 void extract_8bit_data(
-    uint16_t      *in16BitBuffer,
-    uint32_t       inStride,
-    uint8_t       *out8BitBuffer,
-    uint32_t       out8Stride,
+    uint16_t      *in16_bit_buffer,
+    uint32_t       in_stride,
+    uint8_t       *out8_bit_buffer,
+    uint32_t       out8_stride,
     uint32_t       width,
     uint32_t       height,
     EbAsm       asm_type
@@ -559,10 +559,10 @@ void extract_8bit_data(
 {
 
     UnPack8BIT_funcPtrArray_16Bit[((width & 3) == 0) && ((height & 1) == 0)][asm_type](
-        in16BitBuffer,
-        inStride,
-        out8BitBuffer,
-        out8Stride,
+        in16_bit_buffer,
+        in_stride,
+        out8_bit_buffer,
+        out8_stride,
         width,
         height);
 }
@@ -591,10 +591,10 @@ void unpack_l0l1_avg(
 
 }
 void extract8_bitdata_safe_sub(
-    uint16_t      *in16BitBuffer,
-    uint32_t       inStride,
-    uint8_t       *out8BitBuffer,
-    uint32_t       out8Stride,
+    uint16_t      *in16_bit_buffer,
+    uint32_t       in_stride,
+    uint8_t       *out8_bit_buffer,
+    uint32_t       out8_stride,
     uint32_t       width,
     uint32_t       height,
     EbBool      sub_pred,
@@ -603,10 +603,10 @@ void extract8_bitdata_safe_sub(
 {
 
     UnPack8BITSafeSub_funcPtrArray_16Bit[asm_type](
-        in16BitBuffer,
-        inStride,
-        out8BitBuffer,
-        out8Stride,
+        in16_bit_buffer,
+        in_stride,
+        out8_bit_buffer,
+        out8_stride,
         width,
         height,
         sub_pred
@@ -640,12 +640,12 @@ void unpack_l0l1_avg_safe_sub(
 
 }
 void UnPack2D(
-    uint16_t      *in16BitBuffer,
-    uint32_t       inStride,
-    uint8_t       *out8BitBuffer,
-    uint32_t       out8Stride,
-    uint8_t       *outnBitBuffer,
-    uint32_t       outnStride,
+    uint16_t      *in16_bit_buffer,
+    uint32_t       in_stride,
+    uint8_t       *out8_bit_buffer,
+    uint32_t       out8_stride,
+    uint8_t       *outn_bit_buffer,
+    uint32_t       outn_stride,
     uint32_t       width,
     uint32_t       height,
     EbAsm       asm_type
@@ -653,12 +653,12 @@ void UnPack2D(
 {
 
     UnPack2D_funcPtrArray_16Bit[((width & 3) == 0) && ((height & 1) == 0)][asm_type](
-        in16BitBuffer,
-        inStride,
-        out8BitBuffer,
-        outnBitBuffer,
-        out8Stride,
-        outnStride,
+        in16_bit_buffer,
+        in_stride,
+        out8_bit_buffer,
+        outn_bit_buffer,
+        out8_stride,
+        outn_stride,
         width,
         height);
 }

@@ -166,8 +166,6 @@ extern "C" {
         uint32_t  width,
         uint32_t  height);
 
-
-
 #ifdef __cplusplus
 }
 #endif

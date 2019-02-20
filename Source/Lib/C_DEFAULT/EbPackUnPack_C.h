@@ -42,19 +42,19 @@ extern "C" {
 
 
     void EB_ENC_msbUnPack2D(
-        uint16_t      *in16BitBuffer,
-        uint32_t       inStride,
-        uint8_t       *out8BitBuffer,
-        uint8_t       *outnBitBuffer,
-        uint32_t       out8Stride,
-        uint32_t       outnStride,
+        uint16_t      *in16_bit_buffer,
+        uint32_t       in_stride,
+        uint8_t       *out8_bit_buffer,
+        uint8_t       *outn_bit_buffer,
+        uint32_t       out8_stride,
+        uint32_t       outn_stride,
         uint32_t       width,
         uint32_t       height);
     void UnPack8BitData(
-        uint16_t      *in16BitBuffer,
-        uint32_t       inStride,
-        uint8_t       *out8BitBuffer,
-        uint32_t       out8Stride,
+        uint16_t      *in16_bit_buffer,
+        uint32_t       in_stride,
+        uint8_t       *out8_bit_buffer,
+        uint32_t       out8_stride,
         uint32_t       width,
         uint32_t       height);
     void UnpackAvg(
