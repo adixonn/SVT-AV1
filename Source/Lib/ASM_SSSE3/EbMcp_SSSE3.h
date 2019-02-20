@@ -13,7 +13,7 @@ extern "C" {
 #endif
 
     // SSSE3 functions
-    void ChromaInterpolationCopy_SSSE3(
+    void chroma_interpolation_copy_ssse3(
         EbByte   ref_pic, 
         uint32_t src_stride, 
         EbByte   dst, 
@@ -24,7 +24,7 @@ extern "C" {
         uint32_t frac_pos_x, 
         uint32_t frac_pos_y);
 
-    void ChromaInterpolationFilterOneDHorizontal_SSSE3(
+    void chroma_interpolation_filter_one_d_horizontal_ssse3(
         EbByte   ref_pic, 
         uint32_t src_stride, 
         EbByte   dst, 
@@ -35,7 +35,7 @@ extern "C" {
         uint32_t frac_pos_x, 
         uint32_t frac_pos_y);
 
-    void ChromaInterpolationFilterOneDOutRawHorizontal_SSSE3(
+    void chroma_interpolation_filter_one_d_out_raw_horizontal_ssse3(
         EbByte   ref_pic, 
         uint32_t src_stride, 
         int16_t *dst, 
@@ -45,7 +45,7 @@ extern "C" {
         uint32_t frac_pos_x, 
         uint32_t frac_pos_y);
 
-    void ChromaInterpolationFilterOneDVertical_SSSE3(
+    void chroma_interpolation_filter_one_d_vertical_ssse3(
         EbByte   ref_pic, 
         uint32_t src_stride, 
         EbByte   dst, 
@@ -56,7 +56,7 @@ extern "C" {
         uint32_t frac_pos_x, 
         uint32_t frac_pos_y);
 
-    void ChromaInterpolationFilterOneDOutRawVertical_SSSE3(
+    void chroma_interpolation_filter_one_d_out_raw_vertical_ssse3(
         EbByte   ref_pic, 
         uint32_t src_stride, 
         int16_t *dst, 
@@ -66,7 +66,7 @@ extern "C" {
         uint32_t frac_pos_x, 
         uint32_t frac_pos_y);
 
-    void ChromaInterpolationFilterTwoD_SSSE3(
+    void chroma_interpolation_filter_two_d_ssse3(
         EbByte   ref_pic, 
         uint32_t src_stride, 
         EbByte   dst, 
@@ -77,7 +77,7 @@ extern "C" {
         uint32_t frac_pos_x, 
         uint32_t frac_pos_y);
 
-    void ChromaInterpolationFilterTwoDOutRaw_SSSE3(
+    void chroma_interpolation_filter_two_d_out_raw_ssse3(
         EbByte   ref_pic, 
         uint32_t src_stride, 
         int16_t *dst,
@@ -87,7 +87,7 @@ extern "C" {
         uint32_t frac_pos_x, 
         uint32_t frac_pos_y);
 
-    void ChromaInterpolationCopyOutRaw_SSSE3(
+    void chroma_interpolation_copy_out_raw_ssse3(
         EbByte   ref_pic, 
         uint32_t src_stride,
         int16_t *dst, 
@@ -97,7 +97,7 @@ extern "C" {
         uint32_t frac_pos_x, 
         uint32_t frac_pos_y);
 
-    void LumaInterpolationCopy_SSSE3(
+    void luma_interpolation_copy_ssse3(
         EbByte   ref_pic, 
         uint32_t src_stride, 
         EbByte   dst, 
@@ -106,7 +106,7 @@ extern "C" {
         uint32_t pu_height, 
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosa_SSSE3(
+    void luma_interpolation_filter_posa_ssse3(
         EbByte   ref_pic, 
         uint32_t src_stride, 
         EbByte   dst, 
@@ -115,7 +115,7 @@ extern "C" {
         uint32_t pu_height, 
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosb_SSSE3(
+    void luma_interpolation_filter_posb_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         EbByte   dst,
@@ -124,7 +124,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosc_SSSE3(
+    void luma_interpolation_filter_posc_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         EbByte   dst,
@@ -133,7 +133,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosd_SSSE3(
+    void luma_interpolation_filter_posd_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         EbByte   dst,
@@ -142,7 +142,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPose_SSSE3(
+    void luma_interpolation_filter_pose_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         EbByte   dst,
@@ -151,7 +151,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosf_SSSE3(
+    void luma_interpolation_filter_posf_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         EbByte   dst,
@@ -160,7 +160,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosg_SSSE3(
+    void luma_interpolation_filter_posg_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         EbByte   dst,
@@ -169,7 +169,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosh_SSSE3(
+    void luma_interpolation_filter_posh_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         EbByte   dst,
@@ -178,7 +178,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosi_SSSE3(
+    void luma_interpolation_filter_posi_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         EbByte   dst,
@@ -187,7 +187,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosj_SSSE3(
+    void luma_interpolation_filter_posj_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         EbByte   dst,
@@ -196,7 +196,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosk_SSSE3(
+    void luma_interpolation_filter_posk_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         EbByte   dst,
@@ -205,7 +205,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosn_SSSE3(
+    void luma_interpolation_filter_posn_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         EbByte   dst,
@@ -214,7 +214,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosp_SSSE3(
+    void luma_interpolation_filter_posp_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         EbByte   dst,
@@ -223,7 +223,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosq_SSSE3(
+    void luma_interpolation_filter_posq_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         EbByte   dst,
@@ -232,7 +232,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosr_SSSE3(
+    void luma_interpolation_filter_posr_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         EbByte   dst,
@@ -241,7 +241,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationCopyOutRaw_SSSE3(
+    void luma_interpolation_copy_out_raw_ssse3(
         EbByte   ref_pic, 
         uint32_t src_stride, 
         int16_t *dst, 
@@ -249,7 +249,7 @@ extern "C" {
         uint32_t pu_height, 
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosaOutRaw_SSSE3(
+    void luma_interpolation_filter_posa_out_raw_ssse3(
         EbByte   ref_pic, 
         uint32_t src_stride, 
         int16_t *dst, 
@@ -257,7 +257,7 @@ extern "C" {
         uint32_t pu_height, 
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosbOutRaw_SSSE3(
+    void luma_interpolation_filter_posb_out_raw_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         int16_t *dst,
@@ -265,7 +265,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPoscOutRaw_SSSE3(
+    void luma_interpolation_filter_posc_out_raw_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         int16_t *dst,
@@ -273,7 +273,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosdOutRaw_SSSE3(
+    void luma_interpolation_filter_posd_out_raw_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         int16_t *dst,
@@ -281,7 +281,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPoseOutRaw_SSSE3(
+    void luma_interpolation_filter_pose_out_raw_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         int16_t *dst,
@@ -289,7 +289,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosfOutRaw_SSSE3(
+    void luma_interpolation_filter_posf_out_raw_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         int16_t *dst,
@@ -297,7 +297,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosgOutRaw_SSSE3(
+    void luma_interpolation_filter_posg_out_raw_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         int16_t *dst,
@@ -305,7 +305,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPoshOutRaw_SSSE3(
+    void luma_interpolation_filter_posh_out_raw_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         int16_t *dst,
@@ -313,7 +313,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosiOutRaw_SSSE3(
+    void luma_interpolation_filter_posi_out_raw_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         int16_t *dst,
@@ -321,7 +321,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosjOutRaw_SSSE3(
+    void luma_interpolation_filter_posj_out_raw_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         int16_t *dst,
@@ -329,7 +329,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPoskOutRaw_SSSE3(
+    void luma_interpolation_filter_posk_out_raw_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         int16_t *dst,
@@ -337,7 +337,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosnOutRaw_SSSE3(
+    void luma_interpolation_filter_posn_out_raw_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         int16_t *dst,
@@ -345,7 +345,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPospOutRaw_SSSE3(
+    void luma_interpolation_filter_posp_out_raw_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         int16_t *dst,
@@ -353,7 +353,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosqOutRaw_SSSE3(
+    void luma_interpolation_filter_posq_out_raw_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         int16_t *dst,
@@ -361,7 +361,7 @@ extern "C" {
         uint32_t pu_height,
         int16_t *first_pass_if_dst);
 
-    void LumaInterpolationFilterPosrOutRaw_SSSE3(
+    void luma_interpolation_filter_posr_out_raw_ssse3(
         EbByte   ref_pic,
         uint32_t src_stride,
         int16_t *dst,
