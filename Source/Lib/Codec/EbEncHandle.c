@@ -1840,7 +1840,7 @@ __attribute__((visibility("default")))
 EB_API EbErrorType eb_init_handle(
     EbComponentType** p_handle,               // Function to be called in the future for manipulating the component
     void*              p_app_data,
-    EbSvtAv1EncConfiguration  *config_ptr)              // Pointer passed back to the client during callbacks
+    EbSvtAv1EncConfiguration  *config_ptr)              // pointer passed back to the client during callbacks
 
 {
     EbErrorType           return_error = EB_ErrorNone;

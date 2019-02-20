@@ -292,7 +292,7 @@ static void EntropyCodingLcu(
     //store the number of written bits before coding quantized coeffs (flush is not called yet):
     // The total number of bits is
     // number of written bits
-    // + 32  - bits remaining in interval Low Value
+    // + 32  - bits remaining in interval Low value
     // + number of buffered byte * 8
     // This should be only for coeffs not any flag
     writtenBitsBeforeQuantizedCoeff = ((OutputBitstreamUnit_t*)EntropyCoderGetBitstreamPtr(picture_control_set_ptr->entropy_coder_ptr))->writtenBitsCount;
@@ -310,7 +310,7 @@ static void EntropyCodingLcu(
     //store the number of written bits after coding quantized coeffs (flush is not called yet):
     // The total number of bits is
     // number of written bits
-    // + 32  - bits remaining in interval Low Value
+    // + 32  - bits remaining in interval Low value
     // + number of buffered byte * 8
     writtenBitsAfterQuantizedCoeff = ((OutputBitstreamUnit_t*)EntropyCoderGetBitstreamPtr(picture_control_set_ptr->entropy_coder_ptr))->writtenBitsCount;
 

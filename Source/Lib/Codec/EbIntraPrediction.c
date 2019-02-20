@@ -808,7 +808,7 @@ EbErrorType GenerateIntraReferenceSamplesEncodePass(
     }
     else {
 
-        // Write Pad Value - adjust for the TopLeft block being 1-sample
+        // Write Pad value - adjust for the TopLeft block being 1-sample
         writeCountLuma = (blockIndex >= topLeftBlockEnd) ?
             (blockIndex - 1) * MIN_PU_SIZE + 1 :
             blockIndex * MIN_PU_SIZE;
@@ -902,7 +902,7 @@ EbErrorType GenerateIntraReferenceSamplesEncodePass(
             *cbWritePtr = topLeftCbReconNeighborArray[reconArrayIndex >> 1];
             *crWritePtr = topLeftCrReconNeighborArray[reconArrayIndex >> 1];
 
-            // Set Pad Value
+            // Set Pad value
             lumaPadValue = topLeftLumaReconNeighborArray[reconArrayIndex];
             cbPadValue = topLeftCbReconNeighborArray[reconArrayIndex >> 1];
             crPadValue = topLeftCrReconNeighborArray[reconArrayIndex >> 1];
@@ -1328,7 +1328,7 @@ EbErrorType GenerateIntraReference16bitSamplesEncodePass(
     }
     else {
 
-        // Write Pad Value - adjust for the TopLeft block being 1-sample
+        // Write Pad value - adjust for the TopLeft block being 1-sample
         writeCountLuma = (blockIndex >= topLeftBlockEnd) ?
             (blockIndex - 1) * MIN_PU_SIZE + 1 :
             blockIndex * MIN_PU_SIZE;
@@ -1425,7 +1425,7 @@ EbErrorType GenerateIntraReference16bitSamplesEncodePass(
             *cbWritePtr = topLeftCbReconNeighborArray[reconArrayIndex >> 1];
             *crWritePtr = topLeftCrReconNeighborArray[reconArrayIndex >> 1];
 
-            // Set Pad Value
+            // Set Pad value
             lumaPadValue = topLeftLumaReconNeighborArray[reconArrayIndex];
             cbPadValue = topLeftCbReconNeighborArray[reconArrayIndex >> 1];
             crPadValue = topLeftCrReconNeighborArray[reconArrayIndex >> 1];
@@ -1806,7 +1806,7 @@ EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
     }
     else {
 
-        // Write Pad Value - adjust for the TopLeft block being 1-sample
+        // Write Pad value - adjust for the TopLeft block being 1-sample
         writeCountLuma = (blockIndex >= topLeftBlockEnd) ?
             (blockIndex - 1) * MIN_PU_SIZE + 1 :
             blockIndex * MIN_PU_SIZE;
@@ -1877,7 +1877,7 @@ EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
             // Copy sample
             *lumaWritePtr = topLeftLumaReconNeighborArray[reconArrayIndex];
 
-            // Set Pad Value
+            // Set Pad value
             lumaPadValue = topLeftLumaReconNeighborArray[reconArrayIndex];
         }
         else {
@@ -2243,7 +2243,7 @@ EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
     }
     else {
 
-        // Write Pad Value - adjust for the TopLeft block being 1-sample
+        // Write Pad value - adjust for the TopLeft block being 1-sample
         writeCountChroma = (blockIndex >= topLeftBlockEnd) ?
             (((blockIndex - 1) * MIN_PU_SIZE) >> 1) + 1 :
             ((blockIndex    * MIN_PU_SIZE) >> 1);
@@ -2325,7 +2325,7 @@ EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
             *cbWritePtr = topLeftCbReconNeighborArray[reconArrayIndex >> 1];
             *crWritePtr = topLeftCrReconNeighborArray[reconArrayIndex >> 1];
 
-            // Set Pad Value
+            // Set Pad value
             cbPadValue = topLeftCbReconNeighborArray[reconArrayIndex >> 1];
             crPadValue = topLeftCrReconNeighborArray[reconArrayIndex >> 1];
         }

@@ -140,15 +140,15 @@ static EB_EXTSADCALCULATION32X32AND64X64_TYPE ExtSadCalculation_32x32_64x64_func
 };
 static EB_SADCALCULATION8X8AND16X16_TYPE SadCalculation_8x8_16x16_funcPtrArray[ASM_TYPE_TOTAL] = {
     // NON_AVX2
-    SadCalculation_8x8_16x16_SSE2_INTRIN,
+    sad_calculation_8x8_16x16_sse2_intrin,
     // AVX2
-    SadCalculation_8x8_16x16_SSE2_INTRIN,
+    sad_calculation_8x8_16x16_sse2_intrin,
 };
 static EB_SADCALCULATION32X32AND64X64_TYPE SadCalculation_32x32_64x64_funcPtrArray[ASM_TYPE_TOTAL] = {
     // NON_AVX2
-    SadCalculation_32x32_64x64_SSE2_INTRIN,
+    sad_calculation_32x32_64x64_sse2_intrin,
     // AVX2
-    SadCalculation_32x32_64x64_SSE2_INTRIN,
+    sad_calculation_32x32_64x64_sse2_intrin,
 };
 
 /*******************************************

@@ -6,7 +6,7 @@
 #include "EbMcp.h"
 
 /**************************************************
-* Function Pointer Tables
+* Function pointer Tables
 **************************************************/
 
 // Luma

@@ -135,12 +135,12 @@ extern "C" {
      *   EbObjectWrappers are allowed to be released or not.
      *
      *   resourcePtr
-     *      Pointer to the SystemResource that manages the EbObjectWrapper.
+     *      pointer to the SystemResource that manages the EbObjectWrapper.
      *      The emptyFifo's lockoutMutex is used to write protect the
      *      modification of the EbObjectWrapper.
      *
      *   wrapper_ptr
-     *      Pointer to the EbObjectWrapper to be modified.
+     *      pointer to the EbObjectWrapper to be modified.
      *********************************************************************/
     extern EbErrorType EbObjectReleaseEnable(
         EbObjectWrapper_t   *wrapper_ptr);
@@ -152,12 +152,12 @@ extern "C" {
      *   EbObjectWrappers are allowed to be released or not.
      *
      *   resourcePtr
-     *      Pointer to the SystemResource that manages the EbObjectWrapper.
+     *      pointer to the SystemResource that manages the EbObjectWrapper.
      *      The emptyFifo's lockoutMutex is used to write protect the
      *      modification of the EbObjectWrapper.
      *
      *   wrapper_ptr
-     *      Pointer to the EbObjectWrapper to be modified.
+     *      pointer to the EbObjectWrapper to be modified.
      *********************************************************************/
     extern EbErrorType EbObjectReleaseDisable(
         EbObjectWrapper_t   *wrapper_ptr);
@@ -169,12 +169,12 @@ extern "C" {
      *   pointers of a EbObjectWrapper in pipeline at any point in time.
      *
      *   resourcePtr
-     *      Pointer to the SystemResource that manages the EbObjectWrapper.
+     *      pointer to the SystemResource that manages the EbObjectWrapper.
      *      The emptyFifo's lockoutMutex is used to write protect the
      *      modification of the EbObjectWrapper.
      *
      *   wrapper_ptr
-     *      Pointer to the EbObjectWrapper to be modified.
+     *      pointer to the EbObjectWrapper to be modified.
      *
      *   incrementNumber
      *      The number to increment the live count by.
@@ -190,7 +190,7 @@ extern "C" {
      *   ObjectCtor function.
      *
      *   resourcePtr
-     *     Pointer that will contain the SystemResource to be constructed.
+     *     pointer that will contain the SystemResource to be constructed.
      *
      *   objectTotalCount
      *     Number of objects to be managed by the SystemResource.
@@ -206,7 +206,7 @@ extern "C" {
      *     construction is performed if ObjectCtor is NULL.
      *
      *   object_init_data_ptr
-     *     Pointer to data block to be used during the construction of
+     *     pointer to data block to be used during the construction of
      *     the object. object_init_data_ptr is passed to ObjectCtor when
      *     ObjectCtor is called.
      *********************************************************************/
@@ -228,7 +228,7 @@ extern "C" {
      *   ObjectDtor function.
      *
      *   resourcePtr
-     *     Pointer to the SystemResource to be destructed.
+     *     pointer to the SystemResource to be destructed.
      *
      *   ObjectDtor
      *     Function pointer to the destructor of the object managed by
@@ -248,7 +248,7 @@ extern "C" {
      *   is write protected by the SystemResource emptyFifo lockoutMutex.
      *
      *   resourcePtr
-     *      Pointer to the SystemResource that provides the empty
+     *      pointer to the SystemResource that provides the empty
      *      EbObjectWrapper.
      *
      *   wrapperDblPtr
@@ -267,11 +267,11 @@ extern "C" {
      *   lockoutMutex.
      *
      *   resourcePtr
-     *      Pointer to the SystemResource that the EbObjectWrapper is
+     *      pointer to the SystemResource that the EbObjectWrapper is
      *      posted to.
      *
      *   wrapper_ptr
-     *      Pointer to EbObjectWrapper to be posted.
+     *      pointer to EbObjectWrapper to be posted.
      *********************************************************************/
     extern EbErrorType EbPostFullObject(
         EbObjectWrapper_t   *objectPtr);
@@ -284,7 +284,7 @@ extern "C" {
      *   lockoutMutex.
      *
      *   resourcePtr
-     *      Pointer to the SystemResource that provides the full
+     *      pointer to the SystemResource that provides the full
      *      EbObjectWrapper.
      *
      *   wrapperDblPtr
@@ -307,7 +307,7 @@ extern "C" {
      *   lockoutMutex.
      *
      *   objectPtr
-     *      Pointer to EbObjectWrapper to be released.
+     *      pointer to EbObjectWrapper to be released.
      *********************************************************************/
     extern EbErrorType EbReleaseObject(
         EbObjectWrapper_t   *objectPtr);

@@ -9,7 +9,7 @@
 #include "EbDefinitions.h"
 
 /*******************************************
-* Function Pointer Table
+* Function pointer Table
 *******************************************/
 #ifdef __cplusplus
 extern "C" {

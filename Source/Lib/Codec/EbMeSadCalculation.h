@@ -86,10 +86,10 @@ extern "C" {
         uint32_t   mv);
 
     typedef void(*EB_INIALIZEBUFFER_32BITS)(
-        uint32_t*        Pointer,
-        uint32_t        Count128,
-        uint32_t        Count32,
-        uint32_t        Value);
+        uint32_t*        pointer,
+        uint32_t        count128,
+        uint32_t        count32,
+        uint32_t        value);
 
     typedef void(*EB_RECTAMPSADCALCULATION8X8AND16X16_TYPE)(
         uint8_t   *src,
@@ -149,9 +149,9 @@ extern "C" {
 
     static EB_INIALIZEBUFFER_32BITS InitializeBuffer_32bits_funcPtrArray[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        InitializeBuffer_32bits_SSE2_INTRIN,
+        initialize_buffer_32bits_sse2_intrin,
         // AVX2
-        InitializeBuffer_32bits_SSE2_INTRIN
+        initialize_buffer_32bits_sse2_intrin
     };
 
 #ifdef __cplusplus

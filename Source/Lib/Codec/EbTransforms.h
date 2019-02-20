@@ -4018,7 +4018,7 @@ extern "C" {
 
 
     /*****************************
-    * Function Pointer Typedef
+    * Function pointer Typedef
     *****************************/
     typedef void(*EB_QIQ_TYPE)(
         int16_t           *coeff,

@@ -326,12 +326,12 @@ static EbErrorType EbMuxingQueueObjectPushFront(
  *   EbObjectWrappers are allowed to be released or not.
  *
  *   resourcePtr
- *      Pointer to the SystemResource that manages the EbObjectWrapper.
+ *      pointer to the SystemResource that manages the EbObjectWrapper.
  *      The emptyFifo's lockoutMutex is used to write protect the
  *      modification of the EbObjectWrapper.
  *
  *   wrapper_ptr
- *      Pointer to the EbObjectWrapper to be modified.
+ *      pointer to the EbObjectWrapper to be modified.
  *********************************************************************/
 EbErrorType EbObjectReleaseEnable(
     EbObjectWrapper_t   *wrapper_ptr)
@@ -354,12 +354,12 @@ EbErrorType EbObjectReleaseEnable(
  *   EbObjectWrappers are allowed to be released or not.
  *
  *   resourcePtr
- *      Pointer to the SystemResource that manages the EbObjectWrapper.
+ *      pointer to the SystemResource that manages the EbObjectWrapper.
  *      The emptyFifo's lockoutMutex is used to write protect the
  *      modification of the EbObjectWrapper.
  *
  *   wrapper_ptr
- *      Pointer to the EbObjectWrapper to be modified.
+ *      pointer to the EbObjectWrapper to be modified.
  *********************************************************************/
 EbErrorType EbObjectReleaseDisable(
     EbObjectWrapper_t   *wrapper_ptr)
@@ -382,12 +382,12 @@ EbErrorType EbObjectReleaseDisable(
  *   pointers of a EbObjectWrapper in pipeline at any point in time.
  *
  *   resourcePtr
- *      Pointer to the SystemResource that manages the EbObjectWrapper.
+ *      pointer to the SystemResource that manages the EbObjectWrapper.
  *      The emptyFifo's lockoutMutex is used to write protect the
  *      modification of the EbObjectWrapper.
  *
  *   wrapper_ptr
- *      Pointer to the EbObjectWrapper to be modified.
+ *      pointer to the EbObjectWrapper to be modified.
  *********************************************************************/
 EbErrorType EbObjectIncLiveCount(
     EbObjectWrapper_t   *wrapper_ptr,
@@ -411,7 +411,7 @@ EbErrorType EbObjectIncLiveCount(
  *   ObjectCtor function.
  *
  *   resourcePtr
- *     Pointer that will contain the SystemResource to be constructed.
+ *     pointer that will contain the SystemResource to be constructed.
  *
  *   objectTotalCount
  *     Number of objects to be managed by the SystemResource.
@@ -428,7 +428,7 @@ EbErrorType EbObjectIncLiveCount(
  *
  *   object_init_data_ptr
 
- *     Pointer to data block to be used during the construction of
+ *     pointer to data block to be used during the construction of
  *     the object. object_init_data_ptr is passed to ObjectCtor when
  *     ObjectCtor is called.
  *********************************************************************/
@@ -540,11 +540,11 @@ static EbErrorType EbReleaseProcess(
  *   lockoutMutex.
  *
  *   resourcePtr
- *      Pointer to the SystemResource that the EbObjectWrapper is
+ *      pointer to the SystemResource that the EbObjectWrapper is
  *      posted to.
  *
  *   wrapper_ptr
- *      Pointer to EbObjectWrapper to be posted.
+ *      pointer to EbObjectWrapper to be posted.
  *********************************************************************/
 EbErrorType EbPostFullObject(
     EbObjectWrapper_t   *objectPtr)
@@ -570,7 +570,7 @@ EbErrorType EbPostFullObject(
  *   lockoutMutex.
  *
  *   objectPtr
- *      Pointer to EbObjectWrapper to be released.
+ *      pointer to EbObjectWrapper to be released.
  *********************************************************************/
 EbErrorType EbReleaseObject(
     EbObjectWrapper_t   *objectPtr)
@@ -606,7 +606,7 @@ EbErrorType EbReleaseObject(
  *   lockoutMutex.
  *
  *   resourcePtr
- *      Pointer to the SystemResource that provides the empty
+ *      pointer to the SystemResource that provides the empty
  *      EbObjectWrapper.
  *
  *   wrapperDblPtr
@@ -653,7 +653,7 @@ EbErrorType EbGetEmptyObject(
  *   lockoutMutex.
  *
  *   resourcePtr
- *      Pointer to the SystemResource that provides the full
+ *      pointer to the SystemResource that provides the full
  *      EbObjectWrapper.
  *
  *   wrapperDblPtr

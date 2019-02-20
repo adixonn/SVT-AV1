@@ -13591,7 +13591,7 @@ extern "C" {
         int32_t rst_end_stripe[MAX_TILE_ROWS];
         // Output of loop restoration
         Yv12BufferConfig rst_frame;
-        // Pointer to a scratch buffer used by self-guided restoration
+        // pointer to a scratch buffer used by self-guided restoration
         int32_t *rst_tmpbuf;
         Yv12BufferConfig *frame_to_show;
         int32_t byte_alignment;
@@ -13925,7 +13925,7 @@ extern "C" {
         // Data attached to the picture. This includes data passed from the application, or other data the encoder attaches
         // to the picture.
         EbLinkedListNode                     *data_ll_head_ptr;
-        // Pointer to data to be passed back to the application when picture encoding is done
+        // pointer to data to be passed back to the application when picture encoding is done
         EbLinkedListNode                     *app_out_data_ll_head_ptr;
 
         EbBufferHeaderType                   *input_ptr;            // input picture buffer 
