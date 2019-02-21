@@ -55,7 +55,7 @@ EbErrorType picture_control_set_ctor(
     PictureControlSet_t *object_ptr;
     PictureControlSetInitData_t *initDataPtr = (PictureControlSetInitData_t*)object_init_data_ptr;
 
-    EbPictureBufferDescInitData_t inputPictureBufferDescInitData;
+    EbPictureBufferDescInitData_t input_picture_buffer_desc_init_data;
     EbPictureBufferDescInitData_t coeffBufferDescInitData;
 
     // Max/Min CU Sizes
@@ -74,17 +74,17 @@ EbErrorType picture_control_set_ctor(
     EB_MALLOC(PictureControlSet_t*, object_ptr, sizeof(PictureControlSet_t), EB_N_PTR);
 
     // Init Picture Init data
-    inputPictureBufferDescInitData.maxWidth = initDataPtr->picture_width;
-    inputPictureBufferDescInitData.maxHeight = initDataPtr->picture_height;
-    inputPictureBufferDescInitData.bit_depth = initDataPtr->bit_depth;
-    inputPictureBufferDescInitData.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
+    input_picture_buffer_desc_init_data.maxWidth = initDataPtr->picture_width;
+    input_picture_buffer_desc_init_data.maxHeight = initDataPtr->picture_height;
+    input_picture_buffer_desc_init_data.bit_depth = initDataPtr->bit_depth;
+    input_picture_buffer_desc_init_data.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
 
-    inputPictureBufferDescInitData.left_padding = PAD_VALUE;
-    inputPictureBufferDescInitData.right_padding = PAD_VALUE;
-    inputPictureBufferDescInitData.top_padding = PAD_VALUE;
-    inputPictureBufferDescInitData.bot_padding = PAD_VALUE;
+    input_picture_buffer_desc_init_data.left_padding = PAD_VALUE;
+    input_picture_buffer_desc_init_data.right_padding = PAD_VALUE;
+    input_picture_buffer_desc_init_data.top_padding = PAD_VALUE;
+    input_picture_buffer_desc_init_data.bot_padding = PAD_VALUE;
 
-    inputPictureBufferDescInitData.splitMode = EB_FALSE;
+    input_picture_buffer_desc_init_data.splitMode = EB_FALSE;
 
     coeffBufferDescInitData.maxWidth = initDataPtr->picture_width;
     coeffBufferDescInitData.maxHeight = initDataPtr->picture_height;
@@ -118,22 +118,22 @@ EbErrorType picture_control_set_ctor(
     coeffBufferDes32bitInitData.splitMode = EB_FALSE;
 
     object_ptr->recon_picture32bit_ptr = (EbPictureBufferDesc_t *)EB_NULL;
-    return_error = EbReconPictureBufferDescCtor(
+    return_error = eb_recon_picture_buffer_desc_ctor(
         (EbPtr*)&(object_ptr->recon_picture32bit_ptr),
         (EbPtr)&coeffBufferDes32bitInitData);
 
     // Reconstructed Picture Buffer
     if (initDataPtr->is16bit == EB_TRUE) {
-        return_error = EbReconPictureBufferDescCtor(
+        return_error = eb_recon_picture_buffer_desc_ctor(
             (EbPtr*) &(object_ptr->recon_picture16bit_ptr),
             (EbPtr)&coeffBufferDescInitData);
     }
     else
     {
 
-        return_error = EbReconPictureBufferDescCtor(
+        return_error = eb_recon_picture_buffer_desc_ctor(
             (EbPtr*) &(object_ptr->recon_picture_ptr),
-            (EbPtr)&inputPictureBufferDescInitData);
+            (EbPtr)&input_picture_buffer_desc_init_data);
     }
 
     if (return_error == EB_ErrorInsufficientResources) {
@@ -144,15 +144,15 @@ EbErrorType picture_control_set_ctor(
     // Film Grain Picture Buffer
     if (initDataPtr->film_grain_noise_level) {
         if (initDataPtr->is16bit == EB_TRUE) {
-            return_error = EbReconPictureBufferDescCtor(
+            return_error = eb_recon_picture_buffer_desc_ctor(
                 (EbPtr*) &(object_ptr->film_grain_picture16bit_ptr),
                 (EbPtr)&coeffBufferDescInitData);
         }
         else
         {
-            return_error = EbReconPictureBufferDescCtor(
+            return_error = eb_recon_picture_buffer_desc_ctor(
                 (EbPtr*) &(object_ptr->film_grain_picture_ptr),
-                (EbPtr)&inputPictureBufferDescInitData);
+                (EbPtr)&input_picture_buffer_desc_init_data);
         }
 
         if (return_error == EB_ErrorInsufficientResources) {
@@ -161,7 +161,7 @@ EbErrorType picture_control_set_ctor(
     }
 
     if (initDataPtr->is16bit == EB_TRUE) {
-        return_error = EbPictureBufferDescCtor(
+        return_error = eb_picture_buffer_desc_ctor(
             (EbPtr*)&(object_ptr->input_frame16bit),
             (EbPtr)&coeffBufferDescInitData);
     }

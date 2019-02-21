@@ -66,13 +66,13 @@ EbErrorType dlf_context_ctor(
 
     if (is16bit) {
         temp_lf_recon_desc_init_data.bit_depth = EB_16BIT;
-        return_error = EbReconPictureBufferDescCtor(
+        return_error = eb_recon_picture_buffer_desc_ctor(
             (EbPtr*)&(context_ptr->temp_lf_recon_picture16bit_ptr),
             (EbPtr)&temp_lf_recon_desc_init_data);
     }
     else {
         temp_lf_recon_desc_init_data.bit_depth = EB_8BIT;
-        return_error = EbReconPictureBufferDescCtor(
+        return_error = eb_recon_picture_buffer_desc_ctor(
             (EbPtr*)&(context_ptr->temp_lf_recon_picture_ptr),
             (EbPtr)&temp_lf_recon_desc_init_data);
     }

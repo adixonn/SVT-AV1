@@ -188,12 +188,12 @@ EbErrorType mode_decision_candidate_buffer_ctor(
     bufferPtr->candidate_ptr = (ModeDecisionCandidate_t*)EB_NULL;
 
     // Video Buffers
-    return_error = EbPictureBufferDescCtor(
+    return_error = eb_picture_buffer_desc_ctor(
         (EbPtr*)&(bufferPtr->prediction_ptr),
         (EbPtr)&pictureBufferDescInitData);
 
     // Video Buffers
-    return_error = EbPictureBufferDescCtor(
+    return_error = eb_picture_buffer_desc_ctor(
         (EbPtr*)&(bufferPtr->predictionPtrTemp),
         (EbPtr)&pictureBufferDescInitData);
 
@@ -201,7 +201,7 @@ EbErrorType mode_decision_candidate_buffer_ctor(
         return EB_ErrorInsufficientResources;
     }
 
-    return_error = EbPictureBufferDescCtor(
+    return_error = eb_picture_buffer_desc_ctor(
         (EbPtr*)&(bufferPtr->cflTempPredictionPtr),
         (EbPtr)&pictureBufferDescInitData);
 
@@ -210,7 +210,7 @@ EbErrorType mode_decision_candidate_buffer_ctor(
     }
 
 
-    return_error = EbPictureBufferDescCtor(
+    return_error = eb_picture_buffer_desc_ctor(
         (EbPtr*)&(bufferPtr->residual_ptr),
         (EbPtr)&doubleWidthPictureBufferDescInitData);
 
@@ -218,7 +218,7 @@ EbErrorType mode_decision_candidate_buffer_ctor(
         return EB_ErrorInsufficientResources;
     }
 
-    return_error = EbPictureBufferDescCtor(
+    return_error = eb_picture_buffer_desc_ctor(
         (EbPtr*)&(bufferPtr->residualQuantCoeffPtr),
         (EbPtr)&ThirtyTwoWidthPictureBufferDescInitData);
 
@@ -226,7 +226,7 @@ EbErrorType mode_decision_candidate_buffer_ctor(
         return EB_ErrorInsufficientResources;
     }
 
-    return_error = EbPictureBufferDescCtor(
+    return_error = eb_picture_buffer_desc_ctor(
         (EbPtr*)&(bufferPtr->reconCoeffPtr),
         (EbPtr)&ThirtyTwoWidthPictureBufferDescInitData);
 
@@ -234,7 +234,7 @@ EbErrorType mode_decision_candidate_buffer_ctor(
         return EB_ErrorInsufficientResources;
     }
 
-    return_error = EbPictureBufferDescCtor(
+    return_error = eb_picture_buffer_desc_ctor(
         (EbPtr*)&(bufferPtr->recon_ptr),
         (EbPtr)&pictureBufferDescInitData);
 

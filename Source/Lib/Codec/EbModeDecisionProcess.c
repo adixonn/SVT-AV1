@@ -130,7 +130,7 @@ EbErrorType mode_decision_context_ctor(
             initData.bot_padding = 0;
             initData.splitMode = EB_FALSE;
 
-            return_error = EbPictureBufferDescCtor(
+            return_error = eb_picture_buffer_desc_ctor(
                 (EbPtr*)&context_ptr->md_cu_arr_nsq[codedLeafIndex].coeff_tmp,
                 (EbPtr)&initData);
 
@@ -148,7 +148,7 @@ EbErrorType mode_decision_context_ctor(
             initData.bot_padding = 0;
             initData.splitMode = EB_FALSE;
 
-            return_error = EbPictureBufferDescCtor(
+            return_error = eb_picture_buffer_desc_ctor(
                 (EbPtr*)&context_ptr->md_cu_arr_nsq[codedLeafIndex].recon_tmp,
                 (EbPtr)&initData);
 

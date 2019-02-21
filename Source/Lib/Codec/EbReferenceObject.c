@@ -134,7 +134,7 @@ void InitializeSamplesNeighboringReferencePicture(
 
 
 /*****************************************
- * EbPictureBufferDescCtor
+ * eb_picture_buffer_desc_ctor
  *  Initializes the Buffer Descriptor's
  *  values that are fixed for the life of
  *  the descriptor.
@@ -155,7 +155,7 @@ EbErrorType eb_reference_object_ctor(
 
     if (pictureBufferDescInitData16BitPtr.bit_depth == EB_10BIT) {
 
-        return_error = EbPictureBufferDescCtor(
+        return_error = eb_picture_buffer_desc_ctor(
             (EbPtr*)&(referenceObject->referencePicture16bit),
             (EbPtr)&pictureBufferDescInitData16BitPtr);
 
@@ -167,7 +167,7 @@ EbErrorType eb_reference_object_ctor(
     }
     else {
 
-        return_error = EbPictureBufferDescCtor(
+        return_error = eb_picture_buffer_desc_ctor(
             (EbPtr*)&(referenceObject->referencePicture),
             (EbPtr)pictureBufferDescInitDataPtr);
 
@@ -200,7 +200,7 @@ EbErrorType eb_reference_object_ctor(
         bufDesc.splitMode = 0;
 
 
-        return_error = EbPictureBufferDescCtor((EbPtr*)&(referenceObject->refDenSrcPicture),
+        return_error = eb_picture_buffer_desc_ctor((EbPtr*)&(referenceObject->refDenSrcPicture),
             (EbPtr)&bufDesc);
         if (return_error == EB_ErrorInsufficientResources)
             return EB_ErrorInsufficientResources;
@@ -229,7 +229,7 @@ EbErrorType eb_pa_reference_object_ctor(
     *object_dbl_ptr = (EbPtr)paReferenceObject;
 
     // Reference picture constructor
-    return_error = EbPictureBufferDescCtor(
+    return_error = eb_picture_buffer_desc_ctor(
         (EbPtr*) &(paReferenceObject->inputPaddedPicturePtr),
         (EbPtr)pictureBufferDescInitDataPtr);
     if (return_error == EB_ErrorInsufficientResources) {
@@ -238,7 +238,7 @@ EbErrorType eb_pa_reference_object_ctor(
 
     // Quarter Decim reference picture constructor
     paReferenceObject->quarterDecimatedPicturePtr = (EbPictureBufferDesc_t*)EB_NULL;
-    return_error = EbPictureBufferDescCtor(
+    return_error = eb_picture_buffer_desc_ctor(
         (EbPtr*) &(paReferenceObject->quarterDecimatedPicturePtr),
         (EbPtr)(pictureBufferDescInitDataPtr + 1));
     if (return_error == EB_ErrorInsufficientResources) {
@@ -247,7 +247,7 @@ EbErrorType eb_pa_reference_object_ctor(
 
     // Sixteenth Decim reference picture constructor
     paReferenceObject->sixteenthDecimatedPicturePtr = (EbPictureBufferDesc_t*)EB_NULL;
-    return_error = EbPictureBufferDescCtor(
+    return_error = eb_picture_buffer_desc_ctor(
         (EbPtr*) &(paReferenceObject->sixteenthDecimatedPicturePtr),
         (EbPtr)(pictureBufferDescInitDataPtr + 2));
     if (return_error == EB_ErrorInsufficientResources) {

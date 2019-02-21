@@ -7,7 +7,7 @@
 
 #include "EbPictureAnalysisResults.h"
 
-EbErrorType PictureAnalysisResultCtor(
+EbErrorType picture_analysis_result_ctor(
     EbPtr *object_dbl_ptr,
     EbPtr object_init_data_ptr)
 {

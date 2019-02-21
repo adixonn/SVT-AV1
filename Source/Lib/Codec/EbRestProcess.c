@@ -93,7 +93,7 @@ EbErrorType rest_context_ctor(
         initData.bot_padding = AOM_BORDER_IN_PIXELS;
         initData.splitMode = EB_FALSE;
 
-        return_error = EbPictureBufferDescCtor(
+        return_error = eb_picture_buffer_desc_ctor(
             (EbPtr*)&context_ptr->trial_frame_rst,
             (EbPtr)&initData);
 
@@ -102,7 +102,7 @@ EbErrorType rest_context_ctor(
         }
 
 #if REST_M
-         return_error = EbPictureBufferDescCtor(
+         return_error = eb_picture_buffer_desc_ctor(
             (EbPtr*)&context_ptr->org_rec_frame,
                 (EbPtr)&initData);
 
@@ -127,13 +127,13 @@ EbErrorType rest_context_ctor(
 
     if (is16bit) {
         tempLfReconDescInitData.bit_depth = EB_16BIT;
-        return_error = EbReconPictureBufferDescCtor(
+        return_error = eb_recon_picture_buffer_desc_ctor(
             (EbPtr*)&(context_ptr->temp_lf_recon_picture16bit_ptr),
             (EbPtr)&tempLfReconDescInitData);
     }
     else {
         tempLfReconDescInitData.bit_depth = EB_8BIT;
-        return_error = EbReconPictureBufferDescCtor(
+        return_error = eb_recon_picture_buffer_desc_ctor(
             (EbPtr*)&(context_ptr->temp_lf_recon_picture_ptr),
             (EbPtr)&tempLfReconDescInitData);
     }

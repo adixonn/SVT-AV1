@@ -1150,7 +1150,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
             &encHandlePtr->pictureAnalysisResultsProducerFifoPtrArray,
             &encHandlePtr->pictureAnalysisResultsConsumerFifoPtrArray,
             EB_TRUE,
-            PictureAnalysisResultCtor,
+            picture_analysis_result_ctor,
             &pictureAnalysisResultInitData);
         if (return_error == EB_ErrorInsufficientResources) {
             return EB_ErrorInsufficientResources;
@@ -1452,7 +1452,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
         pictureBufferDescConf.bot_padding = 0;
         pictureBufferDescConf.splitMode = EB_FALSE;
 
-        return_error = PictureAnalysisContextCtor(
+        return_error = picture_analysis_context_ctor(
             &pictureBufferDescConf,
             EB_TRUE,
             (PictureAnalysisContext_t**)&encHandlePtr->pictureAnalysisContextPtrArray[processIndex],
@@ -1689,7 +1689,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
     EB_MALLOC(EbHandle*, encHandlePtr->pictureAnalysisThreadHandleArray, sizeof(EbHandle) * encHandlePtr->sequence_control_set_instance_array[0]->sequence_control_set_ptr->picture_analysis_process_init_count, EB_N_PTR);
 
     for (processIndex = 0; processIndex < encHandlePtr->sequence_control_set_instance_array[0]->sequence_control_set_ptr->picture_analysis_process_init_count; ++processIndex) {
-        EB_CREATETHREAD(EbHandle, encHandlePtr->pictureAnalysisThreadHandleArray[processIndex], sizeof(EbHandle), EB_THREAD, PictureAnalysisKernel, encHandlePtr->pictureAnalysisContextPtrArray[processIndex]);
+        EB_CREATETHREAD(EbHandle, encHandlePtr->pictureAnalysisThreadHandleArray[processIndex], sizeof(EbHandle), EB_THREAD, picture_analysis_kernel, encHandlePtr->pictureAnalysisContextPtrArray[processIndex]);
     }
 
     // Picture Decision
@@ -3268,38 +3268,38 @@ static EbErrorType allocate_frame_buffer(
     EbBufferHeaderType        *inputBuffer)
 {
     EbErrorType   return_error = EB_ErrorNone;
-    EbPictureBufferDescInitData_t inputPictureBufferDescInitData;
+    EbPictureBufferDescInitData_t input_picture_buffer_desc_init_data;
     EbSvtAv1EncConfiguration   * config = &sequence_control_set_ptr->static_config;
     uint8_t is16bit = config->encoder_bit_depth > 8 ? 1 : 0;
     // Init Picture Init data
-    inputPictureBufferDescInitData.maxWidth = (uint16_t)sequence_control_set_ptr->max_input_luma_width;
-    inputPictureBufferDescInitData.maxHeight = (uint16_t)sequence_control_set_ptr->max_input_luma_height;
-    inputPictureBufferDescInitData.bit_depth = (EB_BITDEPTH)config->encoder_bit_depth;
+    input_picture_buffer_desc_init_data.maxWidth = (uint16_t)sequence_control_set_ptr->max_input_luma_width;
+    input_picture_buffer_desc_init_data.maxHeight = (uint16_t)sequence_control_set_ptr->max_input_luma_height;
+    input_picture_buffer_desc_init_data.bit_depth = (EB_BITDEPTH)config->encoder_bit_depth;
 
     if (config->compressed_ten_bit_format == 1) {
-        inputPictureBufferDescInitData.bufferEnableMask = 0;
+        input_picture_buffer_desc_init_data.bufferEnableMask = 0;
     }
     else {
-        inputPictureBufferDescInitData.bufferEnableMask = is16bit ? PICTURE_BUFFER_DESC_FULL_MASK : 0;
+        input_picture_buffer_desc_init_data.bufferEnableMask = is16bit ? PICTURE_BUFFER_DESC_FULL_MASK : 0;
     }
 
-    inputPictureBufferDescInitData.left_padding = sequence_control_set_ptr->left_padding;
-    inputPictureBufferDescInitData.right_padding = sequence_control_set_ptr->right_padding;
-    inputPictureBufferDescInitData.top_padding = sequence_control_set_ptr->top_padding;
-    inputPictureBufferDescInitData.bot_padding = sequence_control_set_ptr->bot_padding;
+    input_picture_buffer_desc_init_data.left_padding = sequence_control_set_ptr->left_padding;
+    input_picture_buffer_desc_init_data.right_padding = sequence_control_set_ptr->right_padding;
+    input_picture_buffer_desc_init_data.top_padding = sequence_control_set_ptr->top_padding;
+    input_picture_buffer_desc_init_data.bot_padding = sequence_control_set_ptr->bot_padding;
 
-    inputPictureBufferDescInitData.splitMode = is16bit ? EB_TRUE : EB_FALSE;
+    input_picture_buffer_desc_init_data.splitMode = is16bit ? EB_TRUE : EB_FALSE;
 
-    inputPictureBufferDescInitData.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
+    input_picture_buffer_desc_init_data.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
 
     if (is16bit && config->compressed_ten_bit_format == 1) {
-        inputPictureBufferDescInitData.splitMode = EB_FALSE;  //do special allocation for 2bit data down below.        
+        input_picture_buffer_desc_init_data.splitMode = EB_FALSE;  //do special allocation for 2bit data down below.        
     }
 
     // Enhanced Picture Buffer
-    return_error = EbPictureBufferDescCtor(
+    return_error = eb_picture_buffer_desc_ctor(
         (EbPtr*) &(inputBuffer->p_buffer),
-        (EbPtr)&inputPictureBufferDescInitData);
+        (EbPtr)&input_picture_buffer_desc_init_data);
 
     if (return_error == EB_ErrorInsufficientResources) {
         return EB_ErrorInsufficientResources;
@@ -3307,9 +3307,9 @@ static EbErrorType allocate_frame_buffer(
 
     if (is16bit && config->compressed_ten_bit_format == 1) {
         //pack 4 2bit pixels into 1Byte
-        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc_t*)(inputBuffer->p_buffer))->bufferBitIncY, sizeof(uint8_t) * (inputPictureBufferDescInitData.maxWidth / 4)*(inputPictureBufferDescInitData.maxHeight), EB_A_PTR);
-        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc_t*)(inputBuffer->p_buffer))->bufferBitIncCb, sizeof(uint8_t) * (inputPictureBufferDescInitData.maxWidth / 8)*(inputPictureBufferDescInitData.maxHeight / 2), EB_A_PTR);
-        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc_t*)(inputBuffer->p_buffer))->bufferBitIncCr, sizeof(uint8_t) * (inputPictureBufferDescInitData.maxWidth / 8)*(inputPictureBufferDescInitData.maxHeight / 2), EB_A_PTR);
+        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc_t*)(inputBuffer->p_buffer))->bufferBitIncY, sizeof(uint8_t) * (input_picture_buffer_desc_init_data.maxWidth / 4)*(input_picture_buffer_desc_init_data.maxHeight), EB_A_PTR);
+        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc_t*)(inputBuffer->p_buffer))->bufferBitIncCb, sizeof(uint8_t) * (input_picture_buffer_desc_init_data.maxWidth / 8)*(input_picture_buffer_desc_init_data.maxHeight / 2), EB_A_PTR);
+        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc_t*)(inputBuffer->p_buffer))->bufferBitIncCr, sizeof(uint8_t) * (input_picture_buffer_desc_init_data.maxWidth / 8)*(input_picture_buffer_desc_init_data.maxHeight / 2), EB_A_PTR);
     }
 
     return return_error;

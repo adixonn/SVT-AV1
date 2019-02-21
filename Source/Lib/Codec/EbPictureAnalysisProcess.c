@@ -41,28 +41,28 @@
 /************************************************
 * Picture Analysis Context Constructor
 ************************************************/
-EbErrorType PictureAnalysisContextCtor(
-    EbPictureBufferDescInitData_t * inputPictureBufferDescInitData,
-    EbBool                         denoiseFlag,
+EbErrorType picture_analysis_context_ctor(
+    EbPictureBufferDescInitData_t * input_picture_buffer_desc_init_data,
+    EbBool                         denoise_flag,
     PictureAnalysisContext_t **context_dbl_ptr,
-    EbFifo_t *resourceCoordinationResultsInputFifoPtr,
-    EbFifo_t *pictureAnalysisResultsOutputFifoPtr)
+    EbFifo_t *resource_coordination_results_input_fifo_ptr,
+    EbFifo_t *picture_analysis_results_output_fifo_ptr)
 {
     PictureAnalysisContext_t *context_ptr;
     EB_MALLOC(PictureAnalysisContext_t*, context_ptr, sizeof(PictureAnalysisContext_t), EB_N_PTR);
     *context_dbl_ptr = context_ptr;
 
-    context_ptr->resourceCoordinationResultsInputFifoPtr = resourceCoordinationResultsInputFifoPtr;
-    context_ptr->pictureAnalysisResultsOutputFifoPtr = pictureAnalysisResultsOutputFifoPtr;
+    context_ptr->resource_coordination_results_input_fifo_ptr = resource_coordination_results_input_fifo_ptr;
+    context_ptr->picture_analysis_results_output_fifo_ptr = picture_analysis_results_output_fifo_ptr;
 
     EbErrorType return_error = EB_ErrorNone;
 
-    if (denoiseFlag == EB_TRUE) {
+    if (denoise_flag == EB_TRUE) {
 
         //denoised
-        return_error = EbPictureBufferDescCtor(
+        return_error = eb_picture_buffer_desc_ctor(
             (EbPtr*)&(context_ptr->denoised_picture_ptr),
-            (EbPtr)inputPictureBufferDescInitData);
+            (EbPtr)input_picture_buffer_desc_init_data);
 
         if (return_error == EB_ErrorInsufficientResources) {
             return EB_ErrorInsufficientResources;
@@ -73,12 +73,12 @@ EbErrorType PictureAnalysisContextCtor(
         context_ptr->denoised_picture_ptr->bufferCr = context_ptr->denoised_picture_ptr->buffer_y + context_ptr->denoised_picture_ptr->chromaSize;
 
         // noise
-        inputPictureBufferDescInitData->maxHeight = BLOCK_SIZE_64;
-        inputPictureBufferDescInitData->bufferEnableMask = PICTURE_BUFFER_DESC_Y_FLAG;
+        input_picture_buffer_desc_init_data->maxHeight = BLOCK_SIZE_64;
+        input_picture_buffer_desc_init_data->bufferEnableMask = PICTURE_BUFFER_DESC_Y_FLAG;
 
-        return_error = EbPictureBufferDescCtor(
+        return_error = eb_picture_buffer_desc_ctor(
             (EbPtr*)&(context_ptr->noise_picture_ptr),
-            (EbPtr)inputPictureBufferDescInitData);
+            (EbPtr)input_picture_buffer_desc_init_data);
 
         if (return_error == EB_ErrorInsufficientResources) {
             return EB_ErrorInsufficientResources;
@@ -1267,10 +1267,10 @@ uint8_t  getFilteredTypes(uint8_t  *ptr,
 
 
 /*******************************************
-* noiseExtractLumaStrong
+* noise_extract_luma_strong
 *  strong filter Luma.
 *******************************************/
-void noiseExtractLumaStrong(
+void noise_extract_luma_strong(
     EbPictureBufferDesc_t       *input_picture_ptr,
     EbPictureBufferDesc_t       *denoised_picture_ptr,
     uint32_t                       sb_origin_y
@@ -1323,10 +1323,10 @@ void noiseExtractLumaStrong(
 
 }
 /*******************************************
-* noiseExtractChromaStrong
+* noise_extract_chroma_strong
 *  strong filter chroma.
 *******************************************/
-void noiseExtractChromaStrong(
+void noise_extract_chroma_strong(
     EbPictureBufferDesc_t       *input_picture_ptr,
     EbPictureBufferDesc_t       *denoised_picture_ptr,
     uint32_t                       sb_origin_y
@@ -1408,10 +1408,10 @@ void noiseExtractChromaStrong(
 }
 
 /*******************************************
-* noiseExtractChromaWeak
+* noise_extract_chroma_weak
 *  weak filter chroma.
 *******************************************/
-void noiseExtractChromaWeak(
+void noise_extract_chroma_weak(
     EbPictureBufferDesc_t       *input_picture_ptr,
     EbPictureBufferDesc_t       *denoised_picture_ptr,
     uint32_t                       sb_origin_y
@@ -1495,10 +1495,10 @@ void noiseExtractChromaWeak(
 }
 
 /*******************************************
-* noiseExtractLumaWeak
+* noise_extract_luma_weak
 *  weak filter Luma and store noise.
 *******************************************/
-void noiseExtractLumaWeak(
+void noise_extract_luma_weak(
     EbPictureBufferDesc_t       *input_picture_ptr,
     EbPictureBufferDesc_t       *denoised_picture_ptr,
     EbPictureBufferDesc_t       *noise_picture_ptr,
@@ -1560,7 +1560,7 @@ void noiseExtractLumaWeak(
 
 }
 
-void noiseExtractLumaWeakLcu(
+void noise_extract_luma_weak_lcu(
     EbPictureBufferDesc_t       *input_picture_ptr,
     EbPictureBufferDesc_t       *denoised_picture_ptr,
     EbPictureBufferDesc_t       *noise_picture_ptr,
@@ -3035,7 +3035,7 @@ EbErrorType DenoiseInputPicture(
             sb_origin_y = (lcuCodingOrder / picture_width_in_sb) * sequence_control_set_ptr->sb_sz;
 
             if (sb_origin_x == 0)
-                StrongLumaFilter_funcPtrArray[asm_type](
+                strong_luma_filter_func_ptr_array[asm_type](
                     input_picture_ptr,
                     denoised_picture_ptr,
                     sb_origin_y,
@@ -3043,7 +3043,7 @@ EbErrorType DenoiseInputPicture(
 
             if (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width)
             {
-                noiseExtractLumaStrong(
+                noise_extract_luma_strong(
                     input_picture_ptr,
                     denoised_picture_ptr,
                     sb_origin_y,
@@ -3066,7 +3066,7 @@ EbErrorType DenoiseInputPicture(
             sb_origin_y = (lcuCodingOrder / picture_width_in_sb) * sequence_control_set_ptr->sb_sz;
 
             if (sb_origin_x == 0)
-                StrongChromaFilter_funcPtrArray[asm_type](
+                strong_chroma_filter_func_ptr_array[asm_type](
                     input_picture_ptr,
                     denoised_picture_ptr,
                     sb_origin_y / 2,
@@ -3074,7 +3074,7 @@ EbErrorType DenoiseInputPicture(
 
             if (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width)
             {
-                noiseExtractChromaStrong(
+                noise_extract_chroma_strong(
                     input_picture_ptr,
                     denoised_picture_ptr,
                     sb_origin_y / 2,
@@ -3117,7 +3117,7 @@ EbErrorType DenoiseInputPicture(
             sb_origin_y = (lcuCodingOrder / picture_width_in_sb) * sequence_control_set_ptr->sb_sz;
 
             if (sb_origin_x == 0)
-                WeakChromaFilter_funcPtrArray[asm_type](
+                weak_chroma_filter_func_ptr_array[asm_type](
                     input_picture_ptr,
                     denoised_picture_ptr,
                     sb_origin_y / 2,
@@ -3125,7 +3125,7 @@ EbErrorType DenoiseInputPicture(
 
             if (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width)
             {
-                noiseExtractChromaWeak(
+                noise_extract_chroma_weak(
                     input_picture_ptr,
                     denoised_picture_ptr,
                     sb_origin_y / 2,
@@ -3217,7 +3217,7 @@ EbErrorType DetectInputPictureNoise(
         uint32_t  noiseOriginIndex = noise_picture_ptr->origin_x + sb_origin_x + noise_picture_ptr->origin_y * noise_picture_ptr->stride_y;
 
         if (sb_origin_x == 0)
-            WeakLumaFilter_funcPtrArray[asm_type](
+            weak_luma_filter_func_ptr_array[asm_type](
                 input_picture_ptr,
                 denoised_picture_ptr,
                 noise_picture_ptr,
@@ -3226,7 +3226,7 @@ EbErrorType DetectInputPictureNoise(
 
         if (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width)
         {
-            noiseExtractLumaWeak(
+            noise_extract_luma_weak(
                 input_picture_ptr,
                 denoised_picture_ptr,
                 noise_picture_ptr,
@@ -3359,7 +3359,7 @@ EbErrorType FullSampleDenoise(
     SequenceControlSet_t        *sequence_control_set_ptr,
     PictureParentControlSet_t   *picture_control_set_ptr,
     uint32_t                     sb_total_count,
-    EbBool                       denoiseFlag,
+    EbBool                       denoise_flag,
     uint32_t                     picture_width_in_sb,
     EbAsm                        asm_type){
 
@@ -3388,7 +3388,7 @@ EbErrorType FullSampleDenoise(
         picture_width_in_sb,
         asm_type);
 
-    if (denoiseFlag == EB_TRUE)
+    if (denoise_flag == EB_TRUE)
     {
 
         DenoiseInputPicture(
@@ -3437,7 +3437,7 @@ EbErrorType SubSampleFilterNoise(
             sb_origin_y = (lcuCodingOrder / picture_width_in_sb) * sequence_control_set_ptr->sb_sz;
 
             if (sb_origin_x == 0)
-                WeakLumaFilter_funcPtrArray[asm_type](
+                weak_luma_filter_func_ptr_array[asm_type](
                     input_picture_ptr,
                     denoised_picture_ptr,
                     noise_picture_ptr,
@@ -3446,7 +3446,7 @@ EbErrorType SubSampleFilterNoise(
 
             if (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width)
             {
-                noiseExtractLumaWeak(
+                noise_extract_luma_weak(
                     input_picture_ptr,
                     denoised_picture_ptr,
                     noise_picture_ptr,
@@ -3469,7 +3469,7 @@ EbErrorType SubSampleFilterNoise(
             sb_origin_y = (lcuCodingOrder / picture_width_in_sb) * sequence_control_set_ptr->sb_sz;
 
             if (sb_origin_x == 0)
-                WeakChromaFilter_funcPtrArray[asm_type](
+                weak_chroma_filter_func_ptr_array[asm_type](
                     input_picture_ptr,
                     denoised_picture_ptr,
                     sb_origin_y / 2,
@@ -3477,7 +3477,7 @@ EbErrorType SubSampleFilterNoise(
 
             if (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width)
             {
-                noiseExtractChromaWeak(
+                noise_extract_chroma_weak(
                     input_picture_ptr,
                     denoised_picture_ptr,
                     sb_origin_y / 2,
@@ -3514,7 +3514,7 @@ EbErrorType SubSampleFilterNoise(
             if (sb_origin_x + 64 <= input_picture_ptr->width && sb_origin_y + 64 <= input_picture_ptr->height && picture_control_set_ptr->sb_flat_noise_array[lcuCodingOrder] == 1)
             {
 
-                WeakLumaFilterLcu_funcPtrArray[asm_type](
+                weak_luma_filter_lcu_func_ptr_array[asm_type](
                     input_picture_ptr,
                     denoised_picture_ptr,
                     noise_picture_ptr,
@@ -3523,7 +3523,7 @@ EbErrorType SubSampleFilterNoise(
 
                 if (sb_origin_x + BLOCK_SIZE_64 > input_picture_ptr->width)
                 {
-                    noiseExtractLumaWeakLcu(
+                    noise_extract_luma_weak_lcu(
                         input_picture_ptr,
                         denoised_picture_ptr,
                         noise_picture_ptr,
@@ -3644,7 +3644,7 @@ EbErrorType QuarterSampleDetectNoise(
             block64x64Y = vert64x64Index * 64;
 
             if (block64x64X == 0)
-                WeakLumaFilter_funcPtrArray[asm_type](
+                weak_luma_filter_func_ptr_array[asm_type](
                     quarterDecimatedPicturePtr,
                     denoised_picture_ptr,
                     noise_picture_ptr,
@@ -3653,7 +3653,7 @@ EbErrorType QuarterSampleDetectNoise(
 
             if (block64x64Y + BLOCK_SIZE_64 > quarterDecimatedPicturePtr->width)
             {
-                noiseExtractLumaWeak(
+                noise_extract_luma_weak(
                     quarterDecimatedPicturePtr,
                     denoised_picture_ptr,
                     noise_picture_ptr,
@@ -3793,7 +3793,7 @@ EbErrorType SubSampleDetectNoise(
             block64x64Y = vert64x64Index * 64;
 
             if (block64x64X == 0)
-                WeakLumaFilter_funcPtrArray[asm_type](
+                weak_luma_filter_func_ptr_array[asm_type](
                     sixteenthDecimatedPicturePtr,
                     denoised_picture_ptr,
                     noise_picture_ptr,
@@ -3802,7 +3802,7 @@ EbErrorType SubSampleDetectNoise(
 
             if (block64x64Y + BLOCK_SIZE_64 > sixteenthDecimatedPicturePtr->width)
             {
-                noiseExtractLumaWeak(
+                noise_extract_luma_weak(
                     sixteenthDecimatedPicturePtr,
                     denoised_picture_ptr,
                     noise_picture_ptr,
@@ -3903,7 +3903,7 @@ EbErrorType QuarterSampleDenoise(
     PictureParentControlSet_t   *picture_control_set_ptr,
     EbPictureBufferDesc_t        *quarterDecimatedPicturePtr,
     uint32_t                       sb_total_count,
-    EbBool                      denoiseFlag,
+    EbBool                      denoise_flag,
     uint32_t                         picture_width_in_sb,
     EbAsm                         asm_type)
 {
@@ -3941,7 +3941,7 @@ EbErrorType QuarterSampleDenoise(
         picture_width_in_sb,
         asm_type);
 
-    if (denoiseFlag == EB_TRUE) {
+    if (denoise_flag == EB_TRUE) {
 
         // Turn OFF the de-noiser for Class 2 at QP=29 and lower (for Fixed_QP) and at the target rate of 14Mbps and higher (for RC=ON)
         if ((picture_control_set_ptr->pic_noise_class == PIC_NOISE_CLASS_3_1) ||
@@ -3970,7 +3970,7 @@ EbErrorType SubSampleDenoise(
     PictureParentControlSet_t   *picture_control_set_ptr,
     EbPictureBufferDesc_t        *sixteenthDecimatedPicturePtr,
     uint32_t                       sb_total_count,
-    EbBool                      denoiseFlag,
+    EbBool                      denoise_flag,
     uint32_t                         picture_width_in_sb,
     EbAsm                         asm_type)
 {
@@ -4008,7 +4008,7 @@ EbErrorType SubSampleDenoise(
         picture_width_in_sb,
         asm_type);
 
-    if (denoiseFlag == EB_TRUE) {
+    if (denoise_flag == EB_TRUE) {
 
         // Turn OFF the de-noiser for Class 2 at QP=29 and lower (for Fixed_QP) and at the target rate of 14Mbps and higher (for RC=ON)
         if ((picture_control_set_ptr->pic_noise_class == PIC_NOISE_CLASS_3_1) ||
@@ -4945,7 +4945,7 @@ void DecimateInputPicture(
  * The Picture Analysis process is multithreaded, so pictures can be
  * processed out of order as long as all inputs are available.
  ************************************************/
-void* PictureAnalysisKernel(void *input_ptr)
+void* picture_analysis_kernel(void *input_ptr)
 {
     PictureAnalysisContext_t        *context_ptr = (PictureAnalysisContext_t*)input_ptr;
     PictureParentControlSet_t       *picture_control_set_ptr;
@@ -4972,7 +4972,7 @@ void* PictureAnalysisKernel(void *input_ptr)
 
         // Get Input Full Object
         eb_get_full_object(
-            context_ptr->resourceCoordinationResultsInputFifoPtr,
+            context_ptr->resource_coordination_results_input_fifo_ptr,
             &inputResultsWrapperPtr);
 
         inputResultsPtr = (ResourceCoordinationResults_t*)inputResultsWrapperPtr->object_ptr;
@@ -5045,7 +5045,7 @@ void* PictureAnalysisKernel(void *input_ptr)
 
         // Get Empty Results Object
         eb_get_empty_object(
-            context_ptr->pictureAnalysisResultsOutputFifoPtr,
+            context_ptr->picture_analysis_results_output_fifo_ptr,
             &outputResultsWrapperPtr);
 
         outputResultsPtr = (PictureAnalysisResults_t*)outputResultsWrapperPtr->object_ptr;

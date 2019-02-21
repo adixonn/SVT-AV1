@@ -15,7 +15,7 @@ extern "C" {
 
 
     /*******************************************
-    * noiseExtractLumaWeak
+    * noise_extract_luma_weak
     *  weak filter Luma and store noise.
     *******************************************/
     void noise_extract_luma_weak_avx2_intrin(

@@ -292,13 +292,13 @@ extern "C" {
     /**************************************
      * Extern Function Declarations
      **************************************/
-    extern EbErrorType EbPictureBufferDescCtor(
+    extern EbErrorType eb_picture_buffer_desc_ctor(
         EbPtr *object_dbl_ptr,
-        EbPtr object_init_data_ptr);
+        EbPtr  object_init_data_ptr);
 
-    extern EbErrorType EbReconPictureBufferDescCtor(
+    extern EbErrorType eb_recon_picture_buffer_desc_ctor(
         EbPtr *object_dbl_ptr,
-        EbPtr object_init_data_ptr);
+        EbPtr  object_init_data_ptr);
 
 #ifdef __cplusplus
 }

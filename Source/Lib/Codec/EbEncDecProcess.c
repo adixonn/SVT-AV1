@@ -130,7 +130,7 @@ EbErrorType enc_dec_context_ctor(
         if (is16bit) {
             initData.bit_depth = EB_16BIT;
 
-            return_error = EbPictureBufferDescCtor(
+            return_error = eb_picture_buffer_desc_ctor(
                 (EbPtr*)&context_ptr->input_sample16bit_buffer,
                 (EbPtr)&initData);
             if (return_error == EB_ErrorInsufficientResources) {
@@ -166,21 +166,21 @@ EbErrorType enc_dec_context_ctor(
         init32BitData.top_padding = 0;
         init32BitData.bot_padding = 0;
         init32BitData.splitMode = EB_FALSE;
-        return_error = EbPictureBufferDescCtor(
+        return_error = eb_picture_buffer_desc_ctor(
             (EbPtr*)&context_ptr->inverse_quant_buffer,
             (EbPtr)&init32BitData);
 
         if (return_error == EB_ErrorInsufficientResources) {
             return EB_ErrorInsufficientResources;
         }
-        return_error = EbPictureBufferDescCtor(
+        return_error = eb_picture_buffer_desc_ctor(
             (EbPtr*)&context_ptr->transform_buffer,
             (EbPtr)&init32BitData);
         if (return_error == EB_ErrorInsufficientResources) {
             return EB_ErrorInsufficientResources;
         }
 
-        return_error = EbPictureBufferDescCtor(
+        return_error = eb_picture_buffer_desc_ctor(
             (EbPtr*)&context_ptr->residual_buffer,
             (EbPtr)&initData);
         if (return_error == EB_ErrorInsufficientResources) {
@@ -237,13 +237,13 @@ EbErrorType enc_dec_context_ctor(
 
     if (is16bit) {
         tempLfReconDescInitData.bit_depth = EB_16BIT;
-        return_error = EbReconPictureBufferDescCtor(
+        return_error = eb_recon_picture_buffer_desc_ctor(
             (EbPtr*)&(context_ptr->temp_lf_recon_picture16bit_ptr),
             (EbPtr)&tempLfReconDescInitData);
     }
     else {
         tempLfReconDescInitData.bit_depth = EB_8BIT;
-        return_error = EbReconPictureBufferDescCtor(
+        return_error = eb_recon_picture_buffer_desc_ctor(
             (EbPtr*)&(context_ptr->temp_lf_recon_picture_ptr),
             (EbPtr)&tempLfReconDescInitData);
     }
@@ -262,7 +262,7 @@ EbErrorType enc_dec_context_ctor(
         initData.bot_padding = AOM_BORDER_IN_PIXELS;
         initData.splitMode = EB_FALSE;
 
-        return_error = EbPictureBufferDescCtor(
+        return_error = eb_picture_buffer_desc_ctor(
             (EbPtr*)&context_ptr->trial_frame_rst,
             (EbPtr)&initData);
 

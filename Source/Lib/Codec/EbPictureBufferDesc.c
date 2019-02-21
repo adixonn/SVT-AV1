@@ -20,12 +20,12 @@
 
 
 /*****************************************
- * EbPictureBufferDescCtor
+ * eb_picture_buffer_desc_ctor
  *  Initializes the Buffer Descriptor's
  *  values that are fixed for the life of
  *  the descriptor.
  *****************************************/
-EbErrorType EbPictureBufferDescCtor(
+EbErrorType eb_picture_buffer_desc_ctor(
     EbPtr  *object_dbl_ptr,
     EbPtr   object_init_data_ptr)
 {
@@ -126,12 +126,12 @@ EbErrorType EbPictureBufferDescCtor(
 
 
 /*****************************************
- * EbReconPictureBufferDescCtor
+ * eb_recon_picture_buffer_desc_ctor
  *  Initializes the Buffer Descriptor's
  *  values that are fixed for the life of
  *  the descriptor.
  *****************************************/
-EbErrorType EbReconPictureBufferDescCtor(
+EbErrorType eb_recon_picture_buffer_desc_ctor(
     EbPtr  *object_dbl_ptr,
     EbPtr   object_init_data_ptr)
 {

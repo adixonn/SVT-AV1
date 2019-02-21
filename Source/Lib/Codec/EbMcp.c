@@ -63,13 +63,13 @@ EbErrorType motion_compensation_prediction_context_ctor(
 
         initData.splitMode = EB_FALSE;
 #if !EXTRA_ALLOCATION
-        return_error = EbPictureBufferDescCtor(
+        return_error = eb_picture_buffer_desc_ctor(
             (EbPtr*)&context_ptr->local_reference_block_l0,
             (EbPtr)&initData);
         if (return_error == EB_ErrorInsufficientResources) {
             return EB_ErrorInsufficientResources;
         }
-        return_error = EbPictureBufferDescCtor(
+        return_error = eb_picture_buffer_desc_ctor(
             (EbPtr*)&context_ptr->local_reference_block_l1,
             (EbPtr)&initData);
         if (return_error == EB_ErrorInsufficientResources) {
@@ -81,11 +81,11 @@ EbErrorType motion_compensation_prediction_context_ctor(
         initData.maxWidth = max_cu_width + 32;
         initData.maxHeight = max_cu_height + 32;
 
-        return_error = EbPictureBufferDescCtor((EbPtr*)&context_ptr->local_reference_block8_bitl0, (EbPtr)&initData);
+        return_error = eb_picture_buffer_desc_ctor((EbPtr*)&context_ptr->local_reference_block8_bitl0, (EbPtr)&initData);
         if (return_error == EB_ErrorInsufficientResources) {
             return EB_ErrorInsufficientResources;
         }
-        return_error = EbPictureBufferDescCtor((EbPtr*)&context_ptr->local_reference_block8_bitl1, (EbPtr)&initData);
+        return_error = eb_picture_buffer_desc_ctor((EbPtr*)&context_ptr->local_reference_block8_bitl1, (EbPtr)&initData);
         if (return_error == EB_ErrorInsufficientResources) {
             return EB_ErrorInsufficientResources;
         }

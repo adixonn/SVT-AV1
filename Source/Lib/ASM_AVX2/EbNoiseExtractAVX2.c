@@ -251,7 +251,7 @@ inline void chroma_strong_avx2_intrin(
 
 }
 /*******************************************
-* noiseExtractLumaWeak
+* noise_extract_luma_weak
 *  weak filter Luma and store noise.
 *******************************************/
 void noise_extract_luma_weak_avx2_intrin(
@@ -545,7 +545,7 @@ void noise_extract_luma_weak_lcu_avx2_intrin(
 
 }
 /*******************************************
-* noiseExtractLumaStrong
+* noise_extract_luma_strong
 *  strong filter Luma.
 *******************************************/
 void noise_extract_luma_strong_avx2_intrin(
@@ -720,7 +720,7 @@ void noise_extract_luma_strong_avx2_intrin(
 }
 
 /*******************************************
-* noiseExtractChromaStrong
+* noise_extract_chroma_strong
 *  strong filter chroma.
 *******************************************/
 void noise_extract_chroma_strong_avx2_intrin(
@@ -897,7 +897,7 @@ void noise_extract_chroma_strong_avx2_intrin(
 }
 
 /*******************************************
-* noiseExtractChromaWeak
+* noise_extract_chroma_weak
 *  weak filter chroma.
 *******************************************/
 void noise_extract_chroma_weak_avx2_intrin(
