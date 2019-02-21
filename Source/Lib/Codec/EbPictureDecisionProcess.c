@@ -38,10 +38,10 @@
  /************************************************
   * Picture Analysis Context Constructor
   ************************************************/
-EbErrorType PictureDecisionContextCtor(
+EbErrorType picture_decision_context_ctor(
     PictureDecisionContext_t **context_dbl_ptr,
-    EbFifo_t *pictureAnalysisResultsInputFifoPtr,
-    EbFifo_t *pictureDecisionResultsOutputFifoPtr)
+    EbFifo_t *picture_analysis_results_input_fifo_ptr,
+    EbFifo_t *picture_decision_results_output_fifo_ptr)
 {
     PictureDecisionContext_t *context_ptr;
     uint32_t arrayIndex;
@@ -49,8 +49,8 @@ EbErrorType PictureDecisionContextCtor(
     EB_MALLOC(PictureDecisionContext_t*, context_ptr, sizeof(PictureDecisionContext_t), EB_N_PTR);
     *context_dbl_ptr = context_ptr;
 
-    context_ptr->pictureAnalysisResultsInputFifoPtr = pictureAnalysisResultsInputFifoPtr;
-    context_ptr->pictureDecisionResultsOutputFifoPtr = pictureDecisionResultsOutputFifoPtr;
+    context_ptr->picture_analysis_results_input_fifo_ptr = picture_analysis_results_input_fifo_ptr;
+    context_ptr->picture_decision_results_output_fifo_ptr = picture_decision_results_output_fifo_ptr;
 
     EB_MALLOC(uint32_t**, context_ptr->ahdRunningAvgCb, sizeof(uint32_t*) * MAX_NUMBER_OF_REGIONS_IN_WIDTH, EB_N_PTR);
 
@@ -1420,7 +1420,7 @@ void  Av1GenerateRpsInfo(
  *     Change flag can be coded.
  *
  ***************************************************************************************************/
-void* PictureDecisionKernel(void *input_ptr)
+void* picture_decision_kernel(void *input_ptr)
 {
     PictureDecisionContext_t        *context_ptr = (PictureDecisionContext_t*)input_ptr;
 
@@ -1477,7 +1477,7 @@ void* PictureDecisionKernel(void *input_ptr)
 
         // Get Input Full Object
         eb_get_full_object(
-            context_ptr->pictureAnalysisResultsInputFifoPtr,
+            context_ptr->picture_analysis_results_input_fifo_ptr,
             &inputResultsWrapperPtr);
 
         inputResultsPtr = (PictureAnalysisResults_t*)inputResultsWrapperPtr->object_ptr;
@@ -2313,7 +2313,7 @@ void* PictureDecisionKernel(void *input_ptr)
                                 {
                                     // Get Empty Results Object
                                     eb_get_empty_object(
-                                        context_ptr->pictureDecisionResultsOutputFifoPtr,
+                                        context_ptr->picture_decision_results_output_fifo_ptr,
                                         &outputResultsWrapperPtr);
 
                                     outputResultsPtr = (PictureDecisionResults_t*)outputResultsWrapperPtr->object_ptr;

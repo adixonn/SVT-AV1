@@ -361,7 +361,7 @@ static void EntropyCodingLcu(
  ******************************************************/
 static EbBool UpdateEntropyCodingRows(
     PictureControlSet_t *picture_control_set_ptr,
-    uint32_t              *rowIndex,
+    uint32_t              *row_index,
     uint32_t               row_count,
     EbBool             *initialProcessCall)
 {
@@ -374,7 +374,7 @@ static EbBool UpdateEntropyCodingRows(
     if (*initialProcessCall == EB_TRUE) {
         unsigned i;
 
-        for (i = *rowIndex; i < *rowIndex + row_count; ++i) {
+        for (i = *row_index; i < *row_index + row_count; ++i) {
             picture_control_set_ptr->entropy_coding_row_array[i] = EB_TRUE;
         }
 
@@ -399,7 +399,7 @@ static EbBool UpdateEntropyCodingRows(
         if (picture_control_set_ptr->entropy_coding_current_row <= picture_control_set_ptr->entropy_coding_current_available_row)
         {
             picture_control_set_ptr->entropy_coding_in_progress = EB_TRUE;
-            *rowIndex = picture_control_set_ptr->entropy_coding_current_row++;
+            *row_index = picture_control_set_ptr->entropy_coding_current_row++;
             processNextRow = EB_TRUE;
         }
     }

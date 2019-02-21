@@ -1008,7 +1008,7 @@ int32_t  sum_residual8bit_avx2_intrin(
 
     __m128i in0, in1, in01, in2, in3, in23, sum, sumL, sumH;
     __m256i sum0, sum1, sum2, sum3, sum0L, sum0H, sumT, sum01, sumTPerm;
-    uint32_t rowIndex;
+    uint32_t row_index;
 
     //Assumption: 9bit or 11bit residual data . for bigger block sizes or bigger bit depths , re-asses the dynamic range of the internal calculation
 
@@ -1103,7 +1103,7 @@ int32_t  sum_residual8bit_avx2_intrin(
         int16_t *inPtrTemp = in_ptr;
 
         sum0 = sum1 = sum2 = sum3 = _mm256_setzero_si256();
-        for (rowIndex = 0; rowIndex < size; rowIndex += 2) { // Parse every two rows
+        for (row_index = 0; row_index < size; row_index += 2) { // Parse every two rows
             sum0 = _mm256_add_epi16(sum0, _mm256_loadu_si256((__m256i *)(inPtrTemp)));
             sum1 = _mm256_add_epi16(sum1, _mm256_loadu_si256((__m256i *)(inPtrTemp + 16)));
             inPtrTemp += stride_in;

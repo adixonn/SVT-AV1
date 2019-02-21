@@ -736,13 +736,13 @@ void picture_addition_kernel(
     int32_t     bd)
 {
     uint32_t          columnIndex;
-    uint32_t          rowIndex = 0;
+    uint32_t          row_index = 0;
     //    const int32_t    maxValue = 0xFF;
 
         //printf("\n");
         //printf("Reconstruction---------------------------------------------------\n");
 
-    while (rowIndex < height) {
+    while (row_index < height) {
 
         columnIndex = 0;
         while (columnIndex < width) {
@@ -758,7 +758,7 @@ void picture_addition_kernel(
         residual_ptr += residual_stride;
         pred_ptr += pred_stride;
         recon_ptr += recon_stride;
-        ++rowIndex;
+        ++row_index;
     }
     //printf("-----------------------------------------------------------------\n");
     //printf("\n");
@@ -778,13 +778,13 @@ void picture_addition_kernel16_bit(
     int32_t     bd)
 {
     uint32_t          columnIndex;
-    uint32_t          rowIndex = 0;
+    uint32_t          row_index = 0;
     //    const int32_t    maxValue = 0xFF;
 
         //printf("\n");
         //printf("Reconstruction---------------------------------------------------\n");
 
-    while (rowIndex < height) {
+    while (row_index < height) {
 
         columnIndex = 0;
         while (columnIndex < width) {
@@ -800,7 +800,7 @@ void picture_addition_kernel16_bit(
         residual_ptr += residual_stride;
         pred_ptr += pred_stride;
         recon_ptr += recon_stride;
-        ++rowIndex;
+        ++row_index;
     }
     //    printf("-----------------------------------------------------------------\n");
     //    printf("\n");

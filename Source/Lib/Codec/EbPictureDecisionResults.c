@@ -7,7 +7,7 @@
 
 #include "EbPictureDecisionResults.h"
 
-EbErrorType PictureDecisionResultCtor(
+EbErrorType picture_decision_result_ctor(
     EbPtr *object_dbl_ptr,
     EbPtr object_init_data_ptr)
 {

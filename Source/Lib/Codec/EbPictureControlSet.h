@@ -43,14 +43,14 @@ extern "C" {
 #define SEGMENT_MAX_COUNT   64
 #define SEGMENT_COMPLETION_MASK_SET(mask, index)        MULTI_LINE_MACRO_BEGIN (mask) |= (((uint64_t) 1) << (index)); MULTI_LINE_MACRO_END
 #define SEGMENT_COMPLETION_MASK_TEST(mask, total_count)  ((mask) == ((((uint64_t) 1) << (total_count)) - 1))
-#define SEGMENT_ROW_COMPLETION_TEST(mask, rowIndex, width) ((((mask) >> ((rowIndex) * (width))) & ((1ull << (width))-1)) == ((1ull << (width))-1))
-#define SEGMENT_CONVERT_IDX_TO_XY(index, x, y, picWidthInLcu) \
+#define SEGMENT_ROW_COMPLETION_TEST(mask, row_index, width) ((((mask) >> ((row_index) * (width))) & ((1ull << (width))-1)) == ((1ull << (width))-1))
+#define SEGMENT_CONVERT_IDX_TO_XY(index, x, y, pic_width_in_lcu) \
                                                         MULTI_LINE_MACRO_BEGIN \
-                                                            (y) = (index) / (picWidthInLcu); \
-                                                            (x) = (index) - (y) * (picWidthInLcu); \
+                                                            (y) = (index) / (pic_width_in_lcu); \
+                                                            (x) = (index) - (y) * (pic_width_in_lcu); \
                                                         MULTI_LINE_MACRO_END
-#define SEGMENT_START_IDX(index, picSizeInLcu, numOfSeg) (((index) * (picSizeInLcu)) / (numOfSeg))
-#define SEGMENT_END_IDX(index, picSizeInLcu, numOfSeg)   ((((index)+1) * (picSizeInLcu)) / (numOfSeg))
+#define SEGMENT_START_IDX(index, pic_size_in_lcu, num_of_seg) (((index) * (pic_size_in_lcu)) / (num_of_seg))
+#define SEGMENT_END_IDX(index, pic_size_in_lcu, num_of_seg)   ((((index)+1) * (pic_size_in_lcu)) / (num_of_seg))
 
 // BDP OFF
 #define MD_NEIGHBOR_ARRAY_INDEX                0
@@ -13653,13 +13653,13 @@ extern "C" {
      **************************************/
     typedef struct MdSegmentCtrl_s
     {
-        uint64_t                                completion_mask;
-        EbHandle                                write_lock_mutex;
-        uint32_t                                total_count;
-        uint32_t                                column_count;
-        uint32_t                                row_count;
-        EbBool                                  in_progress;
-        uint32_t                                current_row_idx;
+        uint64_t completion_mask;
+        EbHandle write_lock_mutex;
+        uint32_t total_count;
+        uint32_t column_count;
+        uint32_t row_count;
+        EbBool   in_progress;
+        uint32_t current_row_idx;
 
     } MdSegmentCtrl_t;
 
@@ -14555,13 +14555,13 @@ extern "C" {
     /**************************************
      * Extern Function Declarations
      **************************************/
-    extern EbErrorType PictureControlSetCtor(
+    extern EbErrorType picture_control_set_ctor(
         EbPtr *object_dbl_ptr,
         EbPtr  object_init_data_ptr);
 
-    extern EbErrorType PictureParentControlSetCtor(
+    extern EbErrorType picture_parent_control_set_ctor(
         EbPtr *object_dbl_ptr,
-        EbPtr object_init_data_ptr);
+        EbPtr  object_init_data_ptr);
 
 
 #ifdef __cplusplus

@@ -96,7 +96,7 @@ EbErrorType picture_manager_context_ctor(
  *   -Picture Control Set with fully available Reference List
  *
  ***************************************************************************************************/
-void* PictureManagerKernel(void *input_ptr)
+void* picture_manager_kernel(void *input_ptr)
 {
     PictureManagerContext_t         *context_ptr = (PictureManagerContext_t*)input_ptr;
 
@@ -665,15 +665,15 @@ void* PictureManagerKernel(void *input_ptr)
 
                         // Entropy Coding Rows
                         {
-                            unsigned rowIndex;
+                            unsigned row_index;
 
                             ChildPictureControlSetPtr->entropy_coding_current_row = 0;
                             ChildPictureControlSetPtr->entropy_coding_current_available_row = 0;
                             ChildPictureControlSetPtr->entropy_coding_row_count = picture_height_in_sb;
                             ChildPictureControlSetPtr->entropy_coding_in_progress = EB_FALSE;
 
-                            for (rowIndex = 0; rowIndex < MAX_LCU_ROWS; ++rowIndex) {
-                                ChildPictureControlSetPtr->entropy_coding_row_array[rowIndex] = EB_FALSE;
+                            for (row_index = 0; row_index < MAX_LCU_ROWS; ++row_index) {
+                                ChildPictureControlSetPtr->entropy_coding_row_array[row_index] = EB_FALSE;
                             }
                         }
                         // Picture edges

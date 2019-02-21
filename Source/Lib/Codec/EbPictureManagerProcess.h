@@ -14,8 +14,7 @@ extern "C" {
     /***************************************
      * Context
      ***************************************/
-    typedef struct PictureManagerContext_s
-    {
+    typedef struct PictureManagerContext_s {
         EbFifo_t  *picture_input_fifo_ptr;
         EbFifo_t  *pictureManagerOutputFifoPtr;
         EbFifo_t **picture_control_set_fifo_ptr_array;
@@ -30,9 +29,8 @@ extern "C" {
         EbFifo_t                 *pictureManagerOutputFifoPtr,
         EbFifo_t                **picture_control_set_fifo_ptr_array);
 
+    extern void* picture_manager_kernel(void *input_ptr);
 
-
-    extern void* PictureManagerKernel(void *input_ptr);
 #ifdef __cplusplus
 }
 #endif

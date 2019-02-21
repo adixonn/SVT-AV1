@@ -81,14 +81,14 @@ void mat_mult_out(
     uint32_t             *nonzerocoeff) {
 
     uint32_t coeffLocation = 0, coeffOutLocation = 0;
-    uint32_t rowIndex, colIndex;
+    uint32_t row_index, colIndex;
     int32_t coeffTemp;
 
     *nonzerocoeff = 0;
 
-    for (rowIndex = 0; rowIndex < compute_size; ++rowIndex) {
+    for (row_index = 0; row_index < compute_size; ++row_index) {
         for (colIndex = 0; colIndex < compute_size; ++colIndex) {
-            coeffTemp = (ABS(coeff[coeffLocation]) * masking_matrix[colIndex + rowIndex * masking_matrix_stride] + offset) >> shift_num;
+            coeffTemp = (ABS(coeff[coeffLocation]) * masking_matrix[colIndex + row_index * masking_matrix_stride] + offset) >> shift_num;
             coeffTemp = (coeff[coeffLocation] < 0) ? -coeffTemp : coeffTemp;
 
             coeff_out[coeffOutLocation] = (int16_t)CLIP3(MIN_NEG_16BIT_NUM, MAX_POS_16BIT_NUM, coeffTemp);
@@ -1170,14 +1170,14 @@ void mat_mult(
     uint32_t          *nonzerocoeff) {
 
     uint32_t coeffLocation = 0;
-    uint32_t rowIndex, colIndex;
+    uint32_t row_index, colIndex;
     int32_t coeffTemp;
 
     *nonzerocoeff = 0;
 
-    for (rowIndex = 0; rowIndex < compute_size; ++rowIndex) {
+    for (row_index = 0; row_index < compute_size; ++row_index) {
         for (colIndex = 0; colIndex < compute_size; ++colIndex) {
-            coeffTemp = (ABS(coeff[coeffLocation]) * masking_matrix[colIndex + rowIndex * masking_matrix_stride] + offset) >> shift_num;
+            coeffTemp = (ABS(coeff[coeffLocation]) * masking_matrix[colIndex + row_index * masking_matrix_stride] + offset) >> shift_num;
             coeffTemp = (coeff[coeffLocation] < 0) ? -coeffTemp : coeffTemp;
 
             coeff[coeffLocation] = (int16_t)CLIP3(MIN_NEG_16BIT_NUM, MAX_POS_16BIT_NUM, coeffTemp);
@@ -3873,11 +3873,11 @@ uint64_t EnergyComputation(
     uint32_t   area_height)
 {
     uint32_t  columnIndex;
-    uint32_t  rowIndex = 0;
+    uint32_t  row_index = 0;
     uint64_t  predictionDistortion = 0;
 
 
-    while (rowIndex < area_height) {
+    while (row_index < area_height) {
 
         columnIndex = 0;
         while (columnIndex < area_width) {
@@ -3886,7 +3886,7 @@ uint64_t EnergyComputation(
         }
 
         coeff += coeff_stride;
-        ++rowIndex;
+        ++row_index;
     }
 
     return predictionDistortion;
@@ -8472,38 +8472,38 @@ uint8_t ConstructPmTransCoeffShapingKnob(const uint16_t *masking_matrix, uint8_t
     uint8_t  strideN2 = stride >> 1;
     uint8_t  strideN4 = stride >> 2;
 
-    uint16_t index, rowIndex, columnIndex;
+    uint16_t index, row_index, columnIndex;
     uint64_t h1 = 0, h2 = 0, h3 = 0, q1 = 0, q2 = 0, q3 = 0, dc = 0;
 
     for (index = 0; index < txb_size*txb_size; index++)
     {
-        rowIndex = index / stride;
+        row_index = index / stride;
         columnIndex = index % stride;
-        if ((columnIndex >= strideN2) && (rowIndex < strideN2))
+        if ((columnIndex >= strideN2) && (row_index < strideN2))
         {
             h1 += masking_matrix[index];
         }
-        else if ((rowIndex >= strideN2) && (columnIndex < strideN2))
+        else if ((row_index >= strideN2) && (columnIndex < strideN2))
         {
             h2 += masking_matrix[index];
         }
-        else if ((rowIndex > strideN2) && (columnIndex > strideN2))
+        else if ((row_index > strideN2) && (columnIndex > strideN2))
         {
             h3 += masking_matrix[index];
         }
-        else if ((columnIndex >= strideN4) && (rowIndex < strideN4))
+        else if ((columnIndex >= strideN4) && (row_index < strideN4))
         {
             q1 += masking_matrix[index];
         }
-        else if ((rowIndex >= strideN4) && (columnIndex < strideN4))
+        else if ((row_index >= strideN4) && (columnIndex < strideN4))
         {
             q2 += masking_matrix[index];
         }
-        else if ((rowIndex > strideN4) && (columnIndex > strideN4))
+        else if ((row_index > strideN4) && (columnIndex > strideN4))
         {
             q3 += masking_matrix[index];
         }
-        else if ((rowIndex != 0) && (columnIndex != 0)) {
+        else if ((row_index != 0) && (columnIndex != 0)) {
             dc += masking_matrix[index];
         }
     }

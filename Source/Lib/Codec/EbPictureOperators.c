@@ -233,9 +233,9 @@ void residual_kernel16bit(
     uint32_t   area_height)
 {
     uint32_t  columnIndex;
-    uint32_t  rowIndex = 0;
+    uint32_t  row_index = 0;
 
-    while (rowIndex < area_height) {
+    while (row_index < area_height) {
         columnIndex = 0;
         while (columnIndex < area_width) {
             residual[columnIndex] = ((int16_t)input[columnIndex]) - ((int16_t)pred[columnIndex]);
@@ -245,7 +245,7 @@ void residual_kernel16bit(
         input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
-        ++rowIndex;
+        ++row_index;
     }
 
     return;
@@ -265,9 +265,9 @@ void residual_kernel_c(
     uint32_t   area_height)
 {
     uint32_t  columnIndex;
-    uint32_t  rowIndex = 0;
+    uint32_t  row_index = 0;
 
-    while (rowIndex < area_height) {
+    while (row_index < area_height) {
         columnIndex = 0;
         while (columnIndex < area_width) {
             residual[columnIndex] = ((int16_t)input[columnIndex]) - ((int16_t)pred[columnIndex]);
@@ -277,7 +277,7 @@ void residual_kernel_c(
         input += input_stride;
         pred += pred_stride;
         residual += residual_stride;
-        ++rowIndex;
+        ++row_index;
     }
 
     return;
@@ -381,11 +381,11 @@ void full_distortion_kernel32_bits(
     uint32_t   area_height)
 {
     uint32_t  columnIndex;
-    uint32_t  rowIndex = 0;
+    uint32_t  row_index = 0;
     uint64_t  residualDistortion = 0;
     uint64_t  predictionDistortion = 0;
 
-    while (rowIndex < area_height) {
+    while (row_index < area_height) {
 
         columnIndex = 0;
         while (columnIndex < area_width) {
@@ -396,7 +396,7 @@ void full_distortion_kernel32_bits(
 
         coeff += coeff_stride;
         recon_coeff += recon_coeff_stride;
-        ++rowIndex;
+        ++row_index;
     }
 
     distortion_result[DIST_CALC_RESIDUAL] = residualDistortion;
@@ -416,12 +416,12 @@ void full_distortion_kernel_cbf_zero32_bits(
     uint32_t   area_height)
 {
     uint32_t  columnIndex;
-    uint32_t  rowIndex = 0;
+    uint32_t  row_index = 0;
     uint64_t  predictionDistortion = 0;
     (void)recon_coeff;
     (void)recon_coeff_stride;
 
-    while (rowIndex < area_height) {
+    while (row_index < area_height) {
 
         columnIndex = 0;
         while (columnIndex < area_width) {
@@ -430,7 +430,7 @@ void full_distortion_kernel_cbf_zero32_bits(
         }
 
         coeff += coeff_stride;
-        ++rowIndex;
+        ++row_index;
     }
 
     distortion_result[DIST_CALC_RESIDUAL] = predictionDistortion;

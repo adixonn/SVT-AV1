@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include "EbPictureDecisionReorderQueue.h"
 
-EbErrorType PictureDecisionReorderEntryCtor(
+EbErrorType picture_decision_reorder_entry_ctor(
     PictureDecisionReorderEntry_t   **entry_dbl_ptr,
     uint32_t                            picture_number)
 {

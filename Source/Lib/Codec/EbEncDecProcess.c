@@ -791,7 +791,7 @@ void PsnrCalculations(
 
         uint64_t sseTotal[3] = { 0 };
         uint32_t   columnIndex;
-        uint32_t   rowIndex = 0;
+        uint32_t   row_index = 0;
         uint64_t   residualDistortion = 0;
         EbByte  inputBuffer;
         EbByte  reconCoeffBuffer;
@@ -801,7 +801,7 @@ void PsnrCalculations(
 
         residualDistortion = 0;
 
-        while (rowIndex < sequence_control_set_ptr->luma_height) {
+        while (row_index < sequence_control_set_ptr->luma_height) {
 
             columnIndex = 0;
             while (columnIndex < sequence_control_set_ptr->luma_width) {
@@ -811,7 +811,7 @@ void PsnrCalculations(
 
             inputBuffer += input_picture_ptr->stride_y;
             reconCoeffBuffer += recon_ptr->stride_y;
-            ++rowIndex;
+            ++row_index;
         }
 
         sseTotal[0] = residualDistortion;
@@ -820,8 +820,8 @@ void PsnrCalculations(
         inputBuffer = &((input_picture_ptr->bufferCb)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb]);
 
         residualDistortion = 0;
-        rowIndex = 0;
-        while (rowIndex < sequence_control_set_ptr->chroma_height) {
+        row_index = 0;
+        while (row_index < sequence_control_set_ptr->chroma_height) {
 
             columnIndex = 0;
             while (columnIndex < sequence_control_set_ptr->chroma_width) {
@@ -831,7 +831,7 @@ void PsnrCalculations(
 
             inputBuffer += input_picture_ptr->strideCb;
             reconCoeffBuffer += recon_ptr->strideCb;
-            ++rowIndex;
+            ++row_index;
         }
 
         sseTotal[1] = residualDistortion;
@@ -839,9 +839,9 @@ void PsnrCalculations(
         reconCoeffBuffer = &((recon_ptr->bufferCr)[recon_ptr->origin_x / 2 + recon_ptr->origin_y / 2 * recon_ptr->strideCr]);
         inputBuffer = &((input_picture_ptr->bufferCr)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCr]);
         residualDistortion = 0;
-        rowIndex = 0;
+        row_index = 0;
 
-        while (rowIndex < sequence_control_set_ptr->chroma_height) {
+        while (row_index < sequence_control_set_ptr->chroma_height) {
 
             columnIndex = 0;
             while (columnIndex < sequence_control_set_ptr->chroma_width) {
@@ -851,7 +851,7 @@ void PsnrCalculations(
 
             inputBuffer += input_picture_ptr->strideCr;
             reconCoeffBuffer += recon_ptr->strideCr;
-            ++rowIndex;
+            ++row_index;
         }
 
         sseTotal[2] = residualDistortion;
@@ -871,7 +871,7 @@ void PsnrCalculations(
 
         uint64_t sseTotal[3] = { 0 };
         uint32_t   columnIndex;
-        uint32_t   rowIndex = 0;
+        uint32_t   row_index = 0;
         uint64_t   residualDistortion = 0;
         EbByte  inputBuffer;
         EbByte  inputBufferBitInc;
@@ -1061,7 +1061,7 @@ void PsnrCalculations(
 
             residualDistortion = 0;
 
-            while (rowIndex < sequence_control_set_ptr->luma_height) {
+            while (row_index < sequence_control_set_ptr->luma_height) {
 
                 columnIndex = 0;
                 while (columnIndex < sequence_control_set_ptr->luma_width) {
@@ -1073,7 +1073,7 @@ void PsnrCalculations(
                 inputBuffer += input_picture_ptr->stride_y;
                 inputBufferBitInc += input_picture_ptr->strideBitIncY;
                 reconCoeffBuffer += recon_ptr->stride_y;
-                ++rowIndex;
+                ++row_index;
             }
 
             sseTotal[0] = residualDistortion;
@@ -1083,8 +1083,8 @@ void PsnrCalculations(
             inputBufferBitInc = &((input_picture_ptr->bufferBitIncCb)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideBitIncCb]);
 
             residualDistortion = 0;
-            rowIndex = 0;
-            while (rowIndex < sequence_control_set_ptr->chroma_height) {
+            row_index = 0;
+            while (row_index < sequence_control_set_ptr->chroma_height) {
 
                 columnIndex = 0;
                 while (columnIndex < sequence_control_set_ptr->chroma_width) {
@@ -1095,7 +1095,7 @@ void PsnrCalculations(
                 inputBuffer += input_picture_ptr->strideCb;
                 inputBufferBitInc += input_picture_ptr->strideBitIncCb;
                 reconCoeffBuffer += recon_ptr->strideCb;
-                ++rowIndex;
+                ++row_index;
             }
 
             sseTotal[1] = residualDistortion;
@@ -1105,9 +1105,9 @@ void PsnrCalculations(
             inputBufferBitInc = &((input_picture_ptr->bufferBitIncCr)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideBitIncCr]);
 
             residualDistortion = 0;
-            rowIndex = 0;
+            row_index = 0;
 
-            while (rowIndex < sequence_control_set_ptr->chroma_height) {
+            while (row_index < sequence_control_set_ptr->chroma_height) {
 
                 columnIndex = 0;
                 while (columnIndex < sequence_control_set_ptr->chroma_width) {
@@ -1118,7 +1118,7 @@ void PsnrCalculations(
                 inputBuffer += input_picture_ptr->strideCr;
                 inputBufferBitInc += input_picture_ptr->strideBitIncCr;
                 reconCoeffBuffer += recon_ptr->strideCr;
-                ++rowIndex;
+                ++row_index;
             }
 
             sseTotal[2] = residualDistortion;

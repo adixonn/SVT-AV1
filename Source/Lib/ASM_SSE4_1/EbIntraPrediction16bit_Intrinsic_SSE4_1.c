@@ -36,13 +36,13 @@ EB_EXTERN void intra_mode_dc_luma16bit_sse4_1_intrin(
         temp1 = _mm_add_epi16(temp1, temp0);  // ref_samples[leftOffset] + ref_samples[topOffset] + (prediction_ptr[0] << 1)
         temp0 = _mm_add_epi16(sum, temp0);    // 3*prediction_ptr[columnIndex]
         topL = _mm_add_epi16(topL, temp0);    // ref_samples[topOffset+columnIndex] + 3*prediction_ptr[columnIndex]
-        leftT = _mm_add_epi16(leftT, temp0);  // ref_samples[leftOffset+rowIndex] + 3*prediction_ptr[writeIndex]
+        leftT = _mm_add_epi16(leftT, temp0);  // ref_samples[leftOffset+row_index] + 3*prediction_ptr[writeIndex]
         const2 = _mm_setr_epi16(2, 2, 2, 2, 2, 2, 2, 2);
         topL = _mm_add_epi16(topL, const2);   // ref_samples[topOffset+columnIndex] + 3*prediction_ptr[columnIndex] + 2
-        leftT = _mm_add_epi16(leftT, const2); // ref_samples[leftOffset+rowIndex] + 3*prediction_ptr[writeIndex] + 2
+        leftT = _mm_add_epi16(leftT, const2); // ref_samples[leftOffset+row_index] + 3*prediction_ptr[writeIndex] + 2
         temp1 = _mm_add_epi16(temp1, const2); // ref_samples[leftOffset] + ref_samples[topOffset] + (prediction_ptr[0] << 1) + 2
         topL = _mm_srli_epi16(topL, 2);       // (ref_samples[topOffset+columnIndex] + 3*prediction_ptr[columnIndex] + 2) >> 2
-        leftT = _mm_srli_epi16(leftT, 2);     // (ref_samples[leftOffset+rowIndex] + 3*prediction_ptr[writeIndex] + 2) >> 2
+        leftT = _mm_srli_epi16(leftT, 2);     // (ref_samples[leftOffset+row_index] + 3*prediction_ptr[writeIndex] + 2) >> 2
         temp1 = _mm_srli_epi16(temp1, 2);     // (ref_samples[leftOffset] + ref_samples[topOffset] + (prediction_ptr[0] << 1) + 2) >> 2
 
         topL = _mm_blend_epi16(topL, temp1, 1); // prediction_ptr[0] = (uint16_t) ((ref_samples[leftOffset] + ref_samples[topOffset] + (prediction_ptr[0] << 1) + 2) >> 2);
@@ -88,13 +88,13 @@ EB_EXTERN void intra_mode_dc_luma16bit_sse4_1_intrin(
         temp1 = _mm_add_epi16(temp1, temp0);  // ref_samples[leftOffset] + ref_samples[topOffset] + (prediction_ptr[0] << 1)
         temp0 = _mm_add_epi16(sum, temp0);    // 3*prediction_ptr[columnIndex]
         topL = _mm_add_epi16(topL, temp0);    // ref_samples[topOffset+columnIndex] + 3*prediction_ptr[columnIndex]
-        leftT = _mm_add_epi16(leftT, temp0);  // ref_samples[leftOffset+rowIndex] + 3*prediction_ptr[writeIndex]
+        leftT = _mm_add_epi16(leftT, temp0);  // ref_samples[leftOffset+row_index] + 3*prediction_ptr[writeIndex]
         const2 = _mm_setr_epi16(2, 2, 2, 2, 2, 2, 2, 2);
         topL = _mm_add_epi16(topL, const2);   // ref_samples[topOffset+columnIndex] + 3*prediction_ptr[columnIndex] + 2
-        leftT = _mm_add_epi16(leftT, const2); // ref_samples[leftOffset+rowIndex] + 3*prediction_ptr[writeIndex] + 2
+        leftT = _mm_add_epi16(leftT, const2); // ref_samples[leftOffset+row_index] + 3*prediction_ptr[writeIndex] + 2
         temp1 = _mm_add_epi16(temp1, const2); // ref_samples[leftOffset] + ref_samples[topOffset] + (prediction_ptr[0] << 1) + 2
         topL = _mm_srli_epi16(topL, 2);       // (ref_samples[topOffset+columnIndex] + 3*prediction_ptr[columnIndex] + 2) >> 2
-        leftT = _mm_srli_epi16(leftT, 2);     // (ref_samples[leftOffset+rowIndex] + 3*prediction_ptr[writeIndex] + 2) >> 2
+        leftT = _mm_srli_epi16(leftT, 2);     // (ref_samples[leftOffset+row_index] + 3*prediction_ptr[writeIndex] + 2) >> 2
         temp1 = _mm_srli_epi16(temp1, 2);     // (ref_samples[leftOffset] + ref_samples[topOffset] + (prediction_ptr[0] << 1) + 2) >> 2
 
         topL = _mm_blend_epi16(topL, temp1, 1); // prediction_ptr[0] = (uint16_t) ((ref_samples[leftOffset] + ref_samples[topOffset] + (prediction_ptr[0] << 1) + 2) >> 2);
@@ -169,18 +169,18 @@ EB_EXTERN void intra_mode_dc_luma16bit_sse4_1_intrin(
         temp0 = _mm_add_epi16(sum, temp0);    // 3*prediction_ptr[columnIndex]
         topL = _mm_add_epi16(topL, temp0);    // ref_samples[topOffset+columnIndex] + 3*prediction_ptr[columnIndex]
         topR = _mm_add_epi16(topR, temp0);    // ref_samples[topOffset+columnIndex] + 3*prediction_ptr[columnIndex]
-        leftT = _mm_add_epi16(leftT, temp0);  // ref_samples[leftOffset+rowIndex] + 3*prediction_ptr[writeIndex]
-        leftB = _mm_add_epi16(leftB, temp0);  // ref_samples[leftOffset+rowIndex] + 3*prediction_ptr[writeIndex]
+        leftT = _mm_add_epi16(leftT, temp0);  // ref_samples[leftOffset+row_index] + 3*prediction_ptr[writeIndex]
+        leftB = _mm_add_epi16(leftB, temp0);  // ref_samples[leftOffset+row_index] + 3*prediction_ptr[writeIndex]
         const2 = _mm_setr_epi16(2, 2, 2, 2, 2, 2, 2, 2);
         topL = _mm_add_epi16(topL, const2);   // ref_samples[topOffset+columnIndex] + 3*prediction_ptr[columnIndex] + 2
         topR = _mm_add_epi16(topR, const2);   // ref_samples[topOffset+columnIndex] + 3*prediction_ptr[columnIndex] + 2
-        leftT = _mm_add_epi16(leftT, const2); // ref_samples[leftOffset+rowIndex] + 3*prediction_ptr[writeIndex] + 2
-        leftB = _mm_add_epi16(leftB, const2); // ref_samples[leftOffset+rowIndex] + 3*prediction_ptr[writeIndex] + 2
+        leftT = _mm_add_epi16(leftT, const2); // ref_samples[leftOffset+row_index] + 3*prediction_ptr[writeIndex] + 2
+        leftB = _mm_add_epi16(leftB, const2); // ref_samples[leftOffset+row_index] + 3*prediction_ptr[writeIndex] + 2
         temp1 = _mm_add_epi16(temp1, const2); // ref_samples[leftOffset] + ref_samples[topOffset] + (prediction_ptr[0] << 1) + 2
         topL = _mm_srli_epi16(topL, 2);       // (ref_samples[topOffset+columnIndex] + 3*prediction_ptr[columnIndex] + 2) >> 2
         topR = _mm_srli_epi16(topR, 2);       // (ref_samples[topOffset+columnIndex] + 3*prediction_ptr[columnIndex] + 2) >> 2
-        leftT = _mm_srli_epi16(leftT, 2);     // (ref_samples[leftOffset+rowIndex] + 3*prediction_ptr[writeIndex] + 2) >> 2
-        leftB = _mm_srli_epi16(leftB, 2);     // (ref_samples[leftOffset+rowIndex] + 3*prediction_ptr[writeIndex] + 2) >> 2
+        leftT = _mm_srli_epi16(leftT, 2);     // (ref_samples[leftOffset+row_index] + 3*prediction_ptr[writeIndex] + 2) >> 2
+        leftB = _mm_srli_epi16(leftB, 2);     // (ref_samples[leftOffset+row_index] + 3*prediction_ptr[writeIndex] + 2) >> 2
         temp1 = _mm_srli_epi16(temp1, 2);     // (ref_samples[leftOffset] + ref_samples[topOffset] + (prediction_ptr[0] << 1) + 2) >> 2
 
         topL = _mm_blend_epi16(topL, temp1, 1); // prediction_ptr[0] = (uint16_t) ((ref_samples[leftOffset] + ref_samples[topOffset] + (prediction_ptr[0] << 1) + 2) >> 2);

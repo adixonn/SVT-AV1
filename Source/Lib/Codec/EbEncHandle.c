@@ -876,7 +876,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
             &encHandlePtr->pictureParentControlSetPoolProducerFifoPtrDblArray[instanceIndex],
             (EbFifo_t ***)EB_NULL,
             EB_FALSE,
-            PictureParentControlSetCtor,
+            picture_parent_control_set_ctor,
             &inputData);
         if (return_error == EB_ErrorInsufficientResources) {
             return EB_ErrorInsufficientResources;
@@ -926,7 +926,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
             &encHandlePtr->pictureControlSetPoolProducerFifoPtrDblArray[instanceIndex],
             (EbFifo_t ***)EB_NULL,
             EB_FALSE,
-            PictureControlSetCtor,
+            picture_control_set_ctor,
             &inputData);
         if (return_error == EB_ErrorInsufficientResources) {
             return EB_ErrorInsufficientResources;
@@ -1169,7 +1169,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
             &encHandlePtr->pictureDecisionResultsProducerFifoPtrArray,
             &encHandlePtr->pictureDecisionResultsConsumerFifoPtrArray,
             EB_TRUE,
-            PictureDecisionResultCtor,
+            picture_decision_result_ctor,
             &pictureDecisionResultInitData);
         if (return_error == EB_ErrorInsufficientResources) {
             return EB_ErrorInsufficientResources;
@@ -1231,7 +1231,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
             &encHandlePtr->pictureDemuxResultsProducerFifoPtrArray,
             &encHandlePtr->pictureDemuxResultsConsumerFifoPtrArray,
             EB_TRUE,
-            PictureResultsCtor,
+            picture_results_ctor,
             &pictureResultInitData);
         if (return_error == EB_ErrorInsufficientResources) {
             return EB_ErrorInsufficientResources;
@@ -1471,7 +1471,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
         instanceIndex = 0;
 
 
-        return_error = PictureDecisionContextCtor(
+        return_error = picture_decision_context_ctor(
             (PictureDecisionContext_t**)&encHandlePtr->pictureDecisionContextPtr,
             encHandlePtr->pictureAnalysisResultsConsumerFifoPtrArray[0],
             encHandlePtr->pictureDecisionResultsProducerFifoPtrArray[0]);
@@ -1693,7 +1693,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
     }
 
     // Picture Decision
-    EB_CREATETHREAD(EbHandle, encHandlePtr->pictureDecisionThreadHandle, sizeof(EbHandle), EB_THREAD, PictureDecisionKernel, encHandlePtr->pictureDecisionContextPtr);
+    EB_CREATETHREAD(EbHandle, encHandlePtr->pictureDecisionThreadHandle, sizeof(EbHandle), EB_THREAD, picture_decision_kernel, encHandlePtr->pictureDecisionContextPtr);
 
     // Motion Estimation
     EB_MALLOC(EbHandle*, encHandlePtr->motionEstimationThreadHandleArray, sizeof(EbHandle) * encHandlePtr->sequence_control_set_instance_array[0]->sequence_control_set_ptr->motion_estimation_process_init_count, EB_N_PTR);
@@ -1713,7 +1713,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
     }
 
     // Picture Manager
-    EB_CREATETHREAD(EbHandle, encHandlePtr->pictureManagerThreadHandle, sizeof(EbHandle), EB_THREAD, PictureManagerKernel, encHandlePtr->pictureManagerContextPtr);
+    EB_CREATETHREAD(EbHandle, encHandlePtr->pictureManagerThreadHandle, sizeof(EbHandle), EB_THREAD, picture_manager_kernel, encHandlePtr->pictureManagerContextPtr);
 
     // Rate Control
     EB_CREATETHREAD(EbHandle, encHandlePtr->rateControlThreadHandle, sizeof(EbHandle), EB_THREAD, rate_control_kernel, encHandlePtr->rateControlContextPtr);

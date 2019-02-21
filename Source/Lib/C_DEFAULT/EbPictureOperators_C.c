@@ -46,11 +46,11 @@ uint64_t spatial_full_distortion_kernel(
     uint32_t   area_height)
 {
     uint32_t  columnIndex;
-    uint32_t  rowIndex = 0;
+    uint32_t  row_index = 0;
 
     uint64_t  spatialDistortion = 0;
 
-    while (rowIndex < area_height) {
+    while (row_index < area_height) {
 
         columnIndex = 0;
         while (columnIndex < area_width) {
@@ -60,7 +60,7 @@ uint64_t spatial_full_distortion_kernel(
 
         input += input_stride;
         recon += recon_stride;
-        ++rowIndex;
+        ++row_index;
     }
     return spatialDistortion;
 }

@@ -48,7 +48,7 @@ static void set_restoration_unit_size(int32_t width, int32_t height, int32_t sx,
 }
 
 
-EbErrorType PictureControlSetCtor(
+EbErrorType picture_control_set_ctor(
     EbPtr *object_dbl_ptr,
     EbPtr object_init_data_ptr)
 {
@@ -903,7 +903,7 @@ EbErrorType PictureControlSetCtor(
 }
 
 
-EbErrorType PictureParentControlSetCtor(
+EbErrorType picture_parent_control_set_ctor(
     EbPtr *object_dbl_ptr,
     EbPtr object_init_data_ptr)
 {

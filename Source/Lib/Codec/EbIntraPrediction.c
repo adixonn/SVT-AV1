@@ -2619,7 +2619,7 @@ void highbd_dc_predictor(
 
     //uint32_t sum = 0;
 //    uint32_t index;
-    uint32_t columnIndex, rowIndex;
+    uint32_t columnIndex, row_index;
     uint32_t writeIndex;
     uint32_t leftOffset = 0;
     uint32_t topOffset = (size << 1) + 1;
@@ -2659,7 +2659,7 @@ void highbd_dc_predictor(
     // expected_dc = (sum + (count >> 1)) / count;
 
      /*for (r = 0; r < size; r++) {
-         writeIndex = rowIndex * prediction_buffer_stride;
+         writeIndex = row_index * prediction_buffer_stride;
 
          EB_MEMSET( dst, expected_dc, size);
 
@@ -2667,8 +2667,8 @@ void highbd_dc_predictor(
      }*/
 
      // Generate the prediction
-    for (rowIndex = 0; rowIndex < size; rowIndex += rowStride) {
-        writeIndex = rowIndex * prediction_buffer_stride;
+    for (row_index = 0; row_index < size; row_index += rowStride) {
+        writeIndex = row_index * prediction_buffer_stride;
         for (columnIndex = 0; columnIndex < size; ++columnIndex) {
             dst[writeIndex] = (uint8_t)expected_dc;
             ++writeIndex;
@@ -2699,8 +2699,8 @@ void highbd_dc_predictor(
     //predictionDcValue = (uint8_t)((sum + size) >> Log2f(size << 1));
 
     //// Generate the prediction
-    //for (rowIndex = 0; rowIndex < size; rowIndex += rowStride) {
-    //    writeIndex = rowIndex * prediction_buffer_stride;
+    //for (row_index = 0; row_index < size; row_index += rowStride) {
+    //    writeIndex = row_index * prediction_buffer_stride;
     //    for (columnIndex = 0; columnIndex < size; ++columnIndex) {
     //        prediction_ptr[writeIndex] = predictionDcValue;
     //        ++writeIndex;
@@ -2717,9 +2717,9 @@ void highbd_dc_predictor(
     //    }
 
     //    //first col
-    //    for (rowIndex = rowStride; rowIndex<size; rowIndex += rowStride) {
-    //        writeIndex = rowIndex*prediction_buffer_stride;
-    //        prediction_ptr[writeIndex] = (uint8_t)((ref_samples[leftOffset + rowIndex] + 3 * prediction_ptr[writeIndex] + 2) >> 2);
+    //    for (row_index = rowStride; row_index<size; row_index += rowStride) {
+    //        writeIndex = row_index*prediction_buffer_stride;
+    //        prediction_ptr[writeIndex] = (uint8_t)((ref_samples[leftOffset + row_index] + 3 * prediction_ptr[writeIndex] + 2) >> 2);
     //    }
     //}
 
@@ -3031,7 +3031,7 @@ void IntraModeAngular_AV1_Z1(
 {
     (void)dy;
 
-    //    uint32_t rowIndex, colIndex;
+    //    uint32_t row_index, colIndex;
     uint32_t toAboveOffset = (size << 1) + 1;
     uint32_t rowStride = skip ? 2 : 1;
 
@@ -3086,7 +3086,7 @@ void IntraModeAngular_AV1_Z2(
 )
 {
 
-    //    uint32_t rowIndex, colIndex;
+    //    uint32_t row_index, colIndex;
     uint32_t toAboveOffset = (size << 1) + 1;
     uint32_t toAboveLeftOffset = (size << 1);
     uint32_t shiftToAboveLeft = 0;
@@ -3142,7 +3142,7 @@ void IntraModeAngular_AV1_Z3(
 )
 {
 
-    //    uint32_t rowIndex, colIndex;
+    //    uint32_t row_index, colIndex;
     //    uint32_t toAboveOffset = (size << 1) + 1 ;
     uint32_t toLeftOffset = 0;
     uint32_t rowStride = skip ? 2 : 1;
@@ -3195,7 +3195,7 @@ void highbd_dc_predictor_16bit(
 
     //uint32_t sum = 0;
 //    uint32_t index;
-    uint32_t columnIndex, rowIndex;
+    uint32_t columnIndex, row_index;
     uint32_t writeIndex;
     uint32_t leftOffset = 0;
     uint32_t topOffset = (size << 1) + 1;
@@ -3234,7 +3234,7 @@ void highbd_dc_predictor_16bit(
     // expected_dc = (sum + (count >> 1)) / count;
 
     /*for (r = 0; r < size; r++) {
-    writeIndex = rowIndex * prediction_buffer_stride;
+    writeIndex = row_index * prediction_buffer_stride;
 
     EB_MEMSET( dst, expected_dc, size);
 
@@ -3242,8 +3242,8 @@ void highbd_dc_predictor_16bit(
     }*/
 
     // Generate the prediction
-    for (rowIndex = 0; rowIndex < size; rowIndex += rowStride) {
-        writeIndex = rowIndex * prediction_buffer_stride;
+    for (row_index = 0; row_index < size; row_index += rowStride) {
+        writeIndex = row_index * prediction_buffer_stride;
         for (columnIndex = 0; columnIndex < size; ++columnIndex) {
             dst[writeIndex] = (uint16_t)expected_dc;
             ++writeIndex;
@@ -3339,7 +3339,7 @@ void IntraModeAngular_AV1_Z1_16bit(
 
 {
     (void)dy;
-    //    uint32_t rowIndex, colIndex;
+    //    uint32_t row_index, colIndex;
     uint32_t toAboveOffset = (size << 1) + 1;
     uint32_t rowStride = skip ? 2 : 1;
 
@@ -3392,7 +3392,7 @@ void IntraModeAngular_AV1_Z2_16bit(
     uint16_t          bd)
 {
 
-    //    uint32_t rowIndex, colIndex;
+    //    uint32_t row_index, colIndex;
     uint32_t toAboveOffset = (size << 1) + 1;
     uint32_t toAboveLeftOffset = (size << 1);
     uint32_t shiftToAboveLeft = 0;
@@ -3447,7 +3447,7 @@ void IntraModeAngular_AV1_Z3_16bit(
     uint16_t          bd)
 {
 
-    //    uint32_t rowIndex, colIndex;
+    //    uint32_t row_index, colIndex;
     //    uint32_t toAboveOffset = (size << 1) + 1;
     uint32_t toLeftOffset = 0;
     uint32_t rowStride = skip ? 2 : 1;

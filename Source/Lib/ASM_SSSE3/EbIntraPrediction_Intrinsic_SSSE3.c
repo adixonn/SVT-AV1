@@ -20,7 +20,7 @@ extern void intra_mode_angular_vertical_kernel_ssse3_intrin(
     const EbBool  skip,
     int32_t   intra_pred_angle)
 {
-    uint32_t rowIndex;
+    uint32_t row_index;
     uint32_t height = size;
     int32_t deltaSum = intra_pred_angle;
     int32_t deltaInt;
@@ -48,7 +48,7 @@ extern void intra_mode_angular_vertical_kernel_ssse3_intrin(
     }
 
     if (size == 4) {
-        for (rowIndex = 0; rowIndex < height; rowIndex += 2) {
+        for (row_index = 0; row_index < height; row_index += 2) {
             deltaInt = deltaSum >> 5;
             deltaFract = deltaSum & 31;
             a0 = _mm_unpacklo_epi8(_mm_cvtsi32_si128(32 - deltaFract), _mm_cvtsi32_si128(deltaFract));
@@ -71,7 +71,7 @@ extern void intra_mode_angular_vertical_kernel_ssse3_intrin(
         }
     }
     else if (size == 8) {
-        for (rowIndex = 0; rowIndex < height; rowIndex++) {
+        for (row_index = 0; row_index < height; row_index++) {
             deltaInt = deltaSum >> 5;
             deltaFract = deltaSum & 31;
             a0 = _mm_unpacklo_epi8(_mm_cvtsi32_si128(32 - deltaFract), _mm_cvtsi32_si128(deltaFract));
@@ -87,7 +87,7 @@ extern void intra_mode_angular_vertical_kernel_ssse3_intrin(
         }
     }
     else if (size == 16) {
-        for (rowIndex = 0; rowIndex < height; rowIndex++) {
+        for (row_index = 0; row_index < height; row_index++) {
             deltaInt = deltaSum >> 5;
             deltaFract = deltaSum & 31;
             a0 = _mm_unpacklo_epi8(_mm_cvtsi32_si128(32 - deltaFract), _mm_cvtsi32_si128(deltaFract));
@@ -107,7 +107,7 @@ extern void intra_mode_angular_vertical_kernel_ssse3_intrin(
         }
     }
     else { // size == 32
-        for (rowIndex = 0; rowIndex < height; rowIndex++) {
+        for (row_index = 0; row_index < height; row_index++) {
             deltaInt = deltaSum >> 5;
             deltaFract = deltaSum & 31;
             a0 = _mm_unpacklo_epi8(_mm_cvtsi32_si128(32 - deltaFract), _mm_cvtsi32_si128(deltaFract));
@@ -146,7 +146,7 @@ extern void intra_mode_angular_horizontal_kernel_ssse3_intrin(
     const EbBool  skip,
     int32_t         intra_pred_angle)
 {
-    uint32_t rowIndex, colIndex;
+    uint32_t row_index, colIndex;
     int32_t deltaSum = 0;
     int32_t deltaInt;
     uint32_t deltaFract;
@@ -314,7 +314,7 @@ extern void intra_mode_angular_horizontal_kernel_ssse3_intrin(
             }
             p = temp_buf;
             for (colIndex = 0; colIndex < 2; colIndex++) {
-                for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+                for (row_index = 0; row_index < 2; row_index++) {
                     a0 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(p + 0x00)), _mm_loadl_epi64((__m128i *)(p + 0x10)));
                     a1 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(p + 0x20)), _mm_loadl_epi64((__m128i *)(p + 0x30)));
                     a2 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(p + 0x40)), _mm_loadl_epi64((__m128i *)(p + 0x50)));
@@ -531,7 +531,7 @@ extern void intra_mode_angular_horizontal_kernel_ssse3_intrin(
             }
             p = temp_buf;
             for (colIndex = 0; colIndex < 2; colIndex++) {
-                for (rowIndex = 0; rowIndex < 4; rowIndex++) {
+                for (row_index = 0; row_index < 4; row_index++) {
                     a0 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(p + 0x000)), _mm_loadl_epi64((__m128i *)(p + 0x020)));
                     a1 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(p + 0x040)), _mm_loadl_epi64((__m128i *)(p + 0x060)));
                     a2 = _mm_unpacklo_epi8(_mm_loadl_epi64((__m128i *)(p + 0x080)), _mm_loadl_epi64((__m128i *)(p + 0x0A0)));

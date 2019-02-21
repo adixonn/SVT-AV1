@@ -98,14 +98,14 @@ void c_pack_c(
     uint32_t     width,
     uint32_t     height)
 {
-    uint32_t rowIndex, colIndex;
+    uint32_t row_index, colIndex;
     (void)local_cache;
 
-    for (rowIndex = 0; rowIndex < height; rowIndex++)
+    for (row_index = 0; row_index < height; row_index++)
     {
         for (colIndex = 0; colIndex < width; colIndex += 4)
         {
-            uint32_t i = colIndex + rowIndex * inn_stride;
+            uint32_t i = colIndex + row_index * inn_stride;
 
             uint8_t compressedUnpackedPixel = 0;
             compressedUnpackedPixel = compressedUnpackedPixel | ((inn_bit_buffer[i + 0] >> 0) & 0xC0);//1100.0000
@@ -113,7 +113,7 @@ void c_pack_c(
             compressedUnpackedPixel = compressedUnpackedPixel | ((inn_bit_buffer[i + 2] >> 4) & 0x0C);//0000.1100
             compressedUnpackedPixel = compressedUnpackedPixel | ((inn_bit_buffer[i + 3] >> 6) & 0x03);//0000.0011
 
-            uint32_t j = colIndex / 4 + rowIndex * out_stride;
+            uint32_t j = colIndex / 4 + row_index * out_stride;
             in_compn_bit_buffer[j] = compressedUnpackedPixel;
         }
     }
