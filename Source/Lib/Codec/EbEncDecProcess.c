@@ -560,7 +560,7 @@ EbBool AssignEncDecSegments(
         // Right Neighbor
         if (segment_index < segmentPtr->rowArray[rowSegmentIndex].endingSegIndex)
         {
-            EbBlockOnMutex(segmentPtr->rowArray[rowSegmentIndex].assignmentMutex);
+            eb_block_on_mutex(segmentPtr->rowArray[rowSegmentIndex].assignmentMutex);
 
             --segmentPtr->depMap.dependencyMap[rightSegmentIndex];
 
@@ -575,13 +575,13 @@ EbBool AssignEncDecSegments(
                 //    *segmentInOutIndex);
             }
 
-            EbReleaseMutex(segmentPtr->rowArray[rowSegmentIndex].assignmentMutex);
+            eb_release_mutex(segmentPtr->rowArray[rowSegmentIndex].assignmentMutex);
         }
 
         // Bottom-left Neighbor
         if (rowSegmentIndex < segmentPtr->segmentRowCount - 1 && bottomLeftSegmentIndex >= segmentPtr->rowArray[rowSegmentIndex + 1].startingSegIndex)
         {
-            EbBlockOnMutex(segmentPtr->rowArray[rowSegmentIndex + 1].assignmentMutex);
+            eb_block_on_mutex(segmentPtr->rowArray[rowSegmentIndex + 1].assignmentMutex);
 
             --segmentPtr->depMap.dependencyMap[bottomLeftSegmentIndex];
 
@@ -600,7 +600,7 @@ EbBool AssignEncDecSegments(
                     //    *segmentInOutIndex);
                 }
             }
-            EbReleaseMutex(segmentPtr->rowArray[rowSegmentIndex + 1].assignmentMutex);
+            eb_release_mutex(segmentPtr->rowArray[rowSegmentIndex + 1].assignmentMutex);
         }
 
         if (feedbackRowIndex > 0) {
@@ -637,7 +637,7 @@ static void ReconOutput(
     // The totalNumberOfReconFrames counter has to be write/read protected as
     //   it is used to determine the end of the stream.  If it is not protected
     //   the encoder might not properly terminate.
-    EbBlockOnMutex(encode_context_ptr->total_number_of_recon_frame_mutex);
+    eb_block_on_mutex(encode_context_ptr->total_number_of_recon_frame_mutex);
 
     // Get Recon Buffer
     EbGetEmptyObject(
@@ -652,7 +652,7 @@ static void ReconOutput(
 
     encode_context_ptr->total_number_of_recon_frames++;
 
-    //EbReleaseMutex(encode_context_ptr->terminating_conditions_mutex);
+    //eb_release_mutex(encode_context_ptr->terminating_conditions_mutex);
 
     // STOP READ/WRITE PROTECTED SECTION
     outputReconPtr->n_filled_len = 0;
@@ -769,7 +769,7 @@ static void ReconOutput(
 
     // Post the Recon object
     EbPostFullObject(outputReconWrapperPtr);
-    EbReleaseMutex(encode_context_ptr->total_number_of_recon_frame_mutex);
+    eb_release_mutex(encode_context_ptr->total_number_of_recon_frame_mutex);
 }
 
 void PsnrCalculations(
@@ -1638,9 +1638,9 @@ void* EncDecKernel(void *input_ptr)
             }
         }
 
-        EbBlockOnMutex(picture_control_set_ptr->intra_mutex);
+        eb_block_on_mutex(picture_control_set_ptr->intra_mutex);
         picture_control_set_ptr->intra_coded_area += (uint32_t)context_ptr->tot_intra_coded_area;
-        EbReleaseMutex(picture_control_set_ptr->intra_mutex);
+        eb_release_mutex(picture_control_set_ptr->intra_mutex);
 
         if (lastLcuFlag) {
 

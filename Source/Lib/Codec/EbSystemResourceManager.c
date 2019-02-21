@@ -12,14 +12,14 @@
  **************************************/
 static EbErrorType EbFifoCtor(
     EbFifo_t           *fifoPtr,
-    uint32_t              initialCount,
-    uint32_t              maxCount,
+    uint32_t              initial_count,
+    uint32_t              max_count,
     EbObjectWrapper_t  *firstWrapperPtr,
     EbObjectWrapper_t  *lastWrapperPtr,
     EbMuxingQueue_t    *queuePtr)
 {
     // Create Counting Semaphore
-    EB_CREATESEMAPHORE(EbHandle, fifoPtr->countingSemaphore, sizeof(EbHandle), EB_SEMAPHORE, initialCount, maxCount);
+    EB_CREATESEMAPHORE(EbHandle, fifoPtr->countingSemaphore, sizeof(EbHandle), EB_SEMAPHORE, initial_count, max_count);
 
     // Create Buffer Pool Mutex
     EB_CREATEMUTEX(EbHandle, fifoPtr->lockoutMutex, sizeof(EbHandle), EB_MUTEX);
@@ -266,7 +266,7 @@ static EbErrorType EbMuxingQueueAssignation(
             (void **)&wrapper_ptr);
 
         // Block on the Process Fifo's Mutex
-        EbBlockOnMutex(processFifoPtr->lockoutMutex);
+        eb_block_on_mutex(processFifoPtr->lockoutMutex);
 
         // Put the object on the fifo
         EbFifoPushBack(
@@ -274,10 +274,10 @@ static EbErrorType EbMuxingQueueAssignation(
             wrapper_ptr);
 
         // Release the Process Fifo's Mutex
-        EbReleaseMutex(processFifoPtr->lockoutMutex);
+        eb_release_mutex(processFifoPtr->lockoutMutex);
 
         // Post the semaphore
-        EbPostSemaphore(processFifoPtr->countingSemaphore);
+        eb_post_semaphore(processFifoPtr->countingSemaphore);
     }
 
     return return_error;
@@ -338,11 +338,11 @@ EbErrorType EbObjectReleaseEnable(
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    EbBlockOnMutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
+    eb_block_on_mutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
 
     wrapper_ptr->releaseEnable = EB_TRUE;
 
-    EbReleaseMutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
+    eb_release_mutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
 
     return return_error;
 }
@@ -366,11 +366,11 @@ EbErrorType EbObjectReleaseDisable(
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    EbBlockOnMutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
+    eb_block_on_mutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
 
     wrapper_ptr->releaseEnable = EB_FALSE;
 
-    EbReleaseMutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
+    eb_release_mutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
 
     return return_error;
 }
@@ -395,11 +395,11 @@ EbErrorType EbObjectIncLiveCount(
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    EbBlockOnMutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
+    eb_block_on_mutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
 
     wrapper_ptr->liveCount += incrementNumber;
 
-    EbReleaseMutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
+    eb_release_mutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
 
     return return_error;
 }
@@ -519,7 +519,7 @@ static EbErrorType EbReleaseProcess(
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    EbBlockOnMutex(processFifoPtr->queuePtr->lockoutMutex);
+    eb_block_on_mutex(processFifoPtr->queuePtr->lockoutMutex);
 
     EbCircularBufferPushFront(
         processFifoPtr->queuePtr->processQueue,
@@ -527,7 +527,7 @@ static EbErrorType EbReleaseProcess(
 
     EbMuxingQueueAssignation(processFifoPtr->queuePtr);
 
-    EbReleaseMutex(processFifoPtr->queuePtr->lockoutMutex);
+    eb_release_mutex(processFifoPtr->queuePtr->lockoutMutex);
 
     return return_error;
 }
@@ -551,13 +551,13 @@ EbErrorType EbPostFullObject(
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    EbBlockOnMutex(objectPtr->systemResourcePtr->fullQueue->lockoutMutex);
+    eb_block_on_mutex(objectPtr->systemResourcePtr->fullQueue->lockoutMutex);
 
     EbMuxingQueueObjectPushBack(
         objectPtr->systemResourcePtr->fullQueue,
         objectPtr);
 
-    EbReleaseMutex(objectPtr->systemResourcePtr->fullQueue->lockoutMutex);
+    eb_release_mutex(objectPtr->systemResourcePtr->fullQueue->lockoutMutex);
 
     return return_error;
 }
@@ -577,7 +577,7 @@ EbErrorType EbReleaseObject(
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    EbBlockOnMutex(objectPtr->systemResourcePtr->emptyQueue->lockoutMutex);
+    eb_block_on_mutex(objectPtr->systemResourcePtr->emptyQueue->lockoutMutex);
 
     // Decrement liveCount
     objectPtr->liveCount = (objectPtr->liveCount == 0) ? objectPtr->liveCount : objectPtr->liveCount - 1;
@@ -593,7 +593,7 @@ EbErrorType EbReleaseObject(
 
     }
 
-    EbReleaseMutex(objectPtr->systemResourcePtr->emptyQueue->lockoutMutex);
+    eb_release_mutex(objectPtr->systemResourcePtr->emptyQueue->lockoutMutex);
 
     return return_error;
 }
@@ -623,10 +623,10 @@ EbErrorType EbGetEmptyObject(
     EbReleaseProcess(emptyFifoPtr);
 
     // Block on the counting Semaphore until an empty buffer is available
-    EbBlockOnSemaphore(emptyFifoPtr->countingSemaphore);
+    eb_block_on_semaphore(emptyFifoPtr->countingSemaphore);
 
     // Acquire lockout Mutex
-    EbBlockOnMutex(emptyFifoPtr->lockoutMutex);
+    eb_block_on_mutex(emptyFifoPtr->lockoutMutex);
 
     // Get the empty object
     EbFifoPopFront(
@@ -640,7 +640,7 @@ EbErrorType EbGetEmptyObject(
     (*wrapperDblPtr)->releaseEnable = EB_TRUE;
 
     // Release Mutex
-    EbReleaseMutex(emptyFifoPtr->lockoutMutex);
+    eb_release_mutex(emptyFifoPtr->lockoutMutex);
 
     return return_error;
 }
@@ -670,17 +670,17 @@ EbErrorType EbGetFullObject(
     EbReleaseProcess(fullFifoPtr);
 
     // Block on the counting Semaphore until an empty buffer is available
-    EbBlockOnSemaphore(fullFifoPtr->countingSemaphore);
+    eb_block_on_semaphore(fullFifoPtr->countingSemaphore);
 
     // Acquire lockout Mutex
-    EbBlockOnMutex(fullFifoPtr->lockoutMutex);
+    eb_block_on_mutex(fullFifoPtr->lockoutMutex);
 
     EbFifoPopFront(
         fullFifoPtr,
         wrapperDblPtr);
 
     // Release Mutex
-    EbReleaseMutex(fullFifoPtr->lockoutMutex);
+    eb_release_mutex(fullFifoPtr->lockoutMutex);
 
     return return_error;
 }
@@ -712,13 +712,13 @@ EbErrorType EbGetFullObjectNonBlocking(
     EbReleaseProcess(fullFifoPtr);
 
     // Acquire lockout Mutex
-    EbBlockOnMutex(fullFifoPtr->lockoutMutex);
+    eb_block_on_mutex(fullFifoPtr->lockoutMutex);
 
     fifoEmpty = EbFifoPeakFront(
         fullFifoPtr);
 
     // Release Mutex
-    EbReleaseMutex(fullFifoPtr->lockoutMutex);
+    eb_release_mutex(fullFifoPtr->lockoutMutex);
 
     if (fifoEmpty == EB_FALSE)
         EbGetFullObject(

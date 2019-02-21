@@ -391,7 +391,7 @@ void HighLevelRcInputPictureMode2(
 
     areaInPixel = sequence_control_set_ptr->luma_width * sequence_control_set_ptr->luma_height;;
 
-    EbBlockOnMutex(sequence_control_set_ptr->encode_context_ptr->rate_table_update_mutex);
+    eb_block_on_mutex(sequence_control_set_ptr->encode_context_ptr->rate_table_update_mutex);
 
     tables_updated = sequence_control_set_ptr->encode_context_ptr->rate_control_tables_array_updated;
     picture_control_set_ptr->percentage_updated = EB_FALSE;
@@ -402,7 +402,7 @@ void HighLevelRcInputPictureMode2(
         hlRateControlHistogramPtrTemp = (encode_context_ptr->hl_rate_control_historgram_queue[encode_context_ptr->hl_rate_control_historgram_queue_head_index]);
         while ((hlRateControlHistogramPtrTemp->lifeCount == 0) && hlRateControlHistogramPtrTemp->passedToHlrc) {
 
-            EbBlockOnMutex(sequence_control_set_ptr->encode_context_ptr->hl_rate_control_historgram_queue_mutex);
+            eb_block_on_mutex(sequence_control_set_ptr->encode_context_ptr->hl_rate_control_historgram_queue_mutex);
             // Reset the Reorder Queue Entry
             hlRateControlHistogramPtrTemp->picture_number += INITIAL_RATE_CONTROL_REORDER_QUEUE_MAX_DEPTH;
             hlRateControlHistogramPtrTemp->lifeCount = -1;
@@ -413,7 +413,7 @@ void HighLevelRcInputPictureMode2(
             // Increment the Reorder Queue head Ptr
             encode_context_ptr->hl_rate_control_historgram_queue_head_index =
                 (encode_context_ptr->hl_rate_control_historgram_queue_head_index == HIGH_LEVEL_RATE_CONTROL_HISTOGRAM_QUEUE_MAX_DEPTH - 1) ? 0 : encode_context_ptr->hl_rate_control_historgram_queue_head_index + 1;
-            EbReleaseMutex(sequence_control_set_ptr->encode_context_ptr->hl_rate_control_historgram_queue_mutex);
+            eb_release_mutex(sequence_control_set_ptr->encode_context_ptr->hl_rate_control_historgram_queue_mutex);
             hlRateControlHistogramPtrTemp = encode_context_ptr->hl_rate_control_historgram_queue[encode_context_ptr->hl_rate_control_historgram_queue_head_index];
 
         }
@@ -906,7 +906,7 @@ void HighLevelRcInputPictureMode2(
         //    (int32_t)highLevelRateControlPtr->virtualBufferLevel);
         //}
     }
-    EbReleaseMutex(sequence_control_set_ptr->encode_context_ptr->rate_table_update_mutex);
+    eb_release_mutex(sequence_control_set_ptr->encode_context_ptr->rate_table_update_mutex);
 }
 
 #if ADD_DELTA_QP_SUPPORT ||  NEW_QPS

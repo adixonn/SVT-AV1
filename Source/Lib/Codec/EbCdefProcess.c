@@ -502,7 +502,7 @@ void* cdef_kernel(void *input_ptr)
 #endif
 
         //all seg based search is done. update total processed segments. if all done, finish the search and perfrom application.
-        EbBlockOnMutex(picture_control_set_ptr->cdef_search_mutex);
+        eb_block_on_mutex(picture_control_set_ptr->cdef_search_mutex);
 
         picture_control_set_ptr->tot_seg_searched_cdef++;
         if (picture_control_set_ptr->tot_seg_searched_cdef == picture_control_set_ptr->cdef_segments_total_count)
@@ -665,7 +665,7 @@ void* cdef_kernel(void *input_ptr)
 
 #if CDEF_M
         }
-        EbReleaseMutex(picture_control_set_ptr->cdef_search_mutex);
+        eb_release_mutex(picture_control_set_ptr->cdef_search_mutex);
 #endif
 
         // Release Dlf Results

@@ -267,7 +267,7 @@ void* rest_kernel(void *input_ptr)
         }
 
         //all seg based search is done. update total processed segments. if all done, finish the search and perfrom application.
-        EbBlockOnMutex(picture_control_set_ptr->rest_search_mutex);
+        eb_block_on_mutex(picture_control_set_ptr->rest_search_mutex);
 
         picture_control_set_ptr->tot_seg_searched_rest++;
         if (picture_control_set_ptr->tot_seg_searched_rest == picture_control_set_ptr->rest_segments_total_count)
@@ -460,7 +460,7 @@ void* rest_kernel(void *input_ptr)
 
 #if REST_M
         }
-        EbReleaseMutex(picture_control_set_ptr->rest_search_mutex);
+        eb_release_mutex(picture_control_set_ptr->rest_search_mutex);
 #endif
 
 

@@ -172,7 +172,7 @@ static int32_t have_newmv_in_inter_mode(PredictionMode mode) {
     return (mode == NEWMV || mode == NEW_NEWMV || mode == NEAREST_NEWMV ||
         mode == NEW_NEARESTMV || mode == NEAR_NEWMV || mode == NEW_NEARMV);
 }
-#define NELEMENTS(x) (int32_t)(sizeof(x) / sizeof(x[0]))
+#define n_elements(x) (int32_t)(sizeof(x) / sizeof(x[0]))
 MvReferenceFrame comp_ref0(int32_t ref_idx) {
     static const MvReferenceFrame lut[] = {
         LAST_FRAME,     // LAST_LAST2_FRAMES,
@@ -185,7 +185,7 @@ MvReferenceFrame comp_ref0(int32_t ref_idx) {
         BWDREF_FRAME,   // BWDREF_ALTREF2_FRAMES,
         ALTREF2_FRAME,  // ALTREF2_ALTREF_FRAMES,
     };
-    assert(NELEMENTS(lut) == TOTAL_UNIDIR_COMP_REFS);
+    assert(n_elements(lut) == TOTAL_UNIDIR_COMP_REFS);
     return lut[ref_idx];
 }
 
@@ -201,7 +201,7 @@ MvReferenceFrame comp_ref1(int32_t ref_idx) {
         ALTREF2_FRAME,  // BWDREF_ALTREF2_FRAMES,
         ALTREF_FRAME,   // ALTREF2_ALTREF_FRAMES,
     };
-    assert(NELEMENTS(lut) == TOTAL_UNIDIR_COMP_REFS);
+    assert(n_elements(lut) == TOTAL_UNIDIR_COMP_REFS);
     return lut[ref_idx];
 }
 

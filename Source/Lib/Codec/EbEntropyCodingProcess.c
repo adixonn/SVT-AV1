@@ -368,7 +368,7 @@ static EbBool UpdateEntropyCodingRows(
     EbBool processNextRow = EB_FALSE;
 
     // Note, any writes & reads to status variables (e.g. in_progress) in MD-CTRL must be thread-safe
-    EbBlockOnMutex(picture_control_set_ptr->entropy_coding_mutex);
+    eb_block_on_mutex(picture_control_set_ptr->entropy_coding_mutex);
 
     // Update availability mask
     if (*initialProcessCall == EB_TRUE) {
@@ -406,7 +406,7 @@ static EbBool UpdateEntropyCodingRows(
 
     *initialProcessCall = EB_FALSE;
 
-    EbReleaseMutex(picture_control_set_ptr->entropy_coding_mutex);
+    eb_release_mutex(picture_control_set_ptr->entropy_coding_mutex);
 
     return processNextRow;
 }
@@ -532,7 +532,7 @@ void* EntropyCodingKernel(void *input_ptr)
                     EbPostFullObject(rateControlTaskWrapperPtr);
                 }
 
-                EbBlockOnMutex(picture_control_set_ptr->entropy_coding_mutex);
+                eb_block_on_mutex(picture_control_set_ptr->entropy_coding_mutex);
                 if (picture_control_set_ptr->entropy_coding_pic_done == EB_FALSE) {
 
                     // If the picture is complete, terminate the slice
@@ -572,7 +572,7 @@ void* EntropyCodingKernel(void *input_ptr)
 
                     } // End if(PictureCompleteFlag)
                 }
-                EbReleaseMutex(picture_control_set_ptr->entropy_coding_mutex);
+                eb_release_mutex(picture_control_set_ptr->entropy_coding_mutex);
 
 
             }

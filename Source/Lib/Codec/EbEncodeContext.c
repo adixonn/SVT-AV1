@@ -218,14 +218,14 @@ EbErrorType encode_context_ctor(
     encode_context_ptr->max_coded_poc = 0;
     encode_context_ptr->max_coded_poc_selected_ref_qp = 32;
 
-    encode_context_ptr->shared_reference_mutex = EbCreateMutex();
+    encode_context_ptr->shared_reference_mutex = eb_create_mutex();
     if (encode_context_ptr->shared_reference_mutex == (EbHandle)EB_NULL) {
         return EB_ErrorInsufficientResources;
     }
     else {
-        memoryMap[*(memoryMapIndex)].ptrType = EB_MUTEX;
-        memoryMap[(*(memoryMapIndex))++].ptr = encode_context_ptr->shared_reference_mutex;
-        *totalLibMemory += (sizeof(EbHandle));
+        memory_map[*(memory_map_index)].ptrType = EB_MUTEX;
+        memory_map[(*(memory_map_index))++].ptr = encode_context_ptr->shared_reference_mutex;
+        *total_lib_memory += (sizeof(EbHandle));
     }
 
 

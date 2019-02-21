@@ -604,7 +604,7 @@ void* MotionEstimationKernel(void *input_ptr)
 
         // Calculate the ME Distortion and OIS Historgrams
 
-        EbBlockOnMutex(picture_control_set_ptr->rc_distortion_histogram_mutex);
+        eb_block_on_mutex(picture_control_set_ptr->rc_distortion_histogram_mutex);
 
         if (sequence_control_set_ptr->static_config.rate_control_mode) {
             if (picture_control_set_ptr->slice_type != I_SLICE) {
@@ -722,7 +722,7 @@ void* MotionEstimationKernel(void *input_ptr)
             }
         }
 
-        EbReleaseMutex(picture_control_set_ptr->rc_distortion_histogram_mutex);
+        eb_release_mutex(picture_control_set_ptr->rc_distortion_histogram_mutex);
 
         // Get Empty Results Object
         EbGetEmptyObject(

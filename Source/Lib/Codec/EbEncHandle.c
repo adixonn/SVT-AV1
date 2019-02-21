@@ -151,19 +151,19 @@
  * Globals
  **************************************/
 
-EbMemoryMapEntry                 *memoryMap;
-uint32_t                         *memoryMapIndex;
-uint64_t                         *totalLibMemory;
+EbMemoryMapEntry                 *memory_map;
+uint32_t                         *memory_map_index;
+uint64_t                         *total_lib_memory;
 
 uint32_t                         libMallocCount = 0;
-uint32_t                         libThreadCount = 0;
+uint32_t                         lib_thread_count = 0;
 uint32_t                         libSemaphoreCount = 0;
 uint32_t                         libMutexCount = 0;
 #ifdef _MSC_VER
-GROUP_AFFINITY                   groupAffinity;
+GROUP_AFFINITY                   group_affinity;
 #endif
-uint8_t                          numGroups;
-EbBool                           alternateGroups;
+uint8_t                          num_groups;
+EbBool                           alternate_groups;
 
 /**************************************
 * Instruction Set Support
@@ -258,47 +258,47 @@ uint32_t GetNumCores() {
 }
 void InitThreadManagmentParams() {
 #ifdef _MSC_VER
-    // Initialize groupAffinity structure with Current thread info
-    GetThreadGroupAffinity(GetCurrentThread(), &groupAffinity);
-    numGroups = (uint8_t)GetActiveProcessorGroupCount();
+    // Initialize group_affinity structure with Current thread info
+    GetThreadGroupAffinity(GetCurrentThread(), &group_affinity);
+    num_groups = (uint8_t)GetActiveProcessorGroupCount();
 #else
     return;
 #endif
 }
 void EbSetThreadManagementParameters(EbSvtAv1EncConfiguration   *config_ptr) {
 #ifdef _MSC_VER
-    alternateGroups = 0;
+    alternate_groups = 0;
     if (config_ptr->use_round_robin_thread_assignment == EB_TRUE) {
-        if (numGroups == 2 && config_ptr->active_channel_count > 1) {
+        if (num_groups == 2 && config_ptr->active_channel_count > 1) {
             if ((config_ptr->active_channel_count % 2) && (config_ptr->active_channel_count - 1 == config_ptr->channel_id)) {
-                alternateGroups = 1;
-                groupAffinity.Group = 0;
+                alternate_groups = 1;
+                group_affinity.Group = 0;
             }
             else if (config_ptr->channel_id % 2) {
-                alternateGroups = 0;
-                groupAffinity.Group = 1;
+                alternate_groups = 0;
+                group_affinity.Group = 1;
             }
             else {
-                alternateGroups = 0;
-                groupAffinity.Group = 0;
+                alternate_groups = 0;
+                group_affinity.Group = 0;
             }
         }
-        else if (numGroups == 2 && config_ptr->active_channel_count == 1) {
-            alternateGroups = 1;
-            groupAffinity.Group = 0;
+        else if (num_groups == 2 && config_ptr->active_channel_count == 1) {
+            alternate_groups = 1;
+            group_affinity.Group = 0;
         }
         else {
-            alternateGroups = 0;
-            numGroups = 1;
+            alternate_groups = 0;
+            num_groups = 1;
         }
     }
     else {
-        alternateGroups = 0;
-        numGroups = 1;
+        alternate_groups = 0;
+        num_groups = 1;
     }
 #else
-    alternateGroups = 0;
-    numGroups = 1;
+    alternate_groups = 0;
+    num_groups = 1;
     (void)config_ptr;
 #endif
 }
@@ -546,20 +546,20 @@ static EbErrorType eb_enc_handle_ctor(
     if (encHandlePtr == (EbEncHandle_t*)EB_NULL) {
         return EB_ErrorInsufficientResources;
     }
-    encHandlePtr->memoryMap = (EbMemoryMapEntry*)malloc(sizeof(EbMemoryMapEntry) * MAX_NUM_PTR);
-    encHandlePtr->memoryMapIndex = 0;
-    encHandlePtr->totalLibMemory = sizeof(EbEncHandle_t) + sizeof(EbMemoryMapEntry) * MAX_NUM_PTR;
+    encHandlePtr->memory_map = (EbMemoryMapEntry*)malloc(sizeof(EbMemoryMapEntry) * MAX_NUM_PTR);
+    encHandlePtr->memory_map_index = 0;
+    encHandlePtr->total_lib_memory = sizeof(EbEncHandle_t) + sizeof(EbMemoryMapEntry) * MAX_NUM_PTR;
 
     // Save Memory Map Pointers 
-    totalLibMemory = &encHandlePtr->totalLibMemory;
-    memoryMap = encHandlePtr->memoryMap;
-    memoryMapIndex = &encHandlePtr->memoryMapIndex;
+    total_lib_memory = &encHandlePtr->total_lib_memory;
+    memory_map = encHandlePtr->memory_map;
+    memory_map_index = &encHandlePtr->memory_map_index;
     libMallocCount = 0;
-    libThreadCount = 0;
+    lib_thread_count = 0;
     libMutexCount = 0;
     libSemaphoreCount = 0;
 
-    if (memoryMap == (EbMemoryMapEntry*)EB_NULL) {
+    if (memory_map == (EbMemoryMapEntry*)EB_NULL) {
         return EB_ErrorInsufficientResources;
     }
 
@@ -1788,10 +1788,10 @@ EB_API EbErrorType eb_deinit_encoder(EbComponentType *svt_enc_component)
     EbMemoryMapEntry*   memoryEntry = (EbMemoryMapEntry*)EB_NULL;
 
     if (encHandlePtr) {
-        if (encHandlePtr->memoryMapIndex) {
+        if (encHandlePtr->memory_map_index) {
             // Loop through the ptr table and free all malloc'd pointers per channel
-            for (ptrIndex = (encHandlePtr->memoryMapIndex) - 1; ptrIndex >= 0; --ptrIndex) {
-                memoryEntry = &encHandlePtr->memoryMap[ptrIndex];
+            for (ptrIndex = (encHandlePtr->memory_map_index) - 1; ptrIndex >= 0; --ptrIndex) {
+                memoryEntry = &encHandlePtr->memory_map[ptrIndex];
                 switch (memoryEntry->ptrType) {
                 case EB_N_PTR:
                     free(memoryEntry->ptr);
@@ -1804,21 +1804,21 @@ EB_API EbErrorType eb_deinit_encoder(EbComponentType *svt_enc_component)
 #endif
                     break;
                 case EB_SEMAPHORE:
-                    EbDestroySemaphore(memoryEntry->ptr);
+                    eb_destroy_semaphore(memoryEntry->ptr);
                     break;
                 case EB_THREAD:
-                    EbDestroyThread(memoryEntry->ptr);
+                    eb_destroy_thread(memoryEntry->ptr);
                     break;
                 case EB_MUTEX:
-                    EbDestroyMutex(memoryEntry->ptr);
+                    eb_destroy_mutex(memoryEntry->ptr);
                     break;
                 default:
                     return_error = EB_ErrorMax;
                     break;
                 }
             }
-            if (encHandlePtr->memoryMap != (EbMemoryMapEntry*)NULL) {
-                free(encHandlePtr->memoryMap);
+            if (encHandlePtr->memory_map != (EbMemoryMapEntry*)NULL) {
+                free(encHandlePtr->memory_map);
             }
 
         }
@@ -2790,7 +2790,7 @@ EB_API EbErrorType eb_svt_enc_set_parameter(
     uint32_t              instanceIndex = 0;
 
     // Acquire Config Mutex
-    EbBlockOnMutex(pEncCompData->sequenceControlSetInstanceArray[instanceIndex]->config_mutex);
+    eb_block_on_mutex(pEncCompData->sequenceControlSetInstanceArray[instanceIndex]->config_mutex);
 
     SetDefaultConfigurationParameters(
         pEncCompData->sequenceControlSetInstanceArray[instanceIndex]->sequence_control_set_ptr);
@@ -2832,7 +2832,7 @@ EB_API EbErrorType eb_svt_enc_set_parameter(
         pEncCompData->sequenceControlSetInstanceArray[instanceIndex]->sequence_control_set_ptr);
 
     // Release Config Mutex
-    EbReleaseMutex(pEncCompData->sequenceControlSetInstanceArray[instanceIndex]->config_mutex);
+    eb_release_mutex(pEncCompData->sequenceControlSetInstanceArray[instanceIndex]->config_mutex);
 
     return return_error;
 }

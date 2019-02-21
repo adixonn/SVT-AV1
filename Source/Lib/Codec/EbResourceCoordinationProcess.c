@@ -407,7 +407,7 @@ void SpeedBufferControl(
     int64_t bufferTrshold1 = SC_FRAMES_INTERVAL_T1;
     int64_t bufferTrshold2 = SC_FRAMES_INTERVAL_T2;
     int64_t bufferTrshold3 = MIN(targetFps * 3, SC_FRAMES_INTERVAL_T3);
-    EbBlockOnMutex(sequence_control_set_ptr->encode_context_ptr->sc_buffer_mutex);
+    eb_block_on_mutex(sequence_control_set_ptr->encode_context_ptr->sc_buffer_mutex);
 
     if (sequence_control_set_ptr->encode_context_ptr->sc_frame_in == 0) {
         EbStartTime(&context_ptr->firstInPicArrivedTimeSeconds, &context_ptr->firstInPicArrivedTimeuSeconds);
@@ -548,7 +548,7 @@ void SpeedBufferControl(
     // Set the encoder level
     picture_control_set_ptr->enc_mode = sequence_control_set_ptr->encode_context_ptr->enc_mode;
 
-    EbReleaseMutex(sequence_control_set_ptr->encode_context_ptr->sc_buffer_mutex);
+    eb_release_mutex(sequence_control_set_ptr->encode_context_ptr->sc_buffer_mutex);
     context_ptr->prevEncMod = sequence_control_set_ptr->encode_context_ptr->enc_mode;
 }
 
@@ -708,7 +708,7 @@ void* ResourceCoordinationKernel(void *input_ptr)
         // If config changes occured since the last picture began encoding, then
         //   prepare a new sequence_control_set_ptr containing the new changes and update the state
         //   of the previous Active SequenceControlSet
-        EbBlockOnMutex(context_ptr->sequenceControlSetInstanceArray[instanceIndex]->config_mutex);
+        eb_block_on_mutex(context_ptr->sequenceControlSetInstanceArray[instanceIndex]->config_mutex);
         if (context_ptr->sequenceControlSetInstanceArray[instanceIndex]->encode_context_ptr->initial_picture) {
 
             // Update picture width, picture height, cropping right offset, cropping bottom offset, and conformance windows
@@ -766,7 +766,7 @@ void* ResourceCoordinationKernel(void *input_ptr)
                 }
             }
         }
-        EbReleaseMutex(context_ptr->sequenceControlSetInstanceArray[instanceIndex]->config_mutex);
+        eb_release_mutex(context_ptr->sequenceControlSetInstanceArray[instanceIndex]->config_mutex);
 
         // Sequence Control Set is released by Rate Control after passing through MDC->MD->ENCDEC->Packetization->RateControl
         //   and in the PictureManager

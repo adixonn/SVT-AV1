@@ -677,7 +677,7 @@ static uint8_t get_filter_level(
 }
 
 void av1_loop_filter_init(PictureControlSet_t *pcsPtr) {
-    //assert(MB_MODE_COUNT == NELEMENTS(mode_lf_lut));
+    //assert(MB_MODE_COUNT == n_elements(mode_lf_lut));
     loop_filter_info_n *lfi = &pcsPtr->parent_pcs_ptr->lf_info;
     struct loopfilter *lf = &pcsPtr->parent_pcs_ptr->lf;
     int32_t lvl;

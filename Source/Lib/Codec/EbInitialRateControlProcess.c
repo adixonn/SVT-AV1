@@ -1217,7 +1217,7 @@ void GetHistogramQueueData(
     int32_t                             histogramQueueEntryIndex;
 
     // Determine offset from the Head Ptr for HLRC histogram queue
-    EbBlockOnMutex(sequence_control_set_ptr->encode_context_ptr->hl_rate_control_historgram_queue_mutex);
+    eb_block_on_mutex(sequence_control_set_ptr->encode_context_ptr->hl_rate_control_historgram_queue_mutex);
     histogramQueueEntryIndex = (int32_t)(picture_control_set_ptr->picture_number - encode_context_ptr->hl_rate_control_historgram_queue[encode_context_ptr->hl_rate_control_historgram_queue_head_index]->picture_number);
     histogramQueueEntryIndex += encode_context_ptr->hl_rate_control_historgram_queue_head_index;
     histogramQueueEntryIndex = (histogramQueueEntryIndex > HIGH_LEVEL_RATE_CONTROL_HISTOGRAM_QUEUE_MAX_DEPTH - 1) ?
@@ -1246,7 +1246,7 @@ void GetHistogramQueueData(
         picture_control_set_ptr->ois_distortion_histogram,
         sizeof(uint16_t) * NUMBER_OF_INTRA_SAD_INTERVALS);
 
-    EbReleaseMutex(sequence_control_set_ptr->encode_context_ptr->hl_rate_control_historgram_queue_mutex);
+    eb_release_mutex(sequence_control_set_ptr->encode_context_ptr->hl_rate_control_historgram_queue_mutex);
     //printf("Test1 POC: %d\t POC: %d\t LifeCount: %d\n", histogramQueueEntryPtr->picture_number, picture_control_set_ptr->picture_number,  histogramQueueEntryPtr->lifeCount);
 
 
@@ -1263,7 +1263,7 @@ void UpdateHistogramQueueEntry(
     HlRateControlHistogramEntry_t     *histogramQueueEntryPtr;
     int32_t                             histogramQueueEntryIndex;
 
-    EbBlockOnMutex(sequence_control_set_ptr->encode_context_ptr->rate_table_update_mutex);
+    eb_block_on_mutex(sequence_control_set_ptr->encode_context_ptr->rate_table_update_mutex);
 
     histogramQueueEntryIndex = (int32_t)(picture_control_set_ptr->picture_number - encode_context_ptr->hl_rate_control_historgram_queue[encode_context_ptr->hl_rate_control_historgram_queue_head_index]->picture_number);
     histogramQueueEntryIndex += encode_context_ptr->hl_rate_control_historgram_queue_head_index;
@@ -1274,7 +1274,7 @@ void UpdateHistogramQueueEntry(
     histogramQueueEntryPtr->lifeCount += picture_control_set_ptr->historgram_life_count;
     histogramQueueEntryPtr->passedToHlrc = EB_TRUE;
 
-    EbReleaseMutex(sequence_control_set_ptr->encode_context_ptr->rate_table_update_mutex);
+    eb_release_mutex(sequence_control_set_ptr->encode_context_ptr->rate_table_update_mutex);
 
     return;
 

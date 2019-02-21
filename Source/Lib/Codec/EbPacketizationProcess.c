@@ -213,9 +213,9 @@ void* PacketizationKernel(void *input_ptr)
 
         if (sequence_control_set_ptr->static_config.speed_control_flag) {
             // update speed control variables
-            EbBlockOnMutex(encode_context_ptr->sc_buffer_mutex);
+            eb_block_on_mutex(encode_context_ptr->sc_buffer_mutex);
             encode_context_ptr->sc_frame_out++;
-            EbReleaseMutex(encode_context_ptr->sc_buffer_mutex);
+            eb_release_mutex(encode_context_ptr->sc_buffer_mutex);
         }
 
         // Post Rate Control Taks
