@@ -702,7 +702,7 @@ static EbErrorType Av1EncodeCoeff1D(
 
     EbErrorType return_error = EB_ErrorNone;
 
-    const BlockGeom *blk_geom = Get_blk_geom_mds(cu_ptr->mds_idx);
+    const BlockGeom *blk_geom = get_blk_geom_mds(cu_ptr->mds_idx);
     int32_t cul_level_y, cul_level_cb = 0 , cul_level_cr = 0;
 
 
@@ -4753,7 +4753,7 @@ EbErrorType ec_update_neighbors(
     NeighborArrayUnit_t     *inter_pred_dir_neighbor_array = picture_control_set_ptr->inter_pred_dir_neighbor_array;
     NeighborArrayUnit_t     *ref_frame_type_neighbor_array = picture_control_set_ptr->ref_frame_type_neighbor_array;
     NeighborArrayUnit32_t   *interpolation_type_neighbor_array = picture_control_set_ptr->interpolation_type_neighbor_array;
-    const BlockGeom         *blk_geom = Get_blk_geom_mds(cu_ptr->mds_idx);
+    const BlockGeom         *blk_geom = get_blk_geom_mds(cu_ptr->mds_idx);
     EbBool                   skipCoeff = EB_FALSE;
     PartitionContext         partition;
 
@@ -4918,7 +4918,7 @@ EbErrorType write_modes_b(
     NeighborArrayUnit_t     *ref_frame_type_neighbor_array = picture_control_set_ptr->ref_frame_type_neighbor_array;
     NeighborArrayUnit32_t   *interpolation_type_neighbor_array = picture_control_set_ptr->interpolation_type_neighbor_array;
 
-    const BlockGeom          *blk_geom = Get_blk_geom_mds(cu_ptr->mds_idx);
+    const BlockGeom          *blk_geom = get_blk_geom_mds(cu_ptr->mds_idx);
     uint32_t blkOriginX = context_ptr->sb_origin_x + blk_geom->origin_x;
     uint32_t blkOriginY = context_ptr->sb_origin_y + blk_geom->origin_y;
     block_size bsize = blk_geom->bsize;
@@ -5389,7 +5389,7 @@ EB_EXTERN EbErrorType write_sb(
 
         cu_ptr = &tbPtr->final_cu_arr[final_cu_index];
 
-        blk_geom = Get_blk_geom_mds(cu_index); // AMIR to be replaced with /*cu_ptr->mds_idx*/
+        blk_geom = get_blk_geom_mds(cu_index); // AMIR to be replaced with /*cu_ptr->mds_idx*/
 
         bsize = blk_geom->bsize;
         ASSERT(bsize < BlockSizeS_ALL);

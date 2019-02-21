@@ -998,7 +998,7 @@ EbErrorType av1_inter_prediction(
 
     InterpFilterParams filter_params_x, filter_params_y;
 
-    const BlockGeom * blk_geom = Get_blk_geom_mds(cu_ptr->mds_idx);
+    const BlockGeom * blk_geom = get_blk_geom_mds(cu_ptr->mds_idx);
 
 
     //special treatment for chroma in 4XN/NX4 blocks
@@ -1477,7 +1477,7 @@ EbErrorType AV1MDInterPrediction(
     InterpFilterParams filter_params_x, filter_params_y;
 #endif
 
-    const BlockGeom * blk_geom = Get_blk_geom_mds(cu_ptr->mds_idx);
+    const BlockGeom * blk_geom = get_blk_geom_mds(cu_ptr->mds_idx);
 
     //special treatment for chroma in 4XN/NX4 blocks
    //if one of the neighbour blocks of the parent square is intra the chroma prediction will follow the normal path using the luma MV of the current nsq block which is the latest sub8x8.
@@ -2046,7 +2046,7 @@ EbErrorType av1_inter_prediction_hbd(
     InterpFilterParams filter_params_x, filter_params_y;
 #endif
 
-    const BlockGeom * blk_geom = Get_blk_geom_mds(cu_ptr->mds_idx);
+    const BlockGeom * blk_geom = get_blk_geom_mds(cu_ptr->mds_idx);
 
     //special treatment for chroma in 4XN/NX4 blocks
    //if one of the neighbour blocks of the parent square is intra the chroma prediction will follow the normal path using the luma MV of the current nsq block which is the latest sub8x8.

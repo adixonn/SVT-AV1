@@ -394,7 +394,7 @@ void copy_neighbour_arrays(
 {
     (void)*context_ptr;
 
-    const BlockGeom * blk_geom = Get_blk_geom_mds(blk_mds);
+    const BlockGeom * blk_geom = get_blk_geom_mds(blk_mds);
 
     uint32_t                            blk_org_x = sb_org_x + blk_geom->origin_x;
     uint32_t                            blk_org_y = sb_org_y + blk_geom->origin_y;
@@ -574,7 +574,7 @@ void md_update_all_neighbour_arrays(
     uint32_t                            sb_origin_y)
 {
 
-    context_ptr->blk_geom = Get_blk_geom_mds(lastCuIndex_mds);
+    context_ptr->blk_geom = get_blk_geom_mds(lastCuIndex_mds);
     context_ptr->cu_origin_x = sb_origin_x + context_ptr->blk_geom->origin_x;
     context_ptr->cu_origin_y = sb_origin_y + context_ptr->blk_geom->origin_y;
     context_ptr->round_origin_x = ((context_ptr->cu_origin_x >> 3) << 3);
@@ -608,7 +608,7 @@ void md_update_all_neighbour_arrays_multiple(
     uint32_t                            sb_origin_x,
     uint32_t                            sb_origin_y){
 
-    context_ptr->blk_geom = Get_blk_geom_mds(blk_mds);
+    context_ptr->blk_geom = get_blk_geom_mds(blk_mds);
 
     uint32_t blk_it;
     for (blk_it = 0; blk_it < context_ptr->blk_geom->totns; blk_it++)
@@ -677,7 +677,7 @@ void Initialize_cu_data_structure(
     blk_idx = 0;
     do
     {
-        const BlockGeom * blk_geom = Get_blk_geom_mds(blk_idx);
+        const BlockGeom * blk_geom = get_blk_geom_mds(blk_idx);
 
         if (blk_geom->shape == PART_N)
         {
@@ -3173,7 +3173,7 @@ EB_EXTERN EbErrorType mode_decision_sb(
 
         blk_idx_mds = leaf_data_array[cuIdx].mds_idx;
 
-        const BlockGeom * blk_geom = context_ptr->blk_geom = Get_blk_geom_mds(blk_idx_mds);
+        const BlockGeom * blk_geom = context_ptr->blk_geom = get_blk_geom_mds(blk_idx_mds);
         CodingUnit_t *  cu_ptr = context_ptr->cu_ptr = &context_ptr->md_cu_arr_nsq[blk_idx_mds];
 
         context_ptr->cu_size_log2 = blk_geom->bwidth_log2;

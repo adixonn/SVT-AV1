@@ -1038,7 +1038,7 @@ const BlockGeom * Get_blk_geom_dps(uint32_t bidx_dps)
 {
     return &blk_geom_dps[bidx_dps];
 }
-const BlockGeom * Get_blk_geom_mds(uint32_t bidx_mds)
+const BlockGeom * get_blk_geom_mds(uint32_t bidx_mds)
 {
     return &blk_geom_mds[bidx_mds];
 }

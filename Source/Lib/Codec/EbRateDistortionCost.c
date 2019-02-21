@@ -2230,7 +2230,7 @@ EbErrorType Av1SplitFlagRate(
     (void)tbMaxDepth;
     (void)leaf_index;
 
-    const BlockGeom          *blk_geom = Get_blk_geom_mds(cu_ptr->mds_idx);
+    const BlockGeom          *blk_geom = get_blk_geom_mds(cu_ptr->mds_idx);
     EbErrorType return_error = EB_ErrorNone;
 
     uint32_t cu_origin_x = context_ptr->sb_origin_x + blk_geom->origin_x;

@@ -1016,7 +1016,7 @@ void forward_all_blocks_to_md(
         {
             split_flag = EB_TRUE;
 
-            const BlockGeom * blk_geom = Get_blk_geom_mds(blk_index);
+            const BlockGeom * blk_geom = get_blk_geom_mds(blk_index);
 
             //if the parentSq is inside inject this block
             uint8_t is_blk_allowed = picture_control_set_ptr->slice_type != I_SLICE ? 1 : (blk_geom->sq_size < 128) ? 1 : 0;
@@ -1080,7 +1080,7 @@ void forward_sq_blocks_to_md(
         {
             split_flag = EB_TRUE;
 
-            const BlockGeom * blk_geom = Get_blk_geom_mds(blk_index);
+            const BlockGeom * blk_geom = get_blk_geom_mds(blk_index);
 
             //if the parentSq is inside inject this block
             if (sequence_control_set_ptr->sb_geom[sb_index].block_is_inside_md_scan[blk_index])
@@ -2566,7 +2566,7 @@ void forward_sq_non4_blocks_to_md(
         {
             split_flag = EB_TRUE;
 
-            const BlockGeom * blk_geom = Get_blk_geom_mds(blk_index);
+            const BlockGeom * blk_geom = get_blk_geom_mds(blk_index);
 
 
             //if the parentSq is inside inject this block
@@ -2624,7 +2624,7 @@ void forward_all_c_blocks_to_md(
         while (blk_index < sequence_control_set_ptr->max_block_cnt)
         {
             tot_d1_blocks = 0;
-            const BlockGeom * blk_geom = Get_blk_geom_mds(blk_index);
+            const BlockGeom * blk_geom = get_blk_geom_mds(blk_index);
 
             //if the parentSq is inside inject this block
             uint8_t is_blk_allowed = picture_control_set_ptr->slice_type != I_SLICE ? 1 : (blk_geom->sq_size < 128) ? 1 : 0;
@@ -2639,7 +2639,7 @@ void forward_all_c_blocks_to_md(
                     blk_geom->sq_size == 8 ? 1 : 1;
 
                 for (uint32_t idx = 0; idx < tot_d1_blocks; ++idx) {
-                    blk_geom = Get_blk_geom_mds(blk_index);
+                    blk_geom = get_blk_geom_mds(blk_index);
 
                     //if the parentSq is inside inject this block
                     if (sequence_control_set_ptr->sb_geom[sb_index].block_is_inside_md_scan[blk_index]){

@@ -3078,7 +3078,7 @@ EB_EXTERN void AV1EncodePass(
         CodingUnit_t  *cu_ptr = context_ptr->cu_ptr = &context_ptr->md_context->md_cu_arr_nsq[blk_it];
         PartitionType part = cu_ptr->part;
 
-        const BlockGeom * blk_geom = context_ptr->blk_geom = Get_blk_geom_mds(blk_it);
+        const BlockGeom * blk_geom = context_ptr->blk_geom = get_blk_geom_mds(blk_it);
         UNUSED(blk_geom);
 
         sb_ptr->cu_partition_array[blk_it] = context_ptr->md_context->md_cu_arr_nsq[blk_it].part;
@@ -3093,7 +3093,7 @@ EB_EXTERN void AV1EncodePass(
            // for (int32_t d1_itr = blk_it; d1_itr < blk_it + num_d1_block; d1_itr++) {
             for (int32_t d1_itr = (int32_t)blk_it + offset_d1; d1_itr < (int32_t)blk_it + offset_d1 + num_d1_block; d1_itr++) {
 
-                const BlockGeom * blk_geom = context_ptr->blk_geom = Get_blk_geom_mds(d1_itr);
+                const BlockGeom * blk_geom = context_ptr->blk_geom = get_blk_geom_mds(d1_itr);
 
                 // PU Stack variables
                 PredictionUnit_t        *pu_ptr = (PredictionUnit_t *)EB_NULL; //  done
@@ -4190,7 +4190,7 @@ EB_EXTERN void no_enc_dec_pass(
 
         CodingUnit_t  *cu_ptr = context_ptr->cu_ptr = &context_ptr->md_context->md_cu_arr_nsq[blk_it];
         PartitionType part = cu_ptr->part;
-        const BlockGeom * blk_geom = context_ptr->blk_geom = Get_blk_geom_mds(blk_it);
+        const BlockGeom * blk_geom = context_ptr->blk_geom = get_blk_geom_mds(blk_it);
 
 
         sb_ptr->cu_partition_array[blk_it] = context_ptr->md_context->md_cu_arr_nsq[blk_it].part;
@@ -4204,7 +4204,7 @@ EB_EXTERN void no_enc_dec_pass(
 
             for (int32_t d1_itr = blk_it + offset_d1; d1_itr < blk_it + offset_d1 + num_d1_block; d1_itr++) {
 
-                const BlockGeom * blk_geom = context_ptr->blk_geom = Get_blk_geom_mds(d1_itr);
+                const BlockGeom * blk_geom = context_ptr->blk_geom = get_blk_geom_mds(d1_itr);
                 CodingUnit_t            *cu_ptr = context_ptr->cu_ptr = &context_ptr->md_context->md_cu_arr_nsq[d1_itr];
 
 

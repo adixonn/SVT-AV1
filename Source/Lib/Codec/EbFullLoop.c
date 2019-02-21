@@ -2414,7 +2414,7 @@ uint32_t d2_inter_depth_block_decision(
     d1_idx_mds = blk_mds;
     d2_idx_mds = blk_mds;
     lastCuIndex = blk_mds;
-    blk_geom = Get_blk_geom_mds(blk_mds);
+    blk_geom = get_blk_geom_mds(blk_mds);
     uint32_t    parent_depth_idx_mds = blk_mds;
     uint32_t    current_depth_idx_mds = blk_mds;
 
@@ -2444,7 +2444,7 @@ uint32_t d2_inter_depth_block_decision(
             }
 
             //setup next parent inter depth
-            blk_geom = Get_blk_geom_mds(parent_depth_idx_mds);
+            blk_geom = get_blk_geom_mds(parent_depth_idx_mds);
             current_depth_idx_mds = parent_depth_idx_mds;
         }
     }
