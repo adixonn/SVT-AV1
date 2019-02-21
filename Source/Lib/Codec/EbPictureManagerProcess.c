@@ -54,9 +54,9 @@ static void ConfigurePictureEdges(
 /************************************************
  * Picture Manager Context Constructor
  ************************************************/
-EbErrorType PictureManagerContextCtor(
+EbErrorType picture_manager_context_ctor(
     PictureManagerContext_t **context_dbl_ptr,
-    EbFifo_t                 *pictureInputFifoPtr,
+    EbFifo_t                 *picture_input_fifo_ptr,
     EbFifo_t                 *pictureManagerOutputFifoPtr,
     EbFifo_t                **picture_control_set_fifo_ptr_array)
 {
@@ -65,7 +65,7 @@ EbErrorType PictureManagerContextCtor(
 
     *context_dbl_ptr = context_ptr;
 
-    context_ptr->pictureInputFifoPtr = pictureInputFifoPtr;
+    context_ptr->picture_input_fifo_ptr = picture_input_fifo_ptr;
     context_ptr->pictureManagerOutputFifoPtr = pictureManagerOutputFifoPtr;
     context_ptr->picture_control_set_fifo_ptr_array = picture_control_set_fifo_ptr_array;
 
@@ -141,7 +141,7 @@ void* PictureManagerKernel(void *input_ptr)
 
         // Get Input Full Object
         eb_get_full_object(
-            context_ptr->pictureInputFifoPtr,
+            context_ptr->picture_input_fifo_ptr,
             &inputPictureDemuxWrapperPtr);
 
         inputPictureDemuxPtr = (PictureDemuxResults_t*)inputPictureDemuxWrapperPtr->object_ptr;
