@@ -282,8 +282,8 @@ EbErrorType SetMvpClipMVs(
 {
     EbErrorType  return_error = EB_ErrorNone;
 
-    uint32_t        picture_width = ((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr)->luma_width;
-    uint32_t        picture_height = ((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr)->luma_height;
+    uint32_t        picture_width = ((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr)->luma_width;
+    uint32_t        picture_height = ((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr)->luma_height;
 
     candidate_ptr->motion_vector_pred_idx[REF_LIST_0] = 0;
     candidate_ptr->motion_vector_pred_x[REF_LIST_0] = 0;
@@ -1976,7 +1976,7 @@ EbErrorType ProductGenerateMdCandidatesCu(
 
     (void)lcuAddr;
     (void)interPredContextPtr;
-    const SequenceControlSet_t *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
+    const SequenceControlSet_t *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     const EB_SLICE slice_type = picture_control_set_ptr->slice_type;
 
 

@@ -228,7 +228,7 @@ EbErrorType ComputeDecimatedZzSad(
 
     EbAsm asm_type = sequence_control_set_ptr->encode_context_ptr->asm_type;
 
-    PictureParentControlSet_t    *previous_picture_control_set_wrapper_ptr = ((PictureParentControlSet_t*)picture_control_set_ptr->previous_picture_control_set_wrapper_ptr->objectPtr);
+    PictureParentControlSet_t    *previous_picture_control_set_wrapper_ptr = ((PictureParentControlSet_t*)picture_control_set_ptr->previous_picture_control_set_wrapper_ptr->object_ptr);
     EbPictureBufferDesc_t        *previousInputPictureFull = previous_picture_control_set_wrapper_ptr->enhanced_picture_ptr;
 
     uint32_t sb_index;
@@ -411,14 +411,14 @@ void* MotionEstimationKernel(void *input_ptr)
 
 
         // Get Input Full Object
-        EbGetFullObject(
+        eb_get_full_object(
             context_ptr->pictureDecisionResultsInputFifoPtr,
             &inputResultsWrapperPtr);
 
-        inputResultsPtr = (PictureDecisionResults_t*)inputResultsWrapperPtr->objectPtr;
-        picture_control_set_ptr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->objectPtr;
-        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
-        paReferenceObject = (EbPaReferenceObject_t*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->objectPtr;
+        inputResultsPtr = (PictureDecisionResults_t*)inputResultsWrapperPtr->object_ptr;
+        picture_control_set_ptr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->object_ptr;
+        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+        paReferenceObject = (EbPaReferenceObject_t*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->object_ptr;
         quarterDecimatedPicturePtr = (EbPictureBufferDesc_t*)paReferenceObject->quarterDecimatedPicturePtr;
         sixteenthDecimatedPicturePtr = (EbPictureBufferDesc_t*)paReferenceObject->sixteenthDecimatedPicturePtr;
 
@@ -725,19 +725,19 @@ void* MotionEstimationKernel(void *input_ptr)
         eb_release_mutex(picture_control_set_ptr->rc_distortion_histogram_mutex);
 
         // Get Empty Results Object
-        EbGetEmptyObject(
+        eb_get_empty_object(
             context_ptr->motionEstimationResultsOutputFifoPtr,
             &outputResultsWrapperPtr);
 
-        outputResultsPtr = (MotionEstimationResults_t*)outputResultsWrapperPtr->objectPtr;
+        outputResultsPtr = (MotionEstimationResults_t*)outputResultsWrapperPtr->object_ptr;
         outputResultsPtr->pictureControlSetWrapperPtr = inputResultsPtr->pictureControlSetWrapperPtr;
         outputResultsPtr->segment_index = segment_index;
 
         // Release the Input Results
-        EbReleaseObject(inputResultsWrapperPtr);
+        eb_release_object(inputResultsWrapperPtr);
 
         // Post the Full Results Object
-        EbPostFullObject(outputResultsWrapperPtr);
+        eb_post_full_object(outputResultsWrapperPtr);
     }
     return EB_NULL;
 }

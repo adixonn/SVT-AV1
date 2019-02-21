@@ -6156,13 +6156,13 @@ EbErrorType MotionEstimateLcu(
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    SequenceControlSet_t    *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
+    SequenceControlSet_t    *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
     int16_t                  xTopLeftSearchRegion;
     int16_t                  yTopLeftSearchRegion;
     uint32_t                  searchRegionIndex;
-    int16_t                  picture_width = (int16_t)((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr)->luma_width;
-    int16_t                  picture_height = (int16_t)((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr)->luma_height;
+    int16_t                  picture_width = (int16_t)((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr)->luma_width;
+    int16_t                  picture_height = (int16_t)((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr)->luma_height;
     uint32_t                  sb_width = (input_ptr->width - sb_origin_x) < BLOCK_SIZE_64 ? input_ptr->width - sb_origin_x : BLOCK_SIZE_64;
     uint32_t                  sb_height = (input_ptr->height - sb_origin_y) < BLOCK_SIZE_64 ? input_ptr->height - sb_origin_y : BLOCK_SIZE_64;
     int16_t                  padWidth = (int16_t)BLOCK_SIZE_64 - 1;
@@ -6273,12 +6273,12 @@ EbErrorType MotionEstimateLcu(
 #else
     numOfListToSearch = (picture_control_set_ptr->slice_type == P_SLICE) || (picture_control_set_ptr->temporal_layer_index == 0) ? (uint32_t)REF_LIST_0 : (uint32_t)REF_LIST_1;
 #endif
-    referenceObject = (EbPaReferenceObject_t*)picture_control_set_ptr->ref_pa_pic_ptr_array[0]->objectPtr;
+    referenceObject = (EbPaReferenceObject_t*)picture_control_set_ptr->ref_pa_pic_ptr_array[0]->object_ptr;
     ref0Poc = picture_control_set_ptr->ref_pic_poc_array[0];
 
     if (numOfListToSearch) {
 
-        referenceObject = (EbPaReferenceObject_t*)picture_control_set_ptr->ref_pa_pic_ptr_array[1]->objectPtr;
+        referenceObject = (EbPaReferenceObject_t*)picture_control_set_ptr->ref_pa_pic_ptr_array[1]->object_ptr;
         ref1Poc = picture_control_set_ptr->ref_pic_poc_array[1];
     }
 
@@ -6289,7 +6289,7 @@ EbErrorType MotionEstimateLcu(
         // Ref Picture Loop
         {
 
-            referenceObject = (EbPaReferenceObject_t*)picture_control_set_ptr->ref_pa_pic_ptr_array[listIndex]->objectPtr;
+            referenceObject = (EbPaReferenceObject_t*)picture_control_set_ptr->ref_pa_pic_ptr_array[listIndex]->object_ptr;
             refPicPtr = (EbPictureBufferDesc_t*)referenceObject->inputPaddedPicturePtr;
             quarterRefPicPtr = (EbPictureBufferDesc_t*)referenceObject->quarterDecimatedPicturePtr;
             sixteenthRefPicPtr = (EbPictureBufferDesc_t*)referenceObject->sixteenthDecimatedPicturePtr;
@@ -8048,7 +8048,7 @@ EbErrorType OpenLoopIntraSearchLcu(
     EbAsm                       asm_type)
 {
     EbErrorType return_error = EB_ErrorNone;
-    SequenceControlSet_t    *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
+    SequenceControlSet_t    *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     uint32_t                   rasterScanCuIndex;
     uint32_t                   meSad = 0xFFFFFFFF;
     uint8_t                    stage1NumOfModes = 0;

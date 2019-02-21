@@ -3072,7 +3072,7 @@ static void write_tile_info(const PictureParentControlSet_t *const pcsPtr,
 static void write_frame_size(PictureParentControlSet_t *pcsPtr,
     int32_t frame_size_override,
     struct aom_write_bit_buffer *wb) {
-    SequenceControlSet_t *scsPtr = (SequenceControlSet_t*)pcsPtr->sequence_control_set_wrapper_ptr->objectPtr;
+    SequenceControlSet_t *scsPtr = (SequenceControlSet_t*)pcsPtr->sequence_control_set_wrapper_ptr->object_ptr;
     (void)(*pcsPtr);
     (void)frame_size_override;
     //const int32_t coded_width = cm->superres_upscaled_width - 1;
@@ -3656,7 +3656,7 @@ static void write_film_grain_params(PictureParentControlSet_t *pcsPtr,
     aom_wb_write_literal(wb, pars->random_seed, 16);
 
     if (pcsPtr->av1FrameType == INTER_FRAME) {
-        EbReferenceObject_t* refObj0 = (EbReferenceObject_t*)pcsPtr->childPcs->ref_pic_ptr_array[REF_LIST_0]->objectPtr;
+        EbReferenceObject_t* refObj0 = (EbReferenceObject_t*)pcsPtr->childPcs->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
         int32_t ref_idx = 0;
         pars->update_parameters = 1;
         if (film_grain_params_equal(&refObj0->film_grain_params, pars)) {
@@ -3665,7 +3665,7 @@ static void write_film_grain_params(PictureParentControlSet_t *pcsPtr,
         }
         else if (pcsPtr->childPcs->slice_type == B_SLICE)
         {
-            EbReferenceObject_t* refObj1 = (EbReferenceObject_t*)pcsPtr->childPcs->ref_pic_ptr_array[REF_LIST_1]->objectPtr;
+            EbReferenceObject_t* refObj1 = (EbReferenceObject_t*)pcsPtr->childPcs->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
             if (film_grain_params_equal(&refObj1->film_grain_params, pars)) {
                 pars->update_parameters = 0;
                 ref_idx = get_ref_frame_map_idx(pcsPtr, ALTREF_FRAME);  //todo: will it always be ALF_REF in L1?
@@ -4905,7 +4905,7 @@ EbErrorType write_modes_b(
     EbErrorType return_error = EB_ErrorNone;
     FRAME_CONTEXT           *frameContext = entropy_coder_ptr->fc;
     aom_writer              *ecWriter = &entropy_coder_ptr->ecWriter;
-    SequenceControlSet_t     *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
+    SequenceControlSet_t     *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
     NeighborArrayUnit_t     *mode_type_neighbor_array = picture_control_set_ptr->mode_type_neighbor_array;
     NeighborArrayUnit_t     *intra_luma_mode_neighbor_array = picture_control_set_ptr->intra_luma_mode_neighbor_array;
@@ -5356,7 +5356,7 @@ EB_EXTERN EbErrorType write_sb(
     EbErrorType return_error = EB_ErrorNone;
     FRAME_CONTEXT           *frameContext = entropy_coder_ptr->fc;
     aom_writer              *ecWriter = &entropy_coder_ptr->ecWriter;
-    SequenceControlSet_t     *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
+    SequenceControlSet_t     *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     NeighborArrayUnit_t     *partition_context_neighbor_array = picture_control_set_ptr->partition_context_neighbor_array;
 
     // CU Varaiables

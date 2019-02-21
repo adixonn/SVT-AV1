@@ -44,7 +44,7 @@ void RateControlLayerReset(
     EbBool                      wasUsed)
 {
 
-    SequenceControlSet_t *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
+    SequenceControlSet_t *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     uint32_t                sliceNum;
     uint32_t                temporal_layer_index;
     uint64_t                totalFrameInInterval;
@@ -1000,11 +1000,11 @@ void* RateControlKernel(void *input_ptr)
     for (;;) {
 
         // Get RateControl Task
-        EbGetFullObject(
+        eb_get_full_object(
             context_ptr->rateControlInputTasksFifoPtr,
             &rateControlTasksWrapperPtr);
 
-        rateControlTasksPtr = (RateControlTasks_t*)rateControlTasksWrapperPtr->objectPtr;
+        rateControlTasksPtr = (RateControlTasks_t*)rateControlTasksWrapperPtr->object_ptr;
         taskType = rateControlTasksPtr->taskType;
 
         // Modify these for different temporal layers later
@@ -1012,8 +1012,8 @@ void* RateControlKernel(void *input_ptr)
 
         case RC_PICTURE_MANAGER_RESULT:
 
-            picture_control_set_ptr = (PictureControlSet_t*)rateControlTasksPtr->pictureControlSetWrapperPtr->objectPtr;
-            sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
+            picture_control_set_ptr = (PictureControlSet_t*)rateControlTasksPtr->pictureControlSetWrapperPtr->object_ptr;
+            sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
             // High level RC
             if (picture_control_set_ptr->picture_number == 0) {
@@ -1296,24 +1296,24 @@ void* RateControlKernel(void *input_ptr)
             }
 
             // Get Empty Rate Control Results Buffer
-            EbGetEmptyObject(
+            eb_get_empty_object(
                 context_ptr->rateControlOutputResultsFifoPtr,
                 &rateControlResultsWrapperPtr);
-            rateControlResultsPtr = (RateControlResults_t*)rateControlResultsWrapperPtr->objectPtr;
+            rateControlResultsPtr = (RateControlResults_t*)rateControlResultsWrapperPtr->object_ptr;
             rateControlResultsPtr->pictureControlSetWrapperPtr = rateControlTasksPtr->pictureControlSetWrapperPtr;
 
             // Post Full Rate Control Results
-            EbPostFullObject(rateControlResultsWrapperPtr);
+            eb_post_full_object(rateControlResultsWrapperPtr);
 
             // Release Rate Control Tasks
-            EbReleaseObject(rateControlTasksWrapperPtr);
+            eb_release_object(rateControlTasksWrapperPtr);
 
             break;
 
         case RC_PACKETIZATION_FEEDBACK_RESULT:
 
-            parentPictureControlSetPtr = (PictureParentControlSet_t*)rateControlTasksPtr->pictureControlSetWrapperPtr->objectPtr;
-            sequence_control_set_ptr = (SequenceControlSet_t*)parentPictureControlSetPtr->sequence_control_set_wrapper_ptr->objectPtr;
+            parentPictureControlSetPtr = (PictureParentControlSet_t*)rateControlTasksPtr->pictureControlSetWrapperPtr->object_ptr;
+            sequence_control_set_ptr = (SequenceControlSet_t*)parentPictureControlSetPtr->sequence_control_set_wrapper_ptr->object_ptr;
 
             if (sequence_control_set_ptr->static_config.rate_control_mode) {
                 rate_control_update_model(rc_model_ptr, parentPictureControlSetPtr);
@@ -1487,16 +1487,16 @@ void* RateControlKernel(void *input_ptr)
             totalNumberOfFbFrames++;
 
             // Release the SequenceControlSet
-            EbReleaseObject(parentPictureControlSetPtr->sequence_control_set_wrapper_ptr);
+            eb_release_object(parentPictureControlSetPtr->sequence_control_set_wrapper_ptr);
 
             // Release the input buffer 
-            EbReleaseObject(parentPictureControlSetPtr->input_picture_wrapper_ptr);
+            eb_release_object(parentPictureControlSetPtr->input_picture_wrapper_ptr);
 
             // Release the ParentPictureControlSet
-            EbReleaseObject(rateControlTasksPtr->pictureControlSetWrapperPtr);
+            eb_release_object(rateControlTasksPtr->pictureControlSetWrapperPtr);
 
             // Release Rate Control Tasks
-            EbReleaseObject(rateControlTasksWrapperPtr);
+            eb_release_object(rateControlTasksWrapperPtr);
 
             break;
 
@@ -1505,13 +1505,13 @@ void* RateControlKernel(void *input_ptr)
             // Extract bits-per-lcu-row
 
             // Release Rate Control Tasks
-            EbReleaseObject(rateControlTasksWrapperPtr);
+            eb_release_object(rateControlTasksWrapperPtr);
 
             break;
 
         default:
-            picture_control_set_ptr = (PictureControlSet_t*)rateControlTasksPtr->pictureControlSetWrapperPtr->objectPtr;
-            sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
+            picture_control_set_ptr = (PictureControlSet_t*)rateControlTasksPtr->pictureControlSetWrapperPtr->object_ptr;
+            sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
             //encode_context_ptr            = sequence_control_set_ptr->encode_context_ptr;
             //CHECK_REPORT_ERROR_NC(
             //             encode_context_ptr->app_callback_ptr,

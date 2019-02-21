@@ -2098,7 +2098,7 @@ semaphores, mutexs, etc.
 typedef void * EbHandle;
 
 /** The EB_CTOR type is used to define the eBrisk object constructors.
-objectPtr is a EbPtr to the object being constructed.
+object_ptr is a EbPtr to the object being constructed.
 object_init_data_ptr is a EbPtr to a data structure used to initialize the object.
 */
 typedef EbErrorType(*EB_CTOR)(
@@ -2106,10 +2106,10 @@ typedef EbErrorType(*EB_CTOR)(
     EbPtr object_init_data_ptr);
 
 /** The EB_DTOR type is used to define the eBrisk object destructors.
-objectPtr is a EbPtr to the object being constructed.
+object_ptr is a EbPtr to the object being constructed.
 */
 typedef void(*EB_DTOR)(
-    EbPtr objectPtr);
+    EbPtr object_ptr);
 
 #define INVALID_MV            0xFFFFFFFF
 #define BLKSIZE 64

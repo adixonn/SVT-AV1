@@ -273,7 +273,7 @@ void cdef_seg_search16bit(
     EbPictureBufferDesc_t *input_pic_ptr = picture_control_set_ptr->input_frame16bit;
     EbPictureBufferDesc_t *recon_pic_ptr =
         (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE) ?
-        ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture16bit :
+        ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit :
          picture_control_set_ptr->recon_picture16bit_ptr;
 
     struct PictureParentControlSet_s     *pPcs = picture_control_set_ptr->parent_pcs_ptr;
@@ -467,13 +467,13 @@ void* cdef_kernel(void *input_ptr)
     for (;;) {
 
         // Get DLF Results
-        EbGetFullObject(
+        eb_get_full_object(
             context_ptr->cdef_input_fifo_ptr,
             &dlf_results_wrapper_ptr);
 
-        dlf_results_ptr = (DlfResults_t*)dlf_results_wrapper_ptr->objectPtr;
-        picture_control_set_ptr = (PictureControlSet_t*)dlf_results_ptr->picture_control_set_wrapper_ptr->objectPtr;
-        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
+        dlf_results_ptr = (DlfResults_t*)dlf_results_wrapper_ptr->object_ptr;
+        picture_control_set_ptr = (PictureControlSet_t*)dlf_results_ptr->picture_control_set_wrapper_ptr->object_ptr;
+        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
         EbBool  is16bit = (EbBool)(sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
         Av1Common* cm = picture_control_set_ptr->parent_pcs_ptr->av1_cm;
@@ -515,13 +515,13 @@ void* cdef_kernel(void *input_ptr)
         EbPictureBufferDesc_t  * recon_picture_ptr;
         if (is16bit) {
             if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE)
-                recon_picture_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture16bit;
+                recon_picture_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;
             else
                 recon_picture_ptr = picture_control_set_ptr->recon_picture16bit_ptr;
         }
         else {
             if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE)
-                recon_picture_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture;
+                recon_picture_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture;
             else
                 recon_picture_ptr = picture_control_set_ptr->recon_picture_ptr;
         }
@@ -638,29 +638,29 @@ void* cdef_kernel(void *input_ptr)
         for (segment_index = 0; segment_index < picture_control_set_ptr->rest_segments_total_count; ++segment_index)
         {
             // Get Empty Cdef Results to Rest
-            EbGetEmptyObject(
+            eb_get_empty_object(
                 context_ptr->cdef_output_fifo_ptr,
                 &cdef_results_wrapper_ptr);
-            cdef_results_ptr = (struct CdefResults_s*)cdef_results_wrapper_ptr->objectPtr;
+            cdef_results_ptr = (struct CdefResults_s*)cdef_results_wrapper_ptr->object_ptr;
             cdef_results_ptr->picture_control_set_wrapper_ptr = dlf_results_ptr->picture_control_set_wrapper_ptr;
             cdef_results_ptr->segment_index = segment_index;
             // Post Cdef Results
-            EbPostFullObject(cdef_results_wrapper_ptr);
+            eb_post_full_object(cdef_results_wrapper_ptr);
 
         }
 #else
 
 
         // Get Empty Cdef Results to Rest
-        EbGetEmptyObject(
+        eb_get_empty_object(
             context_ptr->cdef_output_fifo_ptr,
             &cdefResultsWrapperPtr);
-        cdef_results_ptr = (struct CdefResults_s*)cdefResultsWrapperPtr->objectPtr;
+        cdef_results_ptr = (struct CdefResults_s*)cdefResultsWrapperPtr->object_ptr;
         cdef_results_ptr->pictureControlSetWrapperPtr = dlf_results_ptr->pictureControlSetWrapperPtr;
         cdef_results_ptr->completedLcuRowIndexStart = 0;
         cdef_results_ptr->completedLcuRowCount =  ((sequence_control_set_ptr->luma_height + sequence_control_set_ptr->sb_size_pix - 1) >> lcuSizeLog2);
         // Post Cdef Results
-        EbPostFullObject(cdefResultsWrapperPtr);
+        eb_post_full_object(cdefResultsWrapperPtr);
 #endif
 
 #if CDEF_M
@@ -669,7 +669,7 @@ void* cdef_kernel(void *input_ptr)
 #endif
 
         // Release Dlf Results
-        EbReleaseObject(dlf_results_wrapper_ptr);
+        eb_release_object(dlf_results_wrapper_ptr);
 
     }
 

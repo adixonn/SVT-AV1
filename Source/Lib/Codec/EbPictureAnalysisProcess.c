@@ -4971,16 +4971,16 @@ void* PictureAnalysisKernel(void *input_ptr)
     for (;;) {
 
         // Get Input Full Object
-        EbGetFullObject(
+        eb_get_full_object(
             context_ptr->resourceCoordinationResultsInputFifoPtr,
             &inputResultsWrapperPtr);
 
-        inputResultsPtr = (ResourceCoordinationResults_t*)inputResultsWrapperPtr->objectPtr;
-        picture_control_set_ptr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->objectPtr;
-        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
+        inputResultsPtr = (ResourceCoordinationResults_t*)inputResultsWrapperPtr->object_ptr;
+        picture_control_set_ptr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->object_ptr;
+        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
         input_picture_ptr = picture_control_set_ptr->enhanced_picture_ptr;
 
-        paReferenceObject = (EbPaReferenceObject_t*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->objectPtr;
+        paReferenceObject = (EbPaReferenceObject_t*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->object_ptr;
         inputPaddedPicturePtr = (EbPictureBufferDesc_t*)paReferenceObject->inputPaddedPicturePtr;
         quarterDecimatedPicturePtr = (EbPictureBufferDesc_t*)paReferenceObject->quarterDecimatedPicturePtr;
         sixteenthDecimatedPicturePtr = (EbPictureBufferDesc_t*)paReferenceObject->sixteenthDecimatedPicturePtr;
@@ -5044,18 +5044,18 @@ void* PictureAnalysisKernel(void *input_ptr)
         }
 
         // Get Empty Results Object
-        EbGetEmptyObject(
+        eb_get_empty_object(
             context_ptr->pictureAnalysisResultsOutputFifoPtr,
             &outputResultsWrapperPtr);
 
-        outputResultsPtr = (PictureAnalysisResults_t*)outputResultsWrapperPtr->objectPtr;
+        outputResultsPtr = (PictureAnalysisResults_t*)outputResultsWrapperPtr->object_ptr;
         outputResultsPtr->pictureControlSetWrapperPtr = inputResultsPtr->pictureControlSetWrapperPtr;
 
         // Release the Input Results
-        EbReleaseObject(inputResultsWrapperPtr);
+        eb_release_object(inputResultsWrapperPtr);
 
         // Post the Full Results Object
-        EbPostFullObject(outputResultsWrapperPtr);
+        eb_post_full_object(outputResultsWrapperPtr);
 
     }
     return EB_NULL;

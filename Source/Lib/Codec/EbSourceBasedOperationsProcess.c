@@ -984,13 +984,13 @@ void* source_based_operations_kernel(void *input_ptr)
     for (;;) {
 
         // Get Input Full Object
-        EbGetFullObject(
+        eb_get_full_object(
             context_ptr->initial_rate_control_results_input_fifo_ptr,
             &inputResultsWrapperPtr);
 
-        inputResultsPtr = (InitialRateControlResults_t*)inputResultsWrapperPtr->objectPtr;
-        picture_control_set_ptr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->objectPtr;
-        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
+        inputResultsPtr = (InitialRateControlResults_t*)inputResultsWrapperPtr->object_ptr;
+        picture_control_set_ptr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->object_ptr;
+        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
         picture_control_set_ptr->dark_back_groundlight_fore_ground = EB_FALSE;
         context_ptr->picture_num_grass_sb = 0;
@@ -1167,19 +1167,19 @@ void* source_based_operations_kernel(void *input_ptr)
             picture_control_set_ptr);
 
         // Get Empty Results Object
-        EbGetEmptyObject(
+        eb_get_empty_object(
             context_ptr->picture_demux_results_output_fifo_ptr,
             &outputResultsWrapperPtr);
 
-        outputResultsPtr = (PictureDemuxResults_t*)outputResultsWrapperPtr->objectPtr;
+        outputResultsPtr = (PictureDemuxResults_t*)outputResultsWrapperPtr->object_ptr;
         outputResultsPtr->pictureControlSetWrapperPtr = inputResultsPtr->pictureControlSetWrapperPtr;
         outputResultsPtr->pictureType = EB_PIC_INPUT;
 
         // Release the Input Results
-        EbReleaseObject(inputResultsWrapperPtr);
+        eb_release_object(inputResultsWrapperPtr);
 
         // Post the Full Results Object
-        EbPostFullObject(outputResultsWrapperPtr);
+        eb_post_full_object(outputResultsWrapperPtr);
 
     }
     return EB_NULL;

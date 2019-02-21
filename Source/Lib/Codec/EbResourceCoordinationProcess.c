@@ -699,10 +699,10 @@ void* ResourceCoordinationKernel(void *input_ptr)
         instanceIndex = 0;
 
         // Get the Next svt Input Buffer [BLOCKING]
-        EbGetFullObject(
+        eb_get_full_object(
             context_ptr->input_buffer_fifo_ptr,
             &ebInputWrapperPtr);
-        ebInputPtr = (EbBufferHeaderType*)ebInputWrapperPtr->objectPtr;
+        ebInputPtr = (EbBufferHeaderType*)ebInputWrapperPtr->object_ptr;
         sequence_control_set_ptr = context_ptr->sequenceControlSetInstanceArray[instanceIndex]->sequence_control_set_ptr;
 
         // If config changes occured since the last picture began encoding, then
@@ -740,28 +740,28 @@ void* ResourceCoordinationKernel(void *input_ptr)
             previousSequenceControlSetWrapperPtr = context_ptr->sequenceControlSetActiveArray[instanceIndex];
 
             // Get empty SequenceControlSet [BLOCKING]
-            EbGetEmptyObject(
+            eb_get_empty_object(
                 context_ptr->sequenceControlSetEmptyFifoPtr,
                 &context_ptr->sequenceControlSetActiveArray[instanceIndex]);
 
             // Copy the contents of the active SequenceControlSet into the new empty SequenceControlSet
             copy_sequence_control_set(
-                (SequenceControlSet_t*)context_ptr->sequenceControlSetActiveArray[instanceIndex]->objectPtr,
+                (SequenceControlSet_t*)context_ptr->sequenceControlSetActiveArray[instanceIndex]->object_ptr,
                 context_ptr->sequenceControlSetInstanceArray[instanceIndex]->sequence_control_set_ptr);
 
             // Disable releaseFlag of new SequenceControlSet
-            EbObjectReleaseDisable(
+            eb_object_release_disable(
                 context_ptr->sequenceControlSetActiveArray[instanceIndex]);
 
             if (previousSequenceControlSetWrapperPtr != EB_NULL) {
 
                 // Enable releaseFlag of old SequenceControlSet
-                EbObjectReleaseEnable(
+                eb_object_release_enable(
                     previousSequenceControlSetWrapperPtr);
 
                 // Check to see if previous SequenceControlSet is already inactive, if TRUE then release the SequenceControlSet
                 if (previousSequenceControlSetWrapperPtr->liveCount == 0) {
-                    EbReleaseObject(
+                    eb_release_object(
                         previousSequenceControlSetWrapperPtr);
                 }
             }
@@ -770,12 +770,12 @@ void* ResourceCoordinationKernel(void *input_ptr)
 
         // Sequence Control Set is released by Rate Control after passing through MDC->MD->ENCDEC->Packetization->RateControl
         //   and in the PictureManager
-        EbObjectIncLiveCount(
+        eb_object_inc_live_count(
             context_ptr->sequenceControlSetActiveArray[instanceIndex],
             2);
 
         // Set the current SequenceControlSet
-        sequence_control_set_ptr = (SequenceControlSet_t*)context_ptr->sequenceControlSetActiveArray[instanceIndex]->objectPtr;
+        sequence_control_set_ptr = (SequenceControlSet_t*)context_ptr->sequenceControlSetActiveArray[instanceIndex]->object_ptr;
 
         // Init SB Params
         if (context_ptr->sequenceControlSetInstanceArray[instanceIndex]->encode_context_ptr->initial_picture) {
@@ -801,16 +801,16 @@ void* ResourceCoordinationKernel(void *input_ptr)
         }
 
         //Get a New ParentPCS where we will hold the new inputPicture
-        EbGetEmptyObject(
+        eb_get_empty_object(
             context_ptr->pictureControlSetFifoPtrArray[instanceIndex],
             &pictureControlSetWrapperPtr);
 
         // Parent PCS is released by the Rate Control after passing through MDC->MD->ENCDEC->Packetization
-        EbObjectIncLiveCount(
+        eb_object_inc_live_count(
             pictureControlSetWrapperPtr,
             1);
 
-        picture_control_set_ptr = (PictureParentControlSet_t*)pictureControlSetWrapperPtr->objectPtr;
+        picture_control_set_ptr = (PictureParentControlSet_t*)pictureControlSetWrapperPtr->object_ptr;
 
         picture_control_set_ptr->p_pcs_wrapper_ptr = pictureControlSetWrapperPtr;
 
@@ -942,34 +942,34 @@ void* ResourceCoordinationKernel(void *input_ptr)
         sequence_control_set_ptr->encode_context_ptr->initial_picture = EB_FALSE;
 
         // Get Empty Reference Picture Object
-        EbGetEmptyObject(
+        eb_get_empty_object(
             sequence_control_set_ptr->encode_context_ptr->pa_reference_picture_pool_fifo_ptr,
             &reference_picture_wrapper_ptr);
 
         picture_control_set_ptr->pa_reference_picture_wrapper_ptr = reference_picture_wrapper_ptr;
 
         // Give the new Reference a nominal liveCount of 1
-        EbObjectIncLiveCount(
+        eb_object_inc_live_count(
             picture_control_set_ptr->pa_reference_picture_wrapper_ptr,
             2);
 
-        EbObjectIncLiveCount(
+        eb_object_inc_live_count(
             pictureControlSetWrapperPtr,
             2);
     
-        ((EbPaReferenceObject_t*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->objectPtr)->inputPaddedPicturePtr->buffer_y = picture_control_set_ptr->enhanced_picture_ptr->buffer_y;
+        ((EbPaReferenceObject_t*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->object_ptr)->inputPaddedPicturePtr->buffer_y = picture_control_set_ptr->enhanced_picture_ptr->buffer_y;
         // Get Empty Output Results Object
         if (picture_control_set_ptr->picture_number > 0 && (prevPictureControlSetWrapperPtr != NULL))
         {
-            ((PictureParentControlSet_t       *)prevPictureControlSetWrapperPtr->objectPtr)->end_of_sequence_flag = end_of_sequence_flag;
-            EbGetEmptyObject(
+            ((PictureParentControlSet_t       *)prevPictureControlSetWrapperPtr->object_ptr)->end_of_sequence_flag = end_of_sequence_flag;
+            eb_get_empty_object(
                 context_ptr->resourceCoordinationResultsOutputFifoPtr,
                 &outputWrapperPtr);
-            outputResultsPtr = (ResourceCoordinationResults_t*)outputWrapperPtr->objectPtr;
+            outputResultsPtr = (ResourceCoordinationResults_t*)outputWrapperPtr->object_ptr;
             outputResultsPtr->pictureControlSetWrapperPtr = prevPictureControlSetWrapperPtr;
 
             // Post the finished Results Object
-            EbPostFullObject(outputWrapperPtr);
+            eb_post_full_object(outputWrapperPtr);
         }
         prevPictureControlSetWrapperPtr = pictureControlSetWrapperPtr;
     }

@@ -82,12 +82,12 @@ void* PacketizationKernel(void *input_ptr)
     for (;;) {
 
         // Get EntropyCoding Results
-        EbGetFullObject(
+        eb_get_full_object(
             context_ptr->entropyCodingInputFifoPtr,
             &entropyCodingResultsWrapperPtr);
-        entropyCodingResultsPtr = (EntropyCodingResults_t*)entropyCodingResultsWrapperPtr->objectPtr;
-        picture_control_set_ptr = (PictureControlSet_t*)entropyCodingResultsPtr->pictureControlSetWrapperPtr->objectPtr;
-        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
+        entropyCodingResultsPtr = (EntropyCodingResults_t*)entropyCodingResultsWrapperPtr->object_ptr;
+        picture_control_set_ptr = (PictureControlSet_t*)entropyCodingResultsPtr->pictureControlSetWrapperPtr->object_ptr;
+        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
         encode_context_ptr = (EncodeContext_t*)sequence_control_set_ptr->encode_context_ptr;
 
         //****************************************************
@@ -103,7 +103,7 @@ void* PacketizationKernel(void *input_ptr)
         //TODO: The output buffer should be big enough to avoid a deadlock here. Add an assert that make the warning
         // Get  Output Bitstream buffer
         output_stream_wrapper_ptr = picture_control_set_ptr->parent_pcs_ptr->output_stream_wrapper_ptr;
-        output_stream_ptr = (EbBufferHeaderType*)output_stream_wrapper_ptr->objectPtr;
+        output_stream_ptr = (EbBufferHeaderType*)output_stream_wrapper_ptr->object_ptr;
         output_stream_ptr->flags = 0;
         output_stream_ptr->flags |= (encode_context_ptr->terminating_sequence_flag_received == EB_TRUE && picture_control_set_ptr->parent_pcs_ptr->decode_order == encode_context_ptr->terminating_picture_number) ? EB_BUFFERFLAG_EOS : 0;
         output_stream_ptr->n_filled_len = 0;
@@ -119,10 +119,10 @@ void* PacketizationKernel(void *input_ptr)
         output_stream_ptr->p_app_private = picture_control_set_ptr->parent_pcs_ptr->input_ptr->p_app_private;
 
         // Get Empty Rate Control Input Tasks
-        EbGetEmptyObject(
+        eb_get_empty_object(
             context_ptr->rateControlTasksOutputFifoPtr,
             &rateControlTasksWrapperPtr);
-        rateControlTasksPtr = (RateControlTasks_t*)rateControlTasksWrapperPtr->objectPtr;
+        rateControlTasksPtr = (RateControlTasks_t*)rateControlTasksWrapperPtr->object_ptr;
         rateControlTasksPtr->pictureControlSetWrapperPtr = picture_control_set_ptr->picture_parent_control_set_wrapper_ptr;
         rateControlTasksPtr->taskType = RC_PACKETIZATION_FEEDBACK_RESULT;
 
@@ -219,13 +219,13 @@ void* PacketizationKernel(void *input_ptr)
         }
 
         // Post Rate Control Taks
-        EbPostFullObject(rateControlTasksWrapperPtr);
+        eb_post_full_object(rateControlTasksWrapperPtr);
 
         //Release the Parent PCS then the Child PCS
-        EbReleaseObject(entropyCodingResultsPtr->pictureControlSetWrapperPtr);//Child
+        eb_release_object(entropyCodingResultsPtr->pictureControlSetWrapperPtr);//Child
 
         // Release the Entropy Coding Result
-        EbReleaseObject(entropyCodingResultsWrapperPtr);
+        eb_release_object(entropyCodingResultsWrapperPtr);
 
 
         //****************************************************
@@ -237,7 +237,7 @@ void* PacketizationKernel(void *input_ptr)
         while (queueEntryPtr->output_stream_wrapper_ptr != EB_NULL) {
 
             output_stream_wrapper_ptr = queueEntryPtr->output_stream_wrapper_ptr;
-            output_stream_ptr = (EbBufferHeaderType*)output_stream_wrapper_ptr->objectPtr;
+            output_stream_ptr = (EbBufferHeaderType*)output_stream_wrapper_ptr->object_ptr;
 
 #if DETAILED_FRAME_OUTPUT
             {
@@ -351,7 +351,7 @@ void* PacketizationKernel(void *input_ptr)
 
             output_stream_ptr->n_tick_count = (uint32_t)latency;
             output_stream_ptr->p_app_private = queueEntryPtr->outMetaData;
-            EbPostFullObject(output_stream_wrapper_ptr);
+            eb_post_full_object(output_stream_wrapper_ptr);
             queueEntryPtr->outMetaData = (EbLinkedListNode *)EB_NULL;
 
             // Reset the Reorder Queue Entry

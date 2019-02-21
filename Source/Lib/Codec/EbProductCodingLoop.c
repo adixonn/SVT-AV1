@@ -1223,7 +1223,7 @@ void ProductPerformFastLoop(
     // Initialize first fast cost loop variables
     uint64_t bestFirstFastCostSearchCandidateCost = 0xFFFFFFFFFFFFFFFFull;
     int32_t bestFirstFastCostSearchCandidateIndex = INVALID_FAST_CANDIDATE_INDEX;
-    //    SequenceControlSet_t           *sequence_control_set_ptr = ((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr);
+    //    SequenceControlSet_t           *sequence_control_set_ptr = ((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr);
 
 #if INTRA_CORE_OPT
     if (context_ptr->blk_geom->sq_size < 128) {
@@ -6719,13 +6719,13 @@ EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    SequenceControlSet_t    *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
+    SequenceControlSet_t    *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
     int16_t                  xTopLeftSearchRegion;
     int16_t                  yTopLeftSearchRegion;
     uint32_t                  searchRegionIndex;
-    int16_t                  picture_width = (int16_t)((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr)->luma_width;
-    int16_t                  picture_height = (int16_t)((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr)->luma_height;
+    int16_t                  picture_width = (int16_t)((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr)->luma_width;
+    int16_t                  picture_height = (int16_t)((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr)->luma_height;
 
     int16_t                  padWidth = (int16_t)BLOCK_SIZE_64 - 1;
     int16_t                  padHeight = (int16_t)BLOCK_SIZE_64 - 1;
@@ -6793,7 +6793,7 @@ EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
     for (listIndex = REF_LIST_0; listIndex <= numOfListToSearch; ++listIndex) {
 
         EbBool  is16bit = (EbBool)(sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
-        referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[listIndex]->objectPtr;
+        referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[listIndex]->object_ptr;
         refPicPtr = is16bit ? (EbPictureBufferDesc_t*)referenceObject->referencePicture16bit : (EbPictureBufferDesc_t*)referenceObject->referencePicture;
         search_area_width = (int16_t)MIN(context_ptr->search_area_width, 127);
         search_area_height = (int16_t)MIN(context_ptr->search_area_height, 127);

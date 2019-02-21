@@ -445,12 +445,12 @@ void* EntropyCodingKernel(void *input_ptr)
     for (;;) {
 
         // Get Mode Decision Results
-        EbGetFullObject(
+        eb_get_full_object(
             context_ptr->enc_dec_input_fifo_ptr,
             &encDecResultsWrapperPtr);
-        encDecResultsPtr = (EncDecResults_t*)encDecResultsWrapperPtr->objectPtr;
-        picture_control_set_ptr = (PictureControlSet_t*)encDecResultsPtr->pictureControlSetWrapperPtr->objectPtr;
-        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
+        encDecResultsPtr = (EncDecResults_t*)encDecResultsWrapperPtr->object_ptr;
+        picture_control_set_ptr = (PictureControlSet_t*)encDecResultsPtr->pictureControlSetWrapperPtr->object_ptr;
+        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
         lastLcuFlag = EB_FALSE;
 
         // SB Constants
@@ -516,10 +516,10 @@ void* EntropyCodingKernel(void *input_ptr)
                     RateControlTasks_t *rateControlTaskPtr;
 
                     // Get Empty EncDec Results
-                    EbGetEmptyObject(
+                    eb_get_empty_object(
                         context_ptr->rate_control_output_fifo_ptr,
                         &rateControlTaskWrapperPtr);
-                    rateControlTaskPtr = (RateControlTasks_t*)rateControlTaskWrapperPtr->objectPtr;
+                    rateControlTaskPtr = (RateControlTasks_t*)rateControlTaskWrapperPtr->object_ptr;
                     rateControlTaskPtr->taskType = RC_ENTROPY_CODING_ROW_FEEDBACK_RESULT;
                     rateControlTaskPtr->picture_number = picture_control_set_ptr->picture_number;
                     rateControlTaskPtr->rowNumber = yLcuIndex;
@@ -529,7 +529,7 @@ void* EntropyCodingKernel(void *input_ptr)
                     rateControlTaskPtr->segment_index = ~0u;
 
                     // Post EncDec Results
-                    EbPostFullObject(rateControlTaskWrapperPtr);
+                    eb_post_full_object(rateControlTaskWrapperPtr);
                 }
 
                 eb_block_on_mutex(picture_control_set_ptr->entropy_coding_mutex);
@@ -548,7 +548,7 @@ void* EntropyCodingKernel(void *input_ptr)
                         for (refIdx = 0; refIdx < picture_control_set_ptr->parent_pcs_ptr->ref_list0_count; ++refIdx) {
                             if (picture_control_set_ptr->ref_pic_ptr_array[0] != EB_NULL) {
 
-                                EbReleaseObject(picture_control_set_ptr->ref_pic_ptr_array[0]);
+                                eb_release_object(picture_control_set_ptr->ref_pic_ptr_array[0]);
                             }
                         }
 
@@ -556,19 +556,19 @@ void* EntropyCodingKernel(void *input_ptr)
                         for (refIdx = 0; refIdx < picture_control_set_ptr->parent_pcs_ptr->ref_list1_count; ++refIdx) {
                             if (picture_control_set_ptr->ref_pic_ptr_array[1] != EB_NULL) {
 
-                                EbReleaseObject(picture_control_set_ptr->ref_pic_ptr_array[1]);
+                                eb_release_object(picture_control_set_ptr->ref_pic_ptr_array[1]);
                             }
                         }
 
                         // Get Empty Entropy Coding Results
-                        EbGetEmptyObject(
+                        eb_get_empty_object(
                             context_ptr->entropy_coding_output_fifo_ptr,
                             &entropyCodingResultsWrapperPtr);
-                        entropyCodingResultsPtr = (EntropyCodingResults_t*)entropyCodingResultsWrapperPtr->objectPtr;
+                        entropyCodingResultsPtr = (EntropyCodingResults_t*)entropyCodingResultsWrapperPtr->object_ptr;
                         entropyCodingResultsPtr->pictureControlSetWrapperPtr = encDecResultsPtr->pictureControlSetWrapperPtr;
 
                         // Post EntropyCoding Results
-                        EbPostFullObject(entropyCodingResultsWrapperPtr);
+                        eb_post_full_object(entropyCodingResultsWrapperPtr);
 
                     } // End if(PictureCompleteFlag)
                 }
@@ -579,7 +579,7 @@ void* EntropyCodingKernel(void *input_ptr)
 
         }
         // Release Mode Decision Results
-        EbReleaseObject(encDecResultsWrapperPtr);
+        eb_release_object(encDecResultsWrapperPtr);
 
     }
 

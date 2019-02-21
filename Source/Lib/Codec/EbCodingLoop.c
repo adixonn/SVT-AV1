@@ -2877,19 +2877,19 @@ EB_EXTERN void AV1EncodePass(
     }
 
 
-    encode_context_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr))->encode_context_ptr;
+    encode_context_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
 
     if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE) {
 
         //get the 16bit form of the input LCU
         if (is16bit) {
 
-            recon_buffer = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture16bit;
+            recon_buffer = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;
 
         }
 
         else {
-            recon_buffer = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture;
+            recon_buffer = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture;
         }
     }
     else { // non ref pictures
@@ -3010,8 +3010,8 @@ EB_EXTERN void AV1EncodePass(
         {
             if (picture_control_set_ptr->slice_type == B_SLICE) {
 
-                EbReferenceObject_t  *refObjL0 = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->objectPtr;
-                EbReferenceObject_t  *refObjL1 = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->objectPtr;
+                EbReferenceObject_t  *refObjL0 = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
+                EbReferenceObject_t  *refObjL1 = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
                 uint32_t const TH = (sequence_control_set_ptr->static_config.frame_rate >> 16) < 50 ? 25 : 30;
 
                 if ((refObjL0->tmpLayerIdx == 2 && refObjL0->intra_coded_area > TH) || (refObjL1->tmpLayerIdx == 2 && refObjL1->intra_coded_area > TH))
@@ -3522,9 +3522,9 @@ EB_EXTERN void AV1EncodePass(
                     context_ptr->is_inter = 1;
 #endif
 
-                    EbReferenceObject_t* refObj0 = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->objectPtr;
+                    EbReferenceObject_t* refObj0 = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
                     EbReferenceObject_t* refObj1 = picture_control_set_ptr->slice_type == B_SLICE ?
-                        (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->objectPtr : 0;
+                        (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr : 0;
 
                     uint16_t  txb_origin_x;
                     uint16_t  txb_origin_y;
@@ -4288,7 +4288,7 @@ EB_EXTERN void no_enc_dec_pass(
                     EbPictureBufferDesc_t          *ref_pic;
                     if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag)
                     {
-                        EbReferenceObject_t* refObj = (EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr;
+                        EbReferenceObject_t* refObj = (EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr;
                         ref_pic = refObj->referencePicture;
                     }
                     else

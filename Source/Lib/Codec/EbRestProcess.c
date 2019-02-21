@@ -151,7 +151,7 @@ void   get_own_recon(
     EbPictureBufferDesc_t  * recon_picture_ptr;
     if (is16bit) {
         if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE)
-            recon_picture_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture16bit;
+            recon_picture_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;
         else
             recon_picture_ptr = picture_control_set_ptr->recon_picture16bit_ptr;
 
@@ -175,7 +175,7 @@ void   get_own_recon(
     }
     else {
         if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE)
-            recon_picture_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture;
+            recon_picture_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture;
         else
             recon_picture_ptr = picture_control_set_ptr->recon_picture_ptr;
 
@@ -225,13 +225,13 @@ void* rest_kernel(void *input_ptr)
     for (;;) {
 
         // Get Cdef Results
-        EbGetFullObject(
+        eb_get_full_object(
             context_ptr->rest_input_fifo_ptr,
             &cdef_results_wrapper_ptr);
 
-        cdef_results_ptr = (CdefResults_t*)cdef_results_wrapper_ptr->objectPtr;
-        picture_control_set_ptr = (PictureControlSet_t*)cdef_results_ptr->picture_control_set_wrapper_ptr->objectPtr;
-        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
+        cdef_results_ptr = (CdefResults_t*)cdef_results_wrapper_ptr->object_ptr;
+        picture_control_set_ptr = (PictureControlSet_t*)cdef_results_ptr->picture_control_set_wrapper_ptr->object_ptr;
+        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
         uint8_t lcuSizeLog2 = (uint8_t)Log2f(sequence_control_set_ptr->sb_size_pix);
         EbBool  is16bit = (EbBool)(sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
         Av1Common* cm = picture_control_set_ptr->parent_pcs_ptr->av1_cm;
@@ -370,7 +370,7 @@ void* rest_kernel(void *input_ptr)
                 const uint32_t  SrccbOffset = (input_picture_ptr->origin_x >> 1) + (input_picture_ptr->origin_y >> 1)*input_picture_ptr->strideCb;
                 const uint32_t  SrccrOffset = (input_picture_ptr->origin_x >> 1) + (input_picture_ptr->origin_y >> 1)*input_picture_ptr->strideCr;
 
-                EbReferenceObject_t   *referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr;
+                EbReferenceObject_t   *referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr;
                 EbPictureBufferDesc_t *refDenPic = referenceObject->refDenSrcPicture;
                 const uint32_t           ReflumaOffSet = refDenPic->origin_x + refDenPic->origin_y    *refDenPic->stride_y;
                 const uint32_t           RefcbOffset = (refDenPic->origin_x >> 1) + (refDenPic->origin_y >> 1)*refDenPic->strideCb;
@@ -431,32 +431,32 @@ void* rest_kernel(void *input_ptr)
             {
 
                 // Get Empty PicMgr Results
-                EbGetEmptyObject(
+                eb_get_empty_object(
                     context_ptr->picture_demux_fifo_ptr,
                     &picture_demux_results_wrapper_ptr);
 
-                picture_demux_results_rtr = (PictureDemuxResults_t*)picture_demux_results_wrapper_ptr->objectPtr;
+                picture_demux_results_rtr = (PictureDemuxResults_t*)picture_demux_results_wrapper_ptr->object_ptr;
                 picture_demux_results_rtr->reference_picture_wrapper_ptr = picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr;
                 picture_demux_results_rtr->sequence_control_set_wrapper_ptr = picture_control_set_ptr->sequence_control_set_wrapper_ptr;
                 picture_demux_results_rtr->picture_number = picture_control_set_ptr->picture_number;
                 picture_demux_results_rtr->pictureType = EB_PIC_REFERENCE;
 
                 // Post Reference Picture
-                EbPostFullObject(picture_demux_results_wrapper_ptr);
+                eb_post_full_object(picture_demux_results_wrapper_ptr);
             }
 
 
 
             // Get Empty rest Results to EC
-            EbGetEmptyObject(
+            eb_get_empty_object(
                 context_ptr->rest_output_fifo_ptr,
                 &rest_results_wrapper_ptr);
-            rest_results_ptr = (struct RestResults_s*)rest_results_wrapper_ptr->objectPtr;
+            rest_results_ptr = (struct RestResults_s*)rest_results_wrapper_ptr->object_ptr;
             rest_results_ptr->picture_control_set_wrapper_ptr = cdef_results_ptr->picture_control_set_wrapper_ptr;
             rest_results_ptr->completed_lcu_row_index_start = 0;
             rest_results_ptr->completed_lcu_row_count = ((sequence_control_set_ptr->luma_height + sequence_control_set_ptr->sb_size_pix - 1) >> lcuSizeLog2);
             // Post Rest Results
-            EbPostFullObject(rest_results_wrapper_ptr);
+            eb_post_full_object(rest_results_wrapper_ptr);
 
 #if REST_M
         }
@@ -465,7 +465,7 @@ void* rest_kernel(void *input_ptr)
 
 
         // Release input Results
-        EbReleaseObject(cdef_results_wrapper_ptr);
+        eb_release_object(cdef_results_wrapper_ptr);
 
     }
 
