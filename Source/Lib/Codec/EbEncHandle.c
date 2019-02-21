@@ -1129,7 +1129,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
             &encHandlePtr->resourceCoordinationResultsProducerFifoPtrArray,
             &encHandlePtr->resourceCoordinationResultsConsumerFifoPtrArray,
             EB_TRUE,
-            ResourceCoordinationResultCtor,
+            resource_coordination_result_ctor,
             &resourceCoordinationResultInitData);
 
         if (return_error == EB_ErrorInsufficientResources) {

@@ -262,12 +262,12 @@ extern "C" {
      * Extern Function Declarations
      **************************************/
     extern EbErrorType eb_sequence_control_set_ctor(
-        EbPtr                          *object_dbl_ptr,
-        EbPtr                           object_init_data_ptr);
+        EbPtr *object_dbl_ptr,
+        EbPtr  object_init_data_ptr);
 
     extern EbErrorType copy_sequence_control_set(
-        SequenceControlSet_t            *dst,
-        SequenceControlSet_t            *src);
+        SequenceControlSet_t *dst,
+        SequenceControlSet_t *src);
 
     extern EbErrorType eb_sequence_control_set_instance_ctor(
         EbSequenceControlSetInstance_t **object_dbl_ptr);
@@ -279,10 +279,10 @@ extern "C" {
         SequenceControlSet_t *sequence_control_set_ptr);
 
     extern EbErrorType derive_input_resolution(
-        SequenceControlSet_t     *sequence_control_set_ptr,
-        uint32_t                  input_size);
+        SequenceControlSet_t *sequence_control_set_ptr,
+        uint32_t              input_size);
 
-    EbErrorType sb_geom_init(SequenceControlSet_t * sequence_control_set_ptr);
+    EbErrorType sb_geom_init(SequenceControlSet_t *sequence_control_set_ptr);
 
 #ifdef __cplusplus
 }

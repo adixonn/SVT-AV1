@@ -7,7 +7,7 @@
 
 #include "EbResourceCoordinationResults.h"
 
-EbErrorType ResourceCoordinationResultCtor(
+EbErrorType resource_coordination_result_ctor(
     EbPtr *object_dbl_ptr,
     EbPtr object_init_data_ptr)
 {
