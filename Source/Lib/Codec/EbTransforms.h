@@ -3865,8 +3865,6 @@ extern "C" {
     static const uint32_t q_func[] = { 26214,23302,20560,18396,16384,14564 };
 
 
-    static void  qi_q_void_func() {}
-
     extern EbErrorType encode_transform(
         int16_t             *residual_buffer,
         uint32_t             residual_stride,
