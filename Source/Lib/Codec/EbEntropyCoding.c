@@ -506,7 +506,7 @@ int32_t  Av1WriteCoeffsTxb1D(
     int32_t                     *coeffBufferPtr,
     const uint16_t                coeff_stride,
     COMPONENT_TYPE              component_type,
-    int16_t                      txbSkipCtx,
+    int16_t                      txb_skip_ctx,
     int16_t                      dcSignCtx,
     int16_t                      eob)
 {
@@ -527,7 +527,7 @@ int32_t  Av1WriteCoeffsTxb1D(
 
     aom_write_symbol(ecWriter, eob == 0,
 
-        frameContext->txb_skip_cdf[txs_ctx][txbSkipCtx], 2);
+        frameContext->txb_skip_cdf[txs_ctx][txb_skip_ctx], 2);
 
     if (component_type == 0 && eob == 0) {
         // INTER. Chroma follows Luma in transform type
@@ -722,7 +722,7 @@ static EbErrorType Av1EncodeCoeff1D(
         coeff_buffer = (int32_t*)coeffPtr->buffer_y + coeff1dOffset;
 
         {
-            int16_t txbSkipCtx = 0;
+            int16_t txb_skip_ctx = 0;
             int16_t dcSignCtx = 0;
 
             GetTxbCtx(
@@ -732,7 +732,7 @@ static EbErrorType Av1EncodeCoeff1D(
                 cu_origin_y + blk_geom->tx_org_y[txb_itr] - blk_geom->origin_y,
                 plane_bsize,
                 tx_size,
-                &txbSkipCtx,
+                &txb_skip_ctx,
                 &dcSignCtx);
 
 
@@ -749,7 +749,7 @@ static EbErrorType Av1EncodeCoeff1D(
                     coeff_buffer,
                     coeffPtr->stride_y,
                     COMPONENT_LUMA,
-                    txbSkipCtx,
+                    txb_skip_ctx,
                     dcSignCtx,
                     cu_ptr->transform_unit_array[txb_itr].nz_coef_count[0]);
         }
@@ -759,7 +759,7 @@ static EbErrorType Av1EncodeCoeff1D(
             // cb
             coeff_buffer = (int32_t*)coeffPtr->bufferCb + context_ptr->coded_area_sb_uv;
             {
-                int16_t txbSkipCtx = 0;
+                int16_t txb_skip_ctx = 0;
                 int16_t dcSignCtx = 0;
 
                 GetTxbCtx(
@@ -769,7 +769,7 @@ static EbErrorType Av1EncodeCoeff1D(
                     ROUND_UV(cu_origin_y + blk_geom->tx_org_y[txb_itr] - blk_geom->origin_y) >> 1,
                     blk_geom->bsize_uv,
                     chroma_tx_size,
-                    &txbSkipCtx,
+                    &txb_skip_ctx,
                     &dcSignCtx);
 
 
@@ -786,7 +786,7 @@ static EbErrorType Av1EncodeCoeff1D(
                         coeff_buffer,
                         coeffPtr->strideCb,
                         COMPONENT_CHROMA,
-                        txbSkipCtx,
+                        txb_skip_ctx,
                         dcSignCtx,
                         cu_ptr->transform_unit_array[txb_itr].nz_coef_count[1]);
 
@@ -796,7 +796,7 @@ static EbErrorType Av1EncodeCoeff1D(
             coeff_buffer = (int32_t*)coeffPtr->bufferCr + context_ptr->coded_area_sb_uv;
             {
 
-                int16_t txbSkipCtx = 0;
+                int16_t txb_skip_ctx = 0;
                 int16_t dcSignCtx = 0;
 
                 GetTxbCtx(
@@ -806,7 +806,7 @@ static EbErrorType Av1EncodeCoeff1D(
                     ROUND_UV(cu_origin_y + blk_geom->tx_org_y[txb_itr] - blk_geom->origin_y) >> 1,
                     blk_geom->bsize_uv,
                     chroma_tx_size,
-                    &txbSkipCtx,
+                    &txb_skip_ctx,
                     &dcSignCtx);
 
 
@@ -823,7 +823,7 @@ static EbErrorType Av1EncodeCoeff1D(
                         coeff_buffer,
                         coeffPtr->strideCr,
                         COMPONENT_CHROMA,
-                        txbSkipCtx,
+                        txb_skip_ctx,
                         dcSignCtx,
                         cu_ptr->transform_unit_array[txb_itr].nz_coef_count[2]);
             }
@@ -1058,7 +1058,7 @@ static void EncodeIntraLumaModeAv1(
     CodingUnit_t            *cu_ptr,
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
-    uint32_t                  lumaMode,
+    uint32_t                  luma_mode,
     NeighborArrayUnit_t    *mode_type_neighbor_array,
     NeighborArrayUnit_t    *intra_luma_mode_neighbor_array)
 {
@@ -1091,7 +1091,7 @@ static void EncodeIntraLumaModeAv1(
 
     aom_write_symbol(
         ecWriter,
-        lumaMode,
+        luma_mode,
         frameContext->kf_y_cdf[topContext][leftContext],
         INTRA_MODES);
 
@@ -1100,7 +1100,7 @@ static void EncodeIntraLumaModeAv1(
         if (cu_ptr->prediction_unit_array[0].use_angle_delta && cu_ptr->prediction_unit_array[0].is_directional_mode_flag) {
             aom_write_symbol(ecWriter,
                 cu_ptr->prediction_unit_array[0].angle_delta[PLANE_TYPE_Y] + MAX_ANGLE_DELTA,
-                frameContext->angle_delta_cdf[lumaMode - V_PRED],
+                frameContext->angle_delta_cdf[luma_mode - V_PRED],
                 2 * MAX_ANGLE_DELTA + 1);
 
         }
@@ -1117,12 +1117,12 @@ static void EncodeIntraLumaModeNonKeyAv1(
     CodingUnit_t            *cu_ptr,
 
     block_size                bsize,
-    uint32_t                  lumaMode)
+    uint32_t                  luma_mode)
 {
 
     aom_write_symbol(
         ecWriter,
-        lumaMode,
+        luma_mode,
         frameContext->y_mode_cdf[size_group_lookup[bsize]],
         INTRA_MODES);
 
@@ -1131,7 +1131,7 @@ static void EncodeIntraLumaModeNonKeyAv1(
         if (cu_ptr->prediction_unit_array[0].use_angle_delta && cu_ptr->prediction_unit_array[0].is_directional_mode_flag) {
             aom_write_symbol(ecWriter,
                 cu_ptr->prediction_unit_array[0].angle_delta[PLANE_TYPE_Y] + MAX_ANGLE_DELTA,
-                frameContext->angle_delta_cdf[lumaMode - V_PRED],
+                frameContext->angle_delta_cdf[luma_mode - V_PRED],
                 2 * MAX_ANGLE_DELTA + 1);
         }
 
@@ -1161,14 +1161,14 @@ static void EncodeIntraChromaModeAv1(
     FRAME_CONTEXT           *frameContext,
     aom_writer              *ecWriter,
     CodingUnit_t            *cu_ptr,
-    uint32_t                  lumaMode,
+    uint32_t                  luma_mode,
     uint32_t                  chroma_mode,
     uint8_t                   cflAllowed)
 {
     aom_write_symbol(
         ecWriter,
         chroma_mode,
-        frameContext->uv_mode_cdf[cflAllowed][lumaMode],
+        frameContext->uv_mode_cdf[cflAllowed][luma_mode],
         UV_INTRA_MODES - !cflAllowed);
 
     if (chroma_mode == UV_CFL_PRED)

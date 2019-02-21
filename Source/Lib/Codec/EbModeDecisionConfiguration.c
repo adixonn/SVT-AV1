@@ -246,7 +246,7 @@ EbErrorType MdcIntraCuRate(
     (void)cu_depth;
     //uint32_t chroma_mode = EB_INTRA_CHROMA_DM;
     //EB_PART_MODE partitionMode = SIZE_2Nx2N;
-    //int32_t predictionIndex = -1;
+    //int32_t prediction_index = -1;
 
     //// Number of bits for each synatax element
     //uint64_t partSizeIntraBitsNum = 0;
@@ -273,13 +273,13 @@ EbErrorType MdcIntraCuRate(
     //    ZERO_COST;
 
     //// Estimate Luma Mode Bits for Intra
-    ///*IntraLumaModeContext(
+    ///*intra_luma_mode_context(
     //cu_ptr,
-    //lumaMode,
-    //&predictionIndex);*/
+    //luma_mode,
+    //&prediction_index);*/
 
-    //intraLumaModeBitsNum = (predictionIndex != -1) ?
-    //    md_rate_estimation_ptr->intraLumaBits[predictionIndex] :
+    //intraLumaModeBitsNum = (prediction_index != -1) ?
+    //    md_rate_estimation_ptr->intraLumaBits[prediction_index] :
     //    md_rate_estimation_ptr->intraLumaBits[3];
 
     //// Rate of the candiadate mode is equal to the sum of the rate of independent syntax element

@@ -57,8 +57,8 @@ extern "C" {
         uint64_t                   cb_distortion[DIST_CALC_TOTAL],
         uint64_t                   cr_distortion[DIST_CALC_TOTAL],
         uint32_t                   y_count_non_zero_coeffs,
-        uint32_t                   cbCountNonZeroCoeffs,
-        uint32_t                   crCountNonZeroCoeffs,
+        uint32_t                   cb_count_non_zero_coeffs,
+        uint32_t                   cr_count_non_zero_coeffs,
         COMPONENT_TYPE            component_type,
         EbAsm                   asm_type);
 

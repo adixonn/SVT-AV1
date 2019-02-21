@@ -452,8 +452,8 @@ EbErrorType PictureFullDistortion32Bits(
     uint64_t                   cb_distortion[DIST_CALC_TOTAL],
     uint64_t                   cr_distortion[DIST_CALC_TOTAL],
     uint32_t                   y_count_non_zero_coeffs,
-    uint32_t                   cbCountNonZeroCoeffs,
-    uint32_t                   crCountNonZeroCoeffs,
+    uint32_t                   cb_count_non_zero_coeffs,
+    uint32_t                   cr_count_non_zero_coeffs,
     COMPONENT_TYPE            component_type,
     EbAsm                   asm_type)
 {
@@ -497,7 +497,7 @@ EbErrorType PictureFullDistortion32Bits(
         cb_distortion[1] = 0;
 
         // CB
-        if (cbCountNonZeroCoeffs) {
+        if (cb_count_non_zero_coeffs) {
             FullDistortionKernel32Bits_funcPtrArray[asm_type](
                 &(((int32_t*)coeff->bufferCb)[coeffChromaOriginIndex]),
                 bwidth_uv,
@@ -522,7 +522,7 @@ EbErrorType PictureFullDistortion32Bits(
         cr_distortion[0] = 0;
         cr_distortion[1] = 0;
         // CR
-        if (crCountNonZeroCoeffs) {
+        if (cr_count_non_zero_coeffs) {
             FullDistortionKernel32Bits_funcPtrArray[asm_type](
                 &(((int32_t*)coeff->bufferCr)[coeffChromaOriginIndex]),
                 bwidth_uv,

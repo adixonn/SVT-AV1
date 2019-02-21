@@ -188,7 +188,7 @@ typedef EbErrorType(*EB_ENC_PASS_INTRA_FUNC_PTR)(
     uint32_t                      origin_y,
     uint32_t                      puSize,
     EbPictureBufferDesc_t      *prediction_ptr,
-    uint32_t                      lumaMode,
+    uint32_t                      luma_mode,
     uint32_t                      chroma_mode,
     int32_t                      angle_delta,
     uint16_t                      bitdepth,
@@ -202,7 +202,7 @@ static void EncodePassUpdateIntraModeNeighborArrays(
     NeighborArrayUnit_t     *mode_type_neighbor_array,
     NeighborArrayUnit_t     *intra_luma_mode_neighbor_array,
     NeighborArrayUnit_t     *intra_chroma_mode_neighbor_array,
-    uint8_t                    lumaMode,
+    uint8_t                    luma_mode,
     uint8_t                    chroma_mode,
     uint32_t                   origin_x,
     uint32_t                   origin_y,
@@ -229,7 +229,7 @@ static void EncodePassUpdateIntraModeNeighborArrays(
         // Intra Luma Mode Update
         NeighborArrayUnitModeWrite(
             intra_luma_mode_neighbor_array,
-            &lumaMode,
+            &luma_mode,
             origin_x,
             origin_y,
             width,
@@ -2790,9 +2790,9 @@ EB_EXTERN void AV1EncodePass(
     uint32_t                  count_non_zero_coeffs[3];
     MacroblockPlane           cuPlane[3];
     uint16_t                  eobs[MAX_TXB_COUNT][3];
-    uint64_t                  yTuCoeffBits;
-    uint64_t                  cbTuCoeffBits;
-    uint64_t                  crTuCoeffBits;
+    uint64_t                  y_tu_coeff_bits;
+    uint64_t                  cb_tu_coeff_bits;
+    uint64_t                  cr_tu_coeff_bits;
     EncodeContext_t          *encode_context_ptr;
     uint32_t                  lcuRowIndex = sb_origin_y / BLOCK_SIZE_64;
 
@@ -3811,9 +3811,9 @@ EB_EXTERN void AV1EncodePass(
                                 yTuFullDistortion[DIST_CALC_RESIDUAL] = RIGHT_SIGNED_SHIFT(yTuFullDistortion[DIST_CALC_RESIDUAL], shift);
                                 yTuFullDistortion[DIST_CALC_PREDICTION] = RIGHT_SIGNED_SHIFT(yTuFullDistortion[DIST_CALC_PREDICTION], shift);
 
-                                yTuCoeffBits = 0;
-                                cbTuCoeffBits = 0;
-                                crTuCoeffBits = 0;
+                                y_tu_coeff_bits = 0;
+                                cb_tu_coeff_bits = 0;
+                                cr_tu_coeff_bits = 0;
 
                                 if (!zeroLumaCbfMD) {
 
@@ -3841,9 +3841,9 @@ EB_EXTERN void AV1EncodePass(
                                         eobs[context_ptr->txb_itr][0],
                                         eobs[context_ptr->txb_itr][1],
                                         eobs[context_ptr->txb_itr][2],
-                                        &yTuCoeffBits,
-                                        &cbTuCoeffBits,
-                                        &crTuCoeffBits,
+                                        &y_tu_coeff_bits,
+                                        &cb_tu_coeff_bits,
+                                        &cr_tu_coeff_bits,
                                         context_ptr->blk_geom->txsize[context_ptr->txb_itr],
                                         context_ptr->blk_geom->txsize_uv[context_ptr->txb_itr],
                                         context_ptr->blk_geom->has_uv ? COMPONENT_ALL : COMPONENT_LUMA,
@@ -3853,11 +3853,11 @@ EB_EXTERN void AV1EncodePass(
                                 // CBF Tu decision
                                 if (zeroLumaCbfMD == EB_FALSE)
 
-                                    Av1EncodeTuCalcCost(
+                                    av1_encode_tu_calc_cost(
                                         context_ptr,
                                         count_non_zero_coeffs,
                                         yTuFullDistortion,
-                                        &yTuCoeffBits,
+                                        &y_tu_coeff_bits,
                                         component_mask);
 
                                 else {
@@ -3880,11 +3880,11 @@ EB_EXTERN void AV1EncodePass(
                                 cu_ptr->transform_unit_array[context_ptr->txb_itr].nz_coef_count[1] = (uint16_t)count_non_zero_coeffs[1];
                                 cu_ptr->transform_unit_array[context_ptr->txb_itr].nz_coef_count[2] = (uint16_t)count_non_zero_coeffs[2];
 
-                                y_coeff_bits += yTuCoeffBits;
+                                y_coeff_bits += y_tu_coeff_bits;
 
                                 if (context_ptr->blk_geom->has_uv) {
-                                    cb_coeff_bits += cbTuCoeffBits;
-                                    cr_coeff_bits += crTuCoeffBits;
+                                    cb_coeff_bits += cb_tu_coeff_bits;
+                                    cr_coeff_bits += cr_tu_coeff_bits;
                                 }
 
                                 y_full_distortion[DIST_CALC_RESIDUAL] += yTuFullDistortion[DIST_CALC_RESIDUAL];

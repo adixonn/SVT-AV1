@@ -18,7 +18,7 @@ extern "C" {
     {
         EbFifo_t                 *pictureInputFifoPtr;
         EbFifo_t                 *pictureManagerOutputFifoPtr;
-        EbFifo_t                **pictureControlSetFifoPtrArray;
+        EbFifo_t                **picture_control_set_fifo_ptr_array;
 
     } PictureManagerContext_t;
 
@@ -29,7 +29,7 @@ extern "C" {
         PictureManagerContext_t **context_dbl_ptr,
         EbFifo_t                 *pictureInputFifoPtr,
         EbFifo_t                 *pictureManagerOutputFifoPtr,
-        EbFifo_t                **pictureControlSetFifoPtrArray);
+        EbFifo_t                **picture_control_set_fifo_ptr_array);
 
 
 

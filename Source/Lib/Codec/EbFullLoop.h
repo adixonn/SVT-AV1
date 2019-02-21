@@ -20,8 +20,8 @@ extern "C" {
         uint32_t                          component_mask,
         uint32_t                          cbQp,
         uint32_t                          crQp,
-        uint32_t                          *cbCountNonZeroCoeffs,
-        uint32_t                          *crCountNonZeroCoeffs);
+        uint32_t                          *cb_count_non_zero_coeffs,
+        uint32_t                          *cr_count_non_zero_coeffs);
 
     void CuFullDistortionFastTuMode_R(
         LargestCodingUnit_t            *sb_ptr,

@@ -103,15 +103,15 @@ const EB_FAST_COST_FUNC   Av1ProductFastCostFuncTable[3] =
 {
     NULL,
 
-    Av1InterFastCost, /*INTER */
-    Av1IntraFastCost /*INTRA */
+    av1_inter_fast_cost, /*INTER */
+    av1_intra_fast_cost /*INTRA */
 };
 
 const EB_AV1_FULL_COST_FUNC   Av1ProductFullCostFuncTable[3] =
 {
     NULL,
-    Av1InterFullCost, /*INTER */
-    Av1IntraFullCost/*INTRA */
+    av1_inter_full_cost, /*INTER */
+    av1_intra_full_cost/*INTRA */
 
 };
 
@@ -207,7 +207,7 @@ void mode_decision_update_neighbor_arrays(
         // Intra Luma Mode Update
         NeighborArrayUnitModeWrite(
             context_ptr->intra_luma_mode_neighbor_array,
-            &intra_luma_mode,//(uint8_t*)lumaMode,
+            &intra_luma_mode,//(uint8_t*)luma_mode,
             origin_x,
             origin_y,
             bwdith,
@@ -1063,7 +1063,7 @@ void ProductCodingLoopInitFastLoop(
     context_ptr->chroma_intra_ref_samples_gen_done = EB_FALSE;
 
     // Generate Split, Skip and intra mode contexts for the rate estimation
-    CodingLoopContextGeneration(
+    coding_loop_context_generation(
         context_ptr,
         context_ptr->cu_ptr,
         context_ptr->cu_origin_x,

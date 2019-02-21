@@ -539,7 +539,7 @@ void LogErrorOutput(
         break;
 
     case EB_ENC_RD_COST_ERROR3:
-        fprintf(errorLogFile, "Error: Intra2Nx2NFastCostIslice can only support 2Nx2N partition type!\n");
+        fprintf(errorLogFile, "Error: intra2_nx2_n_fast_cost_islice can only support 2Nx2N partition type!\n");
         break;
 
         // EB_ENC_SAO_ERRORS:

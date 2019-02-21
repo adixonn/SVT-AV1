@@ -955,14 +955,14 @@ void ProductFullLoop(
     uint64_t                         *y_full_distortion)
 {
     uint32_t                       tuOriginIndex;
-    uint64_t                      yFullCost;
+    uint64_t                      y_full_cost;
     SequenceControlSet_t        *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     EbAsm                         asm_type = sequence_control_set_ptr->encode_context_ptr->asm_type;
 
     EbBool                      clean_sparse_coeff_flag = EB_FALSE;
 
     //    uint32_t   currentTuIndex,tuIt;
-    uint64_t   yTuCoeffBits;
+    uint64_t   y_tu_coeff_bits;
     uint64_t   tuFullDistortion[3][DIST_CALC_TOTAL];
     context_ptr->three_quad_energy = 0;
     uint32_t  txb_1d_offset = 0;
@@ -972,7 +972,7 @@ void ProductFullLoop(
         uint16_t tx_org_x = context_ptr->blk_geom->tx_org_x[txb_itr];
         uint16_t tx_org_y = context_ptr->blk_geom->tx_org_y[txb_itr];
         tuOriginIndex = tx_org_x + (tx_org_y * candidateBuffer->residual_ptr->stride_y);
-        yTuCoeffBits = 0;
+        y_tu_coeff_bits = 0;
 
         // Y: T Q iQ
         av1_estimate_transform(
@@ -1059,9 +1059,9 @@ void ProductFullLoop(
             y_count_non_zero_coeffs[txb_itr],
             0,
             0,
-            &yTuCoeffBits,
-            &yTuCoeffBits,
-            &yTuCoeffBits,
+            &y_tu_coeff_bits,
+            &y_tu_coeff_bits,
+            &y_tu_coeff_bits,
             context_ptr->blk_geom->txsize[0],
             context_ptr->blk_geom->txsize_uv[0],
             COMPONENT_LUMA,
@@ -1070,19 +1070,19 @@ void ProductFullLoop(
 
 
         //TODO: fix cbf decision
-        Av1TuCalcCostLuma(
+        av1_tu_calc_cost_luma(
             context_ptr->cu_ptr->luma_txb_skip_context,//this should be updated here.
             candidateBuffer->candidate_ptr,
             txb_itr,
             context_ptr->blk_geom->txsize[0],
             y_count_non_zero_coeffs[txb_itr],
             tuFullDistortion[0],      //gets updated inside based on cbf decision
-            &yTuCoeffBits,            //gets updated inside based on cbf decision
-            &yFullCost,
+            &y_tu_coeff_bits,            //gets updated inside based on cbf decision
+            &y_full_cost,
             context_ptr->full_lambda);
 
 
-        (*y_coeff_bits) += yTuCoeffBits;
+        (*y_coeff_bits) += y_tu_coeff_bits;
 
         y_full_distortion[DIST_CALC_RESIDUAL] += tuFullDistortion[0][DIST_CALC_RESIDUAL];
         y_full_distortion[DIST_CALC_PREDICTION] += tuFullDistortion[0][DIST_CALC_PREDICTION];
@@ -1146,12 +1146,12 @@ void ProductFullLoopTxSearch(
     SequenceControlSet_t          *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     EbAsm                          asm_type = sequence_control_set_ptr->encode_context_ptr->asm_type;
     EbBool                         clean_sparse_coeff_flag = EB_FALSE;
-    uint64_t                       yTuCoeffBits;
+    uint64_t                       y_tu_coeff_bits;
     uint64_t                       tuFullDistortion[3][DIST_CALC_TOTAL];
     int32_t                        plane = 0;
     const int32_t                  is_inter = candidateBuffer->candidate_ptr->type == INTER_MODE ? EB_TRUE : EB_FALSE;//is_inter_block(mbmi);
     uint64_t                       bestFullCost = UINT64_MAX;
-    uint64_t                       yFullCost = MAX_CU_COST;
+    uint64_t                       y_full_cost = MAX_CU_COST;
     uint32_t                       yCountNonZeroCoeffsTemp;
     TxType                         txk_start = DCT_DCT;
     TxType                         txk_end = TX_TYPES;
@@ -1209,7 +1209,7 @@ void ProductFullLoopTxSearch(
 
         {
             tuOriginIndex = context_ptr->blk_geom->origin_x + (context_ptr->blk_geom->origin_y * candidateBuffer->residual_ptr->stride_y);
-            yTuCoeffBits = 0;
+            y_tu_coeff_bits = 0;
             // Y: T Q iQ
             av1_estimate_transform(
                 &(((int16_t*)candidateBuffer->residual_ptr->buffer_y)[tuOriginIndex]),
@@ -1303,29 +1303,29 @@ void ProductFullLoopTxSearch(
                 yCountNonZeroCoeffsTemp,
                 0,
                 0,
-                &yTuCoeffBits,
-                &yTuCoeffBits,
-                &yTuCoeffBits,
+                &y_tu_coeff_bits,
+                &y_tu_coeff_bits,
+                &y_tu_coeff_bits,
                 context_ptr->blk_geom->txsize[txb_itr],
                 context_ptr->blk_geom->txsize_uv[txb_itr],
                 COMPONENT_LUMA,
                 asm_type);
 
-            Av1TuCalcCostLuma(
+            av1_tu_calc_cost_luma(
                 context_ptr->cu_ptr->luma_txb_skip_context,
                 candidateBuffer->candidate_ptr,
                 txb_itr,
                 context_ptr->blk_geom->txsize[txb_itr],
                 yCountNonZeroCoeffsTemp,
                 tuFullDistortion[0],
-                &yTuCoeffBits,
-                &yFullCost,
+                &y_tu_coeff_bits,
+                &y_full_cost,
                 context_ptr->full_lambda);
 
         }
 
-        if (yFullCost < bestFullCost) {
-            bestFullCost = yFullCost;
+        if (y_full_cost < bestFullCost) {
+            bestFullCost = y_full_cost;
 #if BUG_FIX
             best_tx_type = tx_type;
 #else
@@ -1389,11 +1389,11 @@ void encode_pass_tx_search(
     const uint32_t         coeff1dOffset = context_ptr->coded_area_sb;
 
     EbBool                 clean_sparse_coeff_flag = EB_FALSE;
-    uint64_t               yTuCoeffBits;
+    uint64_t               y_tu_coeff_bits;
     uint64_t               tuFullDistortion[3][DIST_CALC_TOTAL];
     const int32_t          is_inter = context_ptr->is_inter;
     uint64_t               bestFullCost = UINT64_MAX;
-    uint64_t               yFullCost;
+    uint64_t               y_full_cost;
     uint32_t               yCountNonZeroCoeffsTemp;
     TxType                 txk_start = DCT_DCT;
     TxType                 txk_end = TX_TYPES;
@@ -1426,7 +1426,7 @@ void encode_pass_tx_search(
 
         context_ptr->three_quad_energy = 0;
 
-        yTuCoeffBits = 0;
+        y_tu_coeff_bits = 0;
 
         av1_estimate_transform(
             ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
@@ -1526,27 +1526,27 @@ void encode_pass_tx_search(
             yCountNonZeroCoeffsTemp,
             0,
             0,
-            &yTuCoeffBits,
-            &yTuCoeffBits,
-            &yTuCoeffBits,
+            &y_tu_coeff_bits,
+            &y_tu_coeff_bits,
+            &y_tu_coeff_bits,
             context_ptr->blk_geom->txsize[context_ptr->txb_itr],
             context_ptr->blk_geom->txsize_uv[context_ptr->txb_itr],
             COMPONENT_LUMA,
             asm_type);
 
-        Av1TuCalcCostLuma(
+        av1_tu_calc_cost_luma(
             context_ptr->cu_ptr->luma_txb_skip_context,
             candidateBuffer->candidate_ptr,
             context_ptr->txb_itr,
             context_ptr->blk_geom->txsize[context_ptr->txb_itr],
             yCountNonZeroCoeffsTemp,
             tuFullDistortion[0],
-            &yTuCoeffBits,
-            &yFullCost,
+            &y_tu_coeff_bits,
+            &y_full_cost,
             context_ptr->full_lambda);
 
-        if (yFullCost < bestFullCost) {
-            bestFullCost = yFullCost;
+        if (y_full_cost < bestFullCost) {
+            bestFullCost = y_full_cost;
             best_tx_type = tx_type;
         }
 
@@ -1594,11 +1594,11 @@ void encode_pass_tx_search_hbd(
 
     //Update QP for Quant
     qp += QP_BD_OFFSET;
-    uint64_t                    yTuCoeffBits;
+    uint64_t                    y_tu_coeff_bits;
     uint64_t                    tuFullDistortion[3][DIST_CALC_TOTAL];
     const int32_t               is_inter = context_ptr->is_inter;
     uint64_t                    bestFullCost = UINT64_MAX;
-    uint64_t                    yFullCost;
+    uint64_t                    y_full_cost;
     uint32_t                    yCountNonZeroCoeffsTemp;
     TxType                      txk_start = DCT_DCT;
     TxType                      txk_end = TX_TYPES;
@@ -1632,7 +1632,7 @@ void encode_pass_tx_search_hbd(
         context_ptr->three_quad_energy = 0;
 
 
-        yTuCoeffBits = 0;
+        y_tu_coeff_bits = 0;
 
         av1_estimate_transform(
             ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
@@ -1738,27 +1738,27 @@ void encode_pass_tx_search_hbd(
             yCountNonZeroCoeffsTemp,
             0,
             0,
-            &yTuCoeffBits,
-            &yTuCoeffBits,
-            &yTuCoeffBits,
+            &y_tu_coeff_bits,
+            &y_tu_coeff_bits,
+            &y_tu_coeff_bits,
             context_ptr->blk_geom->txsize[context_ptr->txb_itr],
             context_ptr->blk_geom->txsize_uv[context_ptr->txb_itr],
             COMPONENT_LUMA,
             asm_type);
 
-        Av1TuCalcCostLuma(
+        av1_tu_calc_cost_luma(
             context_ptr->cu_ptr->luma_txb_skip_context,
             candidateBuffer->candidate_ptr,
             context_ptr->txb_itr,
             context_ptr->blk_geom->txsize[context_ptr->txb_itr],
             yCountNonZeroCoeffsTemp,
             tuFullDistortion[0],
-            &yTuCoeffBits,
-            &yFullCost,
+            &y_tu_coeff_bits,
+            &y_full_cost,
             context_ptr->full_lambda);
 
-        if (yFullCost < bestFullCost) {
-            bestFullCost = yFullCost;
+        if (y_full_cost < bestFullCost) {
+            bestFullCost = y_full_cost;
             best_tx_type = tx_type;
         }
 
@@ -1786,8 +1786,8 @@ void FullLoop_R(
     uint32_t                          component_mask,
     uint32_t                          cbQp,
     uint32_t                          crQp,
-    uint32_t                          *cbCountNonZeroCoeffs,
-    uint32_t                          *crCountNonZeroCoeffs)
+    uint32_t                          *cb_count_non_zero_coeffs,
+    uint32_t                          *cr_count_non_zero_coeffs)
 {
     (void)sb_ptr;
     (void)crQp;
@@ -1867,7 +1867,7 @@ void FullLoop_R(
                 &candidateBuffer->candidate_ptr->eob[1][txb_itr],
                 candidateBuffer->candidate_ptr->candidate_plane[1],
                 asm_type,
-                &(cbCountNonZeroCoeffs[txb_itr]),
+                &(cb_count_non_zero_coeffs[txb_itr]),
                 context_ptr->pf_md_mode,
                 0,
                 COMPONENT_CHROMA_CB,
@@ -1915,7 +1915,7 @@ void FullLoop_R(
                 &candidateBuffer->candidate_ptr->eob[2][txb_itr],
                 candidateBuffer->candidate_ptr->candidate_plane[2],
                 asm_type,
-                &(crCountNonZeroCoeffs[txb_itr]),
+                &(cr_count_non_zero_coeffs[txb_itr]),
                 context_ptr->pf_md_mode,
                 0,
                 COMPONENT_CHROMA_CR,
@@ -1955,9 +1955,9 @@ void CuFullDistortionFastTuMode_R(
 {
     (void)sb_ptr;
 
-    uint64_t                          yTuCoeffBits;
-    uint64_t                          cbTuCoeffBits;
-    uint64_t                          crTuCoeffBits;
+    uint64_t                          y_tu_coeff_bits;
+    uint64_t                          cb_tu_coeff_bits;
+    uint64_t                          cr_tu_coeff_bits;
     uint32_t                          tuOriginIndex;
     uint32_t                          txb_origin_x;
     uint32_t                          txb_origin_y;
@@ -1989,9 +1989,9 @@ void CuFullDistortionFastTuMode_R(
         tuOriginIndex = txb_origin_x + txb_origin_y * candidateBuffer->residualQuantCoeffPtr->stride_y;
         tuChromaOriginIndex = txb_1d_offset;
         // Reset the Bit Costs
-        yTuCoeffBits = 0;
-        cbTuCoeffBits = 0;
-        crTuCoeffBits = 0;
+        y_tu_coeff_bits = 0;
+        cb_tu_coeff_bits = 0;
+        cr_tu_coeff_bits = 0;
 
         if (component_type == COMPONENT_CHROMA_CB || component_type == COMPONENT_CHROMA_CR || component_type == COMPONENT_CHROMA || component_type == COMPONENT_ALL) {
             uint32_t countNonZeroCoeffsAll[3];
@@ -2049,9 +2049,9 @@ void CuFullDistortionFastTuMode_R(
                 count_non_zero_coeffs[0][currentTuIndex],
                 count_non_zero_coeffs[1][currentTuIndex],
                 count_non_zero_coeffs[2][currentTuIndex],
-                &yTuCoeffBits,
-                &cbTuCoeffBits,
-                &crTuCoeffBits,
+                &y_tu_coeff_bits,
+                &cb_tu_coeff_bits,
+                &cr_tu_coeff_bits,
                 context_ptr->blk_geom->txsize[txb_itr],
                 context_ptr->blk_geom->txsize_uv[txb_itr],
 
@@ -2060,7 +2060,7 @@ void CuFullDistortionFastTuMode_R(
 
 
             // OMK Useless ? We don't calculate Chroma CBF here
-            Av1TuCalcCost(
+            av1_tu_calc_cost(
                 candidate_ptr,
                 context_ptr->cu_ptr->luma_txb_skip_context,
                 currentTuIndex,
@@ -2071,16 +2071,16 @@ void CuFullDistortionFastTuMode_R(
                 tuFullDistortion[1],
                 tuFullDistortion[2],
                 component_type,
-                &yTuCoeffBits,
-                &cbTuCoeffBits,
-                &crTuCoeffBits,
+                &y_tu_coeff_bits,
+                &cb_tu_coeff_bits,
+                &cr_tu_coeff_bits,
                 context_ptr->blk_geom->txsize[txb_itr],
                 context_ptr->full_lambda);
 
 
 
-            *cb_coeff_bits += cbTuCoeffBits;
-            *cr_coeff_bits += crTuCoeffBits;
+            *cb_coeff_bits += cb_tu_coeff_bits;
+            *cr_coeff_bits += cr_tu_coeff_bits;
             cbFullDistortion[DIST_CALC_RESIDUAL] += tuFullDistortion[1][DIST_CALC_RESIDUAL];
             crFullDistortion[DIST_CALC_RESIDUAL] += tuFullDistortion[2][DIST_CALC_RESIDUAL];
             cbFullDistortion[DIST_CALC_PREDICTION] += tuFullDistortion[1][DIST_CALC_PREDICTION];
@@ -2181,7 +2181,7 @@ void   compute_depth_costs(
     // Compute above depth  cost
     if (context_ptr->md_local_cu_unit[above_depth_mds].tested_cu_flag == EB_TRUE)
     {
-        Av1SplitFlagRate(
+        av1_split_flag_rate(
             sequence_control_set_ptr,
             context_ptr,
             &context_ptr->md_cu_arr_nsq[above_depth_mds],
@@ -2199,7 +2199,7 @@ void   compute_depth_costs(
     }
 
     // Compute curr depth  cost
-    Av1SplitFlagRate(
+    av1_split_flag_rate(
         sequence_control_set_ptr,
         context_ptr,
         &context_ptr->md_cu_arr_nsq[above_depth_mds],
@@ -2213,7 +2213,7 @@ void   compute_depth_costs(
     if (context_ptr->blk_geom->bsize > BLOCK_4X4) {
 
         if (context_ptr->md_cu_arr_nsq[curr_depth_blk0_mds].mdc_split_flag == 0)
-            Av1SplitFlagRate(
+            av1_split_flag_rate(
                 sequence_control_set_ptr,
                 context_ptr,
                 &context_ptr->md_cu_arr_nsq[curr_depth_blk0_mds],
@@ -2225,7 +2225,7 @@ void   compute_depth_costs(
                 sequence_control_set_ptr->max_sb_depth);
 
         if (context_ptr->md_cu_arr_nsq[curr_depth_blk1_mds].mdc_split_flag == 0)
-            Av1SplitFlagRate(
+            av1_split_flag_rate(
                 sequence_control_set_ptr,
                 context_ptr,
                 &context_ptr->md_cu_arr_nsq[curr_depth_blk1_mds],
@@ -2237,7 +2237,7 @@ void   compute_depth_costs(
                 sequence_control_set_ptr->max_sb_depth);
 
         if (context_ptr->md_cu_arr_nsq[curr_depth_blk2_mds].mdc_split_flag == 0)
-            Av1SplitFlagRate(
+            av1_split_flag_rate(
                 sequence_control_set_ptr,
                 context_ptr,
                 &context_ptr->md_cu_arr_nsq[curr_depth_blk2_mds],
@@ -2249,7 +2249,7 @@ void   compute_depth_costs(
                 sequence_control_set_ptr->max_sb_depth);
 
         if (context_ptr->md_cu_arr_nsq[curr_depth_blk3_mds].mdc_split_flag == 0)
-            Av1SplitFlagRate(
+            av1_split_flag_rate(
                 sequence_control_set_ptr,
                 context_ptr,
                 &context_ptr->md_cu_arr_nsq[curr_depth_blk3_mds],
@@ -2306,7 +2306,7 @@ void   compute_depth_costs(
     // Compute above depth  cost
     if (context_ptr->md_local_cu_unit[above_depth_mds].tested_cu_flag == EB_TRUE)
     {
-        Av1SplitFlagRate(
+        av1_split_flag_rate(
             sequence_control_set_ptr,
             context_ptr,
             &context_ptr->md_cu_arr_nsq[above_depth_mds],
@@ -2324,7 +2324,7 @@ void   compute_depth_costs(
     }
 
     // Compute curr depth  cost
-    Av1SplitFlagRate(
+    av1_split_flag_rate(
         sequence_control_set_ptr,
         context_ptr,
         &context_ptr->md_cu_arr_nsq[above_depth_mds],
@@ -2343,7 +2343,7 @@ void   compute_depth_costs(
         curr_rate;
 #else  
     // Compute depth N cost
-    Av1SplitFlagRate(
+    av1_split_flag_rate(
         sequence_control_set_ptr,
         context_ptr,
         &context_ptr->md_cu_arr_nsq[above_depth_mds],
@@ -2360,7 +2360,7 @@ void   compute_depth_costs(
     *depthNCost = context_ptr->md_local_cu_unit[above_depth_mds].cost + depthNRate;
 
     // Compute depth N+1 cost
-    Av1SplitFlagRate(
+    av1_split_flag_rate(
         sequence_control_set_ptr,
         context_ptr,
         &context_ptr->md_cu_arr_nsq[above_depth_mds],

@@ -139,7 +139,7 @@ void InitializeSamplesNeighboringReferencePicture(
  *  values that are fixed for the life of
  *  the descriptor.
  *****************************************/
-EbErrorType EbReferenceObjectCtor(
+EbErrorType eb_reference_object_ctor(
     EbPtr  *object_dbl_ptr,
     EbPtr   object_init_data_ptr)
 {
@@ -212,12 +212,12 @@ EbErrorType EbReferenceObjectCtor(
 }
 
 /*****************************************
- * EbPaReferenceObjectCtor
+ * eb_pa_reference_object_ctor
  *  Initializes the Buffer Descriptor's
  *  values that are fixed for the life of
  *  the descriptor.
  *****************************************/
-EbErrorType EbPaReferenceObjectCtor(
+EbErrorType eb_pa_reference_object_ctor(
     EbPtr  *object_dbl_ptr,
     EbPtr   object_init_data_ptr)
 {

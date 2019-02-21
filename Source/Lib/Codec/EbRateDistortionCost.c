@@ -534,7 +534,7 @@ uint64_t av1_cost_coeffs_txb(
 //    return above_skip + left_skip;
 //}
 /*********************************************************************************
-* Av1IntraFastCost function is used to estimate the cost of an intra candidate mode
+* av1_intra_fast_cost function is used to estimate the cost of an intra candidate mode
 * for fast mode decisoion module in Intra or inter frame.
 * Chroma cost is excluded from fast cost functions. Only the fast_chroma_rate is stored
 * for future use in full loop
@@ -550,7 +550,7 @@ uint64_t av1_cost_coeffs_txb(
 *   @param lambda(input)
 *       lambda is the Lagrange multiplier
 **********************************************************************************/
-EbErrorType Av1IntraFastCost(
+EbErrorType av1_intra_fast_cost(
     struct ModeDecisionContext_s            *context_ptr,
     CodingUnit_t                            *cu_ptr,
     struct ModeDecisionCandidateBuffer_s    *candidate_buffer_ptr,
@@ -932,7 +932,7 @@ static INLINE int16_t Av1ModeContextAnalyzer(
 }
 
 /*********************************************************************************
-* Av1InterFastCost function is used to estimate the cost of an inter candidate mode
+* av1_inter_fast_cost function is used to estimate the cost of an inter candidate mode
 * for fast mode decisoion module in Inter frame.
 *
 *   @param *cu_ptr(input)
@@ -946,7 +946,7 @@ static INLINE int16_t Av1ModeContextAnalyzer(
 *   @param lambda(input)
 *       lambda is the Lagrange multiplier
 **********************************************************************************/
-EbErrorType Av1InterFastCost(
+EbErrorType av1_inter_fast_cost(
     struct ModeDecisionContext_s           *context_ptr,
     CodingUnit_t                           *cu_ptr,
     ModeDecisionCandidateBuffer_t          *candidate_buffer_ptr,
@@ -1238,7 +1238,7 @@ EbErrorType Av1InterFastCost(
     totalDistortion = lumaSad + chromaSad;
 
     if (context_ptr->blk_geom->has_uv == 0 && chromaSad != 0) {
-        printf("Av1InterFastCost: Chroma error");
+        printf("av1_inter_fast_cost: Chroma error");
     }
 
 
@@ -1273,9 +1273,9 @@ EbErrorType Av1TuEstimateCoeffBits(
     uint32_t                                 yEob,
     uint32_t                                 cbEob,
     uint32_t                                 crEob,
-    uint64_t                                 *yTuCoeffBits,
-    uint64_t                                 *cbTuCoeffBits,
-    uint64_t                                 *crTuCoeffBits,
+    uint64_t                                 *y_tu_coeff_bits,
+    uint64_t                                 *cb_tu_coeff_bits,
+    uint64_t                                 *cr_tu_coeff_bits,
     TxSize                                 txsize,
     TxSize                                 txsize_uv,
     COMPONENT_TYPE                          component_type,
@@ -1305,7 +1305,7 @@ EbErrorType Av1TuEstimateCoeffBits(
         if (yEob) {
             coeff_buffer = (int32_t*)&coeff_buffer_sb->buffer_y[tuOriginIndex * sizeof(int32_t)];
 
-            *yTuCoeffBits = av1_cost_coeffs_txb(
+            *y_tu_coeff_bits = av1_cost_coeffs_txb(
                 candidate_buffer_ptr,
                 coeff_buffer,
                 (uint16_t)yEob,
@@ -1316,7 +1316,7 @@ EbErrorType Av1TuEstimateCoeffBits(
                 reducedTransformSetFlag);
         }
         else {
-            *yTuCoeffBits = av1_cost_skip_txb(
+            *y_tu_coeff_bits = av1_cost_skip_txb(
                 candidate_buffer_ptr,
                 txsize,
                 PLANE_TYPE_Y,
@@ -1332,7 +1332,7 @@ EbErrorType Av1TuEstimateCoeffBits(
             coeff_buffer = (int32_t*)&coeff_buffer_sb->bufferCb[tuChromaOriginIndex * sizeof(int32_t)];
 
 
-            *cbTuCoeffBits = av1_cost_coeffs_txb(
+            *cb_tu_coeff_bits = av1_cost_coeffs_txb(
                 candidate_buffer_ptr,
                 coeff_buffer,
                 (uint16_t)cbEob,
@@ -1344,7 +1344,7 @@ EbErrorType Av1TuEstimateCoeffBits(
 
         }
         else {
-            *cbTuCoeffBits = av1_cost_skip_txb(
+            *cb_tu_coeff_bits = av1_cost_skip_txb(
                 candidate_buffer_ptr,
                 txsize_uv,
                 PLANE_TYPE_UV,
@@ -1359,7 +1359,7 @@ EbErrorType Av1TuEstimateCoeffBits(
 
             coeff_buffer = (int32_t*)&coeff_buffer_sb->bufferCr[tuChromaOriginIndex * sizeof(int32_t)];
 
-            *crTuCoeffBits = av1_cost_coeffs_txb(
+            *cr_tu_coeff_bits = av1_cost_coeffs_txb(
                 candidate_buffer_ptr,
                 coeff_buffer,
                 (uint16_t)crEob,
@@ -1371,7 +1371,7 @@ EbErrorType Av1TuEstimateCoeffBits(
 
         }
         else {
-            *crTuCoeffBits = av1_cost_skip_txb(
+            *cr_tu_coeff_bits = av1_cost_skip_txb(
                 candidate_buffer_ptr,
                 txsize_uv,
                 PLANE_TYPE_UV,
@@ -1383,7 +1383,7 @@ EbErrorType Av1TuEstimateCoeffBits(
     return return_error;
 }
 /*********************************************************************************
-* Av1IntraFullCost function is used to estimate the cost of an intra candidate mode
+* av1_intra_full_cost function is used to estimate the cost of an intra candidate mode
 * for full mode decisoion module.
 *
 *   @param *cu_ptr(input)
@@ -1478,7 +1478,7 @@ EbErrorType Av1FullCost(
 }
 
 /*********************************************************************************
-* MergeSkipFullCost function is used to estimate the cost of an AMVPSkip candidate
+* merge_skip_full_cost function is used to estimate the cost of an AMVPSkip candidate
 * mode for full mode decisoion module.
 *
 *   @param *cu_ptr(input)
@@ -1635,7 +1635,7 @@ EbErrorType  Av1MergeSkipFullCost(
     return return_error;
 }
 /*********************************************************************************
-* Av1IntraFullCost function is used to estimate the cost of an intra candidate mode
+* av1_intra_full_cost function is used to estimate the cost of an intra candidate mode
 * for full mode decisoion module.
 *
 *   @param *cu_ptr(input)
@@ -1649,7 +1649,7 @@ EbErrorType  Av1MergeSkipFullCost(
 *   @param lambda(input)
 *       lambda is the Lagrange multiplier
 **********************************************************************************/
-EbErrorType Av1IntraFullCost(
+EbErrorType av1_intra_full_cost(
     PictureControlSet_t                    *picture_control_set_ptr,
     ModeDecisionContext_t                  *context_ptr,
     struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
@@ -1688,7 +1688,7 @@ EbErrorType Av1IntraFullCost(
 }
 
 /*********************************************************************************
-* Av1InterFullCost function is used to estimate the cost of an inter candidate mode
+* av1_inter_full_cost function is used to estimate the cost of an inter candidate mode
 * for full mode decisoion module in inter frames.
 *
 *   @param *cu_ptr(input)
@@ -1702,7 +1702,7 @@ EbErrorType Av1IntraFullCost(
 *   @param lambda(input)
 *       lambda is the Lagrange multiplier
 **********************************************************************************/
-EbErrorType Av1InterFullCost(
+EbErrorType av1_inter_full_cost(
     PictureControlSet_t                    *picture_control_set_ptr,
     ModeDecisionContext_t                  *context_ptr,
     struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
@@ -1757,7 +1757,7 @@ EbErrorType Av1InterFullCost(
 /************************************************************
 * Coding Loop Context Generation
 ************************************************************/
-void CodingLoopContextGeneration(
+void coding_loop_context_generation(
     ModeDecisionContext_t      *context_ptr,
     CodingUnit_t               *cu_ptr,
     uint32_t                      cu_origin_x,
@@ -1960,40 +1960,40 @@ void CodingLoopContextGeneration(
 }
 
 /********************************************
-* TuCalcCost
+* tu_calc_cost
 *   computes TU Cost and generetes TU Cbf
 ********************************************/
-EbErrorType Av1TuCalcCost(
+EbErrorType av1_tu_calc_cost(
     ModeDecisionCandidate_t *candidate_ptr,                        // input parameter, prediction result Ptr
-    int16_t                   txbSkipCtx,
+    int16_t                   txb_skip_ctx,
     uint32_t                   tu_index,                             // input parameter, TU index inside the CU
     uint32_t                   y_count_non_zero_coeffs,                 // input parameter, number of non zero Y quantized coefficients
-    uint32_t                   cbCountNonZeroCoeffs,                // input parameter, number of non zero cb quantized coefficients
-    uint32_t                   crCountNonZeroCoeffs,                // input parameter, number of non zero cr quantized coefficients
-    uint64_t                   yTuDistortion[DIST_CALC_TOTAL],      // input parameter, Y distortion for both Normal and Cbf zero modes
-    uint64_t                   cbTuDistortion[DIST_CALC_TOTAL],     // input parameter, Cb distortion for both Normal and Cbf zero modes
-    uint64_t                   crTuDistortion[DIST_CALC_TOTAL],     // input parameter, Cr distortion for both Normal and Cbf zero modes
+    uint32_t                   cb_count_non_zero_coeffs,                // input parameter, number of non zero cb quantized coefficients
+    uint32_t                   cr_count_non_zero_coeffs,                // input parameter, number of non zero cr quantized coefficients
+    uint64_t                   y_tu_distortion[DIST_CALC_TOTAL],      // input parameter, Y distortion for both Normal and Cbf zero modes
+    uint64_t                   cb_tu_distortion[DIST_CALC_TOTAL],     // input parameter, Cb distortion for both Normal and Cbf zero modes
+    uint64_t                   cr_tu_distortion[DIST_CALC_TOTAL],     // input parameter, Cr distortion for both Normal and Cbf zero modes
     COMPONENT_TYPE           component_type,
-    uint64_t                  *yTuCoeffBits,                        // input parameter, Y quantized coefficients rate
-    uint64_t                  *cbTuCoeffBits,                       // input parameter, Cb quantized coefficients rate
-    uint64_t                  *crTuCoeffBits,                       // input parameter, Cr quantized coefficients rate
+    uint64_t                  *y_tu_coeff_bits,                        // input parameter, Y quantized coefficients rate
+    uint64_t                  *cb_tu_coeff_bits,                       // input parameter, Cb quantized coefficients rate
+    uint64_t                  *cr_tu_coeff_bits,                       // input parameter, Cr quantized coefficients rate
     TxSize                  txsize,
     uint64_t                   lambda)                              // input parameter, lambda for Luma
 
 {
-    (void)crTuCoeffBits;
-    (void)cbTuCoeffBits;
-    (void)crTuDistortion;
-    (void)cbTuDistortion;
+    (void)cr_tu_coeff_bits;
+    (void)cb_tu_coeff_bits;
+    (void)cr_tu_distortion;
+    (void)cb_tu_distortion;
     EbErrorType return_error = EB_ErrorNone;
     // Non Zero coeff mode variables
-    uint64_t y_nonzero_coeff_distortion = yTuDistortion[DIST_CALC_RESIDUAL];
+    uint64_t y_nonzero_coeff_distortion = y_tu_distortion[DIST_CALC_RESIDUAL];
     uint64_t y_nonzero_coeff_rate;
 
     uint64_t y_nonzero_coeff_cost = 0;
 
     // Zero Cbf mode variables
-    uint64_t y_zero_coeff_distortion = yTuDistortion[DIST_CALC_PREDICTION];
+    uint64_t y_zero_coeff_distortion = y_tu_distortion[DIST_CALC_PREDICTION];
 
     uint64_t y_zero_coeff_luma_flag_bits_num = 0;
 
@@ -2021,9 +2021,9 @@ EbErrorType Av1TuCalcCost(
         const TxSize txs_ctx = (TxSize)((txsize_sqr_map[txsize] + txsize_sqr_up_map[txsize] + 1) >> 1);
         const LV_MAP_COEFF_COST *const coeff_costs = &candidate_ptr->md_rate_estimation_ptr->coeffFacBits[txs_ctx][0];
 
-        y_zero_coeff_luma_flag_bits_num = coeff_costs->txb_skip_cost[txbSkipCtx][1];
+        y_zero_coeff_luma_flag_bits_num = coeff_costs->txb_skip_cost[txb_skip_ctx][1];
 
-        y_nonzero_coeff_rate = *yTuCoeffBits; // yNonZeroCbfLumaFlagBitsNum is already calculated inside yTuCoeffBits
+        y_nonzero_coeff_rate = *y_tu_coeff_bits; // yNonZeroCbfLumaFlagBitsNum is already calculated inside y_tu_coeff_bits
 
         y_zero_coeff_rate = y_zero_coeff_luma_flag_bits_num;
 
@@ -2044,36 +2044,36 @@ EbErrorType Av1TuCalcCost(
         y_nonzero_coeff_cost = RDCOST(lambda, y_nonzero_coeff_rate, y_nonzero_coeff_distortion);
 
         candidate_ptr->y_has_coeff |= (((y_count_non_zero_coeffs != 0) && (y_nonzero_coeff_cost < y_zero_coeff_cost)) << tu_index);
-        *yTuCoeffBits = (y_nonzero_coeff_cost < y_zero_coeff_cost) ? *yTuCoeffBits : 0;
-        yTuDistortion[DIST_CALC_RESIDUAL] = (y_nonzero_coeff_cost < y_zero_coeff_cost) ? yTuDistortion[DIST_CALC_RESIDUAL] : yTuDistortion[DIST_CALC_PREDICTION];
+        *y_tu_coeff_bits = (y_nonzero_coeff_cost < y_zero_coeff_cost) ? *y_tu_coeff_bits : 0;
+        y_tu_distortion[DIST_CALC_RESIDUAL] = (y_nonzero_coeff_cost < y_zero_coeff_cost) ? y_tu_distortion[DIST_CALC_RESIDUAL] : y_tu_distortion[DIST_CALC_PREDICTION];
         }
     if (component_type == COMPONENT_CHROMA_CB || component_type == COMPONENT_CHROMA || component_type == COMPONENT_ALL) {
 
-        candidate_ptr->u_has_coeff |= ((cbCountNonZeroCoeffs != 0) << tu_index);
+        candidate_ptr->u_has_coeff |= ((cb_count_non_zero_coeffs != 0) << tu_index);
     }
     if (component_type == COMPONENT_CHROMA_CR || component_type == COMPONENT_CHROMA || component_type == COMPONENT_ALL) {
 
-        candidate_ptr->v_has_coeff |= ((crCountNonZeroCoeffs != 0) << tu_index);
+        candidate_ptr->v_has_coeff |= ((cr_count_non_zero_coeffs != 0) << tu_index);
     }
 
     return return_error;
     }
 
 /********************************************
-* TuCalcCost
+* tu_calc_cost
 *   computes TU Cost and generetes TU Cbf
 ********************************************/
 
-EbErrorType Av1TuCalcCostLuma(
+EbErrorType av1_tu_calc_cost_luma(
 
-    int16_t                   txbSkipCtx,
+    int16_t                   txb_skip_ctx,
     ModeDecisionCandidate_t *candidate_ptr,                        // input parameter, prediction result Ptr
     uint32_t                   tu_index,                             // input parameter, TU index inside the CU
-    TxSize                  txSize,
+    TxSize                  tx_size,
     uint32_t                   y_count_non_zero_coeffs,                 // input parameter, number of non zero Y quantized coefficients
-    uint64_t                   yTuDistortion[DIST_CALC_TOTAL],      // input parameter, Y distortion for both Normal and Cbf zero modes
-    uint64_t                  *yTuCoeffBits,                        // input parameter, Y quantized coefficients rate
-    uint64_t                  *yFullCost,
+    uint64_t                   y_tu_distortion[DIST_CALC_TOTAL],      // input parameter, Y distortion for both Normal and Cbf zero modes
+    uint64_t                  *y_tu_coeff_bits,                        // input parameter, Y quantized coefficients rate
+    uint64_t                  *y_full_cost,
     uint64_t                   lambda)                              // input parameter, lambda for Luma
 
 {
@@ -2081,14 +2081,14 @@ EbErrorType Av1TuCalcCostLuma(
     EbErrorType return_error = EB_ErrorNone;
 
     // Non Zero Cbf mode variables
-    uint64_t yNonZeroCbfDistortion = yTuDistortion[DIST_CALC_RESIDUAL];
+    uint64_t yNonZeroCbfDistortion = y_tu_distortion[DIST_CALC_RESIDUAL];
 
     uint64_t yNonZeroCbfRate;
 
     uint64_t yNonZeroCbfCost = 0;
 
     // Zero Cbf mode variables
-    uint64_t yZeroCbfDistortion = yTuDistortion[DIST_CALC_PREDICTION];
+    uint64_t yZeroCbfDistortion = y_tu_distortion[DIST_CALC_PREDICTION];
 
     uint64_t yZeroCbfLumaFlagBitsNum = 0;
 
@@ -2111,12 +2111,12 @@ EbErrorType Av1TuCalcCostLuma(
 
     // Esimate Cbf's Bits
 
-    const TxSize txs_ctx = (TxSize)((txsize_sqr_map[txSize] + txsize_sqr_up_map[txSize] + 1) >> 1);
+    const TxSize txs_ctx = (TxSize)((txsize_sqr_map[tx_size] + txsize_sqr_up_map[tx_size] + 1) >> 1);
     const LV_MAP_COEFF_COST *const coeff_costs = &candidate_ptr->md_rate_estimation_ptr->coeffFacBits[txs_ctx][0];
 
-    yZeroCbfLumaFlagBitsNum = coeff_costs->txb_skip_cost[txbSkipCtx][1];
+    yZeroCbfLumaFlagBitsNum = coeff_costs->txb_skip_cost[txb_skip_ctx][1];
 
-    yNonZeroCbfRate = *yTuCoeffBits; // yNonZeroCbfLumaFlagBitsNum is already calculated inside yTuCoeffBits
+    yNonZeroCbfRate = *y_tu_coeff_bits; // yNonZeroCbfLumaFlagBitsNum is already calculated inside y_tu_coeff_bits
 
     yZeroCbfRate = yZeroCbfLumaFlagBitsNum;
 
@@ -2136,10 +2136,10 @@ EbErrorType Av1TuCalcCostLuma(
     // **Compute Cost
     yNonZeroCbfCost = RDCOST(lambda, yNonZeroCbfRate, yNonZeroCbfDistortion);
     candidate_ptr->y_has_coeff |= ((y_count_non_zero_coeffs != 0) << tu_index);
-    *yTuCoeffBits = (yNonZeroCbfCost < yZeroCbfCost) ? *yTuCoeffBits : 0;
-    yTuDistortion[DIST_CALC_RESIDUAL] = (yNonZeroCbfCost < yZeroCbfCost) ? yTuDistortion[DIST_CALC_RESIDUAL] : yTuDistortion[DIST_CALC_PREDICTION];
+    *y_tu_coeff_bits = (yNonZeroCbfCost < yZeroCbfCost) ? *y_tu_coeff_bits : 0;
+    y_tu_distortion[DIST_CALC_RESIDUAL] = (yNonZeroCbfCost < yZeroCbfCost) ? y_tu_distortion[DIST_CALC_RESIDUAL] : y_tu_distortion[DIST_CALC_PREDICTION];
 
-    *yFullCost = MIN(yNonZeroCbfCost, yZeroCbfCost);
+    *y_full_cost = MIN(yNonZeroCbfCost, yZeroCbfCost);
 
     return return_error;
     }
@@ -2203,31 +2203,31 @@ static void partition_gather_vert_alike(int32_t *out,
 
 
 /*********************************************************************************
-* SplitFlagRate function is used to generate the Split rate
+* split_flag_rate function is used to generate the Split rate
 *
 *   @param *cu_ptr(input)
 *       cu_ptr is the pointer of the target CU.
 *   @param split_flag(input)
 *       split_flag is the split flag value.
-*   @param splitRate(output)
-*       splitRate contains rate.
+*   @param split_rate(output)
+*       split_rate contains rate.
 *   @param lambda(input)
 *       lambda is the Lagrange multiplier
 *   @param md_rate_estimation_ptr(input)
 *       md_rate_estimation_ptr is pointer to MD rate Estimation Tables
 **********************************************************************************/
-EbErrorType Av1SplitFlagRate(
+EbErrorType av1_split_flag_rate(
     SequenceControlSet_t                  *sequence_control_set_ptr,
     ModeDecisionContext_t                  *context_ptr,
     CodingUnit_t                           *cu_ptr,
     uint32_t                                  leaf_index,
     PartitionType                          partitionType,
-    uint64_t                                 *splitRate,
+    uint64_t                                 *split_rate,
     uint64_t                                  lambda,
     MdRateEstimationContext_t              *md_rate_estimation_ptr,
-    uint32_t                                  tbMaxDepth)
+    uint32_t                                  tb_max_depth)
 {
-    (void)tbMaxDepth;
+    (void)tb_max_depth;
     (void)leaf_index;
 
     const BlockGeom          *blk_geom = get_blk_geom_mds(cu_ptr->mds_idx);
@@ -2267,41 +2267,41 @@ EbErrorType Av1SplitFlagRate(
 
         if (hasRows && hasCols) {
 
-            *splitRate = (uint64_t)md_rate_estimation_ptr->partitionFacBits[partition_cdf_length(bsize)][partitionType];
+            *split_rate = (uint64_t)md_rate_estimation_ptr->partitionFacBits[partition_cdf_length(bsize)][partitionType];
 
         }
         else if (!hasRows && hasCols) {
             int32_t cdf[2];
             partition_gather_vert_alike(cdf, bsize, md_rate_estimation_ptr->partitionFacBits[contextIndex]);
-            *splitRate = (uint64_t)md_rate_estimation_ptr->partitionFacBits[partition_cdf_length(bsize)][partitionType];
+            *split_rate = (uint64_t)md_rate_estimation_ptr->partitionFacBits[partition_cdf_length(bsize)][partitionType];
 
-            *splitRate = (uint64_t)cdf[p == PARTITION_SPLIT];
+            *split_rate = (uint64_t)cdf[p == PARTITION_SPLIT];
         }
         else {
             int32_t cdf[2];
             partition_gather_horz_alike(cdf, bsize, md_rate_estimation_ptr->partitionFacBits[contextIndex]);
-            *splitRate = (uint64_t)cdf[p == PARTITION_SPLIT];
+            *split_rate = (uint64_t)cdf[p == PARTITION_SPLIT];
         }
     }
     else {
-        *splitRate = (uint64_t)md_rate_estimation_ptr->partitionFacBits[0][partitionType];
+        *split_rate = (uint64_t)md_rate_estimation_ptr->partitionFacBits[0][partitionType];
     }
 
-    *splitRate = RDCOST(lambda, *splitRate, 0);
+    *split_rate = RDCOST(lambda, *split_rate, 0);
 
     return return_error;
 }
 
 /********************************************
-* TuCalcCost
+* tu_calc_cost
 *   Computes TU Cost and generetes TU Cbf
 *   at the level of the encode pass
 ********************************************/
-EbErrorType Av1EncodeTuCalcCost(
+EbErrorType av1_encode_tu_calc_cost(
     EncDecContext_t          *context_ptr,
     uint32_t                   *count_non_zero_coeffs,
-    uint64_t                    yTuDistortion[DIST_CALC_TOTAL],
-    uint64_t                   *yTuCoeffBits,
+    uint64_t                    y_tu_distortion[DIST_CALC_TOTAL],
+    uint64_t                   *y_tu_coeff_bits,
     uint32_t                    component_mask
 )
 {
@@ -2310,27 +2310,27 @@ EbErrorType Av1EncodeTuCalcCost(
     MdRateEstimationContext_t *md_rate_estimation_ptr = context_ptr->md_rate_estimation_ptr;
     uint64_t                     lambda = context_ptr->full_lambda;
     uint32_t                     y_count_non_zero_coeffs = count_non_zero_coeffs[0];
-    uint32_t                     cbCountNonZeroCoeffs = count_non_zero_coeffs[1];
-    uint32_t                     crCountNonZeroCoeffs = count_non_zero_coeffs[2];
+    uint32_t                     cb_count_non_zero_coeffs = count_non_zero_coeffs[1];
+    uint32_t                     cr_count_non_zero_coeffs = count_non_zero_coeffs[2];
 
     EbErrorType return_error = EB_ErrorNone;
 
     // Non Zero Cbf mode variables
-    uint64_t yNonZeroCbfDistortion = yTuDistortion[DIST_CALC_RESIDUAL];
+    uint64_t yNonZeroCbfDistortion = y_tu_distortion[DIST_CALC_RESIDUAL];
 
     uint64_t yNonZeroCbfRate;
 
     uint64_t yNonZeroCbfCost = 0;
 
     // Zero Cbf mode variables
-    uint64_t yZeroCbfDistortion = yTuDistortion[DIST_CALC_PREDICTION];
+    uint64_t yZeroCbfDistortion = y_tu_distortion[DIST_CALC_PREDICTION];
 
     uint64_t yZeroCbfLumaFlagBitsNum = 0;
 
     uint64_t yZeroCbfRate;
 
     uint64_t yZeroCbfCost = 0;
-    int16_t  txbSkipCtx = cu_ptr->luma_txb_skip_context;
+    int16_t  txb_skip_ctx = cu_ptr->luma_txb_skip_context;
 
     // **Compute distortion
     if (component_mask == PICTURE_BUFFER_DESC_LUMA_MASK || component_mask == PICTURE_BUFFER_DESC_FULL_MASK) {
@@ -2349,9 +2349,9 @@ EbErrorType Av1EncodeTuCalcCost(
         const TxSize txs_ctx = (TxSize)((txsize_sqr_map[txSize] + txsize_sqr_up_map[txSize] + 1) >> 1);
         const LV_MAP_COEFF_COST *const coeff_costs = &md_rate_estimation_ptr->coeffFacBits[txs_ctx][0];
 
-        yZeroCbfLumaFlagBitsNum = coeff_costs->txb_skip_cost[txbSkipCtx][1];
+        yZeroCbfLumaFlagBitsNum = coeff_costs->txb_skip_cost[txb_skip_ctx][1];
 
-        yNonZeroCbfRate = *yTuCoeffBits; // yNonZeroCbfLumaFlagBitsNum is already calculated inside yTuCoeffBits
+        yNonZeroCbfRate = *y_tu_coeff_bits; // yNonZeroCbfLumaFlagBitsNum is already calculated inside y_tu_coeff_bits
 
         yZeroCbfRate = yZeroCbfLumaFlagBitsNum;
 #if CBF_ZERO_OFF || TX_TYPE_FIX
@@ -2370,15 +2370,15 @@ EbErrorType Av1EncodeTuCalcCost(
         // **Compute Cost
         yNonZeroCbfCost = RDCOST(lambda, yNonZeroCbfRate, yNonZeroCbfDistortion);
         cu_ptr->transform_unit_array[tu_index].y_has_coeff = ((y_count_non_zero_coeffs != 0) && (yNonZeroCbfCost < yZeroCbfCost)) ? EB_TRUE : EB_FALSE;
-        *yTuCoeffBits = (yNonZeroCbfCost < yZeroCbfCost) ? *yTuCoeffBits : 0;
-        yTuDistortion[DIST_CALC_RESIDUAL] = (yNonZeroCbfCost < yZeroCbfCost) ? yTuDistortion[DIST_CALC_RESIDUAL] : yTuDistortion[DIST_CALC_PREDICTION];
+        *y_tu_coeff_bits = (yNonZeroCbfCost < yZeroCbfCost) ? *y_tu_coeff_bits : 0;
+        y_tu_distortion[DIST_CALC_RESIDUAL] = (yNonZeroCbfCost < yZeroCbfCost) ? y_tu_distortion[DIST_CALC_RESIDUAL] : y_tu_distortion[DIST_CALC_PREDICTION];
 
         }
     else {
         cu_ptr->transform_unit_array[tu_index].y_has_coeff = EB_FALSE;
     }
-    cu_ptr->transform_unit_array[tu_index].u_has_coeff = cbCountNonZeroCoeffs != 0 ? EB_TRUE : EB_FALSE;
-    cu_ptr->transform_unit_array[tu_index].v_has_coeff = crCountNonZeroCoeffs != 0 ? EB_TRUE : EB_FALSE;
+    cu_ptr->transform_unit_array[tu_index].u_has_coeff = cb_count_non_zero_coeffs != 0 ? EB_TRUE : EB_FALSE;
+    cu_ptr->transform_unit_array[tu_index].v_has_coeff = cr_count_non_zero_coeffs != 0 ? EB_TRUE : EB_FALSE;
 
     return return_error;
     }
@@ -2387,12 +2387,12 @@ EbErrorType Av1EncodeTuCalcCost(
 uint64_t GetPMCost(
     uint64_t                   lambda,
     uint64_t                   tuDistortion,
-    uint64_t                   yTuCoeffBits
+    uint64_t                   y_tu_coeff_bits
 )
 {
 
     uint64_t yNonZeroCbfDistortion = LUMA_WEIGHT * (tuDistortion << COST_PRECISION);
-    uint64_t yNonZeroCbfRate = (yTuCoeffBits);
+    uint64_t yNonZeroCbfRate = (y_tu_coeff_bits);
     uint64_t yNonZeroCbfCost = yNonZeroCbfDistortion + (((lambda       * yNonZeroCbfRate) + MD_OFFSET) >> MD_SHIFT);
 
     return yNonZeroCbfCost;

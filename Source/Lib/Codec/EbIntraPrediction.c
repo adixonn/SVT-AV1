@@ -3586,7 +3586,7 @@ EbErrorType IntraPredictionCL(
     EbAsm                                  asm_type)
 {
     EbErrorType return_error = EB_ErrorNone;
-    const uint32_t lumaMode = candidate_buffer_ptr->candidate_ptr->intra_luma_mode;
+    const uint32_t luma_mode = candidate_buffer_ptr->candidate_ptr->intra_luma_mode;
     uint32_t                      chroma_mode;
     const uint32_t pu_origin_x = md_context_ptr->cu_origin_x;
     const uint32_t pu_origin_y = md_context_ptr->cu_origin_y;
@@ -3599,9 +3599,9 @@ EbErrorType IntraPredictionCL(
 
     // Map the mode to the function table index
     uint32_t funcIndex =
-        (lumaMode < 2) ? lumaMode :
-        (lumaMode == INTRA_VERTICAL_MODE) ? 2 :
-        (lumaMode == INTRA_HORIZONTAL_MODE) ? 3 :
+        (luma_mode < 2) ? luma_mode :
+        (luma_mode == INTRA_VERTICAL_MODE) ? 2 :
+        (luma_mode == INTRA_HORIZONTAL_MODE) ? 3 :
         4;
 
     uint32_t puOriginIndex;
@@ -3639,8 +3639,8 @@ EbErrorType IntraPredictionCL(
         puOriginIndex = ((pu_origin_y & (63)) * 64) + (pu_origin_x & (63));
         puSize = pu_width;
 
-        diffModeA = EB_ABS_DIFF((int32_t)lumaMode, (int32_t)INTRA_HORIZONTAL_MODE);
-        diffModeB = EB_ABS_DIFF((int32_t)lumaMode, (int32_t)INTRA_VERTICAL_MODE);
+        diffModeA = EB_ABS_DIFF((int32_t)luma_mode, (int32_t)INTRA_HORIZONTAL_MODE);
+        diffModeB = EB_ABS_DIFF((int32_t)luma_mode, (int32_t)INTRA_VERTICAL_MODE);
         diffMode = MIN(diffModeA, diffModeB);
 
         context_ptr->above_ready_flag_y = EB_FALSE;
@@ -3711,7 +3711,7 @@ EbErrorType IntraPredictionCL(
                 context_ptr->y_intra_reference_array_reverse;
 
             IntraModeAngular_all(
-                lumaMode,
+                luma_mode,
                 puSize,
                 y_intra_reference_array,
                 y_intra_reference_array_reverse,
@@ -3744,7 +3744,7 @@ EbErrorType IntraPredictionCL(
         }
 
         // The chroma_mode is always DM
-        chroma_mode = (uint32_t)lumaMode;
+        chroma_mode = (uint32_t)luma_mode;
         puChromaOriginIndex = (((pu_origin_y & (63)) * 32) + (pu_origin_x & (63))) >> 1;
         chromaPuSize = pu_width >> 1;
 
@@ -3909,7 +3909,7 @@ EbErrorType Intra4x4IntraPredictionCL(
     EbAsm                                  asm_type)
 {
     EbErrorType                return_error = EB_ErrorNone;
-    uint32_t          lumaMode = candidate_buffer_ptr->candidate_ptr->intra_luma_mode;
+    uint32_t          luma_mode = candidate_buffer_ptr->candidate_ptr->intra_luma_mode;
     uint32_t        chroma_mode;
 
     IntraReferenceSamples_t *context_ptr = (IntraReferenceSamples_t*)(((ModeDecisionContext_t*)prediction_context_ptr)->intra_ref_ptr);
@@ -3917,9 +3917,9 @@ EbErrorType Intra4x4IntraPredictionCL(
 
     // Map the mode to the function table index
     uint32_t funcIndex =
-        (lumaMode < 2) ? lumaMode :
-        (lumaMode == INTRA_VERTICAL_MODE) ? 2 :
-        (lumaMode == INTRA_HORIZONTAL_MODE) ? 3 :
+        (luma_mode < 2) ? luma_mode :
+        (luma_mode == INTRA_VERTICAL_MODE) ? 2 :
+        (luma_mode == INTRA_HORIZONTAL_MODE) ? 3 :
         4;
 
     uint32_t puOriginIndex;
@@ -3944,13 +3944,13 @@ EbErrorType Intra4x4IntraPredictionCL(
 
     if (component_mask & PICTURE_BUFFER_DESC_LUMA_MASK) {
 
-        lumaMode = candidate_buffer_ptr->candidate_ptr->intra_luma_mode;
+        luma_mode = candidate_buffer_ptr->candidate_ptr->intra_luma_mode;
 
         puOriginIndex = ((pu_origin_y & (sb_sz - 1)) * candidate_buffer_ptr->prediction_ptr->stride_y) + (pu_origin_x & (sb_sz - 1));
         puSize = pu_width;
 
-        diffModeA = EB_ABS_DIFF((int32_t)lumaMode, (int32_t)INTRA_HORIZONTAL_MODE);
-        diffModeB = EB_ABS_DIFF((int32_t)lumaMode, (int32_t)INTRA_VERTICAL_MODE);
+        diffModeA = EB_ABS_DIFF((int32_t)luma_mode, (int32_t)INTRA_HORIZONTAL_MODE);
+        diffModeB = EB_ABS_DIFF((int32_t)luma_mode, (int32_t)INTRA_VERTICAL_MODE);
         diffMode = MIN(diffModeA, diffModeB);
 
         context_ptr->above_ready_flag_y = EB_FALSE;
@@ -4021,7 +4021,7 @@ EbErrorType Intra4x4IntraPredictionCL(
                 context_ptr->y_intra_reference_array_reverse;
 
             IntraModeAngular_all(
-                lumaMode,
+                luma_mode,
                 puSize,
                 y_intra_reference_array,
                 y_intra_reference_array_reverse,
@@ -4043,7 +4043,7 @@ EbErrorType Intra4x4IntraPredictionCL(
     if (component_mask & PICTURE_BUFFER_DESC_CHROMA_MASK) {
 
         // The chroma_mode is always DM
-        chroma_mode = (uint32_t)lumaMode;
+        chroma_mode = (uint32_t)luma_mode;
 
         puChromaOriginIndex = (((pu_origin_y & (sb_sz - 1)) * candidate_buffer_ptr->prediction_ptr->strideCb) + (pu_origin_x & (sb_sz - 1))) >> 1;
         chromaPuSize = pu_width;
@@ -4216,7 +4216,7 @@ EbErrorType EncodePassIntraPrediction(
     uint32_t                                  origin_y,
     uint32_t                                  puSize,
     EbPictureBufferDesc_t                  *prediction_ptr,
-    uint32_t                                  lumaMode,
+    uint32_t                                  luma_mode,
     uint32_t                                  chroma_mode,
     int32_t                                  angle_delta,
     uint16_t                                  bitdepth,
@@ -4243,7 +4243,7 @@ EbErrorType EncodePassIntraPrediction(
     if (upsample_left == 0 && upsample_above == 0) {
         lumaOffset = (origin_y)* prediction_ptr->stride_y + (origin_x);
 
-        uint32_t av1LumaMode = lumaMode;// intra_hev_cmode_to_intra_av1_mode[lumaMode] ;
+        uint32_t av1LumaMode = luma_mode;// intra_hev_cmode_to_intra_av1_mode[luma_mode] ;
 
         y_intra_reference_array =
             referenceSamples->y_intra_reference_array;
@@ -4408,7 +4408,7 @@ EbErrorType EncodePassIntraPrediction16bit(
     uint32_t                                  origin_y,
     uint32_t                                  puSize,
     EbPictureBufferDesc_t                  *prediction_ptr,
-    uint32_t                                  lumaMode,
+    uint32_t                                  luma_mode,
     uint32_t                                  chroma_mode,
     int32_t                                  angle_delta,
     uint16_t                                  bitdepth,
@@ -4442,7 +4442,7 @@ EbErrorType EncodePassIntraPrediction16bit(
 
         lumaOffset = (origin_y)* prediction_ptr->stride_y + (origin_x);
 
-        uint32_t av1LumaMode = lumaMode;// intra_hev_cmode_to_intra_av1_mode[lumaMode] ;
+        uint32_t av1LumaMode = luma_mode;// intra_hev_cmode_to_intra_av1_mode[luma_mode] ;
 
         y_intra_reference_array =
             referenceSamples->y_intra_reference_array;
@@ -4603,7 +4603,7 @@ EbErrorType EncodePassIntra4x4Prediction(
     uint32_t                                  puSize,
     uint32_t                                  chromaPuSize,
     EbPictureBufferDesc_t                  *prediction_ptr,
-    uint32_t                      lumaMode,
+    uint32_t                      luma_mode,
     uint32_t                    chroma_mode,
     uint32_t                                  component_mask,
     EbAsm                                  asm_type)
@@ -4630,7 +4630,7 @@ EbErrorType EncodePassIntra4x4Prediction(
 
             lumaOffset = (origin_y)* prediction_ptr->stride_y + (origin_x);
 
-            uint32_t av1LumaMode = lumaMode;// intra_hev_cmode_to_intra_av1_mode[lumaMode] ;
+            uint32_t av1LumaMode = luma_mode;// intra_hev_cmode_to_intra_av1_mode[luma_mode] ;
 
             y_intra_reference_array =
                 referenceSamples->y_intra_reference_array;
@@ -4703,7 +4703,7 @@ EbErrorType EncodePassIntra4x4Prediction(
 
         if (component_mask & PICTURE_BUFFER_DESC_CHROMA_MASK) {
 
-            uint32_t av1ChromaMode = chroma_mode;//intra_hev_cmode_to_intra_av1_mode[lumaMode] ;
+            uint32_t av1ChromaMode = chroma_mode;//intra_hev_cmode_to_intra_av1_mode[luma_mode] ;
 
 
 
@@ -4802,7 +4802,7 @@ EbErrorType EncodePassIntra4x4Prediction16bit(
     uint32_t                                  puSize,
     uint32_t                                  chromaPuSize,
     EbPictureBufferDesc_t                  *prediction_ptr,
-    uint32_t                      lumaMode,
+    uint32_t                      luma_mode,
     uint32_t                    chroma_mode,
     uint32_t                                  component_mask,
     uint16_t                                  bitdepth,
@@ -4834,7 +4834,7 @@ EbErrorType EncodePassIntra4x4Prediction16bit(
 
         lumaOffset = (origin_y)* prediction_ptr->stride_y + (origin_x);
 
-        uint32_t av1LumaMode = lumaMode;// intra_hev_cmode_to_intra_av1_mode[lumaMode] ;
+        uint32_t av1LumaMode = luma_mode;// intra_hev_cmode_to_intra_av1_mode[luma_mode] ;
 
 
         y_intra_reference_array =
@@ -4899,7 +4899,7 @@ EbErrorType EncodePassIntra4x4Prediction16bit(
     // Chroma
     //***********************************
     if (component_mask & PICTURE_BUFFER_DESC_CHROMA_MASK) {
-        uint32_t av1ChromaMode = chroma_mode;//intra_hev_cmode_to_intra_av1_mode[lumaMode] ;
+        uint32_t av1ChromaMode = chroma_mode;//intra_hev_cmode_to_intra_av1_mode[luma_mode] ;
         chromaOffset = ((origin_y)* prediction_ptr->strideCb + (origin_x)) >> 1;
         if (av1ChromaMode == UV_DC_PRED) {
             highbd_dc_predictor_16bit(

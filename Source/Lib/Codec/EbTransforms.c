@@ -110,7 +110,7 @@ void mat_mult_out(
 uint64_t GetPMCost(
     uint64_t                   lambda,
     uint64_t                   tuDistortion,
-    uint64_t                   yTuCoeffBits
+    uint64_t                   y_tu_coeff_bits
 );
 
 

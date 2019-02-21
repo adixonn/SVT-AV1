@@ -58,7 +58,7 @@ EbErrorType PictureManagerContextCtor(
     PictureManagerContext_t **context_dbl_ptr,
     EbFifo_t                 *pictureInputFifoPtr,
     EbFifo_t                 *pictureManagerOutputFifoPtr,
-    EbFifo_t                **pictureControlSetFifoPtrArray)
+    EbFifo_t                **picture_control_set_fifo_ptr_array)
 {
     PictureManagerContext_t *context_ptr;
     EB_MALLOC(PictureManagerContext_t*, context_ptr, sizeof(PictureManagerContext_t), EB_N_PTR);
@@ -67,7 +67,7 @@ EbErrorType PictureManagerContextCtor(
 
     context_ptr->pictureInputFifoPtr = pictureInputFifoPtr;
     context_ptr->pictureManagerOutputFifoPtr = pictureManagerOutputFifoPtr;
-    context_ptr->pictureControlSetFifoPtrArray = pictureControlSetFifoPtrArray;
+    context_ptr->picture_control_set_fifo_ptr_array = picture_control_set_fifo_ptr_array;
 
     return EB_ErrorNone;
 }
@@ -620,7 +620,7 @@ void* PictureManagerKernel(void *input_ptr)
 
                         // Get New  Empty Child PCS from PCS Pool
                         eb_get_empty_object(
-                            context_ptr->pictureControlSetFifoPtrArray[0],
+                            context_ptr->picture_control_set_fifo_ptr_array[0],
                             &ChildPictureControlSetWrapperPtr);
 
                         // Child PCS is released by Packetization
