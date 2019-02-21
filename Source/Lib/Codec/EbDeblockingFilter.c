@@ -24,7 +24,7 @@
 #include "EbReferenceObject.h"
 #include "EbDeblockingFilter.h"
 
-#define   convertToChromaQp(iQpY)  ( ((iQpY) < 0) ? (iQpY) : (((iQpY) > 57) ? ((iQpY)-6) : (int32_t)(MapChromaQp((uint32_t)iQpY))) )
+#define   convertToChromaQp(iQpY)  ( ((iQpY) < 0) ? (iQpY) : (((iQpY) > 57) ? ((iQpY)-6) : (int32_t)(map_chroma_qp((uint32_t)iQpY))) )
 
 /** setQpArrayBasedOnCU()
 is used to set qp in the qp_array on a CU basis.
@@ -1678,19 +1678,19 @@ static int64_t try_filter_frame(
     if (plane == 0 && dir == 1) filter_level[0] = pcsPtr->parent_pcs_ptr->lf.filter_level[0];
 
     EbBool is16bit = (EbBool)(pcsPtr->parent_pcs_ptr->sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
-    EbPictureBufferDesc_t  *reconBuffer = is16bit ? pcsPtr->recon_picture16bit_ptr : pcsPtr->recon_picture_ptr;
+    EbPictureBufferDesc_t  *recon_buffer = is16bit ? pcsPtr->recon_picture16bit_ptr : pcsPtr->recon_picture_ptr;
     if (pcsPtr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE) {
 
         //get the 16bit form of the input LCU
         if (is16bit) {
-            reconBuffer = ((EbReferenceObject_t*)pcsPtr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture16bit;
+            recon_buffer = ((EbReferenceObject_t*)pcsPtr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture16bit;
         }
         else {
-            reconBuffer = ((EbReferenceObject_t*)pcsPtr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture;
+            recon_buffer = ((EbReferenceObject_t*)pcsPtr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture;
         }
     }
     else { // non ref pictures
-        reconBuffer = is16bit ? pcsPtr->recon_picture16bit_ptr : pcsPtr->recon_picture_ptr;
+        recon_buffer = is16bit ? pcsPtr->recon_picture16bit_ptr : pcsPtr->recon_picture_ptr;
     }
 
     // set base filters for use of get_filter_level when in DELTA_Q_LF mode
@@ -1703,14 +1703,14 @@ static int64_t try_filter_frame(
     case 2: pcsPtr->parent_pcs_ptr->lf.filter_level_v = filter_level[0]; break;
     }
 
-    av1_loop_filter_frame(reconBuffer, pcsPtr, plane, plane + 1);
+    av1_loop_filter_frame(recon_buffer, pcsPtr, plane, plane + 1);
 
-    filt_err = PictureSseCalculations(pcsPtr, reconBuffer, plane);
+    filt_err = PictureSseCalculations(pcsPtr, recon_buffer, plane);
 
 
 
     // Re-instate the unfiltered frame
-    EbCopyBuffer(tempLfReconBuffer/*cpi->last_frame_uf*/, reconBuffer /*cm->frame_to_show*/, pcsPtr, (uint8_t)plane);
+    EbCopyBuffer(tempLfReconBuffer/*cpi->last_frame_uf*/, recon_buffer /*cm->frame_to_show*/, pcsPtr, (uint8_t)plane);
 
     return filt_err;
 }
@@ -1742,28 +1742,28 @@ static int32_t search_filter_level(
     int32_t filter_step = filt_mid < 16 ? 4 : filt_mid / 4;
 
     EbBool is16bit = (EbBool)(pcsPtr->parent_pcs_ptr->sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
-    EbPictureBufferDesc_t  *reconBuffer = is16bit ? pcsPtr->recon_picture16bit_ptr : pcsPtr->recon_picture_ptr;
+    EbPictureBufferDesc_t  *recon_buffer = is16bit ? pcsPtr->recon_picture16bit_ptr : pcsPtr->recon_picture_ptr;
 
     if (pcsPtr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE) {
 
         //get the 16bit form of the input LCU
         if (is16bit) {
-            reconBuffer = ((EbReferenceObject_t*)pcsPtr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture16bit;
+            recon_buffer = ((EbReferenceObject_t*)pcsPtr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture16bit;
         }
         else {
-            reconBuffer = ((EbReferenceObject_t*)pcsPtr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture;
+            recon_buffer = ((EbReferenceObject_t*)pcsPtr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture;
         }
     }
     else { // non ref pictures
-        reconBuffer = is16bit ? pcsPtr->recon_picture16bit_ptr : pcsPtr->recon_picture_ptr;
+        recon_buffer = is16bit ? pcsPtr->recon_picture16bit_ptr : pcsPtr->recon_picture_ptr;
     }
     // Sum squared error at each filter level
     int64_t ss_err[MAX_LOOP_FILTER + 1];
 
     // Set each entry to -1
     memset(ss_err, 0xFF, sizeof(ss_err));
-    // make a copy of reconBuffer
-    EbCopyBuffer(reconBuffer/*cm->frame_to_show*/, tempLfReconBuffer/*&cpi->last_frame_uf*/, pcsPtr, (uint8_t)plane);
+    // make a copy of recon_buffer
+    EbCopyBuffer(recon_buffer/*cm->frame_to_show*/, tempLfReconBuffer/*&cpi->last_frame_uf*/, pcsPtr, (uint8_t)plane);
 
     best_err = try_filter_frame(sd, tempLfReconBuffer, pcsPtr, filt_mid, partial_frame, plane, dir);
     filt_best = filt_mid;

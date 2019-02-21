@@ -1662,19 +1662,19 @@ void* EncDecKernel(void *input_ptr)
                     sequence_control_set_ptr->static_config.stat_report));
 
             if (dlfEnableFlag && picture_control_set_ptr->parent_pcs_ptr->loop_filter_mode == 2) {
-                EbPictureBufferDesc_t  *reconBuffer = is16bit ? picture_control_set_ptr->recon_picture16bit_ptr : picture_control_set_ptr->recon_picture_ptr;
+                EbPictureBufferDesc_t  *recon_buffer = is16bit ? picture_control_set_ptr->recon_picture16bit_ptr : picture_control_set_ptr->recon_picture_ptr;
                 if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE && picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr) {
 
                     //get the 16bit form of the input LCU
                     if (is16bit) {
-                        reconBuffer = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture16bit;
+                        recon_buffer = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture16bit;
                     }
                     else {
-                        reconBuffer = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture;
+                        recon_buffer = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture;
                     }
                 }
                 else { // non ref pictures
-                    reconBuffer = is16bit ? picture_control_set_ptr->recon_picture16bit_ptr : picture_control_set_ptr->recon_picture_ptr;
+                    recon_buffer = is16bit ? picture_control_set_ptr->recon_picture16bit_ptr : picture_control_set_ptr->recon_picture_ptr;
                 }
 
                 av1_loop_filter_init(picture_control_set_ptr);
@@ -1694,7 +1694,7 @@ void* EncDecKernel(void *input_ptr)
                 picture_control_set_ptr->parent_pcs_ptr->lf.filter_level_v = 0;
 #endif
                 av1_loop_filter_frame(
-                    reconBuffer,
+                    recon_buffer,
                     picture_control_set_ptr,
                     0,
                     3);

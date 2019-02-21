@@ -49,7 +49,7 @@ extern void av1_predict_intra_block_md(
     FILTER_INTRA_MODE filter_intra_mode,
     uint8_t* topNeighArray,
     uint8_t* leftNeighArray,
-    EbPictureBufferDesc_t  *reconBuffer,
+    EbPictureBufferDesc_t  *recon_buffer,
     int32_t col_off,
     int32_t row_off,
     int32_t plane,
@@ -851,7 +851,7 @@ void AV1PerformInverseTransformReconLuma(
                 for (j = 0; j < tu_height; j++)
                     memcpy(recBuffer + j * candidateBuffer->recon_ptr->stride_y, predBuffer + j * candidateBuffer->prediction_ptr->stride_y, tu_width);
 
-                Av1InvTransformRecon8bit(
+                av1_inv_transform_recon8bit(
 
                     &(((int32_t*)candidateBuffer->reconCoeffPtr->buffer_y)[txb_1d_offset]),
                     recBuffer,
@@ -930,7 +930,7 @@ void AV1PerformInverseTransformRecon(
                 for (j = 0; j < tu_height; j++)
                     memcpy(recBuffer + j * candidateBuffer->recon_ptr->stride_y, predBuffer + j * candidateBuffer->prediction_ptr->stride_y, tu_width);
 
-                Av1InvTransformRecon8bit(
+                av1_inv_transform_recon8bit(
                     &(((int32_t*)candidateBuffer->reconCoeffPtr->buffer_y)[txb_1d_offset]),
                     recBuffer,
                     candidateBuffer->recon_ptr->stride_y,
@@ -968,7 +968,7 @@ void AV1PerformInverseTransformRecon(
                 for (j = 0; j < chroma_tu_height; j++)
                     memcpy(recBuffer + j * candidateBuffer->recon_ptr->strideCb, predBuffer + j * candidateBuffer->prediction_ptr->strideCb, chroma_tu_width);
 
-                Av1InvTransformRecon8bit(
+                av1_inv_transform_recon8bit(
                     &(((int32_t*)candidateBuffer->reconCoeffPtr->bufferCb)[txb_1d_offset_uv]),
                     recBuffer,
                     candidateBuffer->recon_ptr->strideCb,
@@ -1002,7 +1002,7 @@ void AV1PerformInverseTransformRecon(
                 for (j = 0; j < chroma_tu_height; j++)
                     memcpy(recBuffer + j * candidateBuffer->recon_ptr->strideCr, predBuffer + j * candidateBuffer->prediction_ptr->strideCr, chroma_tu_width);
                 
-                Av1InvTransformRecon8bit(
+                av1_inv_transform_recon8bit(
                     &(((int32_t*)candidateBuffer->reconCoeffPtr->bufferCr)[txb_1d_offset_uv]),
 
                     recBuffer,

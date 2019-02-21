@@ -3371,7 +3371,7 @@ EbErrorType EbOutputReconBufferHeaderCtor(
     EbPtr *objectDblPtr,
     EbPtr  objectInitDataPtr)
 {
-    EbBufferHeaderType         *reconBuffer;
+    EbBufferHeaderType         *recon_buffer;
     SequenceControlSet_t        *sequence_control_set_ptr = (SequenceControlSet_t*)objectInitDataPtr;
     const uint32_t lumaSize =
         sequence_control_set_ptr->luma_width    *
@@ -3381,17 +3381,17 @@ EbErrorType EbOutputReconBufferHeaderCtor(
     const uint32_t tenBit = (sequence_control_set_ptr->static_config.encoder_bit_depth > 8);
     const uint32_t frameSize = (lumaSize + chromaSize) << tenBit;
 
-    EB_MALLOC(EbBufferHeaderType*, reconBuffer, sizeof(EbBufferHeaderType), EB_N_PTR);
-    *objectDblPtr = (EbPtr)reconBuffer;
+    EB_MALLOC(EbBufferHeaderType*, recon_buffer, sizeof(EbBufferHeaderType), EB_N_PTR);
+    *objectDblPtr = (EbPtr)recon_buffer;
 
     // Initialize Header
-    reconBuffer->size = sizeof(EbBufferHeaderType);
+    recon_buffer->size = sizeof(EbBufferHeaderType);
 
     // Assign the variables 
-    EB_MALLOC(uint8_t*, reconBuffer->p_buffer, frameSize, EB_N_PTR);
+    EB_MALLOC(uint8_t*, recon_buffer->p_buffer, frameSize, EB_N_PTR);
 
-    reconBuffer->n_alloc_len = frameSize;
-    reconBuffer->p_app_private = NULL;
+    recon_buffer->n_alloc_len = frameSize;
+    recon_buffer->p_app_private = NULL;
 
     return EB_ErrorNone;
 }

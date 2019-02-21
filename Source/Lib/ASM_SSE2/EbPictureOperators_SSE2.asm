@@ -233,7 +233,7 @@ cglobal zero_out_coeff4x4_sse
 cglobal _ZeroOutCoeff8x8_SSE2
 cglobal zero_out_coeff8x8_sse2
 
-; TODO: use "movdqa" if coeffbuffer is guaranteed to be 16-byte aligned.
+; TODO: use "movdqa" if coeff_buffer is guaranteed to be 16-byte aligned.
 
     lea             r0,             [r0+2*r2]
     lea             r3,             [r1+2*r1]
@@ -256,7 +256,7 @@ cglobal zero_out_coeff8x8_sse2
 cglobal _ZeroOutCoeff16x16_SSE2
 cglobal zero_out_coeff16x16_sse2
 
-; TODO: use "movdqa" if coeffbuffer is guaranteed to be 16-byte aligned.
+; TODO: use "movdqa" if coeff_buffer is guaranteed to be 16-byte aligned.
 
     lea             r0,             [r0+2*r2]
     lea             r3,             [r1+2*r1]
@@ -306,7 +306,7 @@ cglobal zero_out_coeff16x16_sse2
 cglobal _ZeroOutCoeff32x32_SSE2
 cglobal zero_out_coeff32x32_sse2
 
-; TODO: use "movdqa" if coeffbuffer is guaranteed to be 16-byte aligned.
+; TODO: use "movdqa" if coeff_buffer is guaranteed to be 16-byte aligned.
 
     lea             r0,             [r0+2*r2]
     lea             r3,             [r1+2*r1]

@@ -794,7 +794,7 @@ void* ResourceCoordinationKernel(void *input_ptr)
             // Construct PM Trans Coeff Shaping
             if (context_ptr->sequenceControlSetInstanceArray[instanceIndex]->encode_context_ptr->initial_picture) {
                 if (sequence_control_set_ptr->pm_mode == PM_MODE_0) {
-                    ConstructPmTransCoeffShaping(sequence_control_set_ptr);
+                    construct_pm_trans_coeff_shaping(sequence_control_set_ptr);
                 }
             }
 

@@ -68,7 +68,7 @@ static const int8_t *fwd_txfm_shift_ls[TX_SIZES_ALL] = {
     fwd_shift_32x8, fwd_shift_16x64, fwd_shift_64x16,
 };
 
-void MatMultOut(
+void mat_mult_out(
     int16_t           *coeff,
     const uint32_t     coeff_stride,
     int16_t*          coeff_out,
@@ -1159,7 +1159,7 @@ static const uint16_t *masking_matrix[2][8][4] =//
     },
 };
 
-void MatMult(
+void mat_mult(
     int16_t           *coeff,
     const uint32_t     coeff_stride,
     const uint16_t    *masking_matrix,
@@ -4407,10 +4407,10 @@ void av1_fwd_txfm2d_4x8_c(
 *   Note there is an implicit assumption that TU Size <= PU Size,
 *   which is different than the HEVC requirements.
 *********************************************************************/
-EbErrorType Av1EstimateTransform(
+EbErrorType av1_estimate_transform(
     int16_t              *residual_buffer,
     uint32_t              residual_stride,
-    int32_t              *coeffBuffer,
+    int32_t              *coeff_buffer,
     uint32_t              coeff_stride,
     TxSize                transform_size,
     uint64_t             *three_quad_energy,
@@ -4418,17 +4418,17 @@ EbErrorType Av1EstimateTransform(
     uint32_t              bit_increment,
     TxType                transform_type,
     EbAsm                 asm_type,
-    PLANE_TYPE            componentType,
-    EB_TRANS_COEFF_SHAPE  transCoeffShape)
+    PLANE_TYPE            component_type,
+    EB_TRANS_COEFF_SHAPE  trans_coeff_shape)
 
 {
     EbErrorType return_error = EB_ErrorNone;
 
     (void)asm_type;
-    (void)transCoeffShape;
+    (void)trans_coeff_shape;
     (void)transform_inner_array_ptr;
     (void)coeff_stride;
-    (void)componentType;
+    (void)component_type;
     uint8_t      bit_depth = bit_increment ? 10 : 8;// NM - Set to zero for the moment
 
     switch (transform_size) {
@@ -4436,24 +4436,24 @@ EbErrorType Av1EstimateTransform(
         if (transform_type == DCT_DCT)
             av1_fwd_txfm2d_64x32(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
         else
             av1_fwd_txfm2d_64x32_c(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
         
-        *three_quad_energy = HandleTransform64x32_c(coeffBuffer,
+        *three_quad_energy = HandleTransform64x32_c(coeff_buffer,
             64);
 
         // Re-pack non-zero coeffs in the first 32x32 indices.
         for (int32_t row = 1; row < 32; ++row) {
-            memcpy(coeffBuffer + row * 32, coeffBuffer + row * 64, 32 * sizeof(int32_t));
+            memcpy(coeff_buffer + row * 32, coeff_buffer + row * 64, 32 * sizeof(int32_t));
         }
         break;
 
@@ -4461,19 +4461,19 @@ EbErrorType Av1EstimateTransform(
         if (transform_type == DCT_DCT)
             av1_fwd_txfm2d_32x64(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
         else
             av1_fwd_txfm2d_32x64_c(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
 
-        *three_quad_energy = HandleTransform32x64_c(coeffBuffer,
+        *three_quad_energy = HandleTransform32x64_c(coeff_buffer,
             32);
 
         break;
@@ -4482,41 +4482,41 @@ EbErrorType Av1EstimateTransform(
         if (transform_type == DCT_DCT)
             av1_fwd_txfm2d_64x16(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
         else
             av1_fwd_txfm2d_64x16_c(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
 
-        *three_quad_energy = HandleTransform64x16_c(coeffBuffer,
+        *three_quad_energy = HandleTransform64x16_c(coeff_buffer,
             64);
         // Re-pack non-zero coeffs in the first 32x16 indices.
         for (int32_t row = 1; row < 16; ++row) {
-            memcpy(coeffBuffer + row * 32, coeffBuffer + row * 64, 32 * sizeof(int32_t));
+            memcpy(coeff_buffer + row * 32, coeff_buffer + row * 64, 32 * sizeof(int32_t));
         }
         break;
     case TX_16X64:
         if (transform_type == DCT_DCT)
             av1_fwd_txfm2d_16x64(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
         else
             av1_fwd_txfm2d_16x64_c(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
-        *three_quad_energy = HandleTransform16x64_c(coeffBuffer,
+        *three_quad_energy = HandleTransform16x64_c(coeff_buffer,
             16);
 
         break;
@@ -4526,14 +4526,14 @@ EbErrorType Av1EstimateTransform(
         if (transform_type == IDTX)
             av1_fwd_txfm2d_32x16(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
         else
             av1_fwd_txfm2d_32x16_c(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
@@ -4543,14 +4543,14 @@ EbErrorType Av1EstimateTransform(
         if ((transform_type == DCT_DCT) || (transform_type == IDTX))
             av1_fwd_txfm2d_16x32(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
         else
             av1_fwd_txfm2d_16x32_c(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
@@ -4559,7 +4559,7 @@ EbErrorType Av1EstimateTransform(
     case TX_16X8:
         av1_fwd_txfm2d_16x8(
             residual_buffer,
-            coeffBuffer,
+            coeff_buffer,
             residual_stride,
             transform_type,
             bit_depth);
@@ -4568,7 +4568,7 @@ EbErrorType Av1EstimateTransform(
     case TX_8X16:
         av1_fwd_txfm2d_8x16(
             residual_buffer,
-            coeffBuffer,
+            coeff_buffer,
             residual_stride,
             transform_type,
             bit_depth);
@@ -4578,14 +4578,14 @@ EbErrorType Av1EstimateTransform(
         if ((transform_type == DCT_DCT) || (transform_type == IDTX))
             av1_fwd_txfm2d_32x8(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
         else
             av1_fwd_txfm2d_32x8_c(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
@@ -4595,14 +4595,14 @@ EbErrorType Av1EstimateTransform(
         if ((transform_type == DCT_DCT) || (transform_type == IDTX))
             av1_fwd_txfm2d_8x32(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
         else
             av1_fwd_txfm2d_8x32_c(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
@@ -4610,7 +4610,7 @@ EbErrorType Av1EstimateTransform(
     case TX_16X4:
         av1_fwd_txfm2d_16x4(
             residual_buffer,
-            coeffBuffer,
+            coeff_buffer,
             residual_stride,
             transform_type,
             bit_depth);
@@ -4618,7 +4618,7 @@ EbErrorType Av1EstimateTransform(
     case TX_4X16:
         av1_fwd_txfm2d_4x16(
             residual_buffer,
-            coeffBuffer,
+            coeff_buffer,
             residual_stride,
             transform_type,
             bit_depth);
@@ -4627,7 +4627,7 @@ EbErrorType Av1EstimateTransform(
 
         av1_fwd_txfm2d_8x4(
             residual_buffer,
-            coeffBuffer,
+            coeff_buffer,
             residual_stride,
             transform_type,
             bit_depth);
@@ -4637,7 +4637,7 @@ EbErrorType Av1EstimateTransform(
 
         av1_fwd_txfm2d_4x8(
             residual_buffer,
-            coeffBuffer,
+            coeff_buffer,
             residual_stride,
             transform_type,
             bit_depth);
@@ -4650,18 +4650,18 @@ EbErrorType Av1EstimateTransform(
 
         av1_fwd_txfm2d_64x64(
             residual_buffer,
-            coeffBuffer,
+            coeff_buffer,
             residual_stride,
             transform_type,
             bit_depth);
 
-        *three_quad_energy = HandleTransform64x64_c(coeffBuffer,
+        *three_quad_energy = HandleTransform64x64_c(coeff_buffer,
             64);
 
         uint32_t row;
         // Re-pack non-zero coeffs in the first 32x32 indices.
         for (row = 1; row < 32; ++row) {
-            memcpy(coeffBuffer + row * 32, coeffBuffer + row * 64, 32 * sizeof(int32_t));
+            memcpy(coeff_buffer + row * 32, coeff_buffer + row * 64, 32 * sizeof(int32_t));
         }
 
         break;
@@ -4672,7 +4672,7 @@ EbErrorType Av1EstimateTransform(
             // Tahani: I believe those cases are never hit
             Av1TransformTwoD_32x32_c(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
@@ -4681,7 +4681,7 @@ EbErrorType Av1EstimateTransform(
 
             av1_fwd_txfm2d_32x32(
                 residual_buffer,
-                coeffBuffer,
+                coeff_buffer,
                 residual_stride,
                 transform_type,
                 bit_depth);
@@ -4695,7 +4695,7 @@ EbErrorType Av1EstimateTransform(
 
         av1_fwd_txfm2d_16x16(
             residual_buffer,
-            coeffBuffer,
+            coeff_buffer,
             residual_stride,
             transform_type,
             bit_depth);
@@ -4705,7 +4705,7 @@ EbErrorType Av1EstimateTransform(
 
         av1_fwd_txfm2d_8x8(
             residual_buffer,
-            coeffBuffer,
+            coeff_buffer,
             residual_stride,
             transform_type,
             bit_depth);
@@ -4715,7 +4715,7 @@ EbErrorType Av1EstimateTransform(
 
         av1_fwd_txfm2d_4x4(
             residual_buffer,
-            coeffBuffer,
+            coeff_buffer,
             residual_stride,
             transform_type,
             bit_depth);
@@ -4732,16 +4732,16 @@ EbErrorType Av1EstimateTransform(
  *   Note there is an implicit assumption that TU Size <= PU Size,
  *   which is different than the HEVC requirements.
  *********************************************************************/
-EbErrorType EncodeTransform(
+EbErrorType encode_transform(
     int16_t               *residual_buffer,
     uint32_t               residual_stride,
-    int16_t               *coeffBuffer,
+    int16_t               *coeff_buffer,
     uint32_t               coeff_stride,
     uint32_t               transform_size,
     int16_t               *transform_inner_array_ptr,
     uint32_t               bit_increment,
-    EbBool                 dstTransformFlag,
-    EB_TRANS_COEFF_SHAPE   transCoeffShape,
+    EbBool                 dst_transform_flag,
+    EB_TRANS_COEFF_SHAPE   trans_coeff_shape,
     EbAsm                  asm_type)
 {
     EbErrorType return_error = EB_ErrorNone;
@@ -4749,39 +4749,39 @@ EbErrorType EncodeTransform(
 
     uint32_t transformSizeFlag = Log2f(TRANSFORM_MAX_SIZE) - Log2f(transform_size);
 
-    if (transCoeffShape == DEFAULT_SHAPE) {
-        (*transformFunctionTableEncode[/*asm_type*/(bit_increment & 2) ? ASM_NON_AVX2 : asm_type][transformSizeFlag + dstTransformFlag])(
+    if (trans_coeff_shape == DEFAULT_SHAPE) {
+        (*transform_function_table_encode[/*asm_type*/(bit_increment & 2) ? ASM_NON_AVX2 : asm_type][transformSizeFlag + dst_transform_flag])(
             residual_buffer,
             residual_stride,
-            coeffBuffer,
+            coeff_buffer,
             coeff_stride,
             transform_inner_array_ptr,
             bit_increment
             );
     }
 
-    else if (transCoeffShape == N2_SHAPE) {
-        (*PfreqN2TransformTable[/*asm_type*/(bit_increment & 2) ? ASM_NON_AVX2 : asm_type][transformSizeFlag + dstTransformFlag])(
+    else if (trans_coeff_shape == N2_SHAPE) {
+        (*pfreq_n2_transform_table[/*asm_type*/(bit_increment & 2) ? ASM_NON_AVX2 : asm_type][transformSizeFlag + dst_transform_flag])(
             residual_buffer,
             residual_stride,
-            coeffBuffer,
+            coeff_buffer,
             coeff_stride,
             transform_inner_array_ptr,
             bit_increment
             );
     }
 
-    else if (transCoeffShape == N4_SHAPE) {
-        (*PfreqN4TransformTable[/*asm_type*/(bit_increment & 2) ? ASM_NON_AVX2 : asm_type][transformSizeFlag + dstTransformFlag])(
+    else if (trans_coeff_shape == N4_SHAPE) {
+        (*pfreq_n4_transform_table[/*asm_type*/(bit_increment & 2) ? ASM_NON_AVX2 : asm_type][transformSizeFlag + dst_transform_flag])(
             residual_buffer,
             residual_stride,
-            coeffBuffer,
+            coeff_buffer,
             coeff_stride,
             transform_inner_array_ptr,
             bit_increment);
     }
 
-    else { // transCoeffShape == ONLY_DC_SHAPE
+    else { // trans_coeff_shape == ONLY_DC_SHAPE
 
         int32_t sumResidual;
 
@@ -4801,7 +4801,7 @@ EbErrorType EncodeTransform(
         dcCoeffTemp = (int32_t)((64 * sumResidual + offset1st) >> shift1st);
         dcCoeff = (int16_t)((64 * dcCoeffTemp + offset2nd) >> shift2nd);
 
-        coeffBuffer[0] = dcCoeff;
+        coeff_buffer[0] = dcCoeff;
 
     }
 
@@ -7498,10 +7498,10 @@ void Av1InverseTransformTwoD_64x64_c(
 /*********************************************************************
 * Estimate Inverse Transform
 *********************************************************************/
-EbErrorType Av1EstimateInvTransform(
-    int32_t      *coeffBuffer,
+EbErrorType av1_estimate_inv_transform(
+    int32_t      *coeff_buffer,
     uint32_t      coeff_stride,
-    int32_t      *reconBuffer,
+    int32_t      *recon_buffer,
     uint32_t      recon_stride,
     TxSize        transform_size,
     int16_t      *transform_inner_array_ptr,
@@ -7509,14 +7509,14 @@ EbErrorType Av1EstimateInvTransform(
     TxType        transform_type,
     uint32_t      eob,
     EbAsm         asm_type,
-    uint32_t      partialFrequencyN2Flag)
+    uint32_t      partial_frequency_n2_flag)
 {
     EbErrorType return_error = EB_ErrorNone;
 
     // Nader inverse tranform
     (void)transform_inner_array_ptr;
     (void)asm_type;
-    (void)partialFrequencyN2Flag;
+    (void)partial_frequency_n2_flag;
 
     //TxSetType  transformSetType = transform_type == DCT_DCT ? EXT_TX_SET_DCTONLY : /*ADST_ADST*/ EXT_TX_SET_DTT4_IDTX ; // NM - Set to zero for the moment
 
@@ -7529,36 +7529,36 @@ EbErrorType Av1EstimateInvTransform(
         switch (transform_size) {
         case TX_32X32:
             Av1InverseTransformTwoD_32x32_c(
-                coeffBuffer,
+                coeff_buffer,
                 coeff_stride,
-                reconBuffer,
+                recon_buffer,
                 recon_stride,
                 transform_type,
                 bit_depth);
             break;
         case TX_16X16:
             Av1InverseTransformTwoD_16x16_c(
-                coeffBuffer,
+                coeff_buffer,
                 coeff_stride,
-                reconBuffer,
+                recon_buffer,
                 recon_stride,
                 transform_type,
                 bit_depth);
             break;
         case TX_8X8:
             Av1InverseTransformTwoD_8x8_c(
-                coeffBuffer,
+                coeff_buffer,
                 coeff_stride,
-                reconBuffer,
+                recon_buffer,
                 recon_stride,
                 transform_type,
                 bit_depth);
             break;
         case TX_64X64:
             Av1InverseTransformTwoD_64x64_c(
-                coeffBuffer,
+                coeff_buffer,
                 coeff_stride,
-                reconBuffer,
+                recon_buffer,
                 recon_stride,
                 transform_type,
                 bit_depth);
@@ -7568,9 +7568,9 @@ EbErrorType Av1EstimateInvTransform(
             // which is significant (not just an optimization) for the lossless
             // case.
             Av1InverseTransformTwoD_4x4_c(
-                coeffBuffer,
+                coeff_buffer,
                 coeff_stride,
-                reconBuffer,
+                recon_buffer,
                 recon_stride,
                 transform_type,
                 bit_depth);
@@ -8341,17 +8341,17 @@ void av1_inv_txfm_add_c(const tran_low_t *dqcoeff, uint8_t *dst, int32_t stride,
     }
 }
 
-EbErrorType Av1InvTransformRecon(
-    int32_t      *coeffBuffer,//1D buffer
-    uint8_t      *reconBuffer,
+EbErrorType av1_inv_transform_recon(
+    int32_t      *coeff_buffer,//1D buffer
+    uint8_t      *recon_buffer,
     uint32_t      recon_stride,
     TxSize        txsize,
     uint32_t      bit_increment,
     TxType        transform_type,
-    PLANE_TYPE   componentType,
+    PLANE_TYPE   component_type,
     uint32_t       eob)
 {
-    UNUSED(componentType);
+    UNUSED(component_type);
     EbErrorType return_error = EB_ErrorNone;
     TxfmParam txfm_param;
     
@@ -8364,24 +8364,24 @@ EbErrorType Av1InvTransformRecon(
     txfm_param.is_hbd = 1;
     //txfm_param.tx_set_type = av1_get_ext_tx_set_type(   txfm_param->tx_size, is_inter_block(xd->mi[0]), reduced_tx_set);
 
-    highbd_inv_txfm_add((const tran_low_t *)coeffBuffer, reconBuffer,
+    highbd_inv_txfm_add((const tran_low_t *)coeff_buffer, recon_buffer,
         recon_stride, &txfm_param);
 
     return return_error;
 }
 
 
-EbErrorType Av1InvTransformRecon8bit(
-    int32_t       *coeffBuffer,//1D buffer
-    uint8_t       *reconBuffer,
+EbErrorType av1_inv_transform_recon8bit(
+    int32_t       *coeff_buffer,//1D buffer
+    uint8_t       *recon_buffer,
     uint32_t       recon_stride,
     TxSize         txsize,
     TxType         transform_type,
-    PLANE_TYPE     componentType,
+    PLANE_TYPE     component_type,
     uint32_t       eob
 )
 {
-    UNUSED(componentType);
+    UNUSED(component_type);
     EbErrorType return_error = EB_ErrorNone;
     TxfmParam txfm_param;
     txfm_param.tx_type = transform_type;
@@ -8392,7 +8392,7 @@ EbErrorType Av1InvTransformRecon8bit(
     txfm_param.is_hbd = 1;
     //txfm_param.tx_set_type = av1_get_ext_tx_set_type(   txfm_param->tx_size, is_inter_block(xd->mi[0]), reduced_tx_set);
 
-    av1_inv_txfm_add((const tran_low_t *)coeffBuffer, reconBuffer,
+    av1_inv_txfm_add((const tran_low_t *)coeff_buffer, recon_buffer,
         recon_stride, &txfm_param);
 
     return return_error;
@@ -8400,16 +8400,16 @@ EbErrorType Av1InvTransformRecon8bit(
 /*********************************************************************
  * Encode Inverse Transform
  *********************************************************************/
-EbErrorType EncodeInvTransform(
+EbErrorType encode_inv_transform(
     EbBool      is_only_dc,
-    int16_t      *coeffBuffer,
+    int16_t      *coeff_buffer,
     uint32_t       coeff_stride,
-    int16_t      *reconBuffer,
+    int16_t      *recon_buffer,
     uint32_t       recon_stride,
     uint32_t       transform_size,
     int16_t      *transform_inner_array_ptr,
     uint32_t       bit_increment,
-    EbBool      dstTransformFlag,
+    EbBool      dst_transform_flag,
     EbAsm       asm_type)
 {
     EbErrorType return_error = EB_ErrorNone;
@@ -8417,7 +8417,7 @@ EbErrorType EncodeInvTransform(
     uint32_t transformSizeFlag = Log2f(TRANSFORM_MAX_SIZE) - Log2f(transform_size);
 
     if (is_only_dc) {
-        int16_t  dcCoef = coeffBuffer[0];
+        int16_t  dcCoef = coeff_buffer[0];
 
         uint32_t  shift1st = SHIFT_INV_1ST;
         uint32_t  shift2nd = SHIFT_INV_2ND - bit_increment;
@@ -8431,7 +8431,7 @@ EbErrorType EncodeInvTransform(
         invTranformedDcCoef = (int16_t)CLIP3(MIN_NEG_16BIT_NUM, MAX_POS_16BIT_NUM, ((64 * invTranformedDcCoef + offset2nd) >> shift2nd));
 
         memset16bitBlock_funcPtrArray[asm_type](
-            reconBuffer,
+            recon_buffer,
             recon_stride,
             transform_size,
             invTranformedDcCoef);
@@ -8444,10 +8444,10 @@ EbErrorType EncodeInvTransform(
         // The input of this function is the quantized_inversequantized transformed residual
         //   but in order to avoid extra copying, it is overwritten in place. The
         //   input(residual_buffer) is the SB residual buffer
-        (*invTransformFunctionTableEncode[asm_type][transformSizeFlag + dstTransformFlag])(
-            coeffBuffer,
+        (*inv_transform_function_table_encode[asm_type][transformSizeFlag + dst_transform_flag])(
+            coeff_buffer,
             coeff_stride,
-            reconBuffer,
+            recon_buffer,
             recon_stride,
             transform_inner_array_ptr,
             bit_increment);
@@ -8458,7 +8458,7 @@ EbErrorType EncodeInvTransform(
 /*********************************************************************
  * Map Chroma QP
  *********************************************************************/
-uint8_t MapChromaQp(
+uint8_t map_chroma_qp(
     uint8_t  qp)
 {
     return qp;
@@ -8535,7 +8535,7 @@ uint8_t ConstructPmTransCoeffShapingKnob(const uint16_t *masking_matrix, uint8_t
         return(0);
     }
 }
-void ConstructPmTransCoeffShaping(
+void construct_pm_trans_coeff_shaping(
     SequenceControlSet_t  *sequence_control_set_ptr)
 {
 

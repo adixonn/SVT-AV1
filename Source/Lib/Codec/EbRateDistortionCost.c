@@ -1278,7 +1278,7 @@ EbErrorType Av1TuEstimateCoeffBits(
     uint64_t                                 *crTuCoeffBits,
     TxSize                                 txsize,
     TxSize                                 txsize_uv,
-    COMPONENT_TYPE                          componentType,
+    COMPONENT_TYPE                          component_type,
     EbAsm                                  asm_type)
 {
     (void)asm_type;
@@ -1286,7 +1286,7 @@ EbErrorType Av1TuEstimateCoeffBits(
     EbErrorType return_error = EB_ErrorNone;
 
 
-    int32_t *coeffBuffer;
+    int32_t *coeff_buffer;
 
 
     int16_t  luma_txb_skip_context = cu_ptr->luma_txb_skip_context;
@@ -1301,13 +1301,13 @@ EbErrorType Av1TuEstimateCoeffBits(
 
     //Estimate the rate of the transform type and coefficient for Luma
 
-    if (componentType == COMPONENT_LUMA || componentType == COMPONENT_ALL) {
+    if (component_type == COMPONENT_LUMA || component_type == COMPONENT_ALL) {
         if (yEob) {
-            coeffBuffer = (int32_t*)&coeff_buffer_sb->buffer_y[tuOriginIndex * sizeof(int32_t)];
+            coeff_buffer = (int32_t*)&coeff_buffer_sb->buffer_y[tuOriginIndex * sizeof(int32_t)];
 
             *yTuCoeffBits = av1_cost_coeffs_txb(
                 candidate_buffer_ptr,
-                coeffBuffer,
+                coeff_buffer,
                 (uint16_t)yEob,
                 PLANE_TYPE_Y,
                 txsize,
@@ -1325,16 +1325,16 @@ EbErrorType Av1TuEstimateCoeffBits(
     }
     //Estimate the rate of the transform type and coefficient for chroma Cb
 
-    if (componentType == COMPONENT_CHROMA_CB || componentType == COMPONENT_CHROMA || componentType == COMPONENT_ALL) {
+    if (component_type == COMPONENT_CHROMA_CB || component_type == COMPONENT_CHROMA || component_type == COMPONENT_ALL) {
 
         if (cbEob) {
 
-            coeffBuffer = (int32_t*)&coeff_buffer_sb->bufferCb[tuChromaOriginIndex * sizeof(int32_t)];
+            coeff_buffer = (int32_t*)&coeff_buffer_sb->bufferCb[tuChromaOriginIndex * sizeof(int32_t)];
 
 
             *cbTuCoeffBits = av1_cost_coeffs_txb(
                 candidate_buffer_ptr,
-                coeffBuffer,
+                coeff_buffer,
                 (uint16_t)cbEob,
                 PLANE_TYPE_UV,
                 txsize_uv,
@@ -1352,16 +1352,16 @@ EbErrorType Av1TuEstimateCoeffBits(
         }
     }
 
-    if (componentType == COMPONENT_CHROMA_CR || componentType == COMPONENT_CHROMA || componentType == COMPONENT_ALL) {
+    if (component_type == COMPONENT_CHROMA_CR || component_type == COMPONENT_CHROMA || component_type == COMPONENT_ALL) {
 
         //Estimate the rate of the transform type and coefficient for chroma Cr
         if (crEob) {
 
-            coeffBuffer = (int32_t*)&coeff_buffer_sb->bufferCr[tuChromaOriginIndex * sizeof(int32_t)];
+            coeff_buffer = (int32_t*)&coeff_buffer_sb->bufferCr[tuChromaOriginIndex * sizeof(int32_t)];
 
             *crTuCoeffBits = av1_cost_coeffs_txb(
                 candidate_buffer_ptr,
-                coeffBuffer,
+                coeff_buffer,
                 (uint16_t)crEob,
                 PLANE_TYPE_UV,
                 txsize_uv,
@@ -1973,7 +1973,7 @@ EbErrorType Av1TuCalcCost(
     uint64_t                   yTuDistortion[DIST_CALC_TOTAL],      // input parameter, Y distortion for both Normal and Cbf zero modes
     uint64_t                   cbTuDistortion[DIST_CALC_TOTAL],     // input parameter, Cb distortion for both Normal and Cbf zero modes
     uint64_t                   crTuDistortion[DIST_CALC_TOTAL],     // input parameter, Cr distortion for both Normal and Cbf zero modes
-    COMPONENT_TYPE           componentType,
+    COMPONENT_TYPE           component_type,
     uint64_t                  *yTuCoeffBits,                        // input parameter, Y quantized coefficients rate
     uint64_t                  *cbTuCoeffBits,                       // input parameter, Cb quantized coefficients rate
     uint64_t                  *crTuCoeffBits,                       // input parameter, Cr quantized coefficients rate
@@ -2000,7 +2000,7 @@ EbErrorType Av1TuCalcCost(
     uint64_t y_zero_coeff_rate;
 
     uint64_t y_zero_coeff_cost = 0;
-    if (componentType == COMPONENT_LUMA || componentType == COMPONENT_ALL) {
+    if (component_type == COMPONENT_LUMA || component_type == COMPONENT_ALL) {
 
         // Non Zero Distortion
         // *Note - As of Oct 2011, the JCT-VC uses the PSNR forumula
@@ -2047,11 +2047,11 @@ EbErrorType Av1TuCalcCost(
         *yTuCoeffBits = (y_nonzero_coeff_cost < y_zero_coeff_cost) ? *yTuCoeffBits : 0;
         yTuDistortion[DIST_CALC_RESIDUAL] = (y_nonzero_coeff_cost < y_zero_coeff_cost) ? yTuDistortion[DIST_CALC_RESIDUAL] : yTuDistortion[DIST_CALC_PREDICTION];
         }
-    if (componentType == COMPONENT_CHROMA_CB || componentType == COMPONENT_CHROMA || componentType == COMPONENT_ALL) {
+    if (component_type == COMPONENT_CHROMA_CB || component_type == COMPONENT_CHROMA || component_type == COMPONENT_ALL) {
 
         candidate_ptr->u_has_coeff |= ((cbCountNonZeroCoeffs != 0) << tu_index);
     }
-    if (componentType == COMPONENT_CHROMA_CR || componentType == COMPONENT_CHROMA || componentType == COMPONENT_ALL) {
+    if (component_type == COMPONENT_CHROMA_CR || component_type == COMPONENT_CHROMA || component_type == COMPONENT_ALL) {
 
         candidate_ptr->v_has_coeff |= ((crCountNonZeroCoeffs != 0) << tu_index);
     }

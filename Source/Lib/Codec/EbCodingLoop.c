@@ -54,7 +54,7 @@ extern void av1_predict_intra_block(
     FILTER_INTRA_MODE filter_intra_mode,
     uint8_t* topNeighArray,
     uint8_t* leftNeighArray,
-    EbPictureBufferDesc_t  *reconBuffer,
+    EbPictureBufferDesc_t  *recon_buffer,
 #if !INTRA_CORE_OPT
     int32_t col_off,
     int32_t row_off,
@@ -80,7 +80,7 @@ void av1_predict_intra_block_16bit(
     FILTER_INTRA_MODE filter_intra_mode,
     uint16_t* topNeighArray,
     uint16_t* leftNeighArray,
-    EbPictureBufferDesc_t  *reconBuffer,
+    EbPictureBufferDesc_t  *recon_buffer,
     int32_t col_off,
     int32_t row_off,
     int32_t plane,
@@ -308,7 +308,7 @@ static void EncodePassUpdateReconSampleNeighborArrays(
     NeighborArrayUnit_t     *lumaReconSampleNeighborArray,
     NeighborArrayUnit_t     *cbReconSampleNeighborArray,
     NeighborArrayUnit_t     *crReconSampleNeighborArray,
-    EbPictureBufferDesc_t   *reconBuffer,
+    EbPictureBufferDesc_t   *recon_buffer,
     uint32_t                   origin_x,
     uint32_t                   origin_y,
     uint32_t                   width,
@@ -327,10 +327,10 @@ static void EncodePassUpdateReconSampleNeighborArrays(
             // Recon Samples - Luma
             NeighborArrayUnit16bitSampleWrite(
                 lumaReconSampleNeighborArray,
-                (uint16_t*)(reconBuffer->buffer_y),
-                reconBuffer->stride_y,
-                reconBuffer->origin_x + origin_x,
-                reconBuffer->origin_y + origin_y,
+                (uint16_t*)(recon_buffer->buffer_y),
+                recon_buffer->stride_y,
+                recon_buffer->origin_x + origin_x,
+                recon_buffer->origin_y + origin_y,
                 origin_x,
                 origin_y,
                 width,
@@ -343,10 +343,10 @@ static void EncodePassUpdateReconSampleNeighborArrays(
             // Recon Samples - Cb
             NeighborArrayUnit16bitSampleWrite(
                 cbReconSampleNeighborArray,
-                (uint16_t*)(reconBuffer->bufferCb),
-                reconBuffer->strideCb,
-                (reconBuffer->origin_x + round_origin_x) >> 1,
-                (reconBuffer->origin_y + round_origin_y) >> 1,
+                (uint16_t*)(recon_buffer->bufferCb),
+                recon_buffer->strideCb,
+                (recon_buffer->origin_x + round_origin_x) >> 1,
+                (recon_buffer->origin_y + round_origin_y) >> 1,
                 round_origin_x >> 1,
                 round_origin_y >> 1,
                 bwidth_uv,
@@ -356,10 +356,10 @@ static void EncodePassUpdateReconSampleNeighborArrays(
             // Recon Samples - Cr
             NeighborArrayUnit16bitSampleWrite(
                 crReconSampleNeighborArray,
-                (uint16_t*)(reconBuffer->bufferCr),
-                reconBuffer->strideCr,
-                (reconBuffer->origin_x + round_origin_x) >> 1,
-                (reconBuffer->origin_y + round_origin_y) >> 1,
+                (uint16_t*)(recon_buffer->bufferCr),
+                recon_buffer->strideCr,
+                (recon_buffer->origin_x + round_origin_x) >> 1,
+                (recon_buffer->origin_y + round_origin_y) >> 1,
                 round_origin_x >> 1,
                 round_origin_y >> 1,
                 bwidth_uv,
@@ -374,10 +374,10 @@ static void EncodePassUpdateReconSampleNeighborArrays(
             // Recon Samples - Luma
             NeighborArrayUnitSampleWrite(
                 lumaReconSampleNeighborArray,
-                reconBuffer->buffer_y,
-                reconBuffer->stride_y,
-                reconBuffer->origin_x + origin_x,
-                reconBuffer->origin_y + origin_y,
+                recon_buffer->buffer_y,
+                recon_buffer->stride_y,
+                recon_buffer->origin_x + origin_x,
+                recon_buffer->origin_y + origin_y,
                 origin_x,
                 origin_y,
                 width,
@@ -390,10 +390,10 @@ static void EncodePassUpdateReconSampleNeighborArrays(
             // Recon Samples - Cb
             NeighborArrayUnitSampleWrite(
                 cbReconSampleNeighborArray,
-                reconBuffer->bufferCb,
-                reconBuffer->strideCb,
-                (reconBuffer->origin_x + round_origin_x) >> 1,
-                (reconBuffer->origin_y + round_origin_y) >> 1,
+                recon_buffer->bufferCb,
+                recon_buffer->strideCb,
+                (recon_buffer->origin_x + round_origin_x) >> 1,
+                (recon_buffer->origin_y + round_origin_y) >> 1,
                 round_origin_x >> 1,
                 round_origin_y >> 1,
                 bwidth_uv,
@@ -403,10 +403,10 @@ static void EncodePassUpdateReconSampleNeighborArrays(
             // Recon Samples - Cr
             NeighborArrayUnitSampleWrite(
                 crReconSampleNeighborArray,
-                reconBuffer->bufferCr,
-                reconBuffer->strideCr,
-                (reconBuffer->origin_x + round_origin_x) >> 1,
-                (reconBuffer->origin_y + round_origin_y) >> 1,
+                recon_buffer->bufferCr,
+                recon_buffer->strideCr,
+                (recon_buffer->origin_x + round_origin_x) >> 1,
+                (recon_buffer->origin_y + round_origin_y) >> 1,
                 round_origin_x >> 1,
                 round_origin_y >> 1,
                 bwidth_uv,
@@ -609,13 +609,13 @@ static void Av1EncodeLoop(
     UNUSED(coeff1dOffsetChroma);
 
 
-    //uint8_t enableContouringQCUpdateFlag;
-    //enableContouringQCUpdateFlag = DeriveContouringClass(
+    //uint8_t enable_contouring_qc_update_flag;
+    //enable_contouring_qc_update_flag = DeriveContouringClass(
     //    sb_ptr->picture_control_set_ptr->parent_pcs_ptr,
     //    sb_ptr->index,
     //    cu_ptr->leaf_index) && (cu_ptr->qp < sb_ptr->picture_control_set_ptr->picture_qp);
 
-    EbBool cleanSparseCoeffFlag = EB_FALSE;
+    EbBool clean_sparse_coeff_flag = EB_FALSE;
 
     context_ptr->three_quad_energy = 0;
     //**********************************
@@ -672,7 +672,7 @@ static void Av1EncodeLoop(
         }
 #endif
 
-        Av1EstimateTransform(
+        av1_estimate_transform(
             ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
             residual16bit->stride_y,
             ((tran_low_t*)transform16bit->buffer_y) + coeff1dOffset,
@@ -686,7 +686,7 @@ static void Av1EncodeLoop(
             PLANE_TYPE_Y,
             context_ptr->trans_coeff_shape_luma);
 
-        Av1QuantizeInvQuantize(
+        av1_quantize_inv_quantize(
             sb_ptr->picture_control_set_ptr,
             ((tran_low_t*)transform16bit->buffer_y) + coeff1dOffset,
             NOT_USED_VALUE,
@@ -707,7 +707,7 @@ static void Av1EncodeLoop(
             BIT_INCREMENT_8BIT,
 #endif
             txb_ptr->transform_type[PLANE_TYPE_Y],
-            cleanSparseCoeffFlag);
+            clean_sparse_coeff_flag);
 
         txb_ptr->y_has_coeff = count_non_zero_coeffs[0] ? EB_TRUE : EB_FALSE;
 
@@ -736,7 +736,7 @@ static void Av1EncodeLoop(
 
                 uint8_t     *predBuffer = predSamples->buffer_y + predLumaOffset;
 
-                Av1InvTransformRecon8bit(
+                av1_inv_transform_recon8bit(
                     ((int32_t*)inverse_quant_buffer->buffer_y) + coeff1dOffset,
                     predBuffer,
                     predSamples->stride_y,
@@ -835,7 +835,7 @@ static void Av1EncodeLoop(
             context_ptr->blk_geom->tx_width_uv[context_ptr->txb_itr],
             context_ptr->blk_geom->tx_height_uv[context_ptr->txb_itr]);
 
-        Av1EstimateTransform(
+        av1_estimate_transform(
             ((int16_t*)residual16bit->bufferCb) + scratchCbOffset,
             residual16bit->strideCb,
             ((tran_low_t*)transform16bit->bufferCb) + context_ptr->coded_area_sb_uv,
@@ -850,7 +850,7 @@ static void Av1EncodeLoop(
             context_ptr->trans_coeff_shape_chroma);
 
 
-        Av1QuantizeInvQuantize(
+        av1_quantize_inv_quantize(
             sb_ptr->picture_control_set_ptr,
 
             ((tran_low_t*)transform16bit->bufferCb) + context_ptr->coded_area_sb_uv,
@@ -870,7 +870,7 @@ static void Av1EncodeLoop(
             COMPONENT_CHROMA_CB,
             BIT_INCREMENT_8BIT,
             txb_ptr->transform_type[PLANE_TYPE_UV],
-            cleanSparseCoeffFlag);
+            clean_sparse_coeff_flag);
 
 
         txb_ptr->u_has_coeff = count_non_zero_coeffs[1] ? EB_TRUE : EB_FALSE;
@@ -879,7 +879,7 @@ static void Av1EncodeLoop(
         // Cr
         //**********************************
 
-        Av1EstimateTransform(
+        av1_estimate_transform(
             ((int16_t*)residual16bit->bufferCr) + scratchCbOffset,
             residual16bit->strideCr,
             ((tran_low_t*)transform16bit->bufferCr) + context_ptr->coded_area_sb_uv,
@@ -894,7 +894,7 @@ static void Av1EncodeLoop(
             context_ptr->trans_coeff_shape_chroma);
 
 
-        Av1QuantizeInvQuantize(
+        av1_quantize_inv_quantize(
             sb_ptr->picture_control_set_ptr,
             ((tran_low_t*)transform16bit->bufferCr) + context_ptr->coded_area_sb_uv,
             NOT_USED_VALUE,
@@ -913,7 +913,7 @@ static void Av1EncodeLoop(
             COMPONENT_CHROMA_CR,
             BIT_INCREMENT_8BIT,
             txb_ptr->transform_type[PLANE_TYPE_UV],
-            cleanSparseCoeffFlag);
+            clean_sparse_coeff_flag);
 
         txb_ptr->v_has_coeff = count_non_zero_coeffs[2] ? EB_TRUE : EB_FALSE;
     }
@@ -1022,7 +1022,7 @@ static void Av1EncodeLoop16bit(
     UNUSED(coeff1dOffsetChroma);
 #endif
 
-    EbBool cleanSparseCoeffFlag = EB_FALSE;
+    EbBool clean_sparse_coeff_flag = EB_FALSE;
 
     //Update QP for Quant
     qp += QP_BD_OFFSET;
@@ -1085,7 +1085,7 @@ static void Av1EncodeLoop16bit(
 #endif
 
 
-            Av1EstimateTransform(
+            av1_estimate_transform(
                 ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
                 residual16bit->stride_y,
                 ((tran_low_t*)transform16bit->buffer_y) + coeff1dOffset,
@@ -1099,7 +1099,7 @@ static void Av1EncodeLoop16bit(
                 PLANE_TYPE_Y,
                 context_ptr->trans_coeff_shape_luma);
 
-            Av1QuantizeInvQuantize(
+            av1_quantize_inv_quantize(
                 sb_ptr->picture_control_set_ptr,
                 ((int32_t*)transform16bit->buffer_y) + coeff1dOffset,
                 NOT_USED_VALUE,
@@ -1124,7 +1124,7 @@ static void Av1EncodeLoop16bit(
                 BIT_INCREMENT_10BIT,
 #endif
                 txb_ptr->transform_type[PLANE_TYPE_Y],
-                cleanSparseCoeffFlag);
+                clean_sparse_coeff_flag);
             txb_ptr->y_has_coeff = count_non_zero_coeffs[0] ? EB_TRUE : EB_FALSE;
 #if TX_TYPE_FIX
             if (count_non_zero_coeffs[0] == 0) {
@@ -1149,7 +1149,7 @@ static void Av1EncodeLoop16bit(
                 if (txb_ptr->y_has_coeff == EB_TRUE && cu_ptr->skip_flag == EB_FALSE) {
 #if QT_10BIT_SUPPORT
                     uint16_t     *predBuffer = ((uint16_t*)predSamples16bit->buffer_y) + predLumaOffset;
-                    Av1InvTransformRecon(
+                    av1_inv_transform_recon(
                         ((int32_t*)inverse_quant_buffer->buffer_y) + coeff1dOffset,
                         CONVERT_TO_BYTEPTR(predBuffer),
                         predSamples->stride_y,
@@ -1159,7 +1159,7 @@ static void Av1EncodeLoop16bit(
                         PLANE_TYPE_Y,
                         eob[0]);
 #else
-                    Av1EstimateInvTransform(
+                    av1_estimate_inv_transform(
                         ((int32_t*)inverse_quant_buffer->buffer_y) + scratchLumaOffset,
                         64,
                         ((int32_t*)inverse_quant_buffer->buffer_y) + scratchLumaOffset,
@@ -1267,7 +1267,7 @@ static void Av1EncodeLoop16bit(
                 context_ptr->blk_geom->tx_height_uv[context_ptr->txb_itr]);
 
 
-            Av1EstimateTransform(
+            av1_estimate_transform(
                 ((int16_t*)residual16bit->bufferCb) + scratchCbOffset,
                 residual16bit->strideCb,
 
@@ -1283,7 +1283,7 @@ static void Av1EncodeLoop16bit(
                 context_ptr->trans_coeff_shape_chroma);
 
 
-            Av1QuantizeInvQuantize(
+            av1_quantize_inv_quantize(
                 sb_ptr->picture_control_set_ptr,
                 ((int32_t*)transform16bit->bufferCb) + context_ptr->coded_area_sb_uv,
                 NOT_USED_VALUE,
@@ -1309,7 +1309,7 @@ static void Av1EncodeLoop16bit(
                 BIT_INCREMENT_10BIT,
 #endif
                 txb_ptr->transform_type[PLANE_TYPE_UV],
-                cleanSparseCoeffFlag);
+                clean_sparse_coeff_flag);
 
             txb_ptr->u_has_coeff = count_non_zero_coeffs[1] ? EB_TRUE : EB_FALSE;
 
@@ -1317,7 +1317,7 @@ static void Av1EncodeLoop16bit(
             // Cr
             //**********************************
 #if !QT_10BIT_SUPPORT
-            EncodeTransform(
+            encode_transform(
                 ((int16_t*)residual16bit->bufferCr) + scratchCrOffset,
                 32,
                 ((int16_t*)transform16bit->bufferCr) + scratchCrOffset,
@@ -1330,7 +1330,7 @@ static void Av1EncodeLoop16bit(
                 asm_type);
 #endif
 
-            Av1EstimateTransform(
+            av1_estimate_transform(
                 ((int16_t*)residual16bit->bufferCr) + scratchCbOffset,
 
                 residual16bit->strideCr,
@@ -1349,7 +1349,7 @@ static void Av1EncodeLoop16bit(
                 context_ptr->trans_coeff_shape_chroma);
 
 
-            Av1QuantizeInvQuantize(
+            av1_quantize_inv_quantize(
                 sb_ptr->picture_control_set_ptr,
                 ((int32_t*)transform16bit->bufferCr) + context_ptr->coded_area_sb_uv,
                 NOT_USED_VALUE,
@@ -1374,7 +1374,7 @@ static void Av1EncodeLoop16bit(
                 BIT_INCREMENT_10BIT,
 #endif
                 txb_ptr->transform_type[PLANE_TYPE_UV],
-                cleanSparseCoeffFlag);
+                clean_sparse_coeff_flag);
             txb_ptr->v_has_coeff = count_non_zero_coeffs[2] ? EB_TRUE : EB_FALSE;
 
         }
@@ -1441,7 +1441,7 @@ static void Av1EncodeGenerateRecon(
                 (void)asm_type;
                 (void)transformScratchBuffer;
                 uint8_t     *predBuffer = predSamples->buffer_y + predLumaOffset;
-                Av1InvTransformRecon8bit(
+                av1_inv_transform_recon8bit(
                     ((int32_t*)residual16bit->buffer_y) + context_ptr->coded_area_sb,
                     predBuffer,
                     predSamples->stride_y,
@@ -1473,7 +1473,7 @@ static void Av1EncodeGenerateRecon(
 
             uint8_t     *predBuffer = predSamples->bufferCb + predChromaOffset;
 
-            Av1InvTransformRecon8bit(
+            av1_inv_transform_recon8bit(
                 ((int32_t*)residual16bit->bufferCb) + context_ptr->coded_area_sb_uv,
 
                 predBuffer,
@@ -1494,7 +1494,7 @@ static void Av1EncodeGenerateRecon(
 
             uint8_t     *predBuffer = predSamples->bufferCr + predChromaOffset;
 
-            Av1InvTransformRecon8bit(
+            av1_inv_transform_recon8bit(
                 ((int32_t*)residual16bit->bufferCr) + context_ptr->coded_area_sb_uv,
                 predBuffer,
                 predSamples->strideCr,
@@ -1572,7 +1572,7 @@ static void Av1EncodeGenerateRecon16bit(
 
 #if QT_10BIT_SUPPORT
                 uint16_t     *predBuffer = ((uint16_t*)predSamples->buffer_y) + predLumaOffset;
-                Av1InvTransformRecon(
+                av1_inv_transform_recon(
                     ((int32_t*)residual16bit->buffer_y) + context_ptr->coded_area_sb,
                     CONVERT_TO_BYTEPTR(predBuffer),
                     predSamples->stride_y,
@@ -1583,7 +1583,7 @@ static void Av1EncodeGenerateRecon16bit(
                     eob[0]
                 );
 #else
-                Av1EstimateInvTransform(
+                av1_estimate_inv_transform(
                     ((int32_t*)residual16bit->buffer_y) + scratchLumaOffset,
                     64,
                     ((int32_t*)residual16bit->buffer_y) + scratchLumaOffset,
@@ -1638,7 +1638,7 @@ static void Av1EncodeGenerateRecon16bit(
 
 #if QT_10BIT_SUPPORT
             uint16_t     *predBuffer = ((uint16_t*)predSamples->bufferCb) + predChromaOffset;
-            Av1InvTransformRecon(
+            av1_inv_transform_recon(
                 ((int32_t*)residual16bit->bufferCb) + context_ptr->coded_area_sb_uv,
                 CONVERT_TO_BYTEPTR(predBuffer),
                 predSamples->strideCb,
@@ -1648,7 +1648,7 @@ static void Av1EncodeGenerateRecon16bit(
                 PLANE_TYPE_UV,
                 eob[1]);
 #else
-            Av1EstimateInvTransform(
+            av1_estimate_inv_transform(
                 ((int32_t*)residual16bit->bufferCb) + scratchChromaOffset,
                 32,
                 ((int32_t*)residual16bit->bufferCb) + scratchChromaOffset,
@@ -1687,7 +1687,7 @@ static void Av1EncodeGenerateRecon16bit(
 
 #if QT_10BIT_SUPPORT
             uint16_t     *predBuffer = ((uint16_t*)predSamples->bufferCr) + predChromaOffset;
-            Av1InvTransformRecon(
+            av1_inv_transform_recon(
                 ((int32_t*)residual16bit->bufferCr) + context_ptr->coded_area_sb_uv,
                 CONVERT_TO_BYTEPTR(predBuffer),
                 predSamples->strideCr,
@@ -1697,7 +1697,7 @@ static void Av1EncodeGenerateRecon16bit(
                 PLANE_TYPE_UV,
                 eob[2]);
 #else
-            Av1EstimateInvTransform(
+            av1_estimate_inv_transform(
                 ((int32_t*)residual16bit->bufferCr) + scratchChromaOffset,
                 32,
                 ((int32_t*)residual16bit->bufferCr) + scratchChromaOffset,
@@ -1782,7 +1782,7 @@ static void EncodeGenerateRecon(
         reconLumaOffset = (reconSamples->origin_y + origin_y)            * reconSamples->stride_y + (reconSamples->origin_x + origin_x);
         if (txb_ptr->lumaCbf == EB_TRUE && cu_ptr->skip_flag == EB_FALSE) {
 
-            EncodeInvTransform(
+            encode_inv_transform(
                 txb_ptr->trans_coeff_shape_luma == ONLY_DC_SHAPE || txb_ptr->is_only_dc[0],
                 ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
                 64,
@@ -1819,7 +1819,7 @@ static void EncodeGenerateRecon(
         //**********************************
         if (txb_ptr->cbCbf == EB_TRUE && cu_ptr->skip_flag == EB_FALSE) {
 
-            EncodeInvTransform(
+            encode_inv_transform(
                 txb_ptr->trans_coeff_shape_chroma == ONLY_DC_SHAPE || txb_ptr->is_only_dc[1],
                 ((int16_t*)residual16bit->bufferCb) + scratchChromaOffset,
                 32,
@@ -1850,7 +1850,7 @@ static void EncodeGenerateRecon(
         reconChromaOffset = (((reconSamples->origin_y + origin_y) >> 1)          * reconSamples->strideCr) + ((reconSamples->origin_x + origin_x) >> 1);
         if (txb_ptr->crCbf == EB_TRUE && cu_ptr->skip_flag == EB_FALSE) {
 
-            EncodeInvTransform(
+            encode_inv_transform(
                 txb_ptr->trans_coeff_shape_chroma == ONLY_DC_SHAPE || txb_ptr->is_only_dc[2],
                 ((int16_t*)residual16bit->bufferCr) + scratchChromaOffset,
                 32,
@@ -1927,7 +1927,7 @@ static void EncodeGenerateRecon16bit(
         reconLumaOffset = (predSamples->origin_y + origin_y)* predSamples->stride_y + (predSamples->origin_x + origin_x);
         if (txb_ptr->lumaCbf == EB_TRUE && cu_ptr->skip_flag == EB_FALSE) {
 
-            EncodeInvTransform(
+            encode_inv_transform(
                 txb_ptr->trans_coeff_shape_luma == ONLY_DC_SHAPE || txb_ptr->is_only_dc[0],
                 ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
                 64,
@@ -1967,7 +1967,7 @@ static void EncodeGenerateRecon16bit(
         reconChromaOffset = (((predSamples->origin_y + origin_y) >> 1) * predSamples->strideCb) + ((predSamples->origin_x + origin_x) >> 1);
         if (txb_ptr->cbCbf == EB_TRUE && cu_ptr->skip_flag == EB_FALSE) {
 
-            EncodeInvTransform(
+            encode_inv_transform(
                 txb_ptr->trans_coeff_shape_chroma == ONLY_DC_SHAPE || txb_ptr->is_only_dc[1],
                 ((int16_t*)residual16bit->bufferCb) + scratchChromaOffset,
                 32,
@@ -1999,7 +1999,7 @@ static void EncodeGenerateRecon16bit(
         reconChromaOffset = (((predSamples->origin_y + origin_y) >> 1) * predSamples->strideCr) + ((predSamples->origin_x + origin_x) >> 1);
         if (txb_ptr->crCbf == EB_TRUE && cu_ptr->skip_flag == EB_FALSE) {
 
-            EncodeInvTransform(
+            encode_inv_transform(
                 txb_ptr->trans_coeff_shape_chroma == ONLY_DC_SHAPE || txb_ptr->is_only_dc[2],
                 ((int16_t*)residual16bit->bufferCr) + scratchChromaOffset,
                 32,
@@ -2760,7 +2760,7 @@ EB_EXTERN void AV1EncodePass(
 {
 
     EbBool                    is16bit = context_ptr->is16bit;
-    EbPictureBufferDesc_t    *reconBuffer = is16bit ? picture_control_set_ptr->recon_picture16bit_ptr : picture_control_set_ptr->recon_picture_ptr;
+    EbPictureBufferDesc_t    *recon_buffer = is16bit ? picture_control_set_ptr->recon_picture16bit_ptr : picture_control_set_ptr->recon_picture_ptr;
     EbPictureBufferDesc_t    *coeff_buffer_sb = sb_ptr->quantized_coeff;
     EbPictureBufferDesc_t    *inputPicture;
     ModeDecisionContext_t    *mdcontextPtr;
@@ -2884,16 +2884,16 @@ EB_EXTERN void AV1EncodePass(
         //get the 16bit form of the input LCU
         if (is16bit) {
 
-            reconBuffer = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture16bit;
+            recon_buffer = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture16bit;
 
         }
 
         else {
-            reconBuffer = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture;
+            recon_buffer = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->objectPtr)->referencePicture;
         }
     }
     else { // non ref pictures
-        reconBuffer = is16bit ? picture_control_set_ptr->recon_picture16bit_ptr : picture_control_set_ptr->recon_picture_ptr;
+        recon_buffer = is16bit ? picture_control_set_ptr->recon_picture16bit_ptr : picture_control_set_ptr->recon_picture_ptr;
     }
 
 
@@ -3250,7 +3250,7 @@ EB_EXTERN void AV1EncodePass(
                                         FILTER_INTRA_MODES,                                         //CHKN FILTER_INTRA_MODE filter_intra_mode,
                                         topNeighArray + 1,
                                         leftNeighArray + 1,
-                                        reconBuffer,                                                //uint8_t *dst,
+                                        recon_buffer,                                                //uint8_t *dst,
                                         //int32_t dst_stride,
                                         0,                                                          //int32_t col_off,
                                         0,                                                          //int32_t row_off,
@@ -3330,7 +3330,7 @@ EB_EXTERN void AV1EncodePass(
                                         FILTER_INTRA_MODES,                                         //CHKN FILTER_INTRA_MODE filter_intra_mode,
                                         topNeighArray + 1,
                                         leftNeighArray + 1,
-                                        reconBuffer,                                                //uint8_t *dst,
+                                        recon_buffer,                                                //uint8_t *dst,
                                         //int32_t dst_stride,
 #if !INTRA_CORE_OPT
                                         0,                                                          //int32_t col_off,
@@ -3397,7 +3397,7 @@ EB_EXTERN void AV1EncodePass(
                                     FILTER_INTRA_MODES,                                         //CHKN FILTER_INTRA_MODE filter_intra_mode,
                                     topNeighArray + 1,
                                     leftNeighArray + 1,
-                                    reconBuffer,                                                //uint8_t *dst,
+                                    recon_buffer,                                                //uint8_t *dst,
                                                                                                 //int32_t dst_stride,
                                     0,                                                          //int32_t col_off,
                                     0,                                                          //int32_t row_off,
@@ -3424,7 +3424,7 @@ EB_EXTERN void AV1EncodePass(
                                     context_ptr->cu_origin_x,
                                     context_ptr->cu_origin_y,
                                     cbQp,
-                                    reconBuffer,
+                                    recon_buffer,
                                     coeff_buffer_sb,
                                     residual_buffer,
                                     transform_buffer,
@@ -3443,7 +3443,7 @@ EB_EXTERN void AV1EncodePass(
                                     context_ptr,
                                     context_ptr->cu_origin_x,
                                     context_ptr->cu_origin_y,
-                                    reconBuffer,
+                                    recon_buffer,
                                     inverse_quant_buffer,
                                     transform_inner_array_ptr,
                                     blk_geom->has_uv ? PICTURE_BUFFER_DESC_FULL_MASK : PICTURE_BUFFER_DESC_LUMA_MASK,
@@ -3474,7 +3474,7 @@ EB_EXTERN void AV1EncodePass(
                                 ep_luma_recon_neighbor_array,
                                 ep_cb_recon_neighbor_array,
                                 ep_cr_recon_neighbor_array,
-                                reconBuffer,
+                                recon_buffer,
                                 context_ptr->cu_origin_x,
                                 context_ptr->cu_origin_y,
                                 context_ptr->blk_geom->bwidth,
@@ -3662,7 +3662,7 @@ EB_EXTERN void AV1EncodePass(
                                             cu_ptr,
                                             blk_geom,
                                             refObj0->referencePicture16bit,
-                                            reconBuffer,
+                                            recon_buffer,
                                             context_ptr->cu_origin_x,
                                             context_ptr->cu_origin_y,
                                             &cu_ptr->prediction_unit_array[0].wm_params,
@@ -3676,7 +3676,7 @@ EB_EXTERN void AV1EncodePass(
                                             cu_ptr,
                                             blk_geom,
                                             refObj0->referencePicture,
-                                            reconBuffer,
+                                            recon_buffer,
                                             context_ptr->cu_origin_x,
                                             context_ptr->cu_origin_y,
                                             &cu_ptr->prediction_unit_array[0].wm_params,
@@ -3704,7 +3704,7 @@ EB_EXTERN void AV1EncodePass(
                                     blk_geom->bheight,
                                     refObj0->referencePicture16bit,
                                     picture_control_set_ptr->slice_type == B_SLICE ? refObj1->referencePicture16bit : 0,
-                                    reconBuffer,
+                                    recon_buffer,
                                     context_ptr->cu_origin_x,
                                     context_ptr->cu_origin_y,
                                     (uint8_t)sequence_control_set_ptr->static_config.encoder_bit_depth,
@@ -3722,7 +3722,7 @@ EB_EXTERN void AV1EncodePass(
                                     blk_geom->bheight,
                                     refObj0->referencePicture,
                                     picture_control_set_ptr->slice_type == B_SLICE ? refObj1->referencePicture : 0,
-                                    reconBuffer,
+                                    recon_buffer,
                                     context_ptr->cu_origin_x,
                                     context_ptr->cu_origin_y,
                                     asm_type);
@@ -3767,7 +3767,7 @@ EB_EXTERN void AV1EncodePass(
                                     txb_origin_x,   //pic org
                                     txb_origin_y,
                                     cbQp,
-                                    reconBuffer,
+                                    recon_buffer,
                                     coeff_buffer_sb,
                                     residual_buffer,
                                     transform_buffer,
@@ -3948,7 +3948,7 @@ EB_EXTERN void AV1EncodePass(
                                 txb_origin_x, //pic offset
                                 txb_origin_y,
                                 cbQp,
-                                reconBuffer,
+                                recon_buffer,
                                 coeff_buffer_sb,
                                 residual_buffer,
                                 transform_buffer,
@@ -3985,7 +3985,7 @@ EB_EXTERN void AV1EncodePass(
                                 context_ptr,
                                 txb_origin_x,  //pic offset
                                 txb_origin_y,
-                                reconBuffer,
+                                recon_buffer,
                                 inverse_quant_buffer,
                                 transform_inner_array_ptr,
                                 context_ptr->blk_geom->has_uv ? PICTURE_BUFFER_DESC_FULL_MASK : PICTURE_BUFFER_DESC_LUMA_MASK,
@@ -4058,7 +4058,7 @@ EB_EXTERN void AV1EncodePass(
                             ep_luma_recon_neighbor_array,
                             ep_cb_recon_neighbor_array,
                             ep_cr_recon_neighbor_array,
-                            reconBuffer,
+                            recon_buffer,
                             context_ptr->cu_origin_x,
                             context_ptr->cu_origin_y,
                             context_ptr->blk_geom->bwidth,
@@ -4150,7 +4150,7 @@ EB_EXTERN void AV1EncodePass(
         if (picture_control_set_ptr->parent_pcs_ptr->lf.filter_level[0] || picture_control_set_ptr->parent_pcs_ptr->lf.filter_level[1]) {
             uint8_t LastCol = ((sb_origin_x)+sb_width == sequence_control_set_ptr->luma_width) ? 1 : 0;
             loop_filter_sb(
-                reconBuffer,
+                recon_buffer,
                 picture_control_set_ptr,
                 NULL,
                 sb_origin_y >> 2,

@@ -59,7 +59,7 @@ extern "C" {
         uint32_t                   y_count_non_zero_coeffs,
         uint32_t                   cbCountNonZeroCoeffs,
         uint32_t                   crCountNonZeroCoeffs,
-        COMPONENT_TYPE            componentType,
+        COMPONENT_TYPE            component_type,
         EbAsm                   asm_type);
 
     extern uint64_t ComputeNxMSatdSadLCU(
@@ -333,7 +333,7 @@ extern "C" {
         uint32_t   area_height);
 
     typedef void(*EB_ZEROCOEFF_TYPE)(
-        int16_t*                  coeffbuffer,
+        int16_t*                  coeff_buffer,
         uint32_t                   coeff_stride,
         uint32_t                   coeff_origin_index,
         uint32_t                   area_width,

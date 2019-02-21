@@ -14,28 +14,28 @@ extern "C" {
 
     //-----
     extern void zero_out_coeff4x4_sse(
-        int16_t *coeffbuffer,
+        int16_t *coeff_buffer,
         uint32_t coeff_stride,
         uint32_t coeff_origin_index,
         uint32_t area_width,
         uint32_t area_height);
 
     extern void zero_out_coeff8x8_sse2(
-        int16_t *coeffbuffer,
+        int16_t *coeff_buffer,
         uint32_t coeff_stride,
         uint32_t coeff_origin_index,
         uint32_t area_width,
         uint32_t area_height);
 
     extern void zero_out_coeff16x16_sse2(
-        int16_t *coeffbuffer,
+        int16_t *coeff_buffer,
         uint32_t coeff_stride,
         uint32_t coeff_origin_index,
         uint32_t area_width,
         uint32_t area_height);
 
     extern void zero_out_coeff32x32_sse2(
-        int16_t *coeffbuffer,
+        int16_t *coeff_buffer,
         uint32_t coeff_stride,
         uint32_t coeff_origin_index,
         uint32_t area_width,
