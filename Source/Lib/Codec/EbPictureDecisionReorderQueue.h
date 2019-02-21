@@ -18,7 +18,7 @@ typedef struct PictureDecisionReorderEntry_s {
 } PictureDecisionReorderEntry_t;
 
 extern EbErrorType PictureDecisionReorderEntryCtor(
-    PictureDecisionReorderEntry_t       **entryDblPtr,
+    PictureDecisionReorderEntry_t       **entry_dbl_ptr,
     uint32_t                                picture_number);
 
 #endif //EbPictureDecisionReorderQueue_h

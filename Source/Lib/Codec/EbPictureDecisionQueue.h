@@ -31,7 +31,7 @@ typedef struct PaReferenceQueueEntry_s {
 } PaReferenceQueueEntry_t;
 
 extern EbErrorType PaReferenceQueueEntryCtor(
-    PaReferenceQueueEntry_t  **entryDblPtr);
+    PaReferenceQueueEntry_t  **entry_dbl_ptr);
 
 
 #endif // EbPictureDecisionQueue_h

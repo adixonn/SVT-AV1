@@ -7,11 +7,11 @@
 #include "EbPictureManagerQueue.h"
 
 EbErrorType InputQueueEntryCtor(
-    InputQueueEntry_t      **entryDblPtr)
+    InputQueueEntry_t      **entry_dbl_ptr)
 {
     InputQueueEntry_t *entryPtr;
     EB_MALLOC(InputQueueEntry_t*, entryPtr, sizeof(InputQueueEntry_t), EB_N_PTR);
-    *entryDblPtr = entryPtr;
+    *entry_dbl_ptr = entryPtr;
 
     entryPtr->inputObjectPtr = (EbObjectWrapper_t*)EB_NULL;
     entryPtr->referenceEntryIndex = 0;
@@ -26,11 +26,11 @@ EbErrorType InputQueueEntryCtor(
 
 
 EbErrorType ReferenceQueueEntryCtor(
-    ReferenceQueueEntry_t  **entryDblPtr)
+    ReferenceQueueEntry_t  **entry_dbl_ptr)
 {
     ReferenceQueueEntry_t *entryPtr;
     EB_MALLOC(ReferenceQueueEntry_t*, entryPtr, sizeof(ReferenceQueueEntry_t), EB_N_PTR);
-    *entryDblPtr = entryPtr;
+    *entry_dbl_ptr = entryPtr;
 
     entryPtr->referenceObjectPtr = (EbObjectWrapper_t*)EB_NULL;
     entryPtr->picture_number = ~0u;

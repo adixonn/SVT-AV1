@@ -18,7 +18,7 @@ typedef struct PictureManagerReorderEntry_s {
 } PictureManagerReorderEntry_t;
 
 extern EbErrorType PictureManagerReorderEntryCtor(
-    PictureManagerReorderEntry_t       **entryDblPtr,
+    PictureManagerReorderEntry_t       **entry_dbl_ptr,
     uint32_t                                picture_number);
 
 #endif //EbPictureManagerReorderQueue_h

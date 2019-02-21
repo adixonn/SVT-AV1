@@ -7,13 +7,13 @@
 #include "EbPictureDecisionReorderQueue.h"
 
 EbErrorType PictureDecisionReorderEntryCtor(
-    PictureDecisionReorderEntry_t   **entryDblPtr,
+    PictureDecisionReorderEntry_t   **entry_dbl_ptr,
     uint32_t                            picture_number)
 {
-    EB_MALLOC(PictureDecisionReorderEntry_t*, *entryDblPtr, sizeof(PictureDecisionReorderEntry_t), EB_N_PTR);
+    EB_MALLOC(PictureDecisionReorderEntry_t*, *entry_dbl_ptr, sizeof(PictureDecisionReorderEntry_t), EB_N_PTR);
 
-    (*entryDblPtr)->picture_number = picture_number;
-    (*entryDblPtr)->parentPcsWrapperPtr = (EbObjectWrapper_t *)EB_NULL;
+    (*entry_dbl_ptr)->picture_number = picture_number;
+    (*entry_dbl_ptr)->parentPcsWrapperPtr = (EbObjectWrapper_t *)EB_NULL;
 
     return EB_ErrorNone;
 }

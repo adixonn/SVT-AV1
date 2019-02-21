@@ -40,7 +40,7 @@ extern "C" {
     } PacketizationReorderEntry_t;
 
     extern EbErrorType PacketizationReorderEntryCtor(
-        PacketizationReorderEntry_t   **entryDblPtr,
+        PacketizationReorderEntry_t   **entry_dbl_ptr,
         uint32_t                          picture_number);
 
 
