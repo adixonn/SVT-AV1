@@ -390,15 +390,15 @@ extern "C" {
     static EB_ADDDKERNEL_AV1_TYPE FUNC_TABLE AdditionKernel_Av1_funcPtrArray[ASM_TYPE_TOTAL][9] = {
         // NON_AVX2
         {
-            /*0 4x4   */    PictureAdditionKernel,
-            /*1 8x8   */    PictureAdditionKernel,
-            /*2 16x16 */    PictureAdditionKernel,
+            /*0 4x4   */    picture_addition_kernel,
+            /*1 8x8   */    picture_addition_kernel,
+            /*2 16x16 */    picture_addition_kernel,
             /*3       */    (EB_ADDDKERNEL_AV1_TYPE)PictureAdditionVoidFunc,
-            /*4 32x32 */    PictureAdditionKernel,
+            /*4 32x32 */    picture_addition_kernel,
             /*5       */    (EB_ADDDKERNEL_AV1_TYPE)PictureAdditionVoidFunc,
             /*6       */    (EB_ADDDKERNEL_AV1_TYPE)PictureAdditionVoidFunc,
             /*7       */    (EB_ADDDKERNEL_AV1_TYPE)PictureAdditionVoidFunc,
-            /*8 64x64 */    PictureAdditionKernel,
+            /*8 64x64 */    picture_addition_kernel,
         },
         // AVX2
         {

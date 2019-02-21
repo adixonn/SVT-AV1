@@ -29,7 +29,7 @@ void PictureCopyKernel_SSSE3(
     uint32_t                   dst_stride,
     uint32_t                   area_width,
     uint32_t                   area_height,
-    uint32_t                   bytesPerSample);
+    uint32_t                   bytes_per_sample);
 
 void avc_style_luma_interpolation_filter_pose_ssse3(
     EbByte               ref_pic,

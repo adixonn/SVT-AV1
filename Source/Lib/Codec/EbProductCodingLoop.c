@@ -724,7 +724,7 @@ static INLINE uint16_t highbd_clip_pixel_add(uint16_t dest, tran_high_t trans,
 /*********************************
 * Picture Single Channel Kernel
 *********************************/
-void PictureAdditionKernel(
+void picture_addition_kernel(
     uint8_t  *pred_ptr,
     uint32_t  pred_stride,
     int32_t *residual_ptr,
@@ -1127,7 +1127,7 @@ uint64_t ProductGenerateChromaWeight(
     return (weight << 1);
 }
 
-uint64_t SpatialFullDistortionKernel(
+uint64_t spatial_full_distortion_kernel(
     uint8_t   *input,
     uint32_t   input_stride,
     uint8_t   *recon,

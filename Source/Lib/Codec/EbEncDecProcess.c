@@ -711,7 +711,7 @@ static void ReconOutput(
             EB_ENC_ROB_OF_ERROR);
 
         // Initialize Y recon buffer
-        PictureCopyKernel(
+        picture_copy_kernel(
             reconReadPtr,
             recon_ptr->stride_y,
             reconWritePtr,
@@ -733,7 +733,7 @@ static void ReconOutput(
             EB_ENC_ROB_OF_ERROR);
 
         // Initialize U recon buffer
-        PictureCopyKernel(
+        picture_copy_kernel(
             reconReadPtr,
             recon_ptr->strideCb,
             reconWritePtr,
@@ -755,7 +755,7 @@ static void ReconOutput(
 
         // Initialize V recon buffer
 
-        PictureCopyKernel(
+        picture_copy_kernel(
             reconReadPtr,
             recon_ptr->strideCr,
             reconWritePtr,

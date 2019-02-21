@@ -92,11 +92,11 @@ void PictureCopyKernel_SSSE3(
     uint32_t                   dst_stride,
     uint32_t                   area_width,
     uint32_t                   area_height,
-    uint32_t                   bytesPerSample)
+    uint32_t                   bytes_per_sample)
 {
 
     uint32_t row_count, colCount;
-    (void)bytesPerSample;
+    (void)bytes_per_sample;
 
 
     PrefetchBlock(src, src_stride, area_width, area_height);

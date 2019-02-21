@@ -9,21 +9,21 @@
 /*********************************
 * Picture Copy Kernel
 *********************************/
-void PictureCopyKernel(
+void picture_copy_kernel(
     EbByte                  src,
     uint32_t                   src_stride,
     EbByte                  dst,
     uint32_t                   dst_stride,
     uint32_t                   area_width,
     uint32_t                   area_height,
-    uint32_t                   bytesPerSample)  //=1 always)
+    uint32_t                   bytes_per_sample)  //=1 always)
 {
     uint32_t sampleCount = 0;
     const uint32_t sampleTotalCount = area_width * area_height;
-    const uint32_t copyLength = area_width * bytesPerSample;
+    const uint32_t copyLength = area_width * bytes_per_sample;
 
-    src_stride *= bytesPerSample;
-    dst_stride *= bytesPerSample;
+    src_stride *= bytes_per_sample;
+    dst_stride *= bytes_per_sample;
 
     while (sampleCount < sampleTotalCount) {
         EB_MEMCPY(dst, src, copyLength);
@@ -37,7 +37,7 @@ void PictureCopyKernel(
 
 // C equivalents
 
-uint64_t SpatialFullDistortionKernel(
+uint64_t spatial_full_distortion_kernel(
     uint8_t   *input,
     uint32_t   input_stride,
     uint8_t   *recon,
