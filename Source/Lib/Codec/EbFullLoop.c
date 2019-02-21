@@ -1017,7 +1017,7 @@ void ProductFullLoop(
 
 
         // LUMA DISTORTION
-        PictureFullDistortion32Bits(
+        picture_full_distortion32_bits(
             context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr,
             txb_1d_offset,
             0,
@@ -1262,7 +1262,7 @@ void ProductFullLoopTxSearch(
 
 
             // LUMA DISTORTION
-            PictureFullDistortion32Bits(
+            picture_full_distortion32_bits(
                 context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr,
                 tuOriginIndex,
                 0,
@@ -1470,7 +1470,7 @@ void encode_pass_tx_search(
 
 
         // LUMA DISTORTION
-        PictureFullDistortion32Bits(
+        picture_full_distortion32_bits(
             transform16bit,
             coeff1dOffset,
             0,
@@ -1682,7 +1682,7 @@ void encode_pass_tx_search_hbd(
 
 
         // LUMA DISTORTION
-        PictureFullDistortion32Bits(
+        picture_full_distortion32_bits(
             transform16bit,
             coeff1dOffset,
             0,
@@ -2006,7 +2006,7 @@ void CuFullDistortionFastTuMode_R(
             //    equivalent.
 
 
-            PictureFullDistortion32Bits(
+            picture_full_distortion32_bits(
                 transform_buffer,
                 NOT_USED_VALUE,
                 tuChromaOriginIndex,

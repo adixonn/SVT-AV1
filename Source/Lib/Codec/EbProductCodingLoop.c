@@ -766,7 +766,7 @@ void picture_addition_kernel(
     return;
 }
 
-void PictureAdditionKernel16Bit(
+void picture_addition_kernel16_bit(
     uint16_t  *pred_ptr,
     uint32_t  pred_stride,
     int32_t *residual_ptr,
@@ -864,7 +864,7 @@ void AV1PerformInverseTransformReconLuma(
             }
             else {
 
-                PictureCopy8Bit(
+                picture_copy8_bit(
                     candidateBuffer->prediction_ptr,
                     tuOriginIndex,
                     0,//tuChromaOriginIndex,
@@ -940,7 +940,7 @@ void AV1PerformInverseTransformRecon(
                     (uint16_t)candidateBuffer->candidate_ptr->eob[0][txb_itr]);
             }
             else {
-                PictureCopy8Bit(
+                picture_copy8_bit(
                     candidateBuffer->prediction_ptr,
                     tuOriginIndex,
                     0,//tuChromaOriginIndex,
@@ -979,7 +979,7 @@ void AV1PerformInverseTransformRecon(
             }
             else {
 
-                PictureCopy8Bit(
+                picture_copy8_bit(
                     candidateBuffer->prediction_ptr,
                     0,
                     cbTuChromaOriginIndex,
@@ -1014,7 +1014,7 @@ void AV1PerformInverseTransformRecon(
             }
             else {
 
-                PictureCopy8Bit(
+                picture_copy8_bit(
                     candidateBuffer->prediction_ptr,
                     0,
                     crTuChromaOriginIndex,

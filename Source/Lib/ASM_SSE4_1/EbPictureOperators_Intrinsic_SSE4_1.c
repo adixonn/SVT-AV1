@@ -249,7 +249,7 @@ uint64_t Compute8x8Satd_SSE4(
 
 uint64_t Compute8x8Satd_U8_SSE4(
     uint8_t  *src,       // input parameter, diff samples Ptr
-    uint64_t *dcValue,
+    uint64_t *dc_value,
     uint32_t  src_stride)
 {
     uint64_t satdBlock8x8 = 0;
@@ -380,7 +380,7 @@ uint64_t Compute8x8Satd_U8_SSE4(
     //m2[0][i] = m2[0][i] + m2[1][i] + m2[2][i] + m2[3][i] + m2[4][i] + m2[5][i] + m2[6][i] + m2[7][i]
     s9 = _mm_add_epi16(sum0to3Pos, sum4to7Pos);
     s9 = _mm_abs_epi16(s9);
-    *dcValue += _mm_extract_epi16(s9, 0);
+    *dc_value += _mm_extract_epi16(s9, 0);
 
     s10 = _mm_unpacklo_epi16(s9, _mm_setzero_si128());
     s11 = _mm_unpackhi_epi16(s9, _mm_setzero_si128());

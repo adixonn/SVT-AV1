@@ -375,7 +375,7 @@ void CalculateAcEnergy(
         uint16_t cuH, cuW;
 
 
-        picture_control_set_ptr->sb_y_src_energy_cu_array[sb_index][0] = ComputeNxMSatdSadLCU(
+        picture_control_set_ptr->sb_y_src_energy_cu_array[sb_index][0] = compute_nx_m_satd_sad_lcu(
             &(input_picture_ptr->buffer_y[inputOriginIndex]),
             input_picture_ptr->stride_y,
             sb_params->width,
@@ -392,7 +392,7 @@ void CalculateAcEnergy(
             for (cuW = 0; cuW < cuNum; cuW++) {
                 inputCuOriginIndex = inputOriginIndex + cuH * (64 / cuNum)*inputLumaStride + cuW * (64 / cuNum);
 
-                picture_control_set_ptr->sb_y_src_energy_cu_array[sb_index][1 + cuH * cuNum + cuW] = ComputeNxMSatdSadLCU(
+                picture_control_set_ptr->sb_y_src_energy_cu_array[sb_index][1 + cuH * cuNum + cuW] = compute_nx_m_satd_sad_lcu(
                     &(input_picture_ptr->buffer_y[inputCuOriginIndex]),
                     input_picture_ptr->stride_y,
                     cu_size,

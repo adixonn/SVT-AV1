@@ -17,7 +17,7 @@ extern "C" {
 
     uint64_t Compute8x8Satd_U8_SSE4(
         uint8_t  *src,       // input parameter, diff samples Ptr
-        uint64_t *dcValue,
+        uint64_t *dc_value,
         uint32_t  src_stride);
 
 #if  M0_SPATIAL_SSE || SPATIAL_SSE_I_B_SLICES || M0_SSD_HALF_QUARTER_PEL_BIPRED_SEARCH

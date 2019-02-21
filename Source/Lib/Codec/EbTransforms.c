@@ -4783,9 +4783,9 @@ EbErrorType encode_transform(
 
     else { // trans_coeff_shape == ONLY_DC_SHAPE
 
-        int32_t sumResidual;
+        int32_t sum_residual;
 
-        sumResidual = SumResidual_funcPtrArray[asm_type](
+        sum_residual = sum_residual_func_ptr_array[asm_type](
             residual_buffer,
             transform_size,
             residual_stride);
@@ -4798,7 +4798,7 @@ EbErrorType encode_transform(
 
         int16_t dcCoeff;
         int32_t dcCoeffTemp;
-        dcCoeffTemp = (int32_t)((64 * sumResidual + offset1st) >> shift1st);
+        dcCoeffTemp = (int32_t)((64 * sum_residual + offset1st) >> shift1st);
         dcCoeff = (int16_t)((64 * dcCoeffTemp + offset2nd) >> shift2nd);
 
         coeff_buffer[0] = dcCoeff;
@@ -8430,7 +8430,7 @@ EbErrorType encode_inv_transform(
         invTranformedDcCoef = (int16_t)CLIP3(MIN_NEG_16BIT_NUM, MAX_POS_16BIT_NUM, ((64 * dcCoef + offset1st) >> shift1st));
         invTranformedDcCoef = (int16_t)CLIP3(MIN_NEG_16BIT_NUM, MAX_POS_16BIT_NUM, ((64 * invTranformedDcCoef + offset2nd) >> shift2nd));
 
-        memset16bitBlock_funcPtrArray[asm_type](
+        memset16bit_block_func_ptr_array[asm_type](
             recon_buffer,
             recon_stride,
             transform_size,

@@ -493,21 +493,21 @@ void PfZeroOutUselessQuadrants(
     uint32_t  quadrantSize,
     EbAsm  asm_type) {
 
-    PicZeroOutCoef_funcPtrArray[asm_type][quadrantSize >> 3](
+    pic_zero_out_coef_func_ptr_array[asm_type][quadrantSize >> 3](
         transformCoeffBuffer,
         transformCoeffStride,
         quadrantSize,
         quadrantSize,
         quadrantSize);
 
-    PicZeroOutCoef_funcPtrArray[asm_type][quadrantSize >> 3](
+    pic_zero_out_coef_func_ptr_array[asm_type][quadrantSize >> 3](
         transformCoeffBuffer,
         transformCoeffStride,
         quadrantSize * transformCoeffStride,
         quadrantSize,
         quadrantSize);
 
-    PicZeroOutCoef_funcPtrArray[asm_type][quadrantSize >> 3](
+    pic_zero_out_coef_func_ptr_array[asm_type][quadrantSize >> 3](
         transformCoeffBuffer,
         transformCoeffStride,
         quadrantSize * transformCoeffStride + quadrantSize,
@@ -1037,7 +1037,7 @@ static void Av1EncodeLoop16bit(
         //**********************************
         if (component_mask == PICTURE_BUFFER_DESC_FULL_MASK || component_mask == PICTURE_BUFFER_DESC_LUMA_MASK) {
 
-            ResidualKernel16bit(
+            residual_kernel16bit(
                 ((uint16_t*)inputSamples16bit->buffer_y) + inputLumaOffset,
                 inputSamples16bit->stride_y,
                 ((uint16_t*)predSamples16bit->buffer_y) + predLumaOffset,
@@ -1172,7 +1172,7 @@ static void Av1EncodeLoop16bit(
                         asm_type,
                         0);
 
-                    PictureAdditionKernel16Bit(
+                    picture_addition_kernel16_bit(
                         ((uint16_t*)predSamples16bit->buffer_y) + predLumaOffset,
                         predSamples16bit->stride_y,
                         ((int32_t*)inverse_quant_buffer->buffer_y) + scratchLumaOffset,
@@ -1244,7 +1244,7 @@ static void Av1EncodeLoop16bit(
             //**********************************
             // Cb
             //**********************************
-            ResidualKernel16bit(
+            residual_kernel16bit(
                 ((uint16_t*)inputSamples16bit->bufferCb) + inputCbOffset,
                 inputSamples16bit->strideCb,
                 ((uint16_t*)predSamples16bit->bufferCb) + predCbOffset,
@@ -1255,7 +1255,7 @@ static void Av1EncodeLoop16bit(
                 context_ptr->blk_geom->tx_height_uv[context_ptr->txb_itr]);
 
 
-            ResidualKernel16bit(
+            residual_kernel16bit(
 
                 ((uint16_t*)inputSamples16bit->bufferCr) + inputCrOffset,
                 inputSamples16bit->strideCr,
@@ -1596,7 +1596,7 @@ static void Av1EncodeGenerateRecon16bit(
                     asm_type,
                     0);
 
-                PictureAdditionKernel16Bit(
+                picture_addition_kernel16_bit(
                     (uint16_t*)predSamples->buffer_y + predLumaOffset,
                     predSamples->stride_y,
                     ((int32_t*)residual16bit->buffer_y) + scratchLumaOffset,
@@ -1661,7 +1661,7 @@ static void Av1EncodeGenerateRecon16bit(
                 asm_type,
                 0);
 
-            PictureAdditionKernel16Bit(
+            picture_addition_kernel16_bit(
                 (uint16_t*)predSamples->bufferCb + predChromaOffset,
                 predSamples->strideCb,
                 ((int32_t*)residual16bit->bufferCb) + scratchChromaOffset,
@@ -1710,7 +1710,7 @@ static void Av1EncodeGenerateRecon16bit(
                 asm_type,
                 0);
 
-            PictureAdditionKernel16Bit(
+            picture_addition_kernel16_bit(
                 (uint16_t*)predSamples->bufferCr + predChromaOffset,
                 predSamples->strideCr,
                 ((int32_t*)residual16bit->bufferCr) + scratchChromaOffset,
@@ -1794,7 +1794,7 @@ static void EncodeGenerateRecon(
                 (EbBool)(txb_size == MIN_PU_SIZE),
                 asm_type);
 
-            AdditionKernel_funcPtrArray[asm_type][txb_size >> 3](
+            addition_kernel_func_ptr_array[asm_type][txb_size >> 3](
                 predSamples->buffer_y + predLumaOffset,
                 predSamples->stride_y,
                 ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
@@ -1831,7 +1831,7 @@ static void EncodeGenerateRecon(
                 EB_FALSE,
                 asm_type);
 
-            AdditionKernel_funcPtrArray[asm_type][txb_size >> 4](
+            addition_kernel_func_ptr_array[asm_type][txb_size >> 4](
                 predSamples->bufferCb + predChromaOffset,
                 predSamples->strideCb,
                 ((int16_t*)residual16bit->bufferCb) + scratchChromaOffset,
@@ -1862,7 +1862,7 @@ static void EncodeGenerateRecon(
                 EB_FALSE,
                 asm_type);
 
-            AdditionKernel_funcPtrArray[asm_type][txb_size >> 4](
+            addition_kernel_func_ptr_array[asm_type][txb_size >> 4](
                 predSamples->bufferCr + predChromaOffset,
                 predSamples->strideCr,
                 ((int16_t*)residual16bit->bufferCr) + scratchChromaOffset,
@@ -1939,7 +1939,7 @@ static void EncodeGenerateRecon16bit(
                 (EbBool)(txb_size == MIN_PU_SIZE),
                 asm_type);
 
-            AdditionKernel_funcPtrArray16bit[asm_type](
+            addition_kernel_func_ptr_array16bit[asm_type](
                 (uint16_t*)predSamples->buffer_y + predLumaOffset,
                 predSamples->stride_y,
                 ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
@@ -1979,7 +1979,7 @@ static void EncodeGenerateRecon16bit(
                 EB_FALSE,
                 asm_type);
 
-            AdditionKernel_funcPtrArray16bit[asm_type](
+            addition_kernel_func_ptr_array16bit[asm_type](
                 (uint16_t*)predSamples->bufferCb + predChromaOffset,
                 predSamples->strideCb,
                 ((int16_t*)residual16bit->bufferCb) + scratchChromaOffset,
@@ -2011,7 +2011,7 @@ static void EncodeGenerateRecon16bit(
                 EB_FALSE,
                 asm_type);
 
-            AdditionKernel_funcPtrArray16bit[asm_type](
+            addition_kernel_func_ptr_array16bit[asm_type](
                 (uint16_t*)predSamples->bufferCr + predChromaOffset,
                 predSamples->strideCr,
                 ((int16_t*)residual16bit->bufferCr) + scratchChromaOffset,
@@ -2920,7 +2920,7 @@ EB_EXTERN void AV1EncodePass(
             const uint16_t chroma2BitWidth = inputPicture->width / 8;
 
 
-            CompressedPackLcu(
+            compressed_pack_lcu(
                 inputPicture->buffer_y + inputLumaOffset,
                 inputPicture->stride_y,
                 inputPicture->bufferBitIncY + sb_origin_y * luma2BitWidth + (sb_origin_x / 4)*sb_height,
@@ -2931,7 +2931,7 @@ EB_EXTERN void AV1EncodePass(
                 sb_height,
                 asm_type);
 
-            CompressedPackLcu(
+            compressed_pack_lcu(
                 inputPicture->bufferCb + inputCbOffset,
                 inputPicture->strideCb,
                 inputPicture->bufferBitIncCb + sb_origin_y / 2 * chroma2BitWidth + (sb_origin_x / 8)*(sb_height / 2),
@@ -2942,7 +2942,7 @@ EB_EXTERN void AV1EncodePass(
                 sb_height >> 1,
                 asm_type);
 
-            CompressedPackLcu(
+            compressed_pack_lcu(
                 inputPicture->bufferCr + inputCrOffset,
                 inputPicture->strideCr,
                 inputPicture->bufferBitIncCr + sb_origin_y / 2 * chroma2BitWidth + (sb_origin_x / 8)*(sb_height / 2),
@@ -2963,7 +2963,7 @@ EB_EXTERN void AV1EncodePass(
             const uint32_t inputCrOffset = (((sb_origin_y + inputPicture->origin_y) >> 1)  * inputPicture->strideCr) + ((sb_origin_x + inputPicture->origin_x) >> 1);
             const uint32_t inputBitIncCrOffset = (((sb_origin_y + inputPicture->origin_y) >> 1)  * inputPicture->strideBitIncCr) + ((sb_origin_x + inputPicture->origin_x) >> 1);
 
-            Pack2D_SRC(
+            pack2d_src(
                 inputPicture->buffer_y + inputLumaOffset,
                 inputPicture->stride_y,
                 inputPicture->bufferBitIncY + inputBitIncLumaOffset,
@@ -2975,7 +2975,7 @@ EB_EXTERN void AV1EncodePass(
                 asm_type);
 
 
-            Pack2D_SRC(
+            pack2d_src(
                 inputPicture->bufferCb + inputCbOffset,
                 inputPicture->strideCr,
                 inputPicture->bufferBitIncCb + inputBitIncCbOffset,
@@ -2987,7 +2987,7 @@ EB_EXTERN void AV1EncodePass(
                 asm_type);
 
 
-            Pack2D_SRC(
+            pack2d_src(
                 inputPicture->bufferCr + inputCrOffset,
                 inputPicture->strideCr,
                 inputPicture->bufferBitIncCr + inputBitIncCrOffset,
@@ -3787,7 +3787,7 @@ EB_EXTERN void AV1EncodePass(
                                 if (!zeroLumaCbfMD)
 
                                     // LUMA DISTORTION
-                                    PictureFullDistortion32Bits(
+                                    picture_full_distortion32_bits(
                                         transform_buffer,
                                         context_ptr->coded_area_sb,
                                         0,

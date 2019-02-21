@@ -1956,7 +1956,7 @@ extern "C" {
     void highbd_variance64_avx2(const uint8_t *a8, int32_t a_stride, const uint8_t *b8, int32_t b_stride, int32_t w, int32_t h, uint64_t *sse, int64_t *sum);
     RTCD_EXTERN void (*highbd_variance64)(const uint8_t *a8, int32_t a_stride, const uint8_t *b8, int32_t b_stride, int32_t w, int32_t h, uint64_t *sse, int64_t *sum);
     
-    void ResidualKernel_c(uint8_t *input, uint32_t input_stride, uint8_t *pred, uint32_t pred_stride, int16_t *residual, uint32_t residual_stride, uint32_t area_width, uint32_t area_height);
+    void residual_kernel_c(uint8_t *input, uint32_t input_stride, uint8_t *pred, uint32_t pred_stride, int16_t *residual, uint32_t residual_stride, uint32_t area_width, uint32_t area_height);
     void ResidualKernel_avx2(uint8_t *input, uint32_t input_stride, uint8_t *pred, uint32_t pred_stride, int16_t *residual, uint32_t residual_stride, uint32_t area_width, uint32_t area_height);
     RTCD_EXTERN void(*ResidualKernel)(uint8_t *input, uint32_t input_stride, uint8_t *pred, uint32_t pred_stride, int16_t *residual, uint32_t residual_stride, uint32_t area_width, uint32_t area_height);
     
@@ -2214,7 +2214,7 @@ extern "C" {
         //av1_get_nz_map_contexts = av1_get_nz_map_contexts_c;
         if (flags & HAS_SSE2) av1_get_nz_map_contexts = av1_get_nz_map_contexts_sse2;
 
-        ResidualKernel = ResidualKernel_c;
+        ResidualKernel = residual_kernel_c;
         if (flags & HAS_AVX2) ResidualKernel = ResidualKernel_avx2;
 
         av1_txb_init_levels = av1_txb_init_levels_c;
@@ -2304,7 +2304,7 @@ extern "C" {
         av1_highbd_dr_prediction_z1 = av1_highbd_dr_prediction_z1_c;
         av1_highbd_dr_prediction_z2 = av1_highbd_dr_prediction_z2_c;
         av1_highbd_dr_prediction_z3 = av1_highbd_dr_prediction_z3_c;
-        ResidualKernel = ResidualKernel_c;
+        ResidualKernel = residual_kernel_c;
 
         av1_txb_init_levels = av1_txb_init_levels_c;
 #endif

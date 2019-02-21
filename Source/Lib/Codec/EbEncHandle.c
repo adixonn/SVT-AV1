@@ -2995,7 +2995,7 @@ static EbErrorType CopyFrameBuffer(
         uint16_t sourceCrStride = (uint16_t)(inputPtr->crStride);
         uint16_t sourceCbStride = (uint16_t)(inputPtr->cbStride);
 
-        UnPack2D(
+        un_pack2d(
             (uint16_t*)(inputPtr->luma + lumaOffset),
             sourceLumaStride,
             input_picture_ptr->buffer_y + lumaBufferOffset,
@@ -3006,7 +3006,7 @@ static EbErrorType CopyFrameBuffer(
             lumaHeight,
             config->asm_type);
 
-        UnPack2D(
+        un_pack2d(
             (uint16_t*)(inputPtr->cb + chromaOffset),
             sourceCbStride,
             input_picture_ptr->bufferCb + chromaBufferOffset,
@@ -3017,7 +3017,7 @@ static EbErrorType CopyFrameBuffer(
             (lumaHeight >> 1),
             config->asm_type);
 
-        UnPack2D(
+        un_pack2d(
             (uint16_t*)(inputPtr->cr + chromaOffset),
             sourceCrStride,
             input_picture_ptr->bufferCr + chromaBufferOffset,

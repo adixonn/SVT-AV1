@@ -23,7 +23,7 @@ static const int32_t kMaxLag = 4;
 void *aom_memalign(size_t align, size_t size);
 void aom_free(void *memblk);
 
-void UnPack2D(
+void un_pack2d(
     uint16_t      *in16_bit_buffer,
     uint32_t       in_stride,
     uint8_t       *out8_bit_buffer,
@@ -34,7 +34,7 @@ void UnPack2D(
     uint32_t       height,
     EbAsm       asm_type);
 
-void Pack2D_SRC(
+void pack2d_src(
     uint8_t     *in8_bit_buffer,
     uint32_t     in8_stride,
     uint8_t     *inn_bit_buffer,
@@ -1660,7 +1660,7 @@ static void pack_2d_pic(EbPictureBufferDesc_t *inputPicture,
     const uint32_t inputCrOffset = (((inputPicture->origin_y) >> 1) * inputPicture->strideCr) + ((inputPicture->origin_x) >> 1);
     const uint32_t inputBitIncCrOffset = (((inputPicture->origin_y) >> 1) * inputPicture->strideBitIncCr) + ((inputPicture->origin_x) >> 1);
 
-    Pack2D_SRC(
+    pack2d_src(
         inputPicture->buffer_y + inputLumaOffset,
         inputPicture->stride_y,
         inputPicture->bufferBitIncY + inputBitIncLumaOffset,
@@ -1671,7 +1671,7 @@ static void pack_2d_pic(EbPictureBufferDesc_t *inputPicture,
         inputPicture->height,
         asm_type);
 
-    Pack2D_SRC(
+    pack2d_src(
         inputPicture->bufferCb + inputCbOffset,
         inputPicture->strideCr,
         inputPicture->bufferBitIncCb + inputBitIncCbOffset,
@@ -1682,7 +1682,7 @@ static void pack_2d_pic(EbPictureBufferDesc_t *inputPicture,
         inputPicture->height >> 1,
         asm_type);
 
-    Pack2D_SRC(
+    pack2d_src(
         inputPicture->bufferCr + inputCrOffset,
         inputPicture->strideCr,
         inputPicture->bufferBitIncCr + inputBitIncCrOffset,
@@ -1706,7 +1706,7 @@ static void unpack_2d_pic(uint8_t *packed[3],
     uint16_t luma_height = (uint16_t)(outputPicturePtr->height);
     uint16_t chroma_height = luma_height >> 1;
 
-    UnPack2D(
+    un_pack2d(
         (uint16_t*)(packed[0]),
         outputPicturePtr->stride_y,
         outputPicturePtr->buffer_y + lumaBufferOffset,
@@ -1717,7 +1717,7 @@ static void unpack_2d_pic(uint8_t *packed[3],
         luma_height,
         asm_type);
 
-    UnPack2D(
+    un_pack2d(
         (uint16_t*)(packed[1]),
         outputPicturePtr->strideCb,
         outputPicturePtr->bufferCb + chromaBufferOffset,
@@ -1728,7 +1728,7 @@ static void unpack_2d_pic(uint8_t *packed[3],
         chroma_height,
         asm_type);
 
-    UnPack2D(
+    un_pack2d(
         (uint16_t*)(packed[2]),
         outputPicturePtr->strideCr,
         outputPicturePtr->bufferCr + chromaBufferOffset,
