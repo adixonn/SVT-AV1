@@ -558,7 +558,7 @@ void extract_8bit_data(
 )
 {
 
-    UnPack8BIT_funcPtrArray_16Bit[((width & 3) == 0) && ((height & 1) == 0)][asm_type](
+    unpack8_bit_func_ptr_array_16_bit[((width & 3) == 0) && ((height & 1) == 0)][asm_type](
         in16_bit_buffer,
         in_stride,
         out8_bit_buffer,
@@ -578,7 +578,7 @@ void unpack_l0l1_avg(
     EbAsm  asm_type)
 {
 
-    UnPackAvg_funcPtrArray[asm_type](
+    un_pack_avg_func_ptr_array[asm_type](
         ref16_l0,
         ref_l0_stride,
         ref16_l1,
@@ -602,7 +602,7 @@ void extract8_bitdata_safe_sub(
 )
 {
 
-    UnPack8BITSafeSub_funcPtrArray_16Bit[asm_type](
+    unpack8_bit_safe_sub_func_ptr_array_16_bit[asm_type](
         in16_bit_buffer,
         in_stride,
         out8_bit_buffer,
@@ -626,7 +626,7 @@ void unpack_l0l1_avg_safe_sub(
 {
     //fix C
 
-    UnPackAvgSafeSub_funcPtrArray[asm_type](
+    unpack_avg_safe_sub_func_ptr_array[asm_type](
         ref16_l0,
         ref_l0_stride,
         ref16_l1,
@@ -652,7 +652,7 @@ void un_pack2d(
 )
 {
 
-    UnPack2D_funcPtrArray_16Bit[((width & 3) == 0) && ((height & 1) == 0)][asm_type](
+    un_pack2d_func_ptr_array_16_bit[((width & 3) == 0) && ((height & 1) == 0)][asm_type](
         in16_bit_buffer,
         in_stride,
         out8_bit_buffer,
@@ -676,7 +676,7 @@ void pack2d_src(
 )
 {
 
-    Pack2D_funcPtrArray_16Bit_SRC[((width & 3) == 0) && ((height & 1) == 0)][asm_type](
+    pack2d_func_ptr_array_16_bit_src[((width & 3) == 0) && ((height & 1) == 0)][asm_type](
         in8_bit_buffer,
         in8_stride,
         inn_bit_buffer,
@@ -701,7 +701,7 @@ void compressed_pack_lcu(
 {
 
 
-    CompressedPack_funcPtrArray[(width == 64 || width == 32) ? asm_type : ASM_NON_AVX2](
+    compressed_pack_func_ptr_array[(width == 64 || width == 32) ? asm_type : ASM_NON_AVX2](
         in8_bit_buffer,
         in8_stride,
         inn_bit_buffer,
@@ -724,7 +724,7 @@ void conv2b_to_c_pack_lcu(
     EbAsm     asm_type)
 {
 
-    Convert_Unpack_CPack_funcPtrArray[(width == 64 || width == 32) ? asm_type : ASM_NON_AVX2](
+    convert_unpack_c_pack_func_ptr_array[(width == 64 || width == 32) ? asm_type : ASM_NON_AVX2](
         inn_bit_buffer,
         inn_stride,
         in_compn_bit_buffer,
