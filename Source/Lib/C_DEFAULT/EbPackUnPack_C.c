@@ -9,7 +9,7 @@
 /************************************************
 * pack 8 and 2 bit 2D data into 10 bit data
 ************************************************/
-void EB_ENC_msbPack2D(
+void eb_enc_msb_pack2_d(
     uint8_t     *in8_bit_buffer,
     uint32_t     in8_stride,
     uint8_t     *inn_bit_buffer,
@@ -41,7 +41,7 @@ void EB_ENC_msbPack2D(
 * pack 8 and 2 bit 2D data into 10 bit data
 2bit data storage : 4 2bit-pixels in one byte
 ************************************************/
-void CompressedPackmsb(
+void compressed_packmsb(
     uint8_t     *in8_bit_buffer,
     uint32_t     in8_stride,
     uint8_t     *inn_bit_buffer,
@@ -89,7 +89,7 @@ void CompressedPackmsb(
 * convert unpacked nbit (n=2) data to compressedPAcked
 2bit data storage : 4 2bit-pixels in one byte
 ************************************************/
-void CPack_C(
+void c_pack_c(
     const uint8_t     *inn_bit_buffer,
     uint32_t     inn_stride,
     uint8_t     *in_compn_bit_buffer,
@@ -124,7 +124,7 @@ void CPack_C(
 /************************************************
 * unpack 10 bit data into  8 and 2 bit 2D data
 ************************************************/
-void EB_ENC_msbUnPack2D(
+void eb_enc_msb_un_pack2_d(
     uint16_t      *in16_bit_buffer,
     uint32_t       in_stride,
     uint8_t       *out8_bit_buffer,
@@ -149,7 +149,7 @@ void EB_ENC_msbUnPack2D(
     }
 
 }
-void UnPack8BitData(
+void un_pack8_bit_data(
     uint16_t      *in16_bit_buffer,
     uint32_t       in_stride,
     uint8_t       *out8_bit_buffer,
@@ -172,7 +172,7 @@ void UnPack8BitData(
     }
 
 }
-void UnpackAvg(
+void unpack_avg(
     uint16_t *ref16_l0,
     uint32_t  ref_l0_stride,
     uint16_t *ref16_l1,
@@ -200,7 +200,7 @@ void UnpackAvg(
 
 }
 
-void UnpackAvgSafeSub(
+void unpack_avg_safe_sub(
     uint16_t *ref16_l0,
     uint32_t  ref_l0_stride,
     uint16_t *ref16_l1,

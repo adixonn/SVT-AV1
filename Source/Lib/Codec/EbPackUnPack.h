@@ -27,9 +27,9 @@ extern "C" {
     {
         {
             // NON_AVX2
-            EB_ENC_msbPack2D,
+            eb_enc_msb_pack2_d,
             // AVX2
-            EB_ENC_msbPack2D,
+            eb_enc_msb_pack2_d,
         },
         {
             // NON_AVX2
@@ -43,7 +43,7 @@ extern "C" {
     EB_ENC_Pack2D_TYPE CompressedPack_funcPtrArray[ASM_TYPE_TOTAL] =
     {
         // NON_AVX2
-        CompressedPackmsb,
+        compressed_packmsb,
         // AVX2
         compressed_packmsb_avx2_intrin,
 
@@ -61,7 +61,7 @@ extern "C" {
     COMPPack_TYPE  Convert_Unpack_CPack_funcPtrArray[ASM_TYPE_TOTAL] =
     {
         // NON_AVX2
-        CPack_C,
+        c_pack_c,
         // AVX2
         c_pack_avx2_intrin,
 
@@ -81,9 +81,9 @@ extern "C" {
     {
         {
             // NON_AVX2
-            EB_ENC_msbUnPack2D,
+            eb_enc_msb_un_pack2_d,
             // AVX2
-            EB_ENC_msbUnPack2D,
+            eb_enc_msb_un_pack2_d,
         },
         {
             // NON_AVX2
@@ -105,7 +105,7 @@ extern "C" {
     EB_ENC_UnpackAvg_TYPE UnPackAvg_funcPtrArray[ASM_TYPE_TOTAL] =
     {
         // NON_AVX2
-        UnpackAvg,
+        unpack_avg,
         // AVX2
         unpack_avg_avx2_intrin,//unpack_avg_sse2_intrin,
 
@@ -123,7 +123,7 @@ extern "C" {
     EB_ENC_UnpackAvgSub_TYPE UnPackAvgSafeSub_funcPtrArray[ASM_TYPE_TOTAL] =
     {
         // NON_AVX2
-        UnpackAvgSafeSub,
+        unpack_avg_safe_sub,
         // AVX2  SafeSub
         unpack_avg_safe_sub_avx2_intrin,//unpack_avg_sse2_intrin,
 
@@ -139,8 +139,8 @@ extern "C" {
     EB_ENC_UnPack8BitData_TYPE UnPack8BIT_funcPtrArray_16Bit[2][ASM_TYPE_TOTAL] =
     {
         {
-           UnPack8BitData,
-           UnPack8BitData,
+           un_pack8_bit_data,
+           un_pack8_bit_data,
         },
         {
             // NON_AVX2
