@@ -106,14 +106,14 @@ void eb_memcpySSE_intel(void* dst_ptr, void const* src_ptr, size_t size)
         eb_memcpy_small(dst + i, src + i, size - i);
 }
 
-void  DRDmemcpy(void  *dst_ptr, void  *srcPtr, uint32_t  cnt)
+void  DRDmemcpy(void  *dst_ptr, void  *src_ptr, uint32_t  cnt)
 {
     if (cnt > 64)
     {
-        eb_memcpySSE_intel(dst_ptr, srcPtr, cnt);
+        eb_memcpySSE_intel(dst_ptr, src_ptr, cnt);
     }
     else {
-        eb_memcpy_small(dst_ptr, srcPtr, cnt);
+        eb_memcpy_small(dst_ptr, src_ptr, cnt);
     }
 }
 

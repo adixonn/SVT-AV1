@@ -1778,35 +1778,35 @@ void coding_loop_context_generation(
     NeighborArrayUnit_t       *leaf_partition_neighbor_array)
 {
     (void)sb_sz;
-    uint32_t modeTypeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t modeTypeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         mode_type_neighbor_array,
         cu_origin_y);
-    uint32_t modeTypeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t modeTypeTopNeighborIndex = get_neighbor_array_unit_top_index(
         mode_type_neighbor_array,
         cu_origin_x);
-    uint32_t leafDepthLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t leafDepthLeftNeighborIndex = get_neighbor_array_unit_left_index(
         leaf_depth_neighbor_array,
         cu_origin_y);
-    uint32_t leafDepthTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t leafDepthTopNeighborIndex = get_neighbor_array_unit_top_index(
         leaf_depth_neighbor_array,
         cu_origin_x);
-    uint32_t skipFlagLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t skipFlagLeftNeighborIndex = get_neighbor_array_unit_left_index(
         skip_flag_neighbor_array,
         cu_origin_y);
-    uint32_t skipFlagTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t skipFlagTopNeighborIndex = get_neighbor_array_unit_top_index(
         skip_flag_neighbor_array,
         cu_origin_x);
-    uint32_t intraLumaModeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t intraLumaModeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         intraLumaNeighborArray,
         cu_origin_y);
-    uint32_t intraLumaModeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t intraLumaModeTopNeighborIndex = get_neighbor_array_unit_top_index(
         intraLumaNeighborArray,
         cu_origin_x);
 
-    uint32_t partition_left_neighbor_index = GetNeighborArrayUnitLeftIndex(
+    uint32_t partition_left_neighbor_index = get_neighbor_array_unit_left_index(
         leaf_partition_neighbor_array,
         cu_origin_y);
-    uint32_t partition_above_neighbor_index = GetNeighborArrayUnitTopIndex(
+    uint32_t partition_above_neighbor_index = get_neighbor_array_unit_top_index(
         leaf_partition_neighbor_array,
         cu_origin_x);
 
@@ -1868,10 +1868,10 @@ void coding_loop_context_generation(
         0 : ((PartitionContext*)leaf_partition_neighbor_array->leftArray)[partition_left_neighbor_index].left;
 
     // Skip Coeff AV1 Context
-    uint32_t skipCoeffLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t skipCoeffLeftNeighborIndex = get_neighbor_array_unit_left_index(
         skip_coeff_neighbor_array,
         cu_origin_y);
-    uint32_t skipCoeffTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t skipCoeffTopNeighborIndex = get_neighbor_array_unit_top_index(
         skip_coeff_neighbor_array,
         cu_origin_x);
 

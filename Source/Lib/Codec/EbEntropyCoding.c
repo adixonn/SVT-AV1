@@ -334,10 +334,10 @@ void GetTxbCtx(
     int16_t *const           txb_skip_ctx,
     int16_t *const           dc_sign_ctx) {
 
-    uint32_t dcSignLevelCoeffLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t dcSignLevelCoeffLeftNeighborIndex = get_neighbor_array_unit_left_index(
         dcSignLevelCoeffNeighborArray,
         cu_origin_y);
-    uint32_t dcSignLevelCoeffTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t dcSignLevelCoeffTopNeighborIndex = get_neighbor_array_unit_top_index(
         dcSignLevelCoeffNeighborArray,
         cu_origin_x);
 
@@ -834,7 +834,7 @@ static EbErrorType Av1EncodeCoeff1D(
             uint8_t dcSignLevelCoeff = (uint8_t)cul_level_y;
             //if (!txb_ptr->lumaCbf)
             //    dcSignLevelCoeff = 0;
-            NeighborArrayUnitModeWrite(
+            neighbor_array_unit_mode_write(
                 luma_dc_sign_level_coeff_neighbor_array,
                 (uint8_t*)&dcSignLevelCoeff,
                 cu_origin_x + blk_geom->tx_org_x[txb_itr] - blk_geom->origin_x,
@@ -849,7 +849,7 @@ static EbErrorType Av1EncodeCoeff1D(
         if (blk_geom->has_uv)
         {
             uint8_t dcSignLevelCoeff = (uint8_t)cul_level_cb;
-            NeighborArrayUnitModeWrite(
+            neighbor_array_unit_mode_write(
                 cb_dc_sign_level_coeff_neighbor_array,
                 (uint8_t*)&dcSignLevelCoeff,
                 ROUND_UV(cu_origin_x + blk_geom->tx_org_x[txb_itr] - blk_geom->origin_x) >> 1,
@@ -864,7 +864,7 @@ static EbErrorType Av1EncodeCoeff1D(
             // Update the cr DC Sign Level Coeff Neighbor Array
         {
             uint8_t dcSignLevelCoeff = (uint8_t)cul_level_cr;
-            NeighborArrayUnitModeWrite(
+            neighbor_array_unit_mode_write(
                 cr_dc_sign_level_coeff_neighbor_array,
                 (uint8_t*)&dcSignLevelCoeff,
                 ROUND_UV(cu_origin_x + blk_geom->tx_org_x[txb_itr] - blk_geom->origin_x) >> 1,
@@ -951,10 +951,10 @@ static void EncodePartitionAv1(
     const int32_t hasRows = (cu_origin_y + hbs) < sequence_control_set_ptr->luma_height;
     const int32_t hasCols = (cu_origin_x + hbs) < sequence_control_set_ptr->luma_width;
 
-    uint32_t partitionContextLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t partitionContextLeftNeighborIndex = get_neighbor_array_unit_left_index(
         partition_context_neighbor_array,
         cu_origin_y);
-    uint32_t partitionContextTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t partitionContextTopNeighborIndex = get_neighbor_array_unit_top_index(
         partition_context_neighbor_array,
         cu_origin_x);
 
@@ -1022,10 +1022,10 @@ static void EncodeSkipCoeffAv1(
     NeighborArrayUnit_t    *skip_coeff_neighbor_array)
 {
 
-    uint32_t skipCoeffLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t skipCoeffLeftNeighborIndex = get_neighbor_array_unit_left_index(
         skip_coeff_neighbor_array,
         cu_origin_y);
-    uint32_t skipCoeffTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t skipCoeffTopNeighborIndex = get_neighbor_array_unit_top_index(
         skip_coeff_neighbor_array,
         cu_origin_x);
 
@@ -1062,16 +1062,16 @@ static void EncodeIntraLumaModeAv1(
     NeighborArrayUnit_t    *mode_type_neighbor_array,
     NeighborArrayUnit_t    *intra_luma_mode_neighbor_array)
 {
-    uint32_t modeTypeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t modeTypeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         mode_type_neighbor_array,
         cu_origin_y);
-    uint32_t modeTypeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t modeTypeTopNeighborIndex = get_neighbor_array_unit_top_index(
         mode_type_neighbor_array,
         cu_origin_x);
-    uint32_t intraLumaModeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t intraLumaModeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         intra_luma_mode_neighbor_array,
         cu_origin_y);
-    uint32_t intraLumaModeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t intraLumaModeTopNeighborIndex = get_neighbor_array_unit_top_index(
         intra_luma_mode_neighbor_array,
         cu_origin_x);
 
@@ -1199,10 +1199,10 @@ static void EncodeSkipModeAv1(
     NeighborArrayUnit_t    *skip_flag_neighbor_array)
 {
 
-    uint32_t skipFlagLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t skipFlagLeftNeighborIndex = get_neighbor_array_unit_left_index(
         skip_flag_neighbor_array,
         cu_origin_y);
-    uint32_t skipFlagTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t skipFlagTopNeighborIndex = get_neighbor_array_unit_top_index(
         skip_flag_neighbor_array,
         cu_origin_x);
 
@@ -1237,10 +1237,10 @@ static void EncodePredModeAv1(
     uint32_t                  cu_origin_y,
     NeighborArrayUnit_t    *mode_type_neighbor_array)
 {
-    uint32_t modeTypeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t modeTypeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         mode_type_neighbor_array,
         cu_origin_y);
-    uint32_t modeTypeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t modeTypeTopNeighborIndex = get_neighbor_array_unit_top_index(
         mode_type_neighbor_array,
         cu_origin_x);
 
@@ -1913,17 +1913,17 @@ int32_t av1_get_pred_context_switchable_interp(
     int32_t dir
 ) {
 
-    uint32_t interpolationTypeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex32(
+    uint32_t interpolationTypeLeftNeighborIndex = get_neighbor_array_unit_left_index32(
         interpolation_type_neighbor_array,
         cu_origin_y);
-    uint32_t interpolationTypeTopNeighborIndex = GetNeighborArrayUnitTopIndex32(
+    uint32_t interpolationTypeTopNeighborIndex = get_neighbor_array_unit_top_index32(
         interpolation_type_neighbor_array,
         cu_origin_x);
 
-    uint32_t rfLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t rfLeftNeighborIndex = get_neighbor_array_unit_left_index(
         ref_frame_type_neighbor_array,
         cu_origin_y);
-    uint32_t rfTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t rfTopNeighborIndex = get_neighbor_array_unit_top_index(
         ref_frame_type_neighbor_array,
         cu_origin_x);
 
@@ -2092,10 +2092,10 @@ int32_t Av1GetReferenceModeContext(
 {
 
 
-    uint32_t modeTypeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t modeTypeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         mode_type_neighbor_array,
         cu_origin_y);
-    uint32_t modeTypeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t modeTypeTopNeighborIndex = get_neighbor_array_unit_top_index(
         mode_type_neighbor_array,
         cu_origin_x);
 
@@ -2168,10 +2168,10 @@ int32_t Av1GetCompReferenceTypeContext(
 
     int32_t pred_context = 0;
 
-    uint32_t modeTypeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t modeTypeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         mode_type_neighbor_array,
         cu_origin_y);
-    uint32_t modeTypeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t modeTypeTopNeighborIndex = get_neighbor_array_unit_top_index(
         mode_type_neighbor_array,
         cu_origin_x);
 
@@ -2280,10 +2280,10 @@ void Av1CollectNeighborsRefCounts(
     uint8_t *const ref_counts = cu_ptr->av1xd->neighbors_ref_counts;
 
 
-    uint32_t modeTypeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t modeTypeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         mode_type_neighbor_array,
         cu_origin_y);
-    uint32_t modeTypeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t modeTypeTopNeighborIndex = get_neighbor_array_unit_top_index(
         mode_type_neighbor_array,
         cu_origin_x);
 
@@ -4762,7 +4762,7 @@ EbErrorType ec_update_neighbors(
     partition.above = partition_context_lookup[bsize].above;
     partition.left = partition_context_lookup[bsize].left;
 
-    NeighborArrayUnitModeWrite(
+    neighbor_array_unit_mode_write(
         partition_context_neighbor_array,
         (uint8_t*)&partition,
         blkOriginX,
@@ -4774,7 +4774,7 @@ EbErrorType ec_update_neighbors(
     // Update the Mode Type Neighbor Array
     {
         uint8_t prediction_mode_flag = (uint8_t)cu_ptr->prediction_mode_flag;
-        NeighborArrayUnitModeWrite(
+        neighbor_array_unit_mode_write(
             mode_type_neighbor_array,
             &prediction_mode_flag,
             blkOriginX,
@@ -4787,7 +4787,7 @@ EbErrorType ec_update_neighbors(
     // Update the Skip Flag Neighbor Array
     {
         uint8_t skip_flag = (uint8_t)cu_ptr->skip_flag;
-        NeighborArrayUnitModeWrite(
+        neighbor_array_unit_mode_write(
             skip_flag_neighbor_array,
             (uint8_t*)&skip_flag,
             blkOriginX,
@@ -4800,7 +4800,7 @@ EbErrorType ec_update_neighbors(
     // Update the Skip Coeff Neighbor Array
     {
         //
-        NeighborArrayUnitModeWrite(
+        neighbor_array_unit_mode_write(
             skip_coeff_neighbor_array,
             (uint8_t*)&skipCoeff,
             blkOriginX,
@@ -4815,7 +4815,7 @@ EbErrorType ec_update_neighbors(
     {
         uint8_t dcSignLevelCoeff = 0;
 
-        NeighborArrayUnitModeWrite(
+        neighbor_array_unit_mode_write(
             luma_dc_sign_level_coeff_neighbor_array,
             (uint8_t*)&dcSignLevelCoeff,
             blkOriginX,
@@ -4825,7 +4825,7 @@ EbErrorType ec_update_neighbors(
             NEIGHBOR_ARRAY_UNIT_TOP_AND_LEFT_ONLY_MASK);
 
         if (blk_geom->has_uv)
-            NeighborArrayUnitModeWrite(
+            neighbor_array_unit_mode_write(
                 cb_dc_sign_level_coeff_neighbor_array,
                 (uint8_t*)&dcSignLevelCoeff,
                 ((blkOriginX >> 3) << 3) >> 1,
@@ -4835,7 +4835,7 @@ EbErrorType ec_update_neighbors(
                 NEIGHBOR_ARRAY_UNIT_TOP_AND_LEFT_ONLY_MASK);
 
         if (blk_geom->has_uv)
-            NeighborArrayUnitModeWrite(
+            neighbor_array_unit_mode_write(
                 cr_dc_sign_level_coeff_neighbor_array,
                 (uint8_t*)&dcSignLevelCoeff,
                 ((blkOriginX >> 3) << 3) >> 1,
@@ -4854,7 +4854,7 @@ EbErrorType ec_update_neighbors(
     // Update the Inter Pred Type Neighbor Array
     {
         uint8_t inter_pred_direction_index = (uint8_t)cu_ptr->prediction_unit_array->inter_pred_direction_index;
-        NeighborArrayUnitModeWrite(
+        neighbor_array_unit_mode_write(
             inter_pred_dir_neighbor_array,
             (uint8_t*)&(inter_pred_direction_index),
             blkOriginX,
@@ -4867,7 +4867,7 @@ EbErrorType ec_update_neighbors(
     // Update the refFrame Type Neighbor Array
     {
         uint8_t ref_frame_type = (uint8_t)cu_ptr->prediction_unit_array[0].ref_frame_type;
-        NeighborArrayUnitModeWrite(
+        neighbor_array_unit_mode_write(
             ref_frame_type_neighbor_array,
             (uint8_t*)&(ref_frame_type),
             blkOriginX,
@@ -4880,7 +4880,7 @@ EbErrorType ec_update_neighbors(
     // Update the interpolation Type Neighbor Array
     {
         uint32_t interpolationType = cu_ptr->interp_filters;
-        NeighborArrayUnitModeWrite32(
+        neighbor_array_unit_mode_write32(
             interpolation_type_neighbor_array,
             interpolationType,
             blkOriginX,
@@ -4993,7 +4993,7 @@ EbErrorType write_modes_b(
                 mode_type_neighbor_array,
                 intra_luma_mode_neighbor_array);
 
-            NeighborArrayUnitModeWrite(
+            neighbor_array_unit_mode_write(
                 intra_luma_mode_neighbor_array,
                 (uint8_t*)&intra_luma_mode,
                 blkOriginX,
@@ -5116,7 +5116,7 @@ EbErrorType write_modes_b(
                     bsize,
                     intra_luma_mode);
 
-                NeighborArrayUnitModeWrite(
+                neighbor_array_unit_mode_write(
                     intra_luma_mode_neighbor_array,
                     (uint8_t*)&intra_luma_mode,
                     blkOriginX,

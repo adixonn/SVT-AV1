@@ -217,7 +217,7 @@ static void EncodePassUpdateIntraModeNeighborArrays(
     if (component_mask & PICTURE_BUFFER_DESC_LUMA_MASK) {
 
         // Mode Type Update
-        NeighborArrayUnitModeWrite(
+        neighbor_array_unit_mode_write(
             mode_type_neighbor_array,
             &modeType,
             origin_x,
@@ -227,7 +227,7 @@ static void EncodePassUpdateIntraModeNeighborArrays(
             NEIGHBOR_ARRAY_UNIT_FULL_MASK);
 
         // Intra Luma Mode Update
-        NeighborArrayUnitModeWrite(
+        neighbor_array_unit_mode_write(
             intra_luma_mode_neighbor_array,
             &luma_mode,
             origin_x,
@@ -239,7 +239,7 @@ static void EncodePassUpdateIntraModeNeighborArrays(
     }
     if (component_mask & PICTURE_BUFFER_DESC_CHROMA_MASK) {
         // Intra Luma Mode Update
-        NeighborArrayUnitModeWrite(
+        neighbor_array_unit_mode_write(
             intra_chroma_mode_neighbor_array,
             &chroma_mode,
             ((origin_x >> 3) << 3) / 2,
@@ -269,7 +269,7 @@ static void EncodePassUpdateInterModeNeighborArrays(
     uint8_t modeType = INTER_MODE;
 
     // Mode Type Update
-    NeighborArrayUnitModeWrite(
+    neighbor_array_unit_mode_write(
         mode_type_neighbor_array,
         &modeType,
         origin_x,
@@ -279,7 +279,7 @@ static void EncodePassUpdateInterModeNeighborArrays(
         NEIGHBOR_ARRAY_UNIT_FULL_MASK);
 
     // Motion Vector Unit
-    NeighborArrayUnitModeWrite(
+    neighbor_array_unit_mode_write(
         mv_neighbor_array,
         (uint8_t*)mv_unit,
         origin_x,
@@ -289,7 +289,7 @@ static void EncodePassUpdateInterModeNeighborArrays(
         NEIGHBOR_ARRAY_UNIT_FULL_MASK);
 
     // Skip Flag
-    NeighborArrayUnitModeWrite(
+    neighbor_array_unit_mode_write(
         skipNeighborArray,
         skip_flag,
         origin_x,
@@ -325,7 +325,7 @@ static void EncodePassUpdateReconSampleNeighborArrays(
         if (component_mask & PICTURE_BUFFER_DESC_LUMA_MASK)
         {
             // Recon Samples - Luma
-            NeighborArrayUnit16bitSampleWrite(
+            neighbor_array_unit16bit_sample_write(
                 lumaReconSampleNeighborArray,
                 (uint16_t*)(recon_buffer->buffer_y),
                 recon_buffer->stride_y,
@@ -341,7 +341,7 @@ static void EncodePassUpdateReconSampleNeighborArrays(
         if (component_mask & PICTURE_BUFFER_DESC_CHROMA_MASK)
         {
             // Recon Samples - Cb
-            NeighborArrayUnit16bitSampleWrite(
+            neighbor_array_unit16bit_sample_write(
                 cbReconSampleNeighborArray,
                 (uint16_t*)(recon_buffer->bufferCb),
                 recon_buffer->strideCb,
@@ -354,7 +354,7 @@ static void EncodePassUpdateReconSampleNeighborArrays(
                 NEIGHBOR_ARRAY_UNIT_FULL_MASK);
 
             // Recon Samples - Cr
-            NeighborArrayUnit16bitSampleWrite(
+            neighbor_array_unit16bit_sample_write(
                 crReconSampleNeighborArray,
                 (uint16_t*)(recon_buffer->bufferCr),
                 recon_buffer->strideCr,
@@ -372,7 +372,7 @@ static void EncodePassUpdateReconSampleNeighborArrays(
         if (component_mask & PICTURE_BUFFER_DESC_LUMA_MASK)
         {
             // Recon Samples - Luma
-            NeighborArrayUnitSampleWrite(
+            neighbor_array_unit_sample_write(
                 lumaReconSampleNeighborArray,
                 recon_buffer->buffer_y,
                 recon_buffer->stride_y,
@@ -388,7 +388,7 @@ static void EncodePassUpdateReconSampleNeighborArrays(
         if (component_mask & PICTURE_BUFFER_DESC_CHROMA_MASK)
         {
             // Recon Samples - Cb
-            NeighborArrayUnitSampleWrite(
+            neighbor_array_unit_sample_write(
                 cbReconSampleNeighborArray,
                 recon_buffer->bufferCb,
                 recon_buffer->strideCb,
@@ -401,7 +401,7 @@ static void EncodePassUpdateReconSampleNeighborArrays(
                 NEIGHBOR_ARRAY_UNIT_FULL_MASK);
 
             // Recon Samples - Cr
-            NeighborArrayUnitSampleWrite(
+            neighbor_array_unit_sample_write(
                 crReconSampleNeighborArray,
                 recon_buffer->bufferCr,
                 recon_buffer->strideCr,
@@ -436,26 +436,26 @@ void GeneratePuIntraLumaNeighborModes(
 
     (void)sb_sz;
 
-    uint32_t modeTypeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t modeTypeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         mode_type_neighbor_array,
         pu_origin_y);
-    uint32_t modeTypeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t modeTypeTopNeighborIndex = get_neighbor_array_unit_top_index(
         mode_type_neighbor_array,
         pu_origin_x);
-    uint32_t intraLumaModeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t intraLumaModeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         intraLumaNeighborArray,
         pu_origin_y);
-    uint32_t intraLumaModeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t intraLumaModeTopNeighborIndex = get_neighbor_array_unit_top_index(
         intraLumaNeighborArray,
         pu_origin_x);
 
     uint32_t puOriginX_round = (pu_origin_x >> 3) << 3;
     uint32_t puOriginY_round = (pu_origin_y >> 3) << 3;
 
-    uint32_t intraChromaModeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t intraChromaModeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         intraChromaNeighborArray,
         puOriginY_round >> 1);
-    uint32_t intraChromaModeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t intraChromaModeTopNeighborIndex = get_neighbor_array_unit_top_index(
         intraChromaNeighborArray,
         puOriginX_round >> 1);
 
@@ -467,10 +467,10 @@ void GeneratePuIntraLumaNeighborModes(
         (mode_type_neighbor_array->topArray[modeTypeTopNeighborIndex] != INTRA_MODE) ? DC_PRED/*EB_INTRA_DC*/ :
         (uint32_t)intraLumaNeighborArray->topArray[intraLumaModeTopNeighborIndex]);       //   use DC. This seems like we could use a LCU-width
 
-    uint32_t modeTypeLeftNeighborIndex_round = GetNeighborArrayUnitLeftIndex(
+    uint32_t modeTypeLeftNeighborIndex_round = get_neighbor_array_unit_left_index(
         mode_type_neighbor_array,
         puOriginY_round);
-    uint32_t modeTypeTopNeighborIndex_round = GetNeighborArrayUnitTopIndex(
+    uint32_t modeTypeTopNeighborIndex_round = get_neighbor_array_unit_top_index(
         mode_type_neighbor_array,
         puOriginX_round);
 
@@ -4232,13 +4232,13 @@ EB_EXTERN void no_enc_dec_pass(
                     uint32_t  bwidth = context_ptr->blk_geom->tx_width[txb_itr] < 64 ? context_ptr->blk_geom->tx_width[txb_itr] : 32;
                     uint32_t  bheight = context_ptr->blk_geom->tx_height[txb_itr] < 64 ? context_ptr->blk_geom->tx_height[txb_itr] : 32;
 
-                    int32_t* srcPtr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->buffer_y)[txb_1d_offset]);
+                    int32_t* src_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->buffer_y)[txb_1d_offset]);
                     int32_t* dst_ptr = &(((int32_t*)sb_ptr->quantized_coeff->buffer_y)[context_ptr->coded_area_sb]);
 
                     uint32_t j;
                     for (j = 0; j < bheight; j++)
                     {
-                        memcpy(dst_ptr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
+                        memcpy(dst_ptr + j * bwidth, src_ptr + j * bwidth, bwidth * sizeof(int32_t));
                     }
 
                     if (context_ptr->blk_geom->has_uv)
@@ -4247,21 +4247,21 @@ EB_EXTERN void no_enc_dec_pass(
                         bwidth = context_ptr->blk_geom->tx_width_uv[txb_itr];
                         bheight = context_ptr->blk_geom->tx_height_uv[txb_itr];
 
-                        srcPtr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferCb)[txb_1d_offset_uv]);
+                        src_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferCb)[txb_1d_offset_uv]);
                         dst_ptr = &(((int32_t*)sb_ptr->quantized_coeff->bufferCb)[context_ptr->coded_area_sb_uv]);
 
                         for (j = 0; j < bheight; j++)
                         {
-                            memcpy(dst_ptr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
+                            memcpy(dst_ptr + j * bwidth, src_ptr + j * bwidth, bwidth * sizeof(int32_t));
                         }
 
                         //Cr
-                        srcPtr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferCr)[txb_1d_offset_uv]);
+                        src_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferCr)[txb_1d_offset_uv]);
                         dst_ptr = &(((int32_t*)sb_ptr->quantized_coeff->bufferCr)[context_ptr->coded_area_sb_uv]);
 
                         for (j = 0; j < bheight; j++)
                         {
-                            memcpy(dst_ptr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
+                            memcpy(dst_ptr + j * bwidth, src_ptr + j * bwidth, bwidth * sizeof(int32_t));
                         }
 
                     }
@@ -4302,13 +4302,13 @@ EB_EXTERN void no_enc_dec_pass(
                     uint32_t  bwidth = context_ptr->blk_geom->bwidth;
                     uint32_t  bheight = context_ptr->blk_geom->bheight;
 
-                    uint8_t* srcPtr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->buffer_y)[0]);
+                    uint8_t* src_ptr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->buffer_y)[0]);
                     uint8_t* dst_ptr = ref_pic->buffer_y + ref_pic->origin_x + context_ptr->cu_origin_x + (ref_pic->origin_y + context_ptr->cu_origin_y)*ref_pic->stride_y;
 
                     uint32_t j;
                     for (j = 0; j < bheight; j++)
                     {
-                        memcpy(dst_ptr + j * ref_pic->stride_y, srcPtr + j * 128, bwidth * sizeof(uint8_t));
+                        memcpy(dst_ptr + j * ref_pic->stride_y, src_ptr + j * 128, bwidth * sizeof(uint8_t));
                     }
 
                     if (context_ptr->blk_geom->has_uv)
@@ -4317,23 +4317,23 @@ EB_EXTERN void no_enc_dec_pass(
                         bwidth = context_ptr->blk_geom->bwidth_uv;
                         bheight = context_ptr->blk_geom->bheight_uv;
 
-                        srcPtr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->bufferCb)[0]);
+                        src_ptr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->bufferCb)[0]);
 
                         dst_ptr = ref_pic->bufferCb + ref_pic->origin_x / 2 + ((context_ptr->cu_origin_x >> 3) << 3) / 2 + (ref_pic->origin_y / 2 + ((context_ptr->cu_origin_y >> 3) << 3) / 2)*ref_pic->strideCb;
 
                         for (j = 0; j < bheight; j++)
                         {
-                            memcpy(dst_ptr + j * ref_pic->strideCb, srcPtr + j * 64, bwidth * sizeof(uint8_t));
+                            memcpy(dst_ptr + j * ref_pic->strideCb, src_ptr + j * 64, bwidth * sizeof(uint8_t));
                         }
 
-                        srcPtr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->bufferCr)[0]);
+                        src_ptr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->bufferCr)[0]);
 
                         dst_ptr = ref_pic->bufferCr + ref_pic->origin_x / 2 + ((context_ptr->cu_origin_x >> 3) << 3) / 2 + (ref_pic->origin_y / 2 + ((context_ptr->cu_origin_y >> 3) << 3) / 2)*ref_pic->strideCr;
 
 
                         for (j = 0; j < bheight; j++)
                         {
-                            memcpy(dst_ptr + j * ref_pic->strideCr, srcPtr + j * 64, bwidth * sizeof(uint8_t));
+                            memcpy(dst_ptr + j * ref_pic->strideCr, src_ptr + j * 64, bwidth * sizeof(uint8_t));
                         }
 
                     }

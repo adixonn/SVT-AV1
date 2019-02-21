@@ -2481,7 +2481,7 @@ extern errno_t
 extern rsize_t
     strnlen_ss(const char *s, rsize_t smax);
 
-extern void DRDmemcpy(void  *dst_ptr, void *srcPtr, uint32_t  cnt);
+extern void DRDmemcpy(void  *dst_ptr, void *src_ptr, uint32_t  cnt);
 #define EB_MEMCPY(dst, src, size) \
 DRDmemcpy(dst, src, size)
 

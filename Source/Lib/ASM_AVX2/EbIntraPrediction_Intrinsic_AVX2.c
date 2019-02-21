@@ -2235,7 +2235,7 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
 {
 
     uint32_t idx;
-    uint8_t  *srcPtr;
+    uint8_t  *src_ptr;
     uint8_t  *dst_ptr;
     uint8_t  *readPtr;
 
@@ -2254,7 +2254,7 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
     __m128i xmm_sad = _mm_setzero_si128();
 
     // Adjust the Source ptr to start at the origin of the block being updated
-    srcPtr = buffer_y + (((src_origin_y + originY) * stride) + (src_origin_x + originX));
+    src_ptr = buffer_y + (((src_origin_y + originY) * stride) + (src_origin_x + originX));
 
     // Adjust the Destination ptr to start at the origin of the Intra reference array
     dst_ptr = yBorderReverse;
@@ -2269,7 +2269,7 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
 
     if (src_origin_x != 0) {
 
-        readPtr = srcPtr - 1;
+        readPtr = src_ptr - 1;
         count = ((src_origin_y + count) > height) ? count - ((src_origin_y + count) - height) : count;
 
         for (idx = 0; idx < count; ++idx) {
@@ -2301,7 +2301,7 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
             __m128i xmm_top_lo, xmm_top_hi, xmm_left_lo, xmm_left_hi, xmm_predictionDcValue_16, xmm_predictionDcValue_16_x2, xmm_predictionDcValue_16_x3;
             if (src_origin_y != 0)
             {
-                xmm_top = _mm_loadu_si128((__m128i *)(srcPtr - stride));
+                xmm_top = _mm_loadu_si128((__m128i *)(src_ptr - stride));
             }
             else
             {
@@ -2335,27 +2335,27 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
             xmm_prediction_ptr_0 = _mm_or_si128(_mm_and_si128(_mm_srli_epi16(_mm_add_epi16(_mm_add_epi16(_mm_add_epi16(xmm_top_lo, xmm_left_lo), xmm_predictionDcValue_16_x2), xmm_C2), 2), xmm_mask2), _mm_and_si128(xmm_top, xmm_mask1));
 
 
-            xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(srcPtr)), xmm_prediction_ptr_0));
-            xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(srcPtr + stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
+            xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr)), xmm_prediction_ptr_0));
+            xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr + stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
             xmm_left = _mm_srli_si128(xmm_left, 1);
-            xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(srcPtr + (stride << 1))), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
+            xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr + (stride << 1))), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
             xmm_left = _mm_srli_si128(xmm_left, 1);
-            xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(srcPtr + 3 * stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
+            xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr + 3 * stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
             xmm_left = _mm_srli_si128(xmm_left, 1);
 
-            srcPtr += (stride << 2);
+            src_ptr += (stride << 2);
 
             for (idx = 4; idx < block_size; idx += 4) {
-                xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(srcPtr)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
+                xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
                 xmm_left = _mm_srli_si128(xmm_left, 1);
-                xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(srcPtr + stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
+                xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr + stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
                 xmm_left = _mm_srli_si128(xmm_left, 1);
-                xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(srcPtr + (stride << 1))), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
+                xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr + (stride << 1))), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
                 xmm_left = _mm_srli_si128(xmm_left, 1);
-                xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(srcPtr + 3 * stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
+                xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr + 3 * stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
                 xmm_left = _mm_srli_si128(xmm_left, 1);
 
-                srcPtr += (stride << 2);
+                src_ptr += (stride << 2);
 
             }
 
@@ -2370,7 +2370,7 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
             __m128i xmm_predictionDcValue_16_x2, xmm_predictionDcValue_16_x3, xmm_prediction_ptr_0;
             if (src_origin_y != 0)
             {
-                xmm_top = _mm_loadl_epi64((__m128i *)(srcPtr - stride));
+                xmm_top = _mm_loadl_epi64((__m128i *)(src_ptr - stride));
             }
             else
             {
@@ -2405,27 +2405,27 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
 
             xmm_sad = _mm_setzero_si128();
 
-            xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(srcPtr)), xmm_prediction_ptr_0));
-            xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(srcPtr + stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
+            xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr)), xmm_prediction_ptr_0));
+            xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr + stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
             xmm_left = _mm_srli_si128(xmm_left, 1);
-            xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(srcPtr + (stride << 1))), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
+            xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr + (stride << 1))), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
             xmm_left = _mm_srli_si128(xmm_left, 1);
-            xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(srcPtr + 3 * stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
+            xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr + 3 * stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
             xmm_left = _mm_srli_si128(xmm_left, 1);
 
-            srcPtr += (stride << 2);
+            src_ptr += (stride << 2);
 
             for (idx = 4; idx < block_size; idx += 4) {
-                xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(srcPtr)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
+                xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
                 xmm_left = _mm_srli_si128(xmm_left, 1);
-                xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(srcPtr + stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
+                xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr + stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
                 xmm_left = _mm_srli_si128(xmm_left, 1);
-                xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(srcPtr + (stride << 1))), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
+                xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr + (stride << 1))), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
                 xmm_left = _mm_srli_si128(xmm_left, 1);
-                xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(srcPtr + 3 * stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
+                xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr + 3 * stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
                 xmm_left = _mm_srli_si128(xmm_left, 1);
 
-                srcPtr += (stride << 2);
+                src_ptr += (stride << 2);
 
             }
 
@@ -2446,7 +2446,7 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
 
         if (src_origin_y != 0)
         {
-            xmm_toptmp = _mm256_sad_epu8(_mm256_set_m128i(_mm_loadu_si128((__m128i *)(srcPtr - stride + 16)), _mm_loadu_si128((__m128i *)(srcPtr - stride))), xmm1);
+            xmm_toptmp = _mm256_sad_epu8(_mm256_set_m128i(_mm_loadu_si128((__m128i *)(src_ptr - stride + 16)), _mm_loadu_si128((__m128i *)(src_ptr - stride))), xmm1);
 
         }
         else
@@ -2487,9 +2487,9 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
         // SAD
         ymm0 = _mm256_setzero_si256();
         for (idx = 0; idx < block_size; idx += 2) {
-            ymm0 = _mm256_add_epi32(ymm0, _mm256_sad_epu8(_mm256_loadu_si256((__m256i*)srcPtr), xmm_predictionDcValue));
-            xmm1 = _mm256_add_epi32(xmm1, _mm256_sad_epu8(_mm256_loadu_si256((__m256i*)(srcPtr + stride)), xmm_predictionDcValue));
-            srcPtr += stride << 1;
+            ymm0 = _mm256_add_epi32(ymm0, _mm256_sad_epu8(_mm256_loadu_si256((__m256i*)src_ptr), xmm_predictionDcValue));
+            xmm1 = _mm256_add_epi32(xmm1, _mm256_sad_epu8(_mm256_loadu_si256((__m256i*)(src_ptr + stride)), xmm_predictionDcValue));
+            src_ptr += stride << 1;
         }
         ymm0 = _mm256_add_epi32(ymm0, xmm1);
         xmm0 = _mm_add_epi32(_mm256_extracti128_si256(ymm0, 0), _mm256_extracti128_si256(ymm0, 1));

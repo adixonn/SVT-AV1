@@ -770,7 +770,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
     EbErrorType return_error = EB_ErrorNone;
     uint32_t instanceIndex;
     uint32_t processIndex;
-    uint32_t maxPictureWidth;
+    uint32_t max_picture_width;
     uint32_t maxLookAheadDistance = 0;
 
     EbBool is16bit = (EbBool)(encHandlePtr->sequence_control_set_instance_array[0]->sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
@@ -1561,10 +1561,10 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
         }
     }
 
-    maxPictureWidth = 0;
+    max_picture_width = 0;
     for (instanceIndex = 0; instanceIndex < encHandlePtr->encodeInstanceTotalCount; ++instanceIndex) {
-        if (maxPictureWidth < encHandlePtr->sequence_control_set_instance_array[instanceIndex]->sequence_control_set_ptr->max_input_luma_width) {
-            maxPictureWidth = encHandlePtr->sequence_control_set_instance_array[instanceIndex]->sequence_control_set_ptr->max_input_luma_width;
+        if (max_picture_width < encHandlePtr->sequence_control_set_instance_array[instanceIndex]->sequence_control_set_ptr->max_input_luma_width) {
+            max_picture_width = encHandlePtr->sequence_control_set_instance_array[instanceIndex]->sequence_control_set_ptr->max_input_luma_width;
         }
     }
 
@@ -1668,7 +1668,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
     }
 
     // Packetization Context
-    return_error = PacketizationContextCtor(
+    return_error = packetization_context_ctor(
         (PacketizationContext_t**)&encHandlePtr->packetizationContextPtr,
         encHandlePtr->entropyCodingResultsConsumerFifoPtrArray[0],
         encHandlePtr->rateControlTasksProducerFifoPtrArray[RateControlPortLookup(RATE_CONTROL_INPUT_PORT_PACKETIZATION, 0)]);

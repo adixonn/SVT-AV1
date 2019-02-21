@@ -168,26 +168,26 @@ void reset_mode_decision_neighbor_arrays(PictureControlSet_t *picture_control_se
 {
     uint8_t depth;
     for (depth = 0; depth < NEIGHBOR_ARRAY_TOTAL_COUNT; depth++) {
-        NeighborArrayUnitReset(picture_control_set_ptr->md_intra_luma_mode_neighbor_array[depth]);
-        NeighborArrayUnitReset(picture_control_set_ptr->md_intra_chroma_mode_neighbor_array[depth]);
-        NeighborArrayUnitReset(picture_control_set_ptr->md_mv_neighbor_array[depth]);
-        NeighborArrayUnitReset(picture_control_set_ptr->md_skip_flag_neighbor_array[depth]);
-        NeighborArrayUnitReset(picture_control_set_ptr->md_mode_type_neighbor_array[depth]);
-        NeighborArrayUnitReset(picture_control_set_ptr->md_leaf_depth_neighbor_array[depth]);
-        NeighborArrayUnitReset(picture_control_set_ptr->mdleaf_partition_neighbor_array[depth]);
+        neighbor_array_unit_reset(picture_control_set_ptr->md_intra_luma_mode_neighbor_array[depth]);
+        neighbor_array_unit_reset(picture_control_set_ptr->md_intra_chroma_mode_neighbor_array[depth]);
+        neighbor_array_unit_reset(picture_control_set_ptr->md_mv_neighbor_array[depth]);
+        neighbor_array_unit_reset(picture_control_set_ptr->md_skip_flag_neighbor_array[depth]);
+        neighbor_array_unit_reset(picture_control_set_ptr->md_mode_type_neighbor_array[depth]);
+        neighbor_array_unit_reset(picture_control_set_ptr->md_leaf_depth_neighbor_array[depth]);
+        neighbor_array_unit_reset(picture_control_set_ptr->mdleaf_partition_neighbor_array[depth]);
 
-        NeighborArrayUnitReset(picture_control_set_ptr->md_luma_recon_neighbor_array[depth]);
-        NeighborArrayUnitReset(picture_control_set_ptr->md_cb_recon_neighbor_array[depth]);
-        NeighborArrayUnitReset(picture_control_set_ptr->md_cr_recon_neighbor_array[depth]);
+        neighbor_array_unit_reset(picture_control_set_ptr->md_luma_recon_neighbor_array[depth]);
+        neighbor_array_unit_reset(picture_control_set_ptr->md_cb_recon_neighbor_array[depth]);
+        neighbor_array_unit_reset(picture_control_set_ptr->md_cr_recon_neighbor_array[depth]);
 
-        NeighborArrayUnitReset(picture_control_set_ptr->md_skip_coeff_neighbor_array[depth]);
-        NeighborArrayUnitReset(picture_control_set_ptr->md_luma_dc_sign_level_coeff_neighbor_array[depth]);
-        NeighborArrayUnitReset(picture_control_set_ptr->md_cb_dc_sign_level_coeff_neighbor_array[depth]);
-        NeighborArrayUnitReset(picture_control_set_ptr->md_cr_dc_sign_level_coeff_neighbor_array[depth]);
-        NeighborArrayUnitReset(picture_control_set_ptr->md_inter_pred_dir_neighbor_array[depth]);
-        NeighborArrayUnitReset(picture_control_set_ptr->md_ref_frame_type_neighbor_array[depth]);
+        neighbor_array_unit_reset(picture_control_set_ptr->md_skip_coeff_neighbor_array[depth]);
+        neighbor_array_unit_reset(picture_control_set_ptr->md_luma_dc_sign_level_coeff_neighbor_array[depth]);
+        neighbor_array_unit_reset(picture_control_set_ptr->md_cb_dc_sign_level_coeff_neighbor_array[depth]);
+        neighbor_array_unit_reset(picture_control_set_ptr->md_cr_dc_sign_level_coeff_neighbor_array[depth]);
+        neighbor_array_unit_reset(picture_control_set_ptr->md_inter_pred_dir_neighbor_array[depth]);
+        neighbor_array_unit_reset(picture_control_set_ptr->md_ref_frame_type_neighbor_array[depth]);
 
-        NeighborArrayUnitReset32(picture_control_set_ptr->md_interpolation_type_neighbor_array[depth]);
+        neighbor_array_unit_reset32(picture_control_set_ptr->md_interpolation_type_neighbor_array[depth]);
 
     }
 
@@ -197,9 +197,9 @@ void reset_mode_decision_neighbor_arrays(PictureControlSet_t *picture_control_se
 
 void ResetMdRefinmentNeighborArrays(PictureControlSet_t *picture_control_set_ptr)
 {
-    NeighborArrayUnitReset(picture_control_set_ptr->md_refinement_intra_luma_mode_neighbor_array);
-    NeighborArrayUnitReset(picture_control_set_ptr->md_refinement_mode_type_neighbor_array);
-    NeighborArrayUnitReset(picture_control_set_ptr->md_refinement_luma_recon_neighbor_array);
+    neighbor_array_unit_reset(picture_control_set_ptr->md_refinement_intra_luma_mode_neighbor_array);
+    neighbor_array_unit_reset(picture_control_set_ptr->md_refinement_mode_type_neighbor_array);
+    neighbor_array_unit_reset(picture_control_set_ptr->md_refinement_luma_recon_neighbor_array);
 
     return;
 }

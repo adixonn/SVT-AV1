@@ -171,7 +171,7 @@ void mode_decision_update_neighbor_arrays(
     uint8_t                    ref_frame_type = (uint8_t)context_ptr->cu_ptr->prediction_unit_array[0].ref_frame_type;
 
 
-    NeighborArrayUnitModeWrite32(
+    neighbor_array_unit_mode_write32(
         context_ptr->interpolation_type_neighbor_array,
         context_ptr->cu_ptr->interp_filters,
         origin_x,
@@ -185,7 +185,7 @@ void mode_decision_update_neighbor_arrays(
         partition.above = partition_context_lookup[context_ptr->blk_geom->bsize].above;
         partition.left = partition_context_lookup[context_ptr->blk_geom->bsize].left;
 
-        NeighborArrayUnitModeWrite(
+        neighbor_array_unit_mode_write(
             context_ptr->leaf_partition_neighbor_array,
             (uint8_t*)(&partition), // NaderM
             origin_x,
@@ -195,7 +195,7 @@ void mode_decision_update_neighbor_arrays(
             NEIGHBOR_ARRAY_UNIT_TOP_AND_LEFT_ONLY_MASK);
 
         // Mode Type Update
-        NeighborArrayUnitModeWrite(
+        neighbor_array_unit_mode_write(
             context_ptr->mode_type_neighbor_array,
             &modeType,
             origin_x,
@@ -205,7 +205,7 @@ void mode_decision_update_neighbor_arrays(
             NEIGHBOR_ARRAY_UNIT_FULL_MASK);
 
         // Intra Luma Mode Update
-        NeighborArrayUnitModeWrite(
+        neighbor_array_unit_mode_write(
             context_ptr->intra_luma_mode_neighbor_array,
             &intra_luma_mode,//(uint8_t*)luma_mode,
             origin_x,
@@ -226,7 +226,7 @@ void mode_decision_update_neighbor_arrays(
             if (!y_has_coeff)
                 dcSignLevelCoeff = 0;
 
-            NeighborArrayUnitModeWrite(
+            neighbor_array_unit_mode_write(
                 context_ptr->luma_dc_sign_level_coeff_neighbor_array,
                 (uint8_t*)&dcSignLevelCoeff,
                 origin_x,
@@ -241,7 +241,7 @@ void mode_decision_update_neighbor_arrays(
     if (context_ptr->blk_geom->has_uv) {
 
         // Intra Chroma Mode Update
-        NeighborArrayUnitModeWrite(
+        neighbor_array_unit_mode_write(
             context_ptr->intra_chroma_mode_neighbor_array,
             &chroma_mode,
             cu_origin_x_uv,
@@ -252,7 +252,7 @@ void mode_decision_update_neighbor_arrays(
             NEIGHBOR_ARRAY_UNIT_TOP_AND_LEFT_ONLY_MASK);
     }
 
-    NeighborArrayUnitModeWrite(
+    neighbor_array_unit_mode_write(
         context_ptr->skip_flag_neighbor_array,
         &skip_flag,
         origin_x,
@@ -262,7 +262,7 @@ void mode_decision_update_neighbor_arrays(
         NEIGHBOR_ARRAY_UNIT_TOP_AND_LEFT_ONLY_MASK);
 
     //  Update skip_coeff_neighbor_array,
-    NeighborArrayUnitModeWrite(
+    neighbor_array_unit_mode_write(
         context_ptr->skip_coeff_neighbor_array,
         &skipCoeff,
         origin_x,
@@ -286,7 +286,7 @@ void mode_decision_update_neighbor_arrays(
             if (!u_has_coeff)
                 dcSignLevelCoeff = 0;
 
-            NeighborArrayUnitModeWrite(
+            neighbor_array_unit_mode_write(
                 context_ptr->cb_dc_sign_level_coeff_neighbor_array,
                 (uint8_t*)&dcSignLevelCoeff,
                 cu_origin_x_uv,
@@ -309,7 +309,7 @@ void mode_decision_update_neighbor_arrays(
             if (!v_has_coeff)
                 dcSignLevelCoeff = 0;
 
-            NeighborArrayUnitModeWrite(
+            neighbor_array_unit_mode_write(
                 context_ptr->cr_dc_sign_level_coeff_neighbor_array,
                 (uint8_t*)&dcSignLevelCoeff,
                 cu_origin_x_uv,
@@ -323,7 +323,7 @@ void mode_decision_update_neighbor_arrays(
 
     // Update the Inter Pred Type Neighbor Array
 
-    NeighborArrayUnitModeWrite(
+    neighbor_array_unit_mode_write(
         context_ptr->inter_pred_dir_neighbor_array,
         &inter_pred_direction_index,
         origin_x,
@@ -333,7 +333,7 @@ void mode_decision_update_neighbor_arrays(
         NEIGHBOR_ARRAY_UNIT_TOP_AND_LEFT_ONLY_MASK);
 
     // Update the refFrame Type Neighbor Array
-    NeighborArrayUnitModeWrite(
+    neighbor_array_unit_mode_write(
         context_ptr->ref_frame_type_neighbor_array,
         &ref_frame_type,
         origin_x,
@@ -412,7 +412,7 @@ void copy_neighbour_arrays(
         blk_geom->bheight,
         NEIGHBOR_ARRAY_UNIT_TOP_AND_LEFT_ONLY_MASK);
 
-    //NeighborArrayUnitReset(picture_control_set_ptr->md_intra_chroma_mode_neighbor_array[depth]);
+    //neighbor_array_unit_reset(picture_control_set_ptr->md_intra_chroma_mode_neighbor_array[depth]);
     copy_neigh_arr(
         picture_control_set_ptr->md_intra_chroma_mode_neighbor_array[src_idx],
         picture_control_set_ptr->md_intra_chroma_mode_neighbor_array[dst_idx],
@@ -422,7 +422,7 @@ void copy_neighbour_arrays(
         bheight_uv,
         NEIGHBOR_ARRAY_UNIT_TOP_AND_LEFT_ONLY_MASK);
 
-    //NeighborArrayUnitReset(picture_control_set_ptr->md_skip_flag_neighbor_array[depth]);
+    //neighbor_array_unit_reset(picture_control_set_ptr->md_skip_flag_neighbor_array[depth]);
     copy_neigh_arr(
         picture_control_set_ptr->md_skip_flag_neighbor_array[src_idx],
         picture_control_set_ptr->md_skip_flag_neighbor_array[dst_idx],
@@ -432,7 +432,7 @@ void copy_neighbour_arrays(
         blk_geom->bheight,
         NEIGHBOR_ARRAY_UNIT_TOP_AND_LEFT_ONLY_MASK);
 
-    //NeighborArrayUnitReset(picture_control_set_ptr->md_mode_type_neighbor_array[depth]);
+    //neighbor_array_unit_reset(picture_control_set_ptr->md_mode_type_neighbor_array[depth]);
     copy_neigh_arr(
         picture_control_set_ptr->md_mode_type_neighbor_array[src_idx],
         picture_control_set_ptr->md_mode_type_neighbor_array[dst_idx],
@@ -442,7 +442,7 @@ void copy_neighbour_arrays(
         blk_geom->bheight,
         NEIGHBOR_ARRAY_UNIT_FULL_MASK);
 
-    //NeighborArrayUnitReset(picture_control_set_ptr->md_leaf_depth_neighbor_array[depth]);
+    //neighbor_array_unit_reset(picture_control_set_ptr->md_leaf_depth_neighbor_array[depth]);
     copy_neigh_arr(
         picture_control_set_ptr->md_leaf_depth_neighbor_array[src_idx],
         picture_control_set_ptr->md_leaf_depth_neighbor_array[dst_idx],
@@ -460,7 +460,7 @@ void copy_neighbour_arrays(
         blk_geom->bheight,
         NEIGHBOR_ARRAY_UNIT_TOP_AND_LEFT_ONLY_MASK);
 
-    //NeighborArrayUnitReset(picture_control_set_ptr->md_luma_recon_neighbor_array[depth]);
+    //neighbor_array_unit_reset(picture_control_set_ptr->md_luma_recon_neighbor_array[depth]);
     copy_neigh_arr(
         picture_control_set_ptr->md_luma_recon_neighbor_array[src_idx],
         picture_control_set_ptr->md_luma_recon_neighbor_array[dst_idx],
@@ -473,7 +473,7 @@ void copy_neighbour_arrays(
 
     if (blk_geom->has_uv) {
 
-        //NeighborArrayUnitReset(picture_control_set_ptr->md_cb_recon_neighbor_array[depth]);
+        //neighbor_array_unit_reset(picture_control_set_ptr->md_cb_recon_neighbor_array[depth]);
         copy_neigh_arr(
             picture_control_set_ptr->md_cb_recon_neighbor_array[src_idx],
             picture_control_set_ptr->md_cb_recon_neighbor_array[dst_idx],
@@ -483,7 +483,7 @@ void copy_neighbour_arrays(
             bheight_uv,
             NEIGHBOR_ARRAY_UNIT_FULL_MASK);
 
-        //NeighborArrayUnitReset(picture_control_set_ptr->md_cr_recon_neighbor_array[depth]);
+        //neighbor_array_unit_reset(picture_control_set_ptr->md_cr_recon_neighbor_array[depth]);
         copy_neigh_arr(
             picture_control_set_ptr->md_cr_recon_neighbor_array[src_idx],
             picture_control_set_ptr->md_cr_recon_neighbor_array[dst_idx],
@@ -496,7 +496,7 @@ void copy_neighbour_arrays(
 
     }
 
-    //NeighborArrayUnitReset(picture_control_set_ptr->md_skip_coeff_neighbor_array[depth]);
+    //neighbor_array_unit_reset(picture_control_set_ptr->md_skip_coeff_neighbor_array[depth]);
     copy_neigh_arr(
         picture_control_set_ptr->md_skip_coeff_neighbor_array[src_idx],
         picture_control_set_ptr->md_skip_coeff_neighbor_array[dst_idx],
@@ -505,7 +505,7 @@ void copy_neighbour_arrays(
         blk_geom->bwidth,
         blk_geom->bheight,
         NEIGHBOR_ARRAY_UNIT_TOP_AND_LEFT_ONLY_MASK);
-    //NeighborArrayUnitReset(picture_control_set_ptr->md_luma_dc_sign_level_coeff_neighbor_array[depth]);
+    //neighbor_array_unit_reset(picture_control_set_ptr->md_luma_dc_sign_level_coeff_neighbor_array[depth]);
     copy_neigh_arr(
         picture_control_set_ptr->md_luma_dc_sign_level_coeff_neighbor_array[src_idx],
         picture_control_set_ptr->md_luma_dc_sign_level_coeff_neighbor_array[dst_idx],
@@ -526,7 +526,7 @@ void copy_neighbour_arrays(
             bwidth_uv,
             bheight_uv,
             NEIGHBOR_ARRAY_UNIT_TOP_AND_LEFT_ONLY_MASK);
-        //NeighborArrayUnitReset(picture_control_set_ptr->md_cr_dc_sign_level_coeff_neighbor_array[depth]);
+        //neighbor_array_unit_reset(picture_control_set_ptr->md_cr_dc_sign_level_coeff_neighbor_array[depth]);
 
         copy_neigh_arr(
             picture_control_set_ptr->md_cr_dc_sign_level_coeff_neighbor_array[src_idx],
@@ -537,7 +537,7 @@ void copy_neighbour_arrays(
             bheight_uv,
             NEIGHBOR_ARRAY_UNIT_TOP_AND_LEFT_ONLY_MASK);
     }
-    //NeighborArrayUnitReset(picture_control_set_ptr->md_inter_pred_dir_neighbor_array[depth]);
+    //neighbor_array_unit_reset(picture_control_set_ptr->md_inter_pred_dir_neighbor_array[depth]);
     copy_neigh_arr(
         picture_control_set_ptr->md_inter_pred_dir_neighbor_array[src_idx],
         picture_control_set_ptr->md_inter_pred_dir_neighbor_array[dst_idx],
@@ -546,7 +546,7 @@ void copy_neighbour_arrays(
         blk_geom->bwidth,
         blk_geom->bheight,
         NEIGHBOR_ARRAY_UNIT_TOP_AND_LEFT_ONLY_MASK);
-    //NeighborArrayUnitReset(picture_control_set_ptr->md_ref_frame_type_neighbor_array[depth]);
+    //neighbor_array_unit_reset(picture_control_set_ptr->md_ref_frame_type_neighbor_array[depth]);
     copy_neigh_arr(
         picture_control_set_ptr->md_ref_frame_type_neighbor_array[src_idx],
         picture_control_set_ptr->md_ref_frame_type_neighbor_array[dst_idx],
@@ -2750,14 +2750,14 @@ void inter_depth_tx_search(
                 uint32_t  bwidth = context_ptr->blk_geom->tx_width[txb_itr] < 64 ? context_ptr->blk_geom->tx_width[txb_itr] : 32;
                 uint32_t  bheight = context_ptr->blk_geom->tx_height[txb_itr] < 64 ? context_ptr->blk_geom->tx_height[txb_itr] : 32;
 
-                int32_t* srcPtr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->buffer_y)[txb_1d_offset]);
+                int32_t* src_ptr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->buffer_y)[txb_1d_offset]);
                 int32_t* dst_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->buffer_y)[txb_1d_offset]);
 
                 uint32_t j;
 
                 for (j = 0; j < bheight; j++)
                 {
-                    memcpy(dst_ptr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
+                    memcpy(dst_ptr + j * bwidth, src_ptr + j * bwidth, bwidth * sizeof(int32_t));
                 }
 
                 if (context_ptr->blk_geom->has_uv)
@@ -2766,20 +2766,20 @@ void inter_depth_tx_search(
                     bwidth = context_ptr->blk_geom->tx_width_uv[txb_itr];
                     bheight = context_ptr->blk_geom->tx_height_uv[txb_itr];
 
-                    srcPtr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->bufferCb)[txb_1d_offset_uv]);
+                    src_ptr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->bufferCb)[txb_1d_offset_uv]);
                     dst_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferCb)[txb_1d_offset_uv]);
 
                     for (j = 0; j < bheight; j++)
                     {
-                        memcpy(dst_ptr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
+                        memcpy(dst_ptr + j * bwidth, src_ptr + j * bwidth, bwidth * sizeof(int32_t));
                     }
 
-                    srcPtr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->bufferCr)[txb_1d_offset_uv]);
+                    src_ptr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->bufferCr)[txb_1d_offset_uv]);
                     dst_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->bufferCr)[txb_1d_offset_uv]);
 
                     for (j = 0; j < bheight; j++)
                     {
-                        memcpy(dst_ptr + j * bwidth, srcPtr + j * bwidth, bwidth * sizeof(int32_t));
+                        memcpy(dst_ptr + j * bwidth, src_ptr + j * bwidth, bwidth * sizeof(int32_t));
                     }
                 }
 
@@ -3044,13 +3044,13 @@ void md_encode_block(
             uint32_t  bwidth = context_ptr->blk_geom->bwidth;
             uint32_t  bheight = context_ptr->blk_geom->bheight;
 
-            uint8_t* srcPtr = &(((uint8_t*)candidateBuffer->recon_ptr->buffer_y)[tuOriginIndex]);
+            uint8_t* src_ptr = &(((uint8_t*)candidateBuffer->recon_ptr->buffer_y)[tuOriginIndex]);
             uint8_t* dst_ptr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->buffer_y)[0]);
 
             uint32_t j;
             for (j = 0; j < bheight; j++)
             {
-                memcpy(dst_ptr + j * 128, srcPtr + j * 128, bwidth * sizeof(uint8_t));
+                memcpy(dst_ptr + j * 128, src_ptr + j * 128, bwidth * sizeof(uint8_t));
             }
 
             // Cb
@@ -3062,22 +3062,22 @@ void md_encode_block(
                 bwidth = context_ptr->blk_geom->bwidth_uv;
                 bheight = context_ptr->blk_geom->bheight_uv;
 
-                srcPtr = &(((uint8_t*)candidateBuffer->recon_ptr->bufferCb)[tuOriginIndex]);
+                src_ptr = &(((uint8_t*)candidateBuffer->recon_ptr->bufferCb)[tuOriginIndex]);
                 dst_ptr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->bufferCb)[0]);
 
                 for (j = 0; j < bheight; j++)
                 {
-                    memcpy(dst_ptr + j * 64, srcPtr + j * 64, bwidth * sizeof(uint8_t));
+                    memcpy(dst_ptr + j * 64, src_ptr + j * 64, bwidth * sizeof(uint8_t));
                 }
 
                 // Cr
 
-                srcPtr = &(((uint8_t*)candidateBuffer->recon_ptr->bufferCr)[tuOriginIndex]);
+                src_ptr = &(((uint8_t*)candidateBuffer->recon_ptr->bufferCr)[tuOriginIndex]);
                 dst_ptr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->bufferCr)[0]);
 
                 for (j = 0; j < bheight; j++)
                 {
-                    memcpy(dst_ptr + j * 64, srcPtr + j * 64, bwidth * sizeof(uint8_t));
+                    memcpy(dst_ptr + j * 64, src_ptr + j * 64, bwidth * sizeof(uint8_t));
                 }
 
             }

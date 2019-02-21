@@ -31,17 +31,17 @@ static EbLinkedListNode* ExtractPassthroughData(EbLinkedListNode** llPtrPtr)
 }
 
 
-EbErrorType PacketizationContextCtor(
+EbErrorType packetization_context_ctor(
     PacketizationContext_t **context_dbl_ptr,
-    EbFifo_t                *entropyCodingInputFifoPtr,
-    EbFifo_t                *rateControlTasksOutputFifoPtr)
+    EbFifo_t                *entropy_coding_input_fifo_ptr,
+    EbFifo_t                *rate_control_tasks_output_fifo_ptr)
 {
     PacketizationContext_t *context_ptr;
     EB_MALLOC(PacketizationContext_t*, context_ptr, sizeof(PacketizationContext_t), EB_N_PTR);
     *context_dbl_ptr = context_ptr;
 
-    context_ptr->entropyCodingInputFifoPtr = entropyCodingInputFifoPtr;
-    context_ptr->rateControlTasksOutputFifoPtr = rateControlTasksOutputFifoPtr;
+    context_ptr->entropy_coding_input_fifo_ptr = entropy_coding_input_fifo_ptr;
+    context_ptr->rate_control_tasks_output_fifo_ptr = rate_control_tasks_output_fifo_ptr;
 
     EB_MALLOC(EbPPSConfig_t*, context_ptr->ppsConfig, sizeof(EbPPSConfig_t), EB_N_PTR);
 
@@ -83,7 +83,7 @@ void* PacketizationKernel(void *input_ptr)
 
         // Get EntropyCoding Results
         eb_get_full_object(
-            context_ptr->entropyCodingInputFifoPtr,
+            context_ptr->entropy_coding_input_fifo_ptr,
             &entropyCodingResultsWrapperPtr);
         entropyCodingResultsPtr = (EntropyCodingResults_t*)entropyCodingResultsWrapperPtr->object_ptr;
         picture_control_set_ptr = (PictureControlSet_t*)entropyCodingResultsPtr->pictureControlSetWrapperPtr->object_ptr;
@@ -120,7 +120,7 @@ void* PacketizationKernel(void *input_ptr)
 
         // Get Empty Rate Control Input Tasks
         eb_get_empty_object(
-            context_ptr->rateControlTasksOutputFifoPtr,
+            context_ptr->rate_control_tasks_output_fifo_ptr,
             &rateControlTasksWrapperPtr);
         rateControlTasksPtr = (RateControlTasks_t*)rateControlTasksWrapperPtr->object_ptr;
         rateControlTasksPtr->pictureControlSetWrapperPtr = picture_control_set_ptr->picture_parent_control_set_wrapper_ptr;

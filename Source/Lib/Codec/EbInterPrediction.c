@@ -990,7 +990,7 @@ EbErrorType av1_inter_prediction(
     MV  mv, mv_q4;
 
     int32_t subpel_x, subpel_y;
-    uint8_t * srcPtr;
+    uint8_t * src_ptr;
     uint8_t * dst_ptr;
     int32_t src_stride;
     int32_t dst_stride;
@@ -1135,25 +1135,25 @@ EbErrorType av1_inter_prediction(
 
                     EbPictureBufferDesc_t                  *ref_pic = this_mbmi->ref_frame[0] == LAST_FRAME ? ref_pic_list0 : ref_pic_list1;
                     ASSERT(ref_pic != NULL);
-                    srcPtr = ref_pic->bufferCb + (ref_pic->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic->strideCb;
+                    src_ptr = ref_pic->bufferCb + (ref_pic->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic->strideCb;
                     dst_ptr = prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
                     src_stride = ref_pic->strideCb;
                     dst_stride = prediction_ptr->strideCb;
-                    srcPtr = srcPtr + x + y * ref_pic->strideCb;
+                    src_ptr = src_ptr + x + y * ref_pic->strideCb;
                     dst_ptr = dst_ptr + x + y * prediction_ptr->strideCb;
 
                     const MV mv = this_mbmi->mv[0].as_mv;
                     mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
                     subpel_x = mv_q4.col & SUBPEL_MASK;
                     subpel_y = mv_q4.row & SUBPEL_MASK;
-                    srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+                    src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
 
                     av1_get_convolve_filter_params(interp_filters, &filter_params_x,
                         &filter_params_y, blk_geom->bwidth_uv, blk_geom->bheight_uv);
 
 
                     convolve[subpel_x != 0][subpel_y != 0][is_compound](
-                        srcPtr,
+                        src_ptr,
                         src_stride,
                         dst_ptr,
                         dst_stride,
@@ -1169,25 +1169,25 @@ EbErrorType av1_inter_prediction(
                     conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCr, BLOCK_SIZE_64, is_compound, EB_8BIT);
                     conv_params.use_jnt_comp_avg = 0;
 
-                    srcPtr = ref_pic->bufferCr + (ref_pic->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic->strideCr;
+                    src_ptr = ref_pic->bufferCr + (ref_pic->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic->strideCr;
                     dst_ptr = prediction_ptr->bufferCr + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCr;
 
                     src_stride = ref_pic->strideCr;
                     dst_stride = prediction_ptr->strideCr;
-                    srcPtr = srcPtr + x + y * ref_pic->strideCr;
+                    src_ptr = src_ptr + x + y * ref_pic->strideCr;
                     dst_ptr = dst_ptr + x + y * prediction_ptr->strideCr;
 
                     // const MV mv = this_mbmi->mv[0].as_mv;
                     mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
                     subpel_x = mv_q4.col & SUBPEL_MASK;
                     subpel_y = mv_q4.row & SUBPEL_MASK;
-                    srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+                    src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
 
                     av1_get_convolve_filter_params(interp_filters, &filter_params_x,
                         &filter_params_y, blk_geom->bwidth_uv, blk_geom->bheight_uv);
 
                     convolve[subpel_x != 0][subpel_y != 0][is_compound](
-                        srcPtr,
+                        src_ptr,
                         src_stride,
                         dst_ptr,
                         dst_stride,
@@ -1220,7 +1220,7 @@ EbErrorType av1_inter_prediction(
         mv.col = mv_unit->mv[REF_LIST_0].x;
         mv.row = mv_unit->mv[REF_LIST_0].y;
 
-        srcPtr = ref_pic_list0->buffer_y + ref_pic_list0->origin_x + pu_origin_x + (ref_pic_list0->origin_y + pu_origin_y) * ref_pic_list0->stride_y;
+        src_ptr = ref_pic_list0->buffer_y + ref_pic_list0->origin_x + pu_origin_x + (ref_pic_list0->origin_y + pu_origin_y) * ref_pic_list0->stride_y;
         dst_ptr = prediction_ptr->buffer_y + prediction_ptr->origin_x + dst_origin_x + (prediction_ptr->origin_y + dst_origin_y) * prediction_ptr->stride_y;
         src_stride = ref_pic_list0->stride_y;
         dst_stride = prediction_ptr->stride_y;
@@ -1228,13 +1228,13 @@ EbErrorType av1_inter_prediction(
         mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, bwidth, bheight, 0, 0);//mv_q4 has 1 extra bit for fractionnal to accomodate chroma when accessing filter coeffs.
         subpel_x = mv_q4.col & SUBPEL_MASK;
         subpel_y = mv_q4.row & SUBPEL_MASK;
-        srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+        src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
         conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstY, 128, is_compound, EB_8BIT);
         av1_get_convolve_filter_params(interp_filters, &filter_params_x,
             &filter_params_y, bwidth, bheight);
 
         convolve[subpel_x != 0][subpel_y != 0][is_compound](
-            srcPtr,
+            src_ptr,
             src_stride,
             dst_ptr,
             dst_stride,
@@ -1249,7 +1249,7 @@ EbErrorType av1_inter_prediction(
         if (blk_geom->has_uv && sub8x8_inter == 0) {
 
             //List0-Cb
-            srcPtr = ref_pic_list0->bufferCb + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCb;
+            src_ptr = ref_pic_list0->bufferCb + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCb;
             dst_ptr = prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
             src_stride = ref_pic_list0->strideCb;
             dst_stride = prediction_ptr->strideCb;
@@ -1257,7 +1257,7 @@ EbErrorType av1_inter_prediction(
             mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
-            srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+            src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
             conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCb, 64, is_compound, EB_8BIT);
 
 
@@ -1265,7 +1265,7 @@ EbErrorType av1_inter_prediction(
                 &filter_params_y, blk_geom->bwidth_uv, blk_geom->bheight_uv);
 
             convolve[subpel_x != 0][subpel_y != 0][is_compound](
-                srcPtr,
+                src_ptr,
                 src_stride,
                 dst_ptr,
                 dst_stride,
@@ -1279,7 +1279,7 @@ EbErrorType av1_inter_prediction(
                 &conv_params);
 
             //List0-Cr
-            srcPtr = ref_pic_list0->bufferCr + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCr;
+            src_ptr = ref_pic_list0->bufferCr + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCr;
             dst_ptr = prediction_ptr->bufferCr + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCr;
             src_stride = ref_pic_list0->strideCr;
             dst_stride = prediction_ptr->strideCr;
@@ -1287,10 +1287,10 @@ EbErrorType av1_inter_prediction(
             mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
-            srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+            src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
             conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCr, 64, is_compound, EB_8BIT);
             convolve[subpel_x != 0][subpel_y != 0][is_compound](
-                srcPtr,
+                src_ptr,
                 src_stride,
                 dst_ptr,
                 dst_stride,
@@ -1310,7 +1310,7 @@ EbErrorType av1_inter_prediction(
         mv.col = mv_unit->mv[REF_LIST_1].x;
         mv.row = mv_unit->mv[REF_LIST_1].y;
         ASSERT(ref_pic_list1 != NULL);
-        srcPtr = ref_pic_list1->buffer_y + ref_pic_list1->origin_x + pu_origin_x + (ref_pic_list1->origin_y + pu_origin_y) * ref_pic_list1->stride_y;
+        src_ptr = ref_pic_list1->buffer_y + ref_pic_list1->origin_x + pu_origin_x + (ref_pic_list1->origin_y + pu_origin_y) * ref_pic_list1->stride_y;
         dst_ptr = prediction_ptr->buffer_y + prediction_ptr->origin_x + dst_origin_x + (prediction_ptr->origin_y + dst_origin_y) * prediction_ptr->stride_y;
         src_stride = ref_pic_list1->stride_y;
         dst_stride = prediction_ptr->stride_y;
@@ -1319,13 +1319,13 @@ EbErrorType av1_inter_prediction(
         subpel_x = mv_q4.col & SUBPEL_MASK;
         subpel_y = mv_q4.row & SUBPEL_MASK;
 
-        srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+        src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
         conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstY, 128, is_compound, EB_8BIT);
         av1_get_convolve_filter_params(interp_filters, &filter_params_x,
             &filter_params_y, bwidth, bheight);
 
         convolve[subpel_x != 0][subpel_y != 0][is_compound](
-            srcPtr,
+            src_ptr,
             src_stride,
             dst_ptr,
             dst_stride,
@@ -1341,7 +1341,7 @@ EbErrorType av1_inter_prediction(
         if (blk_geom->has_uv && sub8x8_inter == 0) {
 
             //List0-Cb
-            srcPtr = ref_pic_list1->bufferCb + (ref_pic_list1->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list1->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list1->strideCb;
+            src_ptr = ref_pic_list1->bufferCb + (ref_pic_list1->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list1->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list1->strideCb;
             dst_ptr = prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
             src_stride = ref_pic_list1->strideCb;
             dst_stride = prediction_ptr->strideCb;
@@ -1349,7 +1349,7 @@ EbErrorType av1_inter_prediction(
             mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
-            srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+            src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
             conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstCb, 64, is_compound, EB_8BIT);
 
             av1_get_convolve_filter_params(interp_filters, &filter_params_x,
@@ -1357,7 +1357,7 @@ EbErrorType av1_inter_prediction(
 
 
             convolve[subpel_x != 0][subpel_y != 0][is_compound](
-                srcPtr,
+                src_ptr,
                 src_stride,
                 dst_ptr,
                 dst_stride,
@@ -1370,7 +1370,7 @@ EbErrorType av1_inter_prediction(
                 &conv_params);
 
             //List0-Cr
-            srcPtr = ref_pic_list1->bufferCr + (ref_pic_list1->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list1->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list1->strideCr;
+            src_ptr = ref_pic_list1->bufferCr + (ref_pic_list1->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list1->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list1->strideCr;
             dst_ptr = prediction_ptr->bufferCr + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCr;
             src_stride = ref_pic_list1->strideCr;
             dst_stride = prediction_ptr->strideCr;
@@ -1378,10 +1378,10 @@ EbErrorType av1_inter_prediction(
             mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
-            srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+            src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
             conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstCr, 64, is_compound, EB_8BIT);
             convolve[subpel_x != 0][subpel_y != 0][is_compound](
-                srcPtr,
+                src_ptr,
                 src_stride,
                 dst_ptr,
                 dst_stride,
@@ -1468,7 +1468,7 @@ EbErrorType AV1MDInterPrediction(
     MV  mv, mv_q4;
 
     int32_t subpel_x, subpel_y;
-    uint16_t * srcPtr;
+    uint16_t * src_ptr;
     uint8_t * dst_ptr;
     int32_t src_stride;
     int32_t dst_stride;
@@ -1612,19 +1612,19 @@ EbErrorType AV1MDInterPrediction(
 
                     EbPictureBufferDesc_t                  *ref_pic = this_mbmi->ref_frame[0] == LAST_FRAME ? ref_pic_list0 : ref_pic_list1;
                     ASSERT(ref_pic != NULL);
-                    srcPtr = (uint16_t*)ref_pic->bufferCb + (ref_pic->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic->strideCb;
+                    src_ptr = (uint16_t*)ref_pic->bufferCb + (ref_pic->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic->strideCb;
                     dst_ptr = prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
 
                     src_stride = ref_pic->strideCb;
                     dst_stride = prediction_ptr->strideCb;
-                    srcPtr = srcPtr + x + y * ref_pic->strideCb;
+                    src_ptr = src_ptr + x + y * ref_pic->strideCb;
                     dst_ptr = dst_ptr + x + y * prediction_ptr->strideCb;
 
                     const MV mv = this_mbmi->mv[0].as_mv;
                     mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
                     subpel_x = mv_q4.col & SUBPEL_MASK;
                     subpel_y = mv_q4.row & SUBPEL_MASK;
-                    srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+                    src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
 
                     EbPictureBufferDesc_t                  *local_buffer = this_mbmi->ref_frame[0] == LAST_FRAME ? context_ptr->mcp_context->local_reference_block8_bitl0 : context_ptr->mcp_context->local_reference_block8_bitl1;
 
@@ -1632,7 +1632,7 @@ EbErrorType AV1MDInterPrediction(
                         &filter_params_y, blk_geom->bwidth_uv, blk_geom->bheight_uv);
 
                     Av1UnPackReferenceBlock(
-                        srcPtr,
+                        src_ptr,
                         src_stride,
                         b4_w,
                         b4_h,
@@ -1660,18 +1660,18 @@ EbErrorType AV1MDInterPrediction(
                     conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCr, BLOCK_SIZE_64, is_compound, EB_8BIT);
                     conv_params.use_jnt_comp_avg = 0;
 
-                    srcPtr = (uint16_t*)ref_pic->bufferCr + (ref_pic->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic->strideCr;
+                    src_ptr = (uint16_t*)ref_pic->bufferCr + (ref_pic->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic->strideCr;
                     dst_ptr = prediction_ptr->bufferCr + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCr;
                     src_stride = ref_pic->strideCr;
                     dst_stride = prediction_ptr->strideCr;
-                    srcPtr = srcPtr + x + y * ref_pic->strideCr;
+                    src_ptr = src_ptr + x + y * ref_pic->strideCr;
                     dst_ptr = dst_ptr + x + y * prediction_ptr->strideCr;
 
                     // const MV mv = this_mbmi->mv[0].as_mv;
                     mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
                     subpel_x = mv_q4.col & SUBPEL_MASK;
                     subpel_y = mv_q4.row & SUBPEL_MASK;
-                    srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+                    src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
 
                     av1_get_convolve_filter_params(cu_ptr->interp_filters, &filter_params_x,
                         &filter_params_y, blk_geom->bwidth_uv, blk_geom->bheight_uv);
@@ -1679,7 +1679,7 @@ EbErrorType AV1MDInterPrediction(
                     //EbPictureBufferDesc_t                  *local_buffer = this_mbmi->ref_frame[0] == LAST_FRAME ? context_ptr->mcp_context->local_reference_block8_bitl0 : context_ptr->mcp_context->local_reference_block8_bitl1;
 
                     Av1UnPackReferenceBlock(
-                        srcPtr,
+                        src_ptr,
                         src_stride,
                         b4_w,
                         b4_h,
@@ -1723,7 +1723,7 @@ EbErrorType AV1MDInterPrediction(
         mv.col = mv_unit->mv[REF_LIST_0].x;
         mv.row = mv_unit->mv[REF_LIST_0].y;
 
-        srcPtr = (uint16_t*)ref_pic_list0->buffer_y + ref_pic_list0->origin_x + pu_origin_x + (ref_pic_list0->origin_y + pu_origin_y) * ref_pic_list0->stride_y;
+        src_ptr = (uint16_t*)ref_pic_list0->buffer_y + ref_pic_list0->origin_x + pu_origin_x + (ref_pic_list0->origin_y + pu_origin_y) * ref_pic_list0->stride_y;
         dst_ptr = prediction_ptr->buffer_y + prediction_ptr->origin_x + dst_origin_x + (prediction_ptr->origin_y + dst_origin_y) * prediction_ptr->stride_y;
         src_stride = ref_pic_list0->stride_y;
         dst_stride = prediction_ptr->stride_y;
@@ -1731,7 +1731,7 @@ EbErrorType AV1MDInterPrediction(
 
         subpel_x = mv_q4.col & SUBPEL_MASK;
         subpel_y = mv_q4.row & SUBPEL_MASK;
-        srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+        src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
         conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstY, 128, is_compound, EB_8BIT);
 
 #if INTERPOL_FILTER_SEARCH_10BIT_SUPPORT
@@ -1740,7 +1740,7 @@ EbErrorType AV1MDInterPrediction(
 #endif
 
         Av1UnPackReferenceBlock(
-            srcPtr,
+            src_ptr,
             ref_pic_list0->stride_y,
             bwidth,
             bheight,
@@ -1770,7 +1770,7 @@ EbErrorType AV1MDInterPrediction(
 
         if (blk_geom->has_uv && sub8x8_inter == 0) {
             //List0-Cb
-            srcPtr = (uint16_t*)ref_pic_list0->bufferCb + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCb;
+            src_ptr = (uint16_t*)ref_pic_list0->bufferCb + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCb;
             dst_ptr = prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
             src_stride = ref_pic_list0->strideCb;
             dst_stride = prediction_ptr->strideCb;
@@ -1779,7 +1779,7 @@ EbErrorType AV1MDInterPrediction(
 
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
-            srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+            src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
             conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCb, 64, is_compound, EB_8BIT);
 #if INTERPOL_FILTER_SEARCH_10BIT_SUPPORT
             av1_get_convolve_filter_params(interp_filters, &filter_params_x,
@@ -1788,7 +1788,7 @@ EbErrorType AV1MDInterPrediction(
 #endif
 
             Av1UnPackReferenceBlock(
-                srcPtr,
+                src_ptr,
                 ref_pic_list0->strideCb,
                 blk_geom->bwidth_uv,
                 blk_geom->bheight_uv,
@@ -1817,7 +1817,7 @@ EbErrorType AV1MDInterPrediction(
                 &conv_params);
 
             //List0-Cr
-            srcPtr = (uint16_t*)ref_pic_list0->bufferCr + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCr;
+            src_ptr = (uint16_t*)ref_pic_list0->bufferCr + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCr;
             dst_ptr = prediction_ptr->bufferCr + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCr;
             src_stride = ref_pic_list0->strideCr;
             dst_stride = prediction_ptr->strideCr;
@@ -1826,11 +1826,11 @@ EbErrorType AV1MDInterPrediction(
 
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
-            srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+            src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
             conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCr, 64, is_compound, EB_8BIT);
 
             Av1UnPackReferenceBlock(
-                srcPtr,
+                src_ptr,
                 ref_pic_list0->strideCr,
                 blk_geom->bwidth_uv,
                 blk_geom->bheight_uv,
@@ -1868,7 +1868,7 @@ EbErrorType AV1MDInterPrediction(
         mv.col = mv_unit->mv[REF_LIST_1].x;
         mv.row = mv_unit->mv[REF_LIST_1].y;
         ASSERT(ref_pic_list1 != NULL);
-        srcPtr = (uint16_t*)ref_pic_list1->buffer_y + ref_pic_list1->origin_x + pu_origin_x + (ref_pic_list1->origin_y + pu_origin_y) * ref_pic_list1->stride_y;
+        src_ptr = (uint16_t*)ref_pic_list1->buffer_y + ref_pic_list1->origin_x + pu_origin_x + (ref_pic_list1->origin_y + pu_origin_y) * ref_pic_list1->stride_y;
         dst_ptr = prediction_ptr->buffer_y + prediction_ptr->origin_x + dst_origin_x + (prediction_ptr->origin_y + dst_origin_y) * prediction_ptr->stride_y;
         src_stride = ref_pic_list1->stride_y;
         dst_stride = prediction_ptr->stride_y;
@@ -1878,7 +1878,7 @@ EbErrorType AV1MDInterPrediction(
         subpel_x = mv_q4.col & SUBPEL_MASK;
         subpel_y = mv_q4.row & SUBPEL_MASK;
 
-        srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+        src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
         conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstY, 128, is_compound, EB_8BIT);
 
 #if INTERPOL_FILTER_SEARCH_10BIT_SUPPORT
@@ -1888,7 +1888,7 @@ EbErrorType AV1MDInterPrediction(
 #endif
 
         Av1UnPackReferenceBlock(
-            srcPtr,
+            src_ptr,
             ref_pic_list1->stride_y,
             bwidth,
             bheight,
@@ -1919,14 +1919,14 @@ EbErrorType AV1MDInterPrediction(
 
         if (blk_geom->has_uv && sub8x8_inter == 0) {
             //List1-Cb
-            srcPtr = (uint16_t*)ref_pic_list1->bufferCb + (ref_pic_list1->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list1->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list1->strideCb;
+            src_ptr = (uint16_t*)ref_pic_list1->bufferCb + (ref_pic_list1->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list1->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list1->strideCb;
             dst_ptr = prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
             src_stride = ref_pic_list1->strideCb;
             dst_stride = prediction_ptr->strideCb;
             mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
-            srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+            src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
             conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstCb, 64, is_compound, EB_8BIT);
 
 
@@ -1935,7 +1935,7 @@ EbErrorType AV1MDInterPrediction(
                 &filter_params_y, blk_geom->bwidth_uv, blk_geom->bheight_uv);
 #endif
             Av1UnPackReferenceBlock(
-                srcPtr,
+                src_ptr,
                 ref_pic_list1->strideCb,
                 blk_geom->bwidth_uv,
                 blk_geom->bheight_uv,
@@ -1964,7 +1964,7 @@ EbErrorType AV1MDInterPrediction(
                 &conv_params);
 
             //List1-Cr
-            srcPtr = (uint16_t*)ref_pic_list1->bufferCr + (ref_pic_list1->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list1->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list1->strideCr;
+            src_ptr = (uint16_t*)ref_pic_list1->bufferCr + (ref_pic_list1->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list1->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list1->strideCr;
             dst_ptr = prediction_ptr->bufferCr + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCr;
             src_stride = ref_pic_list1->strideCr;
             dst_stride = prediction_ptr->strideCr;
@@ -1972,10 +1972,10 @@ EbErrorType AV1MDInterPrediction(
 
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
-            srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+            src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
             conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstCr, 64, is_compound, EB_8BIT);
             Av1UnPackReferenceBlock(
-                srcPtr,
+                src_ptr,
                 ref_pic_list1->strideCr,
                 blk_geom->bwidth_uv,
                 blk_geom->bheight_uv,
@@ -2037,7 +2037,7 @@ EbErrorType av1_inter_prediction_hbd(
     MV  mv, mv_q4;
 
     int32_t subpel_x, subpel_y;
-    uint16_t * srcPtr;
+    uint16_t * src_ptr;
     uint16_t * dst_ptr;
     int32_t src_stride;
     int32_t dst_stride;
@@ -2180,25 +2180,25 @@ EbErrorType av1_inter_prediction_hbd(
                     conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCb, BLOCK_SIZE_64, is_compound, bit_depth);
                     conv_params.use_jnt_comp_avg = 0;
                     EbPictureBufferDesc_t                  *ref_pic = this_mbmi->ref_frame[0] == LAST_FRAME ? ref_pic_list0 : ref_pic_list1;
-                    srcPtr = (uint16_t*)ref_pic->bufferCb + (ref_pic->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic->strideCb;
+                    src_ptr = (uint16_t*)ref_pic->bufferCb + (ref_pic->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic->strideCb;
                     dst_ptr = (uint16_t*)prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
                     src_stride = ref_pic->strideCb;
                     dst_stride = prediction_ptr->strideCb;
-                    srcPtr = srcPtr + x + y * ref_pic->strideCb;
+                    src_ptr = src_ptr + x + y * ref_pic->strideCb;
                     dst_ptr = dst_ptr + x + y * prediction_ptr->strideCb;
 
                     const MV mv = this_mbmi->mv[0].as_mv;
                     mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
                     subpel_x = mv_q4.col & SUBPEL_MASK;
                     subpel_y = mv_q4.row & SUBPEL_MASK;
-                    srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+                    src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
 
                     av1_get_convolve_filter_params(cu_ptr->interp_filters, &filter_params_x,
                         &filter_params_y, blk_geom->bwidth_uv, blk_geom->bheight_uv);
 
 
                     convolveHbd[subpel_x != 0][subpel_y != 0][is_compound](
-                        srcPtr,
+                        src_ptr,
                         src_stride,
                         dst_ptr,
                         dst_stride,
@@ -2215,24 +2215,24 @@ EbErrorType av1_inter_prediction_hbd(
                     conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCr, BLOCK_SIZE_64, is_compound, bit_depth);
                     conv_params.use_jnt_comp_avg = 0;
 
-                    srcPtr = (uint16_t*)ref_pic->bufferCr + (ref_pic->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic->strideCr;
+                    src_ptr = (uint16_t*)ref_pic->bufferCr + (ref_pic->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic->strideCr;
                     dst_ptr = (uint16_t*)prediction_ptr->bufferCr + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCr;
                     src_stride = ref_pic->strideCr;
                     dst_stride = prediction_ptr->strideCr;
-                    srcPtr = srcPtr + x + y * ref_pic->strideCr;
+                    src_ptr = src_ptr + x + y * ref_pic->strideCr;
                     dst_ptr = dst_ptr + x + y * prediction_ptr->strideCr;
 
                     // const MV mv = this_mbmi->mv[0].as_mv;
                     mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
                     subpel_x = mv_q4.col & SUBPEL_MASK;
                     subpel_y = mv_q4.row & SUBPEL_MASK;
-                    srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+                    src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
 
                     av1_get_convolve_filter_params(cu_ptr->interp_filters, &filter_params_x,
                         &filter_params_y, blk_geom->bwidth_uv, blk_geom->bheight_uv);
 
                     convolveHbd[subpel_x != 0][subpel_y != 0][is_compound](
-                        srcPtr,
+                        src_ptr,
                         src_stride,
                         dst_ptr,
                         dst_stride,
@@ -2266,7 +2266,7 @@ EbErrorType av1_inter_prediction_hbd(
         mv.col = mv_unit->mv[REF_LIST_0].x;
         mv.row = mv_unit->mv[REF_LIST_0].y;
 
-        srcPtr = (uint16_t*)ref_pic_list0->buffer_y + ref_pic_list0->origin_x + pu_origin_x + (ref_pic_list0->origin_y + pu_origin_y) * ref_pic_list0->stride_y;
+        src_ptr = (uint16_t*)ref_pic_list0->buffer_y + ref_pic_list0->origin_x + pu_origin_x + (ref_pic_list0->origin_y + pu_origin_y) * ref_pic_list0->stride_y;
         dst_ptr = (uint16_t*)prediction_ptr->buffer_y + prediction_ptr->origin_x + dst_origin_x + (prediction_ptr->origin_y + dst_origin_y) * prediction_ptr->stride_y;
         src_stride = ref_pic_list0->stride_y;
         dst_stride = prediction_ptr->stride_y;
@@ -2274,7 +2274,7 @@ EbErrorType av1_inter_prediction_hbd(
         mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, bwidth, bheight, 0, 0);//mv_q4 has 1 extra bit for fractionnal to accomodate chroma when accessing filter coeffs.
         subpel_x = mv_q4.col & SUBPEL_MASK;
         subpel_y = mv_q4.row & SUBPEL_MASK;
-        srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+        src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
         conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstY, 128, is_compound, bit_depth);
 #if INTERPOL_FILTER_SEARCH_10BIT_SUPPORT
         av1_get_convolve_filter_params(cu_ptr->interp_filters, &filter_params_x,
@@ -2282,7 +2282,7 @@ EbErrorType av1_inter_prediction_hbd(
 #endif
 
         convolveHbd[subpel_x != 0][subpel_y != 0][is_compound](
-            srcPtr,
+            src_ptr,
             src_stride,
             dst_ptr,
             dst_stride,
@@ -2302,7 +2302,7 @@ EbErrorType av1_inter_prediction_hbd(
 
         if (blk_geom->has_uv && sub8x8_inter == 0) {
             //List0-Cb
-            srcPtr = (uint16_t*)ref_pic_list0->bufferCb + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCb;
+            src_ptr = (uint16_t*)ref_pic_list0->bufferCb + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCb;
             dst_ptr = (uint16_t*)prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
             src_stride = ref_pic_list0->strideCb;
             dst_stride = prediction_ptr->strideCb;
@@ -2310,7 +2310,7 @@ EbErrorType av1_inter_prediction_hbd(
             mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
-            srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+            src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
             conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCb, 64, is_compound, bit_depth);
 
 
@@ -2318,7 +2318,7 @@ EbErrorType av1_inter_prediction_hbd(
                 &filter_params_y, blk_geom->bwidth_uv, blk_geom->bheight_uv);
 
             convolveHbd[subpel_x != 0][subpel_y != 0][is_compound](
-                srcPtr,
+                src_ptr,
                 src_stride,
                 dst_ptr,
                 dst_stride,
@@ -2337,7 +2337,7 @@ EbErrorType av1_inter_prediction_hbd(
                 bit_depth);
 
             //List0-Cr
-            srcPtr = (uint16_t*)ref_pic_list0->bufferCr + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCr;
+            src_ptr = (uint16_t*)ref_pic_list0->bufferCr + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCr;
             dst_ptr = (uint16_t*)prediction_ptr->bufferCr + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCr;
             src_stride = ref_pic_list0->strideCr;
             dst_stride = prediction_ptr->strideCr;
@@ -2345,10 +2345,10 @@ EbErrorType av1_inter_prediction_hbd(
             mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
-            srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+            src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
             conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCr, 64, is_compound, bit_depth);
             convolveHbd[subpel_x != 0][subpel_y != 0][is_compound](
-                srcPtr,
+                src_ptr,
                 src_stride,
                 dst_ptr,
                 dst_stride,
@@ -2376,7 +2376,7 @@ EbErrorType av1_inter_prediction_hbd(
         mv.col = mv_unit->mv[REF_LIST_1].x;
         mv.row = mv_unit->mv[REF_LIST_1].y;
 
-        srcPtr = (uint16_t*)ref_pic_list1->buffer_y + ref_pic_list1->origin_x + pu_origin_x + (ref_pic_list1->origin_y + pu_origin_y) * ref_pic_list1->stride_y;
+        src_ptr = (uint16_t*)ref_pic_list1->buffer_y + ref_pic_list1->origin_x + pu_origin_x + (ref_pic_list1->origin_y + pu_origin_y) * ref_pic_list1->stride_y;
         dst_ptr = (uint16_t*)prediction_ptr->buffer_y + prediction_ptr->origin_x + dst_origin_x + (prediction_ptr->origin_y + dst_origin_y) * prediction_ptr->stride_y;
         src_stride = ref_pic_list1->stride_y;
         dst_stride = prediction_ptr->stride_y;
@@ -2385,7 +2385,7 @@ EbErrorType av1_inter_prediction_hbd(
         subpel_x = mv_q4.col & SUBPEL_MASK;
         subpel_y = mv_q4.row & SUBPEL_MASK;
 
-        srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+        src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
         conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstY, 128, is_compound, bit_depth);
 #if INTERPOL_FILTER_SEARCH_10BIT_SUPPORT
         av1_get_convolve_filter_params(cu_ptr->interp_filters, &filter_params_x,
@@ -2393,7 +2393,7 @@ EbErrorType av1_inter_prediction_hbd(
 #endif
 
         convolveHbd[subpel_x != 0][subpel_y != 0][is_compound](
-            srcPtr,
+            src_ptr,
             src_stride,
             dst_ptr,
             dst_stride,
@@ -2413,7 +2413,7 @@ EbErrorType av1_inter_prediction_hbd(
 
         if (blk_geom->has_uv && sub8x8_inter == 0) {
             //List0-Cb
-            srcPtr = (uint16_t*)ref_pic_list1->bufferCb + (ref_pic_list1->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list1->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list1->strideCb;
+            src_ptr = (uint16_t*)ref_pic_list1->bufferCb + (ref_pic_list1->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list1->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list1->strideCb;
             dst_ptr = (uint16_t*)prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
             src_stride = ref_pic_list1->strideCb;
             dst_stride = prediction_ptr->strideCb;
@@ -2421,7 +2421,7 @@ EbErrorType av1_inter_prediction_hbd(
             mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
-            srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+            src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
             conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstCb, 64, is_compound, bit_depth);
 #if INTERPOL_FILTER_SEARCH_10BIT_SUPPORT
             av1_get_convolve_filter_params(cu_ptr->interp_filters, &filter_params_x,
@@ -2429,7 +2429,7 @@ EbErrorType av1_inter_prediction_hbd(
 #endif
 
             convolveHbd[subpel_x != 0][subpel_y != 0][is_compound](
-                srcPtr,
+                src_ptr,
                 src_stride,
                 dst_ptr,
                 dst_stride,
@@ -2448,7 +2448,7 @@ EbErrorType av1_inter_prediction_hbd(
                 bit_depth);
 
             //List0-Cr
-            srcPtr = (uint16_t*)ref_pic_list1->bufferCr + (ref_pic_list1->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list1->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list1->strideCr;
+            src_ptr = (uint16_t*)ref_pic_list1->bufferCr + (ref_pic_list1->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list1->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list1->strideCr;
             dst_ptr = (uint16_t*)prediction_ptr->bufferCr + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCr;
             src_stride = ref_pic_list1->strideCr;
             dst_stride = prediction_ptr->strideCr;
@@ -2456,10 +2456,10 @@ EbErrorType av1_inter_prediction_hbd(
             mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
-            srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+            src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
             conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstCr, 64, is_compound, bit_depth);
             convolveHbd[subpel_x != 0][subpel_y != 0][is_compound](
-                srcPtr,
+                src_ptr,
                 src_stride,
                 dst_ptr,
                 dst_stride,
@@ -2516,11 +2516,11 @@ EbErrorType warped_motion_prediction(
     uint8_t ss_y = 1;
 
     if (!is16bit) {
-        uint8_t *srcPtr;
+        uint8_t *src_ptr;
         uint8_t *dst_ptr;
 
         // Y - UNI_PRED_LIST_0
-        srcPtr = ref_pic_list0->buffer_y + ref_pic_list0->origin_x + ref_pic_list0->origin_y * ref_pic_list0->stride_y;
+        src_ptr = ref_pic_list0->buffer_y + ref_pic_list0->origin_x + ref_pic_list0->origin_y * ref_pic_list0->stride_y;
         src_stride = ref_pic_list0->stride_y;
         buf_width = ref_pic_list0->width;
         buf_height = ref_pic_list0->height;
@@ -2533,7 +2533,7 @@ EbErrorType warped_motion_prediction(
             wm_params,
             (int) is16bit,
             bit_depth,
-            srcPtr,
+            src_ptr,
             (int) buf_width,
             (int) buf_height,
             src_stride,
@@ -2552,7 +2552,7 @@ EbErrorType warped_motion_prediction(
 
          if (blk_geom->bwidth >= 16  && blk_geom->bheight >= 16 ) {
             // Cb
-            srcPtr = ref_pic_list0->bufferCb + ref_pic_list0->origin_x / 2 + (ref_pic_list0->origin_y / 2) * ref_pic_list0->strideCb;
+            src_ptr = ref_pic_list0->bufferCb + ref_pic_list0->origin_x / 2 + (ref_pic_list0->origin_y / 2) * ref_pic_list0->strideCb;
             src_stride = ref_pic_list0->strideCb;
 
             dst_ptr = prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
@@ -2563,7 +2563,7 @@ EbErrorType warped_motion_prediction(
                 wm_params,
                 (int) is16bit,
                 bit_depth,
-                srcPtr,
+                src_ptr,
                 buf_width >> ss_x,
                 buf_height >> ss_y,
                 src_stride,
@@ -2578,7 +2578,7 @@ EbErrorType warped_motion_prediction(
                 &conv_params);
 
             // Cr
-            srcPtr = ref_pic_list0->bufferCr + ref_pic_list0->origin_x / 2 + (ref_pic_list0->origin_y / 2 ) * ref_pic_list0->strideCr;
+            src_ptr = ref_pic_list0->bufferCr + ref_pic_list0->origin_x / 2 + (ref_pic_list0->origin_y / 2 ) * ref_pic_list0->strideCr;
             src_stride = ref_pic_list0->strideCr;
 
             dst_ptr = prediction_ptr->bufferCr + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCr;
@@ -2590,7 +2590,7 @@ EbErrorType warped_motion_prediction(
                 wm_params,
                 (int) is16bit,
                 bit_depth,
-                srcPtr,
+                src_ptr,
                 (int) buf_width >> ss_x,
                 (int) buf_height >> ss_y,
                 src_stride,
@@ -2615,7 +2615,7 @@ EbErrorType warped_motion_prediction(
             mv.row = mv_unit->mv[REF_LIST_0].y;
 
             //List0-Cb
-            srcPtr = ref_pic_list0->bufferCb + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCb;
+            src_ptr = ref_pic_list0->bufferCb + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCb;
             dst_ptr = prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
             src_stride = ref_pic_list0->strideCb;
             dst_stride = prediction_ptr->strideCb;
@@ -2623,14 +2623,14 @@ EbErrorType warped_motion_prediction(
             mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
-            srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+            src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
             conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCb, 64, is_compound, EB_8BIT);
 
             av1_get_convolve_filter_params(interp_filters, &filter_params_x,
                 &filter_params_y, blk_geom->bwidth_uv, blk_geom->bheight_uv);
 
             convolve[subpel_x != 0][subpel_y != 0][is_compound](
-                srcPtr,
+                src_ptr,
                 src_stride,
                 dst_ptr,
                 dst_stride,
@@ -2643,7 +2643,7 @@ EbErrorType warped_motion_prediction(
                 &conv_params);
 
             //List0-Cr
-            srcPtr = ref_pic_list0->bufferCr + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCr;
+            src_ptr = ref_pic_list0->bufferCr + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCr;
             dst_ptr = prediction_ptr->bufferCr + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCr;
             src_stride = ref_pic_list0->strideCr;
             dst_stride = prediction_ptr->strideCr;
@@ -2651,10 +2651,10 @@ EbErrorType warped_motion_prediction(
             mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
-            srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+            src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
             conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCr, 64, is_compound, EB_8BIT);
             convolve[subpel_x != 0][subpel_y != 0][is_compound](
-                srcPtr,
+                src_ptr,
                 src_stride,
                 dst_ptr,
                 dst_stride,
@@ -2667,11 +2667,11 @@ EbErrorType warped_motion_prediction(
                 &conv_params);
         }
     } else { // HBD
-        uint16_t *srcPtr;
+        uint16_t *src_ptr;
         uint16_t *dst_ptr;
 
         // Y - UNI_PRED_LIST_0
-        srcPtr = (uint16_t *)ref_pic_list0->buffer_y + ref_pic_list0->origin_x + ref_pic_list0->origin_y * ref_pic_list0->stride_y;
+        src_ptr = (uint16_t *)ref_pic_list0->buffer_y + ref_pic_list0->origin_x + ref_pic_list0->origin_y * ref_pic_list0->stride_y;
         src_stride = ref_pic_list0->stride_y;
         buf_width = ref_pic_list0->width;
         buf_height = ref_pic_list0->height;
@@ -2683,7 +2683,7 @@ EbErrorType warped_motion_prediction(
         av1_warp_plane_hbd(
             wm_params,
             bit_depth,
-            srcPtr,
+            src_ptr,
             (int) buf_width,
             (int) buf_height,
             src_stride,
@@ -2702,7 +2702,7 @@ EbErrorType warped_motion_prediction(
 
          if (blk_geom->bwidth >= 16  && blk_geom->bheight >= 16 ) {
             // Cb
-            srcPtr = (uint16_t *)ref_pic_list0->bufferCb + ref_pic_list0->origin_x / 2 + (ref_pic_list0->origin_y / 2) * ref_pic_list0->strideCb;
+            src_ptr = (uint16_t *)ref_pic_list0->bufferCb + ref_pic_list0->origin_x / 2 + (ref_pic_list0->origin_y / 2) * ref_pic_list0->strideCb;
             src_stride = ref_pic_list0->strideCb;
 
             dst_ptr = (uint16_t *)prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
@@ -2712,7 +2712,7 @@ EbErrorType warped_motion_prediction(
             av1_warp_plane_hbd(
                 wm_params,
                 bit_depth,
-                srcPtr,
+                src_ptr,
                 buf_width >> ss_x,
                 buf_height >> ss_y,
                 src_stride,
@@ -2727,7 +2727,7 @@ EbErrorType warped_motion_prediction(
                 &conv_params);
 
             // Cr
-            srcPtr = (uint16_t *)ref_pic_list0->bufferCr + ref_pic_list0->origin_x / 2 + (ref_pic_list0->origin_y / 2 ) * ref_pic_list0->strideCr;
+            src_ptr = (uint16_t *)ref_pic_list0->bufferCr + ref_pic_list0->origin_x / 2 + (ref_pic_list0->origin_y / 2 ) * ref_pic_list0->strideCr;
             src_stride = ref_pic_list0->strideCr;
 
             dst_ptr = (uint16_t *)prediction_ptr->bufferCr + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCr;
@@ -2738,7 +2738,7 @@ EbErrorType warped_motion_prediction(
             av1_warp_plane_hbd(
                 wm_params,
                 bit_depth,
-                srcPtr,
+                src_ptr,
                 (int) buf_width >> ss_x,
                 (int) buf_height >> ss_y,
                 src_stride,
@@ -2763,7 +2763,7 @@ EbErrorType warped_motion_prediction(
             mv.row = mv_unit->mv[REF_LIST_0].y;
 
             //List0-Cb
-            srcPtr = (uint16_t *)ref_pic_list0->bufferCb + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCb;
+            src_ptr = (uint16_t *)ref_pic_list0->bufferCb + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCb;
             dst_ptr = (uint16_t *)prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
             src_stride = ref_pic_list0->strideCb;
             dst_stride = prediction_ptr->strideCb;
@@ -2771,14 +2771,14 @@ EbErrorType warped_motion_prediction(
             mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
-            srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+            src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
             conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCb, 64, is_compound, bit_depth);
 
             av1_get_convolve_filter_params(interp_filters, &filter_params_x,
                 &filter_params_y, blk_geom->bwidth_uv, blk_geom->bheight_uv);
 
             convolveHbd[subpel_x != 0][subpel_y != 0][is_compound](
-                srcPtr,
+                src_ptr,
                 src_stride,
                 dst_ptr,
                 dst_stride,
@@ -2792,7 +2792,7 @@ EbErrorType warped_motion_prediction(
                 bit_depth);
 
             //List0-Cr
-            srcPtr = (uint16_t *)ref_pic_list0->bufferCr + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCr;
+            src_ptr = (uint16_t *)ref_pic_list0->bufferCr + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCr;
             dst_ptr = (uint16_t *)prediction_ptr->bufferCr + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCr;
             src_stride = ref_pic_list0->strideCr;
             dst_stride = prediction_ptr->strideCr;
@@ -2800,10 +2800,10 @@ EbErrorType warped_motion_prediction(
             mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
-            srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+            src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
             conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCr, 64, is_compound, bit_depth);
             convolveHbd[subpel_x != 0][subpel_y != 0][is_compound](
-                srcPtr,
+                src_ptr,
                 src_stride,
                 dst_ptr,
                 dst_stride,
@@ -2849,11 +2849,11 @@ EbErrorType warped_motion_prediction_md(
     uint8_t ss_x = 1; // subsamplings
     uint8_t ss_y = 1;
 
-    uint16_t *srcPtr;
+    uint16_t *src_ptr;
     uint8_t *dst_ptr;
 
     // Y - UNI_PRED_LIST_0
-    srcPtr = (uint16_t *)ref_pic_list0->buffer_y + ref_pic_list0->origin_x + ref_pic_list0->origin_y * ref_pic_list0->stride_y;
+    src_ptr = (uint16_t *)ref_pic_list0->buffer_y + ref_pic_list0->origin_x + ref_pic_list0->origin_y * ref_pic_list0->stride_y;
     src_stride = ref_pic_list0->stride_y;
     buf_width = ref_pic_list0->width;
     buf_height = ref_pic_list0->height;
@@ -2863,7 +2863,7 @@ EbErrorType warped_motion_prediction_md(
     conv_params = get_conv_params_no_round(0, 0, 0, NULL, 128, is_compound, EB_8BIT);
 
     Av1UnPackReferenceBlock(
-        srcPtr,
+        src_ptr,
         ref_pic_list0->stride_y,
         blk_geom->bwidth,
         blk_geom->bheight,
@@ -2896,7 +2896,7 @@ EbErrorType warped_motion_prediction_md(
 
      if (blk_geom->bwidth >= 16  && blk_geom->bheight >= 16 ) {
         // Cb
-        srcPtr = (uint16_t *)ref_pic_list0->bufferCb + ref_pic_list0->origin_x / 2 + (ref_pic_list0->origin_y / 2) * ref_pic_list0->strideCb;
+        src_ptr = (uint16_t *)ref_pic_list0->bufferCb + ref_pic_list0->origin_x / 2 + (ref_pic_list0->origin_y / 2) * ref_pic_list0->strideCb;
         src_stride = ref_pic_list0->strideCb;
 
         dst_ptr = prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
@@ -2904,7 +2904,7 @@ EbErrorType warped_motion_prediction_md(
         conv_params = get_conv_params_no_round(0, 0, 0, NULL, 64, is_compound, EB_8BIT);
 
         Av1UnPackReferenceBlock(
-            srcPtr,
+            src_ptr,
             ref_pic_list0->strideCb,
             blk_geom->bwidth_uv,
             blk_geom->bheight_uv,
@@ -2933,7 +2933,7 @@ EbErrorType warped_motion_prediction_md(
             &conv_params);
 
         // Cr
-        srcPtr = (uint16_t *)ref_pic_list0->bufferCr + ref_pic_list0->origin_x / 2 + (ref_pic_list0->origin_y / 2 ) * ref_pic_list0->strideCr;
+        src_ptr = (uint16_t *)ref_pic_list0->bufferCr + ref_pic_list0->origin_x / 2 + (ref_pic_list0->origin_y / 2 ) * ref_pic_list0->strideCr;
         src_stride = ref_pic_list0->strideCr;
 
         dst_ptr = prediction_ptr->bufferCr + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCr;
@@ -2942,7 +2942,7 @@ EbErrorType warped_motion_prediction_md(
         conv_params = get_conv_params_no_round(0, 0, 0, NULL, 64, is_compound, EB_8BIT);
 
         Av1UnPackReferenceBlock(
-            srcPtr,
+            src_ptr,
             ref_pic_list0->strideCr,
             blk_geom->bwidth_uv,
             blk_geom->bheight_uv,
@@ -2981,7 +2981,7 @@ EbErrorType warped_motion_prediction_md(
         mv.row = mv_unit->mv[REF_LIST_0].y;
 
         //List0-Cb
-        srcPtr = (uint16_t *)ref_pic_list0->bufferCb + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCb;
+        src_ptr = (uint16_t *)ref_pic_list0->bufferCb + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCb;
         dst_ptr = prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
         src_stride = ref_pic_list0->strideCb;
         dst_stride = prediction_ptr->strideCb;
@@ -2989,14 +2989,14 @@ EbErrorType warped_motion_prediction_md(
         mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
         subpel_x = mv_q4.col & SUBPEL_MASK;
         subpel_y = mv_q4.row & SUBPEL_MASK;
-        srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+        src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
         conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCb, 64, is_compound, EB_8BIT);
 
         av1_get_convolve_filter_params(interp_filters, &filter_params_x,
             &filter_params_y, blk_geom->bwidth_uv, blk_geom->bheight_uv);
 
         Av1UnPackReferenceBlock(
-            srcPtr,
+            src_ptr,
             ref_pic_list0->strideCb,
             blk_geom->bwidth_uv,
             blk_geom->bheight_uv,
@@ -3020,7 +3020,7 @@ EbErrorType warped_motion_prediction_md(
             &conv_params);
 
         //List0-Cr
-        srcPtr = (uint16_t *)ref_pic_list0->bufferCr + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCr;
+        src_ptr = (uint16_t *)ref_pic_list0->bufferCr + (ref_pic_list0->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic_list0->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic_list0->strideCr;
         dst_ptr = prediction_ptr->bufferCr + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCr;
         src_stride = ref_pic_list0->strideCr;
         dst_stride = prediction_ptr->strideCr;
@@ -3028,11 +3028,11 @@ EbErrorType warped_motion_prediction_md(
         mv_q4 = clamp_mv_to_umv_border_sb(cu_ptr->av1xd, &mv, blk_geom->bwidth_uv, blk_geom->bheight_uv, 1, 1);
         subpel_x = mv_q4.col & SUBPEL_MASK;
         subpel_y = mv_q4.row & SUBPEL_MASK;
-        srcPtr = srcPtr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
+        src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
         conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCr, 64, is_compound, EB_8BIT);
 
         Av1UnPackReferenceBlock(
-            srcPtr,
+            src_ptr,
             ref_pic_list0->strideCr,
             blk_geom->bwidth_uv,
             blk_geom->bheight_uv,

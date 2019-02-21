@@ -214,7 +214,7 @@ EbErrorType av1_alloc_restoration_struct(struct Av1Common *cm, RestorationInfo *
     // max with 1 is to deal with tiles that are smaller than half of a
     // restoration unit.
     const int32_t unit_size = rsi->restoration_unit_size;
-    const int32_t hpertile = count_units_in_tile(unit_size, max_tile_w);   //FB of size < 1/2 UnitSize are included in neigh FB making them bigger!!
+    const int32_t hpertile = count_units_in_tile(unit_size, max_tile_w);   //FB of size < 1/2 unit_size are included in neigh FB making them bigger!!
     const int32_t vpertile = count_units_in_tile(unit_size, max_tile_h);
 
     rsi->units_per_tile = hpertile * vpertile;//pic_tot_FB

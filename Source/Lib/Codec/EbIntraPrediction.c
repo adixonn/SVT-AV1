@@ -679,7 +679,7 @@ EbErrorType GenerateIntraReferenceSamplesEncodePass(
     neighborAvailable = EB_FALSE;
     while (blockIndex < leftBlockEnd && neighborAvailable == EB_FALSE) {
 
-        modeArrayIndex = GetNeighborArrayUnitLeftIndex(
+        modeArrayIndex = get_neighbor_array_unit_left_index(
             mode_type_neighbor_array,
             reconArrayIndex);
 
@@ -711,7 +711,7 @@ EbErrorType GenerateIntraReferenceSamplesEncodePass(
     reconArrayIndex = MAX_PICTURE_HEIGHT_SIZE + origin_x - origin_y;
     while (blockIndex < topLeftBlockEnd && neighborAvailable == EB_FALSE) {
 
-        modeArrayIndex = GetNeighborArrayUnitTopLeftIndex(
+        modeArrayIndex = get_neighbor_array_unit_top_left_index(
             mode_type_neighbor_array,
             origin_x,
             origin_y);
@@ -739,7 +739,7 @@ EbErrorType GenerateIntraReferenceSamplesEncodePass(
     reconArrayIndex = origin_x;
     while (blockIndex < topBlockEnd && neighborAvailable == EB_FALSE) {
 
-        modeArrayIndex = GetNeighborArrayUnitTopIndex(
+        modeArrayIndex = get_neighbor_array_unit_top_index(
             mode_type_neighbor_array,
             reconArrayIndex);
 
@@ -834,7 +834,7 @@ EbErrorType GenerateIntraReferenceSamplesEncodePass(
     reconArrayIndex = origin_y + (2 * size - MIN_PU_SIZE) - (blockIndex * MIN_PU_SIZE);
     while (blockIndex < leftBlockEnd) {
 
-        modeArrayIndex = GetNeighborArrayUnitLeftIndex(
+        modeArrayIndex = get_neighbor_array_unit_left_index(
             mode_type_neighbor_array,
             reconArrayIndex);
 
@@ -885,7 +885,7 @@ EbErrorType GenerateIntraReferenceSamplesEncodePass(
     reconArrayIndex = MAX_PICTURE_HEIGHT_SIZE + origin_x - origin_y;
     while (blockIndex < topLeftBlockEnd) {
 
-        modeArrayIndex = GetNeighborArrayUnitTopLeftIndex(
+        modeArrayIndex = get_neighbor_array_unit_top_left_index(
             mode_type_neighbor_array,
             origin_x,
             origin_y);
@@ -926,7 +926,7 @@ EbErrorType GenerateIntraReferenceSamplesEncodePass(
     reconArrayIndex = origin_x + (blockIndex - topLeftBlockEnd) * MIN_PU_SIZE;
     while (blockIndex < topBlockEnd) {
 
-        modeArrayIndex = GetNeighborArrayUnitTopIndex(
+        modeArrayIndex = get_neighbor_array_unit_top_index(
             mode_type_neighbor_array,
             reconArrayIndex);
 
@@ -1198,7 +1198,7 @@ EbErrorType GenerateIntraReference16bitSamplesEncodePass(
     neighborAvailable = EB_FALSE;
     while (blockIndex < leftBlockEnd && neighborAvailable == EB_FALSE) {
 
-        modeArrayIndex = GetNeighborArrayUnitLeftIndex(
+        modeArrayIndex = get_neighbor_array_unit_left_index(
             mode_type_neighbor_array,
             reconArrayIndex);
 
@@ -1231,7 +1231,7 @@ EbErrorType GenerateIntraReference16bitSamplesEncodePass(
     reconArrayIndex = MAX_PICTURE_HEIGHT_SIZE + origin_x - origin_y;
     while (blockIndex < topLeftBlockEnd && neighborAvailable == EB_FALSE) {
 
-        modeArrayIndex = GetNeighborArrayUnitTopLeftIndex(
+        modeArrayIndex = get_neighbor_array_unit_top_left_index(
             mode_type_neighbor_array,
             origin_x,
             origin_y);
@@ -1259,7 +1259,7 @@ EbErrorType GenerateIntraReference16bitSamplesEncodePass(
     reconArrayIndex = origin_x;
     while (blockIndex < topBlockEnd && neighborAvailable == EB_FALSE) {
 
-        modeArrayIndex = GetNeighborArrayUnitTopIndex(
+        modeArrayIndex = get_neighbor_array_unit_top_index(
             mode_type_neighbor_array,
             reconArrayIndex);
 
@@ -1354,7 +1354,7 @@ EbErrorType GenerateIntraReference16bitSamplesEncodePass(
     reconArrayIndex = origin_y + (2 * size - MIN_PU_SIZE) - (blockIndex * MIN_PU_SIZE);
     while (blockIndex < leftBlockEnd) {
 
-        modeArrayIndex = GetNeighborArrayUnitLeftIndex(
+        modeArrayIndex = get_neighbor_array_unit_left_index(
             mode_type_neighbor_array,
             reconArrayIndex);
 
@@ -1407,7 +1407,7 @@ EbErrorType GenerateIntraReference16bitSamplesEncodePass(
     reconArrayIndex = MAX_PICTURE_HEIGHT_SIZE + origin_x - origin_y;
     while (blockIndex < topLeftBlockEnd) {
 
-        modeArrayIndex = GetNeighborArrayUnitTopLeftIndex(
+        modeArrayIndex = get_neighbor_array_unit_top_left_index(
             mode_type_neighbor_array,
             origin_x,
             origin_y);
@@ -1449,7 +1449,7 @@ EbErrorType GenerateIntraReference16bitSamplesEncodePass(
     reconArrayIndex = origin_x + (blockIndex - topLeftBlockEnd) * MIN_PU_SIZE;
     while (blockIndex < topBlockEnd) {
 
-        modeArrayIndex = GetNeighborArrayUnitTopIndex(
+        modeArrayIndex = get_neighbor_array_unit_top_index(
             mode_type_neighbor_array,
             reconArrayIndex);
 
@@ -1702,7 +1702,7 @@ EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
     neighborAvailable = EB_FALSE;
     while (blockIndex < leftBlockEnd && neighborAvailable == EB_FALSE) {
 
-        modeArrayIndex = GetNeighborArrayUnitLeftIndex(
+        modeArrayIndex = get_neighbor_array_unit_left_index(
             mode_type_neighbor_array,
             reconArrayIndex);
 
@@ -1731,7 +1731,7 @@ EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
     reconArrayIndex = MAX_PICTURE_HEIGHT_SIZE + origin_x - origin_y;
     while (blockIndex < topLeftBlockEnd && neighborAvailable == EB_FALSE) {
 
-        modeArrayIndex = GetNeighborArrayUnitTopLeftIndex(
+        modeArrayIndex = get_neighbor_array_unit_top_left_index(
             mode_type_neighbor_array,
             origin_x,
             origin_y);
@@ -1756,7 +1756,7 @@ EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
     reconArrayIndex = origin_x;
     while (blockIndex < topBlockEnd && neighborAvailable == EB_FALSE) {
 
-        modeArrayIndex = GetNeighborArrayUnitTopIndex(
+        modeArrayIndex = get_neighbor_array_unit_top_index(
             mode_type_neighbor_array,
             reconArrayIndex);
 
@@ -1824,7 +1824,7 @@ EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
     reconArrayIndex = origin_y + (2 * size - MIN_PU_SIZE) - (blockIndex * MIN_PU_SIZE);
     while (blockIndex < leftBlockEnd) {
 
-        modeArrayIndex = GetNeighborArrayUnitLeftIndex(
+        modeArrayIndex = get_neighbor_array_unit_left_index(
             mode_type_neighbor_array,
             reconArrayIndex);
 
@@ -1862,7 +1862,7 @@ EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
     reconArrayIndex = MAX_PICTURE_HEIGHT_SIZE + origin_x - origin_y;
     while (blockIndex < topLeftBlockEnd) {
 
-        modeArrayIndex = GetNeighborArrayUnitTopLeftIndex(
+        modeArrayIndex = get_neighbor_array_unit_top_left_index(
             mode_type_neighbor_array,
             origin_x,
             origin_y);
@@ -1896,7 +1896,7 @@ EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
 
     while (blockIndex < topBlockEnd) {
 
-        modeArrayIndex = GetNeighborArrayUnitTopIndex(
+        modeArrayIndex = get_neighbor_array_unit_top_index(
             mode_type_neighbor_array,
             reconArrayIndex);
 
@@ -2123,7 +2123,7 @@ EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
     neighborAvailable = EB_FALSE;
     while (blockIndex < leftBlockEnd && neighborAvailable == EB_FALSE) {
 
-        modeArrayIndex = GetNeighborArrayUnitLeftIndex(
+        modeArrayIndex = get_neighbor_array_unit_left_index(
             mode_type_neighbor_array,
             reconArrayIndex);
 
@@ -2154,7 +2154,7 @@ EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
     reconArrayIndex = MAX_PICTURE_HEIGHT_SIZE + origin_x - origin_y;
     while (blockIndex < topLeftBlockEnd && neighborAvailable == EB_FALSE) {
 
-        modeArrayIndex = GetNeighborArrayUnitTopLeftIndex(
+        modeArrayIndex = get_neighbor_array_unit_top_left_index(
             mode_type_neighbor_array,
             origin_x,
             origin_y);
@@ -2181,7 +2181,7 @@ EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
     reconArrayIndex = origin_x;
     while (blockIndex < topBlockEnd && neighborAvailable == EB_FALSE) {
 
-        modeArrayIndex = GetNeighborArrayUnitTopIndex(
+        modeArrayIndex = get_neighbor_array_unit_top_index(
             mode_type_neighbor_array,
             reconArrayIndex);
 
@@ -2263,7 +2263,7 @@ EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
     reconArrayIndex = origin_y + (2 * size - MIN_PU_SIZE) - (blockIndex * MIN_PU_SIZE);
     while (blockIndex < leftBlockEnd) {
 
-        modeArrayIndex = GetNeighborArrayUnitLeftIndex(
+        modeArrayIndex = get_neighbor_array_unit_left_index(
             mode_type_neighbor_array,
             reconArrayIndex);
 
@@ -2308,7 +2308,7 @@ EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
     reconArrayIndex = MAX_PICTURE_HEIGHT_SIZE + origin_x - origin_y;
     while (blockIndex < topLeftBlockEnd) {
 
-        modeArrayIndex = GetNeighborArrayUnitTopLeftIndex(
+        modeArrayIndex = get_neighbor_array_unit_top_left_index(
             mode_type_neighbor_array,
             origin_x,
             origin_y);
@@ -2347,7 +2347,7 @@ EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
 
     while (blockIndex < topBlockEnd) {
 
-        modeArrayIndex = GetNeighborArrayUnitTopIndex(
+        modeArrayIndex = get_neighbor_array_unit_top_index(
             mode_type_neighbor_array,
             reconArrayIndex);
 
@@ -5013,7 +5013,7 @@ EbErrorType UpdateNeighborSamplesArrayOpenLoop(
     EbErrorType    return_error = EB_ErrorNone;
 
     uint32_t idx;
-    uint8_t  *srcPtr;
+    uint8_t  *src_ptr;
     uint8_t  *dst_ptr;
     uint8_t  *readPtr;
 
@@ -5028,7 +5028,7 @@ EbErrorType UpdateNeighborSamplesArrayOpenLoop(
     uint32_t blockSizeHalf = block_size << 1;
 
     // Adjust the Source ptr to start at the origin of the block being updated
-    srcPtr = inputPtr->buffer_y + (((src_origin_y + inputPtr->origin_y) * stride) + (src_origin_x + inputPtr->origin_x));
+    src_ptr = inputPtr->buffer_y + (((src_origin_y + inputPtr->origin_y) * stride) + (src_origin_x + inputPtr->origin_x));
 
     // Adjust the Destination ptr to start at the origin of the Intra reference array
     dst_ptr = yBorderReverse;
@@ -5041,7 +5041,7 @@ EbErrorType UpdateNeighborSamplesArrayOpenLoop(
 
     if (src_origin_x != 0) {
 
-        readPtr = srcPtr - 1;
+        readPtr = src_ptr - 1;
         count = ((src_origin_y + count) > height) ? count - ((src_origin_y + count) - height) : count;
 
         for (idx = 0; idx < count; ++idx) {
@@ -5062,7 +5062,7 @@ EbErrorType UpdateNeighborSamplesArrayOpenLoop(
     // Get the upper left sample
     if (src_origin_x != 0 && src_origin_y != 0) {
 
-        readPtr = srcPtr - stride - 1;
+        readPtr = src_ptr - stride - 1;
         *dst_ptr = *readPtr;
         dst_ptr++;
     }
@@ -5075,7 +5075,7 @@ EbErrorType UpdateNeighborSamplesArrayOpenLoop(
     count = blockSizeHalf;
     if (src_origin_y != 0) {
 
-        readPtr = srcPtr - stride;
+        readPtr = src_ptr - stride;
 
         count = ((src_origin_x + count) > width) ? count - ((src_origin_x + count) - width) : count;
         EB_MEMCPY(dst_ptr, readPtr, count);
@@ -8318,23 +8318,23 @@ void generate_intra_reference_samples(
 
 #if 1
 
-    uint32_t modeTypeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t modeTypeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         md_context_ptr->mode_type_neighbor_array,
         md_context_ptr->cu_origin_y);
-    uint32_t modeTypeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t modeTypeTopNeighborIndex = get_neighbor_array_unit_top_index(
         md_context_ptr->mode_type_neighbor_array,
         md_context_ptr->cu_origin_x);
-    uint32_t intraLumaModeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t intraLumaModeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         md_context_ptr->intra_luma_mode_neighbor_array,
         md_context_ptr->cu_origin_y);
-    uint32_t intraLumaModeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t intraLumaModeTopNeighborIndex = get_neighbor_array_unit_top_index(
         md_context_ptr->intra_luma_mode_neighbor_array,
         md_context_ptr->cu_origin_x);
 
-    uint32_t intraChromaModeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t intraChromaModeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         md_context_ptr->intra_chroma_mode_neighbor_array,
         md_context_ptr->round_origin_y >> 1);
-    uint32_t intraChromaModeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t intraChromaModeTopNeighborIndex = get_neighbor_array_unit_top_index(
         md_context_ptr->intra_chroma_mode_neighbor_array,
         md_context_ptr->round_origin_x >> 1);
 
@@ -9815,23 +9815,23 @@ EbErrorType AV1IntraPredictionCL(
 #if !INTRA_CORE_OPT
 
 
-    uint32_t modeTypeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t modeTypeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         md_context_ptr->mode_type_neighbor_array,
         md_context_ptr->cu_origin_y);
-    uint32_t modeTypeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t modeTypeTopNeighborIndex = get_neighbor_array_unit_top_index(
         md_context_ptr->mode_type_neighbor_array,
         md_context_ptr->cu_origin_x);
-    uint32_t intraLumaModeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t intraLumaModeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         md_context_ptr->intra_luma_mode_neighbor_array,
         md_context_ptr->cu_origin_y);
-    uint32_t intraLumaModeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t intraLumaModeTopNeighborIndex = get_neighbor_array_unit_top_index(
         md_context_ptr->intra_luma_mode_neighbor_array,
         md_context_ptr->cu_origin_x);
 
-    uint32_t intraChromaModeLeftNeighborIndex = GetNeighborArrayUnitLeftIndex(
+    uint32_t intraChromaModeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         md_context_ptr->intra_chroma_mode_neighbor_array,
         md_context_ptr->round_origin_y >> 1);
-    uint32_t intraChromaModeTopNeighborIndex = GetNeighborArrayUnitTopIndex(
+    uint32_t intraChromaModeTopNeighborIndex = get_neighbor_array_unit_top_index(
         md_context_ptr->intra_chroma_mode_neighbor_array,
         md_context_ptr->round_origin_x >> 1);
 

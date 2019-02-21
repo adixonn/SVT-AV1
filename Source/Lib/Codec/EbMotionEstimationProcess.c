@@ -497,13 +497,13 @@ void* MotionEstimationKernel(void *input_ptr)
                     }
 
                     {
-                        uint8_t * srcPtr = &inputPaddedPicturePtr->buffer_y[bufferIndex];
+                        uint8_t * src_ptr = &inputPaddedPicturePtr->buffer_y[bufferIndex];
 
                         //_MM_HINT_T0     //_MM_HINT_T1    //_MM_HINT_T2//_MM_HINT_NTA
                         uint32_t i;
                         for (i = 0; i < sb_height; i++)
                         {
-                            char const* p = (char const*)(srcPtr + i * inputPaddedPicturePtr->stride_y);
+                            char const* p = (char const*)(src_ptr + i * inputPaddedPicturePtr->stride_y);
                             _mm_prefetch(p, _MM_HINT_T2);
                         }
                     }

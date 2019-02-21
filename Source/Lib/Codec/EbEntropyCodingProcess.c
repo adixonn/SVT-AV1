@@ -49,21 +49,21 @@ EbErrorType entropy_coding_context_ctor(
  ***********************************************/
 static void EntropyCodingResetNeighborArrays(PictureControlSet_t *picture_control_set_ptr)
 {
-    NeighborArrayUnitReset(picture_control_set_ptr->mode_type_neighbor_array);
+    neighbor_array_unit_reset(picture_control_set_ptr->mode_type_neighbor_array);
 
-    NeighborArrayUnitReset(picture_control_set_ptr->partition_context_neighbor_array);
+    neighbor_array_unit_reset(picture_control_set_ptr->partition_context_neighbor_array);
 
-    NeighborArrayUnitReset(picture_control_set_ptr->skip_flag_neighbor_array);
+    neighbor_array_unit_reset(picture_control_set_ptr->skip_flag_neighbor_array);
 
-    NeighborArrayUnitReset(picture_control_set_ptr->skip_coeff_neighbor_array);
-    NeighborArrayUnitReset(picture_control_set_ptr->luma_dc_sign_level_coeff_neighbor_array);
-    NeighborArrayUnitReset(picture_control_set_ptr->cb_dc_sign_level_coeff_neighbor_array);
-    NeighborArrayUnitReset(picture_control_set_ptr->cr_dc_sign_level_coeff_neighbor_array);
-    NeighborArrayUnitReset(picture_control_set_ptr->inter_pred_dir_neighbor_array);
-    NeighborArrayUnitReset(picture_control_set_ptr->ref_frame_type_neighbor_array);
+    neighbor_array_unit_reset(picture_control_set_ptr->skip_coeff_neighbor_array);
+    neighbor_array_unit_reset(picture_control_set_ptr->luma_dc_sign_level_coeff_neighbor_array);
+    neighbor_array_unit_reset(picture_control_set_ptr->cb_dc_sign_level_coeff_neighbor_array);
+    neighbor_array_unit_reset(picture_control_set_ptr->cr_dc_sign_level_coeff_neighbor_array);
+    neighbor_array_unit_reset(picture_control_set_ptr->inter_pred_dir_neighbor_array);
+    neighbor_array_unit_reset(picture_control_set_ptr->ref_frame_type_neighbor_array);
 
-    NeighborArrayUnitReset(picture_control_set_ptr->intra_luma_mode_neighbor_array);
-    NeighborArrayUnitReset32(picture_control_set_ptr->interpolation_type_neighbor_array);
+    neighbor_array_unit_reset(picture_control_set_ptr->intra_luma_mode_neighbor_array);
+    neighbor_array_unit_reset32(picture_control_set_ptr->interpolation_type_neighbor_array);
     return;
 }
 
