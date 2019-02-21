@@ -7,10 +7,10 @@
 #include "EbUtility.h"
 
 /*******************************************
-* CombinedAveragingSAD
+* combined_averaging_sad
 *
 *******************************************/
-uint32_t CombinedAveragingSAD(
+uint32_t combined_averaging_sad(
     uint8_t  *src,
     uint32_t  src_stride,
     uint8_t  *ref1,
@@ -45,7 +45,7 @@ Note: moved from picture operators.
 keep this function here for profiling
 issues.
 *******************************************/
-uint32_t FastLoop_NxMSadKernel(
+uint32_t fast_loop_nx_m_sad_kernel(
     uint8_t  *src,                            // input parameter, source samples Ptr
     uint32_t  src_stride,                      // input parameter, source stride
     uint8_t  *ref,                            // input parameter, reference samples Ptr
@@ -69,7 +69,7 @@ uint32_t FastLoop_NxMSadKernel(
     return sad;
 }
 
-void SadLoopKernel(
+void sad_loop_kernel(
     uint8_t  *src,                            // input parameter, source samples Ptr
     uint32_t  src_stride,                      // input parameter, source stride
     uint8_t  *ref,                            // input parameter, reference samples Ptr

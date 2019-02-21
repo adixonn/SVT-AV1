@@ -109,43 +109,43 @@ extern "C" {
         // NON_AVX2
         {
             /*0 4xM  */ compute4x_m_sad_sub_sse2_intrin,
-            /*1 8xM  */ FastLoop_NxMSadKernel,
-            /*2 16xM */ FastLoop_NxMSadKernel,
-            /*3 24xM */ FastLoop_NxMSadKernel,
-            /*4 32xM */ FastLoop_NxMSadKernel,
+            /*1 8xM  */ fast_loop_nx_m_sad_kernel,
+            /*2 16xM */ fast_loop_nx_m_sad_kernel,
+            /*3 24xM */ fast_loop_nx_m_sad_kernel,
+            /*4 32xM */ fast_loop_nx_m_sad_kernel,
             /*5      */ 0,
-            /*6 48xM */ FastLoop_NxMSadKernel,
+            /*6 48xM */ fast_loop_nx_m_sad_kernel,
             /*7      */ 0,
-            /*8 64xM */ FastLoop_NxMSadKernel,
-            0,0,0,0,0,0,0,FastLoop_NxMSadKernel
+            /*8 64xM */ fast_loop_nx_m_sad_kernel,
+            0,0,0,0,0,0,0,fast_loop_nx_m_sad_kernel
         },
         // AVX2
         {
             /*0 4xM  */ compute4x_m_sad_sub_sse2_intrin,
             /*1 8xM  */ compute8x_m_sad_avx2_intrin,
             /*2 16xM */ compute16x_m_sad_avx2_intrin,
-            /*3 24xM */ FastLoop_NxMSadKernel,
+            /*3 24xM */ fast_loop_nx_m_sad_kernel,
             /*4 32xM */ compute32x_m_sad_avx2_intrin,
             /*5      */ 0,
-            /*6 48xM */ FastLoop_NxMSadKernel,
+            /*6 48xM */ fast_loop_nx_m_sad_kernel,
             /*7      */ 0,
             /*8 64xM */ compute64x_m_sad_avx2_intrin,
-            0,0,0,0,0,0,0,FastLoop_NxMSadKernel
+            0,0,0,0,0,0,0,fast_loop_nx_m_sad_kernel
         },
     };
     static EB_SADKERNELNxM_TYPE FUNC_TABLE NxMSadKernel_funcPtrArray[ASM_TYPE_TOTAL][9] =   // [ASMTYPE][SAD - block height]
     {
         // NON_AVX2
         {
-            /*0 4xM  */ FastLoop_NxMSadKernel,
-            /*1 8xM  */ FastLoop_NxMSadKernel,
-            /*2 16xM */ FastLoop_NxMSadKernel,
-            /*3 24xM */ FastLoop_NxMSadKernel,
-            /*4 32xM */ FastLoop_NxMSadKernel,
-            /*5      */ FastLoop_NxMSadKernel,  // size not supported in asm
-            /*6 48xM */ FastLoop_NxMSadKernel,
-            /*7      */ FastLoop_NxMSadKernel,  // size not supported in asm
-            /*8 64xM */ FastLoop_NxMSadKernel
+            /*0 4xM  */ fast_loop_nx_m_sad_kernel,
+            /*1 8xM  */ fast_loop_nx_m_sad_kernel,
+            /*2 16xM */ fast_loop_nx_m_sad_kernel,
+            /*3 24xM */ fast_loop_nx_m_sad_kernel,
+            /*4 32xM */ fast_loop_nx_m_sad_kernel,
+            /*5      */ fast_loop_nx_m_sad_kernel,  // size not supported in asm
+            /*6 48xM */ fast_loop_nx_m_sad_kernel,
+            /*7      */ fast_loop_nx_m_sad_kernel,  // size not supported in asm
+            /*8 64xM */ fast_loop_nx_m_sad_kernel
         },
         // AVX2
         {
@@ -165,15 +165,15 @@ extern "C" {
     {
         // NON_AVX2
         {
-            /*0 4xM  */     CombinedAveragingSAD,
-            /*1 8xM  */     CombinedAveragingSAD,
-            /*2 16xM */     CombinedAveragingSAD,
-            /*3 24xM */     CombinedAveragingSAD,
-            /*4 32xM */     CombinedAveragingSAD,
+            /*0 4xM  */     combined_averaging_sad,
+            /*1 8xM  */     combined_averaging_sad,
+            /*2 16xM */     combined_averaging_sad,
+            /*3 24xM */     combined_averaging_sad,
+            /*4 32xM */     combined_averaging_sad,
             /*5      */     (EB_SADAVGKERNELNxM_TYPE)NxMSadKernelVoidFunc,
-            /*6 48xM */     CombinedAveragingSAD,
+            /*6 48xM */     combined_averaging_sad,
             /*7      */     (EB_SADAVGKERNELNxM_TYPE)NxMSadKernelVoidFunc,
-            /*8 64xM */     CombinedAveragingSAD
+            /*8 64xM */     combined_averaging_sad
         },
         // AVX2
         {

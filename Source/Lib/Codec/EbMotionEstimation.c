@@ -4476,7 +4476,7 @@ void HmeLevel0(
     }
     else
     {
-        SadLoopKernel(
+        sad_loop_kernel(
             &context_ptr->sixteenth_sb_buffer[0],
             context_ptr->sixteenth_sb_buffer_stride,
             &sixteenthRefPicPtr->buffer_y[searchRegionIndex],
@@ -4598,7 +4598,7 @@ void HmeLevel1(
     }
     else
     {
-        SadLoopKernel(
+        sad_loop_kernel(
             &context_ptr->quarter_sb_buffer[0],
             context_ptr->quarter_sb_buffer_stride * 2,
             &quarterRefPicPtr->buffer_y[searchRegionIndex],
@@ -4732,7 +4732,7 @@ void HmeLevel2(
     else
     {
         // Put the first search location into level0 results
-        SadLoopKernel(
+        sad_loop_kernel(
             context_ptr->sb_src_ptr,
             context_ptr->sb_src_stride * 2,
             &refPicPtr->buffer_y[searchRegionIndex],
