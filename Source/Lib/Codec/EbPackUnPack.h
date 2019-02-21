@@ -153,6 +153,7 @@ extern "C" {
             eb_enc_un_pack8_bit_data_sse2_intrin,
         }
     };
+
     typedef void(*EB_ENC_UnPack8BitDataSUB_TYPE)(
         uint16_t *in16_bit_buffer,
         uint32_t  in_stride,

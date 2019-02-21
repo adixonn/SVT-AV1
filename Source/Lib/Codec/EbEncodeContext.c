@@ -159,7 +159,7 @@ EbErrorType encode_context_ctor(
     EB_MALLOC(PacketizationReorderEntry_t**, encode_context_ptr->packetization_reorder_queue, sizeof(PacketizationReorderEntry_t*) * PACKETIZATION_REORDER_QUEUE_MAX_DEPTH, EB_N_PTR);
 
     for (pictureIndex = 0; pictureIndex < PACKETIZATION_REORDER_QUEUE_MAX_DEPTH; ++pictureIndex) {
-        return_error = PacketizationReorderEntryCtor(
+        return_error = packetization_reorder_entry_ctor(
             &(encode_context_ptr->packetization_reorder_queue[pictureIndex]),
             pictureIndex);
         if (return_error == EB_ErrorInsufficientResources) {
