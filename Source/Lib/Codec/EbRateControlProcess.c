@@ -380,8 +380,8 @@ void HighLevelRcInputPictureMode2(
     uint64_t                              bitConstraintPerSw = 0;
 
     RateControlTables_t                    *rateControlTablesPtr;
-    EB_Bit_Number                        *sadBitsArrayPtr;
-    EB_Bit_Number                        *intraSadBitsArrayPtr;
+    EbBitNumber                        *sadBitsArrayPtr;
+    EbBitNumber                        *intraSadBitsArrayPtr;
     uint32_t                               pred_bits_ref_qp;
 
     for (temporal_layer_index = 0; temporal_layer_index < EB_MAX_TEMPORAL_LAYERS; temporal_layer_index++) {
@@ -555,14 +555,14 @@ void HighLevelRcInputPictureMode2(
                 previous_selected_ref_qp);
             refQpTableIndex = previous_selected_ref_qp;
             selectedRefQpTableIndex = refQpTableIndex;
-            selectedRefQp = refQpListTable[selectedRefQpTableIndex];
+            selectedRefQp = ref_qp_list_table[selectedRefQpTableIndex];
             bestQpFound = EB_FALSE;
             while (refQpTableIndex >= qpSearchMin && refQpTableIndex <= qpSearchMax && !bestQpFound) {
 
                 refQpIndex = CLIP3(
                     sequence_control_set_ptr->static_config.min_qp_allowed,
                     sequence_control_set_ptr->static_config.max_qp_allowed,
-                    refQpListTable[refQpTableIndex]);
+                    ref_qp_list_table[refQpTableIndex]);
                 highLevelRateControlPtr->predBitsRefQpPerSw[refQpIndex] = 0;
 
                 // Finding the predicted bits for each frame in the sliding window at the reference Qp(s)
