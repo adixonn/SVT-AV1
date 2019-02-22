@@ -482,7 +482,7 @@ void copy_neighbour_arrays(
     if (blk_geom->has_uv && context_ptr->chroma_level == CHROMA_MODE_0) {
 #else
     if (blk_geom->has_uv) {
-
+#endif
         //neighbor_array_unit_reset(picture_control_set_ptr->md_cb_recon_neighbor_array[depth]);
 
         copy_neigh_arr(
@@ -1017,10 +1017,10 @@ void AV1PerformInverseTransformRecon(
 
                 if (context_ptr->blk_geom->has_uv && txb_ptr->v_has_coeff) {
                     uint8_t     *predBuffer = &(candidateBuffer->prediction_ptr->bufferCr[crTuChromaOriginIndex]);
-                    uint8_t     *recBuffer = &(candidateBuffer->reconPtr->bufferCr[recCrOffset]);
+                    uint8_t     *recBuffer = &(candidateBuffer->recon_ptr->bufferCr[recCrOffset]);
                     uint32_t j;
                     for (j = 0; j < chroma_tu_height; j++)
-                        memcpy(recBuffer + j * candidateBuffer->reconPtr->strideCr, predBuffer + j * candidateBuffer->prediction_ptr->strideCr, chroma_tu_width);
+                        memcpy(recBuffer + j * candidateBuffer->recon_ptr->strideCr, predBuffer + j * candidateBuffer->prediction_ptr->strideCr, chroma_tu_width);
 
                 av1_inv_transform_recon8bit(
                     &(((int32_t*)candidateBuffer->reconCoeffPtr->bufferCr)[txb_1d_offset_uv]),
@@ -7247,11 +7247,4 @@ EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
 
     return return_error;
 }
-
-
-
-
-
-
-
 

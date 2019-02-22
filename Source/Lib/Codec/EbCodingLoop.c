@@ -759,12 +759,11 @@ static void Av1EncodeLoop(
 
             // Down sample Luma
             cfl_luma_subsampling_420_lbd_c(
-
+                reconSamples->buffer_y + reconLumaOffset,
+                reconSamples->stride_y,
 #if CHROMA_BLIND
                 context_ptr->md_context->pred_buf_q3,
 #else
-                reconSamples->buffer_y + reconLumaOffset,
-                reconSamples->stride_y,
                 context_ptr->pred_buf_q3,
 #endif
                 context_ptr->blk_geom->tx_width[context_ptr->txb_itr],
@@ -1271,12 +1270,12 @@ static void Av1EncodeLoop16bit(
 
                 // Down sample Luma
                 cfl_luma_subsampling_420_hbd_c(
-           
+                    ((uint16_t*)reconSamples->buffer_y) + reconLumaOffset,
+                    reconSamples->stride_y,
 #if CHROMA_BLIND
                     context_ptr->md_context->pred_buf_q3,
 #else
-                    ((uint16_t*)reconSamples->buffer_y) + reconLumaOffset,
-                    reconSamples->stride_y,
+
                     context_ptr->pred_buf_q3,
 #endif
                     context_ptr->blk_geom->tx_width[context_ptr->txb_itr],

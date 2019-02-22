@@ -779,26 +779,26 @@ void* EntropyCodingKernel(void *input_ptr)
                  // Release the List 0 Reference Pictures
                  for (refIdx = 0; refIdx < picture_control_set_ptr->parent_pcs_ptr->ref_list0_count; ++refIdx) {
                      if (picture_control_set_ptr->ref_pic_ptr_array[0] != EB_NULL) {
-                         EbReleaseObject(picture_control_set_ptr->ref_pic_ptr_array[0]);
+                         eb_release_object(picture_control_set_ptr->ref_pic_ptr_array[0]);
                      }
                  }
 
                  // Release the List 1 Reference Pictures
                  for (refIdx = 0; refIdx < picture_control_set_ptr->parent_pcs_ptr->ref_list1_count; ++refIdx) {
                      if (picture_control_set_ptr->ref_pic_ptr_array[1] != EB_NULL) {
-                         EbReleaseObject(picture_control_set_ptr->ref_pic_ptr_array[1]);
+                         eb_release_object(picture_control_set_ptr->ref_pic_ptr_array[1]);
                      }
                  }
 
                  // Get Empty Entropy Coding Results
-                 EbGetEmptyObject(
+                 eb_get_empty_object(
                      context_ptr->entropy_coding_output_fifo_ptr,
                      &entropyCodingResultsWrapperPtr);
-                 entropyCodingResultsPtr = (EntropyCodingResults_t*)entropyCodingResultsWrapperPtr->objectPtr;
+                 entropyCodingResultsPtr = (EntropyCodingResults_t*)entropyCodingResultsWrapperPtr->object_ptr;
                  entropyCodingResultsPtr->pictureControlSetWrapperPtr = encDecResultsPtr->pictureControlSetWrapperPtr;
 
                  // Post EntropyCoding Results
-                 EbPostFullObject(entropyCodingResultsWrapperPtr);
+                 eb_post_full_object(entropyCodingResultsWrapperPtr);
 
              } 
 
