@@ -54,7 +54,7 @@ extern "C" {
     struct EntropyCodingContext_s;
     extern EbErrorType write_sb(
         struct EntropyCodingContext_s   *context_ptr,
-        LargestCodingUnit_t     *tbPtr,
+        LargestCodingUnit_t     *tb_ptr,
         PictureControlSet_t     *picture_control_set_ptr,
         EntropyCoder_t          *entropy_coder_ptr,
         EbPictureBufferDesc_t   *coeffPtr);

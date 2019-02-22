@@ -118,7 +118,7 @@ typedef void(*EB_AV1_ENCODE_LOOP_FUNC_PTR)(
     LargestCodingUnit_t   *sb_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
-    uint32_t                 cbQp,
+    uint32_t                 cb_qp,
     EbPictureBufferDesc_t *predSamples,             // no basis/offset
     EbPictureBufferDesc_t *coeffSamplesTB,          // lcu based
     EbPictureBufferDesc_t *residual16bit,           // no basis/offset
@@ -526,7 +526,7 @@ void encode_pass_tx_search(
     PictureControlSet_t            *picture_control_set_ptr,
     EncDecContext_t                *context_ptr,
     LargestCodingUnit_t            *sb_ptr,
-    uint32_t                       cbQp,
+    uint32_t                       cb_qp,
     EbPictureBufferDesc_t          *coeffSamplesTB,
     EbPictureBufferDesc_t          *residual16bit,
     EbPictureBufferDesc_t          *transform16bit,
@@ -566,7 +566,7 @@ static void Av1EncodeLoop(
     LargestCodingUnit_t   *sb_ptr,
     uint32_t                 origin_x,   //pic based tx org x
     uint32_t                 origin_y,   //pic based tx org y
-    uint32_t                 cbQp,
+    uint32_t                 cb_qp,
     EbPictureBufferDesc_t *predSamples,             // no basis/offset
     EbPictureBufferDesc_t *coeffSamplesTB,          // lcu based
     EbPictureBufferDesc_t *residual16bit,           // no basis/offset
@@ -583,9 +583,9 @@ static void Av1EncodeLoop(
 
     (void)dZoffset;
     (void)use_delta_qp;
-    (void)cbQp;
+    (void)cb_qp;
 
-    //    uint32_t                 chroma_qp = cbQp;
+    //    uint32_t                 chroma_qp = cb_qp;
     CodingUnit_t          *cu_ptr = context_ptr->cu_ptr;
     TransformUnit_t       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
     //    EB_SLICE               slice_type = sb_ptr->picture_control_set_ptr->slice_type;
@@ -660,7 +660,7 @@ static void Av1EncodeLoop(
                     picture_control_set_ptr,
                     context_ptr,
                     sb_ptr,
-                    cbQp,
+                    cb_qp,
                     coeffSamplesTB,
                     residual16bit,
                     transform16bit,
@@ -1013,7 +1013,7 @@ void encode_pass_tx_search_hbd(
     PictureControlSet_t            *picture_control_set_ptr,
     EncDecContext_t                *context_ptr,
     LargestCodingUnit_t            *sb_ptr,
-    uint32_t                       cbQp,
+    uint32_t                       cb_qp,
     EbPictureBufferDesc_t          *coeffSamplesTB,
     EbPictureBufferDesc_t          *residual16bit,
     EbPictureBufferDesc_t          *transform16bit,
@@ -1055,7 +1055,7 @@ static void Av1EncodeLoop16bit(
     LargestCodingUnit_t   *sb_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
-    uint32_t                 cbQp,
+    uint32_t                 cb_qp,
     EbPictureBufferDesc_t *predSamples,         // no basis/offset
     EbPictureBufferDesc_t *coeffSamplesTB,      // lcu based
     EbPictureBufferDesc_t *residual16bit,       // no basis/offset
@@ -1074,9 +1074,9 @@ static void Av1EncodeLoop16bit(
     (void)use_delta_qp;
     (void)dZoffset;
 #if QT_10BIT_SUPPORT
-    (void)cbQp;
+    (void)cb_qp;
 #else
-    uint32_t                 chroma_qp = cbQp;
+    uint32_t                 chroma_qp = cb_qp;
 #endif
 
     CodingUnit_t          *cu_ptr = context_ptr->cu_ptr;
@@ -1150,7 +1150,7 @@ static void Av1EncodeLoop16bit(
                         picture_control_set_ptr,
                         context_ptr,
                         sb_ptr,
-                        cbQp,
+                        cb_qp,
                         coeffSamplesTB,
                         residual16bit,
                         transform16bit,
@@ -3539,7 +3539,7 @@ EB_EXTERN void AV1EncodePass(
                             // Encode Transform Unit -INTRA-
                             {
 
-                                uint8_t             cbQp = cu_ptr->qp;
+                                uint8_t             cb_qp = cu_ptr->qp;
 
 
                                 Av1EncodeLoopFunctionTable[is16bit](
@@ -3550,7 +3550,7 @@ EB_EXTERN void AV1EncodePass(
                                     sb_ptr,
                                     context_ptr->cu_origin_x,
                                     context_ptr->cu_origin_y,
-                                    cbQp,
+                                    cb_qp,
                                     recon_buffer,
                                     coeff_buffer_sb,
                                     residual_buffer,
@@ -3836,7 +3836,7 @@ EB_EXTERN void AV1EncodePass(
 
                     uint32_t totTu = context_ptr->blk_geom->txb_count;
                     uint8_t   tuIt;
-                    uint8_t    cbQp = cu_ptr->qp;
+                    uint8_t    cb_qp = cu_ptr->qp;
                     uint32_t  component_mask = context_ptr->blk_geom->has_uv ? PICTURE_BUFFER_DESC_FULL_MASK : PICTURE_BUFFER_DESC_LUMA_MASK;
 
                     if (cu_ptr->prediction_unit_array[0].merge_flag == EB_FALSE) {
@@ -3855,7 +3855,7 @@ EB_EXTERN void AV1EncodePass(
                                     sb_ptr,
                                     txb_origin_x,   //pic org
                                     txb_origin_y,
-                                    cbQp,
+                                    cb_qp,
                                     recon_buffer,
                                     coeff_buffer_sb,
                                     residual_buffer,
@@ -4036,7 +4036,7 @@ EB_EXTERN void AV1EncodePass(
                                 sb_ptr,
                                 txb_origin_x, //pic offset
                                 txb_origin_y,
-                                cbQp,
+                                cb_qp,
                                 recon_buffer,
                                 coeff_buffer_sb,
                                 residual_buffer,

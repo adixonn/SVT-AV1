@@ -945,7 +945,7 @@ void av1_quantize_inv_quantize(
 /****************************************
  ************  Full loop ****************
 ****************************************/
-void ProductFullLoop(
+void product_full_loop(
     ModeDecisionCandidateBuffer_t  *candidate_buffer,
     ModeDecisionContext_t          *context_ptr,
     PictureControlSet_t            *picture_control_set_ptr,
@@ -1137,7 +1137,7 @@ uint8_t allowed_tx_set_b[TX_SIZES_ALL][TX_TYPES] = {
 {1,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0}
 };
 #endif
-void ProductFullLoopTxSearch(
+void product_full_loop_tx_search(
     ModeDecisionCandidateBuffer_t  *candidate_buffer,
     ModeDecisionContext_t          *context_ptr,
     PictureControlSet_t            *picture_control_set_ptr)
@@ -1362,7 +1362,7 @@ void encode_pass_tx_search(
     PictureControlSet_t            *picture_control_set_ptr,
     EncDecContext_t                *context_ptr,
     LargestCodingUnit_t            *sb_ptr,
-    uint32_t                       cbQp,
+    uint32_t                       cb_qp,
     EbPictureBufferDesc_t          *coeffSamplesTB,          
     EbPictureBufferDesc_t          *residual16bit,           
     EbPictureBufferDesc_t          *transform16bit,          
@@ -1378,7 +1378,7 @@ void encode_pass_tx_search(
 
     (void)dZoffset;
     (void)use_delta_qp;
-    (void)cbQp;
+    (void)cb_qp;
     UNUSED(count_non_zero_coeffs);
     UNUSED(component_mask);
 
@@ -1565,7 +1565,7 @@ void encode_pass_tx_search_hbd(
     PictureControlSet_t            *picture_control_set_ptr,
     EncDecContext_t                *context_ptr,
     LargestCodingUnit_t            *sb_ptr,
-    uint32_t                       cbQp,
+    uint32_t                       cb_qp,
     EbPictureBufferDesc_t          *coeffSamplesTB,
     EbPictureBufferDesc_t          *residual16bit,
     EbPictureBufferDesc_t          *transform16bit,
@@ -1581,7 +1581,7 @@ void encode_pass_tx_search_hbd(
 
     (void)dZoffset;
     (void)use_delta_qp;
-    (void)cbQp;
+    (void)cb_qp;
     UNUSED(component_mask);
     UNUSED(count_non_zero_coeffs);
 
@@ -1777,20 +1777,20 @@ void encode_pass_tx_search_hbd(
 /****************************************
  ************  Full loop ****************
 ****************************************/
-void FullLoop_R(
+void full_loop_r(
     LargestCodingUnit_t            *sb_ptr,
     ModeDecisionCandidateBuffer_t  *candidate_buffer,
     ModeDecisionContext_t          *context_ptr,
     EbPictureBufferDesc_t          *input_picture_ptr,
     PictureControlSet_t            *picture_control_set_ptr,
     uint32_t                          component_mask,
-    uint32_t                          cbQp,
-    uint32_t                          crQp,
+    uint32_t                          cb_qp,
+    uint32_t                          cr_qp,
     uint32_t                          *cb_count_non_zero_coeffs,
     uint32_t                          *cr_count_non_zero_coeffs)
 {
     (void)sb_ptr;
-    (void)crQp;
+    (void)cr_qp;
     (void)input_picture_ptr;
     int16_t                *chromaResidualPtr;
     uint32_t                 tuOriginIndex;
@@ -1860,7 +1860,7 @@ void FullLoop_R(
                 NOT_USED_VALUE,
                 &(((int32_t*)candidate_buffer->residualQuantCoeffPtr->bufferCb)[txb_1d_offset]),
                 &(((int32_t*)candidate_buffer->reconCoeffPtr->bufferCb)[txb_1d_offset]),
-                cbQp,
+                cb_qp,
                 context_ptr->blk_geom->tx_width_uv[txb_itr],
                 context_ptr->blk_geom->tx_height_uv[txb_itr],
                 context_ptr->blk_geom->txsize_uv[txb_itr],
@@ -1908,7 +1908,7 @@ void FullLoop_R(
                 NOT_USED_VALUE,
                 &(((int32_t*)candidate_buffer->residualQuantCoeffPtr->bufferCr)[txb_1d_offset]),
                 &(((int32_t*)candidate_buffer->reconCoeffPtr->bufferCr)[txb_1d_offset]),
-                cbQp,
+                cb_qp,
                 context_ptr->blk_geom->tx_width_uv[txb_itr],
                 context_ptr->blk_geom->tx_height_uv[txb_itr],
                 context_ptr->blk_geom->txsize_uv[txb_itr],
@@ -1939,14 +1939,14 @@ void FullLoop_R(
 //****************************************
 // ************ CuFullDistortionFastTuMode ****************
 //****************************************/
-void CuFullDistortionFastTuMode_R(
+void cu_full_distortion_fast_tu_mode_r(
     LargestCodingUnit_t            *sb_ptr,
     ModeDecisionCandidateBuffer_t  *candidate_buffer,
     ModeDecisionContext_t            *context_ptr,
     ModeDecisionCandidate_t           *candidate_ptr,
     PictureControlSet_t            *picture_control_set_ptr,
-    uint64_t                          cbFullDistortion[DIST_CALC_TOTAL],
-    uint64_t                          crFullDistortion[DIST_CALC_TOTAL],
+    uint64_t                          cb_full_distortion[DIST_CALC_TOTAL],
+    uint64_t                          cr_full_distortion[DIST_CALC_TOTAL],
     uint32_t                          count_non_zero_coeffs[3][MAX_NUM_OF_TU_PER_CU],
     COMPONENT_TYPE                  component_type,
     uint64_t                         *cb_coeff_bits,
@@ -2081,10 +2081,10 @@ void CuFullDistortionFastTuMode_R(
 
             *cb_coeff_bits += cb_tu_coeff_bits;
             *cr_coeff_bits += cr_tu_coeff_bits;
-            cbFullDistortion[DIST_CALC_RESIDUAL] += tuFullDistortion[1][DIST_CALC_RESIDUAL];
-            crFullDistortion[DIST_CALC_RESIDUAL] += tuFullDistortion[2][DIST_CALC_RESIDUAL];
-            cbFullDistortion[DIST_CALC_PREDICTION] += tuFullDistortion[1][DIST_CALC_PREDICTION];
-            crFullDistortion[DIST_CALC_PREDICTION] += tuFullDistortion[2][DIST_CALC_PREDICTION];
+            cb_full_distortion[DIST_CALC_RESIDUAL] += tuFullDistortion[1][DIST_CALC_RESIDUAL];
+            cr_full_distortion[DIST_CALC_RESIDUAL] += tuFullDistortion[2][DIST_CALC_RESIDUAL];
+            cb_full_distortion[DIST_CALC_PREDICTION] += tuFullDistortion[1][DIST_CALC_PREDICTION];
+            cr_full_distortion[DIST_CALC_PREDICTION] += tuFullDistortion[2][DIST_CALC_PREDICTION];
 
         }
 
@@ -2385,16 +2385,16 @@ void   compute_depth_costs(
 uint32_t d2_inter_depth_block_decision(
     ModeDecisionContext_t          *context_ptr,
     uint32_t                        blk_mds,
-    LargestCodingUnit_t            *tbPtr,
-    uint32_t                          lcuAddr,
+    LargestCodingUnit_t            *tb_ptr,
+    uint32_t                          lcu_addr,
     uint32_t                          tbOriginX,
     uint32_t                          tbOriginY,
     uint64_t                          full_lambda,
     MdRateEstimationContext_t      *md_rate_estimation_ptr,
     PictureControlSet_t            *picture_control_set_ptr)
 {
-    UNUSED(tbPtr);
-    UNUSED(lcuAddr);
+    UNUSED(tb_ptr);
+    UNUSED(lcu_addr);
     UNUSED(tbOriginX);
     UNUSED(tbOriginY);
     UNUSED(full_lambda);

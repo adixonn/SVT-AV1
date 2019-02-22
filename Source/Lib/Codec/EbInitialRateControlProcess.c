@@ -408,16 +408,16 @@ void DetectGlobalMotion(
 /************************************************
 * Initial Rate Control Context Constructor
 ************************************************/
-EbErrorType InitialRateControlContextCtor(
+EbErrorType initial_rate_control_context_ctor(
     InitialRateControlContext_t **context_dbl_ptr,
-    EbFifo_t                     *motionEstimationResultsInputFifoPtr,
-    EbFifo_t                     *initialrateControlResultsOutputFifoPtr)
+    EbFifo_t                     *motion_estimation_results_input_fifo_ptr,
+    EbFifo_t                     *initialrate_control_results_output_fifo_ptr)
 {
     InitialRateControlContext_t *context_ptr;
     EB_MALLOC(InitialRateControlContext_t*, context_ptr, sizeof(InitialRateControlContext_t), EB_N_PTR);
     *context_dbl_ptr = context_ptr;
-    context_ptr->motionEstimationResultsInputFifoPtr = motionEstimationResultsInputFifoPtr;
-    context_ptr->initialrateControlResultsOutputFifoPtr = initialrateControlResultsOutputFifoPtr;
+    context_ptr->motion_estimation_results_input_fifo_ptr = motion_estimation_results_input_fifo_ptr;
+    context_ptr->initialrate_control_results_output_fifo_ptr = initialrate_control_results_output_fifo_ptr;
 
     return EB_ErrorNone;
 }
@@ -1642,7 +1642,7 @@ void DeriveBlockinessPresentFlag(
 * P.S. Temporal noise reduction is now performed in Initial Rate Control Process.
 * In future we might decide to move it to Motion Analysis Process.
 ************************************************/
-void* InitialRateControlKernel(void *input_ptr)
+void* initial_rate_control_kernel(void *input_ptr)
 {
     InitialRateControlContext_t       *context_ptr = (InitialRateControlContext_t*)input_ptr;
     PictureParentControlSet_t         *picture_control_set_ptr;
@@ -1676,7 +1676,7 @@ void* InitialRateControlKernel(void *input_ptr)
 
         // Get Input Full Object
         eb_get_full_object(
-            context_ptr->motionEstimationResultsInputFifoPtr,
+            context_ptr->motion_estimation_results_input_fifo_ptr,
             &inputResultsWrapperPtr);
 
         inputResultsPtr = (MotionEstimationResults_t*)inputResultsWrapperPtr->object_ptr;
@@ -1991,7 +1991,7 @@ void* InitialRateControlKernel(void *input_ptr)
 
                     // Get Empty Results Object
                     eb_get_empty_object(
-                        context_ptr->initialrateControlResultsOutputFifoPtr,
+                        context_ptr->initialrate_control_results_output_fifo_ptr,
                         &outputResultsWrapperPtr);
 
                     outputResultsPtr = (InitialRateControlResults_t*)outputResultsWrapperPtr->object_ptr;

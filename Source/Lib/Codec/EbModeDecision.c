@@ -494,11 +494,11 @@ void Me2Nx2NCandidatesInjectionSwResults(
 {
     uint32_t                   meCandidateIndex;
     uint32_t                   canTotalCnt = (*candidateTotalCnt);
-    const uint32_t             lcuAddr = sb_ptr->index;
+    const uint32_t             lcu_addr = sb_ptr->index;
     const uint32_t             cu_origin_x = context_ptr->cu_origin_x;
     const uint32_t             cu_origin_y = context_ptr->cu_origin_y;
 
-    MeCuResults_t * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[lcuAddr][me2Nx2NTableOffset];
+    MeCuResults_t * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[lcu_addr][me2Nx2NTableOffset];
     ModeDecisionCandidate_t    *candidateArray = context_ptr->fast_candidate_array;
     const uint32_t             meTotalCnt = mePuResult->totalMeCandidateIndex;
 
@@ -941,13 +941,13 @@ void InjectAv1MvpCandidates(
     CodingUnit_t                     *cu_ptr,
     MvReferenceFrame               *refFrames,
     PictureControlSet_t              *picture_control_set_ptr,
-    uint32_t                            lcuAddr,
+    uint32_t                            lcu_addr,
     uint32_t                            leaf_index,
     EbBool                           allow_bipred,
     uint32_t                           *candTotCnt)
 {
     (void)leaf_index;
-    (void)lcuAddr;
+    (void)lcu_addr;
     (void)refFrames;
     uint32_t                   canIdx = *candTotCnt;
     ModeDecisionCandidate_t    *candidateArray = context_ptr->fast_candidate_array;
@@ -1366,7 +1366,7 @@ void  inject_inter_candidates(
 
     (void)sequence_control_set_ptr;
     uint32_t                   canTotalCnt = *candidateTotalCnt;
-    const uint32_t             lcuAddr = sb_ptr->index;
+    const uint32_t             lcu_addr = sb_ptr->index;
     ModeDecisionCandidate_t    *candidateArray = context_ptr->fast_candidate_array;
     static MvReferenceFrame refFrames[] = { LAST_FRAME, BWDREF_FRAME, LAST_BWD_FRAME };
     EbBool isCompoundEnabled = (picture_control_set_ptr->parent_pcs_ptr->reference_mode == SINGLE_REFERENCE) ? 0 : 1;
@@ -1388,7 +1388,7 @@ void  inject_inter_candidates(
 
     }
     else {
-        me_sb_addr = lcuAddr;
+        me_sb_addr = lcu_addr;
     }
 
     uint32_t max_number_of_pus_per_sb;
@@ -1478,7 +1478,7 @@ void  inject_inter_candidates(
         context_ptr->cu_ptr,
         refFrames,
         picture_control_set_ptr,
-        lcuAddr,
+        lcu_addr,
         leaf_index,
         allow_bipred,
         &canTotalCnt);
@@ -2178,14 +2178,14 @@ EbErrorType ProductGenerateMdCandidatesCu(
     ModeDecisionContext_t             *context_ptr,
     SsMeContext_t                    *ss_mecontext,
     const uint32_t                      leaf_index,
-    const uint32_t                      lcuAddr,
+    const uint32_t                      lcu_addr,
     uint32_t                           *bufferTotalCountPtr,
     uint32_t                           *candidateTotalCountPtr,
     EbPtr                              interPredContextPtr,
     PictureControlSet_t              *picture_control_set_ptr)
 {
 
-    (void)lcuAddr;
+    (void)lcu_addr;
     (void)interPredContextPtr;
     const SequenceControlSet_t *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     const EB_SLICE slice_type = picture_control_set_ptr->slice_type;

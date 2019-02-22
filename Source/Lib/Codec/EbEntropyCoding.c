@@ -5021,11 +5021,11 @@ EbErrorType write_modes_b(
     PictureControlSet_t     *picture_control_set_ptr,
     EntropyCodingContext_t  *context_ptr,
     EntropyCoder_t          *entropy_coder_ptr,
-    LargestCodingUnit_t     *tbPtr,
+    LargestCodingUnit_t     *tb_ptr,
     CodingUnit_t            *cu_ptr,
     EbPictureBufferDesc_t   *coeffPtr)
 {
-    UNUSED(tbPtr);
+    UNUSED(tb_ptr);
     EbErrorType return_error = EB_ErrorNone;
     FRAME_CONTEXT           *frameContext = entropy_coder_ptr->fc;
     aom_writer              *ecWriter = &entropy_coder_ptr->ecWriter;
@@ -5452,7 +5452,7 @@ EbErrorType write_modes_b(
 **********************************************/
 EB_EXTERN EbErrorType write_sb(
     EntropyCodingContext_t  *context_ptr,
-    LargestCodingUnit_t     *tbPtr,
+    LargestCodingUnit_t     *tb_ptr,
     PictureControlSet_t     *picture_control_set_ptr,
     EntropyCoder_t          *entropy_coder_ptr,
     EbPictureBufferDesc_t   *coeffPtr)
@@ -5475,10 +5475,10 @@ EB_EXTERN EbErrorType write_sb(
     context_ptr->coded_area_sb = 0;
     context_ptr->coded_area_sb_uv = 0;
 
-    tbPtr->quantized_coeffs_bits = 0;
+    tb_ptr->quantized_coeffs_bits = 0;
     EbBool checkCuOutOfBound = EB_FALSE;
 
-    SbGeom_t * sb_geom = &sequence_control_set_ptr->sb_geom[tbPtr->index];// .block_is_inside_md_scan[blk_index])
+    SbGeom_t * sb_geom = &sequence_control_set_ptr->sb_geom[tb_ptr->index];// .block_is_inside_md_scan[blk_index])
 
 #if !TILES 
     if (context_ptr->sb_origin_x == 0 && context_ptr->sb_origin_y == 0)
@@ -5492,7 +5492,7 @@ EB_EXTERN EbErrorType write_sb(
     do {
         EbBool codeCuCond = EB_TRUE; // Code cu only if it is inside the picture
 
-        cu_ptr = &tbPtr->final_cu_arr[final_cu_index];
+        cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
 
         blk_geom = get_blk_geom_mds(cu_index); // AMIR to be replaced with /*cu_ptr->mds_idx*/
 
@@ -5544,21 +5544,21 @@ EB_EXTERN EbErrorType write_sb(
                     frameContext,
                     ecWriter,
                     bsize,
-                    tbPtr->cu_partition_array[cu_index],
+                    tb_ptr->cu_partition_array[cu_index],
                     blkOriginX,
                     blkOriginY,
                     partition_context_neighbor_array);
 
             }
 
-            switch (tbPtr->cu_partition_array[cu_index]) {
+            switch (tb_ptr->cu_partition_array[cu_index]) {
             case PARTITION_NONE:
                 write_modes_b(
 
                     picture_control_set_ptr,
                     context_ptr,
                     entropy_coder_ptr,
-                    tbPtr,
+                    tb_ptr,
                     cu_ptr,
                     coeffPtr);
                 break;
@@ -5568,18 +5568,18 @@ EB_EXTERN EbErrorType write_sb(
                     picture_control_set_ptr,
                     context_ptr,
                     entropy_coder_ptr,
-                    tbPtr,
+                    tb_ptr,
                     cu_ptr,
                     coeffPtr);
 
                 if (mi_row + hbs < cm->mi_rows) {
                     final_cu_index++;
-                    cu_ptr = &tbPtr->final_cu_arr[final_cu_index];
+                    cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
                     write_modes_b(
                         picture_control_set_ptr,
                         context_ptr,
                         entropy_coder_ptr,
-                        tbPtr,
+                        tb_ptr,
                         cu_ptr,
                         coeffPtr);
                 }
@@ -5590,17 +5590,17 @@ EB_EXTERN EbErrorType write_sb(
                     picture_control_set_ptr,
                     context_ptr,
                     entropy_coder_ptr,
-                    tbPtr,
+                    tb_ptr,
                     cu_ptr,
                     coeffPtr);
                 if (mi_col + hbs < cm->mi_cols) {
                     final_cu_index++;
-                    cu_ptr = &tbPtr->final_cu_arr[final_cu_index];
+                    cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
                     write_modes_b(
                         picture_control_set_ptr,
                         context_ptr,
                         entropy_coder_ptr,
-                        tbPtr,
+                        tb_ptr,
                         cu_ptr,
                         coeffPtr);
                 }
@@ -5612,27 +5612,27 @@ EB_EXTERN EbErrorType write_sb(
                     picture_control_set_ptr,
                     context_ptr,
                     entropy_coder_ptr,
-                    tbPtr,
+                    tb_ptr,
                     cu_ptr,
                     coeffPtr);
 
                 final_cu_index++;
-                cu_ptr = &tbPtr->final_cu_arr[final_cu_index];
+                cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
                 write_modes_b(
                     picture_control_set_ptr,
                     context_ptr,
                     entropy_coder_ptr,
-                    tbPtr,
+                    tb_ptr,
                     cu_ptr,
                     coeffPtr);
 
                 final_cu_index++;
-                cu_ptr = &tbPtr->final_cu_arr[final_cu_index];
+                cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
                 write_modes_b(
                     picture_control_set_ptr,
                     context_ptr,
                     entropy_coder_ptr,
-                    tbPtr,
+                    tb_ptr,
                     cu_ptr,
                     coeffPtr);
 
@@ -5642,27 +5642,27 @@ EB_EXTERN EbErrorType write_sb(
                     picture_control_set_ptr,
                     context_ptr,
                     entropy_coder_ptr,
-                    tbPtr,
+                    tb_ptr,
                     cu_ptr,
                     coeffPtr);
 
                 final_cu_index++;
-                cu_ptr = &tbPtr->final_cu_arr[final_cu_index];
+                cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
                 write_modes_b(
                     picture_control_set_ptr,
                     context_ptr,
                     entropy_coder_ptr,
-                    tbPtr,
+                    tb_ptr,
                     cu_ptr,
                     coeffPtr);
 
                 final_cu_index++;
-                cu_ptr = &tbPtr->final_cu_arr[final_cu_index];
+                cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
                 write_modes_b(
                     picture_control_set_ptr,
                     context_ptr,
                     entropy_coder_ptr,
-                    tbPtr,
+                    tb_ptr,
                     cu_ptr,
                     coeffPtr);
 
@@ -5672,27 +5672,27 @@ EB_EXTERN EbErrorType write_sb(
                     picture_control_set_ptr,
                     context_ptr,
                     entropy_coder_ptr,
-                    tbPtr,
+                    tb_ptr,
                     cu_ptr,
                     coeffPtr);
 
                 final_cu_index++;
-                cu_ptr = &tbPtr->final_cu_arr[final_cu_index];
+                cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
                 write_modes_b(
                     picture_control_set_ptr,
                     context_ptr,
                     entropy_coder_ptr,
-                    tbPtr,
+                    tb_ptr,
                     cu_ptr,
                     coeffPtr);
 
                 final_cu_index++;
-                cu_ptr = &tbPtr->final_cu_arr[final_cu_index];
+                cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
                 write_modes_b(
                     picture_control_set_ptr,
                     context_ptr,
                     entropy_coder_ptr,
-                    tbPtr,
+                    tb_ptr,
                     cu_ptr,
                     coeffPtr);
 
@@ -5702,27 +5702,27 @@ EB_EXTERN EbErrorType write_sb(
                     picture_control_set_ptr,
                     context_ptr,
                     entropy_coder_ptr,
-                    tbPtr,
+                    tb_ptr,
                     cu_ptr,
                     coeffPtr);
 
                 final_cu_index++;
-                cu_ptr = &tbPtr->final_cu_arr[final_cu_index];
+                cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
                 write_modes_b(
                     picture_control_set_ptr,
                     context_ptr,
                     entropy_coder_ptr,
-                    tbPtr,
+                    tb_ptr,
                     cu_ptr,
                     coeffPtr);
 
                 final_cu_index++;
-                cu_ptr = &tbPtr->final_cu_arr[final_cu_index];
+                cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
                 write_modes_b(
                     picture_control_set_ptr,
                     context_ptr,
                     entropy_coder_ptr,
-                    tbPtr,
+                    tb_ptr,
                     cu_ptr,
                     coeffPtr);
 
@@ -5734,13 +5734,13 @@ EB_EXTERN EbErrorType write_sb(
 
                     if (i > 0) {
                         final_cu_index++;
-                        cu_ptr = &tbPtr->final_cu_arr[final_cu_index];
+                        cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
                     }
                     write_modes_b(
                         picture_control_set_ptr,
                         context_ptr,
                         entropy_coder_ptr,
-                        tbPtr,
+                        tb_ptr,
                         cu_ptr,
                         coeffPtr);
                 }
@@ -5751,13 +5751,13 @@ EB_EXTERN EbErrorType write_sb(
                     if (i > 0 && this_mi_col >= cm->mi_cols) break;
                     if (i > 0) {
                         final_cu_index++;
-                        cu_ptr = &tbPtr->final_cu_arr[final_cu_index];
+                        cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
                     }
                     write_modes_b(
                         picture_control_set_ptr,
                         context_ptr,
                         entropy_coder_ptr,
-                        tbPtr,
+                        tb_ptr,
                         cu_ptr,
                         coeffPtr);
                 }
@@ -5765,7 +5765,7 @@ EB_EXTERN EbErrorType write_sb(
             default: assert(0);
             }
 
-            if (tbPtr->cu_partition_array[cu_index] != PARTITION_SPLIT) {
+            if (tb_ptr->cu_partition_array[cu_index] != PARTITION_SPLIT) {
                 final_cu_index++;
                 cu_index += ns_depth_offset[sequence_control_set_ptr->sb_size == BLOCK_128X128][blk_geom->depth];
 

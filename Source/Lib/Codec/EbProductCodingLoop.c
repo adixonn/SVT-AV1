@@ -64,7 +64,7 @@ EbErrorType ProductGenerateMdCandidatesCu(
     SsMeContext_t                  *ss_mecontext,
     const uint32_t                    leaf_index,
 
-    const uint32_t                    lcuAddr,
+    const uint32_t                    lcu_addr,
     uint32_t                         *buffer_total_count,
     uint32_t                         *fastCandidateTotalCount,
     EbPtr                           interPredContextPtr,
@@ -1329,7 +1329,7 @@ void ProductPerformFastLoop(
     highestCostIndex = context_ptr->buffer_depth_index_start[0];
     fastLoopCandidateIndex = fastCandidateTotalCount - 1;
 
-    uint16_t                         lcuAddr = sb_ptr->index;
+    uint16_t                         lcu_addr = sb_ptr->index;
     do
     {
         candidate_buffer = candidateBufferPtrArrayBase[highestCostIndex];
@@ -1423,7 +1423,7 @@ void ProductPerformFastLoop(
                 }
             }
 
-            if (picture_control_set_ptr->parent_pcs_ptr->cmplx_status_sb[lcuAddr] == CMPLX_NOISE) {
+            if (picture_control_set_ptr->parent_pcs_ptr->cmplx_status_sb[lcu_addr] == CMPLX_NOISE) {
 
                 if (bsize == BLOCK_64X64 && candidate_ptr->type == INTER_MODE) { // Nader - to be reviewed for 128x128 sb
 
@@ -1487,8 +1487,8 @@ void ProductConfigureChroma(
     ModeDecisionContext_t               *context_ptr,
     LargestCodingUnit_t                 *sb_ptr) {
 
-    uint32_t  lcuAddr = sb_ptr->index;
-    uint32_t  lcuEdgeNum = picture_control_set_ptr->parent_pcs_ptr->edge_results_ptr[lcuAddr].edge_block_num;
+    uint32_t  lcu_addr = sb_ptr->index;
+    uint32_t  lcuEdgeNum = picture_control_set_ptr->parent_pcs_ptr->edge_results_ptr[lcu_addr].edge_block_num;
     uint64_t  chroma_weight = 1;
     UNUSED(lcuEdgeNum);
 
@@ -1496,7 +1496,7 @@ void ProductConfigureChroma(
         picture_control_set_ptr,
         sb_ptr->qp);
 
-    context_ptr->chroma_weight = (picture_control_set_ptr->parent_pcs_ptr->failing_motion_sb_flag[lcuAddr]) ? chroma_weight << 1 : chroma_weight;
+    context_ptr->chroma_weight = (picture_control_set_ptr->parent_pcs_ptr->failing_motion_sb_flag[lcu_addr]) ? chroma_weight << 1 : chroma_weight;
 }
 
 void ProductDerivePartialFrequencyN2Flag(
@@ -1573,16 +1573,16 @@ void AV1CostCalcCfl(
 
     ModeDecisionCandidate_t            *candidate_ptr = candidate_buffer->candidate_ptr;
     uint32_t                            count_non_zero_coeffs[3][MAX_NUM_OF_TU_PER_CU];
-    uint64_t                            cbFullDistortion[DIST_CALC_TOTAL];
-    uint64_t                            crFullDistortion[DIST_CALC_TOTAL];
+    uint64_t                            cb_full_distortion[DIST_CALC_TOTAL];
+    uint64_t                            cr_full_distortion[DIST_CALC_TOTAL];
     uint64_t                            cb_coeff_bits = 0;
     uint64_t                            cr_coeff_bits = 0;
     uint32_t                            chroma_width = context_ptr->blk_geom->bwidth_uv;
     uint32_t                            chroma_height = context_ptr->blk_geom->bheight_uv;
     // FullLoop and TU search
     int32_t                             alpha_q3;
-    uint8_t                             cbQp = context_ptr->qp;
-    uint8_t                             crQp = context_ptr->qp;
+    uint8_t                             cb_qp = context_ptr->qp;
+    uint8_t                             cr_qp = context_ptr->qp;
 
     full_distortion[DIST_CALC_RESIDUAL] = 0;
     full_distortion[DIST_CALC_PREDICTION] = 0;
@@ -1590,10 +1590,10 @@ void AV1CostCalcCfl(
     
     // Loop over alphas and find the best
     if (component_mask == COMPONENT_CHROMA_CB || component_mask == COMPONENT_CHROMA || component_mask == COMPONENT_ALL) {
-        cbFullDistortion[DIST_CALC_RESIDUAL] = 0;
-        crFullDistortion[DIST_CALC_RESIDUAL] = 0;
-        cbFullDistortion[DIST_CALC_PREDICTION] = 0;
-        crFullDistortion[DIST_CALC_PREDICTION] = 0;
+        cb_full_distortion[DIST_CALC_RESIDUAL] = 0;
+        cr_full_distortion[DIST_CALC_RESIDUAL] = 0;
+        cb_full_distortion[DIST_CALC_PREDICTION] = 0;
+        cr_full_distortion[DIST_CALC_PREDICTION] = 0;
         cb_coeff_bits = 0;
         cr_coeff_bits = 0;
 
@@ -1628,45 +1628,45 @@ void AV1CostCalcCfl(
             chroma_width,
             chroma_height);
 
-        FullLoop_R(
+        full_loop_r(
             sb_ptr,
             candidate_buffer,
             context_ptr,
             input_picture_ptr,
             picture_control_set_ptr,
             PICTURE_BUFFER_DESC_Cb_FLAG,
-            cbQp,
-            crQp,
+            cb_qp,
+            cr_qp,
             &(*count_non_zero_coeffs[1]),
             &(*count_non_zero_coeffs[2]));
 
 
         // Create new function
-        CuFullDistortionFastTuMode_R(
+        cu_full_distortion_fast_tu_mode_r(
             sb_ptr,
             candidate_buffer,
             context_ptr,
             candidate_ptr,
             picture_control_set_ptr,
-            cbFullDistortion,
-            crFullDistortion,
+            cb_full_distortion,
+            cr_full_distortion,
             count_non_zero_coeffs,
             COMPONENT_CHROMA_CB,
             &cb_coeff_bits,
             &cr_coeff_bits,
             asm_type);
 
-        full_distortion[DIST_CALC_RESIDUAL] += cbFullDistortion[DIST_CALC_RESIDUAL];
-        full_distortion[DIST_CALC_PREDICTION] += cbFullDistortion[DIST_CALC_PREDICTION];
+        full_distortion[DIST_CALC_RESIDUAL] += cb_full_distortion[DIST_CALC_RESIDUAL];
+        full_distortion[DIST_CALC_PREDICTION] += cb_full_distortion[DIST_CALC_PREDICTION];
         *coeffBits += cb_coeff_bits;
 
     }
     if (component_mask == COMPONENT_CHROMA_CR || component_mask == COMPONENT_CHROMA || component_mask == COMPONENT_ALL) {
 
-        cbFullDistortion[DIST_CALC_RESIDUAL] = 0;
-        crFullDistortion[DIST_CALC_RESIDUAL] = 0;
-        cbFullDistortion[DIST_CALC_PREDICTION] = 0;
-        crFullDistortion[DIST_CALC_PREDICTION] = 0;
+        cb_full_distortion[DIST_CALC_RESIDUAL] = 0;
+        cr_full_distortion[DIST_CALC_RESIDUAL] = 0;
+        cb_full_distortion[DIST_CALC_PREDICTION] = 0;
+        cr_full_distortion[DIST_CALC_PREDICTION] = 0;
 
         cb_coeff_bits = 0;
         cr_coeff_bits = 0;
@@ -1703,36 +1703,36 @@ void AV1CostCalcCfl(
             chroma_width,
             chroma_height);
 
-        FullLoop_R(
+        full_loop_r(
             sb_ptr,
             candidate_buffer,
             context_ptr,
             input_picture_ptr,
             picture_control_set_ptr,
             PICTURE_BUFFER_DESC_Cr_FLAG,
-            cbQp,
-            crQp,
+            cb_qp,
+            cr_qp,
             &(*count_non_zero_coeffs[1]),
             &(*count_non_zero_coeffs[2]));
         candidate_ptr->v_has_coeff = *count_non_zero_coeffs[2] ? EB_TRUE : EB_FALSE;
 
         // Create new function
-        CuFullDistortionFastTuMode_R(
+        cu_full_distortion_fast_tu_mode_r(
             sb_ptr,
             candidate_buffer,
             context_ptr,
             candidate_ptr,
             picture_control_set_ptr,
-            cbFullDistortion,
-            crFullDistortion,
+            cb_full_distortion,
+            cr_full_distortion,
             count_non_zero_coeffs,
             COMPONENT_CHROMA_CR,
             &cb_coeff_bits,
             &cr_coeff_bits,
             asm_type);
 
-        full_distortion[DIST_CALC_RESIDUAL] += crFullDistortion[DIST_CALC_RESIDUAL];
-        full_distortion[DIST_CALC_PREDICTION] += crFullDistortion[DIST_CALC_PREDICTION];
+        full_distortion[DIST_CALC_RESIDUAL] += cr_full_distortion[DIST_CALC_RESIDUAL];
+        full_distortion[DIST_CALC_PREDICTION] += cr_full_distortion[DIST_CALC_PREDICTION];
         *coeffBits += cr_coeff_bits;
     }
 }
@@ -2076,8 +2076,8 @@ void AV1PerformFullLoop(
     uint64_t      y_full_distortion[DIST_CALC_TOTAL];
     uint32_t      count_non_zero_coeffs[3][MAX_NUM_OF_TU_PER_CU];
 
-    uint64_t      cbFullDistortion[DIST_CALC_TOTAL];
-    uint64_t      crFullDistortion[DIST_CALC_TOTAL];
+    uint64_t      cb_full_distortion[DIST_CALC_TOTAL];
+    uint64_t      cr_full_distortion[DIST_CALC_TOTAL];
 
     uint64_t      y_coeff_bits;
     uint64_t        cb_coeff_bits = 0;
@@ -2218,7 +2218,7 @@ void AV1PerformFullLoop(
             if (context_ptr->blk_geom->sq_size < 128) //no tx search for 128x128 for now
 #endif
 #endif
-                ProductFullLoopTxSearch(
+                product_full_loop_tx_search(
                     candidate_buffer,
                     context_ptr,
                     picture_control_set_ptr);
@@ -2235,7 +2235,7 @@ void AV1PerformFullLoop(
         }
 #endif
 
-        ProductFullLoop(
+        product_full_loop(
             candidate_buffer,
             context_ptr,
             picture_control_set_ptr,
@@ -2270,32 +2270,32 @@ void AV1PerformFullLoop(
         //CHROMA
 
 
-        cbFullDistortion[DIST_CALC_RESIDUAL] = 0;
-        crFullDistortion[DIST_CALC_RESIDUAL] = 0;
-        cbFullDistortion[DIST_CALC_PREDICTION] = 0;
-        crFullDistortion[DIST_CALC_PREDICTION] = 0;
+        cb_full_distortion[DIST_CALC_RESIDUAL] = 0;
+        cr_full_distortion[DIST_CALC_RESIDUAL] = 0;
+        cb_full_distortion[DIST_CALC_PREDICTION] = 0;
+        cr_full_distortion[DIST_CALC_PREDICTION] = 0;
 
         cb_coeff_bits = 0;
         cr_coeff_bits = 0;
 
         // FullLoop and TU search
-        uint8_t cbQp = context_ptr->qp;
-        uint8_t crQp = context_ptr->qp;
+        uint8_t cb_qp = context_ptr->qp;
+        uint8_t cr_qp = context_ptr->qp;
 
 #if CHROMA_BLIND
         if (context_ptr->blk_geom->has_uv && context_ptr->chroma_level == CHROMA_MODE_0) {
 #else
         if (context_ptr->blk_geom->has_uv) {
 #endif
-            FullLoop_R(
+            full_loop_r(
                 sb_ptr,
                 candidate_buffer,
                 context_ptr,
                 input_picture_ptr,
                 picture_control_set_ptr,
                 PICTURE_BUFFER_DESC_CHROMA_MASK,
-                cbQp,
-                crQp,
+                cb_qp,
+                cr_qp,
                 &(*count_non_zero_coeffs[1]),
                 &(*count_non_zero_coeffs[2]));
 
@@ -2303,14 +2303,14 @@ void AV1PerformFullLoop(
 
 
 
-            CuFullDistortionFastTuMode_R(
+            cu_full_distortion_fast_tu_mode_r(
                 sb_ptr,
                 candidate_buffer,
                 context_ptr,
                 candidate_ptr,
                 picture_control_set_ptr,
-                cbFullDistortion,
-                crFullDistortion,
+                cb_full_distortion,
+                cr_full_distortion,
                 count_non_zero_coeffs,
                 COMPONENT_CHROMA,
                 &cb_coeff_bits,
@@ -2333,8 +2333,8 @@ void AV1PerformFullLoop(
             candidate_buffer,
             cu_ptr,
             y_full_distortion,
-            cbFullDistortion,
-            crFullDistortion,
+            cb_full_distortion,
+            cr_full_distortion,
             context_ptr->full_lambda,
             &y_coeff_bits,
             &cb_coeff_bits,
@@ -2344,12 +2344,12 @@ void AV1PerformFullLoop(
 
 
 
-        candidate_buffer->cb_distortion[DIST_CALC_RESIDUAL] = cbFullDistortion[DIST_CALC_RESIDUAL];
-        candidate_buffer->cb_distortion[DIST_CALC_PREDICTION] = cbFullDistortion[DIST_CALC_PREDICTION];
+        candidate_buffer->cb_distortion[DIST_CALC_RESIDUAL] = cb_full_distortion[DIST_CALC_RESIDUAL];
+        candidate_buffer->cb_distortion[DIST_CALC_PREDICTION] = cb_full_distortion[DIST_CALC_PREDICTION];
         candidate_buffer->cb_coeff_bits = cb_coeff_bits;
 
-        candidate_buffer->cr_distortion[DIST_CALC_RESIDUAL] = crFullDistortion[DIST_CALC_RESIDUAL];
-        candidate_buffer->cr_distortion[DIST_CALC_PREDICTION] = crFullDistortion[DIST_CALC_PREDICTION];
+        candidate_buffer->cr_distortion[DIST_CALC_RESIDUAL] = cr_full_distortion[DIST_CALC_RESIDUAL];
+        candidate_buffer->cr_distortion[DIST_CALC_PREDICTION] = cr_full_distortion[DIST_CALC_PREDICTION];
         candidate_buffer->cr_coeff_bits = cr_coeff_bits;
         candidate_buffer->candidate_ptr->full_distortion = (uint32_t)(y_full_distortion[0]);
         candidate_buffer->candidate_ptr->luma_distortion = (uint32_t)(y_full_distortion[0]);
@@ -2583,8 +2583,8 @@ void inter_depth_tx_search(
         uint64_t      y_full_distortion[DIST_CALC_TOTAL] = { 0 };
         uint32_t      count_non_zero_coeffs[3][MAX_NUM_OF_TU_PER_CU];
 
-        uint64_t      cbFullDistortion[DIST_CALC_TOTAL];
-        uint64_t      crFullDistortion[DIST_CALC_TOTAL];
+        uint64_t      cb_full_distortion[DIST_CALC_TOTAL];
+        uint64_t      cr_full_distortion[DIST_CALC_TOTAL];
 
         uint64_t      y_coeff_bits = 0;
         uint64_t      cb_coeff_bits = 0;
@@ -2597,7 +2597,7 @@ void inter_depth_tx_search(
             count_non_zero_coeffs);
 
 
-        ProductFullLoopTxSearch(
+        product_full_loop_tx_search(
             candidate_buffer,
             context_ptr,
             picture_control_set_ptr
@@ -2612,7 +2612,7 @@ void inter_depth_tx_search(
         //re-init
         candidate_ptr->y_has_coeff = 0;
 
-        ProductFullLoop(
+        product_full_loop(
             candidate_buffer,
             context_ptr,
             picture_control_set_ptr,
@@ -2626,42 +2626,42 @@ void inter_depth_tx_search(
         candidate_ptr->chroma_distortion = 0;
 
         //CHROMA
-        cbFullDistortion[DIST_CALC_RESIDUAL] = 0;
-        crFullDistortion[DIST_CALC_RESIDUAL] = 0;
-        cbFullDistortion[DIST_CALC_PREDICTION] = 0;
-        crFullDistortion[DIST_CALC_PREDICTION] = 0;
+        cb_full_distortion[DIST_CALC_RESIDUAL] = 0;
+        cr_full_distortion[DIST_CALC_RESIDUAL] = 0;
+        cb_full_distortion[DIST_CALC_PREDICTION] = 0;
+        cr_full_distortion[DIST_CALC_PREDICTION] = 0;
 
         cb_coeff_bits = 0;
         cr_coeff_bits = 0;
 
         // FullLoop and TU search
-        uint8_t cbQp = context_ptr->qp;
-        uint8_t crQp = context_ptr->qp;
+        uint8_t cb_qp = context_ptr->qp;
+        uint8_t cr_qp = context_ptr->qp;
 #if CHROMA_BLIND
         if (context_ptr->blk_geom->has_uv && context_ptr->chroma_level == CHROMA_MODE_0) {
 #else
         if (context_ptr->blk_geom->has_uv) {
 #endif
-            FullLoop_R(
+            full_loop_r(
                 context_ptr->sb_ptr,
                 candidate_buffer,
                 context_ptr,
                 input_picture_ptr,
                 picture_control_set_ptr,
                 PICTURE_BUFFER_DESC_CHROMA_MASK,
-                cbQp,
-                crQp,
+                cb_qp,
+                cr_qp,
                 &(*count_non_zero_coeffs[1]),
                 &(*count_non_zero_coeffs[2]));
 
-            CuFullDistortionFastTuMode_R(
+            cu_full_distortion_fast_tu_mode_r(
                 context_ptr->sb_ptr,
                 candidate_buffer,
                 context_ptr,
                 candidate_ptr,
                 picture_control_set_ptr,
-                cbFullDistortion,
-                crFullDistortion,
+                cb_full_distortion,
+                cr_full_distortion,
                 count_non_zero_coeffs,
                 COMPONENT_CHROMA,
                 &cb_coeff_bits,
@@ -2678,20 +2678,20 @@ void inter_depth_tx_search(
             candidate_buffer,
             cu_ptr,
             y_full_distortion,
-            cbFullDistortion,
-            crFullDistortion,
+            cb_full_distortion,
+            cr_full_distortion,
             context_ptr->full_lambda,
             &y_coeff_bits,
             &cb_coeff_bits,
             &cr_coeff_bits,
             context_ptr->blk_geom->bsize);
 
-        candidate_buffer->cb_distortion[DIST_CALC_RESIDUAL] = cbFullDistortion[DIST_CALC_RESIDUAL];
-        candidate_buffer->cb_distortion[DIST_CALC_PREDICTION] = cbFullDistortion[DIST_CALC_PREDICTION];
+        candidate_buffer->cb_distortion[DIST_CALC_RESIDUAL] = cb_full_distortion[DIST_CALC_RESIDUAL];
+        candidate_buffer->cb_distortion[DIST_CALC_PREDICTION] = cb_full_distortion[DIST_CALC_PREDICTION];
         candidate_buffer->cb_coeff_bits = cb_coeff_bits;
 
-        candidate_buffer->cr_distortion[DIST_CALC_RESIDUAL] = crFullDistortion[DIST_CALC_RESIDUAL];
-        candidate_buffer->cr_distortion[DIST_CALC_PREDICTION] = crFullDistortion[DIST_CALC_PREDICTION];
+        candidate_buffer->cr_distortion[DIST_CALC_RESIDUAL] = cr_full_distortion[DIST_CALC_RESIDUAL];
+        candidate_buffer->cr_distortion[DIST_CALC_PREDICTION] = cr_full_distortion[DIST_CALC_PREDICTION];
         candidate_buffer->cr_coeff_bits = cr_coeff_bits;
 
         candidate_buffer->candidate_ptr->full_distortion = (uint32_t)(y_full_distortion[0]);
@@ -2863,7 +2863,7 @@ void md_encode_block(
     ModeDecisionContext_t            *context_ptr,
     SsMeContext_t                    *ss_mecontext,
     uint32_t                          leaf_index,
-    uint32_t                          lcuAddr,
+    uint32_t                          lcu_addr,
     ModeDecisionCandidateBuffer_t    *bestCandidateBuffers[5])
 {
 
@@ -2894,12 +2894,12 @@ void md_encode_block(
     if (allowed_ns_cu(
 #if DISABLE_NSQ_FOR_NON_REF || DISABLE_NSQ
 #if ENCODER_MODE_CLEANUP
-        context_ptr, sequence_control_set_ptr->sb_geom[lcuAddr].is_complete_sb))
+        context_ptr, sequence_control_set_ptr->sb_geom[lcu_addr].is_complete_sb))
 #else
-        context_ptr, sequence_control_set_ptr->sb_geom[lcuAddr].is_complete_sb))
+        context_ptr, sequence_control_set_ptr->sb_geom[lcu_addr].is_complete_sb))
 #endif
 #else
-        context_ptr, sequence_control_set_ptr->sb_geom[lcuAddr].is_complete_sb))
+        context_ptr, sequence_control_set_ptr->sb_geom[lcu_addr].is_complete_sb))
 #endif
     {
         // Set PF Mode - should be done per TU (and not per CU) to avoid the correction
@@ -2932,7 +2932,7 @@ void md_encode_block(
             context_ptr,
             ss_mecontext,
             leaf_index,
-            lcuAddr,
+            lcu_addr,
             &buffer_total_count,
             &fastCandidateTotalCount,
             (void*)context_ptr->inter_prediction_context,
@@ -3177,7 +3177,7 @@ EB_EXTERN EbErrorType mode_decision_sb(
     LargestCodingUnit_t                 *sb_ptr,
     uint16_t                             sb_origin_x,
     uint16_t                             sb_origin_y,
-    uint32_t                             lcuAddr,
+    uint32_t                             lcu_addr,
     SsMeContext_t                       *ss_mecontext,
     ModeDecisionContext_t               *context_ptr)
 {
@@ -3300,7 +3300,7 @@ EB_EXTERN EbErrorType mode_decision_sb(
             context_ptr,
             ss_mecontext,
             0xFFFFFFFF,
-            lcuAddr,
+            lcu_addr,
             bestCandidateBuffers);
 
         if (blk_geom->nsi + 1 == blk_geom->totns)
@@ -3335,7 +3335,7 @@ EB_EXTERN EbErrorType mode_decision_sb(
                 context_ptr,
                 blk_geom->sqi_mds,//input is parent square
                 sb_ptr,
-                lcuAddr,
+                lcu_addr,
                 sb_origin_x,
                 sb_origin_y,
                 context_ptr->full_lambda,
