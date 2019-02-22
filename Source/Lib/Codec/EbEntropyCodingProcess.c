@@ -179,7 +179,7 @@ static void ResetEntropyCodingPicture(
     PictureControlSet_t     *picture_control_set_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr)
 {
-    ResetBitstream(EntropyCoderGetBitstreamPtr(picture_control_set_ptr->entropy_coder_ptr));
+    reset_bitstream(entropy_coder_get_bitstream_ptr(picture_control_set_ptr->entropy_coder_ptr));
 
     uint32_t                       entropyCodingQp;
 
@@ -237,7 +237,7 @@ static void ResetEntropyCodingPicture(
 
     // ADD Reset here
 
-    ResetEntropyCoder(
+    reset_entropy_coder(
         sequence_control_set_ptr->encode_context_ptr,
         picture_control_set_ptr->entropy_coder_ptr,
         entropyCodingQp,
@@ -258,7 +258,7 @@ static void reset_ec_tile(
     PictureControlSet_t     *picture_control_set_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr)
 {
-    ResetBitstream(EntropyCoderGetBitstreamPtr(picture_control_set_ptr->entropy_coder_ptr));
+    reset_bitstream(entropy_coder_get_bitstream_ptr(picture_control_set_ptr->entropy_coder_ptr));
 
     uint32_t                       entropy_coding_qp;
 
@@ -320,7 +320,7 @@ static void reset_ec_tile(
     aom_start_encode(&picture_control_set_ptr->entropy_coder_ptr->ecWriter, data);
 
     //reset probabilities
-    ResetEntropyCoder(
+    reset_entropy_coder(
         sequence_control_set_ptr->encode_context_ptr,
         picture_control_set_ptr->entropy_coder_ptr,
         entropy_coding_qp,
@@ -385,7 +385,7 @@ static void EntropyCodingLcu(
     // + 32  - bits remaining in interval Low value
     // + number of buffered byte * 8
     // This should be only for coeffs not any flag
-    writtenBitsBeforeQuantizedCoeff = ((OutputBitstreamUnit_t*)EntropyCoderGetBitstreamPtr(picture_control_set_ptr->entropy_coder_ptr))->writtenBitsCount;
+    writtenBitsBeforeQuantizedCoeff = ((OutputBitstreamUnit_t*)entropy_coder_get_bitstream_ptr(picture_control_set_ptr->entropy_coder_ptr))->writtenBitsCount;
 
     (void)pictureOriginX;
     (void)pictureOriginY;
@@ -402,7 +402,7 @@ static void EntropyCodingLcu(
     // number of written bits
     // + 32  - bits remaining in interval Low value
     // + number of buffered byte * 8
-    writtenBitsAfterQuantizedCoeff = ((OutputBitstreamUnit_t*)EntropyCoderGetBitstreamPtr(picture_control_set_ptr->entropy_coder_ptr))->writtenBitsCount;
+    writtenBitsAfterQuantizedCoeff = ((OutputBitstreamUnit_t*)entropy_coder_get_bitstream_ptr(picture_control_set_ptr->entropy_coder_ptr))->writtenBitsCount;
 
     sb_ptr->total_bits = writtenBitsAfterQuantizedCoeff - writtenBitsBeforeQuantizedCoeff;
 
@@ -504,7 +504,7 @@ static EbBool UpdateEntropyCodingRows(
 /******************************************************
  * Entropy Coding Kernel
  ******************************************************/
-void* EntropyCodingKernel(void *input_ptr)
+void* entropy_coding_kernel(void *input_ptr)
 {
     // Context & SCS & PCS
     EntropyCodingContext_t                  *context_ptr = (EntropyCodingContext_t*)input_ptr;
@@ -524,8 +524,8 @@ void* EntropyCodingKernel(void *input_ptr)
     uint16_t                                   sb_index;
     uint8_t                                    sb_sz;
     uint8_t                                    lcuSizeLog2;
-    uint32_t                                   xLcuIndex;
-    uint32_t                                   yLcuIndex;
+    uint32_t                                   x_lcu_index;
+    uint32_t                                   y_lcu_index;
     uint32_t                                   sb_origin_x;
     uint32_t                                   sb_origin_y;
     EbBool                                  lastLcuFlag;
@@ -555,14 +555,14 @@ void* EntropyCodingKernel(void *input_ptr)
 #endif
         {
             initialProcessCall = EB_TRUE;
-            yLcuIndex = encDecResultsPtr->completedLcuRowIndexStart;
+            y_lcu_index = encDecResultsPtr->completedLcuRowIndexStart;
 
             // LCU-loops
-            while (UpdateEntropyCodingRows(picture_control_set_ptr, &yLcuIndex, encDecResultsPtr->completedLcuRowCount, &initialProcessCall) == EB_TRUE)
+            while (UpdateEntropyCodingRows(picture_control_set_ptr, &y_lcu_index, encDecResultsPtr->completedLcuRowCount, &initialProcessCall) == EB_TRUE)
             {
                 uint32_t rowTotalBits = 0;
 
-                if (yLcuIndex == 0) {
+                if (y_lcu_index == 0) {
                     ResetEntropyCodingPicture(
                         context_ptr,
                         picture_control_set_ptr,
@@ -570,15 +570,15 @@ void* EntropyCodingKernel(void *input_ptr)
                     picture_control_set_ptr->entropy_coding_pic_done = EB_FALSE;
                 }
 
-                for (xLcuIndex = 0; xLcuIndex < picture_width_in_sb; ++xLcuIndex)
+                for (x_lcu_index = 0; x_lcu_index < picture_width_in_sb; ++x_lcu_index)
                 {
 
 
-                    sb_index = (uint16_t)(xLcuIndex + yLcuIndex * picture_width_in_sb);
+                    sb_index = (uint16_t)(x_lcu_index + y_lcu_index * picture_width_in_sb);
                     sb_ptr = picture_control_set_ptr->sb_ptr_array[sb_index];
 
-                    sb_origin_x = xLcuIndex << lcuSizeLog2;
-                    sb_origin_y = yLcuIndex << lcuSizeLog2;
+                    sb_origin_x = x_lcu_index << lcuSizeLog2;
+                    sb_origin_y = y_lcu_index << lcuSizeLog2;
                     context_ptr->sb_origin_x = sb_origin_x;
                     context_ptr->sb_origin_y = sb_origin_y;
                     lastLcuFlag = (sb_index == sequence_control_set_ptr->sb_tot_cnt - 1) ? EB_TRUE : EB_FALSE;
@@ -620,7 +620,7 @@ void* EntropyCodingKernel(void *input_ptr)
                     rateControlTaskPtr = (RateControlTasks_t*)rateControlTaskWrapperPtr->object_ptr;
                     rateControlTaskPtr->taskType = RC_ENTROPY_CODING_ROW_FEEDBACK_RESULT;
                     rateControlTaskPtr->picture_number = picture_control_set_ptr->picture_number;
-                    rateControlTaskPtr->rowNumber = yLcuIndex;
+                    rateControlTaskPtr->rowNumber = y_lcu_index;
                     rateControlTaskPtr->bitCount = rowTotalBits;
 
                     rateControlTaskPtr->pictureControlSetWrapperPtr = 0;
@@ -640,7 +640,7 @@ void* EntropyCodingKernel(void *input_ptr)
 
                         picture_control_set_ptr->entropy_coding_pic_done = EB_TRUE;
 
-                        EncodeSliceFinish(picture_control_set_ptr->entropy_coder_ptr);
+                        encode_slice_finish(picture_control_set_ptr->entropy_coder_ptr);
 
                         // Release the List 0 Reference Pictures
                         for (refIdx = 0; refIdx < picture_control_set_ptr->parent_pcs_ptr->ref_list0_count; ++refIdx) {
@@ -717,15 +717,15 @@ void* EntropyCodingKernel(void *input_ptr)
    
                      av1_reset_loop_restoration(picture_control_set_ptr);
                    
-                     for (yLcuIndex = cm->tile_row_start_sb[tile_row]; yLcuIndex < (uint32_t)cm->tile_row_start_sb[tile_row + 1]; ++yLcuIndex)
+                     for (y_lcu_index = cm->tile_row_start_sb[tile_row]; y_lcu_index < (uint32_t)cm->tile_row_start_sb[tile_row + 1]; ++y_lcu_index)
                      {
-                         for (xLcuIndex = cm->tile_col_start_sb[tile_col]; xLcuIndex < (uint32_t)cm->tile_col_start_sb[tile_col + 1]; ++xLcuIndex)
+                         for (x_lcu_index = cm->tile_col_start_sb[tile_col]; x_lcu_index < (uint32_t)cm->tile_col_start_sb[tile_col + 1]; ++x_lcu_index)
                          {
                              
-                             int sb_index = (uint16_t)(xLcuIndex + yLcuIndex * picture_width_in_sb);
+                             int sb_index = (uint16_t)(x_lcu_index + y_lcu_index * picture_width_in_sb);
                              sb_ptr = picture_control_set_ptr->sb_ptr_array[sb_index];
-                             sb_origin_x = xLcuIndex << lcuSizeLog2;
-                             sb_origin_y = yLcuIndex << lcuSizeLog2;
+                             sb_origin_x = x_lcu_index << lcuSizeLog2;
+                             sb_origin_y = y_lcu_index << lcuSizeLog2;
                              context_ptr->sb_origin_x = sb_origin_x;
                              context_ptr->sb_origin_y = sb_origin_y;
                              lastLcuFlag = (sb_index == sequence_control_set_ptr->sb_tot_cnt - 1) ? EB_TRUE : EB_FALSE;
@@ -750,7 +750,7 @@ void* EntropyCodingKernel(void *input_ptr)
                          }
                      }
                                          
-                     EncodeSliceFinish(picture_control_set_ptr->entropy_coder_ptr);
+                     encode_slice_finish(picture_control_set_ptr->entropy_coder_ptr);
                     
                      int tile_size = picture_control_set_ptr->entropy_coder_ptr->ecWriter.pos;
                      assert(tile_size >= AV1_MIN_TILE_SIZE_BYTES);

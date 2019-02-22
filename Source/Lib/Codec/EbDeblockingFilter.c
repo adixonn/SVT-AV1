@@ -1357,8 +1357,8 @@ void av1_loop_filter_frame(
     //LargestCodingUnit_t                     *sb_ptr;
     //uint16_t                                   sb_index;
     uint8_t                                   sb_size_Log2 = (uint8_t)Log2f(scsPtr->sb_size_pix);
-    uint32_t                                   xLcuIndex;
-    uint32_t                                   yLcuIndex;
+    uint32_t                                   x_lcu_index;
+    uint32_t                                   y_lcu_index;
     uint32_t                                   sb_origin_x;
     uint32_t                                   sb_origin_y;
     EbBool                                  endOfRowFlag;
@@ -1367,13 +1367,13 @@ void av1_loop_filter_frame(
     uint32_t picture_height_in_sb = (scsPtr->luma_height + scsPtr->sb_size_pix - 1) / scsPtr->sb_size_pix;
     av1_loop_filter_frame_init(picture_control_set_ptr, plane_start, plane_end);
 
-    for (yLcuIndex = 0; yLcuIndex < picture_height_in_sb; ++yLcuIndex) {
-        for (xLcuIndex = 0; xLcuIndex < picture_width_in_sb; ++xLcuIndex) {
-            //sb_index        = (uint16_t)(yLcuIndex * picture_width_in_sb + xLcuIndex);
+    for (y_lcu_index = 0; y_lcu_index < picture_height_in_sb; ++y_lcu_index) {
+        for (x_lcu_index = 0; x_lcu_index < picture_width_in_sb; ++x_lcu_index) {
+            //sb_index        = (uint16_t)(y_lcu_index * picture_width_in_sb + x_lcu_index);
             //sb_ptr          = picture_control_set_ptr->sb_ptr_array[sb_index];
-            sb_origin_x = xLcuIndex << sb_size_Log2;
-            sb_origin_y = yLcuIndex << sb_size_Log2;
-            endOfRowFlag = (xLcuIndex == picture_width_in_sb - 1) ? EB_TRUE : EB_FALSE;
+            sb_origin_x = x_lcu_index << sb_size_Log2;
+            sb_origin_y = y_lcu_index << sb_size_Log2;
+            endOfRowFlag = (x_lcu_index == picture_width_in_sb - 1) ? EB_TRUE : EB_FALSE;
 
             loop_filter_sb(
                 frame_buffer,

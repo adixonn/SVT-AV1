@@ -1261,17 +1261,17 @@ EbErrorType av1_inter_fast_cost(
 }
 
 
-EbErrorType Av1TuEstimateCoeffBits(
+EbErrorType av1_tu_estimate_coeff_bits(
     PictureControlSet_t                    *picture_control_set_ptr,
     struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
     CodingUnit_t                           *cu_ptr,
-    uint32_t                                  tuOriginIndex,
+    uint32_t                                  tu_origin_index,
     uint32_t                                  tuChromaOriginIndex,
     EntropyCoder_t                         *entropy_coder_ptr,
     EbPictureBufferDesc_t                  *coeff_buffer_sb,
-    uint32_t                                 yEob,
-    uint32_t                                 cbEob,
-    uint32_t                                 crEob,
+    uint32_t                                 y_eob,
+    uint32_t                                 cb_eob,
+    uint32_t                                 cr_eob,
     uint64_t                                 *y_tu_coeff_bits,
     uint64_t                                 *cb_tu_coeff_bits,
     uint64_t                                 *cr_tu_coeff_bits,
@@ -1301,13 +1301,13 @@ EbErrorType Av1TuEstimateCoeffBits(
     //Estimate the rate of the transform type and coefficient for Luma
 
     if (component_type == COMPONENT_LUMA || component_type == COMPONENT_ALL) {
-        if (yEob) {
-            coeff_buffer = (int32_t*)&coeff_buffer_sb->buffer_y[tuOriginIndex * sizeof(int32_t)];
+        if (y_eob) {
+            coeff_buffer = (int32_t*)&coeff_buffer_sb->buffer_y[tu_origin_index * sizeof(int32_t)];
 
             *y_tu_coeff_bits = av1_cost_coeffs_txb(
                 candidate_buffer_ptr,
                 coeff_buffer,
-                (uint16_t)yEob,
+                (uint16_t)y_eob,
                 PLANE_TYPE_Y,
                 txsize,
                 luma_txb_skip_context,
@@ -1326,7 +1326,7 @@ EbErrorType Av1TuEstimateCoeffBits(
 
     if (component_type == COMPONENT_CHROMA_CB || component_type == COMPONENT_CHROMA || component_type == COMPONENT_ALL) {
 
-        if (cbEob) {
+        if (cb_eob) {
 
             coeff_buffer = (int32_t*)&coeff_buffer_sb->bufferCb[tuChromaOriginIndex * sizeof(int32_t)];
 
@@ -1334,7 +1334,7 @@ EbErrorType Av1TuEstimateCoeffBits(
             *cb_tu_coeff_bits = av1_cost_coeffs_txb(
                 candidate_buffer_ptr,
                 coeff_buffer,
-                (uint16_t)cbEob,
+                (uint16_t)cb_eob,
                 PLANE_TYPE_UV,
                 txsize_uv,
                 cb_txb_skip_context,
@@ -1354,14 +1354,14 @@ EbErrorType Av1TuEstimateCoeffBits(
     if (component_type == COMPONENT_CHROMA_CR || component_type == COMPONENT_CHROMA || component_type == COMPONENT_ALL) {
 
         //Estimate the rate of the transform type and coefficient for chroma Cr
-        if (crEob) {
+        if (cr_eob) {
 
             coeff_buffer = (int32_t*)&coeff_buffer_sb->bufferCr[tuChromaOriginIndex * sizeof(int32_t)];
 
             *cr_tu_coeff_bits = av1_cost_coeffs_txb(
                 candidate_buffer_ptr,
                 coeff_buffer,
-                (uint16_t)crEob,
+                (uint16_t)cr_eob,
                 PLANE_TYPE_UV,
                 txsize_uv,
                 cr_txb_skip_context,
@@ -1900,7 +1900,7 @@ void coding_loop_context_generation(
     for (txb_itr = 0; txb_itr < txb_count; txb_itr++) {
 
 
-        GetTxbCtx(                  //SB128_TODO move inside Full loop
+        get_txb_ctx(                  //SB128_TODO move inside Full loop
             COMPONENT_LUMA,
             luma_dc_sign_level_coeff_neighbor_array,
             cu_origin_x,
@@ -1916,7 +1916,7 @@ void coding_loop_context_generation(
 #else
         if (context_ptr->blk_geom->has_uv) {
 #endif
-            GetTxbCtx(
+            get_txb_ctx(
                 COMPONENT_CHROMA,
                 cb_dc_sign_level_coeff_neighbor_array,
                 context_ptr->round_origin_x >> 1,
@@ -1925,7 +1925,7 @@ void coding_loop_context_generation(
                 context_ptr->blk_geom->txsize_uv[txb_itr],
                 &cu_ptr->cb_txb_skip_context,
                 &cu_ptr->cb_dc_sign_context);
-            GetTxbCtx(
+            get_txb_ctx(
                 COMPONENT_CHROMA,
                 cr_dc_sign_level_coeff_neighbor_array,
                 context_ptr->round_origin_x >> 1,
@@ -1939,20 +1939,20 @@ void coding_loop_context_generation(
 
     // Generate reference mode context
 
-    cu_ptr->reference_mode_context = (uint8_t)Av1GetReferenceModeContext(
+    cu_ptr->reference_mode_context = (uint8_t)av1_get_reference_mode_context(
         cu_origin_x,
         cu_origin_y,
         mode_type_neighbor_array,
         inter_pred_dir_neighbor_array);
 
-    cu_ptr->compoud_reference_type_context = (uint8_t)Av1GetCompReferenceTypeContext(
+    cu_ptr->compoud_reference_type_context = (uint8_t)av1_get_comp_reference_type_context(
         cu_origin_x,
         cu_origin_y,
         mode_type_neighbor_array,
         inter_pred_dir_neighbor_array);
 
     //Collect Neighbor ref cout
-    Av1CollectNeighborsRefCounts(
+    av1_collect_neighbors_ref_counts(
         cu_ptr,
         cu_origin_x,
         cu_origin_y,

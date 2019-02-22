@@ -324,9 +324,9 @@ static INLINE int16_t GetBrCtx(
     return mag + 14;
 }
 
-void GetTxbCtx(
+void get_txb_ctx(
     const int32_t               plane,
-    NeighborArrayUnit_t     *dcSignLevelCoeffNeighborArray,
+    NeighborArrayUnit_t     *dc_sign_level_coeff_neighbor_array,
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
     const block_size        plane_bsize,
@@ -335,10 +335,10 @@ void GetTxbCtx(
     int16_t *const           dc_sign_ctx) {
 
     uint32_t dcSignLevelCoeffLeftNeighborIndex = get_neighbor_array_unit_left_index(
-        dcSignLevelCoeffNeighborArray,
+        dc_sign_level_coeff_neighbor_array,
         cu_origin_y);
     uint32_t dcSignLevelCoeffTopNeighborIndex = get_neighbor_array_unit_top_index(
-        dcSignLevelCoeffNeighborArray,
+        dc_sign_level_coeff_neighbor_array,
         cu_origin_x);
 
 #define MAX_TX_SIZE_UNIT 16
@@ -351,25 +351,25 @@ void GetTxbCtx(
     uint8_t sign;
 
 #if TILES
-    if (dcSignLevelCoeffNeighborArray->topArray[dcSignLevelCoeffTopNeighborIndex] != INVALID_NEIGHBOR_DATA){
+    if (dc_sign_level_coeff_neighbor_array->topArray[dcSignLevelCoeffTopNeighborIndex] != INVALID_NEIGHBOR_DATA){
 #else
-    if (cu_origin_y != 0) {//dcSignLevelCoeffNeighborArray->topArray[dcSignLevelCoeffTopNeighborIndex] != INVALID_NEIGHBOR_DATA){ AMIR
+    if (cu_origin_y != 0) {//dc_sign_level_coeff_neighbor_array->topArray[dcSignLevelCoeffTopNeighborIndex] != INVALID_NEIGHBOR_DATA){ AMIR
 #endif
         do {
-            sign = ((uint8_t)dcSignLevelCoeffNeighborArray->topArray[k + dcSignLevelCoeffTopNeighborIndex] >> COEFF_CONTEXT_BITS);
+            sign = ((uint8_t)dc_sign_level_coeff_neighbor_array->topArray[k + dcSignLevelCoeffTopNeighborIndex] >> COEFF_CONTEXT_BITS);
             assert(sign <= 2);
             dc_sign += signs[sign];
         } while (++k < txb_w_unit);
     }
 
 #if TILES
-    if (dcSignLevelCoeffNeighborArray->leftArray[dcSignLevelCoeffLeftNeighborIndex] != INVALID_NEIGHBOR_DATA){ 
+    if (dc_sign_level_coeff_neighbor_array->leftArray[dcSignLevelCoeffLeftNeighborIndex] != INVALID_NEIGHBOR_DATA){ 
 #else
-    if (cu_origin_x != 0) {// dcSignLevelCoeffNeighborArray->leftArray[dcSignLevelCoeffLeftNeighborIndex] != INVALID_NEIGHBOR_DATA){ AMIR
+    if (cu_origin_x != 0) {// dc_sign_level_coeff_neighbor_array->leftArray[dcSignLevelCoeffLeftNeighborIndex] != INVALID_NEIGHBOR_DATA){ AMIR
 #endif
         k = 0;
         do {
-            sign = ((uint8_t)dcSignLevelCoeffNeighborArray->leftArray[k + dcSignLevelCoeffLeftNeighborIndex] >> COEFF_CONTEXT_BITS);
+            sign = ((uint8_t)dc_sign_level_coeff_neighbor_array->leftArray[k + dcSignLevelCoeffLeftNeighborIndex] >> COEFF_CONTEXT_BITS);
             assert(sign <= 2);
             dc_sign += signs[sign];
         } while (++k < txb_h_unit);
@@ -397,24 +397,24 @@ void GetTxbCtx(
 
             k = 0;
 #if TILES
-            if (dcSignLevelCoeffNeighborArray->topArray[dcSignLevelCoeffTopNeighborIndex] != INVALID_NEIGHBOR_DATA) {
+            if (dc_sign_level_coeff_neighbor_array->topArray[dcSignLevelCoeffTopNeighborIndex] != INVALID_NEIGHBOR_DATA) {
 #else
             if (cu_origin_y != 0) {
 #endif
                 do {
-                    top |= (int32_t)(dcSignLevelCoeffNeighborArray->topArray[k + dcSignLevelCoeffTopNeighborIndex]);
+                    top |= (int32_t)(dc_sign_level_coeff_neighbor_array->topArray[k + dcSignLevelCoeffTopNeighborIndex]);
                 } while (++k < txb_w_unit);
             }
             top &= COEFF_CONTEXT_MASK;
 
 #if TILES
-            if (dcSignLevelCoeffNeighborArray->leftArray[dcSignLevelCoeffLeftNeighborIndex] != INVALID_NEIGHBOR_DATA) {
+            if (dc_sign_level_coeff_neighbor_array->leftArray[dcSignLevelCoeffLeftNeighborIndex] != INVALID_NEIGHBOR_DATA) {
 #else
             if (cu_origin_x != 0) {
 #endif
                 k = 0;
                 do {
-                    left |= (int32_t)(dcSignLevelCoeffNeighborArray->leftArray[k + dcSignLevelCoeffLeftNeighborIndex]);
+                    left |= (int32_t)(dc_sign_level_coeff_neighbor_array->leftArray[k + dcSignLevelCoeffLeftNeighborIndex]);
                 } while (++k < txb_h_unit);
             }
             left &= COEFF_CONTEXT_MASK;
@@ -440,23 +440,23 @@ void GetTxbCtx(
         int16_t ctx_base_top = 0;
 
 #if TILES
-        if (dcSignLevelCoeffNeighborArray->topArray[dcSignLevelCoeffTopNeighborIndex] != INVALID_NEIGHBOR_DATA) {
+        if (dc_sign_level_coeff_neighbor_array->topArray[dcSignLevelCoeffTopNeighborIndex] != INVALID_NEIGHBOR_DATA) {
 #else
         if (cu_origin_y != 0) {
 #endif
             k = 0;
             do {
-                ctx_base_top += (dcSignLevelCoeffNeighborArray->topArray[k + dcSignLevelCoeffTopNeighborIndex] != 0);
+                ctx_base_top += (dc_sign_level_coeff_neighbor_array->topArray[k + dcSignLevelCoeffTopNeighborIndex] != 0);
             } while (++k < txb_w_unit);
         }
 #if TILES
-        if (dcSignLevelCoeffNeighborArray->leftArray[dcSignLevelCoeffLeftNeighborIndex] != INVALID_NEIGHBOR_DATA) {
+        if (dc_sign_level_coeff_neighbor_array->leftArray[dcSignLevelCoeffLeftNeighborIndex] != INVALID_NEIGHBOR_DATA) {
 #else
         if (cu_origin_x != 0) {
 #endif
             k = 0;
             do {
-                ctx_base_left += (dcSignLevelCoeffNeighborArray->leftArray[k + dcSignLevelCoeffLeftNeighborIndex] != 0);
+                ctx_base_left += (dc_sign_level_coeff_neighbor_array->leftArray[k + dcSignLevelCoeffLeftNeighborIndex] != 0);
             } while (++k < txb_h_unit);
         }
         const int32_t ctx_base = ((ctx_base_left != 0) + (ctx_base_top != 0));
@@ -717,7 +717,7 @@ static EbErrorType Av1EncodeCoeff1D(
     uint32_t                  cu_origin_y,
     uint32_t                  intraLumaDir,
     block_size              plane_bsize,
-    EbPictureBufferDesc_t  *coeffPtr,
+    EbPictureBufferDesc_t  *coeff_ptr,
     NeighborArrayUnit_t     *luma_dc_sign_level_coeff_neighbor_array,
     NeighborArrayUnit_t     *cr_dc_sign_level_coeff_neighbor_array,
     NeighborArrayUnit_t     *cb_dc_sign_level_coeff_neighbor_array)
@@ -742,13 +742,13 @@ static EbErrorType Av1EncodeCoeff1D(
 
         const uint32_t coeff1dOffset = context_ptr->coded_area_sb;
 
-        coeff_buffer = (int32_t*)coeffPtr->buffer_y + coeff1dOffset;
+        coeff_buffer = (int32_t*)coeff_ptr->buffer_y + coeff1dOffset;
 
         {
             int16_t txb_skip_ctx = 0;
             int16_t dcSignCtx = 0;
 
-            GetTxbCtx(
+            get_txb_ctx(
                 COMPONENT_LUMA,
                 luma_dc_sign_level_coeff_neighbor_array,
                 cu_origin_x + blk_geom->tx_org_x[txb_itr] - blk_geom->origin_x,
@@ -770,7 +770,7 @@ static EbErrorType Av1EncodeCoeff1D(
                     txb_itr,
                     intraLumaDir,
                     coeff_buffer,
-                    coeffPtr->stride_y,
+                    coeff_ptr->stride_y,
                     COMPONENT_LUMA,
                     txb_skip_ctx,
                     dcSignCtx,
@@ -780,12 +780,12 @@ static EbErrorType Av1EncodeCoeff1D(
         if (blk_geom->has_uv) {
 
             // cb
-            coeff_buffer = (int32_t*)coeffPtr->bufferCb + context_ptr->coded_area_sb_uv;
+            coeff_buffer = (int32_t*)coeff_ptr->bufferCb + context_ptr->coded_area_sb_uv;
             {
                 int16_t txb_skip_ctx = 0;
                 int16_t dcSignCtx = 0;
 
-                GetTxbCtx(
+                get_txb_ctx(
                     COMPONENT_CHROMA,
                     cb_dc_sign_level_coeff_neighbor_array,
                     ROUND_UV(cu_origin_x + blk_geom->tx_org_x[txb_itr] - blk_geom->origin_x) >> 1,
@@ -807,7 +807,7 @@ static EbErrorType Av1EncodeCoeff1D(
                         txb_itr,
                         intraLumaDir,
                         coeff_buffer,
-                        coeffPtr->strideCb,
+                        coeff_ptr->strideCb,
                         COMPONENT_CHROMA,
                         txb_skip_ctx,
                         dcSignCtx,
@@ -816,13 +816,13 @@ static EbErrorType Av1EncodeCoeff1D(
             }
 
             // cr
-            coeff_buffer = (int32_t*)coeffPtr->bufferCr + context_ptr->coded_area_sb_uv;
+            coeff_buffer = (int32_t*)coeff_ptr->bufferCr + context_ptr->coded_area_sb_uv;
             {
 
                 int16_t txb_skip_ctx = 0;
                 int16_t dcSignCtx = 0;
 
-                GetTxbCtx(
+                get_txb_ctx(
                     COMPONENT_CHROMA,
                     cr_dc_sign_level_coeff_neighbor_array,
                     ROUND_UV(cu_origin_x + blk_geom->tx_org_x[txb_itr] - blk_geom->origin_x) >> 1,
@@ -844,7 +844,7 @@ static EbErrorType Av1EncodeCoeff1D(
                         txb_itr,
                         intraLumaDir,
                         coeff_buffer,
-                        coeffPtr->strideCr,
+                        coeff_ptr->strideCr,
                         COMPONENT_CHROMA,
                         txb_skip_ctx,
                         dcSignCtx,
@@ -1418,7 +1418,7 @@ static int16_t Av1ModeContextAnalyzer(
 
 
 
-EbErrorType EncodeSliceFinish(
+EbErrorType encode_slice_finish(
     EntropyCoder_t        *entropy_coder_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
@@ -1428,11 +1428,11 @@ EbErrorType EncodeSliceFinish(
     return return_error;
 }
 
-EbErrorType ResetBitstream(
-    EbPtr bitstreamPtr)
+EbErrorType reset_bitstream(
+    EbPtr bitstream_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
-    OutputBitstreamUnit_t *outputBitstreamPtr = (OutputBitstreamUnit_t*)bitstreamPtr;
+    OutputBitstreamUnit_t *outputBitstreamPtr = (OutputBitstreamUnit_t*)bitstream_ptr;
 
     output_bitstream_reset(
         outputBitstreamPtr);
@@ -1440,7 +1440,7 @@ EbErrorType ResetBitstream(
     return return_error;
 }
 
-EbErrorType ResetEntropyCoder(
+EbErrorType reset_entropy_coder(
     EncodeContext_t            *encode_context_ptr,
     EntropyCoder_t             *entropy_coder_ptr,
     uint32_t                      qp,
@@ -1457,19 +1457,19 @@ EbErrorType ResetEntropyCoder(
     return return_error;
 }
 
-EbErrorType CopyRbspBitstreamToPayload(
-    Bitstream_t *bitstreamPtr,
-    EbByte      outputBuffer,
-    uint32_t      *outputBufferIndex,
-    uint32_t      *outputBufferSize,
+EbErrorType copy_rbsp_bitstream_to_payload(
+    Bitstream_t *bitstream_ptr,
+    EbByte      output_buffer,
+    uint32_t      *output_buffer_index,
+    uint32_t      *output_buffer_size,
     EncodeContext_t         *encode_context_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
-    OutputBitstreamUnit_t *outputBitstreamPtr = (OutputBitstreamUnit_t*)bitstreamPtr->outputBitstreamPtr;
+    OutputBitstreamUnit_t *outputBitstreamPtr = (OutputBitstreamUnit_t*)bitstream_ptr->outputBitstreamPtr;
 
 
     CHECK_REPORT_ERROR(
-        ((outputBitstreamPtr->writtenBitsCount >> 3) + (*outputBufferIndex) < (*outputBufferSize)),
+        ((outputBitstreamPtr->writtenBitsCount >> 3) + (*output_buffer_index) < (*output_buffer_size)),
         encode_context_ptr->app_callback_ptr,
         EB_ENC_EC_ERROR2);
 
@@ -1477,27 +1477,27 @@ EbErrorType CopyRbspBitstreamToPayload(
 
     output_bitstream_rbsp_to_payload(
         outputBitstreamPtr,
-        outputBuffer,
-        outputBufferIndex,
-        outputBufferSize,
+        output_buffer,
+        output_buffer_index,
+        output_buffer_size,
         0);
 
     return return_error;
 }
 
 
-EbErrorType BitstreamCtor(
-    Bitstream_t **bitstreamDblPtr,
-    uint32_t bufferSize)
+EbErrorType bitstream_ctor(
+    Bitstream_t **bitstream_dbl_ptr,
+    uint32_t buffer_size)
 {
     EbErrorType return_error = EB_ErrorNone;
-    EB_MALLOC(Bitstream_t*, *bitstreamDblPtr, sizeof(Bitstream_t), EB_N_PTR);
+    EB_MALLOC(Bitstream_t*, *bitstream_dbl_ptr, sizeof(Bitstream_t), EB_N_PTR);
 
-    EB_MALLOC(EbPtr, (*bitstreamDblPtr)->outputBitstreamPtr, sizeof(OutputBitstreamUnit_t), EB_N_PTR);
+    EB_MALLOC(EbPtr, (*bitstream_dbl_ptr)->outputBitstreamPtr, sizeof(OutputBitstreamUnit_t), EB_N_PTR);
 
     return_error = output_bitstream_unit_ctor(
-        (OutputBitstreamUnit_t *)(*bitstreamDblPtr)->outputBitstreamPtr,
-        bufferSize);
+        (OutputBitstreamUnit_t *)(*bitstream_dbl_ptr)->outputBitstreamPtr,
+        buffer_size);
 
     return return_error;
 }
@@ -1505,30 +1505,30 @@ EbErrorType BitstreamCtor(
 
 
 
-EbErrorType EntropyCoderCtor(
-    EntropyCoder_t **entropyCoderDblPtr,
-    uint32_t bufferSize)
+EbErrorType entropy_coder_ctor(
+    EntropyCoder_t **entropy_coder_dbl_ptr,
+    uint32_t buffer_size)
 {
     EbErrorType return_error = EB_ErrorNone;
-    EB_MALLOC(EntropyCoder_t*, *entropyCoderDblPtr, sizeof(EntropyCoder_t), EB_N_PTR);
+    EB_MALLOC(EntropyCoder_t*, *entropy_coder_dbl_ptr, sizeof(EntropyCoder_t), EB_N_PTR);
 
-    EB_MALLOC(EbPtr, (*entropyCoderDblPtr)->cabacEncodeContextPtr, sizeof(CabacEncodeContext_t), EB_N_PTR);
+    EB_MALLOC(EbPtr, (*entropy_coder_dbl_ptr)->cabacEncodeContextPtr, sizeof(CabacEncodeContext_t), EB_N_PTR);
 
-    EB_MALLOC(FRAME_CONTEXT*, (*entropyCoderDblPtr)->fc, sizeof(FRAME_CONTEXT), EB_N_PTR);
+    EB_MALLOC(FRAME_CONTEXT*, (*entropy_coder_dbl_ptr)->fc, sizeof(FRAME_CONTEXT), EB_N_PTR);
 
-    EB_MALLOC(EbPtr, (*entropyCoderDblPtr)->ecOutputBitstreamPtr, sizeof(OutputBitstreamUnit_t), EB_N_PTR);
+    EB_MALLOC(EbPtr, (*entropy_coder_dbl_ptr)->ecOutputBitstreamPtr, sizeof(OutputBitstreamUnit_t), EB_N_PTR);
 
     return_error = output_bitstream_unit_ctor(
-        (OutputBitstreamUnit_t *)(*entropyCoderDblPtr)->ecOutputBitstreamPtr,
-        bufferSize);
+        (OutputBitstreamUnit_t *)(*entropy_coder_dbl_ptr)->ecOutputBitstreamPtr,
+        buffer_size);
 
     CabacCtor(
-        (CabacEncodeContext_t *)(*entropyCoderDblPtr)->cabacEncodeContextPtr);
+        (CabacEncodeContext_t *)(*entropy_coder_dbl_ptr)->cabacEncodeContextPtr);
 
 
     return_error = output_bitstream_unit_ctor(
-        &((((CabacEncodeContext_t*)(*entropyCoderDblPtr)->cabacEncodeContextPtr)->bacEncContext).m_pcTComBitIf),
-        bufferSize);
+        &((((CabacEncodeContext_t*)(*entropy_coder_dbl_ptr)->cabacEncodeContextPtr)->bacEncContext).m_pcTComBitIf),
+        buffer_size);
 
     return return_error;
 }
@@ -1536,13 +1536,13 @@ EbErrorType EntropyCoderCtor(
 
 
 
-EbPtr EntropyCoderGetBitstreamPtr(
+EbPtr entropy_coder_get_bitstream_ptr(
     EntropyCoder_t *entropy_coder_ptr)
 {
     CabacEncodeContext_t *cabacEncCtxPtr = (CabacEncodeContext_t*)entropy_coder_ptr->cabacEncodeContextPtr;
-    EbPtr bitstreamPtr = (EbPtr)&(cabacEncCtxPtr->bacEncContext.m_pcTComBitIf);
+    EbPtr bitstream_ptr = (EbPtr)&(cabacEncCtxPtr->bacEncContext.m_pcTComBitIf);
 
-    return bitstreamPtr;
+    return bitstream_ptr;
 }
 
 //*******************************************************************************************//
@@ -1993,7 +1993,7 @@ static void WriteInterCompoundMode(
 
 }
 
-int32_t Av1GetReferenceModeContext(
+int32_t av1_get_reference_mode_context(
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
     NeighborArrayUnit_t    *mode_type_neighbor_array,
@@ -2069,7 +2069,7 @@ int32_t Av1GetReferenceModeContext(
 }
 
 
-int32_t Av1GetCompReferenceTypeContext(
+int32_t av1_get_comp_reference_type_context(
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
     NeighborArrayUnit_t    *mode_type_neighbor_array,
@@ -2175,7 +2175,7 @@ int32_t Av1GetCompReferenceTypeContext(
     return pred_context;
 }
 
-void Av1CollectNeighborsRefCounts(
+void av1_collect_neighbors_ref_counts(
     CodingUnit_t            *cu_ptr,
     uint32_t                   cu_origin_x,
     uint32_t                   cu_origin_y,
@@ -2465,7 +2465,7 @@ static void WriteRefFrames(
 
             if (is_comp_ref_allowed(bsize)) {
                 int32_t context = 0;
-                context = Av1GetReferenceModeContext(
+                context = av1_get_reference_mode_context(
                     cu_origin_x,
                     cu_origin_y,
                     mode_type_neighbor_array,
@@ -2489,7 +2489,7 @@ static void WriteRefFrames(
             av1_set_ref_frame(refType, cu_ptr->prediction_unit_array[0].ref_frame_type);
 
 
-            context = Av1GetCompReferenceTypeContext(
+            context = av1_get_comp_reference_type_context(
                 cu_origin_x,
                 cu_origin_y,
                 mode_type_neighbor_array,
@@ -3856,7 +3856,7 @@ static void WriteUncompressedHeaderObu(SequenceControlSet_t *scsPtr/*AV1_COMP *c
     PictureParentControlSet_t *pcsPtr,
     //struct aom_write_bit_buffer *saved_wb,
     struct aom_write_bit_buffer *wb,
-    uint8_t showExisting) {
+    uint8_t show_existing) {
     // Av1Common *const cm = &cpi->common;
     // MacroBlockD *const xd = &cpi->td.mb.e_mbd;
 
@@ -3865,7 +3865,7 @@ static void WriteUncompressedHeaderObu(SequenceControlSet_t *scsPtr/*AV1_COMP *c
 
     if (!scsPtr->reduced_still_picture_hdr) {
 
-        if (showExisting) {
+        if (show_existing) {
             //printf("ERROR[AN]: show_existing_frame not supported yet\n");
             //RefCntBuffer *const frame_bufs = cm->buffer_pool->frame_bufs;
             //const int32_t frame_to_show = cm->ref_frame_map[cpi->showExistingLoc];
@@ -4474,7 +4474,7 @@ static uint32_t WriteFrameHeaderObu(
     SequenceControlSet_t      *scsPtr,
     PictureParentControlSet_t *pcsPtr,
     uint8_t                   *const dst,
-    uint8_t showExisting,
+    uint8_t show_existing,
     int32_t appendTrailingBits
 
 )
@@ -4482,12 +4482,12 @@ static uint32_t WriteFrameHeaderObu(
     struct aom_write_bit_buffer wb = { dst, 0 };
     uint32_t totalSize = 0;
 
-    WriteUncompressedHeaderObu(scsPtr, pcsPtr,/* saved_wb,*/ &wb, showExisting);
+    WriteUncompressedHeaderObu(scsPtr, pcsPtr,/* saved_wb,*/ &wb, show_existing);
 
     if (appendTrailingBits)
         add_trailing_bits(&wb);
 
-    if (showExisting) {
+    if (show_existing) {
         totalSize = aom_wb_bytes_written(&wb);
         return totalSize;
     }
@@ -4500,14 +4500,14 @@ static uint32_t WriteFrameHeaderObu(
 /**************************************************
 * EncodeFrameHeaderHeader
 **************************************************/
-EbErrorType WriteFrameHeaderAv1(
-    Bitstream_t *bitstreamPtr,
+EbErrorType write_frame_header_av1(
+    Bitstream_t *bitstream_ptr,
     SequenceControlSet_t *scsPtr,
     PictureControlSet_t *pcsPtr,
-    uint8_t showExisting)
+    uint8_t show_existing)
 {
     EbErrorType                 return_error = EB_ErrorNone;
-    OutputBitstreamUnit_t       *outputBitstreamPtr = (OutputBitstreamUnit_t*)bitstreamPtr->outputBitstreamPtr;
+    OutputBitstreamUnit_t       *outputBitstreamPtr = (OutputBitstreamUnit_t*)bitstream_ptr->outputBitstreamPtr;
     PictureParentControlSet_t   *parent_pcs_ptr = pcsPtr->parent_pcs_ptr;
     uint8_t                     *data = outputBitstreamPtr->bufferAv1;
     uint32_t obuHeaderSize = 0;
@@ -4518,13 +4518,13 @@ EbErrorType WriteFrameHeaderAv1(
 
     // A new tile group begins at this tile.  Write the obu header and
     // tile group header
-    const obuType obuType = showExisting ? OBU_FRAME_HEADER : OBU_FRAME;
+    const obuType obuType = show_existing ? OBU_FRAME_HEADER : OBU_FRAME;
     currDataSize =
         WriteObuHeader(obuType, obuExtensionHeader, data);
     obuHeaderSize = currDataSize;
 
     currDataSize +=
-        WriteFrameHeaderObu(scsPtr, parent_pcs_ptr, /*saved_wb,*/ data + currDataSize, showExisting, showExisting);
+        WriteFrameHeaderObu(scsPtr, parent_pcs_ptr, /*saved_wb,*/ data + currDataSize, show_existing, show_existing);
 
 #if TILES   
     const int n_log2_tiles = parent_pcs_ptr->av1_cm->log2_tile_rows + parent_pcs_ptr->av1_cm->log2_tile_cols;
@@ -4540,7 +4540,7 @@ EbErrorType WriteFrameHeaderAv1(
     //    n_log2_tiles, cm->num_tg > 1);
 #endif
 
-    if (!showExisting) {
+    if (!show_existing) {
         // Add data from EC stream to Picture Stream.
 #if TILES
         int32_t frameSize = parent_pcs_ptr->av1_cm->tile_cols*parent_pcs_ptr->av1_cm->tile_rows==1 ? pcsPtr->entropy_coder_ptr->ecWriter.pos : pcsPtr->entropy_coder_ptr->ec_frame_size;
@@ -4568,14 +4568,14 @@ EbErrorType WriteFrameHeaderAv1(
 }
 
 /**************************************************
-* EncodeSPSAv1
+* encode_sps_av1
 **************************************************/
-EbErrorType EncodeSPSAv1(
-    Bitstream_t *bitstreamPtr,
+EbErrorType encode_sps_av1(
+    Bitstream_t *bitstream_ptr,
     SequenceControlSet_t *scsPtr)
 {
     EbErrorType            return_error = EB_ErrorNone;
-    OutputBitstreamUnit_t  *outputBitstreamPtr = (OutputBitstreamUnit_t*)bitstreamPtr->outputBitstreamPtr;
+    OutputBitstreamUnit_t  *outputBitstreamPtr = (OutputBitstreamUnit_t*)bitstream_ptr->outputBitstreamPtr;
     uint8_t                *data = outputBitstreamPtr->bufferAv1;
     uint32_t                obuHeaderSize = 0;
     uint32_t                obuPayloadSize = 0;
@@ -4598,13 +4598,13 @@ EbErrorType EncodeSPSAv1(
     return return_error;
 }
 /**************************************************
-* EncodeTDAv1
+* encode_td_av1
 **************************************************/
-EbErrorType EncodeTDAv1(
-    Bitstream_t *bitstreamPtr)
+EbErrorType encode_td_av1(
+    Bitstream_t *bitstream_ptr)
 {
     EbErrorType            return_error = EB_ErrorNone;
-    OutputBitstreamUnit_t   *outputBitstreamPtr = (OutputBitstreamUnit_t*)bitstreamPtr->outputBitstreamPtr;
+    OutputBitstreamUnit_t   *outputBitstreamPtr = (OutputBitstreamUnit_t*)bitstream_ptr->outputBitstreamPtr;
     uint8_t                 *data = outputBitstreamPtr->bufferAv1;
 
     // move data and insert OBU_TD preceded by optional 4 byte size
@@ -4863,9 +4863,9 @@ EbErrorType ec_update_neighbors(
     uint32_t                 blkOriginY,
     CodingUnit_t            *cu_ptr,
     block_size                bsize,
-    EbPictureBufferDesc_t   *coeffPtr)
+    EbPictureBufferDesc_t   *coeff_ptr)
 {
-    UNUSED(coeffPtr);
+    UNUSED(coeff_ptr);
     EbErrorType return_error = EB_ErrorNone;
     NeighborArrayUnit_t     *mode_type_neighbor_array = picture_control_set_ptr->mode_type_neighbor_array;
     NeighborArrayUnit_t     *partition_context_neighbor_array = picture_control_set_ptr->partition_context_neighbor_array;
@@ -5023,7 +5023,7 @@ EbErrorType write_modes_b(
     EntropyCoder_t          *entropy_coder_ptr,
     LargestCodingUnit_t     *tb_ptr,
     CodingUnit_t            *cu_ptr,
-    EbPictureBufferDesc_t   *coeffPtr)
+    EbPictureBufferDesc_t   *coeff_ptr)
 {
     UNUSED(tb_ptr);
     EbErrorType return_error = EB_ErrorNone;
@@ -5147,7 +5147,7 @@ EbErrorType write_modes_b(
                     blkOriginY,
                     intra_luma_mode,
                     bsize,
-                    coeffPtr,
+                    coeff_ptr,
                     luma_dc_sign_level_coeff_neighbor_array,
                     cr_dc_sign_level_coeff_neighbor_array,
                     cb_dc_sign_level_coeff_neighbor_array);
@@ -5261,7 +5261,7 @@ EbErrorType write_modes_b(
             }
             else {
 
-                Av1CollectNeighborsRefCounts(
+                av1_collect_neighbors_ref_counts(
                     cu_ptr,
                     blkOriginX,
                     blkOriginY,
@@ -5424,7 +5424,7 @@ EbErrorType write_modes_b(
                         blkOriginY,
                         intra_luma_mode,
                         bsize,
-                        coeffPtr,
+                        coeff_ptr,
                         luma_dc_sign_level_coeff_neighbor_array,
                         cr_dc_sign_level_coeff_neighbor_array,
                         cb_dc_sign_level_coeff_neighbor_array);
@@ -5440,7 +5440,7 @@ EbErrorType write_modes_b(
         blkOriginY,
         cu_ptr,
         bsize,
-        coeffPtr);
+        coeff_ptr);
 
 
 
@@ -5455,7 +5455,7 @@ EB_EXTERN EbErrorType write_sb(
     LargestCodingUnit_t     *tb_ptr,
     PictureControlSet_t     *picture_control_set_ptr,
     EntropyCoder_t          *entropy_coder_ptr,
-    EbPictureBufferDesc_t   *coeffPtr)
+    EbPictureBufferDesc_t   *coeff_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
     FRAME_CONTEXT           *frameContext = entropy_coder_ptr->fc;
@@ -5560,7 +5560,7 @@ EB_EXTERN EbErrorType write_sb(
                     entropy_coder_ptr,
                     tb_ptr,
                     cu_ptr,
-                    coeffPtr);
+                    coeff_ptr);
                 break;
 
             case PARTITION_HORZ:
@@ -5570,7 +5570,7 @@ EB_EXTERN EbErrorType write_sb(
                     entropy_coder_ptr,
                     tb_ptr,
                     cu_ptr,
-                    coeffPtr);
+                    coeff_ptr);
 
                 if (mi_row + hbs < cm->mi_rows) {
                     final_cu_index++;
@@ -5581,7 +5581,7 @@ EB_EXTERN EbErrorType write_sb(
                         entropy_coder_ptr,
                         tb_ptr,
                         cu_ptr,
-                        coeffPtr);
+                        coeff_ptr);
                 }
                 break;
 
@@ -5592,7 +5592,7 @@ EB_EXTERN EbErrorType write_sb(
                     entropy_coder_ptr,
                     tb_ptr,
                     cu_ptr,
-                    coeffPtr);
+                    coeff_ptr);
                 if (mi_col + hbs < cm->mi_cols) {
                     final_cu_index++;
                     cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
@@ -5602,7 +5602,7 @@ EB_EXTERN EbErrorType write_sb(
                         entropy_coder_ptr,
                         tb_ptr,
                         cu_ptr,
-                        coeffPtr);
+                        coeff_ptr);
                 }
                 break;
             case PARTITION_SPLIT:
@@ -5614,7 +5614,7 @@ EB_EXTERN EbErrorType write_sb(
                     entropy_coder_ptr,
                     tb_ptr,
                     cu_ptr,
-                    coeffPtr);
+                    coeff_ptr);
 
                 final_cu_index++;
                 cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
@@ -5624,7 +5624,7 @@ EB_EXTERN EbErrorType write_sb(
                     entropy_coder_ptr,
                     tb_ptr,
                     cu_ptr,
-                    coeffPtr);
+                    coeff_ptr);
 
                 final_cu_index++;
                 cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
@@ -5634,7 +5634,7 @@ EB_EXTERN EbErrorType write_sb(
                     entropy_coder_ptr,
                     tb_ptr,
                     cu_ptr,
-                    coeffPtr);
+                    coeff_ptr);
 
                 break;
             case PARTITION_HORZ_B:
@@ -5644,7 +5644,7 @@ EB_EXTERN EbErrorType write_sb(
                     entropy_coder_ptr,
                     tb_ptr,
                     cu_ptr,
-                    coeffPtr);
+                    coeff_ptr);
 
                 final_cu_index++;
                 cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
@@ -5654,7 +5654,7 @@ EB_EXTERN EbErrorType write_sb(
                     entropy_coder_ptr,
                     tb_ptr,
                     cu_ptr,
-                    coeffPtr);
+                    coeff_ptr);
 
                 final_cu_index++;
                 cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
@@ -5664,7 +5664,7 @@ EB_EXTERN EbErrorType write_sb(
                     entropy_coder_ptr,
                     tb_ptr,
                     cu_ptr,
-                    coeffPtr);
+                    coeff_ptr);
 
                 break;
             case PARTITION_VERT_A:
@@ -5674,7 +5674,7 @@ EB_EXTERN EbErrorType write_sb(
                     entropy_coder_ptr,
                     tb_ptr,
                     cu_ptr,
-                    coeffPtr);
+                    coeff_ptr);
 
                 final_cu_index++;
                 cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
@@ -5684,7 +5684,7 @@ EB_EXTERN EbErrorType write_sb(
                     entropy_coder_ptr,
                     tb_ptr,
                     cu_ptr,
-                    coeffPtr);
+                    coeff_ptr);
 
                 final_cu_index++;
                 cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
@@ -5694,7 +5694,7 @@ EB_EXTERN EbErrorType write_sb(
                     entropy_coder_ptr,
                     tb_ptr,
                     cu_ptr,
-                    coeffPtr);
+                    coeff_ptr);
 
                 break;
             case PARTITION_VERT_B:
@@ -5704,7 +5704,7 @@ EB_EXTERN EbErrorType write_sb(
                     entropy_coder_ptr,
                     tb_ptr,
                     cu_ptr,
-                    coeffPtr);
+                    coeff_ptr);
 
                 final_cu_index++;
                 cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
@@ -5714,7 +5714,7 @@ EB_EXTERN EbErrorType write_sb(
                     entropy_coder_ptr,
                     tb_ptr,
                     cu_ptr,
-                    coeffPtr);
+                    coeff_ptr);
 
                 final_cu_index++;
                 cu_ptr = &tb_ptr->final_cu_arr[final_cu_index];
@@ -5724,7 +5724,7 @@ EB_EXTERN EbErrorType write_sb(
                     entropy_coder_ptr,
                     tb_ptr,
                     cu_ptr,
-                    coeffPtr);
+                    coeff_ptr);
 
                 break;
             case PARTITION_HORZ_4:
@@ -5742,7 +5742,7 @@ EB_EXTERN EbErrorType write_sb(
                         entropy_coder_ptr,
                         tb_ptr,
                         cu_ptr,
-                        coeffPtr);
+                        coeff_ptr);
                 }
                 break;
             case PARTITION_VERT_4:
@@ -5759,7 +5759,7 @@ EB_EXTERN EbErrorType write_sb(
                         entropy_coder_ptr,
                         tb_ptr,
                         cu_ptr,
-                        coeffPtr);
+                        coeff_ptr);
                 }
                 break;
             default: assert(0);

@@ -194,7 +194,7 @@ void LogErrorOutput(
         break;
 
     case EB_ENC_EC_ERROR2:
-        fprintf(errorLogFile, "Error: CopyRbspBitstreamToPayload: output buffer too small!\n");
+        fprintf(errorLogFile, "Error: copy_rbsp_bitstream_to_payload: output buffer too small!\n");
         break;
 
     case EB_ENC_EC_ERROR3:

@@ -57,32 +57,32 @@ extern "C" {
         LargestCodingUnit_t     *tb_ptr,
         PictureControlSet_t     *picture_control_set_ptr,
         EntropyCoder_t          *entropy_coder_ptr,
-        EbPictureBufferDesc_t   *coeffPtr);
+        EbPictureBufferDesc_t   *coeff_ptr);
 
 
-    extern EbErrorType EncodeSliceFinish(
+    extern EbErrorType encode_slice_finish(
         EntropyCoder_t        *entropy_coder_ptr);
 
-    extern EbErrorType ResetBitstream(
-        EbPtr                 bitstreamPtr);
+    extern EbErrorType reset_bitstream(
+        EbPtr                 bitstream_ptr);
 
-    extern EbErrorType ResetEntropyCoder(
+    extern EbErrorType reset_entropy_coder(
         EncodeContext_t       *encode_context_ptr,
         EntropyCoder_t        *entropy_coder_ptr,
         uint32_t                 qp,
         EB_SLICE               slice_type);
 
-    extern EbErrorType Av1TuEstimateCoeffBits(
+    extern EbErrorType av1_tu_estimate_coeff_bits(
         PictureControlSet_t                    *picture_control_set_ptr,
         struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
         CodingUnit_t                           *cu_ptr,
-        uint32_t                                  tuOriginIndex,
+        uint32_t                                  tu_origin_index,
         uint32_t                                  tuChromaOriginIndex,
         EntropyCoder_t                         *entropy_coder_ptr,
         EbPictureBufferDesc_t                  *coeff_buffer_sb,
-        uint32_t                                 yEob,
-        uint32_t                                 cbEob,
-        uint32_t                                 crEob,
+        uint32_t                                 y_eob,
+        uint32_t                                 cb_eob,
+        uint32_t                                 cr_eob,
         uint64_t                                 *y_tu_coeff_bits,
         uint64_t                                 *cb_tu_coeff_bits,
         uint64_t                                 *cr_tu_coeff_bits,
@@ -91,11 +91,11 @@ extern "C" {
         COMPONENT_TYPE                          component_type,
         EbAsm                                  asm_type);
 
-    extern EbErrorType CopyRbspBitstreamToPayload(
-        Bitstream_t *bitstreamPtr,
-        EbByte      outputBuffer,
-        uint32_t      *outputBufferIndex,
-        uint32_t      *outputBufferSize,
+    extern EbErrorType copy_rbsp_bitstream_to_payload(
+        Bitstream_t *bitstream_ptr,
+        EbByte      output_buffer,
+        uint32_t      *output_buffer_index,
+        uint32_t      *output_buffer_size,
         EncodeContext_t         *encode_context_ptr);
 
 
@@ -207,9 +207,9 @@ extern "C" {
             mode == NEW_NEARMV);
     }
 
-    void GetTxbCtx(
+    void get_txb_ctx(
         const int32_t               plane,
-        NeighborArrayUnit_t     *dcSignLevelCoeffNeighborArray,
+        NeighborArrayUnit_t     *dc_sign_level_coeff_neighbor_array,
         uint32_t                  cu_origin_x,
         uint32_t                  cu_origin_y,
         const block_size        plane_bsize,
@@ -217,19 +217,19 @@ extern "C" {
         int16_t *const           txb_skip_ctx,
         int16_t *const           dc_sign_ctx);
 
-    extern int32_t Av1GetReferenceModeContext(
+    extern int32_t av1_get_reference_mode_context(
         uint32_t                  cu_origin_x,
         uint32_t                  cu_origin_y,
         NeighborArrayUnit_t    *mode_type_neighbor_array,
         NeighborArrayUnit_t    *inter_pred_dir_neighbor_array);
 
-    extern int32_t Av1GetCompReferenceTypeContext(
+    extern int32_t av1_get_comp_reference_type_context(
         uint32_t                  cu_origin_x,
         uint32_t                  cu_origin_y,
         NeighborArrayUnit_t    *mode_type_neighbor_array,
         NeighborArrayUnit_t     *inter_pred_dir_neighbor_array);
 
-    extern void Av1CollectNeighborsRefCounts(
+    extern void av1_collect_neighbors_ref_counts(
         CodingUnit_t            *cu_ptr,
         uint32_t                   cu_origin_x,
         uint32_t                   cu_origin_y,
@@ -294,15 +294,17 @@ extern "C" {
     extern int32_t av1_get_pred_context_single_ref_p6(const MacroBlockD *xd);
 
 
-    extern EbErrorType WriteFrameHeaderAv1(
-        Bitstream_t *bitstreamPtr,
+    extern EbErrorType write_frame_header_av1(
+        Bitstream_t *bitstream_ptr,
         SequenceControlSet_t *scsPtr,
         PictureControlSet_t *pcsPtr,
-        uint8_t showExisting);
-    extern EbErrorType EncodeTDAv1(
-        Bitstream_t *bitstreamPtr);
-    extern EbErrorType EncodeSPSAv1(
-        Bitstream_t *bitstreamPtr,
+        uint8_t show_existing);
+
+    extern EbErrorType encode_td_av1(
+        Bitstream_t *bitstream_ptr);
+
+    extern EbErrorType encode_sps_av1(
+        Bitstream_t *bitstream_ptr,
         SequenceControlSet_t *scsPtr);
 
     //*******************************************************************************************//

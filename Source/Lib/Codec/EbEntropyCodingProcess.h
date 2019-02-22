@@ -83,6 +83,6 @@ extern EbErrorType entropy_coding_context_ctor(
     EbFifo_t                *rate_control_output_fifo_ptr,
     EbBool                   is16bit);
 
-extern void* EntropyCodingKernel(void *input_ptr);
+extern void* entropy_coding_kernel(void *input_ptr);
 
 #endif // EbEntropyCodingProcess_h

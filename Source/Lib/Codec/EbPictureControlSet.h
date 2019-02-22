@@ -13684,7 +13684,7 @@ extern "C" {
         EbObjectWrapper_t                    *picture_parent_control_set_wrapper_ptr;
         EntropyCoder_t                       *entropy_coder_ptr;
         // Packetization (used to encode SPS, PPS, etc)
-        Bitstream_t                          *bitstreamPtr;
+        Bitstream_t                          *bitstream_ptr;
 
         // Reference Lists
         EbObjectWrapper_t                    *ref_pic_ptr_array[MAX_NUM_OF_REF_PIC_LIST];

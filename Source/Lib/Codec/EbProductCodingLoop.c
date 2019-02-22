@@ -835,7 +835,7 @@ void AV1PerformInverseTransformReconLuma(
     uint32_t                              tu_height;
     uint32_t                              txb_origin_x;
     uint32_t                              txb_origin_y;
-    uint32_t                              tuOriginIndex;
+    uint32_t                              tu_origin_index;
     uint32_t                              tuTotalCount;
 
     uint32_t                              txb_itr;
@@ -852,13 +852,13 @@ void AV1PerformInverseTransformReconLuma(
             tu_width = context_ptr->blk_geom->tx_width[txb_itr];
             tu_height = context_ptr->blk_geom->tx_height[txb_itr];
 
-            tuOriginIndex = txb_origin_x + txb_origin_y * candidate_buffer->prediction_ptr->stride_y;
+            tu_origin_index = txb_origin_x + txb_origin_y * candidate_buffer->prediction_ptr->stride_y;
 
             uint32_t y_has_coeff = (candidate_buffer->candidate_ptr->y_has_coeff & (1 << txb_itr)) > 0;
 
             if (y_has_coeff) {
                 (void)context_ptr;
-                uint8_t     *predBuffer = &(candidate_buffer->prediction_ptr->buffer_y[tuOriginIndex]);
+                uint8_t     *predBuffer = &(candidate_buffer->prediction_ptr->buffer_y[tu_origin_index]);
                 uint8_t     *recBuffer = &(candidate_buffer->recon_ptr->buffer_y[recLumaOffset]);
 
                 uint32_t j;
@@ -881,7 +881,7 @@ void AV1PerformInverseTransformReconLuma(
 
                 picture_copy8_bit(
                     candidate_buffer->prediction_ptr,
-                    tuOriginIndex,
+                    tu_origin_index,
                     0,//tuChromaOriginIndex,
                     candidate_buffer->recon_ptr,
                     recLumaOffset,
@@ -912,7 +912,7 @@ void AV1PerformInverseTransformRecon(
     uint32_t                           tu_height;
     uint32_t                           txb_origin_x;
     uint32_t                           txb_origin_y;
-    uint32_t                           tuOriginIndex;
+    uint32_t                           tu_origin_index;
     uint32_t                           tuTotalCount;
     uint32_t                           tu_index;
     uint32_t                           txb_itr;
@@ -936,9 +936,9 @@ void AV1PerformInverseTransformRecon(
             recLumaOffset = context_ptr->blk_geom->tx_org_x[txb_itr] + context_ptr->blk_geom->tx_org_y[txb_itr] * candidate_buffer->recon_ptr->stride_y;
             recCbOffset = ((((context_ptr->blk_geom->tx_org_x[txb_itr] >> 3) << 3) + ((context_ptr->blk_geom->tx_org_y[txb_itr] >> 3) << 3) * candidate_buffer->recon_ptr->strideCb) >> 1);
             recCrOffset = ((((context_ptr->blk_geom->tx_org_x[txb_itr] >> 3) << 3) + ((context_ptr->blk_geom->tx_org_y[txb_itr] >> 3) << 3) * candidate_buffer->recon_ptr->strideCr) >> 1);
-            tuOriginIndex = txb_origin_x + txb_origin_y * candidate_buffer->prediction_ptr->stride_y;
+            tu_origin_index = txb_origin_x + txb_origin_y * candidate_buffer->prediction_ptr->stride_y;
             if (txb_ptr->y_has_coeff) {
-                uint8_t     *predBuffer = &(candidate_buffer->prediction_ptr->buffer_y[tuOriginIndex]);
+                uint8_t     *predBuffer = &(candidate_buffer->prediction_ptr->buffer_y[tu_origin_index]);
                 uint8_t     *recBuffer = &(candidate_buffer->recon_ptr->buffer_y[recLumaOffset]);
                 uint32_t     j;
 
@@ -957,7 +957,7 @@ void AV1PerformInverseTransformRecon(
             else {
                 picture_copy8_bit(
                     candidate_buffer->prediction_ptr,
-                    tuOriginIndex,
+                    tu_origin_index,
                     0,//tuChromaOriginIndex,
                     candidate_buffer->recon_ptr,
                     recLumaOffset,
@@ -3115,11 +3115,11 @@ void md_encode_block(
         //copy recon
         {
 
-            uint32_t  tuOriginIndex = context_ptr->blk_geom->origin_x + (context_ptr->blk_geom->origin_y * 128);
+            uint32_t  tu_origin_index = context_ptr->blk_geom->origin_x + (context_ptr->blk_geom->origin_y * 128);
             uint32_t  bwidth = context_ptr->blk_geom->bwidth;
             uint32_t  bheight = context_ptr->blk_geom->bheight;
 
-            uint8_t* src_ptr = &(((uint8_t*)candidate_buffer->recon_ptr->buffer_y)[tuOriginIndex]);
+            uint8_t* src_ptr = &(((uint8_t*)candidate_buffer->recon_ptr->buffer_y)[tu_origin_index]);
             uint8_t* dst_ptr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->buffer_y)[0]);
 
             uint32_t j;
@@ -3132,12 +3132,12 @@ void md_encode_block(
             if (context_ptr->blk_geom->has_uv)
             {
 
-                uint32_t tuOriginIndex = ((((context_ptr->blk_geom->origin_x >> 3) << 3) + ((context_ptr->blk_geom->origin_y >> 3) << 3) * candidate_buffer->recon_ptr->strideCb) >> 1);
+                uint32_t tu_origin_index = ((((context_ptr->blk_geom->origin_x >> 3) << 3) + ((context_ptr->blk_geom->origin_y >> 3) << 3) * candidate_buffer->recon_ptr->strideCb) >> 1);
 
                 bwidth = context_ptr->blk_geom->bwidth_uv;
                 bheight = context_ptr->blk_geom->bheight_uv;
 
-                src_ptr = &(((uint8_t*)candidate_buffer->recon_ptr->bufferCb)[tuOriginIndex]);
+                src_ptr = &(((uint8_t*)candidate_buffer->recon_ptr->bufferCb)[tu_origin_index]);
                 dst_ptr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->bufferCb)[0]);
 
                 for (j = 0; j < bheight; j++)
@@ -3147,7 +3147,7 @@ void md_encode_block(
 
                 // Cr
 
-                src_ptr = &(((uint8_t*)candidate_buffer->recon_ptr->bufferCr)[tuOriginIndex]);
+                src_ptr = &(((uint8_t*)candidate_buffer->recon_ptr->bufferCr)[tu_origin_index]);
                 dst_ptr = &(((uint8_t*)context_ptr->cu_ptr->recon_tmp->bufferCr)[0]);
 
                 for (j = 0; j < bheight; j++)

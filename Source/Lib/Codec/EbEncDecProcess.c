@@ -374,7 +374,7 @@ static void ResetEncDec(
     if (segment_index == 0) {
 
         // Reset CABAC Contexts
-        ResetEntropyCoder(
+        reset_entropy_coder(
             sequence_control_set_ptr->encode_context_ptr,
             picture_control_set_ptr->coeff_est_entropy_coder_ptr,
             entropyCodingQp,
@@ -552,10 +552,10 @@ EbBool AssignEncDecSegments(
 
         // Update the Dependency List for Right and Bottom Neighbors
         segment_index = *segmentInOutIndex;
-        rowSegmentIndex = segment_index / segmentPtr->segmentBandCount;
+        rowSegmentIndex = segment_index / segmentPtr->segment_band_count;
 
         rightSegmentIndex = segment_index + 1;
-        bottomLeftSegmentIndex = segment_index + segmentPtr->segmentBandCount;
+        bottomLeftSegmentIndex = segment_index + segmentPtr->segment_band_count;
 
         // Right Neighbor
         if (segment_index < segmentPtr->rowArray[rowSegmentIndex].endingSegIndex)
@@ -579,7 +579,7 @@ EbBool AssignEncDecSegments(
         }
 
         // Bottom-left Neighbor
-        if (rowSegmentIndex < segmentPtr->segmentRowCount - 1 && bottomLeftSegmentIndex >= segmentPtr->rowArray[rowSegmentIndex + 1].startingSegIndex)
+        if (rowSegmentIndex < segmentPtr->segment_row_count - 1 && bottomLeftSegmentIndex >= segmentPtr->rowArray[rowSegmentIndex + 1].startingSegIndex)
         {
             eb_block_on_mutex(segmentPtr->rowArray[rowSegmentIndex + 1].assignmentMutex);
 
@@ -1404,8 +1404,8 @@ void* EncDecKernel(void *input_ptr)
     uint16_t                                 sb_index;
     uint8_t                                  sb_sz;
     uint8_t                                  lcuSizeLog2;
-    uint32_t                                 xLcuIndex;
-    uint32_t                                 yLcuIndex;
+    uint32_t                                 x_lcu_index;
+    uint32_t                                 y_lcu_index;
     uint32_t                                 sb_origin_x;
     uint32_t                                 sb_origin_y;
     EbBool                                   lastLcuFlag;
@@ -1429,7 +1429,7 @@ void* EncDecKernel(void *input_ptr)
     uint32_t                                 segmentRowIndex;
     uint32_t                                 segmentBandIndex;
     uint32_t                                 segmentBandSize;
-    EncDecSegments_t                        *segmentsPtr;
+    EncDecSegments_t                        *segments_ptr;
 #if ! FILT_PROC
     EbBool                                   enableEcRows = EB_FALSE;//for CDEF.
 #endif
@@ -1443,7 +1443,7 @@ void* EncDecKernel(void *input_ptr)
         encDecTasksPtr = (EncDecTasks_t*)encDecTasksWrapperPtr->object_ptr;
         picture_control_set_ptr = (PictureControlSet_t*)encDecTasksPtr->pictureControlSetWrapperPtr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
-        segmentsPtr = picture_control_set_ptr->enc_dec_segment_ctrl;
+        segments_ptr = picture_control_set_ptr->enc_dec_segment_ctrl;
         lastLcuFlag = EB_FALSE;
         is16bit = (EbBool)(sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
 #if FILT_PROC
@@ -1469,16 +1469,16 @@ void* EncDecKernel(void *input_ptr)
         context_ptr->tot_intra_coded_area = 0;
 
         // Segment-loop
-        while (AssignEncDecSegments(segmentsPtr, &segment_index, encDecTasksPtr, context_ptr->enc_dec_feedback_fifo_ptr) == EB_TRUE)
+        while (AssignEncDecSegments(segments_ptr, &segment_index, encDecTasksPtr, context_ptr->enc_dec_feedback_fifo_ptr) == EB_TRUE)
         {
-            xLcuStartIndex = segmentsPtr->xStartArray[segment_index];
-            yLcuStartIndex = segmentsPtr->yStartArray[segment_index];
+            xLcuStartIndex = segments_ptr->xStartArray[segment_index];
+            yLcuStartIndex = segments_ptr->yStartArray[segment_index];
             lcuStartIndex = yLcuStartIndex * picture_width_in_sb + xLcuStartIndex;
-            lcuSegmentCount = segmentsPtr->validLcuCountArray[segment_index];
+            lcuSegmentCount = segments_ptr->validLcuCountArray[segment_index];
 
-            segmentRowIndex = segment_index / segmentsPtr->segmentBandCount;
-            segmentBandIndex = segment_index - segmentRowIndex * segmentsPtr->segmentBandCount;
-            segmentBandSize = (segmentsPtr->lcuBandCount * (segmentBandIndex + 1) + segmentsPtr->segmentBandCount - 1) / segmentsPtr->segmentBandCount;
+            segmentRowIndex = segment_index / segments_ptr->segment_band_count;
+            segmentBandIndex = segment_index - segmentRowIndex * segments_ptr->segment_band_count;
+            segmentBandSize = (segments_ptr->lcuBandCount * (segmentBandIndex + 1) + segments_ptr->segment_band_count - 1) / segments_ptr->segment_band_count;
 
             // Reset Coding Loop State
             reset_mode_decision( // HT done
@@ -1499,17 +1499,17 @@ void* EncDecKernel(void *input_ptr)
                     picture_control_set_ptr,
                     context_ptr);
             }
-            for (yLcuIndex = yLcuStartIndex, lcuSegmentIndex = lcuStartIndex; lcuSegmentIndex < lcuStartIndex + lcuSegmentCount; ++yLcuIndex) {
-                for (xLcuIndex = xLcuStartIndex; xLcuIndex < picture_width_in_sb && (xLcuIndex + yLcuIndex < segmentBandSize) && lcuSegmentIndex < lcuStartIndex + lcuSegmentCount; ++xLcuIndex, ++lcuSegmentIndex) {
+            for (y_lcu_index = yLcuStartIndex, lcuSegmentIndex = lcuStartIndex; lcuSegmentIndex < lcuStartIndex + lcuSegmentCount; ++y_lcu_index) {
+                for (x_lcu_index = xLcuStartIndex; x_lcu_index < picture_width_in_sb && (x_lcu_index + y_lcu_index < segmentBandSize) && lcuSegmentIndex < lcuStartIndex + lcuSegmentCount; ++x_lcu_index, ++lcuSegmentIndex) {
 
-                    sb_index = (uint16_t)(yLcuIndex * picture_width_in_sb + xLcuIndex);
+                    sb_index = (uint16_t)(y_lcu_index * picture_width_in_sb + x_lcu_index);
                     sb_ptr = picture_control_set_ptr->sb_ptr_array[sb_index];
-                    sb_origin_x = xLcuIndex << lcuSizeLog2;
-                    sb_origin_y = yLcuIndex << lcuSizeLog2;
+                    sb_origin_x = x_lcu_index << lcuSizeLog2;
+                    sb_origin_y = y_lcu_index << lcuSizeLog2;
                     lastLcuFlag = (sb_index == sequence_control_set_ptr->sb_tot_cnt - 1) ? EB_TRUE : EB_FALSE;
-                    endOfRowFlag = (xLcuIndex == picture_width_in_sb - 1) ? EB_TRUE : EB_FALSE;
-                    lcuRowIndexStart = (xLcuIndex == picture_width_in_sb - 1 && lcuRowIndexCount == 0) ? yLcuIndex : lcuRowIndexStart;
-                    lcuRowIndexCount = (xLcuIndex == picture_width_in_sb - 1) ? lcuRowIndexCount + 1 : lcuRowIndexCount;
+                    endOfRowFlag = (x_lcu_index == picture_width_in_sb - 1) ? EB_TRUE : EB_FALSE;
+                    lcuRowIndexStart = (x_lcu_index == picture_width_in_sb - 1 && lcuRowIndexCount == 0) ? y_lcu_index : lcuRowIndexStart;
+                    lcuRowIndexCount = (x_lcu_index == picture_width_in_sb - 1) ? lcuRowIndexCount + 1 : lcuRowIndexCount;
                     mdcPtr = &picture_control_set_ptr->mdc_sb_array[sb_index];
                     context_ptr->sb_index = sb_index;
                     context_ptr->md_context->cu_use_ref_src_flag = (picture_control_set_ptr->parent_pcs_ptr->use_src_ref) && (picture_control_set_ptr->parent_pcs_ptr->edge_results_ptr[sb_index].edge_block_num == EB_FALSE || picture_control_set_ptr->parent_pcs_ptr->sb_flat_noise_array[sb_index]) ? EB_TRUE : EB_FALSE;

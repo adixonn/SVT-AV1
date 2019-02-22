@@ -9,7 +9,7 @@
 #include "EbEntropyCodingResults.h"
 
 
-EbErrorType EntropyCodingResultsCtor(
+EbErrorType entropy_coding_results_ctor(
     EbPtr *object_dbl_ptr,
     EbPtr object_init_data_ptr)
 {

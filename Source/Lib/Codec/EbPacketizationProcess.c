@@ -128,47 +128,47 @@ void* PacketizationKernel(void *input_ptr)
 
         // slice_type = picture_control_set_ptr->slice_type;
          // Reset the bitstream before writing to it
-        ResetBitstream(
-            picture_control_set_ptr->bitstreamPtr->outputBitstreamPtr);
+        reset_bitstream(
+            picture_control_set_ptr->bitstream_ptr->outputBitstreamPtr);
 
 
         if (picture_control_set_ptr->parent_pcs_ptr->showFrame && picture_control_set_ptr->parent_pcs_ptr->temporal_layer_index == 0) {
-            EncodeTDAv1(
-                picture_control_set_ptr->bitstreamPtr);
+            encode_td_av1(
+                picture_control_set_ptr->bitstream_ptr);
         }
         // Code the SPS
         if (picture_control_set_ptr->parent_pcs_ptr->av1FrameType == KEY_FRAME) {
-            EncodeSPSAv1(
-                picture_control_set_ptr->bitstreamPtr,
+            encode_sps_av1(
+                picture_control_set_ptr->bitstream_ptr,
                 sequence_control_set_ptr);
         }
 
-        WriteFrameHeaderAv1(
-            picture_control_set_ptr->bitstreamPtr,
+        write_frame_header_av1(
+            picture_control_set_ptr->bitstream_ptr,
             sequence_control_set_ptr,
             picture_control_set_ptr,
             0);
 
         // Copy Slice Header to the Output Bitstream
-        CopyRbspBitstreamToPayload(
-            picture_control_set_ptr->bitstreamPtr,
+        copy_rbsp_bitstream_to_payload(
+            picture_control_set_ptr->bitstream_ptr,
             output_stream_ptr->p_buffer,
             (uint32_t*) &(output_stream_ptr->n_filled_len),
             (uint32_t*) &(output_stream_ptr->n_alloc_len),
             encode_context_ptr);
         if (picture_control_set_ptr->parent_pcs_ptr->hasShowExisting) {
             // Reset the bitstream before writing to it
-            ResetBitstream(
-                picture_control_set_ptr->bitstreamPtr->outputBitstreamPtr);
-            WriteFrameHeaderAv1(
-                picture_control_set_ptr->bitstreamPtr,
+            reset_bitstream(
+                picture_control_set_ptr->bitstream_ptr->outputBitstreamPtr);
+            write_frame_header_av1(
+                picture_control_set_ptr->bitstream_ptr,
                 sequence_control_set_ptr,
                 picture_control_set_ptr,
                 1);
 
             // Copy Slice Header to the Output Bitstream
-            CopyRbspBitstreamToPayload(
-                picture_control_set_ptr->bitstreamPtr,
+            copy_rbsp_bitstream_to_payload(
+                picture_control_set_ptr->bitstream_ptr,
                 output_stream_ptr->p_buffer,
                 (uint32_t*)&(output_stream_ptr->n_filled_len),
                 (uint32_t*)&(output_stream_ptr->n_alloc_len),

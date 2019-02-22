@@ -1431,15 +1431,15 @@ void DetectComplexNonFlatMovingLcu(
 EbAuraStatus AuraDetection64x64Gold(
     PictureControlSet_t           *picture_control_set_ptr,
     uint8_t                          picture_qp,
-    uint32_t                         xLcuIndex,
-    uint32_t                         yLcuIndex
+    uint32_t                         x_lcu_index,
+    uint32_t                         y_lcu_index
 )
 {
 
     SequenceControlSet_t  *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     int32_t                 picture_width_in_sb = (sequence_control_set_ptr->luma_width + BLOCK_SIZE_64 - 1) >> LOG2_64_SIZE;
     int32_t                 picture_height_in_sb = (sequence_control_set_ptr->luma_height + BLOCK_SIZE_64 - 1) >> LOG2_64_SIZE;
-    uint32_t                 sb_index = yLcuIndex * picture_width_in_sb + xLcuIndex;
+    uint32_t                 sb_index = y_lcu_index * picture_width_in_sb + x_lcu_index;
     uint32_t                 currDist;
     uint32_t                 topDist, topLDist, topRDist;
     uint32_t                 localAvgDist, distThresh0, distThresh1;
@@ -1466,7 +1466,7 @@ EbAuraStatus AuraDetection64x64Gold(
         distThresh1 = distThresh1 << 2;
     }
 
-    if (xLcuIndex > 0 && xLcuIndex < (uint32_t)(picture_width_in_sb - 1) && yLcuIndex>0 && yLcuIndex < (uint32_t)(picture_height_in_sb - 1)) {
+    if (x_lcu_index > 0 && x_lcu_index < (uint32_t)(picture_width_in_sb - 1) && y_lcu_index>0 && y_lcu_index < (uint32_t)(picture_height_in_sb - 1)) {
 
         uint32_t k;
 
@@ -1520,7 +1520,7 @@ EbAuraStatus AuraDetection64x64Gold(
             topRDist = picture_control_set_ptr->parent_pcs_ptr->me_results[sb_index + lcuOffset]->distortionDirection[0].distortion;
 
 
-            topRDist = (xLcuIndex < (uint32_t)(picture_width_in_sb - 2)) ? topRDist : currDist;
+            topRDist = (x_lcu_index < (uint32_t)(picture_width_in_sb - 2)) ? topRDist : currDist;
 
             //left Distortion
             lcuOffset = -1;
@@ -1534,7 +1534,7 @@ EbAuraStatus AuraDetection64x64Gold(
 
 
 
-            rightDist = (xLcuIndex < (uint32_t)(picture_width_in_sb - 2)) ? topRDist : currDist;
+            rightDist = (x_lcu_index < (uint32_t)(picture_width_in_sb - 2)) ? topRDist : currDist;
 
             localAvgDist = MIN(MIN(MIN(topLDist, MIN(topRDist, topDist)), leftDist), rightDist);
 

@@ -23,14 +23,14 @@ extern "C" {
      /**************************************
       * Macros
       **************************************/
-#define BAND_TOTAL_COUNT(lcuRowTotalCount, lcuColTotalCount) \
-    ((lcuRowTotalCount) + (lcuColTotalCount) - 1)
-#define ROW_INDEX(yLcuIndex, segmentRowCount, lcuRowTotalCount) \
-    (((yLcuIndex) * (segmentRowCount)) / (lcuRowTotalCount))
-#define BAND_INDEX(xLcuIndex, yLcuIndex, segmentBandCount, lcuBandTotalCount) \
-    ((((xLcuIndex) + (yLcuIndex)) * (segmentBandCount)) / (lcuBandTotalCount))
-#define SEGMENT_INDEX(row_index, bandIndex, segmentBandCount) \
-    (((row_index) * (segmentBandCount)) + (bandIndex))
+#define BAND_TOTAL_COUNT(lcu_row_total_count, lcu_col_total_count) \
+    ((lcu_row_total_count) + (lcu_col_total_count) - 1)
+#define ROW_INDEX(y_lcu_index, segment_row_count, lcu_row_total_count) \
+    (((y_lcu_index) * (segment_row_count)) / (lcu_row_total_count))
+#define BAND_INDEX(x_lcu_index, y_lcu_index, segment_band_count, lcu_band_total_count) \
+    ((((x_lcu_index) + (y_lcu_index)) * (segment_band_count)) / (lcu_band_total_count))
+#define SEGMENT_INDEX(row_index, bandIndex, segment_band_count) \
+    (((row_index) * (segment_band_count)) + (bandIndex))
 
       /**************************************
        * Member definitions
@@ -59,8 +59,8 @@ extern "C" {
         uint16_t                   *yStartArray;
         uint16_t                   *validLcuCountArray;
 
-        uint32_t                    segmentBandCount;
-        uint32_t                    segmentRowCount;
+        uint32_t                    segment_band_count;
+        uint32_t                    segment_row_count;
         uint32_t                    segmentTotalCount;
         uint32_t                    lcuBandCount;
         uint32_t                    lcuRowCount;
@@ -74,18 +74,18 @@ extern "C" {
     /**************************************
      * Extern Function Declarations
      **************************************/
-    extern EbErrorType EncDecSegmentsCtor(
-        EncDecSegments_t **segmentsDblPtr,
-        uint32_t             segmentColCount,
-        uint32_t             segmentRowCount);
+    extern EbErrorType enc_dec_segments_ctor(
+        EncDecSegments_t **segments_dbl_ptr,
+        uint32_t             segment_col_count,
+        uint32_t             segment_row_count);
 
 
-    extern void EncDecSegmentsInit(
-        EncDecSegments_t *segmentsPtr,
-        uint32_t            colCount,
+    extern void enc_dec_segments_init(
+        EncDecSegments_t *segments_ptr,
+        uint32_t            col_count,
         uint32_t            row_count,
-        uint32_t            picWidthLcu,
-        uint32_t            picHeightLcu);
+        uint32_t            pic_width_lcu,
+        uint32_t            pic_height_lcu);
 #ifdef __cplusplus
 }
 #endif

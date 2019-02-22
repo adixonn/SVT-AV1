@@ -1331,8 +1331,8 @@ void DeriveSimilarCollocatedFlag(
 EbAuraStatus AuraDetection64x64Gold(
     PictureControlSet_t           *picture_control_set_ptr,
     uint8_t                          picture_qp,
-    uint32_t                         xLcuIndex,
-    uint32_t                         yLcuIndex
+    uint32_t                         x_lcu_index,
+    uint32_t                         y_lcu_index
 );
 
 void QpmGatherStatisticsSW(

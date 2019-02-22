@@ -26,18 +26,15 @@ extern "C" {
 #endif
     } EntropyCoder_t;
 
-    extern EbErrorType BitstreamCtor(
-        Bitstream_t **bitstreamDblPtr,
-        uint32_t bufferSize);
+    extern EbErrorType bitstream_ctor(
+        Bitstream_t **bitstream_dbl_ptr,
+        uint32_t buffer_size);
 
+    extern EbErrorType entropy_coder_ctor(
+        EntropyCoder_t **entropy_coder_dbl_ptr,
+        uint32_t buffer_size);
 
-    extern EbErrorType EntropyCoderCtor(
-        EntropyCoder_t **entropyCoderDblPtr,
-        uint32_t bufferSize);
-
-
-
-    extern EbPtr EntropyCoderGetBitstreamPtr(
+    extern EbPtr entropy_coder_get_bitstream_ptr(
         EntropyCoder_t *entropy_coder_ptr);
 #ifdef __cplusplus
 }

@@ -42,15 +42,15 @@ static void ConfigurePictureEdges(
     // Tiles Initialisation
     const uint16_t picture_width_in_sb = (scsPtr->luma_width + scsPtr->sb_size_pix - 1) / scsPtr->sb_size_pix;
     const uint16_t picture_height_in_sb = (scsPtr->luma_height + scsPtr->sb_size_pix - 1) / scsPtr->sb_size_pix;
-    unsigned xLcuIndex, yLcuIndex, sb_index;
+    unsigned x_lcu_index, y_lcu_index, sb_index;
 
     // LCU-loops
-    for (yLcuIndex = 0; yLcuIndex < picture_height_in_sb; ++yLcuIndex) {
-        for (xLcuIndex = 0; xLcuIndex < picture_width_in_sb; ++xLcuIndex) {
-            sb_index = (uint16_t)(xLcuIndex + yLcuIndex * picture_width_in_sb);
-            ppsPtr->sb_ptr_array[sb_index]->picture_left_edge_flag = (xLcuIndex == 0) ? EB_TRUE : EB_FALSE;
-            ppsPtr->sb_ptr_array[sb_index]->picture_top_edge_flag = (yLcuIndex == 0) ? EB_TRUE : EB_FALSE;
-            ppsPtr->sb_ptr_array[sb_index]->picture_right_edge_flag = (xLcuIndex == (unsigned)(picture_width_in_sb - 1)) ? EB_TRUE : EB_FALSE;
+    for (y_lcu_index = 0; y_lcu_index < picture_height_in_sb; ++y_lcu_index) {
+        for (x_lcu_index = 0; x_lcu_index < picture_width_in_sb; ++x_lcu_index) {
+            sb_index = (uint16_t)(x_lcu_index + y_lcu_index * picture_width_in_sb);
+            ppsPtr->sb_ptr_array[sb_index]->picture_left_edge_flag = (x_lcu_index == 0) ? EB_TRUE : EB_FALSE;
+            ppsPtr->sb_ptr_array[sb_index]->picture_top_edge_flag = (y_lcu_index == 0) ? EB_TRUE : EB_FALSE;
+            ppsPtr->sb_ptr_array[sb_index]->picture_right_edge_flag = (x_lcu_index == (unsigned)(picture_width_in_sb - 1)) ? EB_TRUE : EB_FALSE;
         }
     }
 
@@ -662,7 +662,7 @@ void* picture_manager_kernel(void *input_ptr)
                         picture_height_in_sb = (uint8_t)((entrySequenceControlSetPtr->luma_height + entrySequenceControlSetPtr->sb_size_pix - 1) / entrySequenceControlSetPtr->sb_size_pix);
 
                         // EncDec Segments
-                        EncDecSegmentsInit(
+                        enc_dec_segments_init(
                             ChildPictureControlSetPtr->enc_dec_segment_ctrl,
                             entrySequenceControlSetPtr->enc_dec_segment_col_count_array[entryPictureControlSetPtr->temporal_layer_index],
                             entrySequenceControlSetPtr->enc_dec_segment_row_count_array[entryPictureControlSetPtr->temporal_layer_index],

@@ -3919,7 +3919,7 @@ EB_EXTERN void AV1EncodePass(
 
                                     const uint32_t coeff1dOffset = context_ptr->coded_area_sb;
 
-                                    Av1TuEstimateCoeffBits(
+                                    av1_tu_estimate_coeff_bits(
                                         picture_control_set_ptr,
                                         candidate_buffer,
                                         cu_ptr,

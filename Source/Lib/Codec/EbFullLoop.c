@@ -954,7 +954,7 @@ void product_full_loop(
     uint64_t                         *y_coeff_bits,
     uint64_t                         *y_full_distortion)
 {
-    uint32_t                       tuOriginIndex;
+    uint32_t                       tu_origin_index;
     uint64_t                      y_full_cost;
     SequenceControlSet_t        *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     EbAsm                         asm_type = sequence_control_set_ptr->encode_context_ptr->asm_type;
@@ -971,12 +971,12 @@ void product_full_loop(
     {
         uint16_t tx_org_x = context_ptr->blk_geom->tx_org_x[txb_itr];
         uint16_t tx_org_y = context_ptr->blk_geom->tx_org_y[txb_itr];
-        tuOriginIndex = tx_org_x + (tx_org_y * candidate_buffer->residual_ptr->stride_y);
+        tu_origin_index = tx_org_x + (tx_org_y * candidate_buffer->residual_ptr->stride_y);
         y_tu_coeff_bits = 0;
 
         // Y: T Q iQ
         av1_estimate_transform(
-            &(((int16_t*)candidate_buffer->residual_ptr->buffer_y)[tuOriginIndex]),
+            &(((int16_t*)candidate_buffer->residual_ptr->buffer_y)[tu_origin_index]),
             candidate_buffer->residual_ptr->stride_y,
             &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->buffer_y)[txb_1d_offset]),
             NOT_USED_VALUE,
@@ -1048,7 +1048,7 @@ void product_full_loop(
 
 
         //LUMA-ONLY
-        Av1TuEstimateCoeffBits(
+        av1_tu_estimate_coeff_bits(
             picture_control_set_ptr,
             candidate_buffer,
             context_ptr->cu_ptr,
@@ -1142,7 +1142,7 @@ void product_full_loop_tx_search(
     ModeDecisionContext_t          *context_ptr,
     PictureControlSet_t            *picture_control_set_ptr)
 {
-    uint32_t                       tuOriginIndex;
+    uint32_t                       tu_origin_index;
     SequenceControlSet_t          *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     EbAsm                          asm_type = sequence_control_set_ptr->encode_context_ptr->asm_type;
     EbBool                         clean_sparse_coeff_flag = EB_FALSE;
@@ -1208,14 +1208,14 @@ void product_full_loop_tx_search(
 
 
         {
-            tuOriginIndex = context_ptr->blk_geom->origin_x + (context_ptr->blk_geom->origin_y * candidate_buffer->residual_ptr->stride_y);
+            tu_origin_index = context_ptr->blk_geom->origin_x + (context_ptr->blk_geom->origin_y * candidate_buffer->residual_ptr->stride_y);
             y_tu_coeff_bits = 0;
             // Y: T Q iQ
             av1_estimate_transform(
-                &(((int16_t*)candidate_buffer->residual_ptr->buffer_y)[tuOriginIndex]),
+                &(((int16_t*)candidate_buffer->residual_ptr->buffer_y)[tu_origin_index]),
                 candidate_buffer->residual_ptr->stride_y,
 
-                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->buffer_y)[tuOriginIndex]),
+                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->buffer_y)[tu_origin_index]),
                 NOT_USED_VALUE,
                 context_ptr->blk_geom->txsize[txb_itr],
                 &context_ptr->three_quad_energy,
@@ -1228,10 +1228,10 @@ void product_full_loop_tx_search(
 
             av1_quantize_inv_quantize(
                 picture_control_set_ptr,
-                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->buffer_y)[tuOriginIndex]),
+                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->buffer_y)[tu_origin_index]),
                 NOT_USED_VALUE,
-                &(((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_y)[tuOriginIndex]),
-                &(((int32_t*)candidate_buffer->reconCoeffPtr->buffer_y)[tuOriginIndex]),
+                &(((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_y)[tu_origin_index]),
+                &(((int32_t*)candidate_buffer->reconCoeffPtr->buffer_y)[tu_origin_index]),
                 context_ptr->cu_ptr->qp,
                 context_ptr->blk_geom->bwidth,
                 context_ptr->blk_geom->bheight,
@@ -1249,7 +1249,7 @@ void product_full_loop_tx_search(
                 tx_type,
                 clean_sparse_coeff_flag);
 
-            candidate_buffer->candidate_ptr->quantized_dc[0] = (((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_y)[tuOriginIndex]);
+            candidate_buffer->candidate_ptr->quantized_dc[0] = (((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_y)[tu_origin_index]);
 
 
 #if TX_TYPE_FIX
@@ -1264,10 +1264,10 @@ void product_full_loop_tx_search(
             // LUMA DISTORTION
             picture_full_distortion32_bits(
                 context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr,
-                tuOriginIndex,
+                tu_origin_index,
                 0,
                 candidate_buffer->reconCoeffPtr,
-                tuOriginIndex,
+                tu_origin_index,
                 0,
                 context_ptr->blk_geom->bwidth,
                 context_ptr->blk_geom->bheight,
@@ -1292,11 +1292,11 @@ void product_full_loop_tx_search(
             candidate_buffer->candidate_ptr->transform_type[PLANE_TYPE_Y] = tx_type;
 #endif
             //LUMA-ONLY
-            Av1TuEstimateCoeffBits(
+            av1_tu_estimate_coeff_bits(
                 picture_control_set_ptr,
                 candidate_buffer,
                 context_ptr->cu_ptr,
-                tuOriginIndex,
+                tu_origin_index,
                 0,
                 context_ptr->coeff_est_entropy_coder_ptr,
                 candidate_buffer->residualQuantCoeffPtr,
@@ -1515,7 +1515,7 @@ void encode_pass_tx_search(
 
         const uint32_t coeff1dOffset = context_ptr->coded_area_sb;
 
-        Av1TuEstimateCoeffBits(
+        av1_tu_estimate_coeff_bits(
             picture_control_set_ptr,
             candidate_buffer,
             context_ptr->cu_ptr,
@@ -1727,7 +1727,7 @@ void encode_pass_tx_search_hbd(
 
         const uint32_t coeff1dOffset = context_ptr->coded_area_sb;
 
-        Av1TuEstimateCoeffBits(
+        av1_tu_estimate_coeff_bits(
             picture_control_set_ptr,
             candidate_buffer,
             context_ptr->cu_ptr,
@@ -1793,8 +1793,8 @@ void full_loop_r(
     (void)cr_qp;
     (void)input_picture_ptr;
     int16_t                *chromaResidualPtr;
-    uint32_t                 tuOriginIndex;
-    UNUSED(tuOriginIndex);
+    uint32_t                 tu_origin_index;
+    UNUSED(tu_origin_index);
     uint32_t                 tuCbOriginIndex;
     uint32_t                 tuCrOriginIndex;
     uint32_t                 tuCount;
@@ -1822,7 +1822,7 @@ void full_loop_r(
 
 
         // NADER - TU
-        tuOriginIndex = txb_origin_x + txb_origin_y * candidate_buffer->residualQuantCoeffPtr->stride_y;
+        tu_origin_index = txb_origin_x + txb_origin_y * candidate_buffer->residualQuantCoeffPtr->stride_y;
         tuCbOriginIndex = (((txb_origin_x >> 3) << 3) + (((txb_origin_y >> 3) << 3) * candidate_buffer->residualQuantCoeffPtr->strideCb)) >> 1;
         tuCrOriginIndex = (((txb_origin_x >> 3) << 3) + (((txb_origin_y >> 3) << 3) * candidate_buffer->residualQuantCoeffPtr->strideCr)) >> 1;
 
@@ -1958,7 +1958,7 @@ void cu_full_distortion_fast_tu_mode_r(
     uint64_t                          y_tu_coeff_bits;
     uint64_t                          cb_tu_coeff_bits;
     uint64_t                          cr_tu_coeff_bits;
-    uint32_t                          tuOriginIndex;
+    uint32_t                          tu_origin_index;
     uint32_t                          txb_origin_x;
     uint32_t                          txb_origin_y;
     uint32_t                          currentTuIndex;
@@ -1986,7 +1986,7 @@ void cu_full_distortion_fast_tu_mode_r(
 
 
 
-        tuOriginIndex = txb_origin_x + txb_origin_y * candidate_buffer->residualQuantCoeffPtr->stride_y;
+        tu_origin_index = txb_origin_x + txb_origin_y * candidate_buffer->residualQuantCoeffPtr->stride_y;
         tuChromaOriginIndex = txb_1d_offset;
         // Reset the Bit Costs
         y_tu_coeff_bits = 0;
@@ -2038,11 +2038,11 @@ void cu_full_distortion_fast_tu_mode_r(
 
 
             //CHROMA-ONLY
-            Av1TuEstimateCoeffBits(
+            av1_tu_estimate_coeff_bits(
                 picture_control_set_ptr,
                 candidate_buffer,
                 context_ptr->cu_ptr,
-                tuOriginIndex,
+                tu_origin_index,
                 tuChromaOriginIndex,
                 context_ptr->coeff_est_entropy_coder_ptr,
                 candidate_buffer->residualQuantCoeffPtr,
