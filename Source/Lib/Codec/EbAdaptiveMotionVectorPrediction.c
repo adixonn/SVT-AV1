@@ -2034,7 +2034,7 @@ int count_overlappable_nb_left(
 void av1_count_overlappable_neighbors(
     const PictureControlSet_t        *picture_control_set_ptr,
     CodingUnit_t                     *cu_ptr,
-    const BlockSize                   bsize,
+    const block_size                   bsize,
     int32_t                           mi_row,
     int32_t                           mi_col)
 {

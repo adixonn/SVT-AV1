@@ -3764,7 +3764,7 @@ EB_EXTERN void AV1EncodePass(
                                 cu_ptr,
                                 blk_geom,
                                 is16bit ? refObj0->referencePicture16bit : refObj0->referencePicture,
-                                reconBuffer,
+                                recon_buffer,
                                 context_ptr->cu_origin_x,
                                 context_ptr->cu_origin_y,
                                 &cu_ptr->prediction_unit_array[0].wm_params,
