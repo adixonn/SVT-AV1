@@ -1,0 +1,570 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbAdaptiveMotionVectorPrediction.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbAvailability.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbAvcStyleMcp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbBitstreamUnit.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbCabacContextModel.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbCdef.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbCdefProcess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbCodingLoop.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbCodingUnit.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbDeblockingFilter.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbDlfProcess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEncDecProcess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEncDecResults.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEncDecSegments.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEncDecTasks.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEncHandle.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEncodeContext.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEntropyCoding.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEntropyCodingProcess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEntropyCodingResults.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbFullLoop.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbHmCode.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbInitialRateControlProcess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbInitialRateControlReorderQueue.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbInitialRateControlResults.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbInterPrediction.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbIntraPrediction.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMcp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMcpTables.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMdRateEstimation.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbModeDecision.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbModeDecisionConfiguration.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbModeDecisionConfigurationProcess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbModeDecisionProcess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMotionEstimation.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMotionEstimationContext.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMotionEstimationProcess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMotionEstimationResults.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbNeighborArrays.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPacketizationProcess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPacketizationReorderQueue.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureAnalysisProcess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureAnalysisResults.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureBufferDesc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureControlSet.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureDecisionProcess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureDecisionQueue.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureDecisionReorderQueue.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureDecisionResults.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureDemuxResults.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureManagerProcess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureManagerQueue.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureManagerReorderQueue.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureOperators.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPredictionStructure.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPredictionUnit.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbProductCodingLoop.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPsnr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbRateControlProcess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbRateControlResults.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbRateControlTables.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbRateControlTasks.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbRateDistortionCost.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbReferenceObject.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbResourceCoordinationProcess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbResourceCoordinationResults.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbRestProcess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbRestoration.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbRestorationPick.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbSequenceControlSet.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbSourceBasedOperationsProcess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbSystemResourceManager.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbThreads.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbTransQuantBuffers.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbTransforms.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbUtility.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbWarpedMotion.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\RateControlGopInfo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\RateControlModel.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\convolve.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\fft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\grainSynthesis.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\noise_model.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\noise_util.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbAdaptiveMotionVectorPrediction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbApiSei.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbAvailability.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbAvcStyleMcp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbBitstreamUnit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbCabacContextModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbCdef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbCdefProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbCodingLoop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbCodingUnit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbComputeMean.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbComputeSAD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbDeblockingFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbDefinitions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbDlfProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEncDecProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEncDecResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEncDecSegments.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEncDecTasks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEncHandle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEncodeContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEntropyCoding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEntropyCodingObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEntropyCodingProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEntropyCodingResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbEntropyCodingUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbFullLoop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbHmCode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbInitialRateControlProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbInitialRateControlReorderQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbInitialRateControlResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbInterPrediction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbIntraPrediction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbLambdaRateTables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMcp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMdRateEstimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMeSadCalculation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbModeDecision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbModeDecisionConfiguration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbModeDecisionConfigurationProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbModeDecisionProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbModeDecisionSegments.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMotionEstimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMotionEstimationContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMotionEstimationLcuResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMotionEstimationProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMotionEstimationResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMotionVectorUnit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbMvMerge.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbNeighborArrays.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPackUnPack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPacketizationProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPacketizationReorderQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureAnalysisProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureAnalysisResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureBufferDesc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureControlSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureDecisionProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureDecisionQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureDecisionReorderQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureDecisionResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureDemuxResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureManagerProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureManagerQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureManagerReorderQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPictureOperators.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPredictionStructure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPredictionUnit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbPsnr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbRateControlProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbRateControlResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbRateControlTables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbRateControlTasks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbRateDistortionCost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbReferenceObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbResourceCoordinationProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbResourceCoordinationResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbRestProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbRestoration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbRestorationPick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbSequenceControlSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbSourceBasedOperationsProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbSyntaxElements.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbSystemResourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbThreads.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbTransQuantBuffers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbTransformUnit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbTransforms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbUtility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\EbWarpedMotion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\RateControlGopInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\RateControlModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\aom_dsp_rtcd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\convolve.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\fft_common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\filter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\grainSynthesis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\mathutils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\noise_model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\noise_util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\adam\svt-av1\master-adam\Source\Lib\Codec\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{09E406DB-6F8A-3119-97A5-71FD664DBC16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{FF2E308D-980D-3D7A-9218-CA983ED8627E}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

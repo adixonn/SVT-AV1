@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbAvcStyleMcp_Intrinsic_SSE2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbCombinedAveragingSAD_Intrinsic_SSE2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbComputeMean_Intrinsic_SSE2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbDeblockingFilter_Intrinsic_SSE2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbIntraPrediction_AV1_Intrinsic_SSE2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbIntraPrediction_Intrinsic_SSE2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbInvTransform_Intrinsic_SSE2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbMcp_Intrinsic_SSE2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbMeSadCalculation_Intrinsic_SSE2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbPackUnPack_Intrinsic_SSE2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbPictureOperators_Intrinsic_SSE2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbTransforms_Intrinsic_SSE2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\encodetxb_sse2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\fft_sse2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\highbd_intrapred_sse2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\highbd_variance_sse2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\variance_sse2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbAvcStyleMcp_SSE2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbComputeMean_SSE2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbComputeSAD_SSE2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbDeblockingFilter_SSE2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbHighbdIntraPrediction_SSE2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbIntraPrediction_SSE2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbIntrinMacros16bit_SSE2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbIntrinMacros_SSE2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbMcp_SSE2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbMeSadCalculation_SSE2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbPackUnPack_SSE2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbPictureOperators_SSE2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbTransforms_SSE2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbVariance_SSE2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\av1_txfm_sse2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\lpf_common_sse2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\synonyms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\transpose_sse2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\txfm_common_sse2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\v128_intrinsics_x86.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\v64_intrinsics_x86.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\EbPictureOperators_SSE2.asm" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\highbd_intrapred_sse2_.asm" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\highbd_variance_impl_sse2.asm" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\intrapred_sse2.asm" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\x64Macro.asm" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\x64RegisterUtil.asm" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\x64inc.asm" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\x86_abi_support.asm" />
+    <NASM Include="D:\adam\svt-av1\master-adam\Source\Lib\ASM_SSE2\x86inc.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{09E406DB-6F8A-3119-97A5-71FD664DBC16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{FF2E308D-980D-3D7A-9218-CA983ED8627E}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
