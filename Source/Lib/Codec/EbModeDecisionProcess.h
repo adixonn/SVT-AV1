@@ -307,12 +307,12 @@ extern "C" {
 #if CHROMA_BLIND 
     extern void cfl_rd_pick_alpha(
         PictureControlSet_t             *picture_control_set_ptr,
-        ModeDecisionCandidateBuffer_t   *candidateBuffer,
+        ModeDecisionCandidateBuffer_t   *candidate_buffer,
         LargestCodingUnit_t             *sb_ptr,
         ModeDecisionContext_t           *context_ptr,
-        EbPictureBufferDesc_t           *inputPicturePtr,
-        uint32_t                         inputCbOriginIndex,
-        uint32_t                         cuChromaOriginIndex,
+        EbPictureBufferDesc_t           *input_picture_ptr,
+        uint32_t                         input_cb_origin_index,
+        uint32_t                         cu_chroma_origin_index,
         EbAsm                            asm_type);
 #endif
 

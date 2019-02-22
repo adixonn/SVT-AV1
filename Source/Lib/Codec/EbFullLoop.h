@@ -13,7 +13,7 @@ extern "C" {
 
     void FullLoop_R(
         LargestCodingUnit_t            *sb_ptr,
-        ModeDecisionCandidateBuffer_t  *candidateBuffer,
+        ModeDecisionCandidateBuffer_t  *candidate_buffer,
         ModeDecisionContext_t          *context_ptr,
         EbPictureBufferDesc_t          *input_picture_ptr,
         PictureControlSet_t            *picture_control_set_ptr,
@@ -25,7 +25,7 @@ extern "C" {
 
     void CuFullDistortionFastTuMode_R(
         LargestCodingUnit_t            *sb_ptr,
-        ModeDecisionCandidateBuffer_t  *candidateBuffer,
+        ModeDecisionCandidateBuffer_t  *candidate_buffer,
         ModeDecisionContext_t            *context_ptr,
         ModeDecisionCandidate_t           *candidate_ptr,
         PictureControlSet_t            *picture_control_set_ptr,
@@ -40,7 +40,7 @@ extern "C" {
         EbAsm                            asm_type);
 
     void ProductFullLoop(
-        ModeDecisionCandidateBuffer_t  *candidateBuffer,
+        ModeDecisionCandidateBuffer_t  *candidate_buffer,
         ModeDecisionContext_t          *context_ptr,
         PictureControlSet_t            *picture_control_set_ptr,
         uint32_t                          qp,
@@ -50,7 +50,7 @@ extern "C" {
 
 
     void ProductFullLoopTxSearch(
-        ModeDecisionCandidateBuffer_t  *candidateBuffer,
+        ModeDecisionCandidateBuffer_t  *candidate_buffer,
         ModeDecisionContext_t          *context_ptr,
         PictureControlSet_t            *picture_control_set_ptr);
     extern uint32_t d2_inter_depth_block_decision(

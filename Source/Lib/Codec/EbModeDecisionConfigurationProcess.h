@@ -18,7 +18,7 @@ extern "C" {
     /**************************************
      * Defines
      **************************************/
-    static const uint8_t DepthOffset[4] = { 85,21,5,1 };
+    static const uint8_t depth_offset[4] = { 85,21,5,1 };
     static const uint32_t ns_blk_offset[10] = { 0, 1, 3, 25, 5, 8, 11, 14 ,17, 21 };
     static const uint32_t ns_blk_num[10] = { 1, 2, 2, 4, 3, 3, 3, 3, 4, 4 };
 
@@ -33,14 +33,14 @@ extern "C" {
 
     typedef struct ModeDecisionConfigurationContext_s
     {
-        EbFifo_t                            *rateControlInputFifoPtr;
-        EbFifo_t                            *modeDecisionConfigurationOutputFifoPtr;
+        EbFifo_t                            *rate_control_input_fifo_ptr;
+        EbFifo_t                            *mode_decision_configuration_output_fifo_ptr;
 
         MdRateEstimationContext_t           *md_rate_estimation_ptr;
 
         uint8_t                               qp;
         uint64_t                              lambda;
-        MdcpLocalCodingUnit_t               localCuArray[CU_MAX_COUNT];
+        MdcpLocalCodingUnit_t               local_cu_array[CU_MAX_COUNT];
 
         // Inter depth decision
         uint8_t                               group_of8x8_blocks_count;
@@ -88,15 +88,14 @@ extern "C" {
     /**************************************
      * Extern Function Declarations
      **************************************/
-    extern EbErrorType ModeDecisionConfigurationContextCtor(
+    extern EbErrorType mode_decision_configuration_context_ctor(
         ModeDecisionConfigurationContext_t **context_dbl_ptr,
-        EbFifo_t                            *rateControlInputFifoPtr,
-
-        EbFifo_t                            *modeDecisionConfigurationOutputFifoPtr,
+        EbFifo_t                            *rate_control_input_fifo_ptr,
+        EbFifo_t                            *mode_decision_configuration_output_fifo_ptr,
         uint16_t                                 sb_total_count);
 
 
-    extern void* ModeDecisionConfigurationKernel(void *input_ptr);
+    extern void* mode_decision_configuration_kernel(void *input_ptr);
 #ifdef __cplusplus
 }
 #endif

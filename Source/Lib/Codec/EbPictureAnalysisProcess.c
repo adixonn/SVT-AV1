@@ -1692,7 +1692,7 @@ EbErrorType ComputeChromaBlockMean(
     PictureParentControlSet_t   *picture_control_set_ptr,          // input parameter, Picture Control Set Ptr
     EbPictureBufferDesc_t       *inputPaddedPicturePtr,         // input parameter, Input Padded Picture
     uint32_t                       lcuCodingOrder,                // input parameter, SB address
-    uint32_t                       inputCbOriginIndex,            // input parameter, SB index, used to point to source/reference samples
+    uint32_t                       input_cb_origin_index,            // input parameter, SB index, used to point to source/reference samples
     uint32_t                       inputCrOriginIndex,            // input parameter, SB index, used to point to source/reference samples
     EbAsm                         asm_type)
 {
@@ -1712,7 +1712,7 @@ EbErrorType ComputeChromaBlockMean(
 
 
     // (0,0) 16x16 block
-    cbBlockIndex = inputCbOriginIndex;
+    cbBlockIndex = input_cb_origin_index;
     crBlockIndex = inputCrOriginIndex;
     if (sequence_control_set_ptr->block_mean_calc_prec == BLOCK_MEAN_PREC_FULL) {
         cbMeanOf16x16Blocks[0] = ComputeMeanFunc[0][asm_type](&(inputPaddedPicturePtr->bufferCb[cbBlockIndex]), inputPaddedPicturePtr->strideCb, 8, 8);
@@ -1737,7 +1737,7 @@ EbErrorType ComputeChromaBlockMean(
         crMeanOf16x16Blocks[3] = ComputeMeanFunc[0][asm_type](&(inputPaddedPicturePtr->bufferCr[crBlockIndex]), inputPaddedPicturePtr->strideCr, 8, 8);
 
         // (1,0)
-        cbBlockIndex = inputCbOriginIndex + (inputPaddedPicturePtr->strideCb << 3);
+        cbBlockIndex = input_cb_origin_index + (inputPaddedPicturePtr->strideCb << 3);
         crBlockIndex = inputCrOriginIndex + (inputPaddedPicturePtr->strideCr << 3);
         cbMeanOf16x16Blocks[4] = ComputeMeanFunc[0][asm_type](&(inputPaddedPicturePtr->bufferCb[cbBlockIndex]), inputPaddedPicturePtr->strideCb, 8, 8);
         crMeanOf16x16Blocks[4] = ComputeMeanFunc[0][asm_type](&(inputPaddedPicturePtr->bufferCr[crBlockIndex]), inputPaddedPicturePtr->strideCr, 8, 8);
@@ -1761,7 +1761,7 @@ EbErrorType ComputeChromaBlockMean(
         crMeanOf16x16Blocks[7] = ComputeMeanFunc[0][asm_type](&(inputPaddedPicturePtr->bufferCr[crBlockIndex]), inputPaddedPicturePtr->strideCr, 8, 8);
 
         // (2,0)
-        cbBlockIndex = inputCbOriginIndex + (inputPaddedPicturePtr->strideCb << 4);
+        cbBlockIndex = input_cb_origin_index + (inputPaddedPicturePtr->strideCb << 4);
         crBlockIndex = inputCrOriginIndex + (inputPaddedPicturePtr->strideCr << 4);
         cbMeanOf16x16Blocks[8] = ComputeMeanFunc[0][asm_type](&(inputPaddedPicturePtr->bufferCb[cbBlockIndex]), inputPaddedPicturePtr->strideCb, 8, 8);
         crMeanOf16x16Blocks[8] = ComputeMeanFunc[0][asm_type](&(inputPaddedPicturePtr->bufferCr[crBlockIndex]), inputPaddedPicturePtr->strideCr, 8, 8);
@@ -1785,7 +1785,7 @@ EbErrorType ComputeChromaBlockMean(
         crMeanOf16x16Blocks[11] = ComputeMeanFunc[0][asm_type](&(inputPaddedPicturePtr->bufferCr[crBlockIndex]), inputPaddedPicturePtr->strideCr, 8, 8);
 
         // (3,0)
-        cbBlockIndex = inputCbOriginIndex + (inputPaddedPicturePtr->strideCb * 24);
+        cbBlockIndex = input_cb_origin_index + (inputPaddedPicturePtr->strideCb * 24);
         crBlockIndex = inputCrOriginIndex + (inputPaddedPicturePtr->strideCr * 24);
         cbMeanOf16x16Blocks[12] = ComputeMeanFunc[0][asm_type](&(inputPaddedPicturePtr->bufferCb[cbBlockIndex]), inputPaddedPicturePtr->strideCb, 8, 8);
         crMeanOf16x16Blocks[12] = ComputeMeanFunc[0][asm_type](&(inputPaddedPicturePtr->bufferCr[crBlockIndex]), inputPaddedPicturePtr->strideCr, 8, 8);
@@ -1836,7 +1836,7 @@ EbErrorType ComputeChromaBlockMean(
         crMeanOf16x16Blocks[3] = compute_sub_mean8x8_sse2_intrin(&(inputPaddedPicturePtr->bufferCr[crBlockIndex]), strideCr);
 
         // (1,0)
-        cbBlockIndex = inputCbOriginIndex + (strideCb << 3);
+        cbBlockIndex = input_cb_origin_index + (strideCb << 3);
         crBlockIndex = inputCrOriginIndex + (strideCr << 3);
         cbMeanOf16x16Blocks[4] = compute_sub_mean8x8_sse2_intrin(&(inputPaddedPicturePtr->bufferCb[cbBlockIndex]), strideCb);
         crMeanOf16x16Blocks[4] = compute_sub_mean8x8_sse2_intrin(&(inputPaddedPicturePtr->bufferCr[crBlockIndex]), strideCr);
@@ -1860,7 +1860,7 @@ EbErrorType ComputeChromaBlockMean(
         crMeanOf16x16Blocks[7] = compute_sub_mean8x8_sse2_intrin(&(inputPaddedPicturePtr->bufferCr[crBlockIndex]), strideCr);
 
         // (2,0)
-        cbBlockIndex = inputCbOriginIndex + (strideCb << 4);
+        cbBlockIndex = input_cb_origin_index + (strideCb << 4);
         crBlockIndex = inputCrOriginIndex + (strideCr << 4);
         cbMeanOf16x16Blocks[8] = compute_sub_mean8x8_sse2_intrin(&(inputPaddedPicturePtr->bufferCb[cbBlockIndex]), strideCb);
         crMeanOf16x16Blocks[8] = compute_sub_mean8x8_sse2_intrin(&(inputPaddedPicturePtr->bufferCr[crBlockIndex]), strideCr);
@@ -1884,7 +1884,7 @@ EbErrorType ComputeChromaBlockMean(
         crMeanOf16x16Blocks[11] = compute_sub_mean8x8_sse2_intrin(&(inputPaddedPicturePtr->bufferCr[crBlockIndex]), strideCr);
 
         // (3,0)
-        cbBlockIndex = inputCbOriginIndex + (strideCb * 24);
+        cbBlockIndex = input_cb_origin_index + (strideCb * 24);
         crBlockIndex = inputCrOriginIndex + (strideCr * 24);
         cbMeanOf16x16Blocks[12] = compute_sub_mean8x8_sse2_intrin(&(inputPaddedPicturePtr->bufferCb[cbBlockIndex]), strideCb);
         crMeanOf16x16Blocks[12] = compute_sub_mean8x8_sse2_intrin(&(inputPaddedPicturePtr->bufferCr[crBlockIndex]), strideCr);
@@ -4623,7 +4623,7 @@ void ComputePictureSpatialStatistics(
     uint32_t sb_origin_x;        // to avoid using child PCS
     uint32_t sb_origin_y;
     uint32_t inputLumaOriginIndex;
-    uint32_t inputCbOriginIndex;
+    uint32_t input_cb_origin_index;
     uint32_t inputCrOriginIndex;
     uint64_t picTotVariance;
 
@@ -4638,7 +4638,7 @@ void ComputePictureSpatialStatistics(
         inputLumaOriginIndex = (inputPaddedPicturePtr->origin_y + sb_origin_y) * inputPaddedPicturePtr->stride_y +
             inputPaddedPicturePtr->origin_x + sb_origin_x;
 
-        inputCbOriginIndex = ((input_picture_ptr->origin_y + sb_origin_y) >> 1) * input_picture_ptr->strideCb + ((input_picture_ptr->origin_x + sb_origin_x) >> 1);
+        input_cb_origin_index = ((input_picture_ptr->origin_y + sb_origin_y) >> 1) * input_picture_ptr->strideCb + ((input_picture_ptr->origin_x + sb_origin_x) >> 1);
         inputCrOriginIndex = ((input_picture_ptr->origin_y + sb_origin_y) >> 1) * input_picture_ptr->strideCr + ((input_picture_ptr->origin_x + sb_origin_x) >> 1);
 
         ComputeBlockMeanComputeVariance(
@@ -4656,7 +4656,7 @@ void ComputePictureSpatialStatistics(
                 picture_control_set_ptr,
                 input_picture_ptr,
                 sb_index,
-                inputCbOriginIndex,
+                input_cb_origin_index,
                 inputCrOriginIndex,
                 asm_type);
         }

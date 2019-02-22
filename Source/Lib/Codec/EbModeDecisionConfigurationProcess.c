@@ -711,11 +711,11 @@ void AdaptiveDlfParameterComputation(
 /******************************************************
  * Mode Decision Configuration Context Constructor
  ******************************************************/
-EbErrorType ModeDecisionConfigurationContextCtor(
+EbErrorType mode_decision_configuration_context_ctor(
     ModeDecisionConfigurationContext_t **context_dbl_ptr,
-    EbFifo_t                            *rateControlInputFifoPtr,
+    EbFifo_t                            *rate_control_input_fifo_ptr,
 
-    EbFifo_t                            *modeDecisionConfigurationOutputFifoPtr,
+    EbFifo_t                            *mode_decision_configuration_output_fifo_ptr,
     uint16_t                                 sb_total_count)
 
 {
@@ -726,8 +726,8 @@ EbErrorType ModeDecisionConfigurationContextCtor(
     *context_dbl_ptr = context_ptr;
 
     // Input/Output System Resource Manager FIFOs
-    context_ptr->rateControlInputFifoPtr = rateControlInputFifoPtr;
-    context_ptr->modeDecisionConfigurationOutputFifoPtr = modeDecisionConfigurationOutputFifoPtr;
+    context_ptr->rate_control_input_fifo_ptr = rate_control_input_fifo_ptr;
+    context_ptr->mode_decision_configuration_output_fifo_ptr = mode_decision_configuration_output_fifo_ptr;
     // Rate estimation
     EB_MALLOC(MdRateEstimationContext_t*, context_ptr->md_rate_estimation_ptr, sizeof(MdRateEstimationContext_t), EB_N_PTR);
 
@@ -816,7 +816,7 @@ void PerformEarlyLcuPartitionning(
             sb_ptr->qp = (uint8_t)picture_control_set_ptr->parent_pcs_ptr->picture_qp;
         }
 
-        EarlyModeDecisionLcu(
+        early_mode_decision_lcu(
             sequence_control_set_ptr,
             picture_control_set_ptr,
             sb_ptr,
@@ -841,7 +841,7 @@ void PerformEarlyLcuPartitionningLcu(
         sb_ptr->qp = (uint8_t)picture_control_set_ptr->parent_pcs_ptr->picture_qp;
     }
 
-    EarlyModeDecisionLcu(
+    early_mode_decision_lcu(
         sequence_control_set_ptr,
         picture_control_set_ptr,
         sb_ptr,
@@ -916,7 +916,7 @@ void Forward85CuToModeDecisionLCU(
             }
         }
 
-        cu_index += (split_flag == EB_TRUE) ? 1 : DepthOffset[cuStatsPtr->depth];
+        cu_index += (split_flag == EB_TRUE) ? 1 : depth_offset[cuStatsPtr->depth];
 
     } // End CU Loop
 }
@@ -986,7 +986,7 @@ void Forward84CuToModeDecisionLCU(
             }
         }
 
-        cu_index += (split_flag == EB_TRUE) ? 1 : DepthOffset[cuStatsPtr->depth];
+        cu_index += (split_flag == EB_TRUE) ? 1 : depth_offset[cuStatsPtr->depth];
 
     } // End CU Loop
 }
@@ -1194,7 +1194,7 @@ void Forward85CuToModeDecision(
                 }
             }
 
-            cu_index += (split_flag == EB_TRUE) ? 1 : DepthOffset[cuStatsPtr->depth];
+            cu_index += (split_flag == EB_TRUE) ? 1 : depth_offset[cuStatsPtr->depth];
 
         } // End CU Loop
     }
@@ -1278,7 +1278,7 @@ void Forward84CuToModeDecision(
                 }
             }
 
-            cu_index += (split_flag == EB_TRUE) ? 1 : DepthOffset[cuStatsPtr->depth];
+            cu_index += (split_flag == EB_TRUE) ? 1 : depth_offset[cuStatsPtr->depth];
 
         } // End CU Loop
     }
@@ -2668,7 +2668,7 @@ void forward_all_c_blocks_to_md(
 /******************************************************
  * Mode Decision Configuration Kernel
  ******************************************************/
-void* ModeDecisionConfigurationKernel(void *input_ptr)
+void* mode_decision_configuration_kernel(void *input_ptr)
 {
     // Context & SCS & PCS
     ModeDecisionConfigurationContext_t         *context_ptr = (ModeDecisionConfigurationContext_t*)input_ptr;
@@ -2687,7 +2687,7 @@ void* ModeDecisionConfigurationKernel(void *input_ptr)
 
         // Get RateControl Results
         eb_get_full_object(
-            context_ptr->rateControlInputFifoPtr,
+            context_ptr->rate_control_input_fifo_ptr,
             &rateControlResultsWrapperPtr);
 
         rateControlResultsPtr = (RateControlResults_t*)rateControlResultsWrapperPtr->object_ptr;
@@ -2880,7 +2880,7 @@ void* ModeDecisionConfigurationKernel(void *input_ptr)
 
         // Post the results to the MD processes
         eb_get_empty_object(
-            context_ptr->modeDecisionConfigurationOutputFifoPtr,
+            context_ptr->mode_decision_configuration_output_fifo_ptr,
             &encDecTasksWrapperPtr);
 
         encDecTasksPtr = (EncDecTasks_t*)encDecTasksWrapperPtr->object_ptr;

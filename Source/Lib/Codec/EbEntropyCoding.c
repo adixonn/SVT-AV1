@@ -518,7 +518,7 @@ static INLINE void set_dc_sign(int32_t *cul_level, int32_t dc_val) {
 
 
 int32_t  Av1WriteCoeffsTxb1D(
-    PictureParentControlSet_t   *parentPcsPtr,
+    PictureParentControlSet_t   *parent_pcs_ptr,
     FRAME_CONTEXT               *frameContext,
     aom_writer                  *ecWriter,
     CodingUnit_t                *cu_ptr,
@@ -577,7 +577,7 @@ int32_t  Av1WriteCoeffsTxb1D(
 
     if (component_type == COMPONENT_LUMA) {
         Av1WriteTxType(
-            parentPcsPtr,
+            parent_pcs_ptr,
             frameContext,
             ecWriter,
             cu_ptr,
@@ -4508,7 +4508,7 @@ EbErrorType WriteFrameHeaderAv1(
 {
     EbErrorType                 return_error = EB_ErrorNone;
     OutputBitstreamUnit_t       *outputBitstreamPtr = (OutputBitstreamUnit_t*)bitstreamPtr->outputBitstreamPtr;
-    PictureParentControlSet_t   *parentPcsPtr = pcsPtr->parent_pcs_ptr;
+    PictureParentControlSet_t   *parent_pcs_ptr = pcsPtr->parent_pcs_ptr;
     uint8_t                     *data = outputBitstreamPtr->bufferAv1;
     uint32_t obuHeaderSize = 0;
 
@@ -4524,10 +4524,10 @@ EbErrorType WriteFrameHeaderAv1(
     obuHeaderSize = currDataSize;
 
     currDataSize +=
-        WriteFrameHeaderObu(scsPtr, parentPcsPtr, /*saved_wb,*/ data + currDataSize, showExisting, showExisting);
+        WriteFrameHeaderObu(scsPtr, parent_pcs_ptr, /*saved_wb,*/ data + currDataSize, showExisting, showExisting);
 
 #if TILES   
-    const int n_log2_tiles = parentPcsPtr->av1_cm->log2_tile_rows + parentPcsPtr->av1_cm->log2_tile_cols;
+    const int n_log2_tiles = parent_pcs_ptr->av1_cm->log2_tile_rows + parent_pcs_ptr->av1_cm->log2_tile_cols;
     int tile_start_and_end_present_flag = 0;
 
    currDataSize += write_tile_group_header(data + currDataSize,0,
@@ -4543,7 +4543,7 @@ EbErrorType WriteFrameHeaderAv1(
     if (!showExisting) {
         // Add data from EC stream to Picture Stream.
 #if TILES
-        int32_t frameSize = parentPcsPtr->av1_cm->tile_cols*parentPcsPtr->av1_cm->tile_rows==1 ? pcsPtr->entropy_coder_ptr->ecWriter.pos : pcsPtr->entropy_coder_ptr->ec_frame_size;
+        int32_t frameSize = parent_pcs_ptr->av1_cm->tile_cols*parent_pcs_ptr->av1_cm->tile_rows==1 ? pcsPtr->entropy_coder_ptr->ecWriter.pos : pcsPtr->entropy_coder_ptr->ec_frame_size;
 #else
         int32_t frameSize = pcsPtr->entropy_coder_ptr->ecWriter.pos;
 #endif
