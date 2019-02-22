@@ -19,7 +19,7 @@ extern "C" {
         uint32_t  width);                         // input parameter, block width (N)
 
 
-    uint32_t Compute4xMSadSub_AVX2_INTRIN(
+    uint32_t compute4x_m_sad_sub_avx2_intrin(
         uint8_t  *src,                            // input parameter, source samples Ptr
         uint32_t  src_stride,                      // input parameter, source stride
         uint8_t  *ref,                            // input parameter, reference samples Ptr

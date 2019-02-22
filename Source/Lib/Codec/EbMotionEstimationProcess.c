@@ -290,7 +290,7 @@ EbErrorType ComputeDecimatedZzSad(
 
                 if (asm_type >= ASM_NON_AVX2 && asm_type < ASM_TYPE_TOTAL)
                     // ZZ SAD between 1/16 current & 1/16 collocated
-                    decimatedLcuCollocatedSad = NxMSadKernel_funcPtrArray[asm_type][2](
+                    decimatedLcuCollocatedSad = nx_m_sad_kernel_func_ptr_array[asm_type][2](
                         &(sixteenthDecimatedPicturePtr->buffer_y[blkDisplacementDecimated]),
                         sixteenthDecimatedPicturePtr->stride_y,
                         context_ptr->me_context_ptr->sixteenth_sb_buffer,
