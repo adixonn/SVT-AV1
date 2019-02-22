@@ -19,7 +19,7 @@ EbErrorType InitialRateControlReorderEntryCtor(
 }
 
 
-EbErrorType HlRateControlHistogramEntryCtor(
+EbErrorType hl_rate_control_histogram_entry_ctor(
     HlRateControlHistogramEntry_t   **entry_dbl_ptr,
     uint32_t                          picture_number)
 {

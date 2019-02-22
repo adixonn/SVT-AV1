@@ -96,7 +96,7 @@ static const uint32_t invIntraModeAngularTable[] = {
 /**********************************************
  * Intra Reference Samples Ctor
  **********************************************/
-EbErrorType IntraReferenceSamplesCtor(
+EbErrorType intra_reference_samples_ctor(
     IntraReferenceSamples_t **context_dbl_ptr)
 {
     IntraReferenceSamples_t *context_ptr;
@@ -130,7 +130,7 @@ EbErrorType IntraReferenceSamplesCtor(
 /**********************************************
  * Intra Reference Samples Ctor
  **********************************************/
-EbErrorType IntraReference16bitSamplesCtor(
+EbErrorType intra_reference16bit_samples_ctor(
     IntraReference16bitSamples_t **context_dbl_ptr)
 {
     IntraReference16bitSamples_t *context_ptr;
@@ -521,11 +521,11 @@ void av1_dr_prediction_z2_c(uint8_t *dst, ptrdiff_t stride, int32_t bw, int32_t 
 /*******************************************
  * Generate Intra Reference Samples
  *******************************************/
-EbErrorType GenerateIntraReferenceSamplesEncodePass(
+EbErrorType generate_intra_reference_samples_encode_pass(
     EbBool                         *is_left_availble,
     EbBool                         *is_above_availble,
     EbBool                     constrained_intra_flag,   //input parameter, indicates if constrained intra is switched on/off
-    EbBool                     strongIntraSmoothingFlag,
+    EbBool                     strong_intra_smoothing_flag,
     uint32_t                      origin_x,
     uint32_t                      origin_y,
     uint32_t                      size,
@@ -534,14 +534,14 @@ EbErrorType GenerateIntraReferenceSamplesEncodePass(
     NeighborArrayUnit_t        *luma_recon_neighbor_array,
     NeighborArrayUnit_t        *cb_recon_neighbor_array,
     NeighborArrayUnit_t        *cr_recon_neighbor_array,
-    void                       *refWrapperPtr,
-    EbBool                     pictureLeftBoundary,
-    EbBool                     pictureTopBoundary,
-    EbBool                     pictureRightBoundary)
+    void                       *ref_wrapper_ptr,
+    EbBool                     picture_left_boundary,
+    EbBool                     picture_top_boundary,
+    EbBool                     picture_right_boundary)
 {
-    (void)strongIntraSmoothingFlag;
+    (void)strong_intra_smoothing_flag;
     EbErrorType          return_error = EB_ErrorNone;
-    IntraReferenceSamples_t          *intra_ref_ptr = (IntraReferenceSamples_t          *)refWrapperPtr;
+    IntraReferenceSamples_t          *intra_ref_ptr = (IntraReferenceSamples_t          *)ref_wrapper_ptr;
     uint8_t                *yBorder = intra_ref_ptr->y_intra_reference_array;
     uint8_t                *cbBorder = intra_ref_ptr->cbIntraReferenceArray;
     uint8_t                *crBorder = intra_ref_ptr->crIntraReferenceArray;
@@ -687,7 +687,7 @@ EbErrorType GenerateIntraReferenceSamplesEncodePass(
             (modeArrayIndex >= leftModeNeighborArraySize) ? EB_FALSE : // array boundary check
             (bottomLeftAvailabilityPreCalc == EB_FALSE && blockIndex < bottomLeftEnd) ? EB_FALSE : // internal scan-order check
             (leftModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE : // slice boundary check
-            (pictureLeftBoundary == EB_TRUE) ? EB_FALSE : // picture boundary check
+            (picture_left_boundary == EB_TRUE) ? EB_FALSE : // picture boundary check
             (leftModeNeighborArray[modeArrayIndex] == INTER_MODE && constrained_intra_flag == EB_TRUE) ? EB_FALSE : // contrained intra check
             EB_TRUE;
 
@@ -718,7 +718,7 @@ EbErrorType GenerateIntraReferenceSamplesEncodePass(
 
         neighborAvailable =
             (topLeftModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE : // slice boundary check
-            (pictureLeftBoundary == EB_TRUE || pictureTopBoundary == EB_TRUE) ? EB_FALSE : // picture boundary check
+            (picture_left_boundary == EB_TRUE || picture_top_boundary == EB_TRUE) ? EB_FALSE : // picture boundary check
             (topLeftModeNeighborArray[modeArrayIndex] == INTER_MODE && constrained_intra_flag == EB_TRUE) ? EB_FALSE : // contrained intra check
             EB_TRUE;
 
@@ -747,8 +747,8 @@ EbErrorType GenerateIntraReferenceSamplesEncodePass(
             (modeArrayIndex >= topModeNeighborArraySize) ? EB_FALSE : // array boundary check
             (topRightAvailabilityPreCalc == EB_FALSE && blockIndex >= topRightBlockBegin) ? EB_FALSE : // internal scan-order check
             (topModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE : // slice boundary check
-            (pictureTopBoundary == EB_TRUE) ? EB_FALSE : // top picture boundary check
-            (pictureRightBoundary == EB_TRUE && blockIndex >= topRightBlockBegin) ? EB_FALSE : // right picture boundary check
+            (picture_top_boundary == EB_TRUE) ? EB_FALSE : // top picture boundary check
+            (picture_right_boundary == EB_TRUE && blockIndex >= topRightBlockBegin) ? EB_FALSE : // right picture boundary check
             (topModeNeighborArray[modeArrayIndex] == INTER_MODE && constrained_intra_flag == EB_TRUE) ? EB_FALSE : // contrained intra check
             EB_TRUE;
 
@@ -842,7 +842,7 @@ EbErrorType GenerateIntraReferenceSamplesEncodePass(
             (modeArrayIndex >= leftModeNeighborArraySize) ? EB_FALSE : // array boundary check
             (bottomLeftAvailabilityPreCalc == EB_FALSE && blockIndex < bottomLeftEnd) ? EB_FALSE : // internal scan-order check
             (leftModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE : // slice boundary check
-            (pictureLeftBoundary == EB_TRUE) ? EB_FALSE : // left picture boundary check
+            (picture_left_boundary == EB_TRUE) ? EB_FALSE : // left picture boundary check
             (leftModeNeighborArray[modeArrayIndex] == INTER_MODE && constrained_intra_flag == EB_TRUE) ? EB_FALSE : // contrained intra check
             EB_TRUE;
         if (neighborAvailable == EB_TRUE) {
@@ -892,7 +892,7 @@ EbErrorType GenerateIntraReferenceSamplesEncodePass(
 
         neighborAvailable =
             (topLeftModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE : // slice boundary check
-            (pictureLeftBoundary == EB_TRUE || pictureTopBoundary == EB_TRUE) ? EB_FALSE : // picture boundary check
+            (picture_left_boundary == EB_TRUE || picture_top_boundary == EB_TRUE) ? EB_FALSE : // picture boundary check
             (topLeftModeNeighborArray[modeArrayIndex] == INTER_MODE && constrained_intra_flag == EB_TRUE) ? EB_FALSE : // contrained intra check
             EB_TRUE;
         if (neighborAvailable == EB_TRUE) {
@@ -934,8 +934,8 @@ EbErrorType GenerateIntraReferenceSamplesEncodePass(
             (modeArrayIndex >= topModeNeighborArraySize) ? EB_FALSE : // array boundary check
             (topRightAvailabilityPreCalc == EB_FALSE && blockIndex >= topRightBlockBegin) ? EB_FALSE : // internal scan-order check
             (topModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE : // slice boundary check
-            (pictureTopBoundary == EB_TRUE) ? EB_FALSE : // picture boundary check
-            (pictureRightBoundary == EB_TRUE && blockIndex >= topRightBlockBegin) ? EB_FALSE : // right picture boundary check
+            (picture_top_boundary == EB_TRUE) ? EB_FALSE : // picture boundary check
+            (picture_right_boundary == EB_TRUE && blockIndex >= topRightBlockBegin) ? EB_FALSE : // right picture boundary check
             (topModeNeighborArray[modeArrayIndex] == INTER_MODE && constrained_intra_flag == EB_TRUE) ? EB_FALSE : // contrained intra check
             EB_TRUE;
         if (neighborAvailable == EB_TRUE) {
@@ -1038,11 +1038,11 @@ EbErrorType GenerateIntraReferenceSamplesEncodePass(
 /*******************************************
  * Generate Intra Reference Samples - 16 bit
  *******************************************/
-EbErrorType GenerateIntraReference16bitSamplesEncodePass(
+EbErrorType generate_intra_reference16bit_samples_encode_pass(
     EbBool                         *is_left_availble,
     EbBool                         *is_above_availble,
     EbBool                     constrained_intra_flag,   //input parameter, indicates if constrained intra is switched on/off
-    EbBool                     strongIntraSmoothingFlag,
+    EbBool                     strong_intra_smoothing_flag,
     uint32_t                      origin_x,
     uint32_t                      origin_y,
     uint32_t                      size,
@@ -1051,14 +1051,14 @@ EbErrorType GenerateIntraReference16bitSamplesEncodePass(
     NeighborArrayUnit_t        *luma_recon_neighbor_array,
     NeighborArrayUnit_t        *cb_recon_neighbor_array,
     NeighborArrayUnit_t        *cr_recon_neighbor_array,
-    void                       *refWrapperPtr,
-    EbBool                     pictureLeftBoundary,
-    EbBool                     pictureTopBoundary,
-    EbBool                     pictureRightBoundary)
+    void                       *ref_wrapper_ptr,
+    EbBool                     picture_left_boundary,
+    EbBool                     picture_top_boundary,
+    EbBool                     picture_right_boundary)
 {
-    (void)strongIntraSmoothingFlag;
+    (void)strong_intra_smoothing_flag;
     EbErrorType          return_error = EB_ErrorNone;
-    IntraReference16bitSamples_t       *intra_ref_ptr = (IntraReference16bitSamples_t*)refWrapperPtr;
+    IntraReference16bitSamples_t       *intra_ref_ptr = (IntraReference16bitSamples_t*)ref_wrapper_ptr;
     uint16_t                *yBorder = intra_ref_ptr->y_intra_reference_array;
     uint16_t                *cbBorder = intra_ref_ptr->cbIntraReferenceArray;
     uint16_t                *crBorder = intra_ref_ptr->crIntraReferenceArray;
@@ -1207,7 +1207,7 @@ EbErrorType GenerateIntraReference16bitSamplesEncodePass(
             (bottomLeftAvailabilityPreCalc == EB_FALSE &&
                 blockIndex < bottomLeftEnd) ? EB_FALSE :            // internal scan-order check
                 (leftModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE :    // slice boundary check
-            (pictureLeftBoundary == EB_TRUE) ? EB_FALSE :            // left picture boundary check
+            (picture_left_boundary == EB_TRUE) ? EB_FALSE :            // left picture boundary check
             (leftModeNeighborArray[modeArrayIndex] == INTER_MODE &&
                 constrained_intra_flag == EB_TRUE) ? EB_FALSE : EB_TRUE;   // contrained intra check
 
@@ -1238,7 +1238,7 @@ EbErrorType GenerateIntraReference16bitSamplesEncodePass(
 
         neighborAvailable =
             (topLeftModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE :    // slice boundary check
-            (pictureLeftBoundary == EB_TRUE || pictureTopBoundary == EB_TRUE) ? EB_FALSE :    // left picture boundary check
+            (picture_left_boundary == EB_TRUE || picture_top_boundary == EB_TRUE) ? EB_FALSE :    // left picture boundary check
             (topLeftModeNeighborArray[modeArrayIndex] == INTER_MODE &&
                 constrained_intra_flag == EB_TRUE) ? EB_FALSE : EB_TRUE;   // contrained intra check
 
@@ -1268,8 +1268,8 @@ EbErrorType GenerateIntraReference16bitSamplesEncodePass(
             (topRightAvailabilityPreCalc == EB_FALSE &&
                 blockIndex >= topRightBlockBegin) ? EB_FALSE :            // internal scan-order check
                 (topModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE :   // slice boundary check
-            (pictureTopBoundary == EB_TRUE) ? EB_FALSE :            // top picture boundary check
-            (pictureRightBoundary == EB_TRUE && blockIndex >= topRightBlockBegin) ? EB_FALSE :  // right picture boundary check
+            (picture_top_boundary == EB_TRUE) ? EB_FALSE :            // top picture boundary check
+            (picture_right_boundary == EB_TRUE && blockIndex >= topRightBlockBegin) ? EB_FALSE :  // right picture boundary check
             (topModeNeighborArray[modeArrayIndex] == INTER_MODE &&
                 constrained_intra_flag == EB_TRUE) ? EB_FALSE : EB_TRUE;   // contrained intra check
 
@@ -1363,7 +1363,7 @@ EbErrorType GenerateIntraReference16bitSamplesEncodePass(
             (bottomLeftAvailabilityPreCalc == EB_FALSE &&
                 blockIndex < bottomLeftEnd) ? EB_FALSE :            // internal scan-order check
                 (leftModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE :    // slice boundary check
-            (pictureLeftBoundary == EB_TRUE) ? EB_FALSE :            // left picture boundary check
+            (picture_left_boundary == EB_TRUE) ? EB_FALSE :            // left picture boundary check
             (leftModeNeighborArray[modeArrayIndex] == INTER_MODE &&
                 constrained_intra_flag == EB_TRUE) ? EB_FALSE : EB_TRUE;   // contrained intra check
 
@@ -1414,7 +1414,7 @@ EbErrorType GenerateIntraReference16bitSamplesEncodePass(
 
         neighborAvailable =
             (topLeftModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE :     // slice boundary check
-            (pictureLeftBoundary == EB_TRUE || pictureTopBoundary == EB_TRUE) ? EB_FALSE :     // picture boundary check
+            (picture_left_boundary == EB_TRUE || picture_top_boundary == EB_TRUE) ? EB_FALSE :     // picture boundary check
             (topLeftModeNeighborArray[modeArrayIndex] == INTER_MODE &&
                 constrained_intra_flag == EB_TRUE) ? EB_FALSE : EB_TRUE;   // contrained intra check
 
@@ -1458,8 +1458,8 @@ EbErrorType GenerateIntraReference16bitSamplesEncodePass(
             (topRightAvailabilityPreCalc == EB_FALSE &&
                 blockIndex >= topRightBlockBegin) ? EB_FALSE :            // internal scan-order check
                 (topModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE :    // slice boundary check
-            (pictureTopBoundary == EB_TRUE) ? EB_FALSE :            // top picture boundary check
-            (pictureRightBoundary == EB_TRUE && blockIndex >= topRightBlockBegin) ? EB_FALSE :  // right picture boundary check
+            (picture_top_boundary == EB_TRUE) ? EB_FALSE :            // top picture boundary check
+            (picture_right_boundary == EB_TRUE && blockIndex >= topRightBlockBegin) ? EB_FALSE :  // right picture boundary check
             (topModeNeighborArray[modeArrayIndex] == INTER_MODE &&
                 constrained_intra_flag == EB_TRUE) ? EB_FALSE : EB_TRUE;   // contrained intra check
 
@@ -1558,11 +1558,11 @@ EbErrorType GenerateIntraReference16bitSamplesEncodePass(
 /*******************************************
  * Generate Luma Intra Reference Samples - 16 bit
  *******************************************/
-EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
+EbErrorType generate_luma_intra_reference16bit_samples_encode_pass(
     EbBool                     *is_left_availble,
     EbBool                     *is_above_availble,
     EbBool                     constrained_intra_flag,   //input parameter, indicates if constrained intra is switched on/off
-    EbBool                     strongIntraSmoothingFlag,
+    EbBool                     strong_intra_smoothing_flag,
     uint32_t                      origin_x,
     uint32_t                      origin_y,
     uint32_t                      size,
@@ -1572,14 +1572,14 @@ EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
     NeighborArrayUnit_t        *luma_recon_neighbor_array,
     NeighborArrayUnit_t        *cb_recon_neighbor_array,
     NeighborArrayUnit_t        *cr_recon_neighbor_array,
-    void                       *refWrapperPtr,
-    EbBool                     pictureLeftBoundary,
-    EbBool                     pictureTopBoundary,
-    EbBool                     pictureRightBoundary)
+    void                       *ref_wrapper_ptr,
+    EbBool                     picture_left_boundary,
+    EbBool                     picture_top_boundary,
+    EbBool                     picture_right_boundary)
 {
-    (void)strongIntraSmoothingFlag;
+    (void)strong_intra_smoothing_flag;
     EbErrorType          return_error = EB_ErrorNone;
-    IntraReference16bitSamples_t       *intra_ref_ptr = (IntraReference16bitSamples_t*)refWrapperPtr;
+    IntraReference16bitSamples_t       *intra_ref_ptr = (IntraReference16bitSamples_t*)ref_wrapper_ptr;
     uint16_t                *yBorder = intra_ref_ptr->y_intra_reference_array;
     uint16_t                *yBorderFilt = intra_ref_ptr->yIntraFilteredReferenceArray;
 
@@ -1710,7 +1710,7 @@ EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
             (modeArrayIndex >= leftModeNeighborArraySize) ? EB_FALSE : // array boundary check
             (bottomLeftAvailabilityPreCalc == EB_FALSE && blockIndex < bottomLeftEnd) ? EB_FALSE : // internal scan-order check
             (leftModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE : // slice boundary check
-            (pictureLeftBoundary == EB_TRUE) ? EB_FALSE : // picture boundary check
+            (picture_left_boundary == EB_TRUE) ? EB_FALSE : // picture boundary check
             (leftModeNeighborArray[modeArrayIndex] == INTER_MODE && constrained_intra_flag == EB_TRUE) ? EB_FALSE : // contrained intra check
             EB_TRUE;
         if (neighborAvailable == EB_TRUE) {
@@ -1738,7 +1738,7 @@ EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
 
         neighborAvailable =
             (topLeftModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE : // slice boundary check
-            (pictureLeftBoundary == EB_TRUE || pictureTopBoundary == EB_TRUE) ? EB_FALSE : // picture boundary check
+            (picture_left_boundary == EB_TRUE || picture_top_boundary == EB_TRUE) ? EB_FALSE : // picture boundary check
             (topLeftModeNeighborArray[modeArrayIndex] == INTER_MODE && constrained_intra_flag == EB_TRUE) ? EB_FALSE : // contrained intra check
             EB_TRUE;
         if (neighborAvailable == EB_TRUE) {
@@ -1764,8 +1764,8 @@ EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
             (modeArrayIndex >= topModeNeighborArraySize) ? EB_FALSE : // array boundary check
             (topRightAvailabilityPreCalc == EB_FALSE && blockIndex >= topRightBlockBegin) ? EB_FALSE : // internal scan-order check
             (topModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE : // slice boundary check
-            (pictureTopBoundary == EB_TRUE) ? EB_FALSE : // top picture boundary check
-            (pictureRightBoundary == EB_TRUE && blockIndex >= topRightBlockBegin) ? EB_FALSE : // right picture boundary check
+            (picture_top_boundary == EB_TRUE) ? EB_FALSE : // top picture boundary check
+            (picture_right_boundary == EB_TRUE && blockIndex >= topRightBlockBegin) ? EB_FALSE : // right picture boundary check
             (topModeNeighborArray[modeArrayIndex] == INTER_MODE && constrained_intra_flag == EB_TRUE) ? EB_FALSE : // contrained intra check
             EB_TRUE;
         if (neighborAvailable == EB_TRUE) {
@@ -1832,7 +1832,7 @@ EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
             (modeArrayIndex >= leftModeNeighborArraySize) ? EB_FALSE : // array boundary check
             (bottomLeftAvailabilityPreCalc == EB_FALSE && blockIndex < bottomLeftEnd) ? EB_FALSE : // internal scan-order check
             (leftModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE : // slice boundary check
-            (pictureLeftBoundary == EB_TRUE) ? EB_FALSE : // left picture boundary check
+            (picture_left_boundary == EB_TRUE) ? EB_FALSE : // left picture boundary check
             (leftModeNeighborArray[modeArrayIndex] == INTER_MODE && constrained_intra_flag == EB_TRUE) ? EB_FALSE : // contrained intra check
             EB_TRUE;
         if (neighborAvailable == EB_TRUE) {
@@ -1869,7 +1869,7 @@ EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
 
         neighborAvailable =
             (topLeftModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE : // slice boundary check
-            (pictureLeftBoundary == EB_TRUE || pictureTopBoundary == EB_TRUE) ? EB_FALSE : // left picture boundary check
+            (picture_left_boundary == EB_TRUE || picture_top_boundary == EB_TRUE) ? EB_FALSE : // left picture boundary check
             (topLeftModeNeighborArray[modeArrayIndex] == INTER_MODE && constrained_intra_flag == EB_TRUE) ? EB_FALSE : // contrained intra check
             EB_TRUE;
         if (neighborAvailable == EB_TRUE) {
@@ -1904,8 +1904,8 @@ EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
             (modeArrayIndex >= topModeNeighborArraySize) ? EB_FALSE : // array boundary check
             (topRightAvailabilityPreCalc == EB_FALSE && blockIndex >= topRightBlockBegin) ? EB_FALSE : // internal scan-order check
             (topModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE : // slice boundary check
-            (pictureTopBoundary == EB_TRUE) ? EB_FALSE : // top picture boundary check
-            (pictureRightBoundary == EB_TRUE && blockIndex >= topRightBlockBegin) ? EB_FALSE : // right picture boundary check
+            (picture_top_boundary == EB_TRUE) ? EB_FALSE : // top picture boundary check
+            (picture_right_boundary == EB_TRUE && blockIndex >= topRightBlockBegin) ? EB_FALSE : // right picture boundary check
             (topModeNeighborArray[modeArrayIndex] == INTER_MODE && constrained_intra_flag == EB_TRUE) ? EB_FALSE : // contrained intra check
             EB_TRUE;
         if (neighborAvailable == EB_TRUE) {
@@ -1973,11 +1973,11 @@ EbErrorType GenerateLumaIntraReference16bitSamplesEncodePass(
 /*******************************************
  * Generate Chroma Intra Reference Samples - 16 bit
  *******************************************/
-EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
+EbErrorType generate_chroma_intra_reference16bit_samples_encode_pass(
     EbBool                     *is_left_availble,
     EbBool                     *is_above_availble,
     EbBool                     constrained_intra_flag,   //input parameter, indicates if constrained intra is switched on/off
-    EbBool                     strongIntraSmoothingFlag,
+    EbBool                     strong_intra_smoothing_flag,
     uint32_t                      origin_x,
     uint32_t                      origin_y,
     uint32_t                      size,
@@ -1987,13 +1987,13 @@ EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
     NeighborArrayUnit_t        *luma_recon_neighbor_array,
     NeighborArrayUnit_t        *cb_recon_neighbor_array,
     NeighborArrayUnit_t        *cr_recon_neighbor_array,
-    void                       *refWrapperPtr,
-    EbBool                     pictureLeftBoundary,
-    EbBool                     pictureTopBoundary,
-    EbBool                     pictureRightBoundary)
+    void                       *ref_wrapper_ptr,
+    EbBool                     picture_left_boundary,
+    EbBool                     picture_top_boundary,
+    EbBool                     picture_right_boundary)
 {
     EbErrorType          return_error = EB_ErrorNone;
-    IntraReference16bitSamples_t       *intra_ref_ptr = (IntraReference16bitSamples_t*)refWrapperPtr;
+    IntraReference16bitSamples_t       *intra_ref_ptr = (IntraReference16bitSamples_t*)ref_wrapper_ptr;
 
     uint16_t                *cbBorder = intra_ref_ptr->cbIntraReferenceArray;
     uint16_t                *crBorder = intra_ref_ptr->crIntraReferenceArray;
@@ -2051,7 +2051,7 @@ EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
     uint16_t                *leftCrReconNeighborArray = (uint16_t*)cr_recon_neighbor_array->leftArray;
     uint16_t                *topLeftCrReconNeighborArray = (uint16_t*)cr_recon_neighbor_array->topLeftArray;
 
-    (void)strongIntraSmoothingFlag;
+    (void)strong_intra_smoothing_flag;
     (void)luma_recon_neighbor_array;
 
     // The Generate Intra Reference sample process is a single pass algorithm
@@ -2132,7 +2132,7 @@ EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
             (bottomLeftAvailabilityPreCalc == EB_FALSE &&
                 blockIndex < bottomLeftEnd) ? EB_FALSE :            // internal scan-order check
                 (leftModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE :    // slice boundary check
-            (pictureLeftBoundary == EB_TRUE) ? EB_FALSE :            // left picture boundary check
+            (picture_left_boundary == EB_TRUE) ? EB_FALSE :            // left picture boundary check
             (leftModeNeighborArray[modeArrayIndex] == INTER_MODE &&
                 constrained_intra_flag == EB_TRUE) ? EB_FALSE : EB_TRUE;   // contrained intra check
 
@@ -2161,7 +2161,7 @@ EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
 
         neighborAvailable =
             (topLeftModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE :    // slice boundary check
-            (pictureLeftBoundary == EB_TRUE || pictureTopBoundary == EB_TRUE) ? EB_FALSE :    // left picture boundary check
+            (picture_left_boundary == EB_TRUE || picture_top_boundary == EB_TRUE) ? EB_FALSE :    // left picture boundary check
             (topLeftModeNeighborArray[modeArrayIndex] == INTER_MODE &&
                 constrained_intra_flag == EB_TRUE) ? EB_FALSE : EB_TRUE;   // contrained intra check
 
@@ -2190,8 +2190,8 @@ EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
             (topRightAvailabilityPreCalc == EB_FALSE &&
                 blockIndex >= topRightBlockBegin) ? EB_FALSE :            // internal scan-order check
                 (topModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE :   // slice boundary check
-            (pictureTopBoundary == EB_TRUE) ? EB_FALSE :            // top picture boundary check
-            (pictureRightBoundary == EB_TRUE && blockIndex >= topRightBlockBegin) ? EB_FALSE :  // right picture boundary check
+            (picture_top_boundary == EB_TRUE) ? EB_FALSE :            // top picture boundary check
+            (picture_right_boundary == EB_TRUE && blockIndex >= topRightBlockBegin) ? EB_FALSE :  // right picture boundary check
             (topModeNeighborArray[modeArrayIndex] == INTER_MODE &&
                 constrained_intra_flag == EB_TRUE) ? EB_FALSE : EB_TRUE;   // contrained intra check
 
@@ -2272,7 +2272,7 @@ EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
             (bottomLeftAvailabilityPreCalc == EB_FALSE &&
                 blockIndex < bottomLeftEnd) ? EB_FALSE :            // internal scan-order check
                 (leftModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE :    // slice boundary check
-            (pictureLeftBoundary == EB_TRUE) ? EB_FALSE :            // left picture boundary check
+            (picture_left_boundary == EB_TRUE) ? EB_FALSE :            // left picture boundary check
             (leftModeNeighborArray[modeArrayIndex] == INTER_MODE &&
                 constrained_intra_flag == EB_TRUE) ? EB_FALSE : EB_TRUE;   // contrained intra check
 
@@ -2315,7 +2315,7 @@ EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
 
         neighborAvailable =
             (topLeftModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE :    // slice boundary check
-            (pictureLeftBoundary == EB_TRUE || pictureTopBoundary == EB_TRUE) ? EB_FALSE :    // left picture boundary check
+            (picture_left_boundary == EB_TRUE || picture_top_boundary == EB_TRUE) ? EB_FALSE :    // left picture boundary check
             (topLeftModeNeighborArray[modeArrayIndex] == INTER_MODE &&
                 constrained_intra_flag == EB_TRUE) ? EB_FALSE : EB_TRUE;   // contrained intra check
 
@@ -2356,8 +2356,8 @@ EbErrorType GenerateChromaIntraReference16bitSamplesEncodePass(
             (topRightAvailabilityPreCalc == EB_FALSE &&
                 blockIndex >= topRightBlockBegin) ? EB_FALSE :            // internal scan-order check
                 (topModeNeighborArray[modeArrayIndex] == (uint8_t)INVALID_MODE) ? EB_FALSE :    // slice boundary check
-            (pictureTopBoundary == EB_TRUE) ? EB_FALSE :            // top picture boundary check
-            (pictureRightBoundary == EB_TRUE && blockIndex >= topRightBlockBegin) ? EB_FALSE :  // right picture boundary check
+            (picture_top_boundary == EB_TRUE) ? EB_FALSE :            // top picture boundary check
+            (picture_right_boundary == EB_TRUE && blockIndex >= topRightBlockBegin) ? EB_FALSE :  // right picture boundary check
             (topModeNeighborArray[modeArrayIndex] == INTER_MODE &&
                 constrained_intra_flag == EB_TRUE) ? EB_FALSE : EB_TRUE;   // contrained intra check
 
@@ -2444,7 +2444,7 @@ static void IntraModeAngular_27To33(
     int32_t           intra_pred_angle = intraModeAngularTable[mode - INTRA_VERTICAL_MODE];
     ref_samp_main = ref_samples + (size << 1);
 
-    IntraAngVertical_funcPtrArray[asm_type](
+    intra_ang_vertical_func_ptr_array[asm_type](
         size,
         ref_samp_main,
         prediction_ptr,
@@ -2508,7 +2508,7 @@ static void IntraModeAngular_19To25(
     }
 
 
-    IntraAngVertical_funcPtrArray[asm_type](
+    intra_ang_vertical_func_ptr_array[asm_type](
         size,
         ref_samp_main,
         prediction_ptr,
@@ -2567,7 +2567,7 @@ static void IntraModeAngular_11To17(
     }
 
 
-    IntraAngHorizontal_funcPtrArray[asm_type](
+    intra_ang_horizontal_func_ptr_array[asm_type](
         size,
         ref_samp_main,
         prediction_ptr,
@@ -2596,7 +2596,7 @@ static void IntraModeAngular_3To9(
 
     ref_samp_main = ref_samples - 1;
 
-    IntraAngHorizontal_funcPtrArray[asm_type](
+    intra_ang_horizontal_func_ptr_array[asm_type](
         size,
         ref_samp_main,
         prediction_ptr,
@@ -2727,7 +2727,7 @@ void highbd_dc_predictor(
 }
 #endif
 /* clang-format on */
-void IntraModePlanar(
+void intra_mode_planar(
     const uint32_t   size,                       //input parameter, denotes the size of the current PU
     uint8_t         *ref_samples,                 //input parameter, pointer to the reference samples
     uint8_t         *dst,              //output parameter, pointer to the prediction
@@ -3327,7 +3327,7 @@ void h_predictor_16bit(uint16_t *dst, const uint32_t stride, int32_t bw, int32_t
     return;
 }
 
-void IntraModeAngular_AV1_Z1_16bit(
+void intra_mode_angular_av1_z1_16bit(
     const uint32_t   size,                    //input parameter, denotes the size of the current PU
     uint16_t         *ref_samples,             //input parameter, pointer to the reference samples
     uint16_t         *dst,                    //output parameter, pointer to the prediction
@@ -3381,7 +3381,7 @@ void IntraModeAngular_AV1_Z1_16bit(
 
     return;
 }
-void IntraModeAngular_AV1_Z2_16bit(
+void intra_mode_angular_av1_z2_16bit(
     const uint32_t   size,                       //input parameter, denotes the size of the current PU
     uint16_t         *ref_samples,                 //input parameter, pointer to the reference samples
     uint16_t         *dst,              //output parameter, pointer to the prediction
@@ -3436,7 +3436,7 @@ void IntraModeAngular_AV1_Z2_16bit(
 
     return;
 }
-void IntraModeAngular_AV1_Z3_16bit(
+void intra_mode_angular_av1_z3_16bit(
     const uint32_t   size,                        //input parameter, denotes the size of the current PU
     uint16_t         *ref_samples,                  //input parameter, pointer to the reference samples
     uint16_t         *dst,                         //output parameter, pointer to the prediction
@@ -3507,7 +3507,7 @@ static inline void IntraModeAngular_all(
     switch (mode) {
     case 34:
 
-        IntraAng34_funcPtrArray[asm_type](
+        intra_ang34_func_ptr_array[asm_type](
             puSize,
             ref_samples,
             prediction_ptr,
@@ -3536,7 +3536,7 @@ static inline void IntraModeAngular_all(
             asm_type);
         break;
     case 18:
-        IntraAng18_funcPtrArray[asm_type](
+        intra_ang18_func_ptr_array[asm_type](
             puSize,
             ref_samples,
             prediction_ptr,
@@ -3565,7 +3565,7 @@ static inline void IntraModeAngular_all(
         break;
     case 2:
 
-        IntraAng2_funcPtrArray[asm_type](
+        intra_ang2_func_ptr_array[asm_type](
             puSize,
             refSamplesReverse,
             prediction_ptr,
@@ -3578,7 +3578,7 @@ static inline void IntraModeAngular_all(
 /** IntraPrediction()
         is the main function to compute intra prediction for a PU
  */
-EbErrorType IntraPredictionCL(
+EbErrorType intra_prediction_cl(
     ModeDecisionContext_t                  *md_context_ptr,
     uint32_t                                  component_mask,
     PictureControlSet_t                    *picture_control_set_ptr,
@@ -3653,7 +3653,7 @@ EbErrorType IntraPredictionCL(
             y_intra_reference_array = (diffMode > intraLumaFilterTable[Log2f(pu_width) - 2]) ? context_ptr->yIntraFilteredReferenceArrayReverse :
                 context_ptr->y_intra_reference_array_reverse;
 
-            IntraPlanar_funcPtrArray[asm_type](
+            intra_planar_func_ptr_array[asm_type](
                 puSize,
                 y_intra_reference_array,
                 &(candidate_buffer_ptr->prediction_ptr->buffer_y[puOriginIndex]),
@@ -3666,7 +3666,7 @@ EbErrorType IntraPredictionCL(
 
             y_intra_reference_array = context_ptr->y_intra_reference_array_reverse;
 
-            IntraDCLuma_funcPtrArray[asm_type](
+            intra_dc_luma_func_ptr_array[asm_type](
                 puSize,
                 y_intra_reference_array,
                 &(candidate_buffer_ptr->prediction_ptr->buffer_y[puOriginIndex]),
@@ -3681,7 +3681,7 @@ EbErrorType IntraPredictionCL(
                 context_ptr->y_intra_reference_array_reverse;
 
 
-            IntraVerticalLuma_funcPtrArray[asm_type](
+            intra_vertical_luma_func_ptr_array[asm_type](
                 puSize,
                 y_intra_reference_array,
                 &(candidate_buffer_ptr->prediction_ptr->buffer_y[puOriginIndex]),
@@ -3694,7 +3694,7 @@ EbErrorType IntraPredictionCL(
             y_intra_reference_array = (diffMode > intraLumaFilterTable[Log2f(pu_width) - 2]) ? context_ptr->yIntraFilteredReferenceArrayReverse :
                 context_ptr->y_intra_reference_array_reverse;
 
-            IntraHorzLuma_funcPtrArray[asm_type](
+            intra_horz_luma_func_ptr_array[asm_type](
                 puSize,
                 y_intra_reference_array,
                 &(candidate_buffer_ptr->prediction_ptr->buffer_y[puOriginIndex]),
@@ -3759,7 +3759,7 @@ EbErrorType IntraPredictionCL(
 
             // Cb Intra Prediction
             if (component_mask & PICTURE_BUFFER_DESC_Cb_FLAG) {
-                IntraPlanar_funcPtrArray[asm_type](
+                intra_planar_func_ptr_array[asm_type](
                     chromaPuSize,
                     context_ptr->cbIntraReferenceArrayReverse,
                     &(candidate_buffer_ptr->prediction_ptr->bufferCb[puChromaOriginIndex]),
@@ -3769,7 +3769,7 @@ EbErrorType IntraPredictionCL(
 
             // Cr Intra Prediction
             if (component_mask & PICTURE_BUFFER_DESC_Cr_FLAG) {
-                IntraPlanar_funcPtrArray[asm_type](
+                intra_planar_func_ptr_array[asm_type](
                     chromaPuSize,
                     context_ptr->crIntraReferenceArrayReverse,
                     &(candidate_buffer_ptr->prediction_ptr->bufferCr[puChromaOriginIndex]),
@@ -3783,7 +3783,7 @@ EbErrorType IntraPredictionCL(
 
             // Cb Intra Prediction
             if (component_mask & PICTURE_BUFFER_DESC_Cb_FLAG) {
-                IntraVerticalChroma_funcPtrArray[asm_type](
+                intra_vertical_chroma_func_ptr_array[asm_type](
                     chromaPuSize,
                     context_ptr->cbIntraReferenceArray,
                     &(candidate_buffer_ptr->prediction_ptr->bufferCb[puChromaOriginIndex]),
@@ -3793,7 +3793,7 @@ EbErrorType IntraPredictionCL(
 
             // Cr Intra Prediction
             if (component_mask & PICTURE_BUFFER_DESC_Cr_FLAG) {
-                IntraVerticalChroma_funcPtrArray[asm_type](
+                intra_vertical_chroma_func_ptr_array[asm_type](
                     chromaPuSize,
                     context_ptr->crIntraReferenceArray,
                     &(candidate_buffer_ptr->prediction_ptr->bufferCr[puChromaOriginIndex]),
@@ -3807,7 +3807,7 @@ EbErrorType IntraPredictionCL(
 
             // Cb Intra Prediction
             if (component_mask & PICTURE_BUFFER_DESC_Cb_FLAG) {
-                IntraHorzChroma_funcPtrArray[asm_type](
+                intra_horz_chroma_func_ptr_array[asm_type](
                     chromaPuSize,
                     context_ptr->cbIntraReferenceArrayReverse,
                     &(candidate_buffer_ptr->prediction_ptr->bufferCb[puChromaOriginIndex]),
@@ -3817,7 +3817,7 @@ EbErrorType IntraPredictionCL(
 
             // Cr Intra Prediction
             if (component_mask & PICTURE_BUFFER_DESC_Cr_FLAG) {
-                IntraHorzChroma_funcPtrArray[asm_type](
+                intra_horz_chroma_func_ptr_array[asm_type](
                     chromaPuSize,
                     context_ptr->crIntraReferenceArrayReverse,
                     &(candidate_buffer_ptr->prediction_ptr->bufferCr[puChromaOriginIndex]),
@@ -3831,7 +3831,7 @@ EbErrorType IntraPredictionCL(
 
             // Cb Intra Prediction
             if (component_mask & PICTURE_BUFFER_DESC_Cb_FLAG) {
-                IntraDCChroma_funcPtrArray[asm_type](
+                intra_dc_chroma_func_ptr_array[asm_type](
                     chromaPuSize,
                     context_ptr->cbIntraReferenceArrayReverse,
                     &(candidate_buffer_ptr->prediction_ptr->bufferCb[puChromaOriginIndex]),
@@ -3841,7 +3841,7 @@ EbErrorType IntraPredictionCL(
 
             // Cr Intra Prediction
             if (component_mask & PICTURE_BUFFER_DESC_Cr_FLAG) {
-                IntraDCChroma_funcPtrArray[asm_type](
+                intra_dc_chroma_func_ptr_array[asm_type](
                     chromaPuSize,
                     context_ptr->crIntraReferenceArrayReverse,
                     &(candidate_buffer_ptr->prediction_ptr->bufferCr[puChromaOriginIndex]),
@@ -3895,7 +3895,7 @@ EbErrorType IntraPredictionCL(
     return return_error;
 }
 
-EbErrorType Intra4x4IntraPredictionCL(
+EbErrorType intra4x4_intra_prediction_cl(
     uint32_t                                  pu_index,
     uint32_t                                  pu_origin_x,
     uint32_t                                  pu_origin_y,
@@ -3963,7 +3963,7 @@ EbErrorType Intra4x4IntraPredictionCL(
             y_intra_reference_array = (diffMode > intraLumaFilterTable[Log2f(pu_width) - 2]) ? context_ptr->yIntraFilteredReferenceArrayReverse :
                 context_ptr->y_intra_reference_array_reverse;
 
-            IntraPlanar_funcPtrArray[asm_type](
+            intra_planar_func_ptr_array[asm_type](
                 puSize,
                 y_intra_reference_array,
                 &(candidate_buffer_ptr->prediction_ptr->buffer_y[puOriginIndex]),
@@ -3976,7 +3976,7 @@ EbErrorType Intra4x4IntraPredictionCL(
 
             y_intra_reference_array = context_ptr->y_intra_reference_array_reverse;
 
-            IntraDCLuma_funcPtrArray[asm_type](
+            intra_dc_luma_func_ptr_array[asm_type](
                 puSize,
                 y_intra_reference_array,
                 &(candidate_buffer_ptr->prediction_ptr->buffer_y[puOriginIndex]),
@@ -3991,7 +3991,7 @@ EbErrorType Intra4x4IntraPredictionCL(
                 context_ptr->y_intra_reference_array_reverse;
 
 
-            IntraVerticalLuma_funcPtrArray[asm_type](
+            intra_vertical_luma_func_ptr_array[asm_type](
                 puSize,
                 y_intra_reference_array,
                 &(candidate_buffer_ptr->prediction_ptr->buffer_y[puOriginIndex]),
@@ -4004,7 +4004,7 @@ EbErrorType Intra4x4IntraPredictionCL(
             y_intra_reference_array = (diffMode > intraLumaFilterTable[Log2f(pu_width) - 2]) ? context_ptr->yIntraFilteredReferenceArrayReverse :
                 context_ptr->y_intra_reference_array_reverse;
 
-            IntraHorzLuma_funcPtrArray[asm_type](
+            intra_horz_luma_func_ptr_array[asm_type](
                 puSize,
                 y_intra_reference_array,
                 &(candidate_buffer_ptr->prediction_ptr->buffer_y[puOriginIndex]),
@@ -4059,7 +4059,7 @@ EbErrorType Intra4x4IntraPredictionCL(
 
             // Cb Intra Prediction
             if (component_mask & PICTURE_BUFFER_DESC_Cb_FLAG) {
-                IntraPlanar_funcPtrArray[asm_type](
+                intra_planar_func_ptr_array[asm_type](
                     chromaPuSize,
                     context_ptr->cbIntraReferenceArrayReverse,
                     &(candidate_buffer_ptr->prediction_ptr->bufferCb[puChromaOriginIndex]),
@@ -4069,7 +4069,7 @@ EbErrorType Intra4x4IntraPredictionCL(
 
             // Cr Intra Prediction
             if (component_mask & PICTURE_BUFFER_DESC_Cr_FLAG) {
-                IntraPlanar_funcPtrArray[asm_type](
+                intra_planar_func_ptr_array[asm_type](
                     chromaPuSize,
                     context_ptr->crIntraReferenceArrayReverse,
                     &(candidate_buffer_ptr->prediction_ptr->bufferCr[puChromaOriginIndex]),
@@ -4083,7 +4083,7 @@ EbErrorType Intra4x4IntraPredictionCL(
 
             // Cb Intra Prediction
             if (component_mask & PICTURE_BUFFER_DESC_Cb_FLAG) {
-                IntraVerticalChroma_funcPtrArray[asm_type](
+                intra_vertical_chroma_func_ptr_array[asm_type](
                     chromaPuSize,
                     context_ptr->cbIntraReferenceArray,
                     &(candidate_buffer_ptr->prediction_ptr->bufferCb[puChromaOriginIndex]),
@@ -4093,7 +4093,7 @@ EbErrorType Intra4x4IntraPredictionCL(
 
             // Cr Intra Prediction
             if (component_mask & PICTURE_BUFFER_DESC_Cr_FLAG) {
-                IntraVerticalChroma_funcPtrArray[asm_type](
+                intra_vertical_chroma_func_ptr_array[asm_type](
                     chromaPuSize,
                     context_ptr->crIntraReferenceArray,
                     &(candidate_buffer_ptr->prediction_ptr->bufferCr[puChromaOriginIndex]),
@@ -4107,7 +4107,7 @@ EbErrorType Intra4x4IntraPredictionCL(
 
             // Cb Intra Prediction
             if (component_mask & PICTURE_BUFFER_DESC_Cb_FLAG) {
-                IntraHorzChroma_funcPtrArray[asm_type](
+                intra_horz_chroma_func_ptr_array[asm_type](
                     chromaPuSize,
                     context_ptr->cbIntraReferenceArrayReverse,
                     &(candidate_buffer_ptr->prediction_ptr->bufferCb[puChromaOriginIndex]),
@@ -4117,7 +4117,7 @@ EbErrorType Intra4x4IntraPredictionCL(
 
             // Cr Intra Prediction
             if (component_mask & PICTURE_BUFFER_DESC_Cr_FLAG) {
-                IntraHorzChroma_funcPtrArray[asm_type](
+                intra_horz_chroma_func_ptr_array[asm_type](
                     chromaPuSize,
                     context_ptr->crIntraReferenceArrayReverse,
                     &(candidate_buffer_ptr->prediction_ptr->bufferCr[puChromaOriginIndex]),
@@ -4131,7 +4131,7 @@ EbErrorType Intra4x4IntraPredictionCL(
 
             // Cb Intra Prediction
             if (component_mask & PICTURE_BUFFER_DESC_Cb_FLAG) {
-                IntraDCChroma_funcPtrArray[asm_type](
+                intra_dc_chroma_func_ptr_array[asm_type](
                     chromaPuSize,
                     context_ptr->cbIntraReferenceArrayReverse,
                     &(candidate_buffer_ptr->prediction_ptr->bufferCb[puChromaOriginIndex]),
@@ -4141,7 +4141,7 @@ EbErrorType Intra4x4IntraPredictionCL(
 
             // Cr Intra Prediction
             if (component_mask & PICTURE_BUFFER_DESC_Cr_FLAG) {
-                IntraDCChroma_funcPtrArray[asm_type](
+                intra_dc_chroma_func_ptr_array[asm_type](
                     chromaPuSize,
                     context_ptr->crIntraReferenceArrayReverse,
                     &(candidate_buffer_ptr->prediction_ptr->bufferCr[puChromaOriginIndex]),
@@ -4204,7 +4204,7 @@ EbErrorType Intra4x4IntraPredictionCL(
  *    Calculates a conformant H.265 prediction
  *    for an Intra Prediction Unit
  *********************************************/
-EbErrorType EncodePassIntraPrediction(
+EbErrorType encode_pass_intra_prediction(
     uint8_t                         upsample_left,
     uint8_t                         upsample_above,
     uint8_t                          upsample_left_chroma,
@@ -4253,7 +4253,7 @@ EbErrorType EncodePassIntraPrediction(
 
         if (av1LumaMode == DC_PRED)
 
-            IntraDC_Av1_funcPtrArray[puSize >> 3][asm_type](
+            intra_dc_av1_func_ptr_array[puSize >> 3][asm_type](
                 is_left_availble,
                 is_above_availble,
                 puSize,
@@ -4264,7 +4264,7 @@ EbErrorType EncodePassIntraPrediction(
 
         else if (av1LumaMode == SMOOTH_PRED)
 
-            IntraPlanar_Av1_funcPtrArray[asm_type](
+            intra_planar_av1_func_ptr_array[asm_type](
                 puSize,
                 y_intra_reference_array_reverse,
                 prediction_ptr->buffer_y + lumaOffset,
@@ -4319,7 +4319,7 @@ EbErrorType EncodePassIntraPrediction(
 
         if (av1ChromaMode == UV_DC_PRED) {
 
-            IntraDC_Av1_funcPtrArray[puSize >> 4][asm_type](
+            intra_dc_av1_func_ptr_array[puSize >> 4][asm_type](
                 is_left_availble,
                 is_above_availble,
                 puSize >> 1,
@@ -4328,7 +4328,7 @@ EbErrorType EncodePassIntraPrediction(
                 prediction_ptr->strideCb,
                 EB_FALSE);
 
-            IntraDC_Av1_funcPtrArray[puSize >> 4][asm_type](
+            intra_dc_av1_func_ptr_array[puSize >> 4][asm_type](
                 is_left_availble,
                 is_above_availble,
                 puSize >> 1,
@@ -4339,14 +4339,14 @@ EbErrorType EncodePassIntraPrediction(
         }
         else if (av1ChromaMode == UV_SMOOTH_PRED) {
 
-            IntraPlanar_Av1_funcPtrArray[asm_type](
+            intra_planar_av1_func_ptr_array[asm_type](
                 puSize >> 1,
                 referenceSamples->cbIntraReferenceArrayReverse,
                 prediction_ptr->bufferCb + chromaOffset,
                 prediction_ptr->strideCb,
                 EB_FALSE);
 
-            IntraPlanar_Av1_funcPtrArray[asm_type](
+            intra_planar_av1_func_ptr_array[asm_type](
                 puSize >> 1,
                 referenceSamples->crIntraReferenceArrayReverse,
                 prediction_ptr->bufferCr + chromaOffset,
@@ -4396,7 +4396,7 @@ EbErrorType EncodePassIntraPrediction(
  *    Calculates a conformant H.265 prediction
  *    for an Intra Prediction Unit
  *********************************************/
-EbErrorType EncodePassIntraPrediction16bit(
+EbErrorType encode_pass_intra_prediction16bit(
     uint8_t                         upsample_left,
     uint8_t                         upsample_above,
     uint8_t                          upsample_left_chroma,
@@ -4468,7 +4468,7 @@ EbErrorType EncodePassIntraPrediction16bit(
 
         else if (av1LumaMode == SMOOTH_V_PRED)
 
-            IntraSmoothV_16bit_Av1_funcPtrArray[asm_type](
+            intra_smooth_v_16bit_av1_func_ptr_array[asm_type](
                 puSize,
                 y_intra_reference_array_reverse,
                 (uint16_t*)prediction_ptr->buffer_y + lumaOffset,
@@ -4477,7 +4477,7 @@ EbErrorType EncodePassIntraPrediction16bit(
 
         else if (av1LumaMode == SMOOTH_H_PRED)
 
-            IntraSmoothH_16bit_Av1_funcPtrArray[asm_type](
+            intra_smooth_h_16bit_av1_func_ptr_array[asm_type](
                 puSize,
                 y_intra_reference_array_reverse,
                 (uint16_t*)prediction_ptr->buffer_y + lumaOffset,
@@ -4590,7 +4590,7 @@ EbErrorType EncodePassIntraPrediction16bit(
  *    Calculates a conformant H.265 prediction
  *    for an Intra Prediction Unit
  *********************************************/
-EbErrorType EncodePassIntra4x4Prediction(
+EbErrorType encode_pass_intra4x4_prediction(
     uint8_t                          upsample_left,
     uint8_t                          upsample_above,
     uint8_t                          upsample_left_chroma,
@@ -4640,7 +4640,7 @@ EbErrorType EncodePassIntra4x4Prediction(
 
             if (av1LumaMode == DC_PRED)
 
-                IntraDC_Av1_funcPtrArray[puSize >> 3][asm_type](
+                intra_dc_av1_func_ptr_array[puSize >> 3][asm_type](
                     is_left_availble,
                     is_above_availble,
                     puSize,
@@ -4651,7 +4651,7 @@ EbErrorType EncodePassIntra4x4Prediction(
 
             else if (av1LumaMode == SMOOTH_PRED)
 
-                IntraPlanar_Av1_funcPtrArray[asm_type](
+                intra_planar_av1_func_ptr_array[asm_type](
                     puSize,
                     y_intra_reference_array_reverse,
                     prediction_ptr->buffer_y + lumaOffset,
@@ -4660,7 +4660,7 @@ EbErrorType EncodePassIntra4x4Prediction(
 
             else if (av1LumaMode == SMOOTH_V_PRED)
 
-                IntraSmoothV_Av1_funcPtrArray[asm_type](
+                intra_smooth_v_av1_func_ptr_array[asm_type](
                     puSize,
                     y_intra_reference_array_reverse,
                     prediction_ptr->buffer_y + lumaOffset,
@@ -4669,7 +4669,7 @@ EbErrorType EncodePassIntra4x4Prediction(
 
             else if (av1LumaMode == SMOOTH_H_PRED)
 
-                IntraSmoothH_Av1_funcPtrArray[asm_type](
+                intra_smooth_h_av1_func_ptr_array[asm_type](
                     puSize,
                     y_intra_reference_array_reverse,
                     prediction_ptr->buffer_y + lumaOffset,
@@ -4711,7 +4711,7 @@ EbErrorType EncodePassIntra4x4Prediction(
 
             if (av1ChromaMode == UV_DC_PRED) {
 
-                IntraDC_Av1_funcPtrArray[puSize >> 4][asm_type](
+                intra_dc_av1_func_ptr_array[puSize >> 4][asm_type](
                     is_left_availble,
                     is_above_availble,
                     puSize,
@@ -4720,7 +4720,7 @@ EbErrorType EncodePassIntra4x4Prediction(
                     prediction_ptr->strideCb,
                     EB_FALSE);
 
-                IntraDC_Av1_funcPtrArray[puSize >> 4][asm_type](
+                intra_dc_av1_func_ptr_array[puSize >> 4][asm_type](
                     is_left_availble,
                     is_above_availble,
                     puSize,
@@ -4731,14 +4731,14 @@ EbErrorType EncodePassIntra4x4Prediction(
             }
             else if (av1ChromaMode == UV_SMOOTH_PRED) {
 
-                IntraPlanar_Av1_funcPtrArray[asm_type](
+                intra_planar_av1_func_ptr_array[asm_type](
                     puSize,
                     referenceSamples->cbIntraReferenceArrayReverse,
                     prediction_ptr->bufferCb + chromaOffset,
                     prediction_ptr->strideCb,
                     EB_FALSE);
 
-                IntraPlanar_Av1_funcPtrArray[asm_type](
+                intra_planar_av1_func_ptr_array[asm_type](
                     puSize,
                     referenceSamples->crIntraReferenceArrayReverse,
                     prediction_ptr->bufferCr + chromaOffset,
@@ -4789,7 +4789,7 @@ EbErrorType EncodePassIntra4x4Prediction(
  *    Calculates a conformant H.265 prediction
  *    for an Intra Prediction Unit
  *********************************************/
-EbErrorType EncodePassIntra4x4Prediction16bit(
+EbErrorType encode_pass_intra4x4_prediction16bit(
     uint8_t                         upsample_left,
     uint8_t                         upsample_above,
     uint8_t                          upsample_left_chroma,
@@ -4861,7 +4861,7 @@ EbErrorType EncodePassIntra4x4Prediction16bit(
 
         else if (av1LumaMode == SMOOTH_V_PRED)
 
-            IntraSmoothV_16bit_Av1_funcPtrArray[asm_type](
+            intra_smooth_v_16bit_av1_func_ptr_array[asm_type](
                 puSize,
                 y_intra_reference_array_reverse,
                 (uint16_t*)prediction_ptr->buffer_y + lumaOffset,
@@ -4870,7 +4870,7 @@ EbErrorType EncodePassIntra4x4Prediction16bit(
 
         else if (av1LumaMode == SMOOTH_H_PRED)
 
-            IntraSmoothH_16bit_Av1_funcPtrArray[asm_type](
+            intra_smooth_h_16bit_av1_func_ptr_array[asm_type](
                 puSize,
                 y_intra_reference_array_reverse,
                 (uint16_t*)prediction_ptr->buffer_y + lumaOffset,
@@ -4979,7 +4979,7 @@ EbErrorType EncodePassIntra4x4Prediction16bit(
 /**********************************************
  * Intra Reference Samples Ctor
  **********************************************/
-EbErrorType IntraOpenLoopReferenceSamplesCtor(
+EbErrorType intra_open_loop_reference_samples_ctor(
     IntraReferenceSamplesOpenLoop_t **context_dbl_ptr)
 {
     IntraReferenceSamplesOpenLoop_t *context_ptr;
@@ -4998,10 +4998,10 @@ EbErrorType IntraOpenLoopReferenceSamplesCtor(
 
 
 
-/** UpdateNeighborSamplesArrayOpenLoop()
+/** update_neighbor_samples_array_open_loop()
         updates neighbor sample array
  */
-EbErrorType UpdateNeighborSamplesArrayOpenLoop(
+EbErrorType update_neighbor_samples_array_open_loop(
     IntraReferenceSamplesOpenLoop_t *intra_ref_ptr,
     EbPictureBufferDesc_t           *inputPtr,
     uint32_t                           stride,
@@ -5118,10 +5118,10 @@ EbErrorType UpdateNeighborSamplesArrayOpenLoop(
     return return_error;
 }
 
-/** IntraPredictionOpenLoop()
+/** intra_prediction_open_loop()
         performs Open-loop Intra candidate Search for a CU
  */
-EbErrorType IntraPredictionOpenLoop(
+EbErrorType intra_prediction_open_loop(
     uint32_t                               cu_size,                       // input parameter, pointer to the current cu
     MotionEstimationContext_t           *context_ptr,                  // input parameter, ME context
     uint32_t                   openLoopIntraCandidateIndex, // input parameter, intra mode
@@ -5141,7 +5141,7 @@ EbErrorType IntraPredictionOpenLoop(
 
     case 0:
 
-        IntraPlanar_funcPtrArray[asm_type](
+        intra_planar_func_ptr_array[asm_type](
             cu_size,
             context_ptr->intra_ref_ptr->y_intra_reference_array_reverse,
             (&(context_ptr->me_context_ptr->sb_buffer[0])),
@@ -5152,7 +5152,7 @@ EbErrorType IntraPredictionOpenLoop(
 
     case 1:
 
-        IntraDCLuma_funcPtrArray[asm_type](
+        intra_dc_luma_func_ptr_array[asm_type](
             cu_size,
             context_ptr->intra_ref_ptr->y_intra_reference_array_reverse,
             (&(context_ptr->me_context_ptr->sb_buffer[0])),
@@ -5163,7 +5163,7 @@ EbErrorType IntraPredictionOpenLoop(
 
     case 2:
 
-        IntraVerticalLuma_funcPtrArray[asm_type](
+        intra_vertical_luma_func_ptr_array[asm_type](
             cu_size,
             context_ptr->intra_ref_ptr->y_intra_reference_array_reverse,
             (&(context_ptr->me_context_ptr->sb_buffer[0])),
@@ -5174,7 +5174,7 @@ EbErrorType IntraPredictionOpenLoop(
 
     case 3:
 
-        IntraHorzLuma_funcPtrArray[asm_type](
+        intra_horz_luma_func_ptr_array[asm_type](
             cu_size,
             context_ptr->intra_ref_ptr->y_intra_reference_array_reverse,
             (&(context_ptr->me_context_ptr->sb_buffer[0])),
@@ -9838,7 +9838,7 @@ void av1_predict_intra_block_16bit(
 /** IntraPrediction()
 is the main function to compute intra prediction for a PU
 */
-EbErrorType AV1IntraPredictionCL(
+EbErrorType av1_intra_prediction_cl(
     ModeDecisionContext_t                  *md_context_ptr,
 #if !CHROMA_BLIND
     uint32_t                                  component_mask,

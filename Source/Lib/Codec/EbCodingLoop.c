@@ -169,7 +169,7 @@ typedef EbErrorType(*EB_GENERATE_INTRA_SAMPLES_FUNC_PTR)(
     EbBool                         *is_left_availble,
     EbBool                         *is_above_availble,
     EbBool                     constrained_intra_flag,   //input parameter, indicates if constrained intra is switched on/off
-    EbBool                     strongIntraSmoothingFlag,
+    EbBool                     strong_intra_smoothing_flag,
     uint32_t                      origin_x,
     uint32_t                      origin_y,
     uint32_t                      size,
@@ -178,10 +178,10 @@ typedef EbErrorType(*EB_GENERATE_INTRA_SAMPLES_FUNC_PTR)(
     NeighborArrayUnit_t        *luma_recon_neighbor_array,
     NeighborArrayUnit_t        *cb_recon_neighbor_array,
     NeighborArrayUnit_t        *cr_recon_neighbor_array,
-    void                       *refWrapperPtr,
-    EbBool                     pictureLeftBoundary,
-    EbBool                     pictureTopBoundary,
-    EbBool                     pictureRightBoundary);
+    void                       *ref_wrapper_ptr,
+    EbBool                     picture_left_boundary,
+    EbBool                     picture_top_boundary,
+    EbBool                     picture_right_boundary);
 typedef EbErrorType(*EB_ENC_PASS_INTRA_FUNC_PTR)(
     uint8_t                          upsample_left,
     uint8_t                          upsample_above,
@@ -2160,14 +2160,14 @@ EB_GENERATE_RECON_INTRA_4x4_FUNC_PTR   EncodeGenerateReconIntra4x4FunctionPtr[2]
 
 EB_GENERATE_INTRA_SAMPLES_FUNC_PTR GenerateIntraReferenceSamplesFuncTable[2] =
 {
-    GenerateIntraReferenceSamplesEncodePass,
-    GenerateIntraReference16bitSamplesEncodePass
+    generate_intra_reference_samples_encode_pass,
+    generate_intra_reference16bit_samples_encode_pass
 };
 
 EB_ENC_PASS_INTRA_FUNC_PTR EncodePassIntraPredictionFuncTable[2] =
 {
-    EncodePassIntraPrediction,
-    EncodePassIntraPrediction16bit
+    encode_pass_intra_prediction,
+    encode_pass_intra_prediction16bit
 };
 #endif
 

@@ -46,7 +46,7 @@ typedef struct HlRateControlHistogramEntry_s {
     uint32_t                          full_sb_count;
 } HlRateControlHistogramEntry_t;
 
-extern EbErrorType HlRateControlHistogramEntryCtor(
+extern EbErrorType hl_rate_control_histogram_entry_ctor(
     HlRateControlHistogramEntry_t   **entry_dbl_ptr,
     uint32_t                            picture_number);
 

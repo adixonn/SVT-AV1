@@ -144,7 +144,7 @@ EbErrorType encode_context_ctor(
     EB_MALLOC(HlRateControlHistogramEntry_t**, encode_context_ptr->hl_rate_control_historgram_queue, sizeof(HlRateControlHistogramEntry_t*) * HIGH_LEVEL_RATE_CONTROL_HISTOGRAM_QUEUE_MAX_DEPTH, EB_N_PTR);
 
     for (pictureIndex = 0; pictureIndex < HIGH_LEVEL_RATE_CONTROL_HISTOGRAM_QUEUE_MAX_DEPTH; ++pictureIndex) {
-        return_error = HlRateControlHistogramEntryCtor(
+        return_error = hl_rate_control_histogram_entry_ctor(
             &(encode_context_ptr->hl_rate_control_historgram_queue[pictureIndex]),
             pictureIndex);
         if (return_error == EB_ErrorInsufficientResources) {

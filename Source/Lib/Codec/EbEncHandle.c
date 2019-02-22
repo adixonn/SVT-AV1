@@ -1207,7 +1207,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
             &encHandlePtr->initialRateControlResultsProducerFifoPtrArray,
             &encHandlePtr->initialRateControlResultsConsumerFifoPtrArray,
             EB_TRUE,
-            InitialRateControlResultsCtor,
+            initial_rate_control_results_ctor,
             &initialRateControlResultInitData);
 
         if (return_error == EB_ErrorInsufficientResources) {

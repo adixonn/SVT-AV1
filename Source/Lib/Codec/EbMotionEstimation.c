@@ -7433,7 +7433,7 @@ void IntraOpenLoopSearchTheseModesOutputBest(
         mode = stage1ModesArray[candidateIndex];
 
         // Intra Prediction
-        IntraPredictionOpenLoop(
+        intra_prediction_open_loop(
             cu_size,
             context_ptr,
             (uint32_t)mode,
@@ -7757,7 +7757,7 @@ int32_t GetInterIntraSadDistance(
     // Compute Prediction & SAD for Intra Planer
 
     // Intra Prediction
-    IntraPredictionOpenLoop(
+    intra_prediction_open_loop(
         cu_size,
         context_ptr,
         (uint32_t)1,
@@ -7908,7 +7908,7 @@ EbErrorType SortIntraModesOpenLoop(
     return return_error;
 }
 
-uint32_t UpdateNeighborDcIntraPred(
+uint32_t update_neighbor_dc_intra_pred(
     MotionEstimationContext_t       *context_ptr,
     EbPictureBufferDesc_t           *input_ptr,
     uint32_t                           cu_origin_x,
@@ -7919,7 +7919,7 @@ uint32_t UpdateNeighborDcIntraPred(
     uint32_t distortion;
     //    printf("cu_size=%i  x=%i  y=%i  rasterScanCuIndex=%i   mdScanCuIndex=%i \n", cu_size, RASTER_SCAN_CU_X[rasterScanCuIndex], RASTER_SCAN_CU_Y[rasterScanCuIndex],rasterScanCuIndex, mdScanCuIndex );
     // Fill Neighbor Arrays
-    UpdateNeighborSamplesArrayOpenLoop(
+    update_neighbor_samples_array_open_loop(
         context_ptr->intra_ref_ptr,
         input_ptr,
         input_ptr->stride_y,
@@ -7928,7 +7928,7 @@ uint32_t UpdateNeighborDcIntraPred(
         cu_size);
 
     // Intra Prediction
-    IntraPredictionOpenLoop(
+    intra_prediction_open_loop(
         cu_size,
         context_ptr,
         (uint32_t)INTRA_DC_MODE,
@@ -7980,7 +7980,7 @@ EbErrorType OpenLoopIntraDC(
         }
         else
         {
-            OisCuPtr[0].distortion = (uint32_t)UpdateNeighborDcIntraPred(
+            OisCuPtr[0].distortion = (uint32_t)update_neighbor_dc_intra_pred(
                 context_ptr,
                 input_ptr,
                 cu_origin_x,
@@ -7993,7 +7993,7 @@ EbErrorType OpenLoopIntraDC(
     }
     else {
 
-        OisCuPtr[0].distortion = UpdateNeighborDcIntraPred(
+        OisCuPtr[0].distortion = update_neighbor_dc_intra_pred(
             context_ptr,
             input_ptr,
             cu_origin_x,
@@ -8088,7 +8088,7 @@ EbErrorType open_loop_intra_search_lcu(
                 cu_origin_x = sb_params->origin_x + RASTER_SCAN_CU_X[rasterScanCuIndex];
                 cu_origin_y = sb_params->origin_y + RASTER_SCAN_CU_Y[rasterScanCuIndex];
                 // Fill Neighbor Arrays
-                UpdateNeighborSamplesArrayOpenLoop(
+                update_neighbor_samples_array_open_loop(
                     context_ptr->intra_ref_ptr,
                     input_ptr,
                     input_ptr->stride_y,
@@ -8099,7 +8099,7 @@ EbErrorType open_loop_intra_search_lcu(
                 if (cu_size == 32) {
 
                     // Intra Prediction
-                    IntraPredictionOpenLoop(
+                    intra_prediction_open_loop(
                         cu_size,
                         context_ptr,
                         (uint32_t)EB_INTRA_PLANAR,
@@ -8204,7 +8204,7 @@ EbErrorType open_loop_intra_search_lcu(
                 if (picture_control_set_ptr->limit_ois_to_dc_mode_flag == EB_FALSE) {
                     //    printf("cu_size=%i  x=%i  y=%i  rasterScanCuIndex=%i   mdScanCuIndex=%i \n", cu_size, RASTER_SCAN_CU_X[rasterScanCuIndex], RASTER_SCAN_CU_Y[rasterScanCuIndex],rasterScanCuIndex, mdScanCuIndex );
                     // Fill Neighbor Arrays
-                    UpdateNeighborSamplesArrayOpenLoop(
+                    update_neighbor_samples_array_open_loop(
                         context_ptr->intra_ref_ptr,
                         input_ptr,
                         input_ptr->stride_y,
@@ -8227,7 +8227,7 @@ EbErrorType open_loop_intra_search_lcu(
 
                         openLoopIntraCandidateIndex = (uint32_t)oisIndex;
                         // Intra Prediction
-                        IntraPredictionOpenLoop(
+                        intra_prediction_open_loop(
                             cu_size,
                             context_ptr,
                             openLoopIntraCandidateIndex,

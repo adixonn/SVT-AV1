@@ -91,12 +91,12 @@ void PfZeroOutUselessQuadrants(
 *******************************************/
 
 #if CHROMA_BLIND
-const EB_PREDICTION_FUNC  ProductPredictionFunTable[3] = { NULL, inter_pu_prediction_av1, AV1IntraPredictionCL};
+const EB_PREDICTION_FUNC  ProductPredictionFunTable[3] = { NULL, inter_pu_prediction_av1, av1_intra_prediction_cl};
 #else
 const EB_PREDICTION_FUNC  ProductPredictionFunTableCL[3][3] = {
-    { NULL, inter2_nx2_n_pu_prediction_avc, AV1IntraPredictionCL },
-    { NULL, inter2_nx2_n_pu_prediction_avc_style, AV1IntraPredictionCL },
-    { NULL, inter_pu_prediction_av1, AV1IntraPredictionCL }
+    { NULL, inter2_nx2_n_pu_prediction_avc, av1_intra_prediction_cl },
+    { NULL, inter2_nx2_n_pu_prediction_avc_style, av1_intra_prediction_cl },
+    { NULL, inter_pu_prediction_av1, av1_intra_prediction_cl }
 };
 #endif
 

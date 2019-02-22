@@ -1986,7 +1986,7 @@ void  inject_intra_candidates(
     (void)sb_ptr;
     uint8_t                     intra_mode_start = DC_PRED;
     uint8_t                     intra_mode_end   = SMOOTH_H_PRED;
-    uint8_t                     openLoopIntraCandidate;
+    uint8_t                     open_loop_intra_candidate;
     uint32_t                    canTotalCnt = 0;
     uint8_t                     angleDeltaCounter = 0;
     EbBool                      use_angle_delta = (context_ptr->blk_geom->bsize >= BLOCK_8X8);
@@ -2043,29 +2043,29 @@ void  inject_intra_candidates(
     }
 #endif
 
-    for (openLoopIntraCandidate = intra_mode_start; openLoopIntraCandidate < intra_mode_end + 1; ++openLoopIntraCandidate) {
+    for (open_loop_intra_candidate = intra_mode_start; open_loop_intra_candidate < intra_mode_end + 1; ++open_loop_intra_candidate) {
 
-        if (av1_is_directional_mode((PredictionMode)openLoopIntraCandidate)) {
+        if (av1_is_directional_mode((PredictionMode)open_loop_intra_candidate)) {
 
             if (!disable_angle_prediction) {
                 for (angleDeltaCounter = 0; angleDeltaCounter < angleDeltaCandidateCount; ++angleDeltaCounter) {
                     int32_t angle_delta = angleDeltaCandidateCount == 1 ? 0 : angleDeltaCounter - (angleDeltaCandidateCount >> 1);
-                    int32_t  p_angle = mode_to_angle_map[(PredictionMode)openLoopIntraCandidate] + angle_delta * ANGLE_STEP;
+                    int32_t  p_angle = mode_to_angle_map[(PredictionMode)open_loop_intra_candidate] + angle_delta * ANGLE_STEP;
                     if (!disable_z2_prediction || (p_angle <= 90 || p_angle >= 180)) {
                         candidateArray[canTotalCnt].type = INTRA_MODE;
-                        candidateArray[canTotalCnt].intra_luma_mode = openLoopIntraCandidate;
+                        candidateArray[canTotalCnt].intra_luma_mode = open_loop_intra_candidate;
                         candidateArray[canTotalCnt].distortion_ready = 0;
-                        candidateArray[canTotalCnt].is_directional_mode_flag = (uint8_t)av1_is_directional_mode((PredictionMode)openLoopIntraCandidate);
+                        candidateArray[canTotalCnt].is_directional_mode_flag = (uint8_t)av1_is_directional_mode((PredictionMode)open_loop_intra_candidate);
                         candidateArray[canTotalCnt].use_angle_delta = use_angle_delta ? candidateArray[canTotalCnt].is_directional_mode_flag : 0;
                         candidateArray[canTotalCnt].angle_delta[PLANE_TYPE_Y] = angle_delta;
 #if CHROMA_BLIND 
                         candidateArray[canTotalCnt].intra_chroma_mode = disable_cfl_flag ? 
-                            intra_luma_to_chroma[openLoopIntraCandidate] : 
+                            intra_luma_to_chroma[open_loop_intra_candidate] : 
                             (context_ptr->chroma_level == CHROMA_MODE_0) ?
                                 UV_CFL_PRED :
                                 UV_DC_PRED;
 #else
-                        candidateArray[canTotalCnt].intra_chroma_mode = disable_cfl_flag ? intra_luma_to_chroma[openLoopIntraCandidate] : UV_CFL_PRED;
+                        candidateArray[canTotalCnt].intra_chroma_mode = disable_cfl_flag ? intra_luma_to_chroma[open_loop_intra_candidate] : UV_CFL_PRED;
 #endif
                         candidateArray[canTotalCnt].cfl_alpha_signs = 0;
                         candidateArray[canTotalCnt].cfl_alpha_idx = 0;
@@ -2091,7 +2091,7 @@ void  inject_intra_candidates(
                         // candidateArray[canTotalCnt].transform_type[PLANE_TYPE_UV]            = context_ptr->blk_geom->bwidth_uv >= 32 || context_ptr->blk_geom->bheight_uv >= 32  ? DCT_DCT : chroma_transform_type[candidateArray[canTotalCnt].intra_chroma_mode];
                         candidateArray[canTotalCnt].mpm_flag = EB_FALSE;
                         candidateArray[canTotalCnt].ref_frame_type = INTRA_FRAME;
-                        candidateArray[canTotalCnt].pred_mode = (PredictionMode)openLoopIntraCandidate;
+                        candidateArray[canTotalCnt].pred_mode = (PredictionMode)open_loop_intra_candidate;
                         candidateArray[canTotalCnt].motion_mode = SIMPLE_TRANSLATION;
                         ++canTotalCnt;
                     }
@@ -2100,23 +2100,23 @@ void  inject_intra_candidates(
         }
         else {
             candidateArray[canTotalCnt].type = INTRA_MODE;
-            candidateArray[canTotalCnt].intra_luma_mode = openLoopIntraCandidate;
+            candidateArray[canTotalCnt].intra_luma_mode = open_loop_intra_candidate;
             candidateArray[canTotalCnt].distortion_ready = 0;
-            candidateArray[canTotalCnt].is_directional_mode_flag = (uint8_t)av1_is_directional_mode((PredictionMode)openLoopIntraCandidate);
+            candidateArray[canTotalCnt].is_directional_mode_flag = (uint8_t)av1_is_directional_mode((PredictionMode)open_loop_intra_candidate);
             candidateArray[canTotalCnt].use_angle_delta = candidateArray[canTotalCnt].is_directional_mode_flag;
             candidateArray[canTotalCnt].angle_delta[PLANE_TYPE_Y] = 0;
 #if TURN_OFF_CFL
-            candidateArray[canTotalCnt].intra_chroma_mode = intra_luma_to_chroma[openLoopIntraCandidate];
+            candidateArray[canTotalCnt].intra_chroma_mode = intra_luma_to_chroma[open_loop_intra_candidate];
 #else
 #if CHROMA_BLIND
             candidateArray[canTotalCnt].intra_chroma_mode = disable_cfl_flag ? 
-                intra_luma_to_chroma[openLoopIntraCandidate] : 
+                intra_luma_to_chroma[open_loop_intra_candidate] : 
                 (context_ptr->chroma_level == CHROMA_MODE_0) ?
                     UV_CFL_PRED :
                     UV_DC_PRED;
 
 #else
-            candidateArray[canTotalCnt].intra_chroma_mode = disable_cfl_flag ? intra_luma_to_chroma[openLoopIntraCandidate] : UV_CFL_PRED;
+            candidateArray[canTotalCnt].intra_chroma_mode = disable_cfl_flag ? intra_luma_to_chroma[open_loop_intra_candidate] : UV_CFL_PRED;
 #endif
 #endif
             candidateArray[canTotalCnt].cfl_alpha_signs = 0;
@@ -2143,7 +2143,7 @@ void  inject_intra_candidates(
 
             candidateArray[canTotalCnt].mpm_flag = EB_FALSE;
             candidateArray[canTotalCnt].ref_frame_type = INTRA_FRAME;
-            candidateArray[canTotalCnt].pred_mode = (PredictionMode)openLoopIntraCandidate;
+            candidateArray[canTotalCnt].pred_mode = (PredictionMode)open_loop_intra_candidate;
             candidateArray[canTotalCnt].motion_mode = SIMPLE_TRANSLATION;
             ++canTotalCnt;
         }
