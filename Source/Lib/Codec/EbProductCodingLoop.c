@@ -1136,18 +1136,18 @@ uint64_t ProductGenerateChromaWeight(
     uint64_t weight;
 
     if (picture_control_set_ptr->slice_type == I_SLICE) {
-        weight = ChromaWeightFactorLd[qp];
+        weight = chroma_weight_factor_ld[qp];
     }
     else {
         // Random Access
         if (picture_control_set_ptr->temporal_layer_index == 0) {
-            weight = ChromaWeightFactorRa[qp];
+            weight = chroma_weight_factor_ra[qp];
         }
         else if (picture_control_set_ptr->temporal_layer_index < 3) {
-            weight = ChromaWeightFactorRaQpScalingL1[qp];
+            weight = chroma_weight_factor_ra_qp_scaling_l1[qp];
         }
         else {
-            weight = ChromaWeightFactorRaQpScalingL3[qp];
+            weight = chroma_weight_factor_ra_qp_scaling_l3[qp];
         }
     }
     return (weight << 1);
@@ -2962,7 +2962,7 @@ void md_encode_block(
         // Make sure buffer_total_count is not larger than the number of fast modes
         buffer_total_count = MIN(secondFastCostSearchCandidateTotalCount, buffer_total_count);
 
-        // PreModeDecision
+        // pre_mode_decision
         // -Input is the buffers
         // -Output is list of buffers for full reconstruction
         uint8_t  disable_merge_index = 0;
@@ -2970,7 +2970,7 @@ void md_encode_block(
 #if TX_SEARCH_LEVELS
         uint64_t ref_fast_cost = MAX_MODE_COST;
 #endif
-        PreModeDecision(
+        pre_mode_decision(
             cu_ptr,
             (secondFastCostSearchCandidateTotalCount == buffer_total_count) ? buffer_total_count : maxBuffers,
             candidate_buffer_ptr_array,
@@ -6972,7 +6972,7 @@ EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
         searchRegionIndex = xTopLeftSearchRegion + yTopLeftSearchRegion * refPicPtr->stride_y;
 
         //849 * 4 + 5 block are supported
-        InitializeBuffer_32bits_funcPtrArray[(uint32_t)asm_type](context_ptr->p_sb_best_sad[listIndex][refPicIndex], (MAX_SS_ME_PU_COUNT / 4), 1, MAX_SAD_VALUE);
+        initialize_buffer_32bits_func_ptr_array[(uint32_t)asm_type](context_ptr->p_sb_best_sad[listIndex][refPicIndex], (MAX_SS_ME_PU_COUNT / 4), 1, MAX_SAD_VALUE);
 
         context_ptr->p_best_sad4x4 = &(context_ptr->p_sb_best_sad[listIndex][refPicIndex][0]);
         context_ptr->p_best_mv4x4 = &(context_ptr->p_sb_best_mv[listIndex][refPicIndex][0]);

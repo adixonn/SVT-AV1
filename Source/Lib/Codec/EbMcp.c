@@ -125,7 +125,7 @@ void encode_uni_pred_interpolation(
     frac_pos_x = posX & 0x03;
     frac_pos_y = posY & 0x03;
 
-    uniPredLumaIFFunctionPtrArrayNew[asm_type][frac_pos_x + (frac_pos_y << 2)](
+    uni_pred_luma_if_function_ptr_array_new[asm_type][frac_pos_x + (frac_pos_y << 2)](
         ref_pic->buffer_y + integPosx + integPosy * ref_pic->stride_y,
         ref_pic->stride_y,
         dst->buffer_y + dstLumaIndex,
@@ -142,7 +142,7 @@ void encode_uni_pred_interpolation(
     frac_pos_y = posY & 0x07;
 
 
-    uniPredChromaIFFunctionPtrArrayNew[asm_type][frac_pos_x + (frac_pos_y << 3)](
+    uni_pred_chroma_if_function_ptr_array_new[asm_type][frac_pos_x + (frac_pos_y << 3)](
         ref_pic->bufferCb + integPosx + integPosy * ref_pic->strideCb,
         ref_pic->strideCb,
         dst->bufferCb + dstChromaIndex,
@@ -154,7 +154,7 @@ void encode_uni_pred_interpolation(
         frac_pos_y);
 
     //doing the chroma Cr interpolation
-    uniPredChromaIFFunctionPtrArrayNew[asm_type][frac_pos_x + (frac_pos_y << 3)](
+    uni_pred_chroma_if_function_ptr_array_new[asm_type][frac_pos_x + (frac_pos_y << 3)](
         ref_pic->bufferCr + integPosx + integPosy * ref_pic->strideCr,
         ref_pic->strideCr,
         dst->bufferCr + dstChromaIndex,

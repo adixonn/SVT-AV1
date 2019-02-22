@@ -188,7 +188,7 @@ EbErrorType encode_context_ctor(
 
     memset(encode_context_ptr->md_rate_estimation_array, 0, sizeof(MdRateEstimationContext_t) * TOTAL_NUMBER_OF_MD_RATE_ESTIMATION_CASE_BUFFERS);
 
-    return_error = MdRateEstimationContextCtor(encode_context_ptr->md_rate_estimation_array);
+    return_error = md_rate_estimation_context_ctor(encode_context_ptr->md_rate_estimation_array);
     if (return_error == EB_ErrorInsufficientResources) {
         return EB_ErrorInsufficientResources;
     }

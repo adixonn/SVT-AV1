@@ -6747,7 +6747,7 @@ EbErrorType motion_estimate_lcu(
 #endif
                         uint8_t refPicIndex = 0;
 
-                        InitializeBuffer_32bits_funcPtrArray[asm_type](context_ptr->p_sb_best_sad[listIndex][refPicIndex], 52, 1, MAX_SAD_VALUE);
+                        initialize_buffer_32bits_func_ptr_array[asm_type](context_ptr->p_sb_best_sad[listIndex][refPicIndex], 52, 1, MAX_SAD_VALUE);
 
                         context_ptr->p_best_sad64x64 = &(context_ptr->p_sb_best_sad[listIndex][refPicIndex][ME_TIER_ZERO_PU_64x64]);
                         context_ptr->p_best_sad32x32 = &(context_ptr->p_sb_best_sad[listIndex][refPicIndex][ME_TIER_ZERO_PU_32x32_0]);
@@ -6813,7 +6813,7 @@ EbErrorType motion_estimate_lcu(
                     else {
 
 
-                        InitializeBuffer_32bits_funcPtrArray[asm_type](context_ptr->p_sb_best_sad[listIndex][0], 21, 1, MAX_SAD_VALUE);
+                        initialize_buffer_32bits_func_ptr_array[asm_type](context_ptr->p_sb_best_sad[listIndex][0], 21, 1, MAX_SAD_VALUE);
                         context_ptr->p_best_sad64x64 = &(context_ptr->p_sb_best_sad[listIndex][0][ME_TIER_ZERO_PU_64x64]);
                         context_ptr->p_best_sad32x32 = &(context_ptr->p_sb_best_sad[listIndex][0][ME_TIER_ZERO_PU_32x32_0]);
                         context_ptr->p_best_sad16x16 = &(context_ptr->p_sb_best_sad[listIndex][0][ME_TIER_ZERO_PU_16x16_0]);

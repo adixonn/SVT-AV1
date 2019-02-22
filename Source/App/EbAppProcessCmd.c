@@ -98,7 +98,7 @@ void LogErrorOutput(
         break;
 
     case EB_ENC_CL_ERROR5:
-        fprintf(errorLogFile, "Error: Too many buffers chosen for this level by PreModeDecision!\n");
+        fprintf(errorLogFile, "Error: Too many buffers chosen for this level by pre_mode_decision!\n");
         break;
 
     case EB_ENC_CL_ERROR6:
@@ -356,7 +356,7 @@ void LogErrorOutput(
         break;
 
     case EB_ENC_MD_ERROR2:
-        fprintf(errorLogFile, "Error: PreModeDecision: need at least one buffer!\n");
+        fprintf(errorLogFile, "Error: pre_mode_decision: need at least one buffer!\n");
         break;
 
     case EB_ENC_MD_ERROR3:

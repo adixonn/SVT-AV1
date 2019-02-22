@@ -390,7 +390,7 @@ void LimitMvOverBound(
 *   Selects which fast cost modes to
 *   do full reconstruction on.
 ***************************************/
-EbErrorType PreModeDecision(
+EbErrorType pre_mode_decision(
     CodingUnit_t                   *cu_ptr,
     uint32_t                          buffer_total_count,
     ModeDecisionCandidateBuffer_t **buffer_ptr_array,

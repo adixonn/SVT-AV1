@@ -270,7 +270,7 @@ extern "C" {
         uint8_t                        *best_candidate_index_array,
         uint32_t                       *best_intra_mode);
 
-    EbErrorType PreModeDecision(
+    EbErrorType pre_mode_decision(
         CodingUnit_t                   *cu_ptr,
         uint32_t                        buffer_total_count,
         ModeDecisionCandidateBuffer_t **buffer_ptr_array,

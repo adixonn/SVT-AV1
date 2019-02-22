@@ -760,21 +760,21 @@ void PerformEarlyLcuPartitionning(
 
         if (picture_control_set_ptr->temporal_layer_index == 0) {
 
-            context_ptr->lambda = lambdaModeDecisionRaSad[context_ptr->qp];
+            context_ptr->lambda = lambda_mode_decision_ra_sad[context_ptr->qp];
         }
         else if (picture_control_set_ptr->temporal_layer_index < 3) {
-            context_ptr->lambda = lambdaModeDecisionRaSadQpScalingL1[context_ptr->qp];
+            context_ptr->lambda = lambda_mode_decision_ra_sad_qp_scaling_l1[context_ptr->qp];
         }
         else {
-            context_ptr->lambda = lambdaModeDecisionRaSadQpScalingL3[context_ptr->qp];
+            context_ptr->lambda = lambda_mode_decision_ra_sad_qp_scaling_l3[context_ptr->qp];
         }
     }
     else {
         if (picture_control_set_ptr->temporal_layer_index == 0) {
-            context_ptr->lambda = lambdaModeDecisionLdSad[context_ptr->qp];
+            context_ptr->lambda = lambda_mode_decision_ld_sad[context_ptr->qp];
         }
         else {
-            context_ptr->lambda = lambdaModeDecisionLdSadQpScaling[context_ptr->qp];
+            context_ptr->lambda = lambda_mode_decision_ld_sad_qp_scaling[context_ptr->qp];
         }
     }
 
@@ -1303,21 +1303,21 @@ void PartitioningInitialization(
 
         if (picture_control_set_ptr->temporal_layer_index == 0) {
 
-            context_ptr->lambda = lambdaModeDecisionRaSad[context_ptr->qp];
+            context_ptr->lambda = lambda_mode_decision_ra_sad[context_ptr->qp];
         }
         else if (picture_control_set_ptr->temporal_layer_index < 3) {
-            context_ptr->lambda = lambdaModeDecisionRaSadQpScalingL1[context_ptr->qp];
+            context_ptr->lambda = lambda_mode_decision_ra_sad_qp_scaling_l1[context_ptr->qp];
         }
         else {
-            context_ptr->lambda = lambdaModeDecisionRaSadQpScalingL3[context_ptr->qp];
+            context_ptr->lambda = lambda_mode_decision_ra_sad_qp_scaling_l3[context_ptr->qp];
         }
     }
     else {
         if (picture_control_set_ptr->temporal_layer_index == 0) {
-            context_ptr->lambda = lambdaModeDecisionLdSad[context_ptr->qp];
+            context_ptr->lambda = lambda_mode_decision_ld_sad[context_ptr->qp];
         }
         else {
-            context_ptr->lambda = lambdaModeDecisionLdSadQpScaling[context_ptr->qp];
+            context_ptr->lambda = lambda_mode_decision_ld_sad_qp_scaling[context_ptr->qp];
         }
     }
 

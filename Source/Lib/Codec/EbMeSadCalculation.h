@@ -141,13 +141,13 @@ extern "C" {
         uint32_t  *p_best_mv16x64,
         uint32_t  *p_best_sad8x32,
         uint32_t  *p_best_mv8x32,
-        uint32_t  *pBestSad48x64,
-        uint32_t  *pBestMV48x64,
-        uint32_t  *pBestSad24x32,
-        uint32_t  *pBestMV24x32,
+        uint32_t  *p_best_sad48x64,
+        uint32_t  *p_best_m_v48x64,
+        uint32_t  *p_best_sad24x32,
+        uint32_t  *p_best_m_v24x32,
         uint32_t   mv);
 
-    static EB_INIALIZEBUFFER_32BITS InitializeBuffer_32bits_funcPtrArray[ASM_TYPE_TOTAL] = {
+    static EB_INIALIZEBUFFER_32BITS initialize_buffer_32bits_func_ptr_array[ASM_TYPE_TOTAL] = {
         // NON_AVX2
         initialize_buffer_32bits_sse2_intrin,
         // AVX2

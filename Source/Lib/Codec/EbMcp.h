@@ -132,10 +132,10 @@ extern "C" {
         uint32_t            pad_bottom);
 
     // Function Tables (Super-long, declared in EbMcpTables.c)
-    extern const InterpolationFilterNew     uniPredLumaIFFunctionPtrArrayNew[ASM_TYPE_TOTAL][16];
-    extern const InterpolationFilterOutRaw  biPredLumaIFFunctionPtrArrayNew[ASM_TYPE_TOTAL][16];
-    extern const ChromaFilterNew            uniPredChromaIFFunctionPtrArrayNew[ASM_TYPE_TOTAL][64];
-    extern const ChromaFilterOutRaw         biPredChromaIFFunctionPtrArrayNew[ASM_TYPE_TOTAL][64];
+    extern const InterpolationFilterNew     uni_pred_luma_if_function_ptr_array_new[ASM_TYPE_TOTAL][16];
+    extern const InterpolationFilterOutRaw  bi_pred_luma_if_function_ptr_array_new[ASM_TYPE_TOTAL][16];
+    extern const ChromaFilterNew            uni_pred_chroma_if_function_ptr_array_new[ASM_TYPE_TOTAL][64];
+    extern const ChromaFilterOutRaw         bi_pred_chroma_if_function_ptr_array_new[ASM_TYPE_TOTAL][64];
 
 #ifdef __cplusplus
 }

@@ -122,7 +122,7 @@ extern "C" {
     /**************************************
     * Extern Function Declarations
     **************************************/
-    extern EbErrorType MdRateEstimationContextCtor(MdRateEstimationContext_t *md_rate_estimation_array);
+    extern EbErrorType md_rate_estimation_context_ctor(MdRateEstimationContext_t *md_rate_estimation_array);
     /***************************************************************************
     * AV1 Probability table
     * // round(-log2(i/256.) * (1 << AV1_PROB_COST_SHIFT)); i = 128~255.
