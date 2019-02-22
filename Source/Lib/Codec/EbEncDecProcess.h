@@ -156,7 +156,7 @@ extern "C" {
         uint32_t                 max_input_luma_width,
         uint32_t                 max_input_luma_height);
 
-    extern void* EncDecKernel(void *input_ptr);
+    extern void* enc_dec_kernel(void *input_ptr);
 
 #ifdef __cplusplus
 }

@@ -26,22 +26,22 @@
 
 #define   convertToChromaQp(iQpY)  ( ((iQpY) < 0) ? (iQpY) : (((iQpY) > 57) ? ((iQpY)-6) : (int32_t)(map_chroma_qp((uint32_t)iQpY))) )
 
-/** setQpArrayBasedOnCU()
+/** set_qp_array_based_on_cu()
 is used to set qp in the qp_array on a CU basis.
 */
-void SetQpArrayBasedOnCU(
+void set_qp_array_based_on_cu(
     PictureControlSet_t *picture_control_set_ptr,          //input parameter
-    uint32_t               cuPos_x,                       //input parameter, sample-based horizontal picture-wise locatin of the CU
-    uint32_t               cuPos_y,                       //input parameter, sample-based vertical picture-wise locatin of the CU
-    uint32_t               cuSizeInMinCuSize,             //input parameter
+    uint32_t               cu_pos_x,                       //input parameter, sample-based horizontal picture-wise locatin of the CU
+    uint32_t               cu_pos_y,                       //input parameter, sample-based vertical picture-wise locatin of the CU
+    uint32_t               cu_size_in_min_cu_size,             //input parameter
     uint32_t               cuQp)                          //input parameter, Qp of the CU
 {
     uint32_t verticalIdx;
-    uint32_t qpArrayIdx = (cuPos_y / MIN_BLOCK_SIZE) * picture_control_set_ptr->qp_array_stride + (cuPos_x / MIN_BLOCK_SIZE);
+    uint32_t qpArrayIdx = (cu_pos_y / MIN_BLOCK_SIZE) * picture_control_set_ptr->qp_array_stride + (cu_pos_x / MIN_BLOCK_SIZE);
 
-    for (verticalIdx = 0; verticalIdx < cuSizeInMinCuSize; ++verticalIdx) {
+    for (verticalIdx = 0; verticalIdx < cu_size_in_min_cu_size; ++verticalIdx) {
         EB_MEMSET(picture_control_set_ptr->qp_array + qpArrayIdx + verticalIdx * picture_control_set_ptr->qp_array_stride,
-            cuQp, sizeof(uint8_t)*cuSizeInMinCuSize);
+            cuQp, sizeof(uint8_t)*cu_size_in_min_cu_size);
     }
 
     return;

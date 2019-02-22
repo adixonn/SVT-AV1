@@ -29,15 +29,15 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#define BLK4X4_ADDR_TO_VERTICAL_EDGE_BS_ARRAY_IDX(blk4x4Addr)                   (((blk4x4Addr) & (MAX_LCU_SIZE_IN_4X4BLK - 1)) + (((blk4x4Addr) / MAX_LCU_SIZE_IN_4X4BLK) * MAX_LCU_SIZE_IN_4X4BLK))
-#define BLK4X4_ADDR_TO_HORIZONTAL_EDGE_BS_ARRAY_IDX(blk4x4Addr)                 (((blk4x4Addr) & (MAX_LCU_SIZE_IN_4X4BLK - 1)) + (((blk4x4Addr) / MAX_LCU_SIZE_IN_4X4BLK) * MAX_LCU_SIZE_IN_4X4BLK))
-#define GET_LUMA_4X4BLK_ADDR(lumaLcuWise4x4BlkPos_x, lumaLcuWise4x4BlkPos_y, logMaxLcuSizeIn4x4blk)           (((lumaLcuWise4x4BlkPos_x)>>2) + (((lumaLcuWise4x4BlkPos_y)>>2) << (logMaxLcuSizeIn4x4blk)))
-#define GET_CHROMA_4X4BLK_ADDR(chromaLcuWise2x2BlkPos_x, chromaLcuWise2x2BlkPos_y, logMaxLcuSizeIn4x4blk)     (((chromaLcuWise2x2BlkPos_x)>>1) + (((chromaLcuWise2x2BlkPos_y)>>1) << (logMaxLcuSizeIn4x4blk)))
+#define BLK4X4_ADDR_TO_VERTICAL_EDGE_BS_ARRAY_IDX(blk4x4_addr)                   (((blk4x4_addr) & (MAX_LCU_SIZE_IN_4X4BLK - 1)) + (((blk4x4_addr) / MAX_LCU_SIZE_IN_4X4BLK) * MAX_LCU_SIZE_IN_4X4BLK))
+#define BLK4X4_ADDR_TO_HORIZONTAL_EDGE_BS_ARRAY_IDX(blk4x4_addr)                 (((blk4x4_addr) & (MAX_LCU_SIZE_IN_4X4BLK - 1)) + (((blk4x4_addr) / MAX_LCU_SIZE_IN_4X4BLK) * MAX_LCU_SIZE_IN_4X4BLK))
+#define GET_LUMA_4X4BLK_ADDR(luma_lcu_wise4x4_blk_pos_x, luma_lcu_wise4x4_blk_pos_y, log_max_lcu_size_in4x4blk)           (((luma_lcu_wise4x4_blk_pos_x)>>2) + (((luma_lcu_wise4x4_blk_pos_y)>>2) << (log_max_lcu_size_in4x4blk)))
+#define GET_CHROMA_4X4BLK_ADDR(chroma_lcu_wise2x2_blk_pos_x, chroma_lcu_wise2x2_blk_pos_y, log_max_lcu_size_in4x4blk)     (((chroma_lcu_wise2x2_blk_pos_x)>>1) + (((chroma_lcu_wise2x2_blk_pos_y)>>1) << (log_max_lcu_size_in4x4blk)))
 #define LUMA_SAMPLE_PIC_WISE_LOCATION_TO_QP_ARRAY_IDX(pos_x, pos_y, qp_array_stride)                            (((pos_x) >> LOG_MIN_BLOCK_SIZE) + ((pos_y) >> LOG_MIN_BLOCK_SIZE) * (qp_array_stride))
 #define CHROMA_SAMPLE_PIC_WISE_LOCATION_TO_QP_ARRAY_IDX(pos_x, pos_y, qp_array_stride)                          ((2*(pos_x) >> LOG_MIN_BLOCK_SIZE) + (2*(pos_y) >> LOG_MIN_BLOCK_SIZE) * (qp_array_stride))
-#define CHECK_MV_COMPONENT_EQUAL_OR_GREATER_THAN_4(pu1Ptr, pu2Ptr, pu1RefList, pu2RefList)                    (                         \
-                            EB_ABS_DIFF((pu1Ptr)->mv[(pu1RefList)].x, (pu2Ptr)->mv[(pu2RefList)].x) >= 4 ||         \
-                            EB_ABS_DIFF((pu1Ptr)->mv[(pu1RefList)].y, (pu2Ptr)->mv[(pu2RefList)].y) >= 4            \
+#define CHECK_MV_COMPONENT_EQUAL_OR_GREATER_THAN_4(pu1_ptr, pu2_ptr, pu1_ref_list, pu2_ref_list)                    (                         \
+                            EB_ABS_DIFF((pu1_ptr)->mv[(pu1_ref_list)].x, (pu2_ptr)->mv[(pu2_ref_list)].x) >= 4 ||         \
+                            EB_ABS_DIFF((pu1_ptr)->mv[(pu1_ref_list)].y, (pu2_ptr)->mv[(pu2_ref_list)].y) >= 4            \
                             )
 
     // Precision macros used in the mode decision
@@ -64,20 +64,12 @@ extern "C" {
     } LPF_PICK_METHOD;
 #endif
 
-    void SetQpArrayBasedOnCU(
+    void set_qp_array_based_on_cu(
         PictureControlSet_t *picture_control_set_ptr,          //input parameter
-        uint32_t               cuPos_x,                       //input parameter, sample-based horizontal picture-wise locatin of the CU
-        uint32_t               cuPos_y,                       //input parameter, sample-based vertical picture-wise locatin of the CU
-        uint32_t               cuSizeInMinCuSize,             //input parameter
+        uint32_t               cu_pos_x,                       //input parameter, sample-based horizontal picture-wise locatin of the CU
+        uint32_t               cu_pos_y,                       //input parameter, sample-based vertical picture-wise locatin of the CU
+        uint32_t               cu_size_in_min_cu_size,             //input parameter
         uint32_t               cuQp);                         //input parameter, Qp of the CU
-
-    extern void entropySetQpArrayBasedOnCU(
-        PictureControlSet_t *picture_control_set_ptr,
-        uint32_t               cuPos_x,
-        uint32_t               cuPos_y,
-        uint32_t               cuWidth,
-        uint32_t               cuHeight,
-        uint32_t               cuQp);
 
 
     /* assorted loopfilter functions which get used elsewhere */
@@ -87,7 +79,9 @@ extern "C" {
 
     void av1_loop_filter_init(PictureControlSet_t *pcsPtr);
 
-    void av1_loop_filter_frame_init(PictureControlSet_t *pcsPtr, int32_t plane_start,
+    void av1_loop_filter_frame_init(
+        PictureControlSet_t *pcsPtr, 
+        int32_t plane_start,
         int32_t plane_end);
 
 

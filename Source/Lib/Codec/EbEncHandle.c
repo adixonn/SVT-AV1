@@ -155,10 +155,10 @@ EbMemoryMapEntry                 *memory_map;
 uint32_t                         *memory_map_index;
 uint64_t                         *total_lib_memory;
 
-uint32_t                         libMallocCount = 0;
+uint32_t                         lib_malloc_count = 0;
 uint32_t                         lib_thread_count = 0;
-uint32_t                         libSemaphoreCount = 0;
-uint32_t                         libMutexCount = 0;
+uint32_t                         lib_semaphore_count = 0;
+uint32_t                         lib_mutex_count = 0;
 #ifdef _MSC_VER
 GROUP_AFFINITY                   group_affinity;
 #endif
@@ -554,10 +554,10 @@ static EbErrorType eb_enc_handle_ctor(
     total_lib_memory = &encHandlePtr->total_lib_memory;
     memory_map = encHandlePtr->memory_map;
     memory_map_index = &encHandlePtr->memory_map_index;
-    libMallocCount = 0;
+    lib_malloc_count = 0;
     lib_thread_count = 0;
-    libMutexCount = 0;
-    libSemaphoreCount = 0;
+    lib_mutex_count = 0;
+    lib_semaphore_count = 0;
 
     if (memory_map == (EbMemoryMapEntry*)EB_NULL) {
         return EB_ErrorInsufficientResources;
@@ -1729,7 +1729,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
     EB_MALLOC(EbHandle*, encHandlePtr->encDecThreadHandleArray, sizeof(EbHandle) * encHandlePtr->sequence_control_set_instance_array[0]->sequence_control_set_ptr->enc_dec_process_init_count, EB_N_PTR);
 
     for (processIndex = 0; processIndex < encHandlePtr->sequence_control_set_instance_array[0]->sequence_control_set_ptr->enc_dec_process_init_count; ++processIndex) {
-        EB_CREATETHREAD(EbHandle, encHandlePtr->encDecThreadHandleArray[processIndex], sizeof(EbHandle), EB_THREAD, EncDecKernel, encHandlePtr->encDecContextPtrArray[processIndex]);
+        EB_CREATETHREAD(EbHandle, encHandlePtr->encDecThreadHandleArray[processIndex], sizeof(EbHandle), EB_THREAD, enc_dec_kernel, encHandlePtr->encDecContextPtrArray[processIndex]);
     }
 
 #if FILT_PROC

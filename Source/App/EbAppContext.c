@@ -26,10 +26,10 @@
  * Variables Defining a memory table
  *  hosting all allocated pointers
  ***************************************/
-EbMemoryMapEntry                 *appMemoryMap;
-uint32_t                         *appMemoryMapIndex;
-uint64_t                         *totalAppMemory;
-uint32_t                          appMallocCount = 0;
+EbMemoryMapEntry                 *app_memory_map;
+uint32_t                         *app_memory_map_index;
+uint64_t                         *total_app_memory;
+uint32_t                          app_malloc_count = 0;
 static EbMemoryMapEntry          *appMemoryMapAllChannels[MAX_CHANNEL_NUMBER];
 static uint32_t                   appMemoryMapIndexAllChannels[MAX_CHANNEL_NUMBER];
 static uint64_t                   appMemoryMallocdAllChannels[MAX_CHANNEL_NUMBER];
@@ -49,16 +49,16 @@ void AllocateMemoryTable(
 
     // Size of the table
     appMemoryMallocdAllChannels[instanceIdx]    = sizeof(EbMemoryMapEntry) * MAX_APP_NUM_PTR;
-    totalAppMemory = &appMemoryMallocdAllChannels[instanceIdx];
+    total_app_memory = &appMemoryMallocdAllChannels[instanceIdx];
 
     // Set pointer to the first entry
-    appMemoryMap                                = appMemoryMapAllChannels[instanceIdx];
+    app_memory_map                                = appMemoryMapAllChannels[instanceIdx];
 
     // Set index to the first entry
-    appMemoryMapIndex                           = &appMemoryMapIndexAllChannels[instanceIdx];
+    app_memory_map_index                           = &appMemoryMapIndexAllChannels[instanceIdx];
 
     // Init Number of pointers
-    appMallocCount = 0;
+    app_malloc_count = 0;
 
     return;
 }

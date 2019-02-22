@@ -1381,7 +1381,7 @@ void move_cu_data(
 /******************************************************
  * EncDec Kernel
  ******************************************************/
-void* EncDecKernel(void *input_ptr)
+void* enc_dec_kernel(void *input_ptr)
 {
     // Context & SCS & PCS
     EncDecContext_t                         *context_ptr = (EncDecContext_t*)input_ptr;

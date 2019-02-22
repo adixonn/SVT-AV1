@@ -2190,65 +2190,65 @@ typedef struct EbMemoryMapEntry
 // Display Total Memory at the end of the memory allocations
 #define DISPLAY_MEMORY                                  0
 
-extern    EbMemoryMapEntry        *appMemoryMap;            // App Memory table
-extern    uint32_t                  *appMemoryMapIndex;       // App Memory index
-extern    uint64_t                  *totalAppMemory;          // App Memory malloc'd
+extern    EbMemoryMapEntry        *app_memory_map;            // App Memory table
+extern    uint32_t                  *app_memory_map_index;       // App Memory index
+extern    uint64_t                  *total_app_memory;          // App Memory malloc'd
 
 extern    EbMemoryMapEntry        *memory_map;               // library Memory table
 extern    uint32_t                  *memory_map_index;          // library memory index
 extern    uint64_t                  *total_lib_memory;          // library Memory malloc'd
 
-extern    uint32_t                   libMallocCount;
+extern    uint32_t                   lib_malloc_count;
 extern    uint32_t                   lib_thread_count;
-extern    uint32_t                   libSemaphoreCount;
-extern    uint32_t                   libMutexCount;
+extern    uint32_t                   lib_semaphore_count;
+extern    uint32_t                   lib_mutex_count;
 
-extern    uint32_t                   appMallocCount;
+extern    uint32_t                   app_malloc_count;
 
-#define EB_APP_MALLOC(type, pointer, n_elements, pointer_class, returnType) \
+#define EB_APP_MALLOC(type, pointer, n_elements, pointer_class, return_type) \
 pointer = (type)malloc(n_elements); \
 if (pointer == (type)EB_NULL){ \
-    return returnType; \
+    return return_type; \
     } \
     else { \
-    appMemoryMap[*(appMemoryMapIndex)].ptrType = pointer_class; \
-    appMemoryMap[(*(appMemoryMapIndex))++].ptr = pointer; \
+    app_memory_map[*(app_memory_map_index)].ptrType = pointer_class; \
+    app_memory_map[(*(app_memory_map_index))++].ptr = pointer; \
     if (n_elements % 8 == 0) { \
-        *totalAppMemory += (n_elements); \
+        *total_app_memory += (n_elements); \
             } \
             else { \
-        *totalAppMemory += ((n_elements) + (8 - ((n_elements) % 8))); \
+        *total_app_memory += ((n_elements) + (8 - ((n_elements) % 8))); \
     } \
 } \
-if (*(appMemoryMapIndex) >= MAX_APP_NUM_PTR) { \
-    return returnType; \
+if (*(app_memory_map_index) >= MAX_APP_NUM_PTR) { \
+    return return_type; \
         } \
-appMallocCount++;
+app_malloc_count++;
 
-#define EB_APP_MALLOC_NR(type, pointer, n_elements, pointer_class,returnType) \
-(void)returnType; \
+#define EB_APP_MALLOC_NR(type, pointer, n_elements, pointer_class,return_type) \
+(void)return_type; \
 pointer = (type)malloc(n_elements); \
 if (pointer == (type)EB_NULL){ \
-    returnType = EB_ErrorInsufficientResources; \
+    return_type = EB_ErrorInsufficientResources; \
     printf("Malloc has failed due to insuffucient resources"); \
     return; \
     } \
     else { \
-    appMemoryMap[*(appMemoryMapIndex)].ptrType = pointer_class; \
-    appMemoryMap[(*(appMemoryMapIndex))++].ptr = pointer; \
+    app_memory_map[*(app_memory_map_index)].ptrType = pointer_class; \
+    app_memory_map[(*(app_memory_map_index))++].ptr = pointer; \
     if (n_elements % 8 == 0) { \
-        *totalAppMemory += (n_elements); \
+        *total_app_memory += (n_elements); \
             } \
             else { \
-        *totalAppMemory += ((n_elements) + (8 - ((n_elements) % 8))); \
+        *total_app_memory += ((n_elements) + (8 - ((n_elements) % 8))); \
     } \
 } \
-if (*(appMemoryMapIndex) >= MAX_APP_NUM_PTR) { \
-    returnType = EB_ErrorInsufficientResources; \
+if (*(app_memory_map_index) >= MAX_APP_NUM_PTR) { \
+    return_type = EB_ErrorInsufficientResources; \
     printf("Malloc has failed due to insuffucient resources"); \
     return; \
         } \
-appMallocCount++;
+app_malloc_count++;
 
 #define ALVALUE 32
 
@@ -2271,7 +2271,7 @@ if (pointer == (type)EB_NULL) { \
 if (*(memory_map_index) >= MAX_NUM_PTR) { \
     return EB_ErrorInsufficientResources; \
 } \
-libMallocCount++;
+lib_malloc_count++;
 
 #else
 #define EB_ALLIGN_MALLOC(type, pointer, n_elements, pointer_class) \
@@ -2292,7 +2292,7 @@ if (posix_memalign((void**)(&(pointer)), ALVALUE, n_elements) != 0) { \
 if (*(memory_map_index) >= MAX_NUM_PTR) { \
     return EB_ErrorInsufficientResources; \
     } \
-libMallocCount++;
+lib_malloc_count++;
 #endif
 
 
@@ -2314,7 +2314,7 @@ if (pointer == (type)EB_NULL) { \
 if (*(memory_map_index) >= MAX_NUM_PTR) { \
     return EB_ErrorInsufficientResources; \
 } \
-libMallocCount++;
+lib_malloc_count++;
 
 #define EB_CALLOC(type, pointer, count, size, pointer_class) \
 pointer = (type) calloc(count, size); \
@@ -2334,7 +2334,7 @@ else { \
 if (*(memory_map_index) >= MAX_NUM_PTR) { \
     return EB_ErrorInsufficientResources; \
 } \
-libMallocCount++;
+lib_malloc_count++;
 
 #define EB_CREATESEMAPHORE(type, pointer, n_elements, pointer_class, initial_count, max_count) \
 pointer = eb_create_semaphore(initial_count, max_count); \
@@ -2354,7 +2354,7 @@ else { \
 if (*(memory_map_index) >= MAX_NUM_PTR) { \
     return EB_ErrorInsufficientResources; \
 } \
-libSemaphoreCount++;
+lib_semaphore_count++;
 
 #define EB_CREATEMUTEX(type, pointer, n_elements, pointer_class) \
 pointer = eb_create_mutex(); \
@@ -2374,19 +2374,19 @@ else { \
 if (*(memory_map_index) >= MAX_NUM_PTR) { \
     return EB_ErrorInsufficientResources; \
 } \
-libMutexCount++;
+lib_mutex_count++;
 
 #define EB_MEMORY() \
-printf("Total Number of Mallocs in Library: %d\n", libMallocCount); \
+printf("Total Number of Mallocs in Library: %d\n", lib_malloc_count); \
 printf("Total Number of Threads in Library: %d\n", lib_thread_count); \
-printf("Total Number of Semaphore in Library: %d\n", libSemaphoreCount); \
-printf("Total Number of Mutex in Library: %d\n", libMutexCount); \
+printf("Total Number of Semaphore in Library: %d\n", lib_semaphore_count); \
+printf("Total Number of Mutex in Library: %d\n", lib_mutex_count); \
 printf("Total Library Memory: %.2lf KB\n\n",*total_lib_memory/(double)1024);
 
 
 #define EB_APP_MEMORY() \
-printf("Total Number of Mallocs in App: %d\n", appMallocCount); \
-printf("Total App Memory: %.2lf KB\n\n",*totalAppMemory/(double)1024);
+printf("Total Number of Mallocs in App: %d\n", app_malloc_count); \
+printf("Total App Memory: %.2lf KB\n\n",*total_app_memory/(double)1024);
 
 #ifndef EOK
 #define EOK             ( 0 )
