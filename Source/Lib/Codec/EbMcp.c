@@ -97,13 +97,13 @@ EbErrorType motion_compensation_prediction_context_ctor(
 
 void encode_uni_pred_interpolation(
     EbPictureBufferDesc_t *ref_pic,                  //input parameter, please refer to the detailed explanation above.
-    uint32_t                 posX,                    //input parameter, please refer to the detailed explanation above.
-    uint32_t                 posY,                    //input parameter, please refer to the detailed explanation above.
+    uint32_t                 pos_x,                    //input parameter, please refer to the detailed explanation above.
+    uint32_t                 pos_y,                    //input parameter, please refer to the detailed explanation above.
     uint32_t                 pu_width,                 //input parameter
     uint32_t                 pu_height,                //input parameter
     EbPictureBufferDesc_t *dst,                     //output parameter, please refer to the detailed explanation above.
-    uint32_t                 dstLumaIndex,            //input parameter, please refer to the detailed explanation above.
-    uint32_t                 dstChromaIndex,          //input parameter, please refer to the detailed explanation above.
+    uint32_t                 dst_luma_index,            //input parameter, please refer to the detailed explanation above.
+    uint32_t                 dst_chroma_index,          //input parameter, please refer to the detailed explanation above.
     int16_t                *tempBuf0,                //input parameter, please refer to the detailed explanation above.
     int16_t                *tempBuf1,                //input parameter, please refer to the detailed explanation above.
     EbAsm                 asm_type)
@@ -120,15 +120,15 @@ void encode_uni_pred_interpolation(
 
     //luma
     //compute the luma fractional position
-    integPosx = (posX >> 2);
-    integPosy = (posY >> 2);
-    frac_pos_x = posX & 0x03;
-    frac_pos_y = posY & 0x03;
+    integPosx = (pos_x >> 2);
+    integPosy = (pos_y >> 2);
+    frac_pos_x = pos_x & 0x03;
+    frac_pos_y = pos_y & 0x03;
 
     uni_pred_luma_if_function_ptr_array_new[asm_type][frac_pos_x + (frac_pos_y << 2)](
         ref_pic->buffer_y + integPosx + integPosy * ref_pic->stride_y,
         ref_pic->stride_y,
-        dst->buffer_y + dstLumaIndex,
+        dst->buffer_y + dst_luma_index,
         dst->stride_y,
         pu_width,
         pu_height,
@@ -136,16 +136,16 @@ void encode_uni_pred_interpolation(
 
     //chroma
     //compute the chroma fractional position
-    integPosx = (posX >> 3);
-    integPosy = (posY >> 3);
-    frac_pos_x = posX & 0x07;
-    frac_pos_y = posY & 0x07;
+    integPosx = (pos_x >> 3);
+    integPosy = (pos_y >> 3);
+    frac_pos_x = pos_x & 0x07;
+    frac_pos_y = pos_y & 0x07;
 
 
     uni_pred_chroma_if_function_ptr_array_new[asm_type][frac_pos_x + (frac_pos_y << 3)](
         ref_pic->bufferCb + integPosx + integPosy * ref_pic->strideCb,
         ref_pic->strideCb,
-        dst->bufferCb + dstChromaIndex,
+        dst->bufferCb + dst_chroma_index,
         dst->strideCb,
         chromaPuWidth,
         chromaPuHeight,
@@ -157,7 +157,7 @@ void encode_uni_pred_interpolation(
     uni_pred_chroma_if_function_ptr_array_new[asm_type][frac_pos_x + (frac_pos_y << 3)](
         ref_pic->bufferCr + integPosx + integPosy * ref_pic->strideCr,
         ref_pic->strideCr,
-        dst->bufferCr + dstChromaIndex,
+        dst->bufferCr + dst_chroma_index,
         dst->strideCr,
         chromaPuWidth,
         chromaPuHeight,

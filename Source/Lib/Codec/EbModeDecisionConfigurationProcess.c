@@ -1480,13 +1480,13 @@ EbAuraStatus AuraDetection64x64Gold(
 
             if (mePuResult->distortionDirection[k].direction == UNI_PRED_LIST_0) {
                 // Get reference list 0 / reference index 0 MV
-                xMv0 = mePuResult->xMvL0;
-                yMv0 = mePuResult->yMvL0;
+                xMv0 = mePuResult->x_mv_l0;
+                yMv0 = mePuResult->y_mv_l0;
             }
             if (mePuResult->distortionDirection[k].direction == UNI_PRED_LIST_1) {
                 // Get reference list  1 / reference index 0 MV
-                xMv1 = mePuResult->xMvL1;
-                yMv1 = mePuResult->yMvL1;
+                xMv1 = mePuResult->x_mv_l1;
+                yMv1 = mePuResult->y_mv_l1;
             }
 
         }

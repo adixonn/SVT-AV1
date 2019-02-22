@@ -2851,11 +2851,11 @@ void move_cu_data(
 *   Coefficient Samples
 *
 *******************************************/
-EB_EXTERN void AV1EncodePass(
+EB_EXTERN void av1_encode_pass(
     SequenceControlSet_t      *sequence_control_set_ptr,
     PictureControlSet_t       *picture_control_set_ptr,
     LargestCodingUnit_t       *sb_ptr,
-    uint32_t                   tbAddr,
+    uint32_t                   tb_addr,
     uint32_t                   sb_origin_x,
     uint32_t                   sb_origin_y,
     uint32_t                   sb_qp,
@@ -2870,7 +2870,7 @@ EB_EXTERN void AV1EncodePass(
     mdcontextPtr = context_ptr->md_context;
     inputPicture = context_ptr->input_samples = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
 
-    SbStat_t                *sb_stat_ptr = &(picture_control_set_ptr->parent_pcs_ptr->sb_stat_array[tbAddr]);
+    SbStat_t                *sb_stat_ptr = &(picture_control_set_ptr->parent_pcs_ptr->sb_stat_array[tb_addr]);
 
     EbBool                    availableCoeff;
 
@@ -2972,7 +2972,7 @@ EB_EXTERN void AV1EncodePass(
             sequence_control_set_ptr,
             picture_control_set_ptr,
             sb_ptr,
-            tbAddr,
+            tb_addr,
             context_ptr);
     }
     else {
@@ -3127,7 +3127,7 @@ EB_EXTERN void AV1EncodePass(
             }
         }
     }
-    context_ptr->intra_coded_area_sb[tbAddr] = 0;
+    context_ptr->intra_coded_area_sb[tb_addr] = 0;
 
     context_ptr->trans_coeff_shape_luma = 0;
     context_ptr->trans_coeff_shape_chroma = 0;
@@ -3136,7 +3136,7 @@ EB_EXTERN void AV1EncodePass(
 
 #if AV1_LF 
     if (dlfEnableFlag && picture_control_set_ptr->parent_pcs_ptr->loop_filter_mode == 1){        
-        if (tbAddr == 0) {
+        if (tb_addr == 0) {
             av1_loop_filter_init(picture_control_set_ptr);
 
             av1_pick_filter_level(
@@ -3160,7 +3160,7 @@ EB_EXTERN void AV1EncodePass(
             sequence_control_set_ptr,
             picture_control_set_ptr,
             sb_ptr,
-            tbAddr,
+            tb_addr,
             picture_control_set_ptr->slice_type == I_SLICE ? INTRA_MODE : INTER_MODE,
             context_ptr);
     }
@@ -3255,7 +3255,7 @@ EB_EXTERN void AV1EncodePass(
                         sequence_control_set_ptr,
                         picture_control_set_ptr,
                         sb_ptr,
-                        tbAddr,
+                        tb_addr,
                         cu_ptr,
                         0xFF, //This is obviously not ok
                         d1_itr, // TOCHECK OMK
@@ -3278,7 +3278,7 @@ EB_EXTERN void AV1EncodePass(
 
                     context_ptr->tot_intra_coded_area += blk_geom->bwidth* blk_geom->bheight;
                     if (picture_control_set_ptr->slice_type != I_SLICE) {
-                        context_ptr->intra_coded_area_sb[tbAddr] += blk_geom->bwidth* blk_geom->bheight;
+                        context_ptr->intra_coded_area_sb[tb_addr] += blk_geom->bwidth* blk_geom->bheight;
                     }
 
                     // *Note - Transforms are the same size as predictions
@@ -4259,7 +4259,7 @@ EB_EXTERN void no_enc_dec_pass(
     SequenceControlSet_t    *sequence_control_set_ptr,
     PictureControlSet_t     *picture_control_set_ptr,
     LargestCodingUnit_t     *sb_ptr,
-    uint32_t                   tbAddr,
+    uint32_t                   tb_addr,
     uint32_t                   sb_origin_x,
     uint32_t                   sb_origin_y,
     uint32_t                   sb_qp,

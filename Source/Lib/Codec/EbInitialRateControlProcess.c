@@ -45,8 +45,8 @@ void GetMv(
     for (meCandidateIndex = 0; meCandidateIndex < cuResults->totalMeCandidateIndex; meCandidateIndex++) {
         if (cuResults->distortionDirection[meCandidateIndex].direction == UNI_PRED_LIST_0) {
 
-            *xCurrentMv = cuResults->xMvL0;
-            *yCurrentMv = cuResults->yMvL0;
+            *xCurrentMv = cuResults->x_mv_l0;
+            *yCurrentMv = cuResults->y_mv_l0;
 
             break;
         }

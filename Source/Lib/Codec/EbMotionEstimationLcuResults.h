@@ -24,10 +24,10 @@ extern "C" {
 
         union {
             struct {
-                signed short     xMvL0;  //Note: Do not change the order of these fields
-                signed short     yMvL0;
-                signed short     xMvL1;
-                signed short     yMvL1;
+                signed short     x_mv_l0;  //Note: Do not change the order of these fields
+                signed short     y_mv_l0;
+                signed short     x_mv_l1;
+                signed short     y_mv_l1;
             };
             uint64_t MVs;
         };
@@ -62,10 +62,10 @@ extern "C" {
     typedef struct MeCuResults_s {
         union {
             struct {
-                signed short     xMvL0;
-                signed short     yMvL0;
-                signed short     xMvL1;
-                signed short     yMvL1;
+                signed short     x_mv_l0;
+                signed short     y_mv_l0;
+                signed short     x_mv_l1;
+                signed short     y_mv_l1;
             };
             uint64_t MVs;
         };

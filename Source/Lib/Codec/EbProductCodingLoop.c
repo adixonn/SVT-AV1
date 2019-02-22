@@ -682,11 +682,11 @@ void Initialize_cu_data_structure(
     ModeDecisionContext_t   *context_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr,
     LargestCodingUnit_t        *sb_ptr,
-    const MdcLcuData_t        * const mdcResultTbPtr)
+    const MdcLcuData_t        * const mdc_result_tb_ptr)
 {
     UNUSED(*sequence_control_set_ptr);
     UNUSED(*sb_ptr);
-    UNUSED(*mdcResultTbPtr);
+    UNUSED(*mdc_result_tb_ptr);
     uint32_t blk_idx = 0;
 
     blk_idx = 0;
@@ -3173,7 +3173,7 @@ void md_encode_block(
 EB_EXTERN EbErrorType mode_decision_sb(
     SequenceControlSet_t                *sequence_control_set_ptr,
     PictureControlSet_t                 *picture_control_set_ptr,
-    const MdcLcuData_t * const           mdcResultTbPtr,
+    const MdcLcuData_t * const           mdc_result_tb_ptr,
     LargestCodingUnit_t                 *sb_ptr,
     uint16_t                             sb_origin_x,
     uint16_t                             sb_origin_y,
@@ -3193,8 +3193,8 @@ EB_EXTERN EbErrorType mode_decision_sb(
     EbAsm                                  asm_type = sequence_control_set_ptr->encode_context_ptr->asm_type;
     const uint32_t                         sb_height = MIN(BLOCK_SIZE_64, (uint32_t)(sequence_control_set_ptr->luma_height - sb_origin_y));
 
-    uint32_t                               leaf_count = mdcResultTbPtr->leaf_count;
-    const EbMdcLeafData_t *const           leaf_data_array = mdcResultTbPtr->leaf_data_array;
+    uint32_t                               leaf_count = mdc_result_tb_ptr->leaf_count;
+    const EbMdcLeafData_t *const           leaf_data_array = mdc_result_tb_ptr->leaf_data_array;
     UNUSED(sb_height);
     UNUSED(asm_type);
     UNUSED(lastCuIndex);
@@ -3211,7 +3211,7 @@ EB_EXTERN EbErrorType mode_decision_sb(
         context_ptr,
         sequence_control_set_ptr,
         sb_ptr,
-        mdcResultTbPtr);
+        mdc_result_tb_ptr);
 
     // Mode Decision Neighbor Arrays
     context_ptr->intra_luma_mode_neighbor_array = picture_control_set_ptr->md_intra_luma_mode_neighbor_array[MD_NEIGHBOR_ARRAY_INDEX];
@@ -3254,7 +3254,7 @@ EB_EXTERN EbErrorType mode_decision_sb(
         context_ptr->cu_origin_x = sb_origin_x + blk_geom->origin_x;
         context_ptr->cu_origin_y = sb_origin_y + blk_geom->origin_y;
 
-        const EbMdcLeafData_t * const leafDataPtr = &mdcResultTbPtr->leaf_data_array[cuIdx];
+        const EbMdcLeafData_t * const leafDataPtr = &mdc_result_tb_ptr->leaf_data_array[cuIdx];
         context_ptr->sb_sz = BLOCK_SIZE_64;
         context_ptr->round_origin_x = ((context_ptr->cu_origin_x >> 3) << 3);
         context_ptr->round_origin_y = ((context_ptr->cu_origin_y >> 3) << 3);
@@ -6784,10 +6784,10 @@ EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
     PictureControlSet_t         *picture_control_set_ptr,  // input parameter, Picture Control Set Ptr
     uint32_t                       sb_origin_x,            // input parameter, SB Origin X
     uint32_t                       sb_origin_y,            // input parameter, SB Origin X
-    int16_t                       xMvL0,
-    int16_t                       yMvL0,
-    int16_t                       xMvL1,
-    int16_t                       yMvL1,
+    int16_t                       x_mv_l0,
+    int16_t                       y_mv_l0,
+    int16_t                       x_mv_l1,
+    int16_t                       y_mv_l1,
     SsMeContext_t                 *context_ptr)           // input parameter, ME Context Ptr, used to store decimated/interpolated LCU/SR
 
 {
@@ -6871,8 +6871,8 @@ EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
         refPicPtr = is16bit ? (EbPictureBufferDesc_t*)referenceObject->referencePicture16bit : (EbPictureBufferDesc_t*)referenceObject->referencePicture;
         search_area_width = (int16_t)MIN(context_ptr->search_area_width, 127);
         search_area_height = (int16_t)MIN(context_ptr->search_area_height, 127);
-        x_search_center = listIndex == REF_LIST_0 ? xMvL0 : xMvL1;
-        y_search_center = listIndex == REF_LIST_0 ? yMvL0 : yMvL1;
+        x_search_center = listIndex == REF_LIST_0 ? x_mv_l0 : x_mv_l1;
+        y_search_center = listIndex == REF_LIST_0 ? y_mv_l0 : y_mv_l1;
 
         x_search_area_origin = x_search_center - (search_area_width >> 1);
         y_search_area_origin = y_search_center - (search_area_height >> 1);

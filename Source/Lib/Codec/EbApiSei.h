@@ -309,12 +309,6 @@ extern "C" {
 
 
 
-    extern EbErrorType EbAppVideoUsabilityInfoCtor(
-        AppVideoUsabilityInfo_t *vui_ptr);
-
-
-
-
 
 #ifdef __cplusplus
 }

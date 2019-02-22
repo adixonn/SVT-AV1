@@ -55,7 +55,7 @@ extern "C" {
         const BlockGeom                   * blk_geom,
         uint16_t                            cu_origin_x,
         uint16_t                            cu_origin_y,
-        MvReferenceFrame                *refFrames,
+        MvReferenceFrame                *ref_frames,
         uint32_t                            TotRefs,
         PictureControlSet_t              *picture_control_set_ptr);
 

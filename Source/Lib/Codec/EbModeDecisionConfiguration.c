@@ -299,10 +299,10 @@ Cost Computation for inter CU
 // TO be updated with AV1 functions
 uint64_t MdcInterCuRate(
     uint32_t                                   direction,
-    int16_t                                   xMvL0,
-    int16_t                                   yMvL0,
-    int16_t                                   xMvL1,
-    int16_t                                   yMvL1)
+    int16_t                                   x_mv_l0,
+    int16_t                                   y_mv_l0,
+    int16_t                                   x_mv_l1,
+    int16_t                                   y_mv_l1)
 {
 
     int32_t MVs_0, MVs_1, MVs_2, MVs_3;
@@ -319,8 +319,8 @@ uint64_t MdcInterCuRate(
         rate += 23196;
 
         // Estimate the Motion Vector Difference Bits
-        MVs_0 = ABS(xMvL0);
-        MVs_1 = ABS(yMvL0);
+        MVs_0 = ABS(x_mv_l0);
+        MVs_1 = ABS(y_mv_l0);
         MVs_0 = MVs_0 > 499 ? 499 : MVs_0;
         MVs_1 = MVs_1 > 499 ? 499 : MVs_1;
         rate += mv_bit_table[MVs_0][MVs_1];
@@ -333,8 +333,8 @@ uint64_t MdcInterCuRate(
 
         // Estimate the Motion Vector Difference Bits
 
-        MVs_2 = ABS(xMvL1);
-        MVs_3 = ABS(yMvL1);
+        MVs_2 = ABS(x_mv_l1);
+        MVs_3 = ABS(y_mv_l1);
         MVs_2 = MVs_2 > 499 ? 499 : MVs_2;
         MVs_3 = MVs_3 > 499 ? 499 : MVs_3;
 
@@ -355,8 +355,8 @@ uint64_t MdcInterCuRate(
 
         // Estimate the Motion Vector Difference Bits
 
-        MVs_0 = ABS(xMvL0);
-        MVs_1 = ABS(yMvL0);
+        MVs_0 = ABS(x_mv_l0);
+        MVs_1 = ABS(y_mv_l0);
         MVs_0 = MVs_0 > 499 ? 499 : MVs_0;
         MVs_1 = MVs_1 > 499 ? 499 : MVs_1;
 
@@ -364,8 +364,8 @@ uint64_t MdcInterCuRate(
         rate += mv_bit_table[MVs_0][MVs_1];
 
         // Estimate the Motion Vector Difference Bits
-        MVs_2 = ABS(xMvL1);
-        MVs_3 = ABS(yMvL1);
+        MVs_2 = ABS(x_mv_l1);
+        MVs_3 = ABS(y_mv_l1);
         MVs_2 = MVs_2 > 499 ? 499 : MVs_2;
         MVs_3 = MVs_3 > 499 ? 499 : MVs_3;
 
@@ -1017,10 +1017,10 @@ void PredictionPartitionLoop(
                     MeCuResults_t * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[sb_index][cuIndexInRaterScan];
                     cuInterRate = MdcInterCuRate(
                         mePuResult->distortionDirection[0].direction,
-                        mePuResult->xMvL0,
-                        mePuResult->yMvL0,
-                        mePuResult->xMvL1,
-                        mePuResult->yMvL1);
+                        mePuResult->x_mv_l0,
+                        mePuResult->y_mv_l0,
+                        mePuResult->x_mv_l1,
+                        mePuResult->y_mv_l1);
                     cuInterSad = mePuResult->distortionDirection[0].distortion;
 
 

@@ -21,7 +21,7 @@ extern "C" {
         uint32_t input_area_width,
         uint32_t input_area_height);
 
-    static const EB_COMPUTE_MEAN_FUNC ComputeMeanFunc[2][ASM_TYPE_TOTAL] = {
+    static const EB_COMPUTE_MEAN_FUNC compute_mean_func[2][ASM_TYPE_TOTAL] = {
         {
             // NON_AVX2
             compute_mean8x8_sse2_intrin,

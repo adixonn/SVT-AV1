@@ -4924,9 +4924,9 @@ static void QuarterPelCompensation(
 * Requirement: pu_height % 2 = 0
 * Requirement: skip         = 0 or 1
 * Requirement (x86 only): temp_buf % 16 = 0
-* Requirement (x86 only): (dst->buffer_y  + dstLumaIndex  ) % 16 = 0 when pu_width %16 = 0
-* Requirement (x86 only): (dst->bufferCb + dstChromaIndex) % 16 = 0 when pu_width %32 = 0
-* Requirement (x86 only): (dst->bufferCr + dstChromaIndex) % 16 = 0 when pu_width %32 = 0
+* Requirement (x86 only): (dst->buffer_y  + dst_luma_index  ) % 16 = 0 when pu_width %16 = 0
+* Requirement (x86 only): (dst->bufferCb + dst_chroma_index) % 16 = 0 when pu_width %32 = 0
+* Requirement (x86 only): (dst->bufferCr + dst_chroma_index) % 16 = 0 when pu_width %32 = 0
 * Requirement (x86 only): dst->stride_y   % 16 = 0 when pu_width %16 = 0
 * Requirement (x86 only): dst->chromaStride % 16 = 0 when pu_width %32 = 0
 *******************************************************************************/
@@ -7051,10 +7051,10 @@ EbErrorType motion_estimate_lcu(
 
 
 
-            mePuResult->xMvL0 = _MVXT(context_ptr->p_sb_best_mv[0][0][nIdx]);
-            mePuResult->yMvL0 = _MVYT(context_ptr->p_sb_best_mv[0][0][nIdx]);
-            mePuResult->xMvL1 = _MVXT(context_ptr->p_sb_best_mv[1][0][nIdx]);
-            mePuResult->yMvL1 = _MVYT(context_ptr->p_sb_best_mv[1][0][nIdx]);
+            mePuResult->x_mv_l0 = _MVXT(context_ptr->p_sb_best_mv[0][0][nIdx]);
+            mePuResult->y_mv_l0 = _MVYT(context_ptr->p_sb_best_mv[0][0][nIdx]);
+            mePuResult->x_mv_l1 = _MVXT(context_ptr->p_sb_best_mv[1][0][nIdx]);
+            mePuResult->y_mv_l1 = _MVYT(context_ptr->p_sb_best_mv[1][0][nIdx]);
 
             uint32_t order = sort_3_elements(L0Sad, L1Sad, biSad);
 
@@ -7114,10 +7114,10 @@ EbErrorType motion_estimate_lcu(
             uint32_t L0Sad = context_ptr->p_sb_best_sad[0][0][nIdx];
             uint32_t L1Sad = context_ptr->p_sb_best_sad[1][0][nIdx];
 
-            mePuResult->xMvL0 = _MVXT(context_ptr->p_sb_best_mv[0][0][nIdx]);
-            mePuResult->yMvL0 = _MVYT(context_ptr->p_sb_best_mv[0][0][nIdx]);
-            mePuResult->xMvL1 = _MVXT(context_ptr->p_sb_best_mv[1][0][nIdx]);
-            mePuResult->yMvL1 = _MVYT(context_ptr->p_sb_best_mv[1][0][nIdx]);
+            mePuResult->x_mv_l0 = _MVXT(context_ptr->p_sb_best_mv[0][0][nIdx]);
+            mePuResult->y_mv_l0 = _MVYT(context_ptr->p_sb_best_mv[0][0][nIdx]);
+            mePuResult->x_mv_l1 = _MVXT(context_ptr->p_sb_best_mv[1][0][nIdx]);
+            mePuResult->y_mv_l1 = _MVYT(context_ptr->p_sb_best_mv[1][0][nIdx]);
 
             if (L0Sad <= L1Sad) {
                 NSET_CAND(mePuResult, 0, L0Sad, UNI_PRED_LIST_0)
@@ -7131,10 +7131,10 @@ EbErrorType motion_estimate_lcu(
         }
         else {
             uint32_t L0Sad = context_ptr->p_sb_best_sad[0][0][nIdx];
-            mePuResult->xMvL0 = _MVXT(context_ptr->p_sb_best_mv[0][0][nIdx]);
-            mePuResult->yMvL0 = _MVYT(context_ptr->p_sb_best_mv[0][0][nIdx]);
-            mePuResult->xMvL1 = _MVXT(context_ptr->p_sb_best_mv[1][0][nIdx]);
-            mePuResult->yMvL1 = _MVYT(context_ptr->p_sb_best_mv[1][0][nIdx]);
+            mePuResult->x_mv_l0 = _MVXT(context_ptr->p_sb_best_mv[0][0][nIdx]);
+            mePuResult->y_mv_l0 = _MVYT(context_ptr->p_sb_best_mv[0][0][nIdx]);
+            mePuResult->x_mv_l1 = _MVXT(context_ptr->p_sb_best_mv[1][0][nIdx]);
+            mePuResult->y_mv_l1 = _MVYT(context_ptr->p_sb_best_mv[1][0][nIdx]);
             NSET_CAND(mePuResult, 0, L0Sad, UNI_PRED_LIST_0)
         }
 

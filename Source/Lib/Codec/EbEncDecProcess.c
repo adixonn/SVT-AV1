@@ -1268,7 +1268,7 @@ void CopyStatisticsToRefObject(
 }
 
 
-EbErrorType QpmDeriveWeightsMinAndMax(
+EbErrorType qpm_derive_weights_min_and_max(
     PictureControlSet_t                    *picture_control_set_ptr,
     EncDecContext_t                        *context_ptr)
 {
@@ -1495,7 +1495,7 @@ void* enc_dec_kernel(void *input_ptr)
                 segment_index);
 
             if (sequence_control_set_ptr->static_config.improve_sharpness) {
-                QpmDeriveWeightsMinAndMax(
+                qpm_derive_weights_min_and_max(
                     picture_control_set_ptr,
                     context_ptr);
             }
@@ -1572,20 +1572,20 @@ void* enc_dec_kernel(void *input_ptr)
                             MeCuResults_t * me_block_results_3 = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr_3][0];
 
                             // Compute average open_loop 64x64 MVs
-                            mv_l0_x = ((me_block_results_0->xMvL0 + me_block_results_1->xMvL0 + me_block_results_2->xMvL0 + me_block_results_3->xMvL0) >> 2) >> 2;
-                            mv_l0_y = ((me_block_results_0->yMvL0 + me_block_results_1->yMvL0 + me_block_results_2->yMvL0 + me_block_results_3->yMvL0) >> 2) >> 2;
-                            mv_l1_x = ((me_block_results_0->xMvL1 + me_block_results_1->xMvL1 + me_block_results_2->xMvL1 + me_block_results_3->xMvL1) >> 2) >> 2;
-                            mv_l1_y = ((me_block_results_0->yMvL1 + me_block_results_1->yMvL1 + me_block_results_2->yMvL1 + me_block_results_3->yMvL1) >> 2) >> 2;
+                            mv_l0_x = ((me_block_results_0->x_mv_l0 + me_block_results_1->x_mv_l0 + me_block_results_2->x_mv_l0 + me_block_results_3->x_mv_l0) >> 2) >> 2;
+                            mv_l0_y = ((me_block_results_0->y_mv_l0 + me_block_results_1->y_mv_l0 + me_block_results_2->y_mv_l0 + me_block_results_3->y_mv_l0) >> 2) >> 2;
+                            mv_l1_x = ((me_block_results_0->x_mv_l1 + me_block_results_1->x_mv_l1 + me_block_results_2->x_mv_l1 + me_block_results_3->x_mv_l1) >> 2) >> 2;
+                            mv_l1_y = ((me_block_results_0->y_mv_l1 + me_block_results_1->y_mv_l1 + me_block_results_2->y_mv_l1 + me_block_results_3->y_mv_l1) >> 2) >> 2;
 
                         }
                         else {
                             me_sb_addr = sb_index;
                             MeCuResults_t * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr][0];
 
-                            mv_l0_x = mePuResult->xMvL0 >> 2;
-                            mv_l0_y = mePuResult->yMvL0 >> 2;
-                            mv_l1_x = mePuResult->xMvL1 >> 2;
-                            mv_l1_y = mePuResult->yMvL1 >> 2;
+                            mv_l0_x = mePuResult->x_mv_l0 >> 2;
+                            mv_l0_y = mePuResult->y_mv_l0 >> 2;
+                            mv_l1_x = mePuResult->x_mv_l1 >> 2;
+                            mv_l1_y = mePuResult->y_mv_l1 >> 2;
                         }
 
 
@@ -1637,7 +1637,7 @@ void* enc_dec_kernel(void *input_ptr)
                         context_ptr);
 #else
                     // Encode Pass
-                    AV1EncodePass(
+                    av1_encode_pass(
                         sequence_control_set_ptr,
                         picture_control_set_ptr,
                         sb_ptr,

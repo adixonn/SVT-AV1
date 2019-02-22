@@ -4461,10 +4461,10 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
     EbPictureBufferDesc_t  *ref_pic_list1;
     EbReferenceObject_t    *referenceObject;
 
-    uint32_t                  refList0PosX;
-    uint32_t                  refList0PosY;
-    uint32_t                  refList1PosX;
-    uint32_t                  refList1PosY;
+    uint32_t                  ref_list0_pos_x;
+    uint32_t                  ref_list0_pos_y;
+    uint32_t                  ref_list1_pos_x;
+    uint32_t                  ref_list1_pos_y;
     const uint32_t pu_origin_x = md_context_ptr->cu_origin_x;
     const uint32_t pu_origin_y = md_context_ptr->cu_origin_y;
     const uint32_t pu_width = md_context_ptr->blk_geom->bwidth;
@@ -4515,13 +4515,13 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
             }
 
             //all the input quantites are in Qpel resolution
-            refList0PosX = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list0_pos_x = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list0->width) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_x << 2) + REFPADD_QPEL + motionVector_x))
             );
 
 
-            refList0PosY = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list0_pos_y = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list0->height) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_y << 2) + REFPADD_QPEL + motionVector_y))
             );
@@ -4530,8 +4530,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 
             estimate_uni_pred_interpolation_avc_lumaRef10Bit(
                 ref_pic_list0,
-                refList0PosX,
-                refList0PosY,
+                ref_list0_pos_x,
+                ref_list0_pos_y,
                 pu_width,
                 pu_height,
                 candidate_buffer_ptr->prediction_ptr,
@@ -4569,21 +4569,21 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
             }
 
             //all the input quantites are in Qpel resolution
-            refList0PosX = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list0_pos_x = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list0->width) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_x << 2) + REFPADD_QPEL + motionVector_x))
             );
 
 
-            refList0PosY = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list0_pos_y = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list0->height) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_y << 2) + REFPADD_QPEL + motionVector_y))
             );
 
             uni_pred_i_free_ref8_bit(
                 ref_pic_list0,
-                refList0PosX,
-                refList0PosY,
+                ref_list0_pos_x,
+                ref_list0_pos_y,
                 pu_width,
                 pu_height,
                 candidate_buffer_ptr->prediction_ptr,
@@ -4619,19 +4619,19 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
                     &motionVector_x,
                     &motionVector_y);
             }
-            refList1PosX = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list1_pos_x = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list1->width) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_x << 2) + REFPADD_QPEL + motionVector_x))
             );
-            refList1PosY = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list1_pos_y = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list1->height) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_y << 2) + REFPADD_QPEL + motionVector_y))
             );
 
             estimate_uni_pred_interpolation_avc_lumaRef10Bit(
                 ref_pic_list1,
-                refList1PosX,
-                refList1PosY,
+                ref_list1_pos_x,
+                ref_list1_pos_y,
                 pu_width,
                 pu_height,
                 candidate_buffer_ptr->prediction_ptr,
@@ -4667,19 +4667,19 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
                     &motionVector_y);
             }
 
-            refList1PosX = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list1_pos_x = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list1->width) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_x << 2) + REFPADD_QPEL + motionVector_x))
             );
-            refList1PosY = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list1_pos_y = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list1->height) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_y << 2) + REFPADD_QPEL + motionVector_y))
             );
 
             uni_pred_i_free_ref8_bit(
                 ref_pic_list1,
-                refList1PosX,
-                refList1PosY,
+                ref_list1_pos_x,
+                ref_list1_pos_y,
                 pu_width,
                 pu_height,
                 candidate_buffer_ptr->prediction_ptr,
@@ -4714,11 +4714,11 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
                     &motionVector_y);
             }
 
-            refList0PosX = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list0_pos_x = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list0->width) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_x << 2) + REFPADD_QPEL + motionVector_x))
             );
-            refList0PosY = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list0_pos_y = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list0->height) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_y << 2) + REFPADD_QPEL + motionVector_y))
             );
@@ -4740,11 +4740,11 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
                     &motionVector_y);
             }
 
-            refList1PosX = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list1_pos_x = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list1->width) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_x << 2) + REFPADD_QPEL + motionVector_x))
             );
-            refList1PosY = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list1_pos_y = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list1->height) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_y << 2) + REFPADD_QPEL + motionVector_y))
             );
@@ -4753,10 +4753,10 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
             estimate_bi_pred_interpolation_avc_luma_ref10_bit(
                 ref_pic_list0,
                 ref_pic_list1,
-                refList0PosX,
-                refList0PosY,
-                refList1PosX,
-                refList1PosY,
+                ref_list0_pos_x,
+                ref_list0_pos_y,
+                ref_list1_pos_x,
+                ref_list1_pos_y,
                 pu_width,
                 pu_height,
                 candidate_buffer_ptr->prediction_ptr,
@@ -4794,11 +4794,11 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
                     &motionVector_y);
             }
 
-            refList0PosX = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list0_pos_x = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list0->width) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_x << 2) + REFPADD_QPEL + motionVector_x))
             );
-            refList0PosY = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list0_pos_y = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list0->height) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_y << 2) + REFPADD_QPEL + motionVector_y))
             );
@@ -4825,11 +4825,11 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
                     &motionVector_y);
             }
 
-            refList1PosX = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list1_pos_x = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list1->width) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_x << 2) + REFPADD_QPEL + motionVector_x))
             );
-            refList1PosY = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list1_pos_y = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list1->height) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_y << 2) + REFPADD_QPEL + motionVector_y))
             );
@@ -4837,10 +4837,10 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
             bi_pred_i_free_ref8_bit(
                 ref_pic_list0,
                 ref_pic_list1,
-                refList0PosX,
-                refList0PosY,
-                refList1PosX,
-                refList1PosY,
+                ref_list0_pos_x,
+                ref_list0_pos_y,
+                ref_list1_pos_x,
+                ref_list1_pos_y,
                 pu_width,
                 pu_height,
                 candidate_buffer_ptr->prediction_ptr,
@@ -4874,8 +4874,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 ***************************************************/
 void UnPackReferenceLumaBlock(
     EbPictureBufferDesc_t *refFramePic,
-    uint32_t                 posX,
-    uint32_t                 posY,
+    uint32_t                 pos_x,
+    uint32_t                 pos_y,
     uint32_t                 pu_width,
     uint32_t                 pu_height,
     EbPictureBufferDesc_t *dst,
@@ -4885,8 +4885,8 @@ void UnPackReferenceLumaBlock(
 
     pu_width += 4;
     pu_height += 4;
-    uint32_t inPosx = (posX >> 2) - 2;
-    uint32_t inPosy = (posY >> 2) - 2;
+    uint32_t inPosx = (pos_x >> 2) - 2;
+    uint32_t inPosy = (pos_y >> 2) - 2;
     uint16_t *ptr16 = (uint16_t *)refFramePic->buffer_y + inPosx + inPosy * refFramePic->stride_y;
 
     extract8_bitdata_safe_sub(
@@ -4914,10 +4914,10 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
     EbPictureBufferDesc_t  *ref_pic_list1;
     EbReferenceObject_t    *referenceObject;
 
-    uint32_t                  refList0PosX;
-    uint32_t                  refList0PosY;
-    uint32_t                  refList1PosX;
-    uint32_t                  refList1PosY;
+    uint32_t                  ref_list0_pos_x;
+    uint32_t                  ref_list0_pos_y;
+    uint32_t                  ref_list1_pos_x;
+    uint32_t                  ref_list1_pos_y;
     const uint32_t pu_origin_x = md_context_ptr->cu_origin_x;
     const uint32_t pu_origin_y = md_context_ptr->cu_origin_y;
     const uint32_t pu_width = md_context_ptr->blk_geom->bwidth;
@@ -4938,7 +4938,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
     int16_t motionVector_y;
     (void)asm_type;
 
-    EbBool   subSamplePredFlag = candidate_buffer_ptr->sub_sampled_pred;
+    EbBool   sub_sample_pred_flag = candidate_buffer_ptr->sub_sampled_pred;
 
     if (md_context_ptr->cu_use_ref_src_flag)
 
@@ -4969,13 +4969,13 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
                     &motionVector_y);
             }
             //all the input quantites are in Qpel resolution
-            refList0PosX = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list0_pos_x = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list0->width) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_x << 2) + REFPADD_QPEL + motionVector_x))
             );
 
 
-            refList0PosY = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list0_pos_y = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list0->height) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_y << 2) + REFPADD_QPEL + motionVector_y))
             );
@@ -4985,8 +4985,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
                 UnPackReferenceLumaBlock(
                     ref_pic_list0,
-                    refList0PosX,
-                    refList0PosY,
+                    ref_list0_pos_x,
+                    ref_list0_pos_y,
                     pu_width,
                     pu_height,
                     context_ptr->mcp_context->local_reference_block8_bitl0,
@@ -4995,8 +4995,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
                 estimate_uni_pred_interpolation_unpacked_avc_style(
                     context_ptr->mcp_context->local_reference_block8_bitl0,
-                    refList0PosX,
-                    refList0PosY,
+                    ref_list0_pos_x,
+                    ref_list0_pos_y,
                     pu_width,
                     pu_height,
                     candidate_buffer_ptr->prediction_ptr,
@@ -5004,7 +5004,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
                     puChromaOriginIndex,
                     component_mask,
                     context_ptr->mcp_context->avc_style_mcp_intermediate_result_buf0,
-                    subSamplePredFlag,
+                    sub_sample_pred_flag,
                     asm_type); // temp until mismatch fixed
             }
 
@@ -5013,8 +5013,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
                 estimate_uni_pred_interpolation_avc_chroma_ref10_bit(
                     ref_pic_list0,
-                    refList0PosX,
-                    refList0PosY,
+                    ref_list0_pos_x,
+                    ref_list0_pos_y,
                     pu_width,
                     pu_height,
                     candidate_buffer_ptr->prediction_ptr,
@@ -5052,21 +5052,21 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
             }
 
             //all the input quantites are in Qpel resolution
-            refList0PosX = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list0_pos_x = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list0->width) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_x << 2) + REFPADD_QPEL + motionVector_x))
             );
 
 
-            refList0PosY = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list0_pos_y = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list0->height) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_y << 2) + REFPADD_QPEL + motionVector_y))
             );
 
             estimate_uni_pred_interpolation_avc_luma(
                 ref_pic_list0,
-                refList0PosX,
-                refList0PosY,
+                ref_list0_pos_x,
+                ref_list0_pos_y,
                 pu_width,
                 pu_height,
                 candidate_buffer_ptr->prediction_ptr,
@@ -5074,7 +5074,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
                 puChromaOriginIndex,
                 component_mask,
                 context_ptr->mcp_context->avc_style_mcp_intermediate_result_buf0,
-                subSamplePredFlag,
+                sub_sample_pred_flag,
                 asm_type); // temp until mismatch fixed
         }
 
@@ -5100,11 +5100,11 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
                     &motionVector_x,
                     &motionVector_y);
             }
-            refList1PosX = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list1_pos_x = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list1->width) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_x << 2) + REFPADD_QPEL + motionVector_x))
             );
-            refList1PosY = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list1_pos_y = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list1->height) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_y << 2) + REFPADD_QPEL + motionVector_y))
             );
@@ -5113,8 +5113,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
                 UnPackReferenceLumaBlock(
                     ref_pic_list1,
-                    refList1PosX,
-                    refList1PosY,
+                    ref_list1_pos_x,
+                    ref_list1_pos_y,
                     pu_width,
                     pu_height,
                     context_ptr->mcp_context->local_reference_block8_bitl1,
@@ -5123,8 +5123,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
                 estimate_uni_pred_interpolation_unpacked_avc_style(
                     context_ptr->mcp_context->local_reference_block8_bitl1,
-                    refList1PosX,
-                    refList1PosY,
+                    ref_list1_pos_x,
+                    ref_list1_pos_y,
                     pu_width,
                     pu_height,
                     candidate_buffer_ptr->prediction_ptr,
@@ -5132,7 +5132,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
                     puChromaOriginIndex,
                     component_mask,
                     context_ptr->mcp_context->avc_style_mcp_intermediate_result_buf1,
-                    subSamplePredFlag,
+                    sub_sample_pred_flag,
                     asm_type);
             }
 
@@ -5140,8 +5140,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
                 estimate_uni_pred_interpolation_avc_chroma_ref10_bit(
                     ref_pic_list1,
-                    refList1PosX,
-                    refList1PosY,
+                    ref_list1_pos_x,
+                    ref_list1_pos_y,
                     pu_width,
                     pu_height,
                     candidate_buffer_ptr->prediction_ptr,
@@ -5177,11 +5177,11 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
             }
 
 
-            refList1PosX = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list1_pos_x = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list1->width) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_x << 2) + REFPADD_QPEL + motionVector_x))
             );
-            refList1PosY = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list1_pos_y = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list1->height) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_y << 2) + REFPADD_QPEL + motionVector_y))
             );
@@ -5189,8 +5189,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
             estimate_uni_pred_interpolation_avc_luma(
                 ref_pic_list1,
-                refList1PosX,
-                refList1PosY,
+                ref_list1_pos_x,
+                ref_list1_pos_y,
                 pu_width,
                 pu_height,
                 candidate_buffer_ptr->prediction_ptr,
@@ -5198,7 +5198,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
                 puChromaOriginIndex,
                 component_mask,
                 context_ptr->mcp_context->avc_style_mcp_intermediate_result_buf0,
-                subSamplePredFlag,
+                sub_sample_pred_flag,
                 asm_type); // temp until mismatch fixed
         }
 
@@ -5227,11 +5227,11 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
                     &motionVector_y);
             }
 
-            refList0PosX = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list0_pos_x = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list0->width) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_x << 2) + REFPADD_QPEL + motionVector_x))
             );
-            refList0PosY = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list0_pos_y = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list0->height) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_y << 2) + REFPADD_QPEL + motionVector_y))
             );
@@ -5253,11 +5253,11 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
                     &motionVector_y);
             }
 
-            refList1PosX = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list1_pos_x = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list1->width) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_x << 2) + REFPADD_QPEL + motionVector_x))
             );
-            refList1PosY = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list1_pos_y = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list1->height) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_y << 2) + REFPADD_QPEL + motionVector_y))
             );
@@ -5266,8 +5266,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
                 UnPackReferenceLumaBlock(
                     ref_pic_list0,
-                    refList0PosX,
-                    refList0PosY,
+                    ref_list0_pos_x,
+                    ref_list0_pos_y,
                     pu_width,
                     pu_height,
                     context_ptr->mcp_context->local_reference_block8_bitl0,
@@ -5275,8 +5275,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
                     asm_type);
                 UnPackReferenceLumaBlock(
                     ref_pic_list1,
-                    refList1PosX,
-                    refList1PosY,
+                    ref_list1_pos_x,
+                    ref_list1_pos_y,
                     pu_width,
                     pu_height,
                     context_ptr->mcp_context->local_reference_block8_bitl1,
@@ -5286,10 +5286,10 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
                 estimate_bi_pred_interpolation_unpacked_avc_style(
                     context_ptr->mcp_context->local_reference_block8_bitl0,
                     context_ptr->mcp_context->local_reference_block8_bitl1,
-                    refList0PosX,
-                    refList0PosY,
-                    refList1PosX,
-                    refList1PosY,
+                    ref_list0_pos_x,
+                    ref_list0_pos_y,
+                    ref_list1_pos_x,
+                    ref_list1_pos_y,
                     pu_width,
                     pu_height,
                     candidate_buffer_ptr->prediction_ptr,
@@ -5299,7 +5299,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
                     context_ptr->mcp_context->avc_style_mcp_intermediate_result_buf0,
                     context_ptr->mcp_context->avc_style_mcp_intermediate_result_buf1,
                     context_ptr->mcp_context->avc_style_mcp_two_d_interpolation_first_pass_filter_result_buf,
-                    subSamplePredFlag,
+                    sub_sample_pred_flag,
                     asm_type); // temp until mismatch fixed
             }
             if (component_mask & PICTURE_BUFFER_DESC_CHROMA_MASK) {
@@ -5307,10 +5307,10 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
                 estimate_bi_pred_interpolation_avc_chroma_ref10_bit(
                     ref_pic_list0,
                     ref_pic_list1,
-                    refList0PosX,
-                    refList0PosY,
-                    refList1PosX,
-                    refList1PosY,
+                    ref_list0_pos_x,
+                    ref_list0_pos_y,
+                    ref_list1_pos_x,
+                    ref_list1_pos_y,
                     pu_width,
                     pu_height,
                     candidate_buffer_ptr->prediction_ptr,
@@ -5344,11 +5344,11 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
                     &motionVector_x,
                     &motionVector_y);
             }
-            refList0PosX = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list0_pos_x = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list0->width) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_x << 2) + REFPADD_QPEL + motionVector_x))
             );
-            refList0PosY = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list0_pos_y = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list0->height) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_y << 2) + REFPADD_QPEL + motionVector_y))
             );
@@ -5378,11 +5378,11 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
             }
 
 
-            refList1PosX = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list1_pos_x = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list1->width) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_x << 2) + REFPADD_QPEL + motionVector_x))
             );
-            refList1PosY = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
+            ref_list1_pos_y = (uint32_t)CLIP3((int32_t)MVBOUNDLOW,
                 (int32_t)(((ref_pic_list1->height) << 2) + MVBOUNDHIGH),
                 (int32_t)(((pu_origin_y << 2) + REFPADD_QPEL + motionVector_y))
             );
@@ -5390,10 +5390,10 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
             estimate_bi_pred_interpolation_avc_luma(
                 ref_pic_list0,
                 ref_pic_list1,
-                refList0PosX,
-                refList0PosY,
-                refList1PosX,
-                refList1PosY,
+                ref_list0_pos_x,
+                ref_list0_pos_y,
+                ref_list1_pos_x,
+                ref_list1_pos_y,
                 pu_width,
                 pu_height,
                 candidate_buffer_ptr->prediction_ptr,
@@ -5403,7 +5403,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
                 context_ptr->mcp_context->avc_style_mcp_intermediate_result_buf0,
                 context_ptr->mcp_context->avc_style_mcp_intermediate_result_buf1,
                 context_ptr->mcp_context->avc_style_mcp_two_d_interpolation_first_pass_filter_result_buf,
-                subSamplePredFlag,
+                sub_sample_pred_flag,
                 asm_type); // temp until mismatch fixed
         }
 
