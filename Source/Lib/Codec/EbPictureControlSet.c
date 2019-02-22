@@ -213,10 +213,8 @@ EbErrorType picture_control_set_ctor(
     for (sb_index = 0; sb_index < all_sb; ++sb_index) {
 
         return_error = largest_coding_unit_ctor(
-            &(object_ptr->sb_ptr_array[sb_index]),
-            (uint8_t)initDataPtr->sb_sz,
-            initDataPtr->picture_width,
-            initDataPtr->picture_height,
+            &(objectPtr->sb_ptr_array[sb_index]),
+            (uint8_t)initDataPtr->sb_size_pix,
             (uint16_t)(sb_origin_x * maxCuSize),
             (uint16_t)(sb_origin_y * maxCuSize),
             (uint16_t)sb_index,

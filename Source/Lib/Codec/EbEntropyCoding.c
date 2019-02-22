@@ -1305,11 +1305,6 @@ static INLINE int is_inter_mode(PredictionMode mode)
     return mode >= SINGLE_INTER_MODE_START && mode < SINGLE_INTER_MODE_END;
 }
 
-static INLINE EbBool is_motion_variation_allowed_bsize(const block_size bsize)
-{
-    return (block_size_wide[bsize] >= 8 && block_size_high[bsize] >= 8);
-}
-
 static INLINE int is_global_mv_block(
     const PredictionMode          mode,
     const block_size               bsize,
@@ -1320,6 +1315,7 @@ static INLINE int is_global_mv_block(
             && is_motion_variation_allowed_bsize(bsize);
 }
 
+<<<<<<< HEAD
 static INLINE int is_neighbor_overlappable(const MbModeInfo *mbmi)
 {
     return /*is_intrabc_block(mbmi) ||*/ mbmi->ref_frame[0] > INTRA_FRAME; // TODO: modify when add intra_bc
@@ -1426,6 +1422,8 @@ void av1_count_overlappable_neighbors(
 }
 
 
+=======
+>>>>>>> 425ba7775b84c0177f0ffd576faea4ed7314af94
 MOTION_MODE motion_mode_allowed(
     const PictureControlSet_t       *picture_control_set_ptr,
     const CodingUnit_t              *cu_ptr,
@@ -1449,11 +1447,7 @@ MOTION_MODE motion_mode_allowed(
         rf1 != INTRA_FRAME &&
         !(rf1 > INTRA_FRAME) ) // is_motion_variation_allowed_compound
     {
-        const EbBool no_overlappable_candidates =
-            cu_ptr->prediction_unit_array[0].overlappable_neighbors[0]==0 &&
-            cu_ptr->prediction_unit_array[0].overlappable_neighbors[1]==0;
-
-        if (no_overlappable_candidates) // check_num_overlappable_neighbors
+        if (!has_overlappable_candidates(cu_ptr)) // check_num_overlappable_neighbors
             return SIMPLE_TRANSLATION;
 
         if (cu_ptr->prediction_unit_array[0].num_proj_ref >= 1 &&
@@ -5489,27 +5483,8 @@ EbErrorType write_modes_b(
 
                 }
 
-                if (picture_control_set_ptr->parent_pcs_ptr->switchable_motion_mode && rf[1] != INTRA_FRAME) {
-                    int pts[SAMPLES_ARRAY_SIZE], pts_inref[SAMPLES_ARRAY_SIZE];
-                    uint16_t num_proj_ref = wm_find_samples(
-                                              cu_ptr,
-                                              blk_geom,
-                                              blkOriginX,
-                                              blkOriginY,
-                                              picture_control_set_ptr,
-                                              pts,
-                                              pts_inref);
-                    cu_ptr->prediction_unit_array[0].num_proj_ref = num_proj_ref;
-
-                    uint32_t mi_row = blkOriginY >> MI_SIZE_LOG2;
-                    uint32_t mi_col = blkOriginX >> MI_SIZE_LOG2;
-                    av1_count_overlappable_neighbors(
-                        picture_control_set_ptr,
-                        cu_ptr,
-                        bsize,
-                        mi_row,
-                        mi_col);
-
+                if (picture_control_set_ptr->parent_pcs_ptr->switchable_motion_mode
+                    && rf[1] != INTRA_FRAME) {
                     write_motion_mode(  
                         frameContext,
                         ecWriter,
@@ -5521,9 +5496,8 @@ EbErrorType write_modes_b(
                         picture_control_set_ptr);
                 }
 
-                if (sequence_control_set_ptr->enable_masked_compound || sequence_control_set_ptr->enable_jnt_comp) {
+                if (sequence_control_set_ptr->enable_masked_compound || sequence_control_set_ptr->enable_jnt_comp)
                     printf("ERROR[AN]: masked_compound_used and enable_jnt_comp not supported\n");
-                }
 
                 // No filter for Global MV
                 write_mb_interp_filter(
