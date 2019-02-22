@@ -185,10 +185,10 @@ EbErrorType signal_derivation_me_kernel_oq(
  * Motion Analysis Context Constructor
  ************************************************/
 
-EbErrorType MotionEstimationContextCtor(
+EbErrorType motion_estimation_context_ctor(
     MotionEstimationContext_t   **context_dbl_ptr,
-    EbFifo_t                     *pictureDecisionResultsInputFifoPtr,
-    EbFifo_t                     *motionEstimationResultsOutputFifoPtr) {
+    EbFifo_t                     *picture_decision_results_input_fifo_ptr,
+    EbFifo_t                     *motion_estimation_results_output_fifo_ptr) {
 
     EbErrorType return_error = EB_ErrorNone;
     MotionEstimationContext_t *context_ptr;
@@ -196,8 +196,8 @@ EbErrorType MotionEstimationContextCtor(
 
     *context_dbl_ptr = context_ptr;
 
-    context_ptr->pictureDecisionResultsInputFifoPtr = pictureDecisionResultsInputFifoPtr;
-    context_ptr->motionEstimationResultsOutputFifoPtr = motionEstimationResultsOutputFifoPtr;
+    context_ptr->picture_decision_results_input_fifo_ptr = picture_decision_results_input_fifo_ptr;
+    context_ptr->motion_estimation_results_output_fifo_ptr = motion_estimation_results_output_fifo_ptr;
     return_error = IntraOpenLoopReferenceSamplesCtor(&context_ptr->intra_ref_ptr);
     if (return_error == EB_ErrorInsufficientResources) {
         return EB_ErrorInsufficientResources;
@@ -279,7 +279,7 @@ EbErrorType ComputeDecimatedZzSad(
 
 
                 // 1/16 collocated SB decimation
-                Decimation2D(
+                decimation_2d(
                     &previousInputPictureFull->buffer_y[blkDisplacementFull],
                     previousInputPictureFull->stride_y,
                     BLOCK_SIZE_64,
@@ -356,7 +356,7 @@ EbErrorType ComputeDecimatedZzSad(
  * to the prediction structure pattern.  The Motion Analysis process is multithreaded,
  * so pictures can be processed out of order as long as all inputs are available.
  ************************************************/
-void* MotionEstimationKernel(void *input_ptr)
+void* motion_estimation_kernel(void *input_ptr)
 {
     MotionEstimationContext_t   *context_ptr = (MotionEstimationContext_t*)input_ptr;
 
@@ -412,7 +412,7 @@ void* MotionEstimationKernel(void *input_ptr)
 
         // Get Input Full Object
         eb_get_full_object(
-            context_ptr->pictureDecisionResultsInputFifoPtr,
+            context_ptr->picture_decision_results_input_fifo_ptr,
             &inputResultsWrapperPtr);
 
         inputResultsPtr = (PictureDecisionResults_t*)inputResultsWrapperPtr->object_ptr;
@@ -541,7 +541,7 @@ void* MotionEstimationKernel(void *input_ptr)
                         }
                     }
 
-                    MotionEstimateLcu(
+                    motion_estimate_lcu(
                         picture_control_set_ptr,
                         sb_index,
                         sb_origin_x,
@@ -566,7 +566,7 @@ void* MotionEstimationKernel(void *input_ptr)
                     sb_index = (uint16_t)(xLcuIndex + yLcuIndex * picture_width_in_sb);
 
 
-                    OpenLoopIntraSearchLcu(
+                    open_loop_intra_search_lcu(
                         picture_control_set_ptr,
                         sb_index,
                         context_ptr,
@@ -726,7 +726,7 @@ void* MotionEstimationKernel(void *input_ptr)
 
         // Get Empty Results Object
         eb_get_empty_object(
-            context_ptr->motionEstimationResultsOutputFifoPtr,
+            context_ptr->motion_estimation_results_output_fifo_ptr,
             &outputResultsWrapperPtr);
 
         outputResultsPtr = (MotionEstimationResults_t*)outputResultsWrapperPtr->object_ptr;

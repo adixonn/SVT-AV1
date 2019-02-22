@@ -92,7 +92,7 @@ uint32_t stage1ModesArray[9] = { EB_INTRA_HORIZONTAL, EB_INTRA_VERTICAL, EB_INTR
 * Compute8x4SAD_Default
 *   Unoptimized 8x4 SAD
 *******************************************/
-uint32_t Compute8x4SAD_Kernel(
+uint32_t compute8x4_sad_kernel(
     uint8_t  *src,                            // input parameter, source samples Ptr
     uint32_t  src_stride,                      // input parameter, source stride
     uint8_t  *ref,                            // input parameter, reference samples Ptr
@@ -119,9 +119,9 @@ uint32_t Compute8x4SAD_Kernel(
 static EB_COMPUTE8X4SAD_TYPE FUNC_TABLE compute8x4SAD_funcPtrArray[ASM_TYPE_TOTAL] =// [C_DEFAULT/ASM]
 {
     // C_DEFAULT
-    Compute8x4SAD_Kernel,
+    compute8x4_sad_kernel,
     // SSE2
-    Compute8x4SAD_Kernel,
+    compute8x4_sad_kernel,
 };
 /***************************************
 * Function Tables
@@ -1799,7 +1799,7 @@ void InterpolateSearchRegionAVC(
         lumaStride,
         search_area_width + 1,
         search_area_height + ME_FILTER_TAP,
-        &(MeIFCoeff[F1][0]),
+        &(me_if_coeff[F1][0]),
         inputBitDepth,
         context_ptr->interpolated_stride,
         context_ptr->pos_b_buffer);
@@ -1811,7 +1811,7 @@ void InterpolateSearchRegionAVC(
         lumaStride,
         search_area_width + 2,
         search_area_height + 1,
-        &(MeIFCoeff[F1][0]),
+        &(me_if_coeff[F1][0]),
         inputBitDepth,
         context_ptr->interpolated_stride,
         context_ptr->pos_h_buffer);
@@ -1823,7 +1823,7 @@ void InterpolateSearchRegionAVC(
         context_ptr->interpolated_stride,
         search_area_width + 1,
         search_area_height + 1,
-        &(MeIFCoeff[F1][0]),
+        &(me_if_coeff[F1][0]),
         inputBitDepth,
         context_ptr->interpolated_stride,
         context_ptr->pos_j_buffer);
@@ -4779,8 +4779,8 @@ static void SelectBuffer(
     (void)pu_width;
     (void)pu_height;
 
-    uint32_t puShiftXIndex = puSearchIndexMap[pu_index][0];
-    uint32_t puShiftYIndex = puSearchIndexMap[pu_index][1];
+    uint32_t puShiftXIndex = pu_search_index_map[pu_index][0];
+    uint32_t puShiftYIndex = pu_search_index_map[pu_index][1];
     uint32_t ref_stride = refHalfStride;
 
     //for each one of the 8 positions, we need to determine the 2 buffers to  do averaging
@@ -4832,8 +4832,8 @@ static void QuarterPelCompensation(
 {
 
 
-    uint32_t puShiftXIndex = puSearchIndexMap[pu_index][0];
-    uint32_t puShiftYIndex = puSearchIndexMap[pu_index][1];
+    uint32_t puShiftXIndex = pu_search_index_map[pu_index][0];
+    uint32_t puShiftYIndex = pu_search_index_map[pu_index][1];
     uint32_t refStride1 = refHalfStride;
     uint32_t refStride2 = refHalfStride;
 
@@ -4964,7 +4964,7 @@ uint32_t BiPredAverging(
     uint32_t                  ptrList0Stride, ptrList1Stride;
 
     // Buffer Selection and quater-pel compensation on the fly
-    if (subPositionType[firstFracPos] != 2) {
+    if (sub_position_type[firstFracPos] != 2) {
 
         SelectBuffer(
             pu_index,
@@ -5003,7 +5003,7 @@ uint32_t BiPredAverging(
         ptrList0Stride = BLOCK_SIZE_64;
     }
 
-    if (subPositionType[secondFracPos] != 2) {
+    if (sub_position_type[secondFracPos] != 2) {
 
         SelectBuffer(
             pu_index,
@@ -5128,8 +5128,8 @@ EbErrorType  BiPredictionCompensation(
     int32_t                           secondSearchRegionIndexPosj;
 
 
-    uint32_t puShiftXIndex = puSearchIndexMap[pu_index][0];
-    uint32_t puShiftYIndex = puSearchIndexMap[pu_index][1];
+    uint32_t puShiftXIndex = pu_search_index_map[pu_index][0];
+    uint32_t puShiftYIndex = pu_search_index_map[pu_index][1];
 
     const uint32_t puLcuBufferIndex = puShiftXIndex + puShiftYIndex * context_ptr->sb_src_stride;
 
@@ -5233,8 +5233,8 @@ EbErrorType  BiPredictionCompensation(
             context_ptr->sb_src_stride,
             firstRefFracPos,
             secondRefFracPos,
-            partitionWidth[pu_index],
-            partitionHeight[pu_index],
+            partition_width[pu_index],
+            partition_height[pu_index],
             &(context_ptr->integer_buffer_ptr[firstList][0][firstSearchRegionIndexPosInteg]),
             &(context_ptr->pos_b_buffer[firstList][0][firstSearchRegionIndexPosb]),
             &(context_ptr->pos_h_buffer[firstList][0][firstSearchRegionIndexPosh]),
@@ -5363,10 +5363,10 @@ uint32_t get_me_info_index(
 
     for (block_index = 0; block_index < max_me_block; block_index++) {
 
-        if ((blk_geom->bwidth == partitionWidth[block_index]) &&
-            (blk_geom->bheight == partitionHeight[block_index]) &&
-            ((blk_geom->origin_x - geom_offset_x) == puSearchIndexMap[block_index][0]) &&
-            ((blk_geom->origin_y - geom_offset_y) == puSearchIndexMap[block_index][1])) {
+        if ((blk_geom->bwidth == partition_width[block_index]) &&
+            (blk_geom->bheight == partition_height[block_index]) &&
+            ((blk_geom->origin_x - geom_offset_x) == pu_search_index_map[block_index][0]) &&
+            ((blk_geom->origin_y - geom_offset_y) == pu_search_index_map[block_index][1])) {
 
 
             me_info_index = block_index;
@@ -5431,7 +5431,7 @@ uint32_t get_in_loop_me_info_index(
      (mePuResult)->distortionDirection[(num)].direction = (dir)  ;
 
 
-int8_t Sort3Elements(uint32_t a, uint32_t b, uint32_t c) {
+int8_t sort_3_elements(uint32_t a, uint32_t b, uint32_t c) {
 
     uint8_t sortCode = 0;
     if (a <= b && a <= c) {
@@ -6143,10 +6143,10 @@ static void hme_mv_center_check(
 }
 
 /*******************************************
-* MotionEstimateLcu
+* motion_estimate_lcu
 *   performs ME (LCU)
 *******************************************/
-EbErrorType MotionEstimateLcu(
+EbErrorType motion_estimate_lcu(
     PictureParentControlSet_t   *picture_control_set_ptr,  // input parameter, Picture Control Set Ptr
     uint32_t                       sb_index,              // input parameter, SB Index
     uint32_t                       sb_origin_x,            // input parameter, SB Origin X
@@ -7056,7 +7056,7 @@ EbErrorType MotionEstimateLcu(
             mePuResult->xMvL1 = _MVXT(context_ptr->p_sb_best_mv[1][0][nIdx]);
             mePuResult->yMvL1 = _MVYT(context_ptr->p_sb_best_mv[1][0][nIdx]);
 
-            uint32_t order = Sort3Elements(L0Sad, L1Sad, biSad);
+            uint32_t order = sort_3_elements(L0Sad, L1Sad, biSad);
 
             switch (order) {
                 // a = l0Sad, b= l1Sad, c= biSad
@@ -8040,7 +8040,7 @@ uint8_t GetNumOfIntraModesFromOisPoint(
 
 
 
-EbErrorType OpenLoopIntraSearchLcu(
+EbErrorType open_loop_intra_search_lcu(
     PictureParentControlSet_t   *picture_control_set_ptr,
     uint32_t                       sb_index,
     MotionEstimationContext_t   *context_ptr,
