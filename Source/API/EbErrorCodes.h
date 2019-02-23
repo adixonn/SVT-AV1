@@ -10,8 +10,8 @@
 extern "C" {
 #endif // __cplusplus
 
-#define   CHECK_REPORT_ERROR(cond, appCallbackPtr, errorCode)  { if(!(cond)){(appCallbackPtr)->ErrorHandler(((appCallbackPtr)->handle),(errorCode));while(1);}  }
-#define   CHECK_REPORT_ERROR_NC(appCallbackPtr, errorCode)     { {(appCallbackPtr)->ErrorHandler(((appCallbackPtr)->handle),(errorCode));while(1);} }
+#define   CHECK_REPORT_ERROR(cond, app_callback_ptr, error_code)  { if(!(cond)){(app_callback_ptr)->ErrorHandler(((app_callback_ptr)->handle),(error_code));while(1);}  }
+#define   CHECK_REPORT_ERROR_NC(app_callback_ptr, error_code)     { {(app_callback_ptr)->ErrorHandler(((app_callback_ptr)->handle),(error_code));while(1);} }
 
 
     typedef enum ENCODER_ERROR_CODES

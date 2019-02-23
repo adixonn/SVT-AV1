@@ -518,7 +518,7 @@ void EbConfigCtor(EbConfig_t *config_ptr)
 
     config_ptr->stopEncoder                          = 0;
     config_ptr->targetSocket                         = 1;
-    config_ptr->processedFrameCount                  = 0;
+    config_ptr->processed_frame_count                  = 0;
     config_ptr->processedByteCount                   = 0;
 #if TILES
     config_ptr->tile_rows = 0;

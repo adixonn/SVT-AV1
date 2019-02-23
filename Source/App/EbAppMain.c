@@ -156,7 +156,7 @@ int32_t main(int32_t argc, char* argv[])
                     configs[instanceCount]->active_channel_count = numChannels;
                     configs[instanceCount]->channel_id = instanceCount;
 
-                    EbStartTime((uint64_t*)&configs[instanceCount]->performanceContext.lib_start_time[0], (uint64_t*)&configs[instanceCount]->performanceContext.lib_start_time[1]);
+                    eb_start_time((uint64_t*)&configs[instanceCount]->performanceContext.lib_start_time[0], (uint64_t*)&configs[instanceCount]->performanceContext.lib_start_time[1]);
 
                     return_errors[instanceCount] = InitEncoder(configs[instanceCount], appCallbacks[instanceCount], instanceCount);
                     return_error = (EbErrorType)(return_error | return_errors[instanceCount]);
@@ -176,7 +176,7 @@ int32_t main(int32_t argc, char* argv[])
                         exitConditionsRecon[instanceCount]  = configs[instanceCount]->reconFile ? APP_ExitConditionNone : APP_ExitConditionError;
                         exitConditionsInput[instanceCount]  = APP_ExitConditionNone;
                         channelActive[instanceCount]        = EB_TRUE;
-                        EbStartTime((uint64_t*)&configs[instanceCount]->performanceContext.encode_start_time[0], (uint64_t*)&configs[instanceCount]->performanceContext.encode_start_time[1]);
+                        eb_start_time((uint64_t*)&configs[instanceCount]->performanceContext.encode_start_time[0], (uint64_t*)&configs[instanceCount]->performanceContext.encode_start_time[1]);
 
                     }
                     else {

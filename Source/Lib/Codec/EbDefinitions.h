@@ -2558,7 +2558,7 @@ EbPtr                                 appPrivateData;
 EbPtr                                 handle;
 void(*ErrorHandler)(
     EbPtr handle,
-    uint32_t errorCode);
+    uint32_t error_code);
 } EbCallback_t;
 
 // DEBUG MACROS

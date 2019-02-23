@@ -75,7 +75,7 @@ void AllocateMemoryTable(
     Output  : valid input buffer
 ******************************************************/
 void ProcessInputFieldBufferingMode(
-    uint64_t                      processedFrameCount,
+    uint64_t                      processed_frame_count,
     int32_t                      *filledLen,
     FILE                         *inputFile,
     uint8_t                        *lumaInputPtr,
@@ -95,7 +95,7 @@ void ProcessInputFieldBufferingMode(
     // Y
     ebInputPtr = lumaInputPtr;
     // Skip 1 luma row if bottom field (point to the bottom field)
-    if (processedFrameCount % 2 != 0)
+    if (processed_frame_count % 2 != 0)
         fseeko64(inputFile, (long)sourceLumaRowSize, SEEK_CUR);
 
     for (inputRowIndex = 0; inputRowIndex < inputPaddedHeight; inputRowIndex++) {
@@ -109,7 +109,7 @@ void ProcessInputFieldBufferingMode(
     // U
     ebInputPtr = cbInputPtr;
     // Step back 1 luma row if bottom field (undo the previous jump), and skip 1 chroma row if bottom field (point to the bottom field)
-    if (processedFrameCount % 2 != 0) {
+    if (processed_frame_count % 2 != 0) {
         fseeko64(inputFile, -(long)sourceLumaRowSize, SEEK_CUR);
         fseeko64(inputFile, (long)sourceChromaRowSize, SEEK_CUR);
     }
@@ -137,7 +137,7 @@ void ProcessInputFieldBufferingMode(
     }
 
     // Step back 1 chroma row if bottom field (undo the previous jump)
-    if (processedFrameCount % 2 != 0) {
+    if (processed_frame_count % 2 != 0) {
         fseeko64(inputFile, -(long)sourceChromaRowSize, SEEK_CUR);
     }
 }
@@ -389,7 +389,7 @@ EbErrorType PreloadFramesIntoRam(
     EbConfig_t                *config)
 {
     EbErrorType    return_error = EB_ErrorNone;
-    int32_t             processedFrameCount;
+    int32_t             processed_frame_count;
     int32_t             filledLen;
     int32_t             inputPaddedWidth = config->inputPaddedWidth;
     int32_t             inputPaddedHeight = config->inputPaddedHeight;
@@ -413,8 +413,8 @@ EbErrorType PreloadFramesIntoRam(
     EB_APP_MALLOC(uint8_t **, config->sequenceBuffer, sizeof(uint8_t*) * config->bufferedInput, EB_N_PTR, EB_ErrorInsufficientResources);
 
 
-    for (processedFrameCount = 0; processedFrameCount < config->bufferedInput; ++processedFrameCount) {
-        EB_APP_MALLOC(uint8_t*, config->sequenceBuffer[processedFrameCount], readSize, EB_N_PTR, EB_ErrorInsufficientResources);
+    for (processed_frame_count = 0; processed_frame_count < config->bufferedInput; ++processed_frame_count) {
+        EB_APP_MALLOC(uint8_t*, config->sequenceBuffer[processed_frame_count], readSize, EB_N_PTR, EB_ErrorInsufficientResources);
         // Interlaced Video
         if (config->separateFields) {
             EbBool is16bit = config->encoderBitDepth > 8;
@@ -434,12 +434,12 @@ EbErrorType PreloadFramesIntoRam(
                 filledLen = 0;
 
                 ProcessInputFieldBufferingMode(
-                    processedFrameCount,
+                    processed_frame_count,
                     &filledLen,
                     inputFile,
-                    config->sequenceBuffer[processedFrameCount],
-                    config->sequenceBuffer[processedFrameCount] + luma8bitSize,
-                    config->sequenceBuffer[processedFrameCount] + luma8bitSize + chroma8bitSize,
+                    config->sequenceBuffer[processed_frame_count],
+                    config->sequenceBuffer[processed_frame_count] + luma8bitSize,
+                    config->sequenceBuffer[processed_frame_count] + luma8bitSize + chroma8bitSize,
                     (uint32_t)inputPaddedWidth,
                     (uint32_t)inputPaddedHeight,
 
@@ -451,12 +451,12 @@ EbErrorType PreloadFramesIntoRam(
                     filledLen = 0;
 
                     ProcessInputFieldBufferingMode(
-                        processedFrameCount,
+                        processed_frame_count,
                         &filledLen,
                         inputFile,
-                        config->sequenceBuffer[processedFrameCount],
-                        config->sequenceBuffer[processedFrameCount] + luma8bitSize,
-                        config->sequenceBuffer[processedFrameCount] + luma8bitSize + chroma8bitSize,
+                        config->sequenceBuffer[processed_frame_count],
+                        config->sequenceBuffer[processed_frame_count] + luma8bitSize,
+                        config->sequenceBuffer[processed_frame_count] + luma8bitSize + chroma8bitSize,
                         (uint32_t)inputPaddedWidth,
                         (uint32_t)inputPaddedHeight,
 
@@ -464,7 +464,7 @@ EbErrorType PreloadFramesIntoRam(
                 }
 
                 // Reset the pointer position after a top field
-                if (processedFrameCount % 2 == 0) {
+                if (processed_frame_count % 2 == 0) {
                     fseek(inputFile, -(long)(readSize << 1), SEEK_CUR);
                 }
             }
@@ -486,23 +486,23 @@ EbErrorType PreloadFramesIntoRam(
                 filledLen = 0;
 
                 ProcessInputFieldBufferingMode(
-                    processedFrameCount,
+                    processed_frame_count,
                     &filledLen,
                     inputFile,
-                    config->sequenceBuffer[processedFrameCount],
-                    config->sequenceBuffer[processedFrameCount] + luma8bitSize,
-                    config->sequenceBuffer[processedFrameCount] + luma8bitSize + chroma8bitSize,
+                    config->sequenceBuffer[processed_frame_count],
+                    config->sequenceBuffer[processed_frame_count] + luma8bitSize,
+                    config->sequenceBuffer[processed_frame_count] + luma8bitSize + chroma8bitSize,
                     (uint32_t)inputPaddedWidth,
                     (uint32_t)inputPaddedHeight,
                     0);
 
                 ProcessInputFieldBufferingMode(
-                    processedFrameCount,
+                    processed_frame_count,
                     &filledLen,
                     inputFile,
-                    config->sequenceBuffer[processedFrameCount] + luma8bitSize + (chroma8bitSize << 1),
-                    config->sequenceBuffer[processedFrameCount] + luma8bitSize + (chroma8bitSize << 1) + luma10bitSize,
-                    config->sequenceBuffer[processedFrameCount] + luma8bitSize + (chroma8bitSize << 1) + luma10bitSize + chroma10bitSize,
+                    config->sequenceBuffer[processed_frame_count] + luma8bitSize + (chroma8bitSize << 1),
+                    config->sequenceBuffer[processed_frame_count] + luma8bitSize + (chroma8bitSize << 1) + luma10bitSize,
+                    config->sequenceBuffer[processed_frame_count] + luma8bitSize + (chroma8bitSize << 1) + luma10bitSize + chroma10bitSize,
                     (uint32_t)inputPaddedWidth,
                     (uint32_t)inputPaddedHeight,
                     0);
@@ -513,23 +513,23 @@ EbErrorType PreloadFramesIntoRam(
                     filledLen = 0;
 
                     ProcessInputFieldBufferingMode(
-                        processedFrameCount,
+                        processed_frame_count,
                         &filledLen,
                         inputFile,
-                        config->sequenceBuffer[processedFrameCount],
-                        config->sequenceBuffer[processedFrameCount] + luma8bitSize,
-                        config->sequenceBuffer[processedFrameCount] + luma8bitSize + chroma8bitSize,
+                        config->sequenceBuffer[processed_frame_count],
+                        config->sequenceBuffer[processed_frame_count] + luma8bitSize,
+                        config->sequenceBuffer[processed_frame_count] + luma8bitSize + chroma8bitSize,
                         (uint32_t)inputPaddedWidth,
                         (uint32_t)inputPaddedHeight,
                         0);
 
                     ProcessInputFieldBufferingMode(
-                        processedFrameCount,
+                        processed_frame_count,
                         &filledLen,
                         inputFile,
-                        config->sequenceBuffer[processedFrameCount] + luma8bitSize + (chroma8bitSize << 1),
-                        config->sequenceBuffer[processedFrameCount] + luma8bitSize + (chroma8bitSize << 1) + luma10bitSize,
-                        config->sequenceBuffer[processedFrameCount] + luma8bitSize + (chroma8bitSize << 1) + luma10bitSize + chroma10bitSize,
+                        config->sequenceBuffer[processed_frame_count] + luma8bitSize + (chroma8bitSize << 1),
+                        config->sequenceBuffer[processed_frame_count] + luma8bitSize + (chroma8bitSize << 1) + luma10bitSize,
+                        config->sequenceBuffer[processed_frame_count] + luma8bitSize + (chroma8bitSize << 1) + luma10bitSize + chroma10bitSize,
                         (uint32_t)inputPaddedWidth,
                         (uint32_t)inputPaddedHeight,
                         0);
@@ -537,7 +537,7 @@ EbErrorType PreloadFramesIntoRam(
                 }
 
                 // Reset the pointer position after a top field
-                if (processedFrameCount % 2 == 0) {
+                if (processed_frame_count % 2 == 0) {
                     fseek(inputFile, -(long)(readSize << 1), SEEK_CUR);
                 }
             }
@@ -546,7 +546,7 @@ EbErrorType PreloadFramesIntoRam(
 
             // Fill the buffer with a complete frame
             filledLen = 0;
-            ebInputPtr = config->sequenceBuffer[processedFrameCount];
+            ebInputPtr = config->sequenceBuffer[processed_frame_count];
             filledLen += (uint32_t)fread(ebInputPtr, 1, readSize, inputFile);
 
             if (readSize != filledLen) {
@@ -555,7 +555,7 @@ EbErrorType PreloadFramesIntoRam(
 
                 // Fill the buffer with a complete frame
                 filledLen = 0;
-                ebInputPtr = config->sequenceBuffer[processedFrameCount];
+                ebInputPtr = config->sequenceBuffer[processed_frame_count];
                 filledLen += (uint32_t)fread(ebInputPtr, 1, readSize, inputFile);
             }
         }

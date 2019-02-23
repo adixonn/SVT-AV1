@@ -529,7 +529,7 @@ static uint32_t EncDecPortTotalCount(void){
 
 void lib_svt_encoder_send_error_exit(
     EbPtr                    hComponent,
-    uint32_t                 errorCode);
+    uint32_t                 error_code);
 
 /**********************************
 * Encoder Library Handle Constructor
@@ -3227,7 +3227,7 @@ EB_API EbErrorType eb_svt_get_recon(
 **********************************/
 void lib_svt_encoder_send_error_exit(
     EbPtr                    hComponent,
-    uint32_t                 errorCode)
+    uint32_t                 error_code)
 {
     EbComponentType      *svt_enc_component = (EbComponentType*)hComponent;
     EbEncHandle_t          *pEncCompData = (EbEncHandle_t*)svt_enc_component->pComponentPrivate;
@@ -3241,7 +3241,7 @@ void lib_svt_encoder_send_error_exit(
     outputPacket            = (EbBufferHeaderType*)ebWrapperPtr->object_ptr;
 
     outputPacket->size     = 0;
-    outputPacket->flags    = errorCode;
+    outputPacket->flags    = error_code;
     outputPacket->p_buffer   = NULL;
 
     eb_post_full_object(ebWrapperPtr);

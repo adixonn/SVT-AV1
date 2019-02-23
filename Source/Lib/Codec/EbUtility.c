@@ -470,83 +470,83 @@ const MiniGopStats_t* GetMiniGopStats(const uint32_t miniGopIndex)
 }
 
 
-void EbStartTime(uint64_t *Startseconds, uint64_t *Startuseconds) {
+void eb_start_time(uint64_t *start_seconds, uint64_t *start_useconds) {
 
 #if defined(__linux__) || defined(__APPLE__) //(LINUX_ENCODER_TIMING || LINUX_DECODER_TIMING)
     struct timeval start;
     gettimeofday(&start, NULL);
-    *Startseconds = start.tv_sec;
-    *Startuseconds = start.tv_usec;
+    *start_seconds = start.tv_sec;
+    *start_useconds = start.tv_usec;
 #elif _WIN32 //(WIN_ENCODER_TIMING || WIN_DECODER_TIMING)
-    *Startseconds = (uint64_t)clock();
-    (void)(*Startuseconds);
+    *start_seconds = (uint64_t)clock();
+    (void)(*start_useconds);
 #else
-    (void)(*Startuseconds);
-    (void)(*Startseconds);
+    (void)(*start_useconds);
+    (void)(*start_seconds);
 #endif
 
 }
 
-void EbFinishTime(uint64_t *Finishseconds, uint64_t *Finishuseconds) {
+void eb_finish_time(uint64_t *finish_seconds, uint64_t *finish_useconds) {
 
 #if defined(__linux__) || defined(__APPLE__) //(LINUX_ENCODER_TIMING || LINUX_DECODER_TIMING)
     struct timeval finish;
     gettimeofday(&finish, NULL);
-    *Finishseconds = finish.tv_sec;
-    *Finishuseconds = finish.tv_usec;
+    *finish_seconds = finish.tv_sec;
+    *finish_useconds = finish.tv_usec;
 #elif _WIN32 //(WIN_ENCODER_TIMING || WIN_DECODER_TIMING)
-    *Finishseconds = (uint64_t)clock();
-    (void)(*Finishuseconds);
+    *finish_seconds = (uint64_t)clock();
+    (void)(*finish_useconds);
 #else
-    (void)(*Finishuseconds);
-    (void)(*Finishseconds);
+    (void)(*finish_useconds);
+    (void)(*finish_seconds);
 #endif
 
 }
-void ComputeOverallElapsedTime(uint64_t Startseconds, uint64_t Startuseconds, uint64_t Finishseconds, uint64_t Finishuseconds, double *duration)
+void ComputeOverallElapsedTime(uint64_t start_seconds, uint64_t start_useconds, uint64_t finish_seconds, uint64_t finish_useconds, double *duration)
 {
 #if defined(__linux__) || defined(__APPLE__) //(LINUX_ENCODER_TIMING || LINUX_DECODER_TIMING)
     long   mtime, seconds, useconds;
-    seconds = Finishseconds - Startseconds;
-    useconds = Finishuseconds - Startuseconds;
+    seconds = finish_seconds - start_seconds;
+    useconds = finish_useconds - start_useconds;
     mtime = ((seconds) * 1000 + useconds / 1000.0) + 0.5;
     *duration = (double)mtime / 1000;
     //printf("\nElapsed time: %3.3ld seconds\n", mtime/1000);
 #elif _WIN32 //(WIN_ENCODER_TIMING || WIN_DECODER_TIMING)
     //double  duration;
-    *duration = (double)(Finishseconds - Startseconds) / CLOCKS_PER_SEC;
+    *duration = (double)(finish_seconds - start_seconds) / CLOCKS_PER_SEC;
     //printf("\nElapsed time: %3.3f seconds\n", *duration);
-    (void)(Startuseconds);
-    (void)(Finishuseconds);
+    (void)(start_useconds);
+    (void)(finish_useconds);
 #else
-    (void)(Startuseconds);
-    (void)(Startseconds);
-    (void)(Finishuseconds);
-    (void)(Finishseconds);
+    (void)(start_useconds);
+    (void)(start_seconds);
+    (void)(finish_useconds);
+    (void)(finish_seconds);
 
 #endif
 
 }
-void EbComputeOverallElapsedTimeMs(uint64_t Startseconds, uint64_t Startuseconds, uint64_t Finishseconds, uint64_t Finishuseconds, double *duration)
+void eb_compute_overall_elapsed_time_ms(uint64_t start_seconds, uint64_t start_useconds, uint64_t finish_seconds, uint64_t finish_useconds, double *duration)
 {
 #if defined(__linux__) || defined(__APPLE__) //(LINUX_ENCODER_TIMING || LINUX_DECODER_TIMING)
     long   mtime, seconds, useconds;
-    seconds = Finishseconds - Startseconds;
-    useconds = Finishuseconds - Startuseconds;
+    seconds = finish_seconds - start_seconds;
+    useconds = finish_useconds - start_useconds;
     mtime = ((seconds) * 1000 + useconds / 1000.0) + 0.5;
     *duration = (double)mtime;
     //printf("\nElapsed time: %3.3ld seconds\n", mtime/1000);
 #elif _WIN32 //(WIN_ENCODER_TIMING || WIN_DECODER_TIMING)
     //double  duration;
-    *duration = (double)(Finishseconds - Startseconds);
+    *duration = (double)(finish_seconds - start_seconds);
     //printf("\nElapsed time: %3.3f seconds\n", *duration);
-    (void)(Startuseconds);
-    (void)(Finishuseconds);
+    (void)(start_useconds);
+    (void)(finish_useconds);
 #else
-    (void)(Startuseconds);
-    (void)(Startseconds);
-    (void)(Finishuseconds);
-    (void)(Finishseconds);
+    (void)(start_useconds);
+    (void)(start_seconds);
+    (void)(finish_useconds);
+    (void)(finish_seconds);
 
 #endif
 

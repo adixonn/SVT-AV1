@@ -410,23 +410,23 @@ void SpeedBufferControl(
     eb_block_on_mutex(sequence_control_set_ptr->encode_context_ptr->sc_buffer_mutex);
 
     if (sequence_control_set_ptr->encode_context_ptr->sc_frame_in == 0) {
-        EbStartTime(&context_ptr->firstInPicArrivedTimeSeconds, &context_ptr->firstInPicArrivedTimeuSeconds);
+        eb_start_time(&context_ptr->firstInPicArrivedTimeSeconds, &context_ptr->firstInPicArrivedTimeuSeconds);
     }
     else if (sequence_control_set_ptr->encode_context_ptr->sc_frame_in == SC_FRAMES_TO_IGNORE) {
         context_ptr->startFlag = EB_TRUE;
     }
 
     // Compute duration since the start of the encode and since the previous checkpoint
-    EbFinishTime(&cursTimeSeconds, &cursTimeuSeconds);
+    eb_finish_time(&cursTimeSeconds, &cursTimeuSeconds);
 
-    EbComputeOverallElapsedTimeMs(
+    eb_compute_overall_elapsed_time_ms(
         context_ptr->firstInPicArrivedTimeSeconds,
         context_ptr->firstInPicArrivedTimeuSeconds,
         cursTimeSeconds,
         cursTimeuSeconds,
         &overallDuration);
 
-    EbComputeOverallElapsedTimeMs(
+    eb_compute_overall_elapsed_time_ms(
         context_ptr->prevsTimeSeconds,
         context_ptr->prevsTimeuSeconds,
         cursTimeSeconds,
@@ -830,7 +830,7 @@ void* resource_coordination_kernel(void *input_ptr)
         picture_control_set_ptr->enhanced_picture_ptr = (EbPictureBufferDesc_t*)ebInputPtr->p_buffer;
         picture_control_set_ptr->input_ptr            = ebInputPtr;
         end_of_sequence_flag = (picture_control_set_ptr->input_ptr->flags & EB_BUFFERFLAG_EOS) ? EB_TRUE : EB_FALSE;
-        EbStartTime(&picture_control_set_ptr->start_time_seconds, &picture_control_set_ptr->start_time_u_seconds);
+        eb_start_time(&picture_control_set_ptr->start_time_seconds, &picture_control_set_ptr->start_time_u_seconds);
         
         picture_control_set_ptr->sequence_control_set_wrapper_ptr = context_ptr->sequenceControlSetActiveArray[instanceIndex];
         picture_control_set_ptr->sequence_control_set_ptr = sequence_control_set_ptr;

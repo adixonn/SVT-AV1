@@ -382,7 +382,7 @@ typedef struct EbConfig_s
     int32_t                 targetSocket;
     EbBool                 stopEncoder;         // to signal CTRL+C Event, need to stop encoding.
 
-    uint64_t                processedFrameCount;
+    uint64_t                processed_frame_count;
     uint64_t                processedByteCount;
 
 } EbConfig_t;

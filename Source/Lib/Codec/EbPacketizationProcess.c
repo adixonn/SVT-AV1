@@ -341,13 +341,13 @@ void* PacketizationKernel(void *input_ptr)
             }
 #endif
 
-            // Calculate frame latency in milliseconds
+            // Calculate frame latency in milli_seconds
             double latency = 0.0;
             uint64_t finishTimeSeconds = 0;
             uint64_t finishTimeuSeconds = 0;
-            EbFinishTime(&finishTimeSeconds, &finishTimeuSeconds);
+            eb_finish_time(&finishTimeSeconds, &finishTimeuSeconds);
 
-            EbComputeOverallElapsedTimeMs(
+            eb_compute_overall_elapsed_time_ms(
                 queueEntryPtr->start_time_seconds,
                 queueEntryPtr->start_time_u_seconds,
                 finishTimeSeconds,
