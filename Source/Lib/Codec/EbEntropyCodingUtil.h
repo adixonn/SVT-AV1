@@ -29,7 +29,7 @@ extern "C" {
     * Data Structures
     **************************************/
     typedef struct BacEncContext_s {
-        OutputBitstreamUnit_t   m_pcTComBitIf;
+        OutputBitstreamUnit   m_pcTComBitIf;
 
     } BacEncContext_t;
 

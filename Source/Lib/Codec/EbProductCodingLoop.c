@@ -59,7 +59,7 @@ extern void av1_predict_intra_block_md(
     uint32_t OrgY
 );
 EbErrorType ProductGenerateMdCandidatesCu(
-    LargestCodingUnit_t             *sb_ptr,
+    LargestCodingUnit             *sb_ptr,
     ModeDecisionContext_t           *context_ptr,
     SsMeContext_t                  *ss_mecontext,
     const uint32_t                    leaf_index,
@@ -681,7 +681,7 @@ void set_nfl(
 void Initialize_cu_data_structure(
     ModeDecisionContext_t   *context_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr,
-    LargestCodingUnit_t        *sb_ptr,
+    LargestCodingUnit        *sb_ptr,
     const MdcLcuData_t        * const mdc_result_tb_ptr)
 {
     UNUSED(*sequence_control_set_ptr);
@@ -827,7 +827,7 @@ void AV1PerformInverseTransformReconLuma(
     PictureControlSet_t               *picture_control_set_ptr,
     ModeDecisionContext_t             *context_ptr,
     ModeDecisionCandidateBuffer_t     *candidate_buffer,
-    CodingUnit_t                      *cu_ptr,
+    CodingUnit                      *cu_ptr,
     const BlockGeom                   *blk_geom,
     EbAsm                              asm_type) {
     (void)cu_ptr;
@@ -904,7 +904,7 @@ void AV1PerformInverseTransformRecon(
     PictureControlSet_t               *picture_control_set_ptr,
     ModeDecisionContext_t             *context_ptr,
     ModeDecisionCandidateBuffer_t     *candidate_buffer,
-    CodingUnit_t                      *cu_ptr,
+    CodingUnit                      *cu_ptr,
     const BlockGeom                   *blk_geom,
     EbAsm                              asm_type) {
 
@@ -1161,7 +1161,7 @@ uint64_t spatial_full_distortion_kernel(
     uint32_t   area_width,
     uint32_t   area_height);
 
-uint64_t SpatialFullDistortionKernel8x8_SSSE3_INTRIN(
+uint64_t spatial_full_distortion_kernel8x8_ssse3_intrin(
     uint8_t   *input,
     uint32_t   input_stride,
     uint8_t   *recon,
@@ -1169,7 +1169,7 @@ uint64_t SpatialFullDistortionKernel8x8_SSSE3_INTRIN(
     uint32_t   area_width,
     uint32_t   area_height);
 
-uint64_t SpatialFullDistortionKernel16MxN_SSSE3_INTRIN(
+uint64_t spatial_full_distortion_kernel16_mx_n_ssse3_intrin(
     uint8_t   *input,
     uint32_t   input_stride,
     uint8_t   *recon,
@@ -1229,7 +1229,7 @@ void generate_intra_reference_samples(
 
 void ProductPerformFastLoop(
     PictureControlSet_t                 *picture_control_set_ptr,
-    LargestCodingUnit_t                 *sb_ptr,
+    LargestCodingUnit                 *sb_ptr,
     ModeDecisionContext_t               *context_ptr,
     ModeDecisionCandidateBuffer_t      **candidateBufferPtrArrayBase,
     ModeDecisionCandidate_t             *fast_candidate_array,
@@ -1238,7 +1238,7 @@ void ProductPerformFastLoop(
     uint32_t                             inputOriginIndex,
     uint32_t                             input_cb_origin_index,
     uint32_t                             inputCrOriginIndex,
-    CodingUnit_t                        *cu_ptr,
+    CodingUnit                        *cu_ptr,
     uint32_t                             cuOriginIndex,
     uint32_t                             cu_chroma_origin_index,
     uint32_t                             maxBuffers,
@@ -1485,7 +1485,7 @@ void ProductPerformFastLoop(
 void ProductConfigureChroma(
     PictureControlSet_t                 *picture_control_set_ptr,
     ModeDecisionContext_t               *context_ptr,
-    LargestCodingUnit_t                 *sb_ptr) {
+    LargestCodingUnit                 *sb_ptr) {
 
     uint32_t  lcu_addr = sb_ptr->index;
     uint32_t  lcuEdgeNum = picture_control_set_ptr->parent_pcs_ptr->edge_results_ptr[lcu_addr].edge_block_num;
@@ -1561,7 +1561,7 @@ void ProductDerivePartialFrequencyN2Flag(
 void AV1CostCalcCfl(
     PictureControlSet_t                *picture_control_set_ptr,
     ModeDecisionCandidateBuffer_t      *candidate_buffer,
-    LargestCodingUnit_t                *sb_ptr,
+    LargestCodingUnit                *sb_ptr,
     ModeDecisionContext_t              *context_ptr,
     uint32_t                            component_mask,
     EbPictureBufferDesc_t              *input_picture_ptr,
@@ -1747,7 +1747,7 @@ static void cfl_rd_pick_alpha(
 #endif
     PictureControlSet_t     *picture_control_set_ptr,
     ModeDecisionCandidateBuffer_t  *candidate_buffer,
-    LargestCodingUnit_t     *sb_ptr,
+    LargestCodingUnit     *sb_ptr,
     ModeDecisionContext_t   *context_ptr,
     EbPictureBufferDesc_t   *input_picture_ptr,
     uint32_t                   input_cb_origin_index,
@@ -1918,7 +1918,7 @@ static void cfl_rd_pick_alpha(
 static void CflPrediction(
     PictureControlSet_t     *picture_control_set_ptr,
     ModeDecisionCandidateBuffer_t  *candidate_buffer,
-    LargestCodingUnit_t     *sb_ptr,
+    LargestCodingUnit     *sb_ptr,
     ModeDecisionContext_t   *context_ptr,
     EbPictureBufferDesc_t   *input_picture_ptr,
     uint32_t                   input_cb_origin_index,
@@ -2053,8 +2053,8 @@ uint8_t get_skip_tx_search_flag(
 
 void AV1PerformFullLoop(
     PictureControlSet_t     *picture_control_set_ptr,
-    LargestCodingUnit_t     *sb_ptr,
-    CodingUnit_t            *cu_ptr,
+    LargestCodingUnit     *sb_ptr,
+    CodingUnit            *cu_ptr,
     ModeDecisionContext_t   *context_ptr,
     EbPictureBufferDesc_t   *input_picture_ptr,
     uint32_t                 inputOriginIndex,
@@ -2407,8 +2407,8 @@ void AV1PerformFullLoop(
 }
 
 void move_cu_data(
-    CodingUnit_t *src_cu,
-    CodingUnit_t *dst_cu)
+    CodingUnit *src_cu,
+    CodingUnit *dst_cu)
 {
 
 
@@ -2565,7 +2565,7 @@ void init_candidate_buffer(
 void inter_depth_tx_search(
     PictureControlSet_t                      *picture_control_set_ptr,
     ModeDecisionCandidateBuffer_t            *candidate_buffer,
-    CodingUnit_t                             *cu_ptr,
+    CodingUnit                             *cu_ptr,
     ModeDecisionContext_t                    *context_ptr,
     EbPictureBufferDesc_t                    *input_picture_ptr,
     uint64_t                                  ref_fast_cost,
@@ -2888,7 +2888,7 @@ void md_encode_block(
     const uint32_t input_cb_origin_index = ((context_ptr->round_origin_y >> 1) + (input_picture_ptr->origin_y >> 1)) * input_picture_ptr->strideCb + ((context_ptr->round_origin_x >> 1) + (input_picture_ptr->origin_x >> 1));
     const uint32_t cuOriginIndex = blk_geom->origin_x + blk_geom->origin_y * SB_STRIDE_Y;
     const uint32_t cu_chroma_origin_index = ROUND_UV(blk_geom->origin_x) / 2 + ROUND_UV(blk_geom->origin_y) / 2 * SB_STRIDE_UV;
-    CodingUnit_t *  cu_ptr = context_ptr->cu_ptr;
+    CodingUnit *  cu_ptr = context_ptr->cu_ptr;
     candidate_buffer_ptr_array = &(candidateBufferPtrArrayBase[context_ptr->buffer_depth_index_start[0]]);
 
     if (allowed_ns_cu(
@@ -3174,7 +3174,7 @@ EB_EXTERN EbErrorType mode_decision_sb(
     SequenceControlSet_t                *sequence_control_set_ptr,
     PictureControlSet_t                 *picture_control_set_ptr,
     const MdcLcuData_t * const           mdc_result_tb_ptr,
-    LargestCodingUnit_t                 *sb_ptr,
+    LargestCodingUnit                 *sb_ptr,
     uint16_t                             sb_origin_x,
     uint16_t                             sb_origin_y,
     uint32_t                             lcu_addr,
@@ -3183,7 +3183,7 @@ EB_EXTERN EbErrorType mode_decision_sb(
 {
     EbErrorType                          return_error = EB_ErrorNone;
 
-    uint32_t                             cuIdx;
+    uint32_t                             cu_idx;
     ModeDecisionCandidateBuffer_t       *bestCandidateBuffers[5];
 
     // CTB merge
@@ -3234,7 +3234,7 @@ EB_EXTERN EbErrorType mode_decision_sb(
     context_ptr->interpolation_type_neighbor_array = picture_control_set_ptr->md_interpolation_type_neighbor_array[MD_NEIGHBOR_ARRAY_INDEX];
 
     //CU Loop
-    cuIdx = 0;  //index over mdc array
+    cu_idx = 0;  //index over mdc array
 
     uint32_t blk_idx_mds = 0;
 
@@ -3245,16 +3245,16 @@ EB_EXTERN EbErrorType mode_decision_sb(
     do
     {
 
-        blk_idx_mds = leaf_data_array[cuIdx].mds_idx;
+        blk_idx_mds = leaf_data_array[cu_idx].mds_idx;
 
         const BlockGeom * blk_geom = context_ptr->blk_geom = get_blk_geom_mds(blk_idx_mds);
-        CodingUnit_t *  cu_ptr = context_ptr->cu_ptr = &context_ptr->md_cu_arr_nsq[blk_idx_mds];
+        CodingUnit *  cu_ptr = context_ptr->cu_ptr = &context_ptr->md_cu_arr_nsq[blk_idx_mds];
 
         context_ptr->cu_size_log2 = blk_geom->bwidth_log2;
         context_ptr->cu_origin_x = sb_origin_x + blk_geom->origin_x;
         context_ptr->cu_origin_y = sb_origin_y + blk_geom->origin_y;
 
-        const EbMdcLeafData_t * const leafDataPtr = &mdc_result_tb_ptr->leaf_data_array[cuIdx];
+        const EbMdcLeafData_t * const leafDataPtr = &mdc_result_tb_ptr->leaf_data_array[cu_idx];
         context_ptr->sb_sz = BLOCK_SIZE_64;
         context_ptr->round_origin_x = ((context_ptr->cu_origin_x >> 3) << 3);
         context_ptr->round_origin_y = ((context_ptr->cu_origin_y >> 3) << 3);
@@ -3358,9 +3358,9 @@ EB_EXTERN EbErrorType mode_decision_sb(
 
         }
 
-        cuIdx++;
+        cu_idx++;
 
-    } while (cuIdx < leaf_count);// End of CU loop
+    } while (cu_idx < leaf_count);// End of CU loop
 
 
 

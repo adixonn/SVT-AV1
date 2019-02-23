@@ -19,17 +19,17 @@ extern "C" {
 
 // User defined structures for passing data from application to the library should be added here
 
-    typedef struct RegistedUserData_s {
+    typedef struct RegistedUserData {
 
         uint8_t   *userData;    // First byte is itu_t_t35_country_code.
                               // If itu_t_t35_country_code  ==  0xFF, second byte is itu_t_t35_country_code_extension_byte.
                               // the rest are the payloadByte
         uint32_t   userDataSize;
 
-    } RegistedUserData_t;
+    } RegistedUserData;
 
     // SEI structures
-    typedef struct AppHrdParameters_s {
+    typedef struct AppHrdParameters {
 
         EbBool                            nalHrdParametersPresentFlag;
         EbBool                            vclHrdParametersPresentFlag;
@@ -68,9 +68,9 @@ extern "C" {
 
         EbBool                            cpbDpbDelaysPresentFlag;
 
-    } AppHrdParameters_t;
+    } AppHrdParameters;
 
-    typedef struct AppVideoUsabilityInfo_s {
+    typedef struct AppVideoUsabilityInfo {
 
         EbBool                    aspectRatioInfoPresentFlag;
         uint32_t                  aspectRatioIdc;
@@ -124,12 +124,12 @@ extern "C" {
         uint32_t                  log2MaxMvLengthHorizontal;
         uint32_t                  log2MaxMvLengthVertical;
 
-        AppHrdParameters_t     *hrdParametersPtr;
+        AppHrdParameters     *hrdParametersPtr;
 
-    } AppVideoUsabilityInfo_t;
+    } AppVideoUsabilityInfo;
 
 
-    typedef struct AppPictureTimingSei_s {
+    typedef struct AppPictureTimingSei {
 
         uint32_t   picStruct;
         uint32_t   sourceScanType;
@@ -143,9 +143,9 @@ extern "C" {
         uint32_t   numNalusInDuMinus1;
         uint32_t   duCpbRemovalDelayMinus1[MAX_DECODING_UNIT_COUNT];
 
-    } AppPictureTimingSei_t;
+    } AppPictureTimingSei;
 
-    typedef struct AppBufferingPeriodSei_s {
+    typedef struct AppBufferingPeriodSei {
 
         uint32_t  bpSeqParameterSetId;
         EbBool rapCpbParamsPresentFlag;
@@ -158,20 +158,20 @@ extern "C" {
         uint32_t  initialAltCpbRemovalDelay[2][MAX_CPB_COUNT];
         uint32_t  initialAltCpbRemovalDelayOffset[2][MAX_CPB_COUNT];
 
-    } AppBufferingPeriodSei_t;
+    } AppBufferingPeriodSei;
 
 
-    typedef struct AppRecoveryPoint_s {
+    typedef struct AppRecoveryPoint {
 
         uint32_t  recoveryPocCnt;
         EbBool exactMatchingFlag;
         EbBool brokenLinkFlag;
 
-    } AppRecoveryPoint_t;
+    } AppRecoveryPoint;
 
     // Below is an example of PanScanRectangle SEI data structure
     // Other SEI messages can have data structure in this format
-    typedef struct AppPanScanRectangleSei_s {
+    typedef struct AppPanScanRectangleSei {
 
         uint32_t      panScanRectId;
         EbBool     panScanRectCancelFlag;
@@ -184,44 +184,7 @@ extern "C" {
 
         EbBool     panScanRectPersistFlag;
 
-    }AppPanScanRectangleSei_t;
-
-    //
-
-
-    typedef struct EB_FRAME_RATE_CFG
-    {
-        uint32_t num;
-        uint32_t den;
-    } EB_FRAME_RATE_CFG;
-
-    typedef struct EB_LATENCY_CALC
-    {
-        uint64_t    startTimesSeconds;
-        uint64_t    finishTimesSeconds;
-        uint64_t    startTimesuSeconds;
-        uint64_t    finishTimesuSeconds;
-        uint64_t  poc;
-    } EB_LATENCY_CALC;
-
-
-    typedef struct EB_CU_QP_CFG_s
-    {
-        uint32_t      qpArrayCount;
-        int8_t       *qp_array;
-
-        uint32_t      cuStride;
-        uint32_t      sb_count;
-        uint32_t      sb_stride;
-
-        uint32_t      numCUsPerLastRowLCU;
-        uint32_t      numCUsPerTypicalLCU;
-
-        // Hold the DifCUDeltaQpDepth in this struct so that it is simpler to access it in the Lib,
-        // rather than having to reference something deep
-
-    } EB_CU_QP_CFG_t;
-
+    } AppPanScanRectangleSei;
 
 
     // Signals that the default prediction structure and controls are to be
@@ -235,25 +198,9 @@ extern "C" {
     //   P_SLICE: ref_list0_count  > 0 && ref_list1_count == 0
     //   B_SLICE: ref_list0_count  > 0 && ref_list1_count  > 0
 
-    typedef struct EB_PRED_STRUCTURE_CFG
-    {
-        uint64_t              picture_number;      // Corresponds to the display order of the picture
-        uint64_t              decodeOrderNumber;  // Corresponds to the decode order of the picture
-        uint32_t              temporal_layer_index; // Corresponds to the temporal layer index of the picture
-        uint32_t              nalUnitType;        // Pictures NAL Unit Type
-        uint32_t              ref_list0_count;      // A count of zero indicates the list is inactive
-        uint32_t              ref_list1_count;      // A count of zero indicates the list is inactive
-        EbBool             isReferenced;       // Indicates whether or not the picture is used as
-                                                //   future reference.
-        uint32_t              futureReferenceCount;
-        int32_t             *futureReferenceList;// Contains a list of delta POCs whose references shall
-                                                //   be saved for future reference.  This signalling must
-                                                //   be done with respect to decode picture order. Must
-                                                //   be conformant with the DPB rules.
-    } EB_PRED_STRUCTURE_CFG;
 
-    // EB_PICTURE_PLANE defines the data formatting of a singple plane of picture data.
-    typedef struct EB_PICTURE_PLANE
+    // EbPicturePlane defines the data formatting of a singple plane of picture data.
+    typedef struct EbPicturePlane
     {
         // "start" is the starting position of the first
         //   valid pixel in the picture plane.
@@ -264,14 +211,14 @@ extern "C" {
         //   positioning.
         uint32_t stride;
 
-    } EB_PICTURE_PLANE;
+    } EbPicturePlane;
 
 
 
-    // EB_INPUT_PICTURE_DEF defines the data formatting of an input picture. Note, each
+    // EbInputPictureDef defines the data formatting of an input picture. Note, each
     //   element can change independently of the previously coded pictures.  This allows
     //   for sub-picture coding and de-interlacing.
-    typedef struct EB_INPUT_PICTURE_DEF
+    typedef struct EbInputPictureDef
     {
         uint32_t width;        // Y plane width  (in units of samples)
         uint32_t height;       // Y plane height (in units of samples)
@@ -284,27 +231,27 @@ extern "C" {
 
         // Y, Cb, Cr planes. Note, for bitdepths greater than 8 using the "unpacked" format,
         //  the following elements contain the 8 MSB bits of the sample.
-        EB_PICTURE_PLANE yPlane;
-        EB_PICTURE_PLANE cbPlane;
-        EB_PICTURE_PLANE crPlane;
+        EbPicturePlane yPlane;
+        EbPicturePlane cbPlane;
+        EbPicturePlane crPlane;
 
         // Auxiliary planes used when bitdepths are greater than 8 and using the "unpacked"
         //   format.for The LSB bits of the sample should be located at the MSB bit positions
         //   of each byte. Must be set to NULL for 8-bit input or "packed" 10 or 12-bit input.
-        EB_PICTURE_PLANE yAuxPlane;
-        EB_PICTURE_PLANE cbAuxPlane;
-        EB_PICTURE_PLANE crAuxPlane;
+        EbPicturePlane yAuxPlane;
+        EbPicturePlane cbAuxPlane;
+        EbPicturePlane crAuxPlane;
 
-    } EB_INPUT_PICTURE_DEF;
+    } EbInputPictureDef;
 
-    typedef struct EB_EOS_DATA_DEF
+    typedef struct EbEosDataDef
     {
         EbBool             dataValid;          // Indicates if the data attached with the last frame in the bitstream is valid or not.
                                                 //   If the last frame is valid, the data will be included in the bistream
                                                 //   If the last frame is NOT valid, the frame will be coded as IDR in the encoder, but
                                                 //   not included in the bitstream.
 
-    } EB_EOS_DATA_DEF;
+    } EbEosDataDef;
 
 
 

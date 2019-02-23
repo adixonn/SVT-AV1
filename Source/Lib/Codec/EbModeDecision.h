@@ -42,7 +42,7 @@ extern "C" {
 
     typedef EbErrorType(*EB_FAST_COST_FUNC)(
         struct ModeDecisionContext_s           *context_ptr,
-        CodingUnit_t                           *cu_ptr,
+        CodingUnit                           *cu_ptr,
         struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
         uint32_t                                qp,
         uint64_t                                luma_distortion,
@@ -51,8 +51,8 @@ extern "C" {
         PictureControlSet_t                    *picture_control_set_ptr);
 
     typedef EbErrorType(*EB_FULL_COST_FUNC)(
-        LargestCodingUnit_t                    *sb_ptr,
-        CodingUnit_t                           *cu_ptr,
+        LargestCodingUnit                    *sb_ptr,
+        CodingUnit                           *cu_ptr,
         uint32_t                                cu_size,
         uint32_t                                cu_size_log2,
         struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
@@ -73,7 +73,7 @@ extern "C" {
         PictureControlSet_t                    *picture_control_set_ptr,
         struct ModeDecisionContext_s           *context_ptr,
         struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
-        CodingUnit_t                           *cu_ptr,
+        CodingUnit                           *cu_ptr,
         uint64_t                               *y_distortion,
         uint64_t                               *cb_distortion,
         uint64_t                               *cr_distortion,
@@ -84,7 +84,7 @@ extern "C" {
         block_size                               bsize);
 
     typedef EbErrorType(*EB_FULL_LUMA_COST_FUNC)(
-        CodingUnit_t                           *cu_ptr,
+        CodingUnit                           *cu_ptr,
         uint32_t                                cu_size,
         uint32_t                                cu_size_log2,
         struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
@@ -262,7 +262,7 @@ extern "C" {
 
     uint8_t product_full_mode_decision(
         struct ModeDecisionContext_s   *context_ptr,
-        CodingUnit_t                   *cu_ptr,
+        CodingUnit                   *cu_ptr,
         uint8_t                         bwidth,
         uint8_t                         bheight,
         ModeDecisionCandidateBuffer_t **buffer_ptr_array,
@@ -271,7 +271,7 @@ extern "C" {
         uint32_t                       *best_intra_mode);
 
     EbErrorType pre_mode_decision(
-        CodingUnit_t                   *cu_ptr,
+        CodingUnit                   *cu_ptr,
         uint32_t                        buffer_total_count,
         ModeDecisionCandidateBuffer_t **buffer_ptr_array,
         uint32_t                       *full_candidate_total_count_ptr,

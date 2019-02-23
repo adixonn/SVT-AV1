@@ -19,27 +19,27 @@ extern "C" {
 /**********************************
  * Bitstream Unit Types
  **********************************/
-    typedef struct OutputBitstreamUnit_s {
+    typedef struct OutputBitstreamUnit {
         uint32_t             size;                               // allocated buffer size
         uint32_t             writtenBitsCount;                   // count of written bits
         uint8_t     *bufferBeginAv1;                        // the byte buffer
         uint8_t     *bufferAv1;                             // the byte buffer
-    } OutputBitstreamUnit_t;
+    } OutputBitstreamUnit;
 
     /**********************************
      * Extern Function Declarations
      **********************************/
     extern EbErrorType output_bitstream_unit_ctor(
-        OutputBitstreamUnit_t   *bitstream_ptr,
+        OutputBitstreamUnit   *bitstream_ptr,
         uint32_t                   buffer_size);
 
 
-    extern EbErrorType output_bitstream_reset(OutputBitstreamUnit_t *bitstream_ptr);
+    extern EbErrorType output_bitstream_reset(OutputBitstreamUnit *bitstream_ptr);
 
 
 
     extern EbErrorType output_bitstream_rbsp_to_payload(
-        OutputBitstreamUnit_t *bitstream_ptr,
+        OutputBitstreamUnit *bitstream_ptr,
         EbByte                output_buffer,
         uint32_t                *output_buffer_index,
         uint32_t                *output_buffer_size,

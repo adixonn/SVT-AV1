@@ -6363,8 +6363,8 @@ EbErrorType motion_estimate_lcu(
                                 &(hmeLevel0Sad[searchRegionNumberInWidth][searchRegionNumberInHeight]),
                                 &(xHmeLevel0SearchCenter[searchRegionNumberInWidth][searchRegionNumberInHeight]),
                                 &(yHmeLevel0SearchCenter[searchRegionNumberInWidth][searchRegionNumberInHeight]),
-                                HME_LEVEL_0_SEARCH_AREA_MULTIPLIER_X[picture_control_set_ptr->hierarchical_levels][picture_control_set_ptr->temporal_layer_index],
-                                HME_LEVEL_0_SEARCH_AREA_MULTIPLIER_Y[picture_control_set_ptr->hierarchical_levels][picture_control_set_ptr->temporal_layer_index],
+                                hme_level_0_search_area_multiplier_x[picture_control_set_ptr->hierarchical_levels][picture_control_set_ptr->temporal_layer_index],
+                                hme_level_0_search_area_multiplier_y[picture_control_set_ptr->hierarchical_levels][picture_control_set_ptr->temporal_layer_index],
                                 asm_type);
 
 
@@ -6399,8 +6399,8 @@ EbErrorType motion_estimate_lcu(
                                             &(hmeLevel0Sad[searchRegionNumberInWidth][searchRegionNumberInHeight]),
                                             &(xHmeLevel0SearchCenter[searchRegionNumberInWidth][searchRegionNumberInHeight]),
                                             &(yHmeLevel0SearchCenter[searchRegionNumberInWidth][searchRegionNumberInHeight]),
-                                            HME_LEVEL_0_SEARCH_AREA_MULTIPLIER_X[picture_control_set_ptr->hierarchical_levels][picture_control_set_ptr->temporal_layer_index],
-                                            HME_LEVEL_0_SEARCH_AREA_MULTIPLIER_Y[picture_control_set_ptr->hierarchical_levels][picture_control_set_ptr->temporal_layer_index],
+                                            hme_level_0_search_area_multiplier_x[picture_control_set_ptr->hierarchical_levels][picture_control_set_ptr->temporal_layer_index],
+                                            hme_level_0_search_area_multiplier_y[picture_control_set_ptr->hierarchical_levels][picture_control_set_ptr->temporal_layer_index],
                                             asm_type);
 
 
@@ -7459,7 +7459,7 @@ void IntraOpenLoopSearchTheseModesOutputBest(
 }
 
 void InjectIntraCandidatesBasedOnBestModeIslice(
-    OisCandidate_t              *OisCuPtr,
+    OisCandidate              *OisCuPtr,
     uint32_t                        *stage1SadArray,
     uint32_t                       bestMode,
     uint8_t                       *count)
@@ -7520,7 +7520,7 @@ void InjectIntraCandidatesBasedOnBestModeIslice(
 
 void InjectIntraCandidatesBasedOnBestMode(
     PictureParentControlSet_t   *picture_control_set_ptr,
-    OisCandidate_t              *OisCuPtr,
+    OisCandidate              *OisCuPtr,
     uint32_t                        *stage1SadArray,
     uint8_t                        temporal_layer_index,
     uint32_t                       bestMode)
@@ -7780,7 +7780,7 @@ int32_t GetInterIntraSadDistance(
 }
 
 void InitValidDistortion(
-    OisCandidate_t * oisCuPtr
+    OisCandidate * oisCuPtr
 )
 
 
@@ -7822,7 +7822,7 @@ EB_IOS_POINT GetOisPoint(
 }
 
 EbErrorType SortOisCandidateOpenLoop(
-    OisCandidate_t                 *oisCandidate)   // input OIS candidate array
+    OisCandidate                 *oisCandidate)   // input OIS candidate array
 {
     EbErrorType                return_error = EB_ErrorNone;
     uint32_t   index1;
@@ -7863,10 +7863,10 @@ EbErrorType SortIntraModesOpenLoop(
     uint64_t    worstSadDistortion; // could be uint32_t
 
 
-    OisCu32Cu16Results_t            *oisCu32Cu16ResultsPtr = picture_control_set_ptr->ois_cu32_cu16_results[sb_index];
-    OisCu8Results_t                   *oisCu8ResultsPtr = picture_control_set_ptr->ois_cu8_results[sb_index];
+    OisCu32Cu16Results            *oisCu32Cu16ResultsPtr = picture_control_set_ptr->ois_cu32_cu16_results[sb_index];
+    OisCu8Results                   *oisCu8ResultsPtr = picture_control_set_ptr->ois_cu8_results[sb_index];
 
-    OisCandidate_t * OisCuPtr = cu_index < RASTER_SCAN_CU_INDEX_8x8_0 ?
+    OisCandidate * OisCuPtr = cu_index < RASTER_SCAN_CU_INDEX_8x8_0 ?
         oisCu32Cu16ResultsPtr->sorted_ois_candidate[cu_index] : oisCu8ResultsPtr->sorted_ois_candidate[cu_index - RASTER_SCAN_CU_INDEX_8x8_0];
 
 
@@ -7917,7 +7917,7 @@ uint32_t update_neighbor_dc_intra_pred(
     EbAsm                             asm_type)
 {
     uint32_t distortion;
-    //    printf("cu_size=%i  x=%i  y=%i  rasterScanCuIndex=%i   mdScanCuIndex=%i \n", cu_size, RASTER_SCAN_CU_X[rasterScanCuIndex], RASTER_SCAN_CU_Y[rasterScanCuIndex],rasterScanCuIndex, mdScanCuIndex );
+    //    printf("cu_size=%i  x=%i  y=%i  rasterScanCuIndex=%i   mdScanCuIndex=%i \n", cu_size, raster_scan_cu_x[rasterScanCuIndex], raster_scan_cu_y[rasterScanCuIndex],rasterScanCuIndex, mdScanCuIndex );
     // Fill Neighbor Arrays
     update_neighbor_samples_array_open_loop(
         context_ptr->intra_ref_ptr,
@@ -7956,11 +7956,11 @@ EbErrorType OpenLoopIntraDC(
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    OisCu32Cu16Results_t            *oisCu32Cu16ResultsPtr = picture_control_set_ptr->ois_cu32_cu16_results[sb_index];
-    OisCu8Results_t                   *oisCu8ResultsPtr = picture_control_set_ptr->ois_cu8_results[sb_index];
-    OisCandidate_t *OisCuPtr = rasterScanCuIndex < RASTER_SCAN_CU_INDEX_8x8_0 ?
+    OisCu32Cu16Results            *oisCu32Cu16ResultsPtr = picture_control_set_ptr->ois_cu32_cu16_results[sb_index];
+    OisCu8Results                   *oisCu8ResultsPtr = picture_control_set_ptr->ois_cu8_results[sb_index];
+    OisCandidate *OisCuPtr = rasterScanCuIndex < RASTER_SCAN_CU_INDEX_8x8_0 ?
         oisCu32Cu16ResultsPtr->sorted_ois_candidate[rasterScanCuIndex] : oisCu8ResultsPtr->sorted_ois_candidate[rasterScanCuIndex - RASTER_SCAN_CU_INDEX_8x8_0];
-    uint32_t cu_size = RASTER_SCAN_CU_SIZE[rasterScanCuIndex];
+    uint32_t cu_size = raster_scan_cu_size[rasterScanCuIndex];
 
     if ((cu_size == 32) || (cu_size == 16) || (cu_size == 8))
     {
@@ -8066,17 +8066,17 @@ EbErrorType open_loop_intra_search_lcu(
     SbParams_t             *sb_params = &sequence_control_set_ptr->sb_params_array[sb_index];
 
 
-    OisCu32Cu16Results_t            *oisCu32Cu16ResultsPtr = picture_control_set_ptr->ois_cu32_cu16_results[sb_index];
-    OisCu8Results_t                   *oisCu8ResultsPtr = picture_control_set_ptr->ois_cu8_results[sb_index];
+    OisCu32Cu16Results            *oisCu32Cu16ResultsPtr = picture_control_set_ptr->ois_cu32_cu16_results[sb_index];
+    OisCu8Results                   *oisCu8ResultsPtr = picture_control_set_ptr->ois_cu8_results[sb_index];
 
 
     if (picture_control_set_ptr->slice_type == I_SLICE) {
 
         for (rasterScanCuIndex = RASTER_SCAN_CU_INDEX_32x32_0; rasterScanCuIndex <= RASTER_SCAN_CU_INDEX_8x8_63; rasterScanCuIndex++) {
 
-            cu_size = RASTER_SCAN_CU_SIZE[rasterScanCuIndex];
+            cu_size = raster_scan_cu_size[rasterScanCuIndex];
 
-            OisCandidate_t *OisCuPtr = rasterScanCuIndex < RASTER_SCAN_CU_INDEX_8x8_0 ?
+            OisCandidate *OisCuPtr = rasterScanCuIndex < RASTER_SCAN_CU_INDEX_8x8_0 ?
                 oisCu32Cu16ResultsPtr->sorted_ois_candidate[rasterScanCuIndex] : oisCu8ResultsPtr->sorted_ois_candidate[rasterScanCuIndex - RASTER_SCAN_CU_INDEX_8x8_0];
 
             // Init Valid Distortion to EB_FALSE
@@ -8085,8 +8085,8 @@ EbErrorType open_loop_intra_search_lcu(
 
             if (sb_params->raster_scan_cu_validity[rasterScanCuIndex]) {
 
-                cu_origin_x = sb_params->origin_x + RASTER_SCAN_CU_X[rasterScanCuIndex];
-                cu_origin_y = sb_params->origin_y + RASTER_SCAN_CU_Y[rasterScanCuIndex];
+                cu_origin_x = sb_params->origin_x + raster_scan_cu_x[rasterScanCuIndex];
+                cu_origin_y = sb_params->origin_y + raster_scan_cu_y[rasterScanCuIndex];
                 // Fill Neighbor Arrays
                 update_neighbor_samples_array_open_loop(
                     context_ptr->intra_ref_ptr,
@@ -8188,10 +8188,10 @@ EbErrorType open_loop_intra_search_lcu(
 
             EB_IOS_POINT            oisPoint = OIS_VERY_COMPLEX_MODE;
 
-            cu_size = RASTER_SCAN_CU_SIZE[rasterScanCuIndex];
-            cu_depth = RASTER_SCAN_CU_DEPTH[rasterScanCuIndex];
+            cu_size = raster_scan_cu_size[rasterScanCuIndex];
+            cu_depth = raster_scan_cu_depth[rasterScanCuIndex];
 
-            OisCandidate_t * OisCuPtr = rasterScanCuIndex < RASTER_SCAN_CU_INDEX_8x8_0 ?
+            OisCandidate * OisCuPtr = rasterScanCuIndex < RASTER_SCAN_CU_INDEX_8x8_0 ?
                 oisCu32Cu16ResultsPtr->sorted_ois_candidate[rasterScanCuIndex] : oisCu8ResultsPtr->sorted_ois_candidate[rasterScanCuIndex - RASTER_SCAN_CU_INDEX_8x8_0];
 
 
@@ -8199,10 +8199,10 @@ EbErrorType open_loop_intra_search_lcu(
             InitValidDistortion(
                 OisCuPtr);
             if (sb_params->raster_scan_cu_validity[rasterScanCuIndex] && !((picture_control_set_ptr->cu8x8_mode == CU_8x8_MODE_1) && cu_size == 8)) {
-                cu_origin_x = sb_params->origin_x + RASTER_SCAN_CU_X[rasterScanCuIndex];
-                cu_origin_y = sb_params->origin_y + RASTER_SCAN_CU_Y[rasterScanCuIndex];
+                cu_origin_x = sb_params->origin_x + raster_scan_cu_x[rasterScanCuIndex];
+                cu_origin_y = sb_params->origin_y + raster_scan_cu_y[rasterScanCuIndex];
                 if (picture_control_set_ptr->limit_ois_to_dc_mode_flag == EB_FALSE) {
-                    //    printf("cu_size=%i  x=%i  y=%i  rasterScanCuIndex=%i   mdScanCuIndex=%i \n", cu_size, RASTER_SCAN_CU_X[rasterScanCuIndex], RASTER_SCAN_CU_Y[rasterScanCuIndex],rasterScanCuIndex, mdScanCuIndex );
+                    //    printf("cu_size=%i  x=%i  y=%i  rasterScanCuIndex=%i   mdScanCuIndex=%i \n", cu_size, raster_scan_cu_x[rasterScanCuIndex], raster_scan_cu_y[rasterScanCuIndex],rasterScanCuIndex, mdScanCuIndex );
                     // Fill Neighbor Arrays
                     update_neighbor_samples_array_open_loop(
                         context_ptr->intra_ref_ptr,

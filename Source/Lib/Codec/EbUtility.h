@@ -113,7 +113,7 @@ extern "C" {
 
 
     // CU Stats Helper Functions
-    typedef struct CodedUnitStats_s
+    typedef struct CodedUnitStats
     {
         uint8_t   depth;
         uint8_t   size;
@@ -123,42 +123,42 @@ extern "C" {
         uint8_t   cuNumInDepth;
         uint8_t   parent32x32Index;
 
-    } CodedUnitStats_t;
+    } CodedUnitStats;
 
     // PU Stats Helper Functions
-    typedef struct PredictionUnitStats_t
+    typedef struct PredictionUnitStats
     {
         uint8_t  width;
         uint8_t  height;
         uint8_t  offsetX;
         uint8_t  offsetY;
 
-    } PredictionUnitStats_t;
+    } PredictionUnitStats;
 
     // TU Stats Helper Functions
-    typedef struct TransformUnitStats_s
+    typedef struct TransformUnitStats
     {
         uint8_t  depth;
         uint8_t  offsetX;
         uint8_t  offsetY;
 
-    } TransformUnitStats_t;
+    } TransformUnitStats;
 
-    extern uint64_t Log2fHighPrecision(uint64_t x, uint8_t precision);
+    extern uint64_t log2f_high_precision(uint64_t x, uint8_t precision);
 
-    extern const CodedUnitStats_t* GetCodedUnitStats(const uint32_t cuIdx);
-    extern const TransformUnitStats_t* GetTransformUnitStats(const uint32_t tuIdx);
+    extern const CodedUnitStats* get_coded_unit_stats(const uint32_t cu_idx);
+    extern const TransformUnitStats* get_transform_unit_stats(const uint32_t tu_idx);
 
-#define PU_ORIGIN_ADJUST(cuOrigin, cu_size, offset) ((((cu_size) * (offset)) >> 2) + (cuOrigin))
-#define PU_SIZE_ADJUST(cu_size, puSize) (((cu_size) * (puSize)) >> 2)
+#define PU_ORIGIN_ADJUST(cu_origin, cu_size, offset) ((((cu_size) * (offset)) >> 2) + (cu_origin))
+#define PU_SIZE_ADJUST(cu_size, pu_size) (((cu_size) * (pu_size)) >> 2)
 
-#define TU_ORIGIN_ADJUST(cuOrigin, cu_size, offset) ((((cu_size) * (offset)) >> 2) + (cuOrigin))
-#define TU_SIZE_ADJUST(cu_size, tuDepth) ((cu_size) >> (tuDepth))
+#define TU_ORIGIN_ADJUST(cu_origin, cu_size, offset) ((((cu_size) * (offset)) >> 2) + (cu_origin))
+#define TU_SIZE_ADJUST(cu_size, tu_depth) ((cu_size) >> (tu_depth))
 
-    extern EbErrorType ZOrderIncrement(uint32_t *xLoc, uint32_t *yLoc);
-    extern void ZOrderIncrementWithLevel(
-        uint32_t *xLoc,
-        uint32_t *yLoc,
+    extern EbErrorType z_order_increment(uint32_t *x_loc, uint32_t *y_loc);
+    extern void z_order_increment_with_level(
+        uint32_t *x_loc,
+        uint32_t *y_loc,
         uint32_t *level,
         uint32_t *index);
 
@@ -264,13 +264,13 @@ extern "C" {
 // Helper functions for EbLinkedListNode.
 
 // concatenate two linked list, and return the pointer to the new concatenated list
-    EbLinkedListNode* concatEbLinkedList(EbLinkedListNode* a, EbLinkedListNode* b);
+    EbLinkedListNode* concat_eb_linked_list(EbLinkedListNode* a, EbLinkedListNode* b);
 
     // split a linked list into two. return the pointer to a linked list whose nodes meets the condition
     // predicateFunc(node) == TRUE, the rest of the nodes will be collected into another linked list to which (*restLL) is
     // set. Does not gaurantee the original order of the nodes.
 
-    EbLinkedListNode* splitEbLinkedList(EbLinkedListNode* input, EbLinkedListNode** restLL, EbBool(*predicateFunc)(EbLinkedListNode*));
+    EbLinkedListNode* split_eb_linked_list(EbLinkedListNode* input, EbLinkedListNode** restLL, EbBool(*predicateFunc)(EbLinkedListNode*));
 
 #define MINI_GOP_MAX_COUNT            15
 #define MINI_GOP_WINDOW_MAX_COUNT     8    // widow subdivision: 8 x 3L

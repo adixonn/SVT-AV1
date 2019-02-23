@@ -75,7 +75,7 @@ void av1_predict_intra_block_16bit(
     TileInfo               *tile,
 #endif
     EncDecContext_t         *context_ptr,
-    CodingUnit_t *cu_ptr,
+    CodingUnit *cu_ptr,
     const Av1Common *cm,
     int32_t wpx,
     int32_t hpx,
@@ -115,7 +115,7 @@ typedef void(*EB_AV1_ENCODE_LOOP_FUNC_PTR)(
     PictureControlSet_t    *picture_control_set_ptr,
 #endif
     EncDecContext_t       *context_ptr,
-    LargestCodingUnit_t   *sb_ptr,
+    LargestCodingUnit   *sb_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
     uint32_t                 cb_qp,
@@ -192,7 +192,7 @@ typedef EbErrorType(*EB_ENC_PASS_INTRA_FUNC_PTR)(
     void                       *referenceSamples,
     uint32_t                      origin_x,
     uint32_t                      origin_y,
-    uint32_t                      puSize,
+    uint32_t                      pu_size,
     EbPictureBufferDesc_t      *prediction_ptr,
     uint32_t                      luma_mode,
     uint32_t                      chroma_mode,
@@ -431,7 +431,7 @@ static void EncodePassUpdateReconSampleNeighborArrays(
 * Update Intra Luma Neighbor Modes
 ************************************************************/
 void GeneratePuIntraLumaNeighborModes(
-    CodingUnit_t            *cu_ptr,
+    CodingUnit            *cu_ptr,
     uint32_t                   pu_origin_x,
     uint32_t                   pu_origin_y,
     uint32_t                   sb_sz,
@@ -525,7 +525,7 @@ void PfZeroOutUselessQuadrants(
 void encode_pass_tx_search(
     PictureControlSet_t            *picture_control_set_ptr,
     EncDecContext_t                *context_ptr,
-    LargestCodingUnit_t            *sb_ptr,
+    LargestCodingUnit            *sb_ptr,
     uint32_t                       cb_qp,
     EbPictureBufferDesc_t          *coeffSamplesTB,
     EbPictureBufferDesc_t          *residual16bit,
@@ -563,7 +563,7 @@ static void Av1EncodeLoop(
     PictureControlSet_t    *picture_control_set_ptr,
 #endif
     EncDecContext_t       *context_ptr,
-    LargestCodingUnit_t   *sb_ptr,
+    LargestCodingUnit   *sb_ptr,
     uint32_t                 origin_x,   //pic based tx org x
     uint32_t                 origin_y,   //pic based tx org y
     uint32_t                 cb_qp,
@@ -586,7 +586,7 @@ static void Av1EncodeLoop(
     (void)cb_qp;
 
     //    uint32_t                 chroma_qp = cb_qp;
-    CodingUnit_t          *cu_ptr = context_ptr->cu_ptr;
+    CodingUnit          *cu_ptr = context_ptr->cu_ptr;
     TransformUnit_t       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
     //    EB_SLICE               slice_type = sb_ptr->picture_control_set_ptr->slice_type;
     //    uint32_t                 temporal_layer_index = sb_ptr->picture_control_set_ptr->temporal_layer_index;
@@ -1012,7 +1012,7 @@ static void Av1EncodeLoop(
 void encode_pass_tx_search_hbd(
     PictureControlSet_t            *picture_control_set_ptr,
     EncDecContext_t                *context_ptr,
-    LargestCodingUnit_t            *sb_ptr,
+    LargestCodingUnit            *sb_ptr,
     uint32_t                       cb_qp,
     EbPictureBufferDesc_t          *coeffSamplesTB,
     EbPictureBufferDesc_t          *residual16bit,
@@ -1052,7 +1052,7 @@ static void Av1EncodeLoop16bit(
     PictureControlSet_t    *picture_control_set_ptr,
 #endif
     EncDecContext_t       *context_ptr,
-    LargestCodingUnit_t   *sb_ptr,
+    LargestCodingUnit   *sb_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
     uint32_t                 cb_qp,
@@ -1079,7 +1079,7 @@ static void Av1EncodeLoop16bit(
     uint32_t                 chroma_qp = cb_qp;
 #endif
 
-    CodingUnit_t          *cu_ptr = context_ptr->cu_ptr;
+    CodingUnit          *cu_ptr = context_ptr->cu_ptr;
     TransformUnit_t       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
     //    EB_SLICE               slice_type = sb_ptr->picture_control_set_ptr->slice_type;
     //    uint32_t                 temporal_layer_index = sb_ptr->picture_control_set_ptr->temporal_layer_index;
@@ -1522,7 +1522,7 @@ static void Av1EncodeGenerateRecon(
 {
     uint32_t               predLumaOffset;
     uint32_t               predChromaOffset;
-    CodingUnit_t          *cu_ptr = context_ptr->cu_ptr;
+    CodingUnit          *cu_ptr = context_ptr->cu_ptr;
     TransformUnit_t       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
 
     // *Note - The prediction is built in-place in the Recon buffer. It is overwritten with Reconstructed
@@ -1652,7 +1652,7 @@ static void Av1EncodeGenerateRecon16bit(
     uint32_t reconChromaOffset;
 #endif
 
-    CodingUnit_t          *cu_ptr = context_ptr->cu_ptr;
+    CodingUnit          *cu_ptr = context_ptr->cu_ptr;
     TransformUnit_t       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
 
 #if QT_10BIT_SUPPORT
@@ -1867,7 +1867,7 @@ static void EncodeGenerateRecon(
     uint32_t reconLumaOffset;
     uint32_t reconChromaOffset;
 
-    CodingUnit_t          *cu_ptr = context_ptr->cu_ptr;
+    CodingUnit          *cu_ptr = context_ptr->cu_ptr;
     TransformUnit_t       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
     uint32_t                 txb_size = context_ptr->cu_stats->size;
 
@@ -2016,7 +2016,7 @@ static void EncodeGenerateRecon16bit(
     uint32_t reconLumaOffset;
     uint32_t reconChromaOffset;
 
-    CodingUnit_t          *cu_ptr = context_ptr->cu_ptr;
+    CodingUnit          *cu_ptr = context_ptr->cu_ptr;
     TransformUnit_t       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
     uint32_t                 txb_size = context_ptr->cu_stats->size;
 
@@ -2280,7 +2280,7 @@ static void EncodePassUpdateQp(
 EbErrorType QpmDeriveBeaAndSkipQpmFlagLcu(
     SequenceControlSet_t                   *sequence_control_set_ptr,
     PictureControlSet_t                    *picture_control_set_ptr,
-    LargestCodingUnit_t                    *sb_ptr,
+    LargestCodingUnit                    *sb_ptr,
     uint32_t                                 sb_index,
     EncDecContext_t                        *context_ptr)
 {
@@ -2350,7 +2350,7 @@ EbErrorType QpmDeriveBeaAndSkipQpmFlagLcu(
 EbErrorType Av1QpModulationLcu(
     SequenceControlSet_t                   *sequence_control_set_ptr,
     PictureControlSet_t                    *picture_control_set_ptr,
-    LargestCodingUnit_t                    *sb_ptr,
+    LargestCodingUnit                    *sb_ptr,
     uint32_t                                  sb_index,
     uint8_t                                   type,
     EncDecContext_t                        *context_ptr)
@@ -2384,8 +2384,8 @@ EbErrorType Av1QpModulationLcu(
 
 
 
-            OisCu32Cu16Results_t  *oisCu32Cu16ResultsPtr = picture_control_set_ptr->parent_pcs_ptr->ois_cu32_cu16_results[sb_index];
-            //OisCu8Results_t         *oisCu8ResultsPtr = picture_control_set_ptr->parent_pcs_ptr->ois_cu8_results[sb_index];
+            OisCu32Cu16Results  *oisCu32Cu16ResultsPtr = picture_control_set_ptr->parent_pcs_ptr->ois_cu32_cu16_results[sb_index];
+            //OisCu8Results         *oisCu8ResultsPtr = picture_control_set_ptr->parent_pcs_ptr->ois_cu8_results[sb_index];
 
             distortion =
                 oisCu32Cu16ResultsPtr->sorted_ois_candidate[1][0].distortion +
@@ -2526,9 +2526,9 @@ EbErrorType Av1QpModulationLcu(
 EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
     SequenceControlSet_t                   *sequence_control_set_ptr,
     PictureControlSet_t                    *picture_control_set_ptr,
-    LargestCodingUnit_t                    *sb_ptr,
+    LargestCodingUnit                    *sb_ptr,
     uint32_t                                  sb_index,
-    CodingUnit_t                           *cu_ptr,
+    CodingUnit                           *cu_ptr,
     uint32_t                                  cu_depth,
     uint32_t                                  cu_index,
     uint32_t                                  cu_size,
@@ -2561,7 +2561,7 @@ EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
 
 
 
-    uint32_t cuIndexInRaterScan = MD_SCAN_TO_RASTER_SCAN[cu_index];
+    uint32_t cuIndexInRaterScan = md_scan_to_raster_scan[cu_index];
 
 
 
@@ -2584,8 +2584,8 @@ EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
 
 
 
-            OisCu32Cu16Results_t  *oisCu32Cu16ResultsPtr = picture_control_set_ptr->parent_pcs_ptr->ois_cu32_cu16_results[sb_index];
-            OisCu8Results_t         *oisCu8ResultsPtr = picture_control_set_ptr->parent_pcs_ptr->ois_cu8_results[sb_index];
+            OisCu32Cu16Results  *oisCu32Cu16ResultsPtr = picture_control_set_ptr->parent_pcs_ptr->ois_cu32_cu16_results[sb_index];
+            OisCu8Results         *oisCu8ResultsPtr = picture_control_set_ptr->parent_pcs_ptr->ois_cu8_results[sb_index];
 
             if (cu_size > 32) {
                 distortion =
@@ -2608,7 +2608,7 @@ EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
 
                     if (use16x16Stat) {
 
-                        const CodedUnitStats_t  *cu_stats = GetCodedUnitStats(ParentBlockIndex[cu_index]);
+                        const CodedUnitStats  *cu_stats = get_coded_unit_stats(parent_block_index[cu_index]);
                         const uint32_t me2Nx2NTableOffset = cu_stats->cuNumInDepth + me2Nx2NOffset[cu_stats->depth];
 
                         distortion = oisCu32Cu16ResultsPtr->sorted_ois_candidate[me2Nx2NTableOffset][0].distortion;
@@ -2624,7 +2624,7 @@ EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
                         }
                         else {
 
-                            const CodedUnitStats_t  *cu_stats = GetCodedUnitStats(ParentBlockIndex[cu_index]);
+                            const CodedUnitStats  *cu_stats = get_coded_unit_stats(parent_block_index[cu_index]);
                             const uint32_t me2Nx2NTableOffset = cu_stats->cuNumInDepth + me2Nx2NOffset[cu_stats->depth];
 
                             if (oisCu32Cu16ResultsPtr->sorted_ois_candidate[me2Nx2NTableOffset][0].valid_distortion) {
@@ -2670,7 +2670,7 @@ EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
 
 
             if (use16x16Stat) {
-                uint32_t cuIndexRScan = MD_SCAN_TO_RASTER_SCAN[ParentBlockIndex[cu_index]];
+                uint32_t cuIndexRScan = md_scan_to_raster_scan[parent_block_index[cu_index]];
 
                 distortion = picture_control_set_ptr->parent_pcs_ptr->me_results[sb_index][cuIndexRScan].distortionDirection[0].distortion;
 
@@ -2822,15 +2822,15 @@ void Store16bitInputSrc(
 }
 
 void update_av1_mi_map(
-    CodingUnit_t                   *cu_ptr,
+    CodingUnit                   *cu_ptr,
     uint32_t                          cu_origin_x,
     uint32_t                          cu_origin_y,
     const BlockGeom                 *blk_geom,
     PictureControlSet_t            *picture_control_set_ptr);
 
 void move_cu_data(
-    CodingUnit_t *src_cu,
-    CodingUnit_t *dst_cu);
+    CodingUnit *src_cu,
+    CodingUnit *dst_cu);
 
 /*******************************************
 * Encode Pass
@@ -2854,7 +2854,7 @@ void move_cu_data(
 EB_EXTERN void av1_encode_pass(
     SequenceControlSet_t      *sequence_control_set_ptr,
     PictureControlSet_t       *picture_control_set_ptr,
-    LargestCodingUnit_t       *sb_ptr,
+    LargestCodingUnit       *sb_ptr,
     uint32_t                   tb_addr,
     uint32_t                   sb_origin_x,
     uint32_t                   sb_origin_y,
@@ -3178,7 +3178,7 @@ EB_EXTERN void av1_encode_pass(
 
     while (blk_it < sequence_control_set_ptr->max_block_cnt) {
 
-        CodingUnit_t  *cu_ptr = context_ptr->cu_ptr = &context_ptr->md_context->md_cu_arr_nsq[blk_it];
+        CodingUnit  *cu_ptr = context_ptr->cu_ptr = &context_ptr->md_context->md_cu_arr_nsq[blk_it];
         PartitionType part = cu_ptr->part;
 
         const BlockGeom * blk_geom = context_ptr->blk_geom = get_blk_geom_mds(blk_it);
@@ -3207,7 +3207,7 @@ EB_EXTERN void av1_encode_pass(
 
                 int16_t                  *transform_inner_array_ptr = context_ptr->transform_inner_array_ptr;
 
-                CodingUnit_t            *cu_ptr = context_ptr->cu_ptr = &context_ptr->md_context->md_cu_arr_nsq[d1_itr];
+                CodingUnit            *cu_ptr = context_ptr->cu_ptr = &context_ptr->md_context->md_cu_arr_nsq[d1_itr];
 
                 context_ptr->cu_origin_x = (uint16_t)(sb_origin_x + blk_geom->origin_x);
                 context_ptr->cu_origin_y = (uint16_t)(sb_origin_y + blk_geom->origin_y);
@@ -3370,7 +3370,7 @@ EB_EXTERN void av1_encode_pass(
                                         0,                                                          //int32_t col_off,
                                         0,                                                          //int32_t row_off,
                                         plane,                                                      //int32_t plane,
-                                        blk_geom->bsize,                  //uint32_t puSize,
+                                        blk_geom->bsize,                  //uint32_t pu_size,
                                         context_ptr->cu_origin_x,  //uint32_t cuOrgX,
                                         context_ptr->cu_origin_y);   //uint32_t cuOrgY
 
@@ -3464,7 +3464,7 @@ EB_EXTERN void av1_encode_pass(
                                         0,                                                          //int32_t row_off,
 #endif
                                         plane,                                                      //int32_t plane,
-                                        blk_geom->bsize,                  //uint32_t puSize,
+                                        blk_geom->bsize,                  //uint32_t pu_size,
                                         context_ptr->cu_origin_x,
                                         context_ptr->cu_origin_y,
                                         0,  // MD ONLY - NOT USED BY ENCDEC
@@ -3529,7 +3529,7 @@ EB_EXTERN void av1_encode_pass(
                                     0,                                                          //int32_t col_off,
                                     0,                                                          //int32_t row_off,
                                     plane,                                                      //int32_t plane,
-                                    plane ? cu_stats->size / 2 : cu_stats->size,                  //uint32_t puSize,
+                                    plane ? cu_stats->size / 2 : cu_stats->size,                  //uint32_t pu_size,
                                     plane ? context_ptr->cu_origin_x / 2 : context_ptr->cu_origin_x,  //uint32_t cuOrgX,
                                     plane ? context_ptr->cu_origin_y / 2 : context_ptr->cu_origin_y   //uint32_t cuOrgY
                                 );
@@ -4214,9 +4214,9 @@ EB_EXTERN void av1_encode_pass(
 
                 {
 
-                    CodingUnit_t *src_cu = &context_ptr->md_context->md_cu_arr_nsq[d1_itr];
+                    CodingUnit *src_cu = &context_ptr->md_context->md_cu_arr_nsq[d1_itr];
 
-                    CodingUnit_t *dst_cu = &sb_ptr->final_cu_arr[final_cu_itr++];
+                    CodingUnit *dst_cu = &sb_ptr->final_cu_arr[final_cu_itr++];
 
                     move_cu_data(src_cu, dst_cu);
                 }
@@ -4258,7 +4258,7 @@ EB_EXTERN void av1_encode_pass(
 EB_EXTERN void no_enc_dec_pass(
     SequenceControlSet_t    *sequence_control_set_ptr,
     PictureControlSet_t     *picture_control_set_ptr,
-    LargestCodingUnit_t     *sb_ptr,
+    LargestCodingUnit     *sb_ptr,
     uint32_t                   tb_addr,
     uint32_t                   sb_origin_x,
     uint32_t                   sb_origin_y,
@@ -4277,7 +4277,7 @@ EB_EXTERN void no_enc_dec_pass(
     while (blk_it < sequence_control_set_ptr->max_block_cnt) {
 
 
-        CodingUnit_t  *cu_ptr = context_ptr->cu_ptr = &context_ptr->md_context->md_cu_arr_nsq[blk_it];
+        CodingUnit  *cu_ptr = context_ptr->cu_ptr = &context_ptr->md_context->md_cu_arr_nsq[blk_it];
         PartitionType part = cu_ptr->part;
         const BlockGeom * blk_geom = context_ptr->blk_geom = get_blk_geom_mds(blk_it);
 
@@ -4294,7 +4294,7 @@ EB_EXTERN void no_enc_dec_pass(
             for (int32_t d1_itr = blk_it + offset_d1; d1_itr < blk_it + offset_d1 + num_d1_block; d1_itr++) {
 
                 const BlockGeom * blk_geom = context_ptr->blk_geom = get_blk_geom_mds(d1_itr);
-                CodingUnit_t            *cu_ptr = context_ptr->cu_ptr = &context_ptr->md_context->md_cu_arr_nsq[d1_itr];
+                CodingUnit            *cu_ptr = context_ptr->cu_ptr = &context_ptr->md_context->md_cu_arr_nsq[d1_itr];
 
 
                 cu_ptr->delta_qp = 0;
@@ -4304,8 +4304,8 @@ EB_EXTERN void no_enc_dec_pass(
 
 
                 {
-                    CodingUnit_t *src_cu = &context_ptr->md_context->md_cu_arr_nsq[d1_itr];
-                    CodingUnit_t *dst_cu = &sb_ptr->final_cu_arr[final_cu_itr++];
+                    CodingUnit *src_cu = &context_ptr->md_context->md_cu_arr_nsq[d1_itr];
+                    CodingUnit *dst_cu = &sb_ptr->final_cu_arr[final_cu_itr++];
 
                     move_cu_data(src_cu, dst_cu);
                 }

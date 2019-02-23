@@ -89,8 +89,8 @@ extern "C" {
         uint32_t                               full_chroma_lambda_sao;
 
         //  Context Variables---------------------------------
-        CodingUnit_t                          *cu_ptr;
-        const CodedUnitStats_t                *cu_stats;
+        CodingUnit                          *cu_ptr;
+        const CodedUnitStats                *cu_stats;
         uint16_t                               cu_origin_x; // within the picture
         uint16_t                               cu_origin_y; // within the picture
         uint8_t                                sb_sz;

@@ -2542,24 +2542,24 @@ strnlen_ss(target, max_size)
 
 
 
-typedef struct EB_PARAM_PORTDEFINITIONTYPE {
+typedef struct EbParamPortDefinitionType {
 uint32_t nFrameWidth;
 uint32_t nFrameHeight;
 int32_t  nStride;
 uint32_t size;
-} EB_PARAM_PORTDEFINITIONTYPE;
+} EbParamPortDefinitionType;
 
 /**************************************
 * Callback Functions
 **************************************/
-typedef struct EbCallback_s
+typedef struct EbCallback
 {
 EbPtr                                 appPrivateData;
 EbPtr                                 handle;
 void(*ErrorHandler)(
     EbPtr handle,
     uint32_t error_code);
-} EbCallback_t;
+} EbCallback;
 
 // DEBUG MACROS
 #define LIB_PRINTF_ENABLE                1
@@ -2845,7 +2845,7 @@ void(*ErrorHandler)(
 
 #define FAILING_MOTION_DELTA_QP            -5
 #define FAILING_MOTION_VAR_THRSLHD        50
-static const uint8_t INTRA_AREA_TH_CLASS_1[MAX_HIERARCHICAL_LEVEL][MAX_TEMPORAL_LAYERS] = { // [Highest Temporal Layer] [Temporal Layer Index]
+static const uint8_t intra_area_th_class_1[MAX_HIERARCHICAL_LEVEL][MAX_TEMPORAL_LAYERS] = { // [Highest Temporal Layer] [Temporal Layer Index]
     { 20 },
     { 30, 20 },
     { 40, 30, 20 },
@@ -2973,15 +2973,15 @@ typedef enum EbSbComplexityStatus {
     SB_COMPLEXITY_STATUS_INVALID = (uint8_t)~0
 } EbSbComplexityStatus;
 
-typedef enum EB_CLEAN_UP_MODE {
+typedef enum EbCleanUpMode {
     CLEAN_UP_MODE_0 = 0,
     CLEAN_UP_MODE_1 = 1
-} EB_CLEAN_UP_MODE;
+} EbCleanUpMode;
 
-typedef enum EB_SAO_MODE {
+typedef enum EbSaoMode {
     SAO_MODE_0 = 0,
     SAO_MODE_1 = 1
-} EB_SAO_MODE;
+} EbSaoMode;
 
 typedef enum EbCu8x8Mode {
     CU_8x8_MODE_0 = 0,  // Perform OIS, Full_Search, Fractional_Search & Bipred for CU_8x8
@@ -3013,13 +3013,13 @@ typedef enum EbLcuDepthMode {
     LCU_PRED_OPEN_LOOP_1_NFL_DEPTH_MODE = 9
 } EbLcuDepthMode;
 
-typedef enum EB_INTRA4x4_SEARCH_METHOD {
+typedef enum EbIntrA4x4SearchMethod {
     INTRA4x4_OFF = 0,
     INTRA4x4_INLINE_SEARCH = 1,
     INTRA4x4_REFINEMENT_SEARCH = 2,
-} EB_INTRA4x4_SEARCH_METHOD;
+} EbIntrA4x4SearchMethod;
 
-static const int32_t GLOBAL_MOTION_THRESHOLD[MAX_HIERARCHICAL_LEVEL][MAX_TEMPORAL_LAYERS] = { // [Highest Temporal Layer] [Temporal Layer Index]
+static const int32_t global_motion_threshold[MAX_HIERARCHICAL_LEVEL][MAX_TEMPORAL_LAYERS] = { // [Highest Temporal Layer] [Temporal Layer Index]
     { 2 },
     { 4, 2 },
     { 8, 4, 2 },
@@ -3028,7 +3028,7 @@ static const int32_t GLOBAL_MOTION_THRESHOLD[MAX_HIERARCHICAL_LEVEL][MAX_TEMPORA
     { 64, 32, 16, 8, 4, 2 }
 };
 
-static const int32_t HME_LEVEL_0_SEARCH_AREA_MULTIPLIER_X[MAX_HIERARCHICAL_LEVEL][MAX_TEMPORAL_LAYERS] = { // [Highest Temporal Layer] [Temporal Layer Index]
+static const int32_t hme_level_0_search_area_multiplier_x[MAX_HIERARCHICAL_LEVEL][MAX_TEMPORAL_LAYERS] = { // [Highest Temporal Layer] [Temporal Layer Index]
     { 100 },
     { 100, 100 },
     { 100, 100, 100 },
@@ -3037,7 +3037,7 @@ static const int32_t HME_LEVEL_0_SEARCH_AREA_MULTIPLIER_X[MAX_HIERARCHICAL_LEVEL
     { 525, 350, 200, 100, 100, 100 }
 };
 
-static const int32_t HME_LEVEL_0_SEARCH_AREA_MULTIPLIER_Y[MAX_HIERARCHICAL_LEVEL][MAX_TEMPORAL_LAYERS] = { // [Highest Temporal Layer] [Temporal Layer Index]
+static const int32_t hme_level_0_search_area_multiplier_y[MAX_HIERARCHICAL_LEVEL][MAX_TEMPORAL_LAYERS] = { // [Highest Temporal Layer] [Temporal Layer Index]
     { 100 },
     { 100, 100 },
     { 100, 100, 100 },
@@ -3046,7 +3046,7 @@ static const int32_t HME_LEVEL_0_SEARCH_AREA_MULTIPLIER_Y[MAX_HIERARCHICAL_LEVEL
     { 525, 350, 200, 100, 100, 100 }
 };
 
-typedef enum RASTER_SCAN_CU_INDEX {
+typedef enum RasterScanCuIndex {
 
     // 2Nx2N [85 partitions]
     RASTER_SCAN_CU_INDEX_64x64 = 0,
@@ -3134,9 +3134,9 @@ typedef enum RASTER_SCAN_CU_INDEX {
     RASTER_SCAN_CU_INDEX_8x8_61 = 82,
     RASTER_SCAN_CU_INDEX_8x8_62 = 83,
     RASTER_SCAN_CU_INDEX_8x8_63 = 84
-} RASTER_SCAN_CU_INDEX;
+} RasterScanCuIndex;
 
-static const uint32_t RASTER_SCAN_CU_X[CU_MAX_COUNT] =
+static const uint32_t raster_scan_cu_x[CU_MAX_COUNT] =
 {
     0,
     0, 32,
@@ -3155,7 +3155,7 @@ static const uint32_t RASTER_SCAN_CU_X[CU_MAX_COUNT] =
     0, 8, 16, 24, 32, 40, 48, 56
 };
 
-static const uint32_t RASTER_SCAN_CU_Y[CU_MAX_COUNT] =
+static const uint32_t raster_scan_cu_y[CU_MAX_COUNT] =
 {
     0,
     0, 0,
@@ -3174,7 +3174,7 @@ static const uint32_t RASTER_SCAN_CU_Y[CU_MAX_COUNT] =
     56, 56, 56, 56, 56, 56, 56, 56
 };
 
-static const uint32_t RASTER_SCAN_CU_SIZE[CU_MAX_COUNT] =
+static const uint32_t raster_scan_cu_size[CU_MAX_COUNT] =
 {   64,
     32, 32,
     32, 32,
@@ -3192,7 +3192,7 @@ static const uint32_t RASTER_SCAN_CU_SIZE[CU_MAX_COUNT] =
     8, 8, 8, 8, 8, 8, 8, 8
 };
 
-static const uint32_t RASTER_SCAN_CU_DEPTH[CU_MAX_COUNT] =
+static const uint32_t raster_scan_cu_depth[CU_MAX_COUNT] =
 {   0,
     1, 1,
     1, 1,
@@ -3210,7 +3210,7 @@ static const uint32_t RASTER_SCAN_CU_DEPTH[CU_MAX_COUNT] =
     3, 3, 3, 3, 3, 3, 3, 3
 };
 
-static const uint32_t RASTER_SCAN_TO_MD_SCAN[CU_MAX_COUNT] =
+static const uint32_t raster_scan_to_md_scan[CU_MAX_COUNT] =
 {
     0,
     1, 22,
@@ -3229,12 +3229,12 @@ static const uint32_t RASTER_SCAN_TO_MD_SCAN[CU_MAX_COUNT] =
     57, 58, 62, 63, 78, 79, 83, 84
 };
 
-static const uint32_t ParentBlockIndex[85] = { 0, 0, 0, 2, 2, 2, 2, 0, 7, 7, 7, 7, 0, 12, 12, 12, 12, 0, 17, 17, 17, 17, 0, 0,
+static const uint32_t parent_block_index[85] = { 0, 0, 0, 2, 2, 2, 2, 0, 7, 7, 7, 7, 0, 12, 12, 12, 12, 0, 17, 17, 17, 17, 0, 0,
     23, 23, 23, 23, 0, 28, 28, 28, 28, 0, 33, 33, 33, 33, 0, 38, 38, 38, 38, 0, 0,
     44, 44, 44, 44, 0, 49, 49, 49, 49, 0, 54, 54, 54, 54, 0, 59, 59, 59, 59, 0, 0,
     65, 65, 65, 65, 0, 70, 70, 70, 70, 0, 75, 75, 75, 75, 0, 80, 80, 80, 80 };
 
-static const uint32_t MD_SCAN_TO_RASTER_SCAN[CU_MAX_COUNT] =
+static const uint32_t md_scan_to_raster_scan[CU_MAX_COUNT] =
 {
     0,
     1,
@@ -3259,7 +3259,7 @@ static const uint32_t MD_SCAN_TO_RASTER_SCAN[CU_MAX_COUNT] =
     20, 75, 76, 83, 84
 };
 
-static const uint32_t RASTER_SCAN_CU_PARENT_INDEX[CU_MAX_COUNT] =
+static const uint32_t raster_scan_cu_parent_index[CU_MAX_COUNT] =
 {   0,
     0, 0,
     0, 0,
@@ -3280,7 +3280,7 @@ static const uint32_t RASTER_SCAN_CU_PARENT_INDEX[CU_MAX_COUNT] =
 
 #define UNCOMPRESS_SAD(x) ( ((x) & 0x1FFF)<<(((x)>>13) & 7) )
 
-static const uint32_t MD_SCAN_TO_OIS_32x32_SCAN[CU_MAX_COUNT] =
+static const uint32_t md_scan_to_ois_32x32_scan[CU_MAX_COUNT] =
 {
     /*0  */0,
     /*1  */0,
@@ -3373,44 +3373,44 @@ static const uint32_t MD_SCAN_TO_OIS_32x32_SCAN[CU_MAX_COUNT] =
                             ME/HME settings
 *******************************************************************************/
 //     M0    M1    M2    M3    M4    M5    M6    M7    
-static const uint8_t EnableHmeLevel0Flag[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint8_t enable_hme_level0_flag[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {   1,    1,    1,    1,    1,    1,    1,    1 },      // INPUT_SIZE_576p_RANGE_OR_LOWER
     {   1,    1,    1,    1,    1,    1,    1,    1 },      // INPUT_SIZE_720P_RANGE/INPUT_SIZE_1080i_RANGE
     {   1,    1,    1,    1,    1,    1,    1,    1 },      // INPUT_SIZE_1080p_RANGE
     {   1,    1,    1,    1,    1,    1,    1,    1 },      // INPUT_SIZE_4K_RANGE
 };
-static const uint16_t HmeLevel0TotalSearchAreaWidth[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint16_t hme_level0_total_search_area_width[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  48,   48,   48,   48,   48,   48,   48,   48 },
     { 112,   96,   64,   64,   64,   64,   64,   64 },
     { 128,  128,   96,   96,   96,   96,   96,   96 },
     { 128,  128,  128,  128,  128,  128,  128,  128 }
 };
 
-static const uint16_t HmeLevel0SearchAreaInWidthArrayLeft[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint16_t hme_level0_search_area_in_width_array_left[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  24,   24,   24,   24,   24,   24,   24,   24 },
     {  56,   48,   32,   32,   32,   32,   32,   32 },
     {  64,   64,   48,   48,   48,   48,   48,   48 },
     {  64,   64,   64,   64,   64,   64,   64,   64 }
 };
-static const uint16_t HmeLevel0SearchAreaInWidthArrayRight[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint16_t hme_level0_search_area_in_width_array_right[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  24,   24,   24,   24,   24,   24,   24,   24 },
     {  56,   48,   32,   32,   32,   32,   32,   32 },
     {  64,   64,   48,   48,   48,   48,   48,   48 },
     {  64,   64,   64,   64,   64,   64,   64,   64 }
 };
-static const uint16_t HmeLevel0TotalSearchAreaHeight[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint16_t hme_level0_total_search_area_height[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  40,   40,   40,   40,   40,   40,   40,   40 },
     {  64,   64,   48,   48,   48,   48,   48,   48 },
     {  80,   80,   48,   48,   48,   48,   48,   48 },
     {  80,   80,   80,   80,   80,   80,   80,   80 }
 };
-static const uint16_t HmeLevel0SearchAreaInHeightArrayTop[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint16_t hme_level0_search_area_in_height_array_top[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  20,   20,   20,   20,   20,   20,   20,   20 },
     {  32,   32,   24,   24,   24,   24,   24,   24 },
     {  40,   40,   24,   24,   24,   24,   24,   24 },
     {  40,   40,   40,   40,   40,   40,   40,   40 }
 };
-static const uint16_t HmeLevel0SearchAreaInHeightArrayBottom[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint16_t hme_level0_search_area_in_height_array_bottom[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  20,   20,   20,   20,   20,   20,   20,   20 },
     {  32,   32,   24,   24,   24,   24,   24,   24 },
     {  40,   40,   24,   24,   24,   24,   24,   24 },
@@ -3419,31 +3419,31 @@ static const uint16_t HmeLevel0SearchAreaInHeightArrayBottom[INPUT_SIZE_COUNT][M
 
 // HME LEVEL 1
 //      M0    M1    M2    M3    M4    M5    M6    M7
-static const uint8_t EnableHmeLevel1Flag[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint8_t enable_hme_level1_flag[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {   1,    1,    1,    1,    1,    1,    1,    1 },      // INPUT_SIZE_576p_RANGE_OR_LOWER
     {   1,    1,    1,    1,    1,    1,    1,    1 },      // INPUT_SIZE_720P_RANGE/INPUT_SIZE_1080i_RANGE
     {   1,    1,    1,    1,    1,    1,    1,    1 },      // INPUT_SIZE_1080p_RANGE
     {   1,    1,    1,    1,    1,    1,    1,    1 }       // INPUT_SIZE_4K_RANGE
 };
-static const uint16_t HmeLevel1SearchAreaInWidthArrayLeft[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint16_t hme_level1_search_area_in_width_array_left[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  16,   16,   16,   16,    8,    8,    8,    8 },
     {  16,   16,   16,   16,    8,    8,    8,    8 },
     {  16,   16,   16,   16,    8,    8,    8,    8 },
     {  16,   16,   16,   16,    8,    8,    8,    8 }
 };
-static const uint16_t HmeLevel1SearchAreaInWidthArrayRight[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint16_t hme_level1_search_area_in_width_array_right[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  16,   16,   16,   16,    8,    8,    8,    8 },
     {  16,   16,   16,   16,    8,    8,    8,    8 },
     {  16,   16,   16,   16,    8,    8,    8,    8 },
     {  16,   16,   16,   16,    8,    8,    8,    8 }
 };
-static const uint16_t HmeLevel1SearchAreaInHeightArrayTop[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint16_t hme_level1_search_area_in_height_array_top[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  16,   16,   16,   16,    8,    8,    8,    8 },
     {  16,   16,   16,   16,    8,    8,    8,    8 },
     {  16,   16,   16,   16,    8,    8,    8,    8 },
     {  16,   16,   16,   16,    8,    8,    8,    8 }
 };
-static const uint16_t HmeLevel1SearchAreaInHeightArrayBottom[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint16_t hme_level1_search_area_in_height_array_bottom[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  16,   16,   16,   16,    8,    8,    8,    8 },
     {  16,   16,   16,   16,    8,    8,    8,    8 },
     {  16,   16,   16,   16,    8,    8,    8,    8 },
@@ -3451,38 +3451,38 @@ static const uint16_t HmeLevel1SearchAreaInHeightArrayBottom[INPUT_SIZE_COUNT][M
 };
 // HME LEVEL 2
 //     M0    M1    M2    M3    M4    M5    M6    M7
-static const uint8_t EnableHmeLevel2Flag[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint8_t enable_hme_level2_flag[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {   1,    1,    1,    1,    1,    1,    1,    1 },      // INPUT_SIZE_576p_RANGE_OR_LOWER
     {   1,    1,    1,    1,    1,    1,    1,    1 },      // INPUT_SIZE_720P_RANGE/INPUT_SIZE_1080i_RANGE
     {   1,    1,    1,    1,    1,    1,    1,    1 },      // INPUT_SIZE_1080p_RANGE
     {   1,    1,    1,    1,    1,    1,    1,    1 }       // INPUT_SIZE_4K_RANGE
 };
-static const uint16_t HmeLevel2SearchAreaInWidthArrayLeft[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint16_t hme_level2_search_area_in_width_array_left[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {   8,    8,    8,    8,    4,    4,    4,    4 },
     {   8,    8,    8,    8,    4,    4,    4,    4 },
     {   8,    8,    8,    8,    4,    4,    4,    4 },
     {   8,    8,    8,    8,    4,    4,    4,    4 }
 };
-static const uint16_t HmeLevel2SearchAreaInWidthArrayRight[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint16_t hme_level2_search_area_in_width_array_right[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {   8,    8,    8,    8,    4,    4,    4,    4 },
     {   8,    8,    8,    8,    4,    4,    4,    4 },
     {   8,    8,    8,    8,    4,    4,    4,    4 },
     {   8,    8,    8,    8,    4,    4,    4,    4 }
 };
-static const uint16_t HmeLevel2SearchAreaInHeightArrayTop[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint16_t hme_level2_search_area_in_height_array_top[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {   8,    8,    8,    8,    4,    4,    4,    4 },
     {   8,    8,    8,    8,    4,    4,    4,    4 },
     {   8,    8,    8,    8,    4,    4,    4,    4 },
     {   8,    8,    8,    8,    4,    4,    4,    4 }
 };
-static const uint16_t HmeLevel2SearchAreaInHeightArrayBottom[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint16_t hme_level2_search_area_in_height_array_bottom[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {   8,    8,    8,    8,    4,    4,    4,    4 },
     {   8,    8,    8,    8,    4,    4,    4,    4 },
     {   8,    8,    8,    8,    4,    4,    4,    4 },
     {   8,    8,    8,    8,    4,    4,    4,    4 }
 };
 
-static const uint8_t SearchAreaWidth[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint8_t search_area_width[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  64,   64,   64,   64,   56,   48,   40,   32 },
     { 112,   96,   64,   64,   56,   48,   40,   32 },
     { 128,  112,   96,   64,   56,   48,   40,   32 },
@@ -3490,7 +3490,7 @@ static const uint8_t SearchAreaWidth[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
 
 };
 
-static const uint8_t SearchAreaHeight[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
+static const uint8_t search_area_height[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  64,   64,   64,   64,   56,   48,   40,   32 },
     { 112,   96,   64,   64,   56,   48,   40,   32 },
     { 128,  112,   96,   64,   56,   48,   40,   32 },

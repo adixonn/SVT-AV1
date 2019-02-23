@@ -27,7 +27,7 @@ extern "C" {
     } TmvpPos;
 
     // TMVP items corresponding to one LCU
-    typedef struct TmvpUnit_s {
+    typedef struct TmvpUnit {
         Mv_t              mv[MAX_NUM_OF_REF_PIC_LIST][MAX_TMVP_CAND_PER_LCU];
         uint64_t            refPicPOC[MAX_NUM_OF_REF_PIC_LIST][MAX_TMVP_CAND_PER_LCU];
         EbPredDirection  prediction_direction[MAX_TMVP_CAND_PER_LCU];
@@ -35,7 +35,7 @@ extern "C" {
 
         //*Note- list 1 motion info will be added when B-slices are ready
 
-    } TmvpUnit_t;
+    } TmvpUnit;
 
     extern EbErrorType clip_mv(
         uint32_t                   cu_origin_x,
@@ -51,7 +51,7 @@ extern "C" {
         TileInfo                              *tile,
 #endif
       struct ModeDecisionContext_s            *context_ptr,
-        CodingUnit_t                     *cu_ptr,
+        CodingUnit                     *cu_ptr,
         const BlockGeom                   * blk_geom,
         uint16_t                            cu_origin_x,
         uint16_t                            cu_origin_y,
@@ -61,7 +61,7 @@ extern "C" {
 
     void get_av1_mv_pred_drl(
         struct ModeDecisionContext_s            *context_ptr,
-        CodingUnit_t      *cu_ptr,
+        CodingUnit      *cu_ptr,
         MvReferenceFrame ref_frame,
         uint8_t              is_compound,
         PredictionMode    mode,
@@ -75,7 +75,7 @@ extern "C" {
         TileInfo                               *tile,
 #endif
          struct ModeDecisionContext_s            *md_context_ptr,
-        CodingUnit_t                     *cu_ptr,
+        CodingUnit                     *cu_ptr,
         const BlockGeom                   * blk_geom,
         uint16_t                            cu_origin_x,
         uint16_t                            cu_origin_y,
@@ -90,15 +90,15 @@ extern "C" {
 #if CHROMA_BLIND
         struct ModeDecisionContext_s   *context_ptr,
 #endif
-        CodingUnit_t                   *cu_ptr,
+        CodingUnit                   *cu_ptr,
         uint32_t                          cu_origin_x,
         uint32_t                          cu_origin_y,
         const BlockGeom               * blk_geom,
-        const CodedUnitStats_t         *cu_stats,
+        const CodedUnitStats         *cu_stats,
         PictureControlSet_t            *picture_control_set_ptr);
 
     uint16_t wm_find_samples(
-        CodingUnit_t                       *cu_ptr,
+        CodingUnit                       *cu_ptr,
         const BlockGeom                    *blk_geom,
         uint16_t                            cu_origin_x,
         uint16_t                            cu_origin_y,
@@ -108,7 +108,7 @@ extern "C" {
         int32_t                            *pts_inref);
 
     void wm_count_samples(
-        CodingUnit_t                       *cu_ptr,
+        CodingUnit                       *cu_ptr,
         const BlockGeom                    *blk_geom,
         uint16_t                            cu_origin_x,
         uint16_t                            cu_origin_y,
@@ -118,7 +118,7 @@ extern "C" {
 
     EbBool warped_motion_parameters(
         PictureControlSet_t              *picture_control_set_ptr,
-        CodingUnit_t                     *cu_ptr,
+        CodingUnit                     *cu_ptr,
         MvUnit_t                         *mv_unit,
         const BlockGeom                  *blk_geom,
         uint16_t                          cu_origin_x,
@@ -138,7 +138,7 @@ extern "C" {
         return /*is_intrabc_block(mbmi) ||*/ mbmi->ref_frame[0] > INTRA_FRAME; // TODO: modify when add intra_bc
     }
 
-    static INLINE EbBool has_overlappable_candidates(const CodingUnit_t *cu_ptr)
+    static INLINE EbBool has_overlappable_candidates(const CodingUnit *cu_ptr)
     {
         return (cu_ptr->prediction_unit_array[0].overlappable_neighbors[0] != 0
              || cu_ptr->prediction_unit_array[0].overlappable_neighbors[1] != 0);
@@ -146,7 +146,7 @@ extern "C" {
 
     void av1_count_overlappable_neighbors(
         const PictureControlSet_t        *picture_control_set_ptr,
-        CodingUnit_t                     *cu_ptr,
+        CodingUnit                     *cu_ptr,
         const block_size                   bsize,
         int32_t                           mi_row,
         int32_t                           mi_col);

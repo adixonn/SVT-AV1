@@ -488,7 +488,7 @@ void reset_mode_decision(
  ******************************************************/
 void ModeDecisionConfigureLcu(
     ModeDecisionContext_t   *context_ptr,
-    LargestCodingUnit_t     *sb_ptr,
+    LargestCodingUnit     *sb_ptr,
     PictureControlSet_t     *picture_control_set_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr,
     uint8_t                    picture_qp,

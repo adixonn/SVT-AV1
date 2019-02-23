@@ -192,7 +192,7 @@ static void SetCfgUseQpFile                     (const char *value, EbConfig_t *
 static void SetDisableDlfFlag                   (const char *value, EbConfig_t *cfg) {cfg->disable_dlf_flag = (EbBool)strtoul(value, NULL, 0);};
 static void SetEnableLocalWarpedMotionFlag      (const char *value, EbConfig_t *cfg) {cfg->enable_warped_motion = (EbBool)strtoul(value, NULL, 0);};
 static void SetEnableHmeFlag                    (const char *value, EbConfig_t *cfg) {cfg->enableHmeFlag = (EbBool)strtoul(value, NULL, 0);};
-static void SetEnableHmeLevel0Flag              (const char *value, EbConfig_t *cfg) {cfg->enableHmeLevel0Flag = (EbBool)strtoul(value, NULL, 0);};
+static void SetEnableHmeLevel0Flag              (const char *value, EbConfig_t *cfg) {cfg->enable_hme_level0_flag = (EbBool)strtoul(value, NULL, 0);};
 #if TILES
 static void SetTileRow                          (const char *value, EbConfig_t *cfg) { cfg->tile_rows = strtoul(value, NULL, 0); };
 static void SetTileCol                          (const char *value, EbConfig_t *cfg) { cfg->tile_columns = strtoul(value, NULL, 0); };
@@ -203,14 +203,14 @@ static void SetRateControlMode                  (const char *value, EbConfig_t *
 static void SetTargetBitRate                    (const char *value, EbConfig_t *cfg) {cfg->targetBitRate = strtoul(value, NULL, 0);};
 static void SetMaxQpAllowed                     (const char *value, EbConfig_t *cfg) {cfg->max_qp_allowed = strtoul(value, NULL, 0);};
 static void SetMinQpAllowed                     (const char *value, EbConfig_t *cfg) {cfg->min_qp_allowed = strtoul(value, NULL, 0);};
-static void SetEnableHmeLevel1Flag              (const char *value, EbConfig_t *cfg) {cfg->enableHmeLevel1Flag  = (EbBool)strtoul(value, NULL, 0);};
-static void SetEnableHmeLevel2Flag              (const char *value, EbConfig_t *cfg) {cfg->enableHmeLevel2Flag  = (EbBool)strtoul(value, NULL, 0);};
-static void SetCfgSearchAreaWidth               (const char *value, EbConfig_t *cfg) {cfg->searchAreaWidth = strtoul(value, NULL, 0);};
-static void SetCfgSearchAreaHeight              (const char *value, EbConfig_t *cfg) {cfg->searchAreaHeight = strtoul(value, NULL, 0);};
+static void SetEnableHmeLevel1Flag              (const char *value, EbConfig_t *cfg) {cfg->enable_hme_level1_flag  = (EbBool)strtoul(value, NULL, 0);};
+static void SetEnableHmeLevel2Flag              (const char *value, EbConfig_t *cfg) {cfg->enable_hme_level2_flag  = (EbBool)strtoul(value, NULL, 0);};
+static void SetCfgSearchAreaWidth               (const char *value, EbConfig_t *cfg) {cfg->search_area_width = strtoul(value, NULL, 0);};
+static void SetCfgSearchAreaHeight              (const char *value, EbConfig_t *cfg) {cfg->search_area_height = strtoul(value, NULL, 0);};
 static void SetCfgNumberHmeSearchRegionInWidth  (const char *value, EbConfig_t *cfg) {cfg->numberHmeSearchRegionInWidth = strtoul(value, NULL, 0);};
 static void SetCfgNumberHmeSearchRegionInHeight (const char *value, EbConfig_t *cfg) {cfg->numberHmeSearchRegionInHeight = strtoul(value, NULL, 0);};
-static void SetCfgHmeLevel0TotalSearchAreaWidth (const char *value, EbConfig_t *cfg) {cfg->hmeLevel0TotalSearchAreaWidth = strtoul(value, NULL, 0);};
-static void SetCfgHmeLevel0TotalSearchAreaHeight(const char *value, EbConfig_t *cfg) {cfg->hmeLevel0TotalSearchAreaHeight = strtoul(value, NULL, 0);};
+static void SetCfgHmeLevel0TotalSearchAreaWidth (const char *value, EbConfig_t *cfg) {cfg->hme_level0_total_search_area_width = strtoul(value, NULL, 0);};
+static void SetCfgHmeLevel0TotalSearchAreaHeight(const char *value, EbConfig_t *cfg) {cfg->hme_level0_total_search_area_height = strtoul(value, NULL, 0);};
 static void SetCfgUseDefaultMeHme               (const char *value, EbConfig_t *cfg) {cfg->use_default_me_hme = (EbBool)strtol(value, NULL, 0); };
 static void SetEnableExtBlockFlag(const char *value, EbConfig_t *cfg) { cfg->ext_block_flag = (EbBool)strtoul(value, NULL, 0); };
 static void SetEnableInLoopMeFlag(const char *value, EbConfig_t *cfg) { cfg->in_loop_me_flag = (EbBool)strtoul(value, NULL, 0); };
@@ -333,14 +333,14 @@ config_entry_t config_entry[] = {
     { SINGLE_INPUT, IN_LOOP_ME, "InLoopMeFlag", SetEnableInLoopMeFlag },
 
     // ME Parameters
-    { SINGLE_INPUT, SEARCH_AREA_WIDTH_TOKEN, "SearchAreaWidth", SetCfgSearchAreaWidth },
-    { SINGLE_INPUT, SEARCH_AREA_HEIGHT_TOKEN, "SearchAreaHeight", SetCfgSearchAreaHeight },
+    { SINGLE_INPUT, SEARCH_AREA_WIDTH_TOKEN, "search_area_width", SetCfgSearchAreaWidth },
+    { SINGLE_INPUT, SEARCH_AREA_HEIGHT_TOKEN, "search_area_height", SetCfgSearchAreaHeight },
 
     // HME Parameters
     { SINGLE_INPUT, NUM_HME_SEARCH_WIDTH_TOKEN, "number_hme_search_region_in_width", SetCfgNumberHmeSearchRegionInWidth },
     { SINGLE_INPUT, NUM_HME_SEARCH_HEIGHT_TOKEN, "NumberHmeSearchRegionInHeight", SetCfgNumberHmeSearchRegionInHeight },
-    { SINGLE_INPUT, HME_SRCH_T_L0_WIDTH_TOKEN, "HmeLevel0TotalSearchAreaWidth", SetCfgHmeLevel0TotalSearchAreaWidth },
-    { SINGLE_INPUT, HME_SRCH_T_L0_HEIGHT_TOKEN, "HmeLevel0TotalSearchAreaHeight", SetCfgHmeLevel0TotalSearchAreaHeight },
+    { SINGLE_INPUT, HME_SRCH_T_L0_WIDTH_TOKEN, "hme_level0_total_search_area_width", SetCfgHmeLevel0TotalSearchAreaWidth },
+    { SINGLE_INPUT, HME_SRCH_T_L0_HEIGHT_TOKEN, "hme_level0_total_search_area_height", SetCfgHmeLevel0TotalSearchAreaHeight },
 
     // MD Parameters
     { SINGLE_INPUT, CONSTRAINED_INTRA_ENABLE_TOKEN, "ConstrainedIntra", SetEnableConstrainedIntra},
@@ -438,15 +438,15 @@ void eb_config_ctor(EbConfig_t *config_ptr)
     config_ptr->in_loop_me_flag                      = EB_TRUE;
     config_ptr->use_default_me_hme                   = EB_TRUE;
     config_ptr->enableHmeFlag                        = EB_TRUE;
-    config_ptr->enableHmeLevel0Flag                  = EB_TRUE;
-    config_ptr->enableHmeLevel1Flag                  = EB_FALSE;
-    config_ptr->enableHmeLevel2Flag                  = EB_FALSE;
-    config_ptr->searchAreaWidth                      = 16;
-    config_ptr->searchAreaHeight                     = 7;
+    config_ptr->enable_hme_level0_flag                  = EB_TRUE;
+    config_ptr->enable_hme_level1_flag                  = EB_FALSE;
+    config_ptr->enable_hme_level2_flag                  = EB_FALSE;
+    config_ptr->search_area_width                      = 16;
+    config_ptr->search_area_height                     = 7;
     config_ptr->numberHmeSearchRegionInWidth         = 2;
     config_ptr->numberHmeSearchRegionInHeight        = 2;
-    config_ptr->hmeLevel0TotalSearchAreaWidth        = 64;
-    config_ptr->hmeLevel0TotalSearchAreaHeight       = 25;
+    config_ptr->hme_level0_total_search_area_width        = 64;
+    config_ptr->hme_level0_total_search_area_height       = 25;
     config_ptr->hmeLevel0ColumnIndex                 = 0;
     config_ptr->hmeLevel0RowIndex                    = 0;
     config_ptr->hmeLevel1ColumnIndex                 = 0;

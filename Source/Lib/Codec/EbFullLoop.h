@@ -12,7 +12,7 @@ extern "C" {
 #endif
 
     void full_loop_r(
-        LargestCodingUnit_t            *sb_ptr,
+        LargestCodingUnit            *sb_ptr,
         ModeDecisionCandidateBuffer_t  *candidate_buffer,
         ModeDecisionContext_t          *context_ptr,
         EbPictureBufferDesc_t          *input_picture_ptr,
@@ -24,7 +24,7 @@ extern "C" {
         uint32_t                          *cr_count_non_zero_coeffs);
 
     void cu_full_distortion_fast_tu_mode_r(
-        LargestCodingUnit_t            *sb_ptr,
+        LargestCodingUnit            *sb_ptr,
         ModeDecisionCandidateBuffer_t  *candidate_buffer,
         ModeDecisionContext_t            *context_ptr,
         ModeDecisionCandidate_t           *candidate_ptr,
@@ -57,7 +57,7 @@ extern "C" {
     extern uint32_t d2_inter_depth_block_decision(
         ModeDecisionContext_t          *context_ptr,
         uint32_t                        blk_mds,
-        LargestCodingUnit_t            *tb_ptr,
+        LargestCodingUnit            *tb_ptr,
         uint32_t                          lcu_addr,
         uint32_t                          tbOriginX,
         uint32_t                          tbOriginY,

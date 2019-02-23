@@ -13746,8 +13746,8 @@ extern "C" {
         // SB Array
         uint8_t                               sb_max_depth;
         uint16_t                              sb_total_count;
-        LargestCodingUnit_t                 **sb_ptr_array;
-        LargestCodingUnit_t                 **sb_ptr_array_copy;
+        LargestCodingUnit                 **sb_ptr_array;
+        LargestCodingUnit                 **sb_ptr_array_copy;
 
         // DLF
         uint8_t                              *qp_array;
@@ -14013,7 +14013,7 @@ extern "C" {
         EbBool                               *is_sb_homogeneous_over_time;
         uint8_t                               pic_homogenous_over_time_sb_percentage;
         EbBool                               *sb_homogeneous_area_array;        // used by EncDecProcess()
-        EdgeLcuResults_t                     *edge_results_ptr;                // used by EncDecProcess()
+        EdgeLcuResults                     *edge_results_ptr;                // used by EncDecProcess()
         uint8_t                              *sharp_edge_sb_flag;
         uint8_t                              *failing_motion_sb_flag;        // used by EncDecProcess()  and ModeDecisionConfigurationProcess // USED for L2 to replace the uncovered detectors for L6 and L7
         EbBool                               *uncovered_area_sb_flag;            // used by EncDecProcess()
@@ -14080,8 +14080,8 @@ extern "C" {
         EbHandle                              rc_distortion_histogram_mutex;
         
         // Open loop Intra candidate Search Results
-        OisCu32Cu16Results_t                **ois_cu32_cu16_results;
-        OisCu8Results_t                     **ois_cu8_results;
+        OisCu32Cu16Results                **ois_cu32_cu16_results;
+        OisCu8Results                     **ois_cu8_results;
 
         // Dynamic GOP
         EbPred                                pred_structure;

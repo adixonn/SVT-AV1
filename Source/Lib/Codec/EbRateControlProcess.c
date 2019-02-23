@@ -988,7 +988,7 @@ void* rate_control_kernel(void *input_ptr)
     RateControlResults_t        *rateControlResultsPtr;
 
     // SB Loop variables
-    LargestCodingUnit_t         *sb_ptr;
+    LargestCodingUnit         *sb_ptr;
     uint32_t                       lcuCodingOrder;
     uint64_t                       totalNumberOfFbFrames = 0;
 

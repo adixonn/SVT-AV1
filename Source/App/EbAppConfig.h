@@ -284,25 +284,25 @@ typedef struct EbConfig_s
      ****************************************/
     EbBool                  use_default_me_hme;
     EbBool                  enableHmeFlag;
-    EbBool                  enableHmeLevel0Flag;
-    EbBool                  enableHmeLevel1Flag;
-    EbBool                  enableHmeLevel2Flag;
+    EbBool                  enable_hme_level0_flag;
+    EbBool                  enable_hme_level1_flag;
+    EbBool                  enable_hme_level2_flag;
     EbBool                  ext_block_flag;
     EbBool                  in_loop_me_flag;
 
     /****************************************
      * ME Parameters
      ****************************************/
-    uint32_t                 searchAreaWidth;
-    uint32_t                 searchAreaHeight;
+    uint32_t                 search_area_width;
+    uint32_t                 search_area_height;
 
     /****************************************
      * HME Parameters
      ****************************************/
     uint32_t                 numberHmeSearchRegionInWidth ;
     uint32_t                 numberHmeSearchRegionInHeight;
-    uint32_t                 hmeLevel0TotalSearchAreaWidth;
-    uint32_t                 hmeLevel0TotalSearchAreaHeight;
+    uint32_t                 hme_level0_total_search_area_width;
+    uint32_t                 hme_level0_total_search_area_height;
     uint32_t                 hmeLevel0ColumnIndex;
     uint32_t                 hmeLevel0RowIndex;
     uint32_t                 hmeLevel1ColumnIndex;

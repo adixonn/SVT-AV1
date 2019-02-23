@@ -552,7 +552,7 @@ uint64_t av1_cost_coeffs_txb(
 **********************************************************************************/
 EbErrorType av1_intra_fast_cost(
     struct ModeDecisionContext_s            *context_ptr,
-    CodingUnit_t                            *cu_ptr,
+    CodingUnit                            *cu_ptr,
     struct ModeDecisionCandidateBuffer_s    *candidate_buffer_ptr,
     uint32_t                                  qp,
     uint64_t                                  luma_distortion,
@@ -701,7 +701,7 @@ extern void av1_set_ref_frame(MvReferenceFrame *rf,
 uint64_t EstimateRefFramesNumBits(
     PictureControlSet_t                    *picture_control_set_ptr,
     ModeDecisionCandidateBuffer_t          *candidate_buffer_ptr,
-    CodingUnit_t                           *cu_ptr,
+    CodingUnit                           *cu_ptr,
     uint32_t                                 bwidth,
     uint32_t                                 bheight,
     uint8_t                                  ref_frame_type,
@@ -948,7 +948,7 @@ static INLINE int16_t Av1ModeContextAnalyzer(
 **********************************************************************************/
 EbErrorType av1_inter_fast_cost(
     struct ModeDecisionContext_s           *context_ptr,
-    CodingUnit_t                           *cu_ptr,
+    CodingUnit                           *cu_ptr,
     ModeDecisionCandidateBuffer_t          *candidate_buffer_ptr,
     uint32_t                                  qp,
     uint64_t                                  luma_distortion,
@@ -1264,7 +1264,7 @@ EbErrorType av1_inter_fast_cost(
 EbErrorType av1_tu_estimate_coeff_bits(
     PictureControlSet_t                    *picture_control_set_ptr,
     struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
-    CodingUnit_t                           *cu_ptr,
+    CodingUnit                           *cu_ptr,
     uint32_t                                  tu_origin_index,
     uint32_t                                  tuChromaOriginIndex,
     EntropyCoder_t                         *entropy_coder_ptr,
@@ -1400,7 +1400,7 @@ EbErrorType Av1FullCost(
     PictureControlSet_t                    *picture_control_set_ptr,
     ModeDecisionContext_t                  *context_ptr,
     struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
-    CodingUnit_t                           *cu_ptr,
+    CodingUnit                           *cu_ptr,
     uint64_t                               *y_distortion,
     uint64_t                               *cb_distortion,
     uint64_t                               *cr_distortion,
@@ -1495,7 +1495,7 @@ EbErrorType  Av1MergeSkipFullCost(
     PictureControlSet_t                    *picture_control_set_ptr,
     ModeDecisionContext_t                  *context_ptr,
     struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
-    CodingUnit_t                           *cu_ptr,
+    CodingUnit                           *cu_ptr,
     uint64_t                               *y_distortion,
     uint64_t                               *cb_distortion,
     uint64_t                               *cr_distortion,
@@ -1652,7 +1652,7 @@ EbErrorType av1_intra_full_cost(
     PictureControlSet_t                    *picture_control_set_ptr,
     ModeDecisionContext_t                  *context_ptr,
     struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
-    CodingUnit_t                           *cu_ptr,
+    CodingUnit                           *cu_ptr,
     uint64_t                                 *y_distortion,
     uint64_t                                 *cb_distortion,
     uint64_t                                 *cr_distortion,
@@ -1705,7 +1705,7 @@ EbErrorType av1_inter_full_cost(
     PictureControlSet_t                    *picture_control_set_ptr,
     ModeDecisionContext_t                  *context_ptr,
     struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
-    CodingUnit_t                           *cu_ptr,
+    CodingUnit                           *cu_ptr,
     uint64_t                                 *y_distortion,
     uint64_t                                 *cb_distortion,
     uint64_t                                 *cr_distortion,
@@ -1758,7 +1758,7 @@ EbErrorType av1_inter_full_cost(
 ************************************************************/
 void coding_loop_context_generation(
     ModeDecisionContext_t      *context_ptr,
-    CodingUnit_t               *cu_ptr,
+    CodingUnit               *cu_ptr,
     uint32_t                      cu_origin_x,
     uint32_t                      cu_origin_y,
     uint32_t                      sb_sz,
@@ -2223,7 +2223,7 @@ static void partition_gather_vert_alike(int32_t *out,
 EbErrorType av1_split_flag_rate(
     SequenceControlSet_t                  *sequence_control_set_ptr,
     ModeDecisionContext_t                  *context_ptr,
-    CodingUnit_t                           *cu_ptr,
+    CodingUnit                           *cu_ptr,
     uint32_t                                  leaf_index,
     PartitionType                          partitionType,
     uint64_t                                 *split_rate,
@@ -2309,7 +2309,7 @@ EbErrorType av1_encode_tu_calc_cost(
     uint32_t                    component_mask
 )
 {
-    CodingUnit_t              *cu_ptr = context_ptr->cu_ptr;
+    CodingUnit              *cu_ptr = context_ptr->cu_ptr;
     uint32_t                     tu_index = context_ptr->txb_itr;
     MdRateEstimationContext_t *md_rate_estimation_ptr = context_ptr->md_rate_estimation_ptr;
     uint64_t                     lambda = context_ptr->full_lambda;

@@ -98,7 +98,7 @@ extern "C" {
         MdRateEstimationContext_t      *md_rate_estimation_ptr;
         InterPredictionContext_t       *inter_prediction_context;
         MdCodingUnit_t                  md_local_cu_unit[BLOCK_MAX_COUNT_SB_128];
-        CodingUnit_t                    md_cu_arr_nsq[BLOCK_MAX_COUNT_SB_128];
+        CodingUnit                    md_cu_arr_nsq[BLOCK_MAX_COUNT_SB_128];
 
         NeighborArrayUnit_t            *intra_luma_mode_neighbor_array;
         NeighborArrayUnit_t            *intra_chroma_mode_neighbor_array;
@@ -151,12 +151,12 @@ extern "C" {
         uint32_t                        full_chroma_lambda_sao;
 
         //  Context Variables---------------------------------
-        LargestCodingUnit_t            *sb_ptr;
+        LargestCodingUnit            *sb_ptr;
         TransformUnit_t                *txb_ptr;
-        CodingUnit_t                   *cu_ptr;
+        CodingUnit                   *cu_ptr;
         const BlockGeom                *blk_geom;
         PredictionUnit_t               *pu_ptr;
-        const PredictionUnitStats_t    *pu_stats;
+        const PredictionUnitStats    *pu_stats;
         MvUnit_t                        mv_unit;
 
         // Entropy Coder
@@ -297,7 +297,7 @@ extern "C" {
 
     extern void ModeDecisionConfigureLcu(
         ModeDecisionContext_t   *context_ptr,
-        LargestCodingUnit_t     *sb_ptr,
+        LargestCodingUnit     *sb_ptr,
         PictureControlSet_t     *picture_control_set_ptr,
         SequenceControlSet_t    *sequence_control_set_ptr,
         uint8_t                  picture_qp,
@@ -308,7 +308,7 @@ extern "C" {
     extern void cfl_rd_pick_alpha(
         PictureControlSet_t             *picture_control_set_ptr,
         ModeDecisionCandidateBuffer_t   *candidate_buffer,
-        LargestCodingUnit_t             *sb_ptr,
+        LargestCodingUnit             *sb_ptr,
         ModeDecisionContext_t           *context_ptr,
         EbPictureBufferDesc_t           *input_picture_ptr,
         uint32_t                         input_cb_origin_index,

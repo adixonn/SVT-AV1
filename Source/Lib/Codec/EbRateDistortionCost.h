@@ -23,7 +23,7 @@ extern "C" {
 #endif
     extern void coding_loop_context_generation(
         ModeDecisionContext_t   *context_ptr,
-        CodingUnit_t            *cu_ptr,
+        CodingUnit            *cu_ptr,
         uint32_t                 cu_origin_x,
         uint32_t                 cu_origin_y,
         uint32_t                 sb_sz,
@@ -88,12 +88,12 @@ extern "C" {
         uint64_t                 lambda);                              // input parameter, lambda for Luma
 
     extern EbErrorType intra_luma_mode_context(
-        CodingUnit_t *cu_ptr,
+        CodingUnit *cu_ptr,
         uint32_t      luma_mode,
         int32_t      *prediction_index);
 
     extern EbErrorType intra2_nx2_n_fast_cost_islice(
-        CodingUnit_t                          *cu_ptr,
+        CodingUnit                          *cu_ptr,
         struct ModeDecisionCandidateBuffer_s  *candidate_buffer_ptr,
         uint32_t                               qp,
         uint64_t                               luma_distortion,
@@ -102,8 +102,8 @@ extern "C" {
         PictureControlSet_t                   *picture_control_set_ptr);
 
     extern EbErrorType  merge_skip_full_cost(
-        LargestCodingUnit_t           *sb_ptr,
-        CodingUnit_t                  *cu_ptr,
+        LargestCodingUnit           *sb_ptr,
+        CodingUnit                  *cu_ptr,
         uint32_t                       cu_size,
         uint32_t                       cu_size_log2,
         ModeDecisionCandidateBuffer_t *candidate_buffer_ptr,
@@ -122,7 +122,7 @@ extern "C" {
 
     extern EbErrorType split_flag_rate(
         ModeDecisionContext_t     *context_ptr,
-        CodingUnit_t              *cu_ptr,
+        CodingUnit              *cu_ptr,
         uint32_t                   split_flag,
         uint64_t                  *split_rate,
         uint64_t                   lambda,
@@ -138,7 +138,7 @@ extern "C" {
     extern EbErrorType av1_split_flag_rate(
         SequenceControlSet_t      *sequence_control_set_ptr,
         ModeDecisionContext_t     *context_ptr,
-        CodingUnit_t              *cu_ptr,
+        CodingUnit              *cu_ptr,
         uint32_t                   leaf_index,
         PartitionType              partitionType,
         uint64_t                  *split_rate,
@@ -155,7 +155,7 @@ extern "C" {
 
     extern EbErrorType av1_intra_fast_cost(
         struct ModeDecisionContext_s             *context_ptr,
-        CodingUnit_t                             *cu_ptr,
+        CodingUnit                             *cu_ptr,
         ModeDecisionCandidateBuffer_t            *candidate_buffer_ptr,
         uint32_t                                  qp,
         uint64_t                                  luma_distortion,
@@ -165,7 +165,7 @@ extern "C" {
 
     extern EbErrorType av1_inter_fast_cost(
         struct ModeDecisionContext_s            *context_ptr,
-        CodingUnit_t                            *cu_ptr,
+        CodingUnit                            *cu_ptr,
         ModeDecisionCandidateBuffer_t            *candidate_buffer_ptr,
         uint32_t                                  qp,
         uint64_t                                  luma_distortion,
@@ -177,7 +177,7 @@ extern "C" {
         PictureControlSet_t                    *picture_control_set_ptr,
         ModeDecisionContext_t                  *context_ptr,
         struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
-        CodingUnit_t                           *cu_ptr,
+        CodingUnit                           *cu_ptr,
         uint64_t                                 *y_distortion,
         uint64_t                                 *cb_distortion,
         uint64_t                                 *cr_distortion,
@@ -191,7 +191,7 @@ extern "C" {
         PictureControlSet_t                    *picture_control_set_ptr,
         ModeDecisionContext_t                  *context_ptr,
         struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
-        CodingUnit_t                           *cu_ptr,
+        CodingUnit                           *cu_ptr,
         uint64_t                                 *y_distortion,
         uint64_t                                 *cb_distortion,
         uint64_t                                 *cr_distortion,

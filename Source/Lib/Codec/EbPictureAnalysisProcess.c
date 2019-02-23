@@ -4408,7 +4408,7 @@ void EdgeDetection(
         sb_x = sb_index % picture_width_in_sb;
         sb_y = sb_index / picture_width_in_sb;
 
-        EdgeLcuResults_t *edge_results_ptr = picture_control_set_ptr->edge_results_ptr;
+        EdgeLcuResults *edge_results_ptr = picture_control_set_ptr->edge_results_ptr;
         picture_control_set_ptr->edge_results_ptr[sb_index].edge_block_num = 0;
         picture_control_set_ptr->edge_results_ptr[sb_index].isolated_high_intensity_sb = 0;
         picture_control_set_ptr->sharp_edge_sb_flag[sb_index] = 0;

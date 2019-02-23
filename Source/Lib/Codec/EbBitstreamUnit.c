@@ -26,7 +26,7 @@
  * Constructor
  **********************************/
 EbErrorType output_bitstream_unit_ctor(
-    OutputBitstreamUnit_t   *bitstream_ptr,
+    OutputBitstreamUnit   *bitstream_ptr,
     uint32_t                 buffer_size){
 
     if (buffer_size) {
@@ -48,7 +48,7 @@ EbErrorType output_bitstream_unit_ctor(
  * Reset Bitstream
  **********************************/
 EbErrorType output_bitstream_reset(
-    OutputBitstreamUnit_t *bitstream_ptr)
+    OutputBitstreamUnit *bitstream_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
@@ -64,7 +64,7 @@ EbErrorType output_bitstream_reset(
  *   Intended to be used in CABAC
  **********************************/
 EbErrorType output_bitstream_rbsp_to_payload(
-    OutputBitstreamUnit_t   *bitstream_ptr,
+    OutputBitstreamUnit   *bitstream_ptr,
     EbByte                  output_buffer,
     uint32_t                *output_buffer_index,
     uint32_t                *output_buffer_size,

@@ -226,7 +226,7 @@ static void ResetEntropyCodingPicture(
 #endif
 
     // pass the ent
-    OutputBitstreamUnit_t *outputBitstreamPtr = (OutputBitstreamUnit_t*)(picture_control_set_ptr->entropy_coder_ptr->ecOutputBitstreamPtr);
+    OutputBitstreamUnit *outputBitstreamPtr = (OutputBitstreamUnit*)(picture_control_set_ptr->entropy_coder_ptr->ecOutputBitstreamPtr);
     //****************************************************************//
 
     uint8_t *data = outputBitstreamPtr->bufferAv1;
@@ -304,7 +304,7 @@ static void reset_ec_tile(
 #endif
 
     // pass the ent
-    OutputBitstreamUnit_t *outputBitstreamPtr = (OutputBitstreamUnit_t*)(picture_control_set_ptr->entropy_coder_ptr->ecOutputBitstreamPtr);
+    OutputBitstreamUnit *outputBitstreamPtr = (OutputBitstreamUnit*)(picture_control_set_ptr->entropy_coder_ptr->ecOutputBitstreamPtr);
     //****************************************************************//
 
     uint8_t *data = outputBitstreamPtr->bufferAv1 + total_size;
@@ -337,7 +337,7 @@ static void reset_ec_tile(
  ******************************************************/
 static void EntropyCodingConfigureLcu(
     EntropyCodingContext_t  *context_ptr,
-    LargestCodingUnit_t     *sb_ptr,
+    LargestCodingUnit     *sb_ptr,
     PictureControlSet_t     *picture_control_set_ptr)
 {
 #if ADD_DELTA_QP_SUPPORT
@@ -360,7 +360,7 @@ static void EntropyCodingConfigureLcu(
  ******************************************************/
 static void EntropyCodingLcu(
     EntropyCodingContext_t              *context_ptr,
-    LargestCodingUnit_t               *sb_ptr,
+    LargestCodingUnit               *sb_ptr,
     PictureControlSet_t               *picture_control_set_ptr,
     SequenceControlSet_t              *sequence_control_set_ptr,
     uint32_t                             sb_origin_x,
@@ -385,7 +385,7 @@ static void EntropyCodingLcu(
     // + 32  - bits remaining in interval Low value
     // + number of buffered byte * 8
     // This should be only for coeffs not any flag
-    writtenBitsBeforeQuantizedCoeff = ((OutputBitstreamUnit_t*)entropy_coder_get_bitstream_ptr(picture_control_set_ptr->entropy_coder_ptr))->writtenBitsCount;
+    writtenBitsBeforeQuantizedCoeff = ((OutputBitstreamUnit*)entropy_coder_get_bitstream_ptr(picture_control_set_ptr->entropy_coder_ptr))->writtenBitsCount;
 
     (void)pictureOriginX;
     (void)pictureOriginY;
@@ -402,7 +402,7 @@ static void EntropyCodingLcu(
     // number of written bits
     // + 32  - bits remaining in interval Low value
     // + number of buffered byte * 8
-    writtenBitsAfterQuantizedCoeff = ((OutputBitstreamUnit_t*)entropy_coder_get_bitstream_ptr(picture_control_set_ptr->entropy_coder_ptr))->writtenBitsCount;
+    writtenBitsAfterQuantizedCoeff = ((OutputBitstreamUnit*)entropy_coder_get_bitstream_ptr(picture_control_set_ptr->entropy_coder_ptr))->writtenBitsCount;
 
     sb_ptr->total_bits = writtenBitsAfterQuantizedCoeff - writtenBitsBeforeQuantizedCoeff;
 
@@ -520,7 +520,7 @@ void* entropy_coding_kernel(void *input_ptr)
     EntropyCodingResults_t                  *entropyCodingResultsPtr;
 
     // SB Loop variables
-    LargestCodingUnit_t                     *sb_ptr;
+    LargestCodingUnit                     *sb_ptr;
     uint16_t                                   sb_index;
     uint8_t                                    sb_sz;
     uint8_t                                    lcuSizeLog2;
@@ -757,7 +757,7 @@ void* entropy_coding_kernel(void *input_ptr)
                     
                      if (!is_last_tile_in_tg) {
                          
-                         OutputBitstreamUnit_t *outputBitstreamPtr = (OutputBitstreamUnit_t*)(picture_control_set_ptr->entropy_coder_ptr->ecOutputBitstreamPtr);
+                         OutputBitstreamUnit *outputBitstreamPtr = (OutputBitstreamUnit*)(picture_control_set_ptr->entropy_coder_ptr->ecOutputBitstreamPtr);
                          uint8_t *buf_data = outputBitstreamPtr->bufferAv1 + total_size;
                          mem_put_le32(buf_data, tile_size - AV1_MIN_TILE_SIZE_BYTES);
                      }                   

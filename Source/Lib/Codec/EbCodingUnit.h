@@ -243,7 +243,7 @@ extern "C" {
         int32_t wiener_restore_cost[2];
         int32_t sgrproj_restore_cost[2];
     } Macroblock;
-    typedef struct CodingUnit_s
+    typedef struct CodingUnit
     {
         TransformUnit_t             transform_unit_array[TRANSFORM_UNIT_MAX_COUNT]; // 2-bytes * 21 = 42-bytes
         PredictionUnit_t            prediction_unit_array[MAX_NUM_OF_PU_PER_CU];    // 35-bytes * 4 = 140 bytes
@@ -303,8 +303,8 @@ extern "C" {
         uint8_t                    *neigh_left_recon[3];  //only for MD
         uint8_t                    *neigh_top_recon[3];
         uint32_t                    best_d1_blk;
-    } CodingUnit_t;
-    typedef struct OisCandidate_s {
+    } CodingUnit;
+    typedef struct OisCandidate {
         union {
             struct {
                 unsigned distortion : 20;
@@ -314,36 +314,41 @@ extern "C" {
             };
             uint32_t ois_results;
         };
-    } OisCandidate_t;
-    typedef struct OisLcuResults_s
+    } OisCandidate;
+    typedef struct OisLcuResults
     {
         uint8_t           total_intra_luma_mode[CU_MAX_COUNT];
-        OisCandidate_t    sorted_ois_candidate[CU_MAX_COUNT][MAX_OPEN_LOOP_INTRA_CANDIDATES];
-    } OisLcuResults_t;
-    typedef struct OisCu32Cu16Results_s
+        OisCandidate    sorted_ois_candidate[CU_MAX_COUNT][MAX_OPEN_LOOP_INTRA_CANDIDATES];
+    } OisLcuResults;
+
+    typedef struct OisCu32Cu16Results
     {
         uint8_t            total_intra_luma_mode[21];
-        OisCandidate_t*    sorted_ois_candidate[21];
-    } OisCu32Cu16Results_t;
-    typedef struct OisCu8Results_s
+        OisCandidate*    sorted_ois_candidate[21];
+    } OisCu32Cu16Results;
+
+    typedef struct OisCu8Results
     {
         uint8_t            total_intra_luma_mode[64];
-        OisCandidate_t*    sorted_ois_candidate[64];
-    } OisCu8Results_t;
-    typedef struct QpmLcuResults_s {
+        OisCandidate*    sorted_ois_candidate[64];
+    } OisCu8Results;
+
+    typedef struct QpmLcuResults {
         uint8_t  cu_qp;
         uint8_t  cu_intra_qp;
         uint8_t  cu_inter_qp;
         int8_t   delta_qp;
         int8_t   inner_sb_cu_delta_qp;
-    } QpmLcuResults_t; // to be cleaned up
-    typedef struct EdgeLcuResults_s {
+    } QpmLcuResults; // to be cleaned up
+
+    typedef struct EdgeLcuResults {
         uint8_t  edge_block_num;
         uint8_t  isolated_high_intensity_sb; // to be cleanedup
-    } EdgeLcuResults_t;
-    typedef struct LargestCodingUnit_s {
+    } EdgeLcuResults;
+
+    typedef struct LargestCodingUnit {
         struct PictureControlSet_s     *picture_control_set_ptr;
-        CodingUnit_t                   *final_cu_arr;
+        CodingUnit                   *final_cu_arr;
         uint32_t                        tot_final_cu;
         PartitionType                  *cu_partition_array;
 
@@ -374,10 +379,10 @@ extern "C" {
         TileInfo tile_info;
 #endif
 
-    } LargestCodingUnit_t;
+    } LargestCodingUnit;
 
     extern EbErrorType largest_coding_unit_ctor(
-        LargestCodingUnit_t          **larget_coding_unit_dbl_ptr,
+        LargestCodingUnit          **larget_coding_unit_dbl_ptr,
         uint8_t                        sb_sz,
         uint16_t                       sb_origin_x,
         uint16_t                       sb_origin_y,

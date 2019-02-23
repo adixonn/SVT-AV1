@@ -1361,7 +1361,7 @@ void product_full_loop_tx_search(
 void encode_pass_tx_search(
     PictureControlSet_t            *picture_control_set_ptr,
     EncDecContext_t                *context_ptr,
-    LargestCodingUnit_t            *sb_ptr,
+    LargestCodingUnit            *sb_ptr,
     uint32_t                       cb_qp,
     EbPictureBufferDesc_t          *coeffSamplesTB,          
     EbPictureBufferDesc_t          *residual16bit,           
@@ -1382,7 +1382,7 @@ void encode_pass_tx_search(
     UNUSED(count_non_zero_coeffs);
     UNUSED(component_mask);
 
-    CodingUnit_t          *cu_ptr = context_ptr->cu_ptr;
+    CodingUnit          *cu_ptr = context_ptr->cu_ptr;
     TransformUnit_t       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
     uint32_t               qp = cu_ptr->qp;
     const uint32_t         scratchLumaOffset = context_ptr->blk_geom->tx_org_x[context_ptr->txb_itr] + context_ptr->blk_geom->tx_org_y[context_ptr->txb_itr] * SB_STRIDE_Y;
@@ -1564,7 +1564,7 @@ void encode_pass_tx_search(
 void encode_pass_tx_search_hbd(
     PictureControlSet_t            *picture_control_set_ptr,
     EncDecContext_t                *context_ptr,
-    LargestCodingUnit_t            *sb_ptr,
+    LargestCodingUnit            *sb_ptr,
     uint32_t                       cb_qp,
     EbPictureBufferDesc_t          *coeffSamplesTB,
     EbPictureBufferDesc_t          *residual16bit,
@@ -1585,7 +1585,7 @@ void encode_pass_tx_search_hbd(
     UNUSED(component_mask);
     UNUSED(count_non_zero_coeffs);
 
-    CodingUnit_t    *cu_ptr               = context_ptr->cu_ptr;
+    CodingUnit    *cu_ptr               = context_ptr->cu_ptr;
     TransformUnit_t *txb_ptr              = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
     uint32_t         qp                   = cu_ptr->qp;
     const uint32_t   scratchLumaOffset    = context_ptr->blk_geom->origin_x + context_ptr->blk_geom->origin_y * SB_STRIDE_Y;
@@ -1778,7 +1778,7 @@ void encode_pass_tx_search_hbd(
  ************  Full loop ****************
 ****************************************/
 void full_loop_r(
-    LargestCodingUnit_t            *sb_ptr,
+    LargestCodingUnit            *sb_ptr,
     ModeDecisionCandidateBuffer_t  *candidate_buffer,
     ModeDecisionContext_t          *context_ptr,
     EbPictureBufferDesc_t          *input_picture_ptr,
@@ -1940,7 +1940,7 @@ void full_loop_r(
 // ************ CuFullDistortionFastTuMode ****************
 //****************************************/
 void cu_full_distortion_fast_tu_mode_r(
-    LargestCodingUnit_t            *sb_ptr,
+    LargestCodingUnit            *sb_ptr,
     ModeDecisionCandidateBuffer_t  *candidate_buffer,
     ModeDecisionContext_t            *context_ptr,
     ModeDecisionCandidate_t           *candidate_ptr,
@@ -2385,7 +2385,7 @@ void   compute_depth_costs(
 uint32_t d2_inter_depth_block_decision(
     ModeDecisionContext_t          *context_ptr,
     uint32_t                        blk_mds,
-    LargestCodingUnit_t            *tb_ptr,
+    LargestCodingUnit            *tb_ptr,
     uint32_t                          lcu_addr,
     uint32_t                          tbOriginX,
     uint32_t                          tbOriginY,

@@ -443,9 +443,9 @@ extern "C" {
 
     static EB_SATD_U8_TYPE FUNC_TABLE compute8x8_satd_u8_func_ptr_array[ASM_TYPE_TOTAL] = {
         // NON_AVX2
-        Compute8x8Satd_U8_SSE4,
+        compute8x8_satd_u8_sse4,
         // ASM_AVX2
-        Compute8x8Satd_U8_SSE4
+        compute8x8_satd_u8_sse4
     };
 
 #if  M0_SPATIAL_SSE || SPATIAL_SSE_I_B_SLICES || M0_SSD_HALF_QUARTER_PEL_BIPRED_SEARCH
@@ -461,28 +461,28 @@ extern "C" {
         // NON_AVX2
         {
             // 4x4
-            SpatialFullDistortionKernel4x4_SSSE3_INTRIN,
+            spatial_full_distortion_kernel4x4_ssse3_intrin,
             // 8x8
-            SpatialFullDistortionKernel8x8_SSSE3_INTRIN,
+            spatial_full_distortion_kernel8x8_ssse3_intrin,
             // 16x16
-            SpatialFullDistortionKernel16MxN_SSSE3_INTRIN,
+            spatial_full_distortion_kernel16_mx_n_ssse3_intrin,
             // 32x32
-            SpatialFullDistortionKernel16MxN_SSSE3_INTRIN,
+            spatial_full_distortion_kernel16_mx_n_ssse3_intrin,
             // 64x64
-            SpatialFullDistortionKernel16MxN_SSSE3_INTRIN
+            spatial_full_distortion_kernel16_mx_n_ssse3_intrin
         },
         // ASM_AVX2
         {
             // 4x4
-            SpatialFullDistortionKernel4x4_SSSE3_INTRIN,
+            spatial_full_distortion_kernel4x4_ssse3_intrin,
             // 8x8
-            SpatialFullDistortionKernel8x8_SSSE3_INTRIN,
+            spatial_full_distortion_kernel8x8_ssse3_intrin,
             // 16x16
-            SpatialFullDistortionKernel16MxN_SSSE3_INTRIN,
+            spatial_full_distortion_kernel16_mx_n_ssse3_intrin,
             // 32x32
-            SpatialFullDistortionKernel16MxN_SSSE3_INTRIN,
+            spatial_full_distortion_kernel16_mx_n_ssse3_intrin,
             // 64x64
-            SpatialFullDistortionKernel16MxN_SSSE3_INTRIN
+            spatial_full_distortion_kernel16_mx_n_ssse3_intrin
         },
     };
 #endif

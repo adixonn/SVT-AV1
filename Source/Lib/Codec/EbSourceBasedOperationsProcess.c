@@ -251,8 +251,8 @@ void FailingMotionLcu(
 
 
 
-            OisCu32Cu16Results_t *oisResultsPtr = picture_control_set_ptr->ois_cu32_cu16_results[sb_index];
-            if (RASTER_SCAN_CU_SIZE[rasterScanCuIndex] > 32) {
+            OisCu32Cu16Results *oisResultsPtr = picture_control_set_ptr->ois_cu32_cu16_results[sb_index];
+            if (raster_scan_cu_size[rasterScanCuIndex] > 32) {
                 sortedcuOisSAD = oisResultsPtr->sorted_ois_candidate[1][0].distortion +
                     oisResultsPtr->sorted_ois_candidate[2][0].distortion +
                     oisResultsPtr->sorted_ois_candidate[3][0].distortion +
@@ -315,14 +315,14 @@ void DetectUncoveredLcu(
 
 
 
-                OisCu32Cu16Results_t *oisResultsPtr = picture_control_set_ptr->ois_cu32_cu16_results[sb_index];
-                if (RASTER_SCAN_CU_SIZE[rasterScanCuIndex] > 32) {
+                OisCu32Cu16Results *oisResultsPtr = picture_control_set_ptr->ois_cu32_cu16_results[sb_index];
+                if (raster_scan_cu_size[rasterScanCuIndex] > 32) {
                     sortedcuOisSAD = oisResultsPtr->sorted_ois_candidate[1][0].distortion +
                         oisResultsPtr->sorted_ois_candidate[2][0].distortion +
                         oisResultsPtr->sorted_ois_candidate[3][0].distortion +
                         oisResultsPtr->sorted_ois_candidate[4][0].distortion;
                 }
-                else if (RASTER_SCAN_CU_SIZE[rasterScanCuIndex] == 32) {
+                else if (raster_scan_cu_size[rasterScanCuIndex] == 32) {
                     sortedcuOisSAD = oisResultsPtr->sorted_ois_candidate[rasterScanCuIndex][0].distortion;
                 }
                 else {
@@ -335,7 +335,7 @@ void DetectUncoveredLcu(
                 meToOisSadDeviation = (sortedcuOisSAD == 0) || (meToOisSadDiff < 0) ? 0 : (meToOisSadDiff * 100) / sortedcuOisSAD;
 
 
-                if (RASTER_SCAN_CU_SIZE[rasterScanCuIndex] > 16) {
+                if (raster_scan_cu_size[rasterScanCuIndex] > 16) {
 
                     if (meToOisSadDeviation > SAD_DEVIATION_LCU_NON_M4_TH) {
                         uncovered_area_sb_flag += 1;
@@ -436,7 +436,7 @@ void LumaContrastDetectorLcu(
 
 
 
-            OisCu32Cu16Results_t *oisResultsPtr = picture_control_set_ptr->ois_cu32_cu16_results[sb_index];
+            OisCu32Cu16Results *oisResultsPtr = picture_control_set_ptr->ois_cu32_cu16_results[sb_index];
             cuOisSAD = oisResultsPtr->sorted_ois_candidate[1][0].distortion +
                 oisResultsPtr->sorted_ois_candidate[2][0].distortion +
                 oisResultsPtr->sorted_ois_candidate[3][0].distortion +
@@ -507,9 +507,9 @@ void GrassLcu(
 
     for (rasterScanCuIndex = RASTER_SCAN_CU_INDEX_16x16_0; rasterScanCuIndex <= RASTER_SCAN_CU_INDEX_16x16_15; rasterScanCuIndex++) {
         if (sb_params->raster_scan_cu_validity[rasterScanCuIndex]) {
-            const uint32_t mdScanCuIndex = RASTER_SCAN_TO_MD_SCAN[rasterScanCuIndex];
-            const uint32_t rasterScanParentCuIndex = RASTER_SCAN_CU_PARENT_INDEX[rasterScanCuIndex];
-            const uint32_t mdScanParentCuIndex = RASTER_SCAN_TO_MD_SCAN[rasterScanParentCuIndex];
+            const uint32_t mdScanCuIndex = raster_scan_to_md_scan[rasterScanCuIndex];
+            const uint32_t rasterScanParentCuIndex = raster_scan_cu_parent_index[rasterScanCuIndex];
+            const uint32_t mdScanParentCuIndex = raster_scan_to_md_scan[rasterScanParentCuIndex];
             CuStat_t *cuStatPtr = &(sb_stat_ptr->cu_stat_array[mdScanCuIndex]);
 
 

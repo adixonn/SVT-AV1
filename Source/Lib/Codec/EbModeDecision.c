@@ -55,7 +55,7 @@ int32_t av1_mv_bit_cost(const MV *mv, const MV *ref, const int32_t *mvjcost,
 void ChooseBestAv1MvPred(
     ModeDecisionContext_t            *context_ptr,
     struct MdRateEstimationContext_s      *md_rate_estimation_ptr,
-    CodingUnit_t      *cu_ptr,
+    CodingUnit      *cu_ptr,
     MvReferenceFrame ref_frame,
     uint8_t              is_compound,
     PredictionMode    mode,              //NEW or NEW_NEW
@@ -391,7 +391,7 @@ void LimitMvOverBound(
 *   do full reconstruction on.
 ***************************************/
 EbErrorType pre_mode_decision(
-    CodingUnit_t                   *cu_ptr,
+    CodingUnit                   *cu_ptr,
     uint32_t                          buffer_total_count,
     ModeDecisionCandidateBuffer_t **buffer_ptr_array,
     uint32_t                         *full_candidate_total_count_ptr,
@@ -484,7 +484,7 @@ void Me2Nx2NCandidatesInjectionSwResults(
     PictureControlSet_t            *picture_control_set_ptr,
     ModeDecisionContext_t          *context_ptr,
     const SequenceControlSet_t     *sequence_control_set_ptr,
-    LargestCodingUnit_t            *sb_ptr,
+    LargestCodingUnit            *sb_ptr,
     const uint32_t                    me2Nx2NTableOffset,
     uint32_t                         *candidateTotalCnt,
     int16_t                          firstPuAMVPCandArray_x[MAX_NUM_OF_REF_PIC_LIST][2],
@@ -614,7 +614,7 @@ int8_t BIPRED_3x3_Y_POS[BIPRED_3x3_REFINMENT_POSITIONS] = { 0, 1, 1, 1, 0, -1, -
 void Unipred3x3CandidatesInjection(
     PictureControlSet_t            *picture_control_set_ptr,
     ModeDecisionContext_t          *context_ptr,
-    LargestCodingUnit_t            *sb_ptr,
+    LargestCodingUnit            *sb_ptr,
     uint32_t                        me_sb_addr,
     SsMeContext_t                  *inloop_me_context,
     EbBool                          use_close_loop_me,
@@ -753,7 +753,7 @@ void Unipred3x3CandidatesInjection(
 void Bipred3x3CandidatesInjection(
     PictureControlSet_t            *picture_control_set_ptr,
     ModeDecisionContext_t          *context_ptr,
-    LargestCodingUnit_t            *sb_ptr,
+    LargestCodingUnit            *sb_ptr,
     uint32_t                        me_sb_addr,
     SsMeContext_t                  *inloop_me_context,
     EbBool                          use_close_loop_me,
@@ -938,7 +938,7 @@ BIPred     : NEARST_NEARST  + upto 3x NEAR_NEAR
 **********************************************************************/
 void InjectAv1MvpCandidates(
     struct ModeDecisionContext_s     *context_ptr,
-    CodingUnit_t                     *cu_ptr,
+    CodingUnit                     *cu_ptr,
     MvReferenceFrame               *ref_frames,
     PictureControlSet_t              *picture_control_set_ptr,
     uint32_t                            lcu_addr,
@@ -1167,7 +1167,7 @@ void InjectAv1MvpCandidates(
 void inject_warped_motion_candidates(
     PictureControlSet_t              *picture_control_set_ptr,
     struct ModeDecisionContext_s     *context_ptr,
-    CodingUnit_t                     *cu_ptr,
+    CodingUnit                     *cu_ptr,
     uint32_t                         *candTotCnt,
     SsMeContext_t                    *ss_mecontext,
     MeCuResults_t                    *mePuResult,
@@ -1360,7 +1360,7 @@ void  inject_inter_candidates(
     ModeDecisionContext_t          *context_ptr,
     SsMeContext_t                  *ss_mecontext,
     const SequenceControlSet_t     *sequence_control_set_ptr,
-    LargestCodingUnit_t            *sb_ptr,
+    LargestCodingUnit            *sb_ptr,
     uint32_t                       *candidateTotalCnt,
     const uint32_t                  leaf_index){
 
@@ -1977,7 +1977,7 @@ void  inject_intra_candidates(
     PictureControlSet_t            *picture_control_set_ptr,
     ModeDecisionContext_t          *context_ptr,
     const SequenceControlSet_t     *sequence_control_set_ptr,
-    LargestCodingUnit_t            *sb_ptr,
+    LargestCodingUnit            *sb_ptr,
     uint32_t                       *candidateTotalCnt,
     const uint32_t                  leaf_index){
 
@@ -2174,7 +2174,7 @@ void ProductInitMdCandInjection(
 *   perform fast cost search on.
 ***************************************/
 EbErrorType ProductGenerateMdCandidatesCu(
-    LargestCodingUnit_t                 *sb_ptr,
+    LargestCodingUnit                 *sb_ptr,
     ModeDecisionContext_t             *context_ptr,
     SsMeContext_t                    *ss_mecontext,
     const uint32_t                      leaf_index,
@@ -2268,7 +2268,7 @@ EbErrorType ProductGenerateMdCandidatesCu(
 ***************************************/
 uint8_t product_full_mode_decision(
     struct ModeDecisionContext_s   *context_ptr,
-    CodingUnit_t                   *cu_ptr,
+    CodingUnit                   *cu_ptr,
     uint8_t                           bwidth,
     uint8_t                           bheight,
     ModeDecisionCandidateBuffer_t **buffer_ptr_array,

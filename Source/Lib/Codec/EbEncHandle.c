@@ -672,10 +672,10 @@ static EbErrorType eb_enc_handle_ctor(
     encHandlePtr->entropyCodingResultsConsumerFifoPtrArray = (EbFifo_t**)EB_NULL;
 
     // Initialize Callbacks
-    EB_MALLOC(EbCallback_t**, encHandlePtr->app_callback_ptr_array, sizeof(EbCallback_t*) * encHandlePtr->encodeInstanceTotalCount, EB_N_PTR);
+    EB_MALLOC(EbCallback**, encHandlePtr->app_callback_ptr_array, sizeof(EbCallback*) * encHandlePtr->encodeInstanceTotalCount, EB_N_PTR);
 
     for (instance_index = 0; instance_index < encHandlePtr->encodeInstanceTotalCount; ++instance_index) {
-        EB_MALLOC(EbCallback_t*, encHandlePtr->app_callback_ptr_array[instance_index], sizeof(EbCallback_t), EB_N_PTR);
+        EB_MALLOC(EbCallback*, encHandlePtr->app_callback_ptr_array[instance_index], sizeof(EbCallback), EB_N_PTR);
         encHandlePtr->app_callback_ptr_array[instance_index]->ErrorHandler = lib_svt_encoder_send_error_exit;
         encHandlePtr->app_callback_ptr_array[instance_index]->handle = ebHandlePtr;
     }
@@ -2407,12 +2407,12 @@ static EbErrorType VerifySettings(
     }
 
     if ((config->search_area_width > 256) || (config->search_area_width == 0)) {
-        SVT_LOG("Error Instance %u: Invalid SearchAreaWidth. SearchAreaWidth must be [1 - 256]\n", channelNumber + 1);
+        SVT_LOG("Error Instance %u: Invalid search_area_width. search_area_width must be [1 - 256]\n", channelNumber + 1);
         return_error = EB_ErrorBadParameter;
     }
 
     if ((config->search_area_height > 256) || (config->search_area_height == 0)) {
-        SVT_LOG("Error Instance %u: Invalid SearchAreaHeight. SearchAreaHeight must be [1 - 256]\n", channelNumber + 1);
+        SVT_LOG("Error Instance %u: Invalid search_area_height. search_area_height must be [1 - 256]\n", channelNumber + 1);
         return_error = EB_ErrorBadParameter;
     }
 
@@ -2429,11 +2429,11 @@ static EbErrorType VerifySettings(
         }
 
         if ((config->hme_level0_total_search_area_height > 256) || (config->hme_level0_total_search_area_height == 0)) {
-            SVT_LOG("Error Instance %u: Invalid hmeLevel0TotalSearchAreaHeight. hmeLevel0TotalSearchAreaHeight must be [1 - 256]\n", channelNumber + 1);
+            SVT_LOG("Error Instance %u: Invalid hme_level0_total_search_area_height. hme_level0_total_search_area_height must be [1 - 256]\n", channelNumber + 1);
             return_error = EB_ErrorBadParameter;
         }
         if ((config->hme_level0_total_search_area_width > 256) || (config->hme_level0_total_search_area_width == 0)) {
-            SVT_LOG("Error Instance %u: Invalid hmeLevel0TotalSearchAreaWidth. hmeLevel0TotalSearchAreaWidth must be [1 - 256]\n", channelNumber + 1);
+            SVT_LOG("Error Instance %u: Invalid hme_level0_total_search_area_width. hme_level0_total_search_area_width must be [1 - 256]\n", channelNumber + 1);
             return_error = EB_ErrorBadParameter;
         }
         if (VerifyHmeDimention(channelNumber + 1, config->hme_level0_total_search_area_height, config->hme_level0_search_area_in_height_array, config->number_hme_search_region_in_height)) {

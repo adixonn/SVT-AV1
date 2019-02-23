@@ -682,7 +682,7 @@ void AdaptiveDlfParameterComputation(
         refObjL0 = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
         refObjL1 = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
 
-        if ((refObjL0->intra_coded_area > INTRA_AREA_TH_CLASS_1[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][refObjL0->tmpLayerIdx]) && (refObjL1->intra_coded_area > INTRA_AREA_TH_CLASS_1[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][refObjL1->tmpLayerIdx]))
+        if ((refObjL0->intra_coded_area > intra_area_th_class_1[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][refObjL0->tmpLayerIdx]) && (refObjL1->intra_coded_area > intra_area_th_class_1[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][refObjL1->tmpLayerIdx]))
 
             highIntra = 1;
         else
@@ -696,7 +696,7 @@ void AdaptiveDlfParameterComputation(
             refObjL1 = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
 
             if (picture_control_set_ptr->temporal_layer_index == 0) {
-                highIntra = (picture_control_set_ptr->parent_pcs_ptr->intra_coded_block_probability > INTRA_AREA_TH_CLASS_1[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][picture_control_set_ptr->temporal_layer_index]) ? 1 : 0;
+                highIntra = (picture_control_set_ptr->parent_pcs_ptr->intra_coded_block_probability > intra_area_th_class_1[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][picture_control_set_ptr->temporal_layer_index]) ? 1 : 0;
             }
             else {
                 highIntra = (refObjL0->penalizeSkipflag || refObjL1->penalizeSkipflag) ? 1 : 0;
@@ -748,7 +748,7 @@ void PerformEarlyLcuPartitionning(
     SequenceControlSet_t                   *sequence_control_set_ptr,
     PictureControlSet_t                    *picture_control_set_ptr) {
 
-    LargestCodingUnit_t            *sb_ptr;
+    LargestCodingUnit            *sb_ptr;
     uint32_t                         sb_index;
     uint32_t                         slice_type;
 
@@ -833,7 +833,7 @@ void PerformEarlyLcuPartitionningLcu(
     PictureControlSet_t                    *picture_control_set_ptr,
     uint32_t                                    sb_index) {
 
-    LargestCodingUnit_t            *sb_ptr;
+    LargestCodingUnit            *sb_ptr;
 
     // SB Loop : Partitionnig Decision
     sb_ptr = picture_control_set_ptr->sb_ptr_array[sb_index];
@@ -855,7 +855,7 @@ void Forward85CuToModeDecisionLCU(
     PictureControlSet_t   *picture_control_set_ptr,
     uint32_t                 sb_index) {
 
-    const CodedUnitStats_t  *cuStatsPtr;
+    const CodedUnitStats  *cuStatsPtr;
     EbBool split_flag;
     // SB Loop : Partitionnig Decision
 
@@ -868,8 +868,8 @@ void Forward85CuToModeDecisionLCU(
     while (cu_index < CU_MAX_COUNT)
     {
         split_flag = EB_TRUE;
-        cuStatsPtr = GetCodedUnitStats(cu_index);
-        if (sb_params->raster_scan_cu_validity[MD_SCAN_TO_RASTER_SCAN[cu_index]])
+        cuStatsPtr = get_coded_unit_stats(cu_index);
+        if (sb_params->raster_scan_cu_validity[md_scan_to_raster_scan[cu_index]])
         {
             switch (cuStatsPtr->depth) {
 
@@ -880,7 +880,7 @@ void Forward85CuToModeDecisionLCU(
 
                 break;
             case 1:
-                cuIndexInRaterScan = MD_SCAN_TO_RASTER_SCAN[cu_index];
+                cuIndexInRaterScan = md_scan_to_raster_scan[cu_index];
                 cuVar = (picture_control_set_ptr->parent_pcs_ptr->variance[sb_index][cuIndexInRaterScan]);
 #if ENCODER_MODE_CLEANUP
                 if (picture_control_set_ptr->slice_type == I_SLICE && cuVar > 40)
@@ -926,7 +926,7 @@ void Forward84CuToModeDecisionLCU(
     PictureControlSet_t   *picture_control_set_ptr,
     uint32_t                 sb_index) {
 
-    const CodedUnitStats_t  *cuStatsPtr;
+    const CodedUnitStats  *cuStatsPtr;
     EbBool split_flag;
     // SB Loop : Partitionnig Decision
 
@@ -939,8 +939,8 @@ void Forward84CuToModeDecisionLCU(
     while (cu_index < CU_MAX_COUNT)
     {
         split_flag = EB_TRUE;
-        cuStatsPtr = GetCodedUnitStats(cu_index);
-        if (sb_params->raster_scan_cu_validity[MD_SCAN_TO_RASTER_SCAN[cu_index]])
+        cuStatsPtr = get_coded_unit_stats(cu_index);
+        if (sb_params->raster_scan_cu_validity[md_scan_to_raster_scan[cu_index]])
         {
             switch (cuStatsPtr->depth) {
 
@@ -950,7 +950,7 @@ void Forward84CuToModeDecisionLCU(
 
                 break;
             case 1:
-                cuIndexInRaterScan = MD_SCAN_TO_RASTER_SCAN[cu_index];
+                cuIndexInRaterScan = md_scan_to_raster_scan[cu_index];
                 cuVar = (picture_control_set_ptr->parent_pcs_ptr->variance[sb_index][cuIndexInRaterScan]);
 #if ENCODER_MODE_CLEANUP
                 if (picture_control_set_ptr->slice_type == I_SLICE && cuVar > 40)
@@ -1126,7 +1126,7 @@ void Forward85CuToModeDecision(
     SequenceControlSet_t                   *sequence_control_set_ptr,
     PictureControlSet_t                    *picture_control_set_ptr) {
 
-    const CodedUnitStats_t  *cuStatsPtr;
+    const CodedUnitStats  *cuStatsPtr;
     uint32_t                   sb_index;
     EbBool split_flag;
     // SB Loop : Partitionnig Decision
@@ -1142,8 +1142,8 @@ void Forward85CuToModeDecision(
         while (cu_index < CU_MAX_COUNT)
         {
             split_flag = EB_TRUE;
-            cuStatsPtr = GetCodedUnitStats(cu_index);
-            if (sb_params->raster_scan_cu_validity[MD_SCAN_TO_RASTER_SCAN[cu_index]])
+            cuStatsPtr = get_coded_unit_stats(cu_index);
+            if (sb_params->raster_scan_cu_validity[md_scan_to_raster_scan[cu_index]])
             {
                 switch (cuStatsPtr->depth) {
 
@@ -1158,7 +1158,7 @@ void Forward85CuToModeDecision(
                     resultsPtr->leaf_data_array[resultsPtr->leaf_count++].split_flag = split_flag = EB_TRUE;
 #else
                     //OMK To revisit : add Varpart flag and move to MD
-                    cuIndexInRaterScan = MD_SCAN_TO_RASTER_SCAN[cu_index];
+                    cuIndexInRaterScan = md_scan_to_raster_scan[cu_index];
                     cuVar = (picture_control_set_ptr->parent_pcs_ptr->variance[sb_index][cuIndexInRaterScan]);
 #if ENCODER_MODE_CLEANUP
                     if ((picture_control_set_ptr->slice_type == I_SLICE && cuVar > 40) || (sequence_control_set_ptr->input_resolution < INPUT_SIZE_4K_RANGE&& picture_control_set_ptr->slice_type == I_SLICE && cuVar>40))
@@ -1207,7 +1207,7 @@ void Forward84CuToModeDecision(
     SequenceControlSet_t                   *sequence_control_set_ptr,
     PictureControlSet_t                    *picture_control_set_ptr) {
 
-    const CodedUnitStats_t  *cuStatsPtr;
+    const CodedUnitStats  *cuStatsPtr;
     uint32_t                   sb_index;
     EbBool split_flag;
     // SB Loop : Partitionnig Decision
@@ -1222,8 +1222,8 @@ void Forward84CuToModeDecision(
         while (cu_index < CU_MAX_COUNT)
         {
             split_flag = EB_TRUE;
-            cuStatsPtr = GetCodedUnitStats(cu_index);
-            if (sb_params->raster_scan_cu_validity[MD_SCAN_TO_RASTER_SCAN[cu_index]])
+            cuStatsPtr = get_coded_unit_stats(cu_index);
+            if (sb_params->raster_scan_cu_validity[md_scan_to_raster_scan[cu_index]])
             {
                 switch (cuStatsPtr->depth) {
 
@@ -1240,7 +1240,7 @@ void Forward84CuToModeDecision(
                 case 1:
 
                     //OMK To revisit : add Varpart flag and move to MD
-                    cuIndexInRaterScan = MD_SCAN_TO_RASTER_SCAN[cu_index];
+                    cuIndexInRaterScan = md_scan_to_raster_scan[cu_index];
                     cuVar = (picture_control_set_ptr->parent_pcs_ptr->variance[sb_index][cuIndexInRaterScan]);
 #if ENCODER_MODE_CLEANUP
                     if ((picture_control_set_ptr->slice_type == I_SLICE && cuVar > 40) || (sequence_control_set_ptr->input_resolution < INPUT_SIZE_4K_RANGE&& picture_control_set_ptr->slice_type == I_SLICE && cuVar>40))
@@ -1387,7 +1387,7 @@ void DetectComplexNonFlatMovingLcu(
     uint32_t                    picture_height_in_sb) {
 
 
-    LargestCodingUnit_t *sb_ptr;
+    LargestCodingUnit *sb_ptr;
     uint32_t               sb_index;
     uint32_t                 sb_x;
     uint32_t                 sb_y;
@@ -1496,10 +1496,10 @@ EbAuraStatus AuraDetection64x64Gold(
 
         if ((currDist > 64 * 64) &&
             // Only mark a block as aura when it is moving (MV amplitude higher than X; X is temporal layer dependent)
-            (abs(xMv0) > GLOBAL_MOTION_THRESHOLD[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][picture_control_set_ptr->parent_pcs_ptr->temporal_layer_index] ||
-                abs(yMv0) > GLOBAL_MOTION_THRESHOLD[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][picture_control_set_ptr->parent_pcs_ptr->temporal_layer_index] ||
-                abs(xMv1) > GLOBAL_MOTION_THRESHOLD[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][picture_control_set_ptr->parent_pcs_ptr->temporal_layer_index] ||
-                abs(yMv1) > GLOBAL_MOTION_THRESHOLD[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][picture_control_set_ptr->parent_pcs_ptr->temporal_layer_index]))
+            (abs(xMv0) > global_motion_threshold[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][picture_control_set_ptr->parent_pcs_ptr->temporal_layer_index] ||
+                abs(yMv0) > global_motion_threshold[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][picture_control_set_ptr->parent_pcs_ptr->temporal_layer_index] ||
+                abs(xMv1) > global_motion_threshold[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][picture_control_set_ptr->parent_pcs_ptr->temporal_layer_index] ||
+                abs(yMv1) > global_motion_threshold[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][picture_control_set_ptr->parent_pcs_ptr->temporal_layer_index]))
         {
 
 
@@ -1572,7 +1572,7 @@ void AuraDetection(
     for (sb_index = 0; sb_index < picture_control_set_ptr->sb_total_count; ++sb_index) {
 
         SbParams_t    *sb_params = &sequence_control_set_ptr->sb_params_array[sb_index];
-        LargestCodingUnit_t*        sb_ptr = picture_control_set_ptr->sb_ptr_array[sb_index];
+        LargestCodingUnit*        sb_ptr = picture_control_set_ptr->sb_ptr_array[sb_index];
         sb_x = sb_params->horizontal_index;
         sb_y = sb_params->vertical_index;
         // Aura status intialization
@@ -1963,7 +1963,7 @@ void SetTargetBudget(
 EbBool IsAvcPartitioningMode(
     SequenceControlSet_t  *sequence_control_set_ptr,
     PictureControlSet_t   *picture_control_set_ptr,
-    LargestCodingUnit_t   *sb_ptr)
+    LargestCodingUnit   *sb_ptr)
 {
 
     uint32_t          sb_index = sb_ptr->index;
@@ -2128,7 +2128,7 @@ void DeriveSearchMethod(
 void SetLcuBudget(
     SequenceControlSet_t                *sequence_control_set_ptr,
     PictureControlSet_t                 *picture_control_set_ptr,
-    LargestCodingUnit_t                 *sb_ptr,
+    LargestCodingUnit                 *sb_ptr,
     ModeDecisionConfigurationContext_t  *context_ptr) {
 
     uint32_t      sb_index = sb_ptr->index;
@@ -2222,7 +2222,7 @@ void  DeriveOptimalBudgetPerLcu(
 
         for (sb_index = 0; sb_index < picture_control_set_ptr->parent_pcs_ptr->sb_total_count; sb_index++) {
 
-            LargestCodingUnit_t* sb_ptr = picture_control_set_ptr->sb_ptr_array[sb_index];
+            LargestCodingUnit* sb_ptr = picture_control_set_ptr->sb_ptr_array[sb_index];
 
             SetLcuBudget(
                 sequence_control_set_ptr,
@@ -2275,7 +2275,7 @@ void ComputeRefinementCost(
     uint32_t  refinementCost = 0;
 
     for (sb_index = 0; sb_index < picture_control_set_ptr->parent_pcs_ptr->sb_total_count; sb_index++) {
-        LargestCodingUnit_t* sb_ptr = picture_control_set_ptr->sb_ptr_array[sb_index];
+        LargestCodingUnit* sb_ptr = picture_control_set_ptr->sb_ptr_array[sb_index];
         if (IsAvcPartitioningMode(sequence_control_set_ptr, picture_control_set_ptr, sb_ptr)) {
             refinementCost += context_ptr->costDepthMode[LCU_AVC_DEPTH_MODE - 1];
         }

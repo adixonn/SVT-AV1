@@ -46,7 +46,7 @@ extern "C" {
     EbErrorType av1_inter_prediction(
         PictureControlSet_t                    *picture_control_set_ptr,
         uint32_t                                interp_filters,
-        CodingUnit_t                           *cu_ptr,
+        CodingUnit                           *cu_ptr,
         uint8_t                                 ref_frame_type,
         MvUnit_t                               *mv_unit,
         uint16_t                                pu_origin_x,
@@ -75,7 +75,7 @@ extern "C" {
     EbErrorType av1_inter_prediction_hbd(
         PictureControlSet_t                    *picture_control_set_ptr,
         uint8_t                                 ref_frame_type,
-        CodingUnit_t                           *cu_ptr,
+        CodingUnit                           *cu_ptr,
         MvUnit_t                               *mv_unit,
         uint16_t                                pu_origin_x,
         uint16_t                                pu_origin_y,
@@ -108,7 +108,7 @@ extern "C" {
         MvUnit_t                               *mv_unit,
         uint16_t                                pu_origin_x,
         uint16_t                                pu_origin_y,
-        CodingUnit_t                           *cu_ptr,
+        CodingUnit                           *cu_ptr,
         const BlockGeom                        *blk_geom,
         EbPictureBufferDesc_t                  *ref_pic_list0,
         EbPictureBufferDesc_t                  *prediction_ptr,
