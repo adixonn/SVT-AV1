@@ -53,7 +53,7 @@ typedef enum APPEXITCONDITIONTYPE {
  /**********************************
  * Constructor
  **********************************/
-static void EbConfigCtor(EbConfig_t *config_ptr)
+static void eb_config_ctor(EbConfig_t *config_ptr)
 {
     config_ptr->inputFile = NULL;
     config_ptr->bitstreamFile = NULL;
@@ -72,7 +72,7 @@ static void EbConfigCtor(EbConfig_t *config_ptr)
 /**********************************
 * Destructor
 **********************************/
-static void EbConfigDtor(EbConfig_t *config_ptr)
+static void eb_config_dtor(EbConfig_t *config_ptr)
 {
 
     if (config_ptr->inputFile) {
@@ -335,7 +335,7 @@ int32_t main(int32_t argc, char* argv[])
         // Initialize config
         config = (EbConfig_t*)malloc(sizeof(EbConfig_t));
         if (config){
-            EbConfigCtor(config);
+            eb_config_ctor(config);
             if (argc != 6 && argc != 7) {
                 printf("Usage: ./SvtHevcEncSimpleApp in.yuv out.ivf width height bitdepth recon.yuv(optional)\n");
                 return_error = EB_ErrorBadParameter;
@@ -399,7 +399,7 @@ int32_t main(int32_t argc, char* argv[])
             if (appCallback){
                 EbAppContextCtor(appCallback,config);
 
-                return_error = InitEncoder(config, appCallback, 0);
+                return_error = init_encoder(config, appCallback, 0);
 
                 printf("Encoding          ");
                 fflush(stdout);
@@ -414,7 +414,7 @@ int32_t main(int32_t argc, char* argv[])
                     }
                     exitConditionOutput = ProcessOutputStreamBuffer(config, appCallback, (exitConditionInput == APP_ExitConditionNone || (exitConditionRecon == APP_ExitConditionNone && config->reconFile) ? 0 : 1));
                 }
-                return_error = DeInitEncoder(appCallback, 0);
+                return_error = de_init_encoder(appCallback, 0);
                 // Destruct the App memory variables
                 EbAppContextDtor(appCallback);
                 free(appCallback);
@@ -431,7 +431,7 @@ int32_t main(int32_t argc, char* argv[])
         }
 
         if (config){
-            EbConfigDtor(config);
+            eb_config_dtor(config);
             free(config);
         }
     }

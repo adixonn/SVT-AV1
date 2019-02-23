@@ -106,10 +106,10 @@ int32_t main(int32_t argc, char* argv[])
     signal(SIGINT, EventHandler);
     printf("-------------------------------------------\n");
     printf("SVT-AV1 Encoder\n");
-    if (!GetHelp(argc, argv)) {
+    if (!get_help(argc, argv)) {
 
         // Get NumChannels
-        numChannels = GetNumberOfChannels(argc, argv);
+        numChannels = get_number_of_channels(argc, argv);
         if (numChannels == 0) {
             return EB_ErrorBadParameter;
         }
@@ -119,7 +119,7 @@ int32_t main(int32_t argc, char* argv[])
             configs[instanceCount] = (EbConfig_t*)malloc(sizeof(EbConfig_t));
             if (!configs[instanceCount])
                 return EB_ErrorInsufficientResources;
-            EbConfigCtor(configs[instanceCount]);
+            eb_config_ctor(configs[instanceCount]);
             return_errors[instanceCount] = EB_ErrorNone;
         }
 
@@ -139,7 +139,7 @@ int32_t main(int32_t argc, char* argv[])
         }
 
         // Read all configuration files.
-        return_error = ReadCommandLine(argc, argv, configs, numChannels, return_errors);
+        return_error = read_command_line(argc, argv, configs, numChannels, return_errors);
 
         // Process any command line options, including the configuration file
 
@@ -158,7 +158,7 @@ int32_t main(int32_t argc, char* argv[])
 
                     eb_start_time((uint64_t*)&configs[instanceCount]->performanceContext.lib_start_time[0], (uint64_t*)&configs[instanceCount]->performanceContext.lib_start_time[1]);
 
-                    return_errors[instanceCount] = InitEncoder(configs[instanceCount], appCallbacks[instanceCount], instanceCount);
+                    return_errors[instanceCount] = init_encoder(configs[instanceCount], appCallbacks[instanceCount], instanceCount);
                     return_error = (EbErrorType)(return_error | return_errors[instanceCount]);
                 }
                 else {
@@ -304,7 +304,7 @@ int32_t main(int32_t argc, char* argv[])
             // DeInit Encoder
             for (instanceCount = numChannels; instanceCount > 0; --instanceCount) {
                 if (return_errors[instanceCount - 1] == EB_ErrorNone)
-                    return_errors[instanceCount - 1] = DeInitEncoder(appCallbacks[instanceCount - 1], instanceCount - 1);
+                    return_errors[instanceCount - 1] = de_init_encoder(appCallbacks[instanceCount - 1], instanceCount - 1);
             }
         }
         else {
@@ -313,7 +313,7 @@ int32_t main(int32_t argc, char* argv[])
         }
         // Destruct the App memory variables
         for (instanceCount = 0; instanceCount < numChannels; ++instanceCount) {
-            EbConfigDtor(configs[instanceCount]);
+            eb_config_dtor(configs[instanceCount]);
             if (configs[instanceCount])
                 free(configs[instanceCount]);
             if (appCallbacks[instanceCount])

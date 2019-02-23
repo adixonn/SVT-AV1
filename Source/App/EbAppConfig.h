@@ -387,11 +387,19 @@ typedef struct EbConfig_s
 
 } EbConfig_t;
 
-extern void EbConfigCtor(EbConfig_t *config_ptr);
-extern void EbConfigDtor(EbConfig_t *config_ptr);
+extern void eb_config_ctor(EbConfig_t *config_ptr);
 
-extern EbErrorType    ReadCommandLine(int32_t argc, char *const argv[], EbConfig_t **config, uint32_t  numChannels,    EbErrorType *return_errors);
-extern uint32_t     GetHelp(int32_t argc, char *const argv[]);
-extern uint32_t        GetNumberOfChannels(int32_t argc, char *const argv[]);
+extern void eb_config_dtor(EbConfig_t *config_ptr);
+
+extern EbErrorType read_command_line(
+    int32_t argc, 
+    char *const argv[], 
+    EbConfig_t **config, 
+    uint32_t  numChannels,    
+    EbErrorType *return_errors);
+
+extern uint32_t get_help(int32_t argc, char *const argv[]);
+
+extern uint32_t get_number_of_channels(int32_t argc, char *const argv[]);
 
 #endif //EbAppConfig_h

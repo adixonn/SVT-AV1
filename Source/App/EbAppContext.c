@@ -39,23 +39,23 @@ static uint64_t                   appMemoryMallocdAllChannels[MAX_CHANNEL_NUMBER
 *  hosting all allocated pointers
 ***************************************/
 void AllocateMemoryTable(
-    uint32_t    instanceIdx)
+    uint32_t    instance_idx)
 {
-    // Malloc Memory Table for the instance @ instanceIdx
-    appMemoryMapAllChannels[instanceIdx]        = (EbMemoryMapEntry*)malloc(sizeof(EbMemoryMapEntry) * MAX_APP_NUM_PTR);
+    // Malloc Memory Table for the instance @ instance_idx
+    appMemoryMapAllChannels[instance_idx]        = (EbMemoryMapEntry*)malloc(sizeof(EbMemoryMapEntry) * MAX_APP_NUM_PTR);
 
     // Init the table index
-    appMemoryMapIndexAllChannels[instanceIdx]   = 0;
+    appMemoryMapIndexAllChannels[instance_idx]   = 0;
 
     // Size of the table
-    appMemoryMallocdAllChannels[instanceIdx]    = sizeof(EbMemoryMapEntry) * MAX_APP_NUM_PTR;
-    total_app_memory = &appMemoryMallocdAllChannels[instanceIdx];
+    appMemoryMallocdAllChannels[instance_idx]    = sizeof(EbMemoryMapEntry) * MAX_APP_NUM_PTR;
+    total_app_memory = &appMemoryMallocdAllChannels[instance_idx];
 
     // Set pointer to the first entry
-    app_memory_map                                = appMemoryMapAllChannels[instanceIdx];
+    app_memory_map                                = appMemoryMapAllChannels[instance_idx];
 
     // Set index to the first entry
-    app_memory_map_index                           = &appMemoryMapIndexAllChannels[instanceIdx];
+    app_memory_map_index                           = &appMemoryMapIndexAllChannels[instance_idx];
 
     // Init Number of pointers
     app_malloc_count = 0;
@@ -150,88 +150,88 @@ void ProcessInputFieldBufferingMode(
 ***********************************************/
 EbErrorType CopyConfigurationParameters(
     EbConfig_t                *config,
-    EbAppContext_t            *callbackData,
-    uint32_t                 instanceIdx)
+    EbAppContext_t            *callback_data,
+    uint32_t                 instance_idx)
 {
     EbErrorType   return_error = EB_ErrorNone;
     uint32_t         hmeRegionIndex;
 
     // Assign Instance index to the library
-    callbackData->instanceIdx = (uint8_t)instanceIdx;
+    callback_data->instance_idx = (uint8_t)instance_idx;
 
     // Initialize Port Activity Flags
-    callbackData->outputStreamPortActive = APP_PortActive;
-    callbackData->ebEncParameters.source_width = config->sourceWidth;
-    callbackData->ebEncParameters.source_height = config->sourceHeight;
-    callbackData->ebEncParameters.intra_period_length = config->intraPeriod;
-    callbackData->ebEncParameters.intra_refresh_type = config->intraRefreshType;
-    callbackData->ebEncParameters.base_layer_switch_mode = config->base_layer_switch_mode;
-    callbackData->ebEncParameters.enc_mode = (EbBool)config->encMode;
-    callbackData->ebEncParameters.frame_rate = config->frameRate;
-    callbackData->ebEncParameters.frame_rate_denominator = config->frameRateDenominator;
-    callbackData->ebEncParameters.frame_rate_numerator = config->frameRateNumerator;
-    callbackData->ebEncParameters.hierarchical_levels = config->hierarchicalLevels;
-    callbackData->ebEncParameters.pred_structure = (uint8_t)config->predStructure;
-    callbackData->ebEncParameters.in_loop_me_flag = config->in_loop_me_flag;
-    callbackData->ebEncParameters.ext_block_flag = config->ext_block_flag;
+    callback_data->outputStreamPortActive = APP_PortActive;
+    callback_data->ebEncParameters.source_width = config->sourceWidth;
+    callback_data->ebEncParameters.source_height = config->sourceHeight;
+    callback_data->ebEncParameters.intra_period_length = config->intraPeriod;
+    callback_data->ebEncParameters.intra_refresh_type = config->intraRefreshType;
+    callback_data->ebEncParameters.base_layer_switch_mode = config->base_layer_switch_mode;
+    callback_data->ebEncParameters.enc_mode = (EbBool)config->encMode;
+    callback_data->ebEncParameters.frame_rate = config->frameRate;
+    callback_data->ebEncParameters.frame_rate_denominator = config->frameRateDenominator;
+    callback_data->ebEncParameters.frame_rate_numerator = config->frameRateNumerator;
+    callback_data->ebEncParameters.hierarchical_levels = config->hierarchicalLevels;
+    callback_data->ebEncParameters.pred_structure = (uint8_t)config->predStructure;
+    callback_data->ebEncParameters.in_loop_me_flag = config->in_loop_me_flag;
+    callback_data->ebEncParameters.ext_block_flag = config->ext_block_flag;
 #if TILES
-    callbackData->ebEncParameters.tile_rows = config->tile_rows;
-    callbackData->ebEncParameters.tile_columns = config->tile_columns;
+    callback_data->ebEncParameters.tile_rows = config->tile_rows;
+    callback_data->ebEncParameters.tile_columns = config->tile_columns;
 #endif
-    callbackData->ebEncParameters.scene_change_detection = config->scene_change_detection;
-    callbackData->ebEncParameters.look_ahead_distance = config->look_ahead_distance;
-    callbackData->ebEncParameters.framesToBeEncoded = config->framesToBeEncoded;
-    callbackData->ebEncParameters.rate_control_mode = config->rateControlMode;
-    callbackData->ebEncParameters.target_bit_rate = config->targetBitRate;
-    callbackData->ebEncParameters.max_qp_allowed = config->max_qp_allowed;
-    callbackData->ebEncParameters.min_qp_allowed = config->min_qp_allowed;
-    callbackData->ebEncParameters.qp = config->qp;
-    callbackData->ebEncParameters.use_qp_file = (EbBool)config->use_qp_file;
-    callbackData->ebEncParameters.disable_dlf_flag = (EbBool)config->disable_dlf_flag;
-    callbackData->ebEncParameters.enable_warped_motion = (EbBool)config->enable_warped_motion;
-    callbackData->ebEncParameters.use_default_me_hme = (EbBool)config->use_default_me_hme;
-    callbackData->ebEncParameters.enable_hme_flag = (EbBool)config->enableHmeFlag;
-    callbackData->ebEncParameters.enable_hme_level0_flag = (EbBool)config->enableHmeLevel0Flag;
-    callbackData->ebEncParameters.enable_hme_level1_flag = (EbBool)config->enableHmeLevel1Flag;
-    callbackData->ebEncParameters.enable_hme_level2_flag = (EbBool)config->enableHmeLevel2Flag;
-    callbackData->ebEncParameters.search_area_width = config->searchAreaWidth;
-    callbackData->ebEncParameters.search_area_height = config->searchAreaHeight;
-    callbackData->ebEncParameters.number_hme_search_region_in_width = config->numberHmeSearchRegionInWidth;
-    callbackData->ebEncParameters.number_hme_search_region_in_height = config->numberHmeSearchRegionInHeight;
-    callbackData->ebEncParameters.hme_level0_total_search_area_width = config->hmeLevel0TotalSearchAreaWidth;
-    callbackData->ebEncParameters.hme_level0_total_search_area_height = config->hmeLevel0TotalSearchAreaHeight;
-    callbackData->ebEncParameters.constrained_intra = (EbBool)config->constrained_intra;
-    callbackData->ebEncParameters.channel_id = config->channel_id;
-    callbackData->ebEncParameters.active_channel_count = config->active_channel_count;
-    callbackData->ebEncParameters.improve_sharpness = (uint8_t)config->improve_sharpness;
-    callbackData->ebEncParameters.high_dynamic_range_input = config->high_dynamic_range_input;
-    callbackData->ebEncParameters.access_unit_delimiter = config->access_unit_delimiter;
-    callbackData->ebEncParameters.buffering_period_sei = config->buffering_period_sei;
-    callbackData->ebEncParameters.picture_timing_sei = config->picture_timing_sei;
-    callbackData->ebEncParameters.registered_user_data_sei_flag = config->registered_user_data_sei_flag;
-    callbackData->ebEncParameters.unregistered_user_data_sei_flag = config->unregistered_user_data_sei_flag;
-    callbackData->ebEncParameters.recovery_point_sei_flag = config->recovery_point_sei_flag;
-    callbackData->ebEncParameters.enable_temporal_id = config->enable_temporal_id;
-    callbackData->ebEncParameters.encoder_bit_depth = config->encoderBitDepth;
-    callbackData->ebEncParameters.compressed_ten_bit_format = config->compressedTenBitFormat;
-    callbackData->ebEncParameters.profile = config->profile;
-    callbackData->ebEncParameters.tier = config->tier;
-    callbackData->ebEncParameters.level = config->level;
-    callbackData->ebEncParameters.injector_frame_rate = config->injector_frame_rate;
-    callbackData->ebEncParameters.speed_control_flag = config->speed_control_flag;
-    callbackData->ebEncParameters.asm_type = config->asmType;
-    callbackData->ebEncParameters.recon_enabled = config->reconFile ? EB_TRUE : EB_FALSE;
+    callback_data->ebEncParameters.scene_change_detection = config->scene_change_detection;
+    callback_data->ebEncParameters.look_ahead_distance = config->look_ahead_distance;
+    callback_data->ebEncParameters.framesToBeEncoded = config->framesToBeEncoded;
+    callback_data->ebEncParameters.rate_control_mode = config->rateControlMode;
+    callback_data->ebEncParameters.target_bit_rate = config->targetBitRate;
+    callback_data->ebEncParameters.max_qp_allowed = config->max_qp_allowed;
+    callback_data->ebEncParameters.min_qp_allowed = config->min_qp_allowed;
+    callback_data->ebEncParameters.qp = config->qp;
+    callback_data->ebEncParameters.use_qp_file = (EbBool)config->use_qp_file;
+    callback_data->ebEncParameters.disable_dlf_flag = (EbBool)config->disable_dlf_flag;
+    callback_data->ebEncParameters.enable_warped_motion = (EbBool)config->enable_warped_motion;
+    callback_data->ebEncParameters.use_default_me_hme = (EbBool)config->use_default_me_hme;
+    callback_data->ebEncParameters.enable_hme_flag = (EbBool)config->enableHmeFlag;
+    callback_data->ebEncParameters.enable_hme_level0_flag = (EbBool)config->enableHmeLevel0Flag;
+    callback_data->ebEncParameters.enable_hme_level1_flag = (EbBool)config->enableHmeLevel1Flag;
+    callback_data->ebEncParameters.enable_hme_level2_flag = (EbBool)config->enableHmeLevel2Flag;
+    callback_data->ebEncParameters.search_area_width = config->searchAreaWidth;
+    callback_data->ebEncParameters.search_area_height = config->searchAreaHeight;
+    callback_data->ebEncParameters.number_hme_search_region_in_width = config->numberHmeSearchRegionInWidth;
+    callback_data->ebEncParameters.number_hme_search_region_in_height = config->numberHmeSearchRegionInHeight;
+    callback_data->ebEncParameters.hme_level0_total_search_area_width = config->hmeLevel0TotalSearchAreaWidth;
+    callback_data->ebEncParameters.hme_level0_total_search_area_height = config->hmeLevel0TotalSearchAreaHeight;
+    callback_data->ebEncParameters.constrained_intra = (EbBool)config->constrained_intra;
+    callback_data->ebEncParameters.channel_id = config->channel_id;
+    callback_data->ebEncParameters.active_channel_count = config->active_channel_count;
+    callback_data->ebEncParameters.improve_sharpness = (uint8_t)config->improve_sharpness;
+    callback_data->ebEncParameters.high_dynamic_range_input = config->high_dynamic_range_input;
+    callback_data->ebEncParameters.access_unit_delimiter = config->access_unit_delimiter;
+    callback_data->ebEncParameters.buffering_period_sei = config->buffering_period_sei;
+    callback_data->ebEncParameters.picture_timing_sei = config->picture_timing_sei;
+    callback_data->ebEncParameters.registered_user_data_sei_flag = config->registered_user_data_sei_flag;
+    callback_data->ebEncParameters.unregistered_user_data_sei_flag = config->unregistered_user_data_sei_flag;
+    callback_data->ebEncParameters.recovery_point_sei_flag = config->recovery_point_sei_flag;
+    callback_data->ebEncParameters.enable_temporal_id = config->enable_temporal_id;
+    callback_data->ebEncParameters.encoder_bit_depth = config->encoderBitDepth;
+    callback_data->ebEncParameters.compressed_ten_bit_format = config->compressedTenBitFormat;
+    callback_data->ebEncParameters.profile = config->profile;
+    callback_data->ebEncParameters.tier = config->tier;
+    callback_data->ebEncParameters.level = config->level;
+    callback_data->ebEncParameters.injector_frame_rate = config->injector_frame_rate;
+    callback_data->ebEncParameters.speed_control_flag = config->speed_control_flag;
+    callback_data->ebEncParameters.asm_type = config->asmType;
+    callback_data->ebEncParameters.recon_enabled = config->reconFile ? EB_TRUE : EB_FALSE;
 
-    for (hmeRegionIndex = 0; hmeRegionIndex < callbackData->ebEncParameters.number_hme_search_region_in_width; ++hmeRegionIndex) {
-        callbackData->ebEncParameters.hme_level0_search_area_in_width_array[hmeRegionIndex] = config->hmeLevel0SearchAreaInWidthArray[hmeRegionIndex];
-        callbackData->ebEncParameters.hme_level1_search_area_in_width_array[hmeRegionIndex] = config->hmeLevel1SearchAreaInWidthArray[hmeRegionIndex];
-        callbackData->ebEncParameters.hme_level2_search_area_in_width_array[hmeRegionIndex] = config->hmeLevel2SearchAreaInWidthArray[hmeRegionIndex];
+    for (hmeRegionIndex = 0; hmeRegionIndex < callback_data->ebEncParameters.number_hme_search_region_in_width; ++hmeRegionIndex) {
+        callback_data->ebEncParameters.hme_level0_search_area_in_width_array[hmeRegionIndex] = config->hmeLevel0SearchAreaInWidthArray[hmeRegionIndex];
+        callback_data->ebEncParameters.hme_level1_search_area_in_width_array[hmeRegionIndex] = config->hmeLevel1SearchAreaInWidthArray[hmeRegionIndex];
+        callback_data->ebEncParameters.hme_level2_search_area_in_width_array[hmeRegionIndex] = config->hmeLevel2SearchAreaInWidthArray[hmeRegionIndex];
     }
 
-    for (hmeRegionIndex = 0; hmeRegionIndex < callbackData->ebEncParameters.number_hme_search_region_in_height; ++hmeRegionIndex) {
-        callbackData->ebEncParameters.hme_level0_search_area_in_height_array[hmeRegionIndex] = config->hmeLevel0SearchAreaInHeightArray[hmeRegionIndex];
-        callbackData->ebEncParameters.hme_level1_search_area_in_height_array[hmeRegionIndex] = config->hmeLevel1SearchAreaInHeightArray[hmeRegionIndex];
-        callbackData->ebEncParameters.hme_level2_search_area_in_height_array[hmeRegionIndex] = config->hmeLevel2SearchAreaInHeightArray[hmeRegionIndex];
+    for (hmeRegionIndex = 0; hmeRegionIndex < callback_data->ebEncParameters.number_hme_search_region_in_height; ++hmeRegionIndex) {
+        callback_data->ebEncParameters.hme_level0_search_area_in_height_array[hmeRegionIndex] = config->hmeLevel0SearchAreaInHeightArray[hmeRegionIndex];
+        callback_data->ebEncParameters.hme_level1_search_area_in_height_array[hmeRegionIndex] = config->hmeLevel1SearchAreaInHeightArray[hmeRegionIndex];
+        callback_data->ebEncParameters.hme_level2_search_area_in_height_array[hmeRegionIndex] = config->hmeLevel2SearchAreaInHeightArray[hmeRegionIndex];
     }
 
     return return_error;
@@ -310,35 +310,35 @@ static EbErrorType AllocateFrameBuffer(
 
 EbErrorType AllocateInputBuffers(
     EbConfig_t                *config,
-    EbAppContext_t            *callbackData)
+    EbAppContext_t            *callback_data)
 {
     EbErrorType   return_error = EB_ErrorNone;
     {
-        EB_APP_MALLOC(EbBufferHeaderType*, callbackData->inputBufferPool, sizeof(EbBufferHeaderType), EB_N_PTR, EB_ErrorInsufficientResources);
+        EB_APP_MALLOC(EbBufferHeaderType*, callback_data->inputBufferPool, sizeof(EbBufferHeaderType), EB_N_PTR, EB_ErrorInsufficientResources);
 
         // Initialize Header
-        callbackData->inputBufferPool->size                       = sizeof(EbBufferHeaderType);
+        callback_data->inputBufferPool->size                       = sizeof(EbBufferHeaderType);
 
-        EB_APP_MALLOC(uint8_t*, callbackData->inputBufferPool->p_buffer, sizeof(EbSvtEncInput), EB_N_PTR, EB_ErrorInsufficientResources);
+        EB_APP_MALLOC(uint8_t*, callback_data->inputBufferPool->p_buffer, sizeof(EbSvtEncInput), EB_N_PTR, EB_ErrorInsufficientResources);
 
         if (config->bufferedInput == -1) {
 
             // Allocate frame buffer for the p_buffer
             AllocateFrameBuffer(
                     config,
-                    callbackData->inputBufferPool->p_buffer);
+                    callback_data->inputBufferPool->p_buffer);
         }
 
         // Assign the variables
-        callbackData->inputBufferPool->p_app_private = NULL;
-        callbackData->inputBufferPool->pic_type   = EB_INVALID_PICTURE;
+        callback_data->inputBufferPool->p_app_private = NULL;
+        callback_data->inputBufferPool->pic_type   = EB_INVALID_PICTURE;
     }
 
     return return_error;
 }
 EbErrorType AllocateOutputReconBuffers(
     EbConfig_t                *config,
-    EbAppContext_t            *callbackData)
+    EbAppContext_t            *callback_data)
 {
 
     EbErrorType   return_error = EB_ErrorNone;
@@ -351,36 +351,36 @@ EbErrorType AllocateOutputReconBuffers(
     const size_t frameSize = (lumaSize + chromaSize) << tenBit;
 
 // ... Recon Port
-    EB_APP_MALLOC(EbBufferHeaderType*, callbackData->recon_buffer, sizeof(EbBufferHeaderType), EB_N_PTR, EB_ErrorInsufficientResources);
+    EB_APP_MALLOC(EbBufferHeaderType*, callback_data->recon_buffer, sizeof(EbBufferHeaderType), EB_N_PTR, EB_ErrorInsufficientResources);
 
     // Initialize Header
-    callbackData->recon_buffer->size = sizeof(EbBufferHeaderType);
+    callback_data->recon_buffer->size = sizeof(EbBufferHeaderType);
 
-    EB_APP_MALLOC(uint8_t*, callbackData->recon_buffer->p_buffer, frameSize, EB_N_PTR, EB_ErrorInsufficientResources);
+    EB_APP_MALLOC(uint8_t*, callback_data->recon_buffer->p_buffer, frameSize, EB_N_PTR, EB_ErrorInsufficientResources);
 
-    callbackData->recon_buffer->n_alloc_len = (uint32_t)frameSize;
-    callbackData->recon_buffer->p_app_private = NULL;
+    callback_data->recon_buffer->n_alloc_len = (uint32_t)frameSize;
+    callback_data->recon_buffer->p_app_private = NULL;
     return return_error;
 }
 
 EbErrorType AllocateOutputBuffers(
     EbConfig_t                *config,
-    EbAppContext_t            *callbackData)
+    EbAppContext_t            *callback_data)
 {
 
     EbErrorType   return_error = EB_ErrorNone;
     uint32_t           outputStreamBufferSize = (uint32_t)(EB_OUTPUTSTREAMBUFFERSIZE_MACRO(config->inputPaddedHeight * config->inputPaddedWidth));;
     {
-        EB_APP_MALLOC(EbBufferHeaderType*, callbackData->streamBufferPool, sizeof(EbBufferHeaderType), EB_N_PTR, EB_ErrorInsufficientResources);
+        EB_APP_MALLOC(EbBufferHeaderType*, callback_data->streamBufferPool, sizeof(EbBufferHeaderType), EB_N_PTR, EB_ErrorInsufficientResources);
 
         // Initialize Header
-        callbackData->streamBufferPool->size = sizeof(EbBufferHeaderType);
+        callback_data->streamBufferPool->size = sizeof(EbBufferHeaderType);
 
-        EB_APP_MALLOC(uint8_t*, callbackData->streamBufferPool->p_buffer, outputStreamBufferSize, EB_N_PTR, EB_ErrorInsufficientResources);
+        EB_APP_MALLOC(uint8_t*, callback_data->streamBufferPool->p_buffer, outputStreamBufferSize, EB_N_PTR, EB_ErrorInsufficientResources);
 
-        callbackData->streamBufferPool->n_alloc_len = outputStreamBufferSize;
-        callbackData->streamBufferPool->p_app_private = NULL;
-        callbackData->streamBufferPool->pic_type = EB_INVALID_PICTURE;
+        callback_data->streamBufferPool->n_alloc_len = outputStreamBufferSize;
+        callback_data->streamBufferPool->p_app_private = NULL;
+        callback_data->streamBufferPool->pic_type = EB_INVALID_PICTURE;
     }
     return return_error;
 }
@@ -571,19 +571,19 @@ EbErrorType PreloadFramesIntoRam(
 /***********************************
  * Initialize Core & Component
  ***********************************/
-EbErrorType InitEncoder(
+EbErrorType init_encoder(
     EbConfig_t              *config,
-    EbAppContext_t          *callbackData,
-    uint32_t                 instanceIdx)
+    EbAppContext_t          *callback_data,
+    uint32_t                 instance_idx)
 {
     EbErrorType        return_error = EB_ErrorNone;
 
     // Allocate a memory table hosting all allocated pointers
-    AllocateMemoryTable(instanceIdx);
+    AllocateMemoryTable(instance_idx);
 
     ///************************* LIBRARY INIT [START] *********************///
     // STEP 1: Call the library to construct a Component Handle
-    return_error = eb_init_handle(&callbackData->svtEncoderHandle, callbackData, &callbackData->ebEncParameters);
+    return_error = eb_init_handle(&callback_data->svtEncoderHandle, callback_data, &callback_data->ebEncParameters);
 
     if (return_error != EB_ErrorNone) {
         return return_error;
@@ -592,8 +592,8 @@ EbErrorType InitEncoder(
     // STEP 3: Copy all configuration parameters into the callback structure
     return_error = CopyConfigurationParameters(
                     config,
-                    callbackData,
-                    instanceIdx);
+                    callback_data,
+                    instance_idx);
 
     if (return_error != EB_ErrorNone) {
         return return_error;
@@ -602,15 +602,15 @@ EbErrorType InitEncoder(
     // STEP 4: Send over all configuration parameters
     // Set the Parameters
     return_error = eb_svt_enc_set_parameter(
-                       callbackData->svtEncoderHandle,
-                       &callbackData->ebEncParameters);
+                       callback_data->svtEncoderHandle,
+                       &callback_data->ebEncParameters);
 
     if (return_error != EB_ErrorNone) {
         return return_error;
     }
 
     // STEP 5: Init Encoder
-    return_error = eb_init_encoder(callbackData->svtEncoderHandle);
+    return_error = eb_init_encoder(callback_data->svtEncoderHandle);
     if (return_error != EB_ErrorNone) { return return_error; }
 
     ///************************* LIBRARY INIT [END] *********************///
@@ -620,7 +620,7 @@ EbErrorType InitEncoder(
     // STEP 6: Allocate input buffers carrying the yuv frames in
     return_error = AllocateInputBuffers(
         config,
-        callbackData);
+        callback_data);
 
     if (return_error != EB_ErrorNone) {
         return return_error;
@@ -629,7 +629,7 @@ EbErrorType InitEncoder(
     // STEP 7: Allocate output buffers carrying the bitstream out
     return_error = AllocateOutputBuffers(
         config,
-        callbackData);
+        callback_data);
 
     if (return_error != EB_ErrorNone) {
         return return_error;
@@ -638,7 +638,7 @@ EbErrorType InitEncoder(
     // STEP 8: Allocate output Recon Buffer
     return_error = AllocateOutputReconBuffers(
         config,
-        callbackData);
+        callback_data);
 
     if (return_error != EB_ErrorNone) {
         return return_error;
@@ -668,16 +668,16 @@ EbErrorType InitEncoder(
 /***********************************
  * Deinit Components
  ***********************************/
-EbErrorType DeInitEncoder(
-    EbAppContext_t *callbackDataPtr,
-    uint32_t        instanceIndex)
+EbErrorType de_init_encoder(
+    EbAppContext_t *callback_data_ptr,
+    uint32_t        instance_index)
 {
     EbErrorType return_error = EB_ErrorNone;
     int32_t              ptrIndex        = 0;
     EbMemoryMapEntry*   memoryEntry     = (EbMemoryMapEntry*)0;
 
-    if (((EbComponentType*)(callbackDataPtr->svtEncoderHandle)) != NULL) {
-            return_error = eb_deinit_encoder(callbackDataPtr->svtEncoderHandle);
+    if (((EbComponentType*)(callback_data_ptr->svtEncoderHandle)) != NULL) {
+            return_error = eb_deinit_encoder(callback_data_ptr->svtEncoderHandle);
     }
 
     // Destruct the buffer memory pool
@@ -686,8 +686,8 @@ EbErrorType DeInitEncoder(
     }
 
     // Loop through the ptr table and free all malloc'd pointers per channel
-    for (ptrIndex = appMemoryMapIndexAllChannels[instanceIndex] - 1; ptrIndex >= 0; --ptrIndex) {
-        memoryEntry = &appMemoryMapAllChannels[instanceIndex][ptrIndex];
+    for (ptrIndex = appMemoryMapIndexAllChannels[instance_index] - 1; ptrIndex >= 0; --ptrIndex) {
+        memoryEntry = &appMemoryMapAllChannels[instance_index][ptrIndex];
         switch (memoryEntry->ptrType) {
         case EB_N_PTR:
             free(memoryEntry->ptr);
@@ -697,10 +697,10 @@ EbErrorType DeInitEncoder(
             break;
         }
     }
-    free(appMemoryMapAllChannels[instanceIndex]);
+    free(appMemoryMapAllChannels[instance_index]);
 
     // Destruct the component
-    eb_deinit_handle(callbackDataPtr->svtEncoderHandle);
+    eb_deinit_handle(callback_data_ptr->svtEncoderHandle);
 
     return return_error;
 }

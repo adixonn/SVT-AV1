@@ -133,7 +133,7 @@ static void SetCfgInputFile                     (const char *value, EbConfig_t *
 
     /* if input is a YUV4MPEG2 (y4m) file, read header and parse parameters */
     if(cfg->inputFile!=NULL){
-        if(checkIfY4m(cfg) == EB_TRUE) {
+        if(check_if_y4m(cfg) == EB_TRUE) {
             cfg->y4mInput = EB_TRUE;
         }
     }else{
@@ -390,7 +390,7 @@ config_entry_t config_entry[] = {
 /**********************************
  * Constructor
  **********************************/
-void EbConfigCtor(EbConfig_t *config_ptr)
+void eb_config_ctor(EbConfig_t *config_ptr)
 {
     config_ptr->configFile                           = NULL;
     config_ptr->inputFile                            = NULL;
@@ -531,7 +531,7 @@ void EbConfigCtor(EbConfig_t *config_ptr)
 /**********************************
  * Destructor
  **********************************/
-void EbConfigDtor(EbConfig_t *config_ptr)
+void eb_config_dtor(EbConfig_t *config_ptr)
 {
 
     // Close any files that are open
@@ -740,7 +740,7 @@ static int32_t FindToken(
 static int32_t ReadConfigFile(
     EbConfig_t  *config,
     char        *configPath,
-    uint32_t     instanceIdx)
+    uint32_t     instance_idx)
 {
     int32_t return_error = 0;
 
@@ -757,11 +757,11 @@ static int32_t ReadConfigFile(
             if (resultSize == configFileSize) {
                 ParseConfigFile(config, configFileBuffer, configFileSize);
             } else {
-                printf("Error channel %u: File Read Failed\n",instanceIdx+1);
+                printf("Error channel %u: File Read Failed\n",instance_idx+1);
                 return_error = -1;
             }
         } else {
-            printf("Error channel %u: Memory Allocation Failed\n",instanceIdx+1);
+            printf("Error channel %u: Memory Allocation Failed\n",instance_idx+1);
             return_error = -1;
         }
 
@@ -769,7 +769,7 @@ static int32_t ReadConfigFile(
         fclose(config->configFile);
         config->configFile = (FILE*) NULL;
     } else {
-        printf("Error channel %u: Couldn't open Config File: %s\n", instanceIdx+1,configPath);
+        printf("Error channel %u: Couldn't open Config File: %s\n", instance_idx+1,configPath);
         return_error = -1;
     }
 
@@ -891,7 +891,7 @@ int32_t FindTokenMultipleInputs(
     return return_error;
 }
 
-uint32_t GetHelp(
+uint32_t get_help(
     int32_t     argc,
     char *const argv[])
 {
@@ -915,7 +915,7 @@ uint32_t GetHelp(
 /******************************************************
 * Get the number of channels and validate it with input
 ******************************************************/
-uint32_t GetNumberOfChannels(
+uint32_t get_number_of_channels(
     int32_t     argc,
     char *const argv[])
 {
@@ -995,7 +995,7 @@ int32_t ComputeFramesToBeEncoded(
 /******************************************
 * Read Command Line
 ******************************************/
-EbErrorType ReadCommandLine(
+EbErrorType read_command_line(
     int32_t        argc,
     char *const    argv[],
     EbConfig_t   **configs,
@@ -1082,7 +1082,7 @@ EbErrorType ReadCommandLine(
 
     for (index = 0; index < numChannels; ++index) {
         if ((configs[index])->y4mInput == EB_TRUE){
-            ret_y4m = readY4mHeader(configs[index]);
+            ret_y4m = read_y4m_header(configs[index]);
             if(ret_y4m == EB_ErrorBadParameter){
                 printf("Error found when reading the y4m file parameters.\n");
                 return EB_ErrorBadParameter;
