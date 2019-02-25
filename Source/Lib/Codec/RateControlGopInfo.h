@@ -12,7 +12,8 @@ struct  EbRateControlGopInfo;
 /*
  * @struct Holds rate control information for a group of picture
  */
-typedef struct  EbRateControlGopInfo {
+typedef struct  EbRateControlGopInfo 
+{
     /*
      * @variable uint8_t. Represents an intra if not zero.
      */

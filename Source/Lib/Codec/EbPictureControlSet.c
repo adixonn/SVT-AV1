@@ -101,7 +101,7 @@ EbErrorType picture_control_set_ctor(
 
     *object_dbl_ptr = (EbPtr)object_ptr;
 
-    object_ptr->sequence_control_set_wrapper_ptr = (EbObjectWrapper_t *)EB_NULL;
+    object_ptr->sequence_control_set_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
 
     object_ptr->recon_picture16bit_ptr = (EbPictureBufferDesc *)EB_NULL;
     object_ptr->recon_picture_ptr = (EbPictureBufferDesc *)EB_NULL;
@@ -276,7 +276,7 @@ EbErrorType picture_control_set_ctor(
             &object_ptr->md_mv_neighbor_array[depth],
             MAX_PICTURE_WIDTH_SIZE,
             MAX_PICTURE_HEIGHT_SIZE,
-            sizeof(MvUnit_t),
+            sizeof(MvUnit),
             PU_NEIGHBOR_ARRAY_GRANULARITY,
             PU_NEIGHBOR_ARRAY_GRANULARITY,
             NEIGHBOR_ARRAY_UNIT_FULL_MASK);
@@ -531,7 +531,7 @@ EbErrorType picture_control_set_ctor(
         &object_ptr->ep_mv_neighbor_array,
         MAX_PICTURE_WIDTH_SIZE,
         MAX_PICTURE_HEIGHT_SIZE,
-        sizeof(MvUnit_t),
+        sizeof(MvUnit),
         PU_NEIGHBOR_ARRAY_GRANULARITY,
         PU_NEIGHBOR_ARRAY_GRANULARITY,
         NEIGHBOR_ARRAY_UNIT_FULL_MASK);
@@ -661,7 +661,7 @@ EbErrorType picture_control_set_ctor(
         &object_ptr->amvp_mv_merge_mv_neighbor_array,
         MAX_PICTURE_WIDTH_SIZE,
         MAX_PICTURE_HEIGHT_SIZE,
-        sizeof(MvUnit_t),
+        sizeof(MvUnit),
         PU_NEIGHBOR_ARRAY_GRANULARITY,
         PU_NEIGHBOR_ARRAY_GRANULARITY,
         NEIGHBOR_ARRAY_UNIT_FULL_MASK);
@@ -917,9 +917,9 @@ EbErrorType picture_parent_control_set_ctor(
     EB_MALLOC(PictureParentControlSet*, object_ptr, sizeof(PictureParentControlSet), EB_N_PTR);
 
     *object_dbl_ptr = (EbPtr)object_ptr;
-    object_ptr->sequence_control_set_wrapper_ptr = (EbObjectWrapper_t *)EB_NULL;
-    object_ptr->input_picture_wrapper_ptr = (EbObjectWrapper_t *)EB_NULL;
-    object_ptr->reference_picture_wrapper_ptr = (EbObjectWrapper_t *)EB_NULL;
+    object_ptr->sequence_control_set_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
+    object_ptr->input_picture_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
+    object_ptr->reference_picture_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
 
     object_ptr->enhanced_picture_ptr = (EbPictureBufferDesc *)EB_NULL;
 
@@ -1131,7 +1131,7 @@ EbErrorType picture_parent_control_set_ctor(
 
     // Film grain noise model if film grain is applied
     if (initDataPtr->film_grain_noise_level) {
-        denoise_and_model_init_data_t fg_init_data;
+        DenoiseAndModelInitData fg_init_data;
         fg_init_data.encoder_bit_depth = initDataPtr->encoder_bit_depth;
         fg_init_data.noise_level = initDataPtr->film_grain_noise_level;
         fg_init_data.width = initDataPtr->picture_width;

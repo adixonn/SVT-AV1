@@ -244,19 +244,19 @@ extern "C" {
 
     } SequenceControlSet_t;
 
-    typedef struct EbSequenceControlSetInitData_s
+    typedef struct EbSequenceControlSetInitData
     {
         EncodeContext            *encode_context_ptr;
         int32_t                     sb_size;
-    } EbSequenceControlSetInitData_t;
+    } EbSequenceControlSetInitData;
 
-    typedef struct EbSequenceControlSetInstance_s
+    typedef struct EbSequenceControlSetInstance
     {
         EncodeContext            *encode_context_ptr;
         SequenceControlSet_t       *sequence_control_set_ptr;
         EbHandle                    config_mutex;
 
-    } EbSequenceControlSetInstance_t;
+    } EbSequenceControlSetInstance;
 
     /**************************************
      * Extern Function Declarations
@@ -270,7 +270,7 @@ extern "C" {
         SequenceControlSet_t *src);
 
     extern EbErrorType eb_sequence_control_set_instance_ctor(
-        EbSequenceControlSetInstance_t **object_dbl_ptr);
+        EbSequenceControlSetInstance **object_dbl_ptr);
 
     extern EbErrorType sb_params_ctor(
         SequenceControlSet_t *sequence_control_set_ptr);

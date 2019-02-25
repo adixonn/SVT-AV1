@@ -73,7 +73,8 @@ static int64_t sse_restoration_unit(const RestorationTileLimits *limits,
 }
 
 #if ! REST_M
-typedef struct {
+typedef struct RestUnitSearchInfo 
+{
     // The best coefficients for Wiener or Sgrproj restoration
     WienerInfo wiener;
     SgrprojInfo sgrproj;
@@ -87,7 +88,8 @@ typedef struct {
 } RestUnitSearchInfo;
 #endif
 
-typedef struct {
+typedef struct RestSearchCtxt 
+{
     const Yv12BufferConfig *src;
     Yv12BufferConfig *dst;
 

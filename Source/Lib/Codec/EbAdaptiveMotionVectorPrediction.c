@@ -205,7 +205,8 @@ MvReferenceFrame comp_ref1(int32_t ref_idx) {
     return lut[ref_idx];
 }
 
-typedef struct position {
+typedef struct Position
+{
     int32_t row;
     int32_t col;
 } Position;
@@ -1895,7 +1896,7 @@ uint16_t wm_find_samples(
 EbBool warped_motion_parameters(
     PictureControlSet              *picture_control_set_ptr,
     CodingUnit                     *cu_ptr,
-    MvUnit_t                         *mv_unit,
+    MvUnit                         *mv_unit,
     const BlockGeom                  *blk_geom,
     uint16_t                          cu_origin_x,
     uint16_t                          cu_origin_y,

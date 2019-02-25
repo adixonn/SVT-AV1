@@ -148,7 +148,7 @@ extern "C" {
         { 0, 0, 12, 11, 10 }
     };
 
-    typedef struct TransfromParam_s {
+    typedef struct TransfromParam {
         // for both forward and inverse transforms
         TxType transform_type;
         TxSize transform_size;
@@ -157,11 +157,11 @@ extern "C" {
         TxSetType transformSetType;
         // for inverse transforms only
         int32_t eob;
-    } TransformParam_t;
+    } TransfromParam;
 
     // Utility function that returns the log of the ratio of the col and row
     // sizes.
-    typedef enum TXFM_TYPE {
+    typedef enum TxfmType {
         TXFM_TYPE_DCT4,
         TXFM_TYPE_DCT8,
         TXFM_TYPE_DCT16,
@@ -178,8 +178,8 @@ extern "C" {
         TXFM_TYPE_IDENTITY64,
         TXFM_TYPES,
         TXFM_TYPE_INVALID,
-    } TXFM_TYPE;
-    typedef struct TXFM_2D_FLIP_CFG {
+    } TxfmType;
+    typedef struct Txfm2DFlipCfg {
         TxSize tx_size;
         int32_t ud_flip;  // flip upside down
         int32_t lr_flip;  // flip left to right
@@ -188,12 +188,12 @@ extern "C" {
         int8_t cos_bit_row;
         int8_t stage_range_col[MAX_TXFM_STAGE_NUM];
         int8_t stage_range_row[MAX_TXFM_STAGE_NUM];
-        TXFM_TYPE txfm_type_col;
-        TXFM_TYPE txfm_type_row;
+        TxfmType txfm_type_col;
+        TxfmType txfm_type_row;
         int32_t stage_num_col;
         int32_t stage_num_row;
-    } TXFM_2D_FLIP_CFG;
-    static const TXFM_TYPE av1_txfm_type_ls[5][TX_TYPES_1D] = {
+    } Txfm2DFlipCfg;
+    static const TxfmType av1_txfm_type_ls[5][TX_TYPES_1D] = {
         { TXFM_TYPE_DCT4, TXFM_TYPE_ADST4, TXFM_TYPE_ADST4, TXFM_TYPE_IDENTITY4 },
         { TXFM_TYPE_DCT8, TXFM_TYPE_ADST8, TXFM_TYPE_ADST8, TXFM_TYPE_IDENTITY8 },
         { TXFM_TYPE_DCT16, TXFM_TYPE_ADST16, TXFM_TYPE_ADST16, TXFM_TYPE_IDENTITY16 },
@@ -299,12 +299,12 @@ extern "C" {
         7,  // 64x16 transform
     };
     ////////////////////// QUANTIZATION//////////////
-    typedef struct QUANT_PARAM {
+    typedef struct QuantParam {
         int32_t log_scale;
         TxSize tx_size;
         const qm_val_t *qmatrix;
         const qm_val_t *iqmatrix;
-    } QUANT_PARAM;
+    } QuantParam;
 
     static inline int32_t av1_get_tx_scale(const TxSize tx_size) {
         const int32_t pels = tx_size_2d[tx_size];

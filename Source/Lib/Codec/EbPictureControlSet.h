@@ -13676,7 +13676,7 @@ extern "C" {
 
     typedef struct PictureControlSet
     {
-        EbObjectWrapper_t                    *sequence_control_set_wrapper_ptr;
+        EbObjectWrapper                    *sequence_control_set_wrapper_ptr;
         
         EbPictureBufferDesc                *recon_picture_ptr;
         EbPictureBufferDesc                *film_grain_picture_ptr;
@@ -13686,13 +13686,13 @@ extern "C" {
         EbPictureBufferDesc                *input_frame16bit;
 
         struct PictureParentControlSet     *parent_pcs_ptr;  //The parent of this PCS.
-        EbObjectWrapper_t                    *picture_parent_control_set_wrapper_ptr;
+        EbObjectWrapper                    *picture_parent_control_set_wrapper_ptr;
         EntropyCoder                       *entropy_coder_ptr;
         // Packetization (used to encode SPS, PPS, etc)
         Bitstream                          *bitstream_ptr;
 
         // Reference Lists
-        EbObjectWrapper_t                    *ref_pic_ptr_array[MAX_NUM_OF_REF_PIC_LIST];
+        EbObjectWrapper                    *ref_pic_ptr_array[MAX_NUM_OF_REF_PIC_LIST];
         uint8_t                               ref_pic_qp_array[MAX_NUM_OF_REF_PIC_LIST];
         EB_SLICE                              ref_slice_type_array[MAX_NUM_OF_REF_PIC_LIST];
 
@@ -13914,17 +13914,17 @@ extern "C" {
     // Parent is created before the Child, and continue to live more. Child PCS only lives the exact time needed to encode the picture: from ME to EC/ALF.
     typedef struct PictureParentControlSet
     {
-        EbObjectWrapper_t                    *sequence_control_set_wrapper_ptr;
-        EbObjectWrapper_t                    *input_picture_wrapper_ptr;
-        EbObjectWrapper_t                    *reference_picture_wrapper_ptr;
-        EbObjectWrapper_t                    *pa_reference_picture_wrapper_ptr;
+        EbObjectWrapper                    *sequence_control_set_wrapper_ptr;
+        EbObjectWrapper                    *input_picture_wrapper_ptr;
+        EbObjectWrapper                    *reference_picture_wrapper_ptr;
+        EbObjectWrapper                    *pa_reference_picture_wrapper_ptr;
         EbPictureBufferDesc                *enhanced_picture_ptr;
         PredictionStructure                *pred_struct_ptr;          // need to check
         struct SequenceControlSet          *sequence_control_set_ptr;
         struct PictureParentControlSet     *ref_pa_pcs_array[MAX_NUM_OF_REF_PIC_LIST];
-        EbObjectWrapper_t                    *p_pcs_wrapper_ptr;
-        EbObjectWrapper_t                    *previous_picture_control_set_wrapper_ptr;
-        EbObjectWrapper_t                    *output_stream_wrapper_ptr;
+        EbObjectWrapper                    *p_pcs_wrapper_ptr;
+        EbObjectWrapper                    *previous_picture_control_set_wrapper_ptr;
+        EbObjectWrapper                    *output_stream_wrapper_ptr;
         Av1Common                            *av1_cm;
         
         // Data attached to the picture. This includes data passed from the application, or other data the encoder attaches
@@ -13989,7 +13989,7 @@ extern "C" {
         uint32_t                              cb_sse;
 
         // Pre Analysis
-        EbObjectWrapper_t                    *ref_pa_pic_ptr_array[MAX_NUM_OF_REF_PIC_LIST];
+        EbObjectWrapper                    *ref_pa_pic_ptr_array[MAX_NUM_OF_REF_PIC_LIST];
         uint64_t                              ref_pic_poc_array[MAX_NUM_OF_REF_PIC_LIST];
         uint16_t                            **variance;
         uint8_t                             **yMean;
@@ -14333,7 +14333,8 @@ extern "C" {
 
     } PictureControlSetInitData;
 
-    typedef struct AV1Comp {
+    typedef struct AV1Comp 
+    {
         //    Quants quants;
         //    ThreadData td;
         //    MB_MODE_INFO_EXT *mbmi_ext_base;

@@ -118,7 +118,7 @@
 /**********************************
  * Set Cfg Functions
  **********************************/
-static void SetCfgInputFile                     (const char *value, EbConfig_t *cfg)
+static void SetCfgInputFile                     (const char *value, EbConfig *cfg)
 {
 
     if (cfg->inputFile && cfg->inputFile != stdin) {
@@ -141,33 +141,33 @@ static void SetCfgInputFile                     (const char *value, EbConfig_t *
     }
 
 };
-static void SetCfgStreamFile                    (const char *value, EbConfig_t *cfg)
+static void SetCfgStreamFile                    (const char *value, EbConfig *cfg)
 {
     if (cfg->bitstreamFile) { fclose(cfg->bitstreamFile); }
     FOPEN(cfg->bitstreamFile,value, "wb");
 };
-static void SetCfgErrorFile                     (const char *value, EbConfig_t *cfg)
+static void SetCfgErrorFile                     (const char *value, EbConfig *cfg)
 {
     if (cfg->errorLogFile) { fclose(cfg->errorLogFile); }
     FOPEN(cfg->errorLogFile,value, "w+");
 };
-static void SetCfgReconFile                     (const char *value, EbConfig_t *cfg)
+static void SetCfgReconFile                     (const char *value, EbConfig *cfg)
 {
     if (cfg->reconFile) { fclose(cfg->reconFile); }
     FOPEN(cfg->reconFile,value, "wb");
 };
-static void SetCfgQpFile                        (const char *value, EbConfig_t *cfg)
+static void SetCfgQpFile                        (const char *value, EbConfig *cfg)
 {
     if (cfg->qpFile) { fclose(cfg->qpFile); }
     FOPEN(cfg->qpFile,value, "r");
 };
-static void SetCfgSourceWidth                   (const char *value, EbConfig_t *cfg) {cfg->sourceWidth = strtoul(value, NULL, 0);};
-static void SetInterlacedVideo                  (const char *value, EbConfig_t *cfg) {cfg->interlacedVideo  = (EbBool) strtoul(value, NULL, 0);};
-static void SetSeperateFields                   (const char *value, EbConfig_t *cfg) {cfg->separateFields = (EbBool) strtoul(value, NULL, 0);};
-static void SetCfgSourceHeight                  (const char *value, EbConfig_t *cfg) {cfg->sourceHeight = strtoul(value, NULL, 0) >> cfg->separateFields;};
-static void SetCfgFramesToBeEncoded             (const char *value, EbConfig_t *cfg) {cfg->framesToBeEncoded = strtol(value,  NULL, 0) << cfg->separateFields;};
-static void SetBufferedInput                    (const char *value, EbConfig_t *cfg) {cfg->bufferedInput = (strtol(value, NULL, 0) != -1 && cfg->separateFields) ? strtol(value, NULL, 0) << cfg->separateFields : strtol(value, NULL, 0);};
-static void SetFrameRate                        (const char *value, EbConfig_t *cfg) {
+static void SetCfgSourceWidth                   (const char *value, EbConfig *cfg) {cfg->sourceWidth = strtoul(value, NULL, 0);};
+static void SetInterlacedVideo                  (const char *value, EbConfig *cfg) {cfg->interlacedVideo  = (EbBool) strtoul(value, NULL, 0);};
+static void SetSeperateFields                   (const char *value, EbConfig *cfg) {cfg->separateFields = (EbBool) strtoul(value, NULL, 0);};
+static void SetCfgSourceHeight                  (const char *value, EbConfig *cfg) {cfg->sourceHeight = strtoul(value, NULL, 0) >> cfg->separateFields;};
+static void SetCfgFramesToBeEncoded             (const char *value, EbConfig *cfg) {cfg->framesToBeEncoded = strtol(value,  NULL, 0) << cfg->separateFields;};
+static void SetBufferedInput                    (const char *value, EbConfig *cfg) {cfg->bufferedInput = (strtol(value, NULL, 0) != -1 && cfg->separateFields) ? strtol(value, NULL, 0) << cfg->separateFields : strtol(value, NULL, 0);};
+static void SetFrameRate                        (const char *value, EbConfig *cfg) {
     cfg->frameRate = strtoul(value, NULL, 0);
     if (cfg->frameRate > 1000 ){
         cfg->frameRate = cfg->frameRate;
@@ -176,71 +176,71 @@ static void SetFrameRate                        (const char *value, EbConfig_t *
         cfg->frameRate = cfg->frameRate << 16;
     }
 }
-static void SetFrameRateNumerator               (const char *value, EbConfig_t *cfg) { cfg->frameRateNumerator = strtoul(value, NULL, 0);};
-static void SetFrameRateDenominator             (const char *value, EbConfig_t *cfg) { cfg->frameRateDenominator = strtoul(value, NULL, 0);};
-static void SetEncoderBitDepth                  (const char *value, EbConfig_t *cfg) {cfg->encoderBitDepth = strtoul(value, NULL, 0);}
-static void SetcompressedTenBitFormat            (const char *value, EbConfig_t *cfg) {cfg->compressedTenBitFormat = strtoul(value, NULL, 0);}
-static void SetBaseLayerSwitchMode              (const char *value, EbConfig_t *cfg) {cfg->base_layer_switch_mode = (EbBool) strtoul(value, NULL, 0);};
-static void SetencMode                          (const char *value, EbConfig_t *cfg) {cfg->encMode = (uint8_t)strtoul(value, NULL, 0);};
-static void SetCfgIntraPeriod                   (const char *value, EbConfig_t *cfg) {cfg->intraPeriod = strtol(value,  NULL, 0);};
-static void SetCfgIntraRefreshType              (const char *value, EbConfig_t *cfg) {cfg->intraRefreshType = strtol(value,  NULL, 0);};
-static void SetHierarchicalLevels                (const char *value, EbConfig_t *cfg) { cfg->hierarchicalLevels = strtol(value, NULL, 0); };
-static void SetCfgPredStructure                    (const char *value, EbConfig_t *cfg) { cfg->predStructure = strtol(value, NULL, 0); };
-static void SetCfgQp                            (const char *value, EbConfig_t *cfg) {cfg->qp = strtoul(value, NULL, 0);};
-static void SetCfgUseQpFile                     (const char *value, EbConfig_t *cfg) {cfg->use_qp_file = (EbBool)strtol(value, NULL, 0); };
-//static void SetCfgFilmGrain(const char *value, EbConfig_t *cfg) { cfg->film_grain_denoise_strength = strtol(value, NULL, 0); };  //not bool to enable possible algorithm extension in the future
-static void SetDisableDlfFlag                   (const char *value, EbConfig_t *cfg) {cfg->disable_dlf_flag = (EbBool)strtoul(value, NULL, 0);};
-static void SetEnableLocalWarpedMotionFlag      (const char *value, EbConfig_t *cfg) {cfg->enable_warped_motion = (EbBool)strtoul(value, NULL, 0);};
-static void SetEnableHmeFlag                    (const char *value, EbConfig_t *cfg) {cfg->enableHmeFlag = (EbBool)strtoul(value, NULL, 0);};
-static void SetEnableHmeLevel0Flag              (const char *value, EbConfig_t *cfg) {cfg->enable_hme_level0_flag = (EbBool)strtoul(value, NULL, 0);};
+static void SetFrameRateNumerator               (const char *value, EbConfig *cfg) { cfg->frameRateNumerator = strtoul(value, NULL, 0);};
+static void SetFrameRateDenominator             (const char *value, EbConfig *cfg) { cfg->frameRateDenominator = strtoul(value, NULL, 0);};
+static void SetEncoderBitDepth                  (const char *value, EbConfig *cfg) {cfg->encoderBitDepth = strtoul(value, NULL, 0);}
+static void SetcompressedTenBitFormat            (const char *value, EbConfig *cfg) {cfg->compressedTenBitFormat = strtoul(value, NULL, 0);}
+static void SetBaseLayerSwitchMode              (const char *value, EbConfig *cfg) {cfg->base_layer_switch_mode = (EbBool) strtoul(value, NULL, 0);};
+static void SetencMode                          (const char *value, EbConfig *cfg) {cfg->encMode = (uint8_t)strtoul(value, NULL, 0);};
+static void SetCfgIntraPeriod                   (const char *value, EbConfig *cfg) {cfg->intraPeriod = strtol(value,  NULL, 0);};
+static void SetCfgIntraRefreshType              (const char *value, EbConfig *cfg) {cfg->intraRefreshType = strtol(value,  NULL, 0);};
+static void SetHierarchicalLevels                (const char *value, EbConfig *cfg) { cfg->hierarchicalLevels = strtol(value, NULL, 0); };
+static void SetCfgPredStructure                    (const char *value, EbConfig *cfg) { cfg->predStructure = strtol(value, NULL, 0); };
+static void SetCfgQp                            (const char *value, EbConfig *cfg) {cfg->qp = strtoul(value, NULL, 0);};
+static void SetCfgUseQpFile                     (const char *value, EbConfig *cfg) {cfg->use_qp_file = (EbBool)strtol(value, NULL, 0); };
+//static void SetCfgFilmGrain(const char *value, EbConfig *cfg) { cfg->film_grain_denoise_strength = strtol(value, NULL, 0); };  //not bool to enable possible algorithm extension in the future
+static void SetDisableDlfFlag                   (const char *value, EbConfig *cfg) {cfg->disable_dlf_flag = (EbBool)strtoul(value, NULL, 0);};
+static void SetEnableLocalWarpedMotionFlag      (const char *value, EbConfig *cfg) {cfg->enable_warped_motion = (EbBool)strtoul(value, NULL, 0);};
+static void SetEnableHmeFlag                    (const char *value, EbConfig *cfg) {cfg->enableHmeFlag = (EbBool)strtoul(value, NULL, 0);};
+static void SetEnableHmeLevel0Flag              (const char *value, EbConfig *cfg) {cfg->enable_hme_level0_flag = (EbBool)strtoul(value, NULL, 0);};
 #if TILES
-static void SetTileRow                          (const char *value, EbConfig_t *cfg) { cfg->tile_rows = strtoul(value, NULL, 0); };
-static void SetTileCol                          (const char *value, EbConfig_t *cfg) { cfg->tile_columns = strtoul(value, NULL, 0); };
+static void SetTileRow                          (const char *value, EbConfig *cfg) { cfg->tile_rows = strtoul(value, NULL, 0); };
+static void SetTileCol                          (const char *value, EbConfig *cfg) { cfg->tile_columns = strtoul(value, NULL, 0); };
 #endif
-static void SetSceneChangeDetection             (const char *value, EbConfig_t *cfg) {cfg->scene_change_detection = strtoul(value, NULL, 0);};
-static void SetLookAheadDistance                (const char *value, EbConfig_t *cfg) {cfg->look_ahead_distance = strtoul(value, NULL, 0);};
-static void SetRateControlMode                  (const char *value, EbConfig_t *cfg) {cfg->rateControlMode = strtoul(value, NULL, 0);};
-static void SetTargetBitRate                    (const char *value, EbConfig_t *cfg) {cfg->targetBitRate = strtoul(value, NULL, 0);};
-static void SetMaxQpAllowed                     (const char *value, EbConfig_t *cfg) {cfg->max_qp_allowed = strtoul(value, NULL, 0);};
-static void SetMinQpAllowed                     (const char *value, EbConfig_t *cfg) {cfg->min_qp_allowed = strtoul(value, NULL, 0);};
-static void SetEnableHmeLevel1Flag              (const char *value, EbConfig_t *cfg) {cfg->enable_hme_level1_flag  = (EbBool)strtoul(value, NULL, 0);};
-static void SetEnableHmeLevel2Flag              (const char *value, EbConfig_t *cfg) {cfg->enable_hme_level2_flag  = (EbBool)strtoul(value, NULL, 0);};
-static void SetCfgSearchAreaWidth               (const char *value, EbConfig_t *cfg) {cfg->search_area_width = strtoul(value, NULL, 0);};
-static void SetCfgSearchAreaHeight              (const char *value, EbConfig_t *cfg) {cfg->search_area_height = strtoul(value, NULL, 0);};
-static void SetCfgNumberHmeSearchRegionInWidth  (const char *value, EbConfig_t *cfg) {cfg->numberHmeSearchRegionInWidth = strtoul(value, NULL, 0);};
-static void SetCfgNumberHmeSearchRegionInHeight (const char *value, EbConfig_t *cfg) {cfg->numberHmeSearchRegionInHeight = strtoul(value, NULL, 0);};
-static void SetCfgHmeLevel0TotalSearchAreaWidth (const char *value, EbConfig_t *cfg) {cfg->hme_level0_total_search_area_width = strtoul(value, NULL, 0);};
-static void SetCfgHmeLevel0TotalSearchAreaHeight(const char *value, EbConfig_t *cfg) {cfg->hme_level0_total_search_area_height = strtoul(value, NULL, 0);};
-static void SetCfgUseDefaultMeHme               (const char *value, EbConfig_t *cfg) {cfg->use_default_me_hme = (EbBool)strtol(value, NULL, 0); };
-static void SetEnableExtBlockFlag(const char *value, EbConfig_t *cfg) { cfg->ext_block_flag = (EbBool)strtoul(value, NULL, 0); };
-static void SetEnableInLoopMeFlag(const char *value, EbConfig_t *cfg) { cfg->in_loop_me_flag = (EbBool)strtoul(value, NULL, 0); };
-static void SetHmeLevel0SearchAreaInWidthArray  (const char *value, EbConfig_t *cfg) {cfg->hmeLevel0SearchAreaInWidthArray[cfg->hmeLevel0ColumnIndex++] = strtoul(value, NULL, 0);};
-static void SetHmeLevel0SearchAreaInHeightArray (const char *value, EbConfig_t *cfg) {cfg->hmeLevel0SearchAreaInHeightArray[cfg->hmeLevel0RowIndex++] = strtoul(value, NULL, 0);};
-static void SetHmeLevel1SearchAreaInWidthArray  (const char *value, EbConfig_t *cfg) {cfg->hmeLevel1SearchAreaInWidthArray[cfg->hmeLevel1ColumnIndex++] = strtoul(value, NULL, 0);};
-static void SetHmeLevel1SearchAreaInHeightArray (const char *value, EbConfig_t *cfg) {cfg->hmeLevel1SearchAreaInHeightArray[cfg->hmeLevel1RowIndex++] = strtoul(value, NULL, 0);};
-static void SetHmeLevel2SearchAreaInWidthArray  (const char *value, EbConfig_t *cfg) {cfg->hmeLevel2SearchAreaInWidthArray[cfg->hmeLevel2ColumnIndex++] = strtoul(value, NULL, 0);};
-static void SetHmeLevel2SearchAreaInHeightArray (const char *value, EbConfig_t *cfg) {cfg->hmeLevel2SearchAreaInHeightArray[cfg->hmeLevel2RowIndex++] = strtoul(value, NULL, 0);};
-static void SetEnableConstrainedIntra           (const char *value, EbConfig_t *cfg) {cfg->constrained_intra                                             = (EbBool)strtoul(value, NULL, 0);};
-static void SetImproveSharpness                 (const char *value, EbConfig_t *cfg) {cfg->improve_sharpness               = (EbBool)strtol(value,  NULL, 0);};
-static void SetHighDynamicRangeInput            (const char *value, EbConfig_t *cfg) {cfg->high_dynamic_range_input            = strtol(value,  NULL, 0);};
-static void SetAccessUnitDelimiter              (const char *value, EbConfig_t *cfg) {cfg->access_unit_delimiter              = strtol(value,  NULL, 0);};
-static void SetBufferingPeriodSEI               (const char *value, EbConfig_t *cfg) {cfg->buffering_period_sei               = strtol(value,  NULL, 0);};
-static void SetPictureTimingSEI                 (const char *value, EbConfig_t *cfg) {cfg->picture_timing_sei                 = strtol(value,  NULL, 0);};
-static void SetRegisteredUserDataSEI            (const char *value, EbConfig_t *cfg) {cfg->registered_user_data_sei_flag        = (EbBool)strtol(value,  NULL, 0);};
-static void SetUnRegisteredUserDataSEI          (const char *value, EbConfig_t *cfg) {cfg->unregistered_user_data_sei_flag      = (EbBool)strtol(value,  NULL, 0);};
-static void SetRecoveryPointSEI                 (const char *value, EbConfig_t *cfg) {cfg->recovery_point_sei_flag             = (EbBool)strtol(value,  NULL, 0);};
-static void SetEnableTemporalId                 (const char *value, EbConfig_t *cfg) {cfg->enable_temporal_id                 = strtol(value,  NULL, 0);};
-static void SetProfile                          (const char *value, EbConfig_t *cfg) {cfg->profile                          = strtol(value,  NULL, 0);};
-static void SetTier                             (const char *value, EbConfig_t *cfg) {cfg->tier                             = strtol(value,  NULL, 0);};
-static void SetLevel                            (const char *value, EbConfig_t *cfg) {
+static void SetSceneChangeDetection             (const char *value, EbConfig *cfg) {cfg->scene_change_detection = strtoul(value, NULL, 0);};
+static void SetLookAheadDistance                (const char *value, EbConfig *cfg) {cfg->look_ahead_distance = strtoul(value, NULL, 0);};
+static void SetRateControlMode                  (const char *value, EbConfig *cfg) {cfg->rateControlMode = strtoul(value, NULL, 0);};
+static void SetTargetBitRate                    (const char *value, EbConfig *cfg) {cfg->targetBitRate = strtoul(value, NULL, 0);};
+static void SetMaxQpAllowed                     (const char *value, EbConfig *cfg) {cfg->max_qp_allowed = strtoul(value, NULL, 0);};
+static void SetMinQpAllowed                     (const char *value, EbConfig *cfg) {cfg->min_qp_allowed = strtoul(value, NULL, 0);};
+static void SetEnableHmeLevel1Flag              (const char *value, EbConfig *cfg) {cfg->enable_hme_level1_flag  = (EbBool)strtoul(value, NULL, 0);};
+static void SetEnableHmeLevel2Flag              (const char *value, EbConfig *cfg) {cfg->enable_hme_level2_flag  = (EbBool)strtoul(value, NULL, 0);};
+static void SetCfgSearchAreaWidth               (const char *value, EbConfig *cfg) {cfg->search_area_width = strtoul(value, NULL, 0);};
+static void SetCfgSearchAreaHeight              (const char *value, EbConfig *cfg) {cfg->search_area_height = strtoul(value, NULL, 0);};
+static void SetCfgNumberHmeSearchRegionInWidth  (const char *value, EbConfig *cfg) {cfg->numberHmeSearchRegionInWidth = strtoul(value, NULL, 0);};
+static void SetCfgNumberHmeSearchRegionInHeight (const char *value, EbConfig *cfg) {cfg->numberHmeSearchRegionInHeight = strtoul(value, NULL, 0);};
+static void SetCfgHmeLevel0TotalSearchAreaWidth (const char *value, EbConfig *cfg) {cfg->hme_level0_total_search_area_width = strtoul(value, NULL, 0);};
+static void SetCfgHmeLevel0TotalSearchAreaHeight(const char *value, EbConfig *cfg) {cfg->hme_level0_total_search_area_height = strtoul(value, NULL, 0);};
+static void SetCfgUseDefaultMeHme               (const char *value, EbConfig *cfg) {cfg->use_default_me_hme = (EbBool)strtol(value, NULL, 0); };
+static void SetEnableExtBlockFlag(const char *value, EbConfig *cfg) { cfg->ext_block_flag = (EbBool)strtoul(value, NULL, 0); };
+static void SetEnableInLoopMeFlag(const char *value, EbConfig *cfg) { cfg->in_loop_me_flag = (EbBool)strtoul(value, NULL, 0); };
+static void SetHmeLevel0SearchAreaInWidthArray  (const char *value, EbConfig *cfg) {cfg->hmeLevel0SearchAreaInWidthArray[cfg->hmeLevel0ColumnIndex++] = strtoul(value, NULL, 0);};
+static void SetHmeLevel0SearchAreaInHeightArray (const char *value, EbConfig *cfg) {cfg->hmeLevel0SearchAreaInHeightArray[cfg->hmeLevel0RowIndex++] = strtoul(value, NULL, 0);};
+static void SetHmeLevel1SearchAreaInWidthArray  (const char *value, EbConfig *cfg) {cfg->hmeLevel1SearchAreaInWidthArray[cfg->hmeLevel1ColumnIndex++] = strtoul(value, NULL, 0);};
+static void SetHmeLevel1SearchAreaInHeightArray (const char *value, EbConfig *cfg) {cfg->hmeLevel1SearchAreaInHeightArray[cfg->hmeLevel1RowIndex++] = strtoul(value, NULL, 0);};
+static void SetHmeLevel2SearchAreaInWidthArray  (const char *value, EbConfig *cfg) {cfg->hmeLevel2SearchAreaInWidthArray[cfg->hmeLevel2ColumnIndex++] = strtoul(value, NULL, 0);};
+static void SetHmeLevel2SearchAreaInHeightArray (const char *value, EbConfig *cfg) {cfg->hmeLevel2SearchAreaInHeightArray[cfg->hmeLevel2RowIndex++] = strtoul(value, NULL, 0);};
+static void SetEnableConstrainedIntra           (const char *value, EbConfig *cfg) {cfg->constrained_intra                                             = (EbBool)strtoul(value, NULL, 0);};
+static void SetImproveSharpness                 (const char *value, EbConfig *cfg) {cfg->improve_sharpness               = (EbBool)strtol(value,  NULL, 0);};
+static void SetHighDynamicRangeInput            (const char *value, EbConfig *cfg) {cfg->high_dynamic_range_input            = strtol(value,  NULL, 0);};
+static void SetAccessUnitDelimiter              (const char *value, EbConfig *cfg) {cfg->access_unit_delimiter              = strtol(value,  NULL, 0);};
+static void SetBufferingPeriodSEI               (const char *value, EbConfig *cfg) {cfg->buffering_period_sei               = strtol(value,  NULL, 0);};
+static void SetPictureTimingSEI                 (const char *value, EbConfig *cfg) {cfg->picture_timing_sei                 = strtol(value,  NULL, 0);};
+static void SetRegisteredUserDataSEI            (const char *value, EbConfig *cfg) {cfg->registered_user_data_sei_flag        = (EbBool)strtol(value,  NULL, 0);};
+static void SetUnRegisteredUserDataSEI          (const char *value, EbConfig *cfg) {cfg->unregistered_user_data_sei_flag      = (EbBool)strtol(value,  NULL, 0);};
+static void SetRecoveryPointSEI                 (const char *value, EbConfig *cfg) {cfg->recovery_point_sei_flag             = (EbBool)strtol(value,  NULL, 0);};
+static void SetEnableTemporalId                 (const char *value, EbConfig *cfg) {cfg->enable_temporal_id                 = strtol(value,  NULL, 0);};
+static void SetProfile                          (const char *value, EbConfig *cfg) {cfg->profile                          = strtol(value,  NULL, 0);};
+static void SetTier                             (const char *value, EbConfig *cfg) {cfg->tier                             = strtol(value,  NULL, 0);};
+static void SetLevel                            (const char *value, EbConfig *cfg) {
     if (strtoul( value, NULL,0) != 0 || EB_STRCMP(value, "0") == 0 )
         cfg->level = (uint32_t)(10*strtod(value,  NULL));
     else
         cfg->level = 9999999;
 };
-static void SetInjector                         (const char *value, EbConfig_t *cfg) {cfg->injector                         = strtol(value,  NULL, 0);};
-static void SpeedControlFlag                    (const char *value, EbConfig_t *cfg) { cfg->speed_control_flag = strtol(value, NULL, 0); };
-static void SetInjectorFrameRate                (const char *value, EbConfig_t *cfg) {
+static void SetInjector                         (const char *value, EbConfig *cfg) {cfg->injector                         = strtol(value,  NULL, 0);};
+static void SpeedControlFlag                    (const char *value, EbConfig *cfg) { cfg->speed_control_flag = strtol(value, NULL, 0); };
+static void SetInjectorFrameRate                (const char *value, EbConfig *cfg) {
     cfg->injector_frame_rate = strtoul(value, NULL, 0);
     if (cfg->injector_frame_rate > 1000 ){
         cfg->injector_frame_rate = cfg->injector_frame_rate;
@@ -249,9 +249,9 @@ static void SetInjectorFrameRate                (const char *value, EbConfig_t *
         cfg->injector_frame_rate = cfg->injector_frame_rate << 16;
     }
 }
-static void SetLatencyMode                      (const char *value, EbConfig_t *cfg)  {cfg->latencyMode               = (uint8_t)strtol(value, NULL, 0);};
-static void SetAsmType                          (const char *value, EbConfig_t *cfg)  {cfg->asmType                  = (uint32_t)strtoul(value, NULL, 0);};
-static void SetTargetSocket                     (const char *value, EbConfig_t *cfg)  {cfg->targetSocket              = (int32_t)strtol(value, NULL, 0);};
+static void SetLatencyMode                      (const char *value, EbConfig *cfg)  {cfg->latencyMode               = (uint8_t)strtol(value, NULL, 0);};
+static void SetAsmType                          (const char *value, EbConfig *cfg)  {cfg->asmType                  = (uint32_t)strtoul(value, NULL, 0);};
+static void SetTargetSocket                     (const char *value, EbConfig *cfg)  {cfg->targetSocket              = (int32_t)strtol(value, NULL, 0);};
 
 enum cfg_type{
     SINGLE_INPUT,   // Configuration parameters that have only 1 value input
@@ -261,17 +261,17 @@ enum cfg_type{
 /**********************************
  * Config Entry Struct
  **********************************/
-typedef struct config_entry_s {
+typedef struct ConfigEntry {
     enum  cfg_type type;
     const char *token;
     const char *name;
-    void (*scf)(const char *, EbConfig_t *);
-} config_entry_t;
+    void (*scf)(const char *, EbConfig *);
+} ConfigEntry;
 
 /**********************************
  * Config Entry Array
  **********************************/
-config_entry_t config_entry[] = {
+ConfigEntry config_entry[] = {
 
     // File I/O
     { SINGLE_INPUT, INPUT_FILE_TOKEN, "InputFile", SetCfgInputFile },
@@ -390,7 +390,7 @@ config_entry_t config_entry[] = {
 /**********************************
  * Constructor
  **********************************/
-void eb_config_ctor(EbConfig_t *config_ptr)
+void eb_config_ctor(EbConfig *config_ptr)
 {
     config_ptr->configFile                           = NULL;
     config_ptr->inputFile                            = NULL;
@@ -531,7 +531,7 @@ void eb_config_ctor(EbConfig_t *config_ptr)
 /**********************************
  * Destructor
  **********************************/
-void eb_config_dtor(EbConfig_t *config_ptr)
+void eb_config_dtor(EbConfig *config_ptr)
 {
 
     // Close any files that are open
@@ -635,7 +635,7 @@ static void lineSplit(
 * Set Config value
 **********************************/
 static void SetConfigValue(
-    EbConfig_t *config,
+    EbConfig *config,
     char       *name,
     char       *value)
 {
@@ -655,7 +655,7 @@ static void SetConfigValue(
 * Parse Config File
 **********************************/
 static void ParseConfigFile(
-    EbConfig_t *config,
+    EbConfig *config,
     char       *buffer,
     int32_t         size)
 {
@@ -738,7 +738,7 @@ static int32_t FindToken(
 * Read Config File
 **********************************/
 static int32_t ReadConfigFile(
-    EbConfig_t  *config,
+    EbConfig  *config,
     char        *configPath,
     uint32_t     instance_idx)
 {
@@ -779,7 +779,7 @@ static int32_t ReadConfigFile(
 /******************************************
 * Verify Settings
 ******************************************/
-static EbErrorType VerifySettings(EbConfig_t *config, uint32_t channelNumber)
+static EbErrorType VerifySettings(EbConfig *config, uint32_t channelNumber)
 {
     EbErrorType return_error = EB_ErrorNone;
 
@@ -965,7 +965,7 @@ EbBool is_negative_number(
 #define SIZE_OF_ONE_FRAME_IN_BYTES(width, height,is16bit) ( ( ((width)*(height)*3)>>1 )<<is16bit)
 // Computes the number of frames in the input file
 int32_t ComputeFramesToBeEncoded(
-    EbConfig_t   *config)
+    EbConfig   *config)
 {
     uint64_t fileSize = 0;
     int32_t frameCount = 0;
@@ -998,7 +998,7 @@ int32_t ComputeFramesToBeEncoded(
 EbErrorType read_command_line(
     int32_t        argc,
     char *const    argv[],
-    EbConfig_t   **configs,
+    EbConfig   **configs,
     uint32_t       numChannels,
     EbErrorType  *return_errors)
 {

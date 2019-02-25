@@ -62,13 +62,13 @@ void* PacketizationKernel(void *input_ptr)
     EncodeContext                *encode_context_ptr;
 
     // Input
-    EbObjectWrapper_t              *entropyCodingResultsWrapperPtr;
+    EbObjectWrapper              *entropyCodingResultsWrapperPtr;
     EntropyCodingResults         *entropyCodingResultsPtr;
 
     // Output
-    EbObjectWrapper_t              *output_stream_wrapper_ptr;
+    EbObjectWrapper              *output_stream_wrapper_ptr;
     EbBufferHeaderType             *output_stream_ptr;
-    EbObjectWrapper_t              *rateControlTasksWrapperPtr;
+    EbObjectWrapper              *rateControlTasksWrapperPtr;
     RateControlTasks             *rateControlTasksPtr;
     
     // Queue variables
@@ -361,10 +361,10 @@ void* PacketizationKernel(void *input_ptr)
 
             // Reset the Reorder Queue Entry
             queueEntryPtr->picture_number += PACKETIZATION_REORDER_QUEUE_MAX_DEPTH;
-            queueEntryPtr->output_stream_wrapper_ptr = (EbObjectWrapper_t *)EB_NULL;
+            queueEntryPtr->output_stream_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
 
             if (encode_context_ptr->statistics_port_active) {
-                queueEntryPtr->outputStatisticsWrapperPtr = (EbObjectWrapper_t *)EB_NULL;
+                queueEntryPtr->outputStatisticsWrapperPtr = (EbObjectWrapper *)EB_NULL;
             }
             // Increment the Reorder Queue head Ptr
             encode_context_ptr->packetization_reorder_queue_head_index =

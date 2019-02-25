@@ -980,11 +980,11 @@ void* rate_control_kernel(void *input_ptr)
     SequenceControlSet_t        *sequence_control_set_ptr;
 
     // Input
-    EbObjectWrapper_t           *rateControlTasksWrapperPtr;
+    EbObjectWrapper           *rateControlTasksWrapperPtr;
     RateControlTasks          *rateControlTasksPtr;
 
     // Output
-    EbObjectWrapper_t           *rateControlResultsWrapperPtr;
+    EbObjectWrapper           *rateControlResultsWrapperPtr;
     RateControlResults        *rateControlResultsPtr;
 
     // SB Loop variables

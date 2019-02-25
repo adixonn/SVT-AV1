@@ -620,7 +620,7 @@ void LogErrorOutput(
 ******************************************************/
 void ProcessInputFieldStandardMode(
 
-    EbConfig_t               *config,
+    EbConfig               *config,
     EbBufferHeaderType      *headerPtr,
     FILE                     *inputFile,
     uint8_t                    *lumaInputPtr,
@@ -696,7 +696,7 @@ void ProcessInputFieldStandardMode(
 static int32_t qpReadFromFile = 0;
 
 int32_t GetNextQpFromQpFile(
-    EbConfig_t  *config
+    EbConfig  *config
 )
 {
     uint8_t *line;
@@ -756,7 +756,7 @@ int32_t GetNextQpFromQpFile(
 }
 
 void ReadInputFrames(
-    EbConfig_t                  *config,
+    EbConfig                  *config,
     uint8_t                      is16bit,
     EbBufferHeaderType         *headerPtr){
 
@@ -1133,7 +1133,7 @@ void ReadInputFrames(
 }
 
 void SendQpOnTheFly(
-    EbConfig_t                  *config,
+    EbConfig                  *config,
     EbBufferHeaderType        *headerPtr){
     {
         uint32_t           qpPtr;
@@ -1176,8 +1176,8 @@ void SendQpOnTheFly(
 // them into the input buffer
 /************************************/
 APPEXITCONDITIONTYPE ProcessInputBuffer(
-    EbConfig_t             *config,
-    EbAppContext_t         *appCallBack)
+    EbConfig             *config,
+    EbAppContext         *appCallBack)
 {
     uint8_t                 is16bit = (uint8_t)(config->encoderBitDepth > 8);
     EbBufferHeaderType     *headerPtr = appCallBack->inputBufferPool;
@@ -1278,7 +1278,7 @@ static __inline void mem_put_le16(void *vmem, int32_t val) {
     mem[1] = (uint8_t)((val >> 8) & 0xff);
 }
 
-static void write_ivf_stream_header(EbConfig_t *config)
+static void write_ivf_stream_header(EbConfig *config)
 {
     char header[32];
     header[0] = 'D';
@@ -1303,7 +1303,7 @@ static void write_ivf_stream_header(EbConfig_t *config)
     return;
 }
 
-static void write_ivf_frame_header(EbConfig_t *config, uint32_t byte_count){
+static void write_ivf_frame_header(EbConfig *config, uint32_t byte_count){
     char header[12];
     int32_t write_location = 0;
 
@@ -1321,8 +1321,8 @@ static void write_ivf_frame_header(EbConfig_t *config, uint32_t byte_count){
 #define OBU_FRAME_HEADER_SIZE   3
 #define TD_SPS_SIZE             17
 APPEXITCONDITIONTYPE ProcessOutputStreamBuffer(
-    EbConfig_t             *config,
-    EbAppContext_t         *appCallBack,
+    EbConfig             *config,
+    EbAppContext         *appCallBack,
     uint8_t                 pic_send_done)
 {
     APPPORTACTIVETYPE      *portState       = &appCallBack->outputStreamPortActive;
@@ -1441,8 +1441,8 @@ APPEXITCONDITIONTYPE ProcessOutputStreamBuffer(
     return return_value;
 }
 APPEXITCONDITIONTYPE ProcessOutputReconBuffer(
-    EbConfig_t             *config,
-    EbAppContext_t         *appCallBack)
+    EbConfig             *config,
+    EbAppContext         *appCallBack)
 {
     EbBufferHeaderType    *headerPtr = appCallBack->recon_buffer; // needs to change for buffered input
     EbComponentType       *componentHandle = (EbComponentType*)appCallBack->svtEncoderHandle;

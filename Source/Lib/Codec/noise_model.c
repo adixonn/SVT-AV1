@@ -562,14 +562,15 @@ void aom_flat_block_finder_extract_block(
     }
 }
 
-typedef struct {
+typedef struct IndexAndScore
+{
     int32_t index;
     float score;
-} index_and_score_t;
+} IndexAndScore;
 
 static int32_t compare_scores(const void *a, const void *b) {
     const float diff =
-        ((index_and_score_t *)a)->score - ((index_and_score_t *)b)->score;
+        ((IndexAndScore *)a)->score - ((IndexAndScore *)b)->score;
     if (diff < 0)
         return -1;
     else if (diff > 0)
@@ -597,7 +598,7 @@ int32_t aom_flat_block_finder_run(const aom_flat_block_finder_t *block_finder,
     int32_t bx = 0, by = 0;
     double *plane = (double *)malloc(n * sizeof(*plane));
     double *block = (double *)malloc(n * sizeof(*block));
-    index_and_score_t *scores = (index_and_score_t *)malloc(
+    IndexAndScore *scores = (IndexAndScore *)malloc(
         num_blocks_w * num_blocks_h * sizeof(*scores));
     if (plane == NULL || block == NULL || scores == NULL) {
         fprintf(stderr, "Failed to allocate memory for block of size %d\n", n);
@@ -1560,7 +1561,7 @@ EbErrorType denoise_and_model_ctor(EbPtr *object_dbl_ptr,
     EbPtr object_init_data_ptr) {
 
     struct aom_denoise_and_model_t *object_ptr = 0;
-    denoise_and_model_init_data_t *init_data_ptr = (denoise_and_model_init_data_t*)object_init_data_ptr;
+    DenoiseAndModelInitData *init_data_ptr = (DenoiseAndModelInitData*)object_init_data_ptr;
     EbErrorType return_error = EB_ErrorNone;
     int32_t use_highbd = init_data_ptr->encoder_bit_depth > EB_8BIT ? 10 : 8;
 

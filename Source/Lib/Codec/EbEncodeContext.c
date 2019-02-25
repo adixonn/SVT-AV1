@@ -80,10 +80,10 @@ EbErrorType encode_context_ctor(
 
     encode_context_ptr->pre_assignment_buffer_count = 0;
 
-    EB_MALLOC(EbObjectWrapper_t**, encode_context_ptr->pre_assignment_buffer, sizeof(EbObjectWrapper_t*) * PRE_ASSIGNMENT_MAX_DEPTH, EB_N_PTR);
+    EB_MALLOC(EbObjectWrapper**, encode_context_ptr->pre_assignment_buffer, sizeof(EbObjectWrapper*) * PRE_ASSIGNMENT_MAX_DEPTH, EB_N_PTR);
 
     for (pictureIndex = 0; pictureIndex < PRE_ASSIGNMENT_MAX_DEPTH; ++pictureIndex) {
-        encode_context_ptr->pre_assignment_buffer[pictureIndex] = (EbObjectWrapper_t*)EB_NULL;
+        encode_context_ptr->pre_assignment_buffer[pictureIndex] = (EbObjectWrapper*)EB_NULL;
     }
 
     // Picture Manager Input Queue

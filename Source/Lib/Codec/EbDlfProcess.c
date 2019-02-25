@@ -92,11 +92,11 @@ void* dlf_kernel(void *input_ptr)
     SequenceControlSet_t                    *sequence_control_set_ptr;
 
     //// Input
-    EbObjectWrapper_t                       *enc_dec_results_wrapper_ptr;
+    EbObjectWrapper                       *enc_dec_results_wrapper_ptr;
     EncDecResults                         *enc_dec_results_ptr;
 
     //// Output
-    EbObjectWrapper_t                       *dlf_results_wrapper_ptr;
+    EbObjectWrapper                       *dlf_results_wrapper_ptr;
     struct DlfResults*                     dlf_results_ptr;
 
     // SB Loop variables

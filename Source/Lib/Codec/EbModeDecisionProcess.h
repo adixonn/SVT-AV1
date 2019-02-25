@@ -125,7 +125,7 @@ extern "C" {
         IntraReferenceSamples        *intra_ref_ptr;
 
         // Transform and Quantization Buffers
-        EbTransQuantBuffers_t          *trans_quant_buffers_ptr;
+        EbTransQuantBuffers          *trans_quant_buffers_ptr;
         struct EncDecContext         *enc_dec_context_ptr;
 
         uint64_t                       *fast_cost_array;
@@ -152,12 +152,12 @@ extern "C" {
 
         //  Context Variables---------------------------------
         LargestCodingUnit            *sb_ptr;
-        TransformUnit_t                *txb_ptr;
+        TransformUnit                *txb_ptr;
         CodingUnit                   *cu_ptr;
         const BlockGeom                *blk_geom;
         PredictionUnit_t               *pu_ptr;
         const PredictionUnitStats    *pu_stats;
-        MvUnit_t                        mv_unit;
+        MvUnit                        mv_unit;
 
         // Entropy Coder
         EntropyCoder                 *coeff_est_entropy_coder_ptr;

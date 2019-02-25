@@ -19,8 +19,8 @@ extern "C" {
     typedef struct PacketizationReorderEntry 
     {
         uint64_t                          picture_number;
-        EbObjectWrapper_t              *output_stream_wrapper_ptr;
-        EbObjectWrapper_t              *outputStatisticsWrapperPtr;
+        EbObjectWrapper              *output_stream_wrapper_ptr;
+        EbObjectWrapper              *outputStatisticsWrapperPtr;
 
         EbLinkedListNode               *outMetaData;
 

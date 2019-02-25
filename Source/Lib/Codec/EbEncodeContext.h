@@ -73,7 +73,7 @@ typedef struct EncodeContext
     uint32_t                                         pre_assignment_buffer_scene_change_index;
     uint32_t                                         pre_assignment_buffer_eos_flag;
     uint64_t                                         decode_base_number;
-    EbObjectWrapper_t                              **pre_assignment_buffer;
+    EbObjectWrapper                              **pre_assignment_buffer;
     uint32_t                                         pre_assignment_buffer_count;
 
     // Picture Decision Circular Queues
@@ -141,7 +141,7 @@ typedef struct EncodeContext
     // Dynamic GOP                                   
     uint32_t                                          previous_mini_gop_hierarchical_levels;
     EbAsm                                             asm_type;
-    EbObjectWrapper_t                                *previous_picture_control_set_wrapper_ptr;
+    EbObjectWrapper                                *previous_picture_control_set_wrapper_ptr;
     EbHandle                                          shared_reference_mutex;
 
 } EncodeContext;

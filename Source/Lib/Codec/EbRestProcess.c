@@ -211,13 +211,13 @@ void* rest_kernel(void *input_ptr)
     SequenceControlSet_t                    *sequence_control_set_ptr;
 
     //// Input
-    EbObjectWrapper_t                       *cdef_results_wrapper_ptr;
+    EbObjectWrapper                       *cdef_results_wrapper_ptr;
     CdefResults                         *cdef_results_ptr;
 
     //// Output
-    EbObjectWrapper_t                       *rest_results_wrapper_ptr;
+    EbObjectWrapper                       *rest_results_wrapper_ptr;
     RestResults*                          rest_results_ptr;
-    EbObjectWrapper_t                       *picture_demux_results_wrapper_ptr;
+    EbObjectWrapper                       *picture_demux_results_wrapper_ptr;
     PictureDemuxResults                   *picture_demux_results_rtr;
     // SB Loop variables
 

@@ -69,14 +69,17 @@ typedef void * EB_PTR;
 #define EB_NULL ((void*) 0)
 
 // memory map to be removed and replaced by malloc / free
-typedef enum EbPtrType {
+typedef enum EbPtrType 
+{
     EB_N_PTR = 0,                                   // malloc'd pointer
     EB_A_PTR = 1,                                   // malloc'd pointer aligned
     EB_MUTEX = 2,                                   // mutex
     EB_SEMAPHORE = 3,                                   // semaphore
     EB_THREAD = 4                                    // thread handle
 }EbPtrType;
+
 typedef void * EbPtr;
+
 typedef struct EbMemoryMapEntry
 {
     EbPtr                     ptr;                       // points to a memory pointer
@@ -178,7 +181,7 @@ extern rsize_t strnlen_ss(const char *s, rsize_t smax);
 #define BOTTOM_INPUT_PADDING 0
 
 
-typedef struct EbPerformanceContext_s {
+typedef struct EbPerformanceContext {
 
     /****************************************
      * Computational Performance Data
@@ -201,9 +204,9 @@ typedef struct EbPerformanceContext_s {
 
     uint64_t                  byteCount;
 
-}EbPerformanceContext_t;
+}EbPerformanceContext;
 
-typedef struct EbConfig_s
+typedef struct EbConfig
 {
     /****************************************
      * File I/O
@@ -371,7 +374,7 @@ typedef struct EbConfig_s
     /****************************************
      * Computational Performance Data
      ****************************************/
-    EbPerformanceContext_t  performanceContext;
+    EbPerformanceContext  performanceContext;
 
     /****************************************
     * Instance Info
@@ -385,16 +388,16 @@ typedef struct EbConfig_s
     uint64_t                processed_frame_count;
     uint64_t                processedByteCount;
 
-} EbConfig_t;
+} EbConfig;
 
-extern void eb_config_ctor(EbConfig_t *config_ptr);
+extern void eb_config_ctor(EbConfig *config_ptr);
 
-extern void eb_config_dtor(EbConfig_t *config_ptr);
+extern void eb_config_dtor(EbConfig *config_ptr);
 
 extern EbErrorType read_command_line(
     int32_t argc, 
     char *const argv[], 
-    EbConfig_t **config, 
+    EbConfig **config, 
     uint32_t  numChannels,    
     EbErrorType *return_errors);
 

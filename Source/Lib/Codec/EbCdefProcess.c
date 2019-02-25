@@ -454,11 +454,11 @@ void* cdef_kernel(void *input_ptr)
     SequenceControlSet_t                    *sequence_control_set_ptr;
 
     //// Input
-    EbObjectWrapper_t                       *dlf_results_wrapper_ptr;
+    EbObjectWrapper                       *dlf_results_wrapper_ptr;
     DlfResults                            *dlf_results_ptr;
 
     //// Output
-    EbObjectWrapper_t                       *cdef_results_wrapper_ptr;
+    EbObjectWrapper                       *cdef_results_wrapper_ptr;
     CdefResults                           *cdef_results_ptr;
 
     // SB Loop variables

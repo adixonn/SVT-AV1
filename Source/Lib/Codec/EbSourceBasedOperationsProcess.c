@@ -62,18 +62,18 @@ const uint8_t MaxDeltaQPdefault[3] = {
 * Initial Rate Control Context Constructor
 ************************************************/
 EbErrorType source_based_operations_context_ctor(
-    SourceBasedOperationsContext_t **context_dbl_ptr,
+    SourceBasedOperationsContext **context_dbl_ptr,
     EbFifo                        *initialRateControlResultsInputFifoPtr,
     EbFifo                        *picture_demux_results_output_fifo_ptr,
     SequenceControlSet_t            *sequence_control_set_ptr)
 {
-    SourceBasedOperationsContext_t *context_ptr;
+    SourceBasedOperationsContext *context_ptr;
 
     uint32_t  pictureLcuWidth = (sequence_control_set_ptr->max_input_luma_width + sequence_control_set_ptr->sb_sz - 1) / sequence_control_set_ptr->sb_sz;
     uint32_t    pictureLcuHeight = (sequence_control_set_ptr->max_input_luma_height + sequence_control_set_ptr->sb_sz - 1) / sequence_control_set_ptr->sb_sz;
     uint32_t    sb_total_count = pictureLcuWidth * pictureLcuHeight;
 
-    EB_MALLOC(SourceBasedOperationsContext_t*, context_ptr, sizeof(SourceBasedOperationsContext_t), EB_N_PTR);
+    EB_MALLOC(SourceBasedOperationsContext*, context_ptr, sizeof(SourceBasedOperationsContext), EB_N_PTR);
     *context_dbl_ptr = context_ptr;
     context_ptr->initial_rate_control_results_input_fifo_ptr = initialRateControlResultsInputFifoPtr;
     context_ptr->picture_demux_results_output_fifo_ptr = picture_demux_results_output_fifo_ptr;
@@ -419,7 +419,7 @@ void CalculateAcEnergy(
 }
 
 void LumaContrastDetectorLcu(
-    SourceBasedOperationsContext_t *context_ptr,
+    SourceBasedOperationsContext *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
     PictureParentControlSet       *picture_control_set_ptr,
     uint32_t                            sb_index) {
@@ -464,7 +464,7 @@ void LumaContrastDetectorLcu(
 }
 
 void LumaContrastDetectorPicture(
-    SourceBasedOperationsContext_t        *context_ptr,
+    SourceBasedOperationsContext        *context_ptr,
     PictureParentControlSet            *picture_control_set_ptr) {
 
     context_ptr->y_non_moving_mean = (context_ptr->countOfNonMovingLcus != 0) ? (context_ptr->y_non_moving_mean / context_ptr->countOfNonMovingLcus) : 0;
@@ -482,7 +482,7 @@ void LumaContrastDetectorPicture(
 }
 
 void GrassLcu(
-    SourceBasedOperationsContext_t        *context_ptr,
+    SourceBasedOperationsContext        *context_ptr,
     SequenceControlSet_t                *sequence_control_set_ptr,
     PictureParentControlSet            *picture_control_set_ptr,
     uint32_t                                 sb_index) {
@@ -560,7 +560,7 @@ void GrassLcu(
 }
 
 void GrassSkinPicture(
-    SourceBasedOperationsContext_t        *context_ptr,
+    SourceBasedOperationsContext        *context_ptr,
     PictureParentControlSet            *picture_control_set_ptr) {
     picture_control_set_ptr->grass_percentage_in_picture = (uint8_t)(context_ptr->picture_num_grass_sb * 100 / picture_control_set_ptr->sb_total_count);
 }
@@ -642,7 +642,7 @@ void DetermineIsolatedNonHomogeneousRegionInPicture(
 
 
 void SetDefaultDeltaQpRange(
-    SourceBasedOperationsContext_t    *context_ptr,
+    SourceBasedOperationsContext    *context_ptr,
     PictureParentControlSet        *picture_control_set_ptr,
     EbBool                             scene_transition_flag) {
 
@@ -780,7 +780,7 @@ void DeriveHighDarkAreaDensityFlag(
 * High  contrast classifier
 ******************************************************/
 void TemporalHighContrastClassifier(
-    SourceBasedOperationsContext_t    *context_ptr,
+    SourceBasedOperationsContext    *context_ptr,
     PictureParentControlSet       *picture_control_set_ptr,
     uint32_t                           sb_index)
 {
@@ -807,7 +807,7 @@ void TemporalHighContrastClassifier(
 }
 
 void SpatialHighContrastClassifier(
-    SourceBasedOperationsContext_t    *context_ptr,
+    SourceBasedOperationsContext    *context_ptr,
     PictureParentControlSet       *picture_control_set_ptr,
     uint32_t                           sb_index)
 {
@@ -850,7 +850,7 @@ void SpatialHighContrastClassifier(
 }
 
 void DeriveComplexityContrastPicture(
-    SourceBasedOperationsContext_t    *context_ptr,
+    SourceBasedOperationsContext    *context_ptr,
     SequenceControlSet_t         *sequence_control_set_ptr,
     PictureParentControlSet    *picture_control_set_ptr)
 
@@ -973,12 +973,12 @@ void DetectCu32x32CleanSparsePicture(
  ************************************************/
 void* source_based_operations_kernel(void *input_ptr)
 {
-    SourceBasedOperationsContext_t    *context_ptr = (SourceBasedOperationsContext_t*)input_ptr;
+    SourceBasedOperationsContext    *context_ptr = (SourceBasedOperationsContext*)input_ptr;
     PictureParentControlSet       *picture_control_set_ptr;
     SequenceControlSet_t            *sequence_control_set_ptr;
-    EbObjectWrapper_t               *inputResultsWrapperPtr;
+    EbObjectWrapper               *inputResultsWrapperPtr;
     InitialRateControlResults        *inputResultsPtr;
-    EbObjectWrapper_t               *outputResultsWrapperPtr;
+    EbObjectWrapper               *outputResultsWrapperPtr;
     PictureDemuxResults           *outputResultsPtr;
 
     for (;;) {

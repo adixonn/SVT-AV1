@@ -493,7 +493,7 @@ EbBool AssignEncDecSegments(
     EbFifo           *srmFifoPtr)
 {
     EbBool continueProcessingFlag = EB_FALSE;
-    EbObjectWrapper_t *wrapper_ptr;
+    EbObjectWrapper *wrapper_ptr;
     EncDecTasks *feedbackTaskPtr;
 
     uint32_t rowSegmentIndex = 0;
@@ -630,7 +630,7 @@ static void ReconOutput(
     PictureControlSet    *picture_control_set_ptr,
     SequenceControlSet_t   *sequence_control_set_ptr) {
 
-    EbObjectWrapper_t             *outputReconWrapperPtr;
+    EbObjectWrapper             *outputReconWrapperPtr;
     EbBufferHeaderType           *outputReconPtr;
     EncodeContext               *encode_context_ptr = sequence_control_set_ptr->encode_context_ptr;
     EbBool is16bit = (sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
@@ -1389,14 +1389,14 @@ void* enc_dec_kernel(void *input_ptr)
     SequenceControlSet_t                    *sequence_control_set_ptr;
 
     // Input
-    EbObjectWrapper_t                       *encDecTasksWrapperPtr;
+    EbObjectWrapper                       *encDecTasksWrapperPtr;
     EncDecTasks                           *encDecTasksPtr;
 
     // Output
-    EbObjectWrapper_t                       *encDecResultsWrapperPtr;
+    EbObjectWrapper                       *encDecResultsWrapperPtr;
     EncDecResults                         *encDecResultsPtr;
 #if ! FILT_PROC
-    EbObjectWrapper_t                       *pictureDemuxResultsWrapperPtr;
+    EbObjectWrapper                       *pictureDemuxResultsWrapperPtr;
     PictureDemuxResults                   *pictureDemuxResultsPtr;
 #endif
     // SB Loop variables

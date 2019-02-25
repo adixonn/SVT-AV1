@@ -10,7 +10,7 @@
 #define INPUT_SIZE_4K_TH                0x29F630    // 2.75 Million
 #define EB_OUTPUTSTREAMBUFFERSIZE_MACRO(ResolutionSize)                ((ResolutionSize) < (INPUT_SIZE_1080i_TH) ? 0x1E8480 : (ResolutionSize) < (INPUT_SIZE_1080p_TH) ? 0x2DC6C0 : (ResolutionSize) < (INPUT_SIZE_4K_TH) ? 0x2DC6C0 : 0x2DC6C0  )
 EbErrorType AllocateFrameBuffer(
-    EbConfig_t        *config,
+    EbConfig        *config,
     uint8_t           *p_buffer)
 {
     EbErrorType   return_error = EB_ErrorNone;
@@ -77,8 +77,8 @@ EbErrorType AllocateFrameBuffer(
  * AppContext Constructor
  ***********************************/
 EbErrorType EbAppContextCtor(
-    EbAppContext_t *contextPtr,
-    EbConfig_t     *config)
+    EbAppContext *contextPtr,
+    EbConfig     *config)
 {
     EbErrorType   return_error = EB_ErrorInsufficientResources;
 
@@ -139,7 +139,7 @@ EbErrorType EbAppContextCtor(
  * AppContext Destructor
  ***********************************/
 void EbAppContextDtor(
-    EbAppContext_t *contextPtr)
+    EbAppContext *contextPtr)
 {
     EbSvtEncInput *inputPtr = (EbSvtEncInput*)contextPtr->inputPictureBuffer->p_buffer;
     free(inputPtr->luma);
@@ -162,8 +162,8 @@ void EbAppContextDtor(
 *  callback structure to send to the library
 ***********************************************/
 EbErrorType CopyConfigurationParameters(
-    EbConfig_t                *config,
-    EbAppContext_t            *callback_data,
+    EbConfig                *config,
+    EbAppContext            *callback_data,
     uint32_t                 instance_idx)
 {
     EbErrorType   return_error = EB_ErrorNone;
@@ -187,8 +187,8 @@ EbErrorType CopyConfigurationParameters(
  * Initialize Core & Component
  ***********************************/
 EbErrorType init_encoder(
-    EbConfig_t                *config,
-    EbAppContext_t            *callback_data,
+    EbConfig                *config,
+    EbAppContext            *callback_data,
     uint32_t                 instance_idx)
 {
     EbErrorType        return_error = EB_ErrorNone;
@@ -225,7 +225,7 @@ EbErrorType init_encoder(
  * Deinit Components
  ***********************************/
 EbErrorType de_init_encoder(
-    EbAppContext_t *callback_data_ptr,
+    EbAppContext *callback_data_ptr,
     uint32_t        instance_index)
 {
     (void)instance_index;

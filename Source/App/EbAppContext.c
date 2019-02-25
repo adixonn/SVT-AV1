@@ -149,8 +149,8 @@ void ProcessInputFieldBufferingMode(
 *  callback structure to send to the library
 ***********************************************/
 EbErrorType CopyConfigurationParameters(
-    EbConfig_t                *config,
-    EbAppContext_t            *callback_data,
+    EbConfig                *config,
+    EbAppContext            *callback_data,
     uint32_t                 instance_idx)
 {
     EbErrorType   return_error = EB_ErrorNone;
@@ -239,7 +239,7 @@ EbErrorType CopyConfigurationParameters(
 }
 
 static EbErrorType AllocateFrameBuffer(
-    EbConfig_t          *config,
+    EbConfig          *config,
     uint8_t               *p_buffer){
 
     EbErrorType   return_error = EB_ErrorNone;
@@ -309,8 +309,8 @@ static EbErrorType AllocateFrameBuffer(
 
 
 EbErrorType AllocateInputBuffers(
-    EbConfig_t                *config,
-    EbAppContext_t            *callback_data)
+    EbConfig                *config,
+    EbAppContext            *callback_data)
 {
     EbErrorType   return_error = EB_ErrorNone;
     {
@@ -337,8 +337,8 @@ EbErrorType AllocateInputBuffers(
     return return_error;
 }
 EbErrorType AllocateOutputReconBuffers(
-    EbConfig_t                *config,
-    EbAppContext_t            *callback_data)
+    EbConfig                *config,
+    EbAppContext            *callback_data)
 {
 
     EbErrorType   return_error = EB_ErrorNone;
@@ -364,8 +364,8 @@ EbErrorType AllocateOutputReconBuffers(
 }
 
 EbErrorType AllocateOutputBuffers(
-    EbConfig_t                *config,
-    EbAppContext_t            *callback_data)
+    EbConfig                *config,
+    EbAppContext            *callback_data)
 {
 
     EbErrorType   return_error = EB_ErrorNone;
@@ -386,7 +386,7 @@ EbErrorType AllocateOutputBuffers(
 }
 
 EbErrorType PreloadFramesIntoRam(
-    EbConfig_t                *config)
+    EbConfig                *config)
 {
     EbErrorType    return_error = EB_ErrorNone;
     int32_t             processed_frame_count;
@@ -572,8 +572,8 @@ EbErrorType PreloadFramesIntoRam(
  * Initialize Core & Component
  ***********************************/
 EbErrorType init_encoder(
-    EbConfig_t              *config,
-    EbAppContext_t          *callback_data,
+    EbConfig              *config,
+    EbAppContext          *callback_data,
     uint32_t                 instance_idx)
 {
     EbErrorType        return_error = EB_ErrorNone;
@@ -669,7 +669,7 @@ EbErrorType init_encoder(
  * Deinit Components
  ***********************************/
 EbErrorType de_init_encoder(
-    EbAppContext_t *callback_data_ptr,
+    EbAppContext *callback_data_ptr,
     uint32_t        instance_index)
 {
     EbErrorType return_error = EB_ErrorNone;

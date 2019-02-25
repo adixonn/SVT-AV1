@@ -9,7 +9,7 @@
 #define PRINT_HEADER 0
 
 /* reads the y4m header and parses the input parameters */
-int32_t read_y4m_header(EbConfig_t *cfg){
+int32_t read_y4m_header(EbConfig *cfg){
 
     FILE *ptr_in;
     char buffer[YFM_HEADER_MAX];
@@ -204,7 +204,7 @@ int32_t read_y4m_header(EbConfig_t *cfg){
 }
 
 /* read next line which contains the "FRAME" delimiter */
-int32_t read_y4m_frame_delimiter(EbConfig_t *cfg){
+int32_t read_y4m_frame_delimiter(EbConfig *cfg){
 
     unsigned char bufferY4Mheader[10];
     char *fresult;
@@ -222,7 +222,7 @@ int32_t read_y4m_frame_delimiter(EbConfig_t *cfg){
 }
 
 /* check if the input file is in YUV4MPEG2 (y4m) format */
-EbBool check_if_y4m(EbConfig_t *cfg){
+EbBool check_if_y4m(EbConfig *cfg){
 
     char buffer[YUV4MPEG2_IND_SIZE+1];
     size_t headerReadLength;

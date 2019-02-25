@@ -22,7 +22,8 @@ extern "C" {
       *   encoder system (i.e. SequenceControlSet, PictureBufferDesc,
       *   ProcessResults, and GracefulDegradation)
       *********************************************************************/
-    typedef struct EbObjectWrapper_s {
+    typedef struct EbObjectWrapper 
+    {
         // object_ptr - pointer to the object being managed.
         void                     *object_ptr;
 
@@ -38,13 +39,13 @@ extern "C" {
 
         // systemResourcePtr - a pointer to the SystemResourceManager
         //   that the object belongs to.
-        struct EbSystemResource_s *systemResourcePtr;
+        struct EbSystemResource *systemResourcePtr;
 
         // nextPtr - a pointer to a different EbObjectWrapper.  Used
         //   only in the implemenation of a single-linked Fifo.
-        struct EbObjectWrapper_s *nextPtr;
+        struct EbObjectWrapper *nextPtr;
 
-    } EbObjectWrapper_t;
+    } EbObjectWrapper;
 
     /*********************************************************************
      * Fifo
@@ -54,7 +55,8 @@ extern "C" {
      *   The Fifo also contains a countingSemaphore for OS thread-blocking
      *   and dynamic EbObjectWrapper counting.
      *********************************************************************/
-    typedef struct EbFifo {
+    typedef struct EbFifo 
+    {
         // countingSemaphore - used for OS thread-blocking & dynamically
         //   counting the number of EbObjectWrappers currently in the
         //   EbFifo.
@@ -65,40 +67,42 @@ extern "C" {
         EbHandle lockoutMutex;
 
         // firstPtr - pointer the the head of the Fifo
-        EbObjectWrapper_t *firstPtr;
+        EbObjectWrapper *firstPtr;
 
         // lastPtr - pointer to the tail of the Fifo
-        EbObjectWrapper_t *lastPtr;
+        EbObjectWrapper *lastPtr;
 
         // queuePtr - pointer to MuxingQueue that the EbFifo is
         //   associated with.
-        struct EbMuxingQueue_s *queuePtr;
+        struct EbMuxingQueue *queuePtr;
 
     } EbFifo;
 
     /*********************************************************************
      * CircularBuffer
      *********************************************************************/
-    typedef struct EbCircularBuffer_s {
+    typedef struct EbCircularBuffer 
+    {
         EbPtr *arrayPtr;
         uint32_t  headIndex;
         uint32_t  tailIndex;
         uint32_t  buffer_total_count;
         uint32_t  currentCount;
 
-    } EbCircularBuffer_t;
+    } EbCircularBuffer;
 
     /*********************************************************************
      * MuxingQueue
      *********************************************************************/
-    typedef struct EbMuxingQueue_s {
+    typedef struct EbMuxingQueue 
+    {
         EbHandle           lockoutMutex;
-        EbCircularBuffer_t *objectQueue;
-        EbCircularBuffer_t *processQueue;
+        EbCircularBuffer *objectQueue;
+        EbCircularBuffer *processQueue;
         uint32_t              processTotalCount;
         EbFifo          **processFifoPtrArray;
 
-    } EbMuxingQueue_t;
+    } EbMuxingQueue;
 
     /*********************************************************************
      * SystemResource
@@ -109,24 +113,25 @@ extern "C" {
      *   fullFifo provides downstream pipeline data flow control.  The
      *   emptyFifo provides upstream pipeline backpressure flow control.
      *********************************************************************/
-    typedef struct EbSystemResource_s {
+    typedef struct EbSystemResource 
+    {
         // object_total_count - A count of the number of objects contained in the
         //   System Resoruce.
         uint32_t              object_total_count;
 
         // wrapperPtrPool - An array of pointers to the EbObjectWrappers used
         //   to construct and destruct the SystemResource.
-        EbObjectWrapper_t **wrapperPtrPool;
+        EbObjectWrapper **wrapperPtrPool;
 
         // The empty FIFO contains a queue of empty buffers
         //EbFifo           *emptyFifo;
-        EbMuxingQueue_t     *emptyQueue;
+        EbMuxingQueue     *emptyQueue;
 
         // The full FIFO contains a queue of completed buffers
         //EbFifo           *fullFifo;
-        EbMuxingQueue_t     *fullQueue;
+        EbMuxingQueue     *fullQueue;
 
-    } EbSystemResource_t;
+    } EbSystemResource;
 
     /*********************************************************************
      * eb_object_release_enable
@@ -143,7 +148,7 @@ extern "C" {
      *      pointer to the EbObjectWrapper to be modified.
      *********************************************************************/
     extern EbErrorType eb_object_release_enable(
-        EbObjectWrapper_t   *wrapper_ptr);
+        EbObjectWrapper   *wrapper_ptr);
 
     /*********************************************************************
      * eb_object_release_disable
@@ -160,7 +165,7 @@ extern "C" {
      *      pointer to the EbObjectWrapper to be modified.
      *********************************************************************/
     extern EbErrorType eb_object_release_disable(
-        EbObjectWrapper_t   *wrapper_ptr);
+        EbObjectWrapper   *wrapper_ptr);
 
     /*********************************************************************
      * eb_object_inc_live_count
@@ -180,7 +185,7 @@ extern "C" {
      *      The number to increment the live count by.
      *********************************************************************/
     extern EbErrorType eb_object_inc_live_count(
-        EbObjectWrapper_t *wrapper_ptr,
+        EbObjectWrapper *wrapper_ptr,
         uint32_t           increment_number);
 
     /*********************************************************************
@@ -211,7 +216,7 @@ extern "C" {
      *     object_ctor is called.
      *********************************************************************/
     extern EbErrorType eb_system_resource_ctor(
-        EbSystemResource_t **resource_dbl_ptr,
+        EbSystemResource **resource_dbl_ptr,
         uint32_t            object_total_count,
         uint32_t            producer_process_total_count,
         uint32_t            consumer_process_total_count,
@@ -236,7 +241,7 @@ extern "C" {
      *     destruction is performed if object_dtor is NULL.
      *********************************************************************/
     extern void eb_system_resource_dtor(
-        EbSystemResource_t  *resource_ptr,
+        EbSystemResource  *resource_ptr,
         EB_DTOR              object_dtor);
 
     /*********************************************************************
@@ -257,7 +262,7 @@ extern "C" {
      *********************************************************************/
     extern EbErrorType eb_get_empty_object(
         EbFifo           *empty_fifo_ptr,
-        EbObjectWrapper_t **wrapper_dbl_ptr);
+        EbObjectWrapper **wrapper_dbl_ptr);
 
     /*********************************************************************
      * EbSystemResourcePostObject
@@ -274,7 +279,7 @@ extern "C" {
      *      pointer to EbObjectWrapper to be posted.
      *********************************************************************/
     extern EbErrorType eb_post_full_object(
-        EbObjectWrapper_t *object_ptr);
+        EbObjectWrapper *object_ptr);
 
     /*********************************************************************
      * EbSystemResourceGetFullObject
@@ -293,11 +298,11 @@ extern "C" {
      *********************************************************************/
     extern EbErrorType eb_get_full_object(
         EbFifo           *full_fifo_ptr,
-        EbObjectWrapper_t **wrapper_dbl_ptr);
+        EbObjectWrapper **wrapper_dbl_ptr);
 
     extern EbErrorType eb_get_full_object_non_blocking(
         EbFifo           *full_fifo_ptr,
-        EbObjectWrapper_t **wrapper_dbl_ptr);
+        EbObjectWrapper **wrapper_dbl_ptr);
 
     /*********************************************************************
      * EbSystemResourceReleaseObject
@@ -310,7 +315,7 @@ extern "C" {
      *      pointer to EbObjectWrapper to be released.
      *********************************************************************/
     extern EbErrorType eb_release_object(
-        EbObjectWrapper_t *object_ptr);
+        EbObjectWrapper *object_ptr);
 #ifdef __cplusplus
 }
 #endif

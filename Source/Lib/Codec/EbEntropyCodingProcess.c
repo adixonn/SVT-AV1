@@ -512,11 +512,11 @@ void* entropy_coding_kernel(void *input_ptr)
     SequenceControlSet_t                    *sequence_control_set_ptr;
 
     // Input
-    EbObjectWrapper_t                       *encDecResultsWrapperPtr;
+    EbObjectWrapper                       *encDecResultsWrapperPtr;
     EncDecResults                         *encDecResultsPtr;
 
     // Output
-    EbObjectWrapper_t                       *entropyCodingResultsWrapperPtr;
+    EbObjectWrapper                       *entropyCodingResultsWrapperPtr;
     EntropyCodingResults                  *entropyCodingResultsPtr;
 
     // SB Loop variables
@@ -610,7 +610,7 @@ void* entropy_coding_kernel(void *input_ptr)
 
                 // At the end of each LCU-row, send the updated bit-count to Entropy Coding
                 {
-                    EbObjectWrapper_t *rateControlTaskWrapperPtr;
+                    EbObjectWrapper *rateControlTaskWrapperPtr;
                     RateControlTasks *rateControlTaskPtr;
 
                     // Get Empty EncDec Results

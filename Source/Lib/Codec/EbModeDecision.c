@@ -1204,7 +1204,7 @@ void inject_warped_motion_candidates(
     candidateArray[canIdx].transform_type[PLANE_TYPE_Y] = DCT_DCT;
     candidateArray[canIdx].transform_type[PLANE_TYPE_UV] = DCT_DCT;
 
-    MvUnit_t mv_unit;
+    MvUnit mv_unit;
     mv_unit.mv[0].x = candidateArray[canIdx].motionVector_x_L0;
     mv_unit.mv[0].y = candidateArray[canIdx].motionVector_y_L0;
     candidateArray[canIdx].local_warp_valid = warped_motion_parameters(
@@ -1259,7 +1259,7 @@ void inject_warped_motion_candidates(
         candidateArray[canIdx].transform_type[PLANE_TYPE_Y] = DCT_DCT;
         candidateArray[canIdx].transform_type[PLANE_TYPE_UV] = DCT_DCT;
 
-        MvUnit_t mv_unit;
+        MvUnit mv_unit;
         mv_unit.mv[0].x = candidateArray[canIdx].motionVector_x_L0;
         mv_unit.mv[0].y = candidateArray[canIdx].motionVector_y_L0;
         candidateArray[canIdx].local_warp_valid = warped_motion_parameters(
@@ -1332,7 +1332,7 @@ void inject_warped_motion_candidates(
         candidateArray[canIdx].motion_vector_pred_x[REF_LIST_0] = bestPredmv[0].as_mv.col;
         candidateArray[canIdx].motion_vector_pred_y[REF_LIST_0] = bestPredmv[0].as_mv.row;
 
-        MvUnit_t mv_unit;
+        MvUnit mv_unit;
         mv_unit.mv[0].x = candidateArray[canIdx].motionVector_x_L0;
         mv_unit.mv[0].y = candidateArray[canIdx].motionVector_y_L0;
         candidateArray[canIdx].local_warp_valid = warped_motion_parameters(
@@ -2420,7 +2420,7 @@ uint8_t product_full_mode_decision(
             EB_MEMCPY(&pu_ptr->wm_params, &candidate_ptr->wm_params, sizeof(EbWarpedMotionParams));
     }
 
-    TransformUnit_t        *txb_ptr;
+    TransformUnit        *txb_ptr;
     uint32_t                  txb_itr;
     uint32_t                  tu_index;
     uint32_t                  tuTotalCount;

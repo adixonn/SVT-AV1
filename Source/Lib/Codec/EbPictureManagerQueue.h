@@ -21,7 +21,7 @@ extern "C" {
     struct ReferenceQueueEntry;   // empty struct definition
 
     typedef struct InputQueueEntry {
-        EbObjectWrapper_t              *inputObjectPtr;
+        EbObjectWrapper              *inputObjectPtr;
         uint32_t                          dependentCount;
         uint32_t                          referenceEntryIndex;
         ReferenceList                *list0Ptr;
@@ -40,7 +40,7 @@ extern "C" {
 
         uint64_t                          picture_number;
         uint64_t                          decode_order;
-        EbObjectWrapper_t              *referenceObjectPtr;
+        EbObjectWrapper              *referenceObjectPtr;
         uint32_t                          dependentCount;
         EbBool                         releaseEnable;
         EbBool                         referenceAvailable;
@@ -60,7 +60,7 @@ extern "C" {
 
     typedef struct RcInputQueueEntry {
         uint64_t                          picture_number;
-        EbObjectWrapper_t              *inputObjectPtr;
+        EbObjectWrapper              *inputObjectPtr;
 
         EbBool                         isPassed;
         EbBool                         releaseEnabled;
@@ -77,7 +77,7 @@ extern "C" {
     typedef struct RcFeedbackQueueEntry {
 
         uint64_t                          picture_number;
-        EbObjectWrapper_t              *feedbackObjectPtr;
+        EbObjectWrapper              *feedbackObjectPtr;
 
         EbBool                         isAvailable;
         EbBool                         isUpdated;

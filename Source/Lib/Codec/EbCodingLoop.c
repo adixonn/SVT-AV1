@@ -265,7 +265,7 @@ static void EncodePassUpdateInterModeNeighborArrays(
     NeighborArrayUnit     *mode_type_neighbor_array,
     NeighborArrayUnit     *mv_neighbor_array,
     NeighborArrayUnit     *skipNeighborArray,
-    MvUnit_t                *mv_unit,
+    MvUnit                *mv_unit,
     uint8_t                   *skip_flag,
     uint32_t                   origin_x,
     uint32_t                   origin_y,
@@ -587,7 +587,7 @@ static void Av1EncodeLoop(
 
     //    uint32_t                 chroma_qp = cb_qp;
     CodingUnit          *cu_ptr = context_ptr->cu_ptr;
-    TransformUnit_t       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
+    TransformUnit       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
     //    EB_SLICE               slice_type = sb_ptr->picture_control_set_ptr->slice_type;
     //    uint32_t                 temporal_layer_index = sb_ptr->picture_control_set_ptr->temporal_layer_index;
     uint32_t                 qp = cu_ptr->qp;
@@ -1080,7 +1080,7 @@ static void Av1EncodeLoop16bit(
 #endif
 
     CodingUnit          *cu_ptr = context_ptr->cu_ptr;
-    TransformUnit_t       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
+    TransformUnit       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
     //    EB_SLICE               slice_type = sb_ptr->picture_control_set_ptr->slice_type;
     //    uint32_t                 temporal_layer_index = sb_ptr->picture_control_set_ptr->temporal_layer_index;
     uint32_t                 qp = cu_ptr->qp;
@@ -1523,7 +1523,7 @@ static void Av1EncodeGenerateRecon(
     uint32_t               predLumaOffset;
     uint32_t               predChromaOffset;
     CodingUnit          *cu_ptr = context_ptr->cu_ptr;
-    TransformUnit_t       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
+    TransformUnit       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
 
     // *Note - The prediction is built in-place in the Recon buffer. It is overwritten with Reconstructed
     //   samples if the CBF==1 && SKIP==False
@@ -1653,7 +1653,7 @@ static void Av1EncodeGenerateRecon16bit(
 #endif
 
     CodingUnit          *cu_ptr = context_ptr->cu_ptr;
-    TransformUnit_t       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
+    TransformUnit       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
 
 #if QT_10BIT_SUPPORT
     (void)asm_type;
@@ -1868,7 +1868,7 @@ static void EncodeGenerateRecon(
     uint32_t reconChromaOffset;
 
     CodingUnit          *cu_ptr = context_ptr->cu_ptr;
-    TransformUnit_t       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
+    TransformUnit       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
     uint32_t                 txb_size = context_ptr->cu_stats->size;
 
     EbPictureBufferDesc *reconSamples = predSamples;
@@ -2017,7 +2017,7 @@ static void EncodeGenerateRecon16bit(
     uint32_t reconChromaOffset;
 
     CodingUnit          *cu_ptr = context_ptr->cu_ptr;
-    TransformUnit_t       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
+    TransformUnit       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
     uint32_t                 txb_size = context_ptr->cu_stats->size;
 
     //**********************************

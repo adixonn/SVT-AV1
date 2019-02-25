@@ -2676,11 +2676,11 @@ void* mode_decision_configuration_kernel(void *input_ptr)
     SequenceControlSet_t                       *sequence_control_set_ptr;
 
     // Input
-    EbObjectWrapper_t                          *rateControlResultsWrapperPtr;
+    EbObjectWrapper                          *rateControlResultsWrapperPtr;
     RateControlResults                       *rateControlResultsPtr;
 
     // Output
-    EbObjectWrapper_t                          *encDecTasksWrapperPtr;
+    EbObjectWrapper                          *encDecTasksWrapperPtr;
     EncDecTasks                              *encDecTasksPtr;
 
     for (;;) {

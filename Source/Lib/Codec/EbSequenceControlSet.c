@@ -37,7 +37,7 @@ EbErrorType eb_sequence_control_set_ctor(
     EbPtr *object_dbl_ptr,
     EbPtr object_init_data_ptr)
 {
-    EbSequenceControlSetInitData_t *scsInitData = (EbSequenceControlSetInitData_t*)object_init_data_ptr;
+    EbSequenceControlSetInitData *scsInitData = (EbSequenceControlSetInitData*)object_init_data_ptr;
     uint32_t segment_index;
     SequenceControlSet_t *sequence_control_set_ptr;
     EB_MALLOC(SequenceControlSet_t*, sequence_control_set_ptr, sizeof(SequenceControlSet_t), EB_N_PTR);
@@ -346,11 +346,11 @@ extern EbErrorType derive_input_resolution(
 }
 
 EbErrorType eb_sequence_control_set_instance_ctor(
-    EbSequenceControlSetInstance_t **object_dbl_ptr)
+    EbSequenceControlSetInstance **object_dbl_ptr)
 {
-    EbSequenceControlSetInitData_t scsInitData;
+    EbSequenceControlSetInitData scsInitData;
     EbErrorType return_error = EB_ErrorNone;
-    EB_MALLOC(EbSequenceControlSetInstance_t*, *object_dbl_ptr, sizeof(EbSequenceControlSetInstance_t), EB_N_PTR);
+    EB_MALLOC(EbSequenceControlSetInstance*, *object_dbl_ptr, sizeof(EbSequenceControlSetInstance), EB_N_PTR);
 
     scsInitData.sb_size = 64;
 

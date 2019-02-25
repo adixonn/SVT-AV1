@@ -16,7 +16,7 @@ extern "C" {
      **************************************/
     typedef struct MotionEstimationResults
     {
-        EbObjectWrapper_t   *pictureControlSetWrapperPtr;
+        EbObjectWrapper   *pictureControlSetWrapperPtr;
         uint32_t               segment_index;
     } MotionEstimationResults;
 

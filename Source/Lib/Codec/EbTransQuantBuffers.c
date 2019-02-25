@@ -9,8 +9,8 @@
 #include "EbPictureBufferDesc.h"
 
 
-EbErrorType EbTransQuantBuffersCtor(
-    EbTransQuantBuffers_t          *trans_quant_buffers_ptr)
+EbErrorType eb_trans_quant_buffers_ctor(
+    EbTransQuantBuffers          *trans_quant_buffers_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
     EbPictureBufferDescInitData transCoeffInitArray;

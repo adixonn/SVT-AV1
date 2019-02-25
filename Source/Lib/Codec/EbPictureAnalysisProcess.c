@@ -4951,9 +4951,9 @@ void* picture_analysis_kernel(void *input_ptr)
     PictureParentControlSet       *picture_control_set_ptr;
     SequenceControlSet_t            *sequence_control_set_ptr;
 
-    EbObjectWrapper_t               *inputResultsWrapperPtr;
+    EbObjectWrapper               *inputResultsWrapperPtr;
     ResourceCoordinationResults   *inputResultsPtr;
-    EbObjectWrapper_t               *outputResultsWrapperPtr;
+    EbObjectWrapper               *outputResultsWrapperPtr;
     PictureAnalysisResults        *outputResultsPtr;
     EbPaReferenceObject           *paReferenceObject;
 

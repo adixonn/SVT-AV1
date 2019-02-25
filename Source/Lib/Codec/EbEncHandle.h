@@ -38,21 +38,21 @@ typedef struct EbEncHandle
     uint32_t                                  paReferencePicturPooleBufferInitCount;
 
     // Config Set Pool & Active Array
-    EbSystemResource_t                     *sequenceControlSetPoolPtr;
+    EbSystemResource                     *sequenceControlSetPoolPtr;
     EbFifo                              **sequenceControlSetPoolProducerFifoPtrArray;
-    EbSequenceControlSetInstance_t        **sequence_control_set_instance_array;
+    EbSequenceControlSetInstance        **sequence_control_set_instance_array;
 
     // Full Results
-    EbSystemResource_t                    **pictureControlSetPoolPtrArray;
+    EbSystemResource                    **pictureControlSetPoolPtrArray;
     EbFifo                             ***pictureControlSetPoolProducerFifoPtrDblArray;
 
     //ParentControlSet
-    EbSystemResource_t                    **pictureParentControlSetPoolPtrArray;
+    EbSystemResource                    **pictureParentControlSetPoolPtrArray;
     EbFifo                             ***pictureParentControlSetPoolProducerFifoPtrDblArray;
 
     // Picture Buffers
-    EbSystemResource_t                    **referencePicturePoolPtrArray;
-    EbSystemResource_t                    **paReferencePicturePoolPtrArray;
+    EbSystemResource                    **referencePicturePoolPtrArray;
+    EbSystemResource                    **paReferencePicturePoolPtrArray;
 
     // Picture Buffer Producer Fifos
     EbFifo                             ***referencePicturePoolProducerFifoPtrDblArray;
@@ -99,25 +99,25 @@ typedef struct EbEncHandle
     EbPtr                                  packetizationContextPtr;
 
     // System Resource Managers
-    EbSystemResource_t                     *input_buffer_resource_ptr;
-    EbSystemResource_t                    **output_stream_buffer_resource_ptr_array;
-    EbSystemResource_t                    **output_recon_buffer_resource_ptr_array;
-    EbSystemResource_t                    **output_statistics_buffer_resource_ptr_array;
-    EbSystemResource_t                     *resourceCoordinationResultsResourcePtr;
-    EbSystemResource_t                     *pictureAnalysisResultsResourcePtr;
-    EbSystemResource_t                     *pictureDecisionResultsResourcePtr;
-    EbSystemResource_t                     *motionEstimationResultsResourcePtr;
-    EbSystemResource_t                     *initialRateControlResultsResourcePtr;
-    EbSystemResource_t                     *pictureDemuxResultsResourcePtr;
-    EbSystemResource_t                     *rateControlTasksResourcePtr;
-    EbSystemResource_t                     *rateControlResultsResourcePtr;
-    EbSystemResource_t                     *encDecTasksResourcePtr;
-    EbSystemResource_t                     *encDecResultsResourcePtr;
-    EbSystemResource_t                     *entropyCodingResultsResourcePtr;
+    EbSystemResource                     *input_buffer_resource_ptr;
+    EbSystemResource                    **output_stream_buffer_resource_ptr_array;
+    EbSystemResource                    **output_recon_buffer_resource_ptr_array;
+    EbSystemResource                    **output_statistics_buffer_resource_ptr_array;
+    EbSystemResource                     *resourceCoordinationResultsResourcePtr;
+    EbSystemResource                     *pictureAnalysisResultsResourcePtr;
+    EbSystemResource                     *pictureDecisionResultsResourcePtr;
+    EbSystemResource                     *motionEstimationResultsResourcePtr;
+    EbSystemResource                     *initialRateControlResultsResourcePtr;
+    EbSystemResource                     *pictureDemuxResultsResourcePtr;
+    EbSystemResource                     *rateControlTasksResourcePtr;
+    EbSystemResource                     *rateControlResultsResourcePtr;
+    EbSystemResource                     *encDecTasksResourcePtr;
+    EbSystemResource                     *encDecResultsResourcePtr;
+    EbSystemResource                     *entropyCodingResultsResourcePtr;
 #if FILT_PROC
-    EbSystemResource_t                     *dlfResultsResourcePtr;
-    EbSystemResource_t                     *cdefResultsResourcePtr;
-    EbSystemResource_t                     *restResultsResourcePtr;
+    EbSystemResource                     *dlfResultsResourcePtr;
+    EbSystemResource                     *cdefResultsResourcePtr;
+    EbSystemResource                     *restResultsResourcePtr;
 #endif
 
     // Inter-Process Producer Fifos

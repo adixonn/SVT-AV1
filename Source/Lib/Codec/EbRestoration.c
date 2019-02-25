@@ -52,7 +52,8 @@ typedef uint32_t InterpFilters;
 #define INTER_FILTER_COMP_OFFSET (SWITCHABLE_FILTERS + 1)
 #define INTER_FILTER_DIR_OFFSET ((SWITCHABLE_FILTERS + 1) * 2)
 
-//typedef struct InterpFilterParams {
+//typedef struct InterpFilterParams 
+//{
 //    const int16_t *filter_ptr;
 //    uint16_t taps;
 //    uint16_t subpel_shifts;
@@ -71,7 +72,8 @@ void *aom_memset16(void *dest, int32_t val, size_t length);
 #define FILTER_BITS 7
 
 //typedef uint16_t CONV_BUF_TYPE;
-//typedef struct ConvolveParams {
+//typedef struct ConvolveParams 
+//{
 //    int32_t ref;
 //    int32_t do_average;
 //    CONV_BUF_TYPE *dst;
@@ -1241,7 +1243,8 @@ void av1_loop_restoration_filter_unit(
     }
 }
 
-typedef struct {
+typedef struct FilterFrameCtxt 
+{
     const RestorationInfo *rsi;
     RestorationLineBuffers *rlbs;
     const Av1Common *cm;

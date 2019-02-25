@@ -1650,10 +1650,10 @@ void* initial_rate_control_kernel(void *input_ptr)
     EncodeContext                   *encode_context_ptr;
     SequenceControlSet_t              *sequence_control_set_ptr;
 
-    EbObjectWrapper_t                 *inputResultsWrapperPtr;
+    EbObjectWrapper                 *inputResultsWrapperPtr;
     MotionEstimationResults         *inputResultsPtr;
 
-    EbObjectWrapper_t                 *outputResultsWrapperPtr;
+    EbObjectWrapper                 *outputResultsWrapperPtr;
     InitialRateControlResults       *outputResultsPtr;
 
     // Queue variables
@@ -1665,12 +1665,12 @@ void* initial_rate_control_kernel(void *input_ptr)
     EbBool                            end_of_sequence_flag = EB_TRUE;
     uint8_t                               frames_in_sw;
     uint8_t                               temporal_layer_index;
-    EbObjectWrapper_t                  *reference_picture_wrapper_ptr;
+    EbObjectWrapper                  *reference_picture_wrapper_ptr;
 
     // Segments
     uint32_t                              segment_index;
 
-    EbObjectWrapper_t                *output_stream_wrapper_ptr;
+    EbObjectWrapper                *output_stream_wrapper_ptr;
 
     for (;;) {
 
@@ -2002,7 +2002,7 @@ void* initial_rate_control_kernel(void *input_ptr)
 
                     // Reset the Reorder Queue Entry
                     queueEntryPtr->picture_number += INITIAL_RATE_CONTROL_REORDER_QUEUE_MAX_DEPTH;
-                    queueEntryPtr->parentPcsWrapperPtr = (EbObjectWrapper_t *)EB_NULL;
+                    queueEntryPtr->parentPcsWrapperPtr = (EbObjectWrapper *)EB_NULL;
 
                     // Increment the Reorder Queue head Ptr
                     encode_context_ptr->initial_rate_control_reorder_queue_head_index =

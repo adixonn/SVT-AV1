@@ -211,9 +211,9 @@ extern "C" {
     } aom_noise_status_t;
 
     /************************************
-     * denoise_and_model_init_data_s
+     * DenoiseAndModelInitData
      ************************************/
-    typedef struct denoise_and_model_init_data_s
+    typedef struct DenoiseAndModelInitData
     {
         uint16_t          noise_level;
         uint32_t          encoder_bit_depth;
@@ -223,7 +223,7 @@ extern "C" {
         uint16_t          stride_y;
         uint16_t          stride_cb;
         uint16_t          stride_cr;
-    } denoise_and_model_init_data_t;
+    } DenoiseAndModelInitData;
 
     /************************************
      * denoise and model constructor

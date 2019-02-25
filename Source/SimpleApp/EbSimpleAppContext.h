@@ -9,7 +9,7 @@
 #include "EbApi.h"
 #include <stdio.h>
 
-typedef struct EbConfig_s
+typedef struct EbConfig
 {
     /****************************************
      * File I/O
@@ -168,12 +168,12 @@ typedef struct EbConfig_s
     uint32_t                    logicalProcessors;
     int32_t                     targetSocket;
     uint8_t                     stopEncoder;         // to signal CTRL+C Event, need to stop encoding.
-} EbConfig_t;
+} EbConfig;
 
 /***************************************
  * App Callback data struct
  ***************************************/
-typedef struct EbAppContext_s {
+typedef struct EbAppContext {
     EbSvtAv1EncConfiguration              ebEncParameters;
 
     // Component Handle
@@ -186,15 +186,15 @@ typedef struct EbAppContext_s {
 
     uint32_t instance_idx;
 
-} EbAppContext_t;
+} EbAppContext;
 
 
 /********************************
  * External Function
  ********************************/
-extern EbErrorType EbAppContextCtor(EbAppContext_t *contextPtr, EbConfig_t *config);
-extern void EbAppContextDtor(EbAppContext_t *contextPtr);
-extern EbErrorType init_encoder(EbConfig_t *config, EbAppContext_t *callback_data, uint32_t instance_idx);
-extern EbErrorType de_init_encoder(EbAppContext_t *callback_data_ptr, uint32_t instance_index);
+extern EbErrorType EbAppContextCtor(EbAppContext *contextPtr, EbConfig *config);
+extern void EbAppContextDtor(EbAppContext *contextPtr);
+extern EbErrorType init_encoder(EbConfig *config, EbAppContext *callback_data, uint32_t instance_idx);
+extern EbErrorType de_init_encoder(EbAppContext *callback_data_ptr, uint32_t instance_index);
 
 #endif // EbAppContext_h

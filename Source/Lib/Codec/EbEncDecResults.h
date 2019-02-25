@@ -16,7 +16,7 @@ extern "C" {
      **************************************/
     typedef struct EncDecResults
     {
-        EbObjectWrapper_t      *pictureControlSetWrapperPtr;
+        EbObjectWrapper      *pictureControlSetWrapperPtr;
         uint32_t                  completedLcuRowIndexStart;
         uint32_t                  completedLcuRowCount;
 
@@ -25,7 +25,7 @@ extern "C" {
 #if FILT_PROC
     typedef struct DlfResults
     {
-        EbObjectWrapper_t      *picture_control_set_wrapper_ptr;
+        EbObjectWrapper      *picture_control_set_wrapper_ptr;
       
 #if CDEF_M
         uint32_t          segment_index;
@@ -35,7 +35,7 @@ extern "C" {
 
     typedef struct CdefResults
     {
-        EbObjectWrapper_t      *picture_control_set_wrapper_ptr;
+        EbObjectWrapper      *picture_control_set_wrapper_ptr;
        
 #if REST_M
         uint32_t          segment_index;
@@ -45,7 +45,7 @@ extern "C" {
 
     typedef struct RestResults
     {
-        EbObjectWrapper_t      *picture_control_set_wrapper_ptr;
+        EbObjectWrapper      *picture_control_set_wrapper_ptr;
         uint32_t                  completed_lcu_row_index_start;
         uint32_t                  completed_lcu_row_count;
 

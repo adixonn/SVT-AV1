@@ -40,16 +40,16 @@
  * External Functions
  ***************************************/
 extern APPEXITCONDITIONTYPE ProcessInputBuffer(
-    EbConfig_t             *config,
-    EbAppContext_t         *appCallBack);
+    EbConfig             *config,
+    EbAppContext         *appCallBack);
 
 extern APPEXITCONDITIONTYPE ProcessOutputReconBuffer(
-    EbConfig_t             *config,
-    EbAppContext_t         *appCallBack);
+    EbConfig             *config,
+    EbAppContext         *appCallBack);
 
 extern APPEXITCONDITIONTYPE ProcessOutputStreamBuffer(
-    EbConfig_t             *config,
-    EbAppContext_t         *appCallBack,
+    EbConfig             *config,
+    EbAppContext         *appCallBack,
     uint8_t           pic_send_done);
 
 volatile int32_t keepRunning = 1;
@@ -98,11 +98,11 @@ int32_t main(int32_t argc, char* argv[])
 
     EbBool                 channelActive[MAX_CHANNEL_NUMBER];
 
-    EbConfig_t             *configs[MAX_CHANNEL_NUMBER];        // Encoder Configuration
+    EbConfig             *configs[MAX_CHANNEL_NUMBER];        // Encoder Configuration
 
     uint32_t                numChannels = 0;
     uint32_t                instanceCount=0;
-    EbAppContext_t         *appCallbacks[MAX_CHANNEL_NUMBER];   // Instances App callback data
+    EbAppContext         *appCallbacks[MAX_CHANNEL_NUMBER];   // Instances App callback data
     signal(SIGINT, EventHandler);
     printf("-------------------------------------------\n");
     printf("SVT-AV1 Encoder\n");
@@ -116,7 +116,7 @@ int32_t main(int32_t argc, char* argv[])
 
         // Initialize config
         for (instanceCount = 0; instanceCount < numChannels; ++instanceCount) {
-            configs[instanceCount] = (EbConfig_t*)malloc(sizeof(EbConfig_t));
+            configs[instanceCount] = (EbConfig*)malloc(sizeof(EbConfig));
             if (!configs[instanceCount])
                 return EB_ErrorInsufficientResources;
             eb_config_ctor(configs[instanceCount]);
@@ -125,7 +125,7 @@ int32_t main(int32_t argc, char* argv[])
 
         // Initialize appCallback
         for (instanceCount = 0; instanceCount < numChannels; ++instanceCount) {
-            appCallbacks[instanceCount] = (EbAppContext_t*)malloc(sizeof(EbAppContext_t));
+            appCallbacks[instanceCount] = (EbAppContext*)malloc(sizeof(EbAppContext));
             if (!appCallbacks[instanceCount])
                 return EB_ErrorInsufficientResources;
         }

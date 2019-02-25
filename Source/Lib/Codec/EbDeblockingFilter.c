@@ -879,19 +879,19 @@ static TxSize get_transform_size(const MacroBlockD *const xd,
     return tx_size;
 }
 
-typedef struct AV1_DEBLOCKING_PARAMETERS {
+typedef struct AV1DeblockingParameters {
     // length of the filter applied to the outer edge
     uint32_t filter_length;
     // deblocking limits
     const uint8_t *lim;
     const uint8_t *mblim;
     const uint8_t *hev_thr;
-} AV1_DEBLOCKING_PARAMETERS;
+} AV1DeblockingParameters;
 
 // Return TxSize from get_transform_size(), so it is plane and direction
 // awared
 static TxSize set_lpf_parameters(
-    AV1_DEBLOCKING_PARAMETERS *const params, const uint64_t mode_step,
+    AV1DeblockingParameters *const params, const uint64_t mode_step,
     const PictureControlSet *const  pcsPtr, const MacroBlockD *const xd,
     const EDGE_DIR edge_dir, const uint32_t x, const uint32_t y,
     const int32_t plane, const struct MacroblockdPlane *const plane_ptr) {
@@ -1037,7 +1037,7 @@ void av1_filter_block_plane_vert(
             const uint32_t curr_y = ((mi_row * MI_SIZE) >> scale_vert) + y * MI_SIZE;
             uint32_t advance_units;
             TxSize tx_size;
-            AV1_DEBLOCKING_PARAMETERS params;
+            AV1DeblockingParameters params;
             memset(&params, 0, sizeof(params));
 
             tx_size =
@@ -1160,7 +1160,7 @@ void av1_filter_block_plane_horz(
             const uint32_t curr_y = ((mi_row * MI_SIZE) >> scale_vert) + y * MI_SIZE;
             uint32_t advance_units;
             TxSize tx_size;
-            AV1_DEBLOCKING_PARAMETERS params;
+            AV1DeblockingParameters params;
             memset(&params, 0, sizeof(params));
 
 

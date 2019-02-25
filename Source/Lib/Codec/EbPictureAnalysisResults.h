@@ -13,7 +13,7 @@
  * Process Results
  **************************************/
 typedef struct PictureAnalysisResults {
-    EbObjectWrapper_t *pictureControlSetWrapperPtr;
+    EbObjectWrapper *pictureControlSetWrapperPtr;
 } PictureAnalysisResults;
 
 typedef struct PictureAnalysisResultInitData {

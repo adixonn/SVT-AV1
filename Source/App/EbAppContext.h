@@ -13,7 +13,7 @@
 
  * App Callback data struct
  ***************************************/
-typedef struct EbAppContext_s {
+typedef struct EbAppContext {
     void                               *cmdSemaphoreHandle;
     void                               *inputSemaphoreHandle;
     void                               *streamSemaphoreHandle;
@@ -33,19 +33,19 @@ typedef struct EbAppContext_s {
     // Instance Index
     uint8_t                            instance_idx;
 
-} EbAppContext_t;
+} EbAppContext;
 
 
 /********************************
  * External Function
  ********************************/
 extern EbErrorType init_encoder(
-    EbConfig_t *config, 
-    EbAppContext_t *callback_data, 
+    EbConfig *config, 
+    EbAppContext *callback_data, 
     uint32_t instance_idx);
 
 extern EbErrorType de_init_encoder(
-    EbAppContext_t *callback_data_ptr, 
+    EbAppContext *callback_data_ptr, 
     uint32_t instance_index);
 
 #endif // EbAppContext_h

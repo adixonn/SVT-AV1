@@ -29,7 +29,7 @@ extern "C" {
     // TMVP items corresponding to one LCU
     typedef struct TmvpUnit 
     {
-        Mv_t              mv[MAX_NUM_OF_REF_PIC_LIST][MAX_TMVP_CAND_PER_LCU];
+        Mv              mv[MAX_NUM_OF_REF_PIC_LIST][MAX_TMVP_CAND_PER_LCU];
         uint64_t            refPicPOC[MAX_NUM_OF_REF_PIC_LIST][MAX_TMVP_CAND_PER_LCU];
         EbPredDirection  prediction_direction[MAX_TMVP_CAND_PER_LCU];
         EbBool              availabilityFlag[MAX_TMVP_CAND_PER_LCU];
@@ -120,7 +120,7 @@ extern "C" {
     EbBool warped_motion_parameters(
         PictureControlSet              *picture_control_set_ptr,
         CodingUnit                     *cu_ptr,
-        MvUnit_t                         *mv_unit,
+        MvUnit                         *mv_unit,
         const BlockGeom                  *blk_geom,
         uint16_t                          cu_origin_x,
         uint16_t                          cu_origin_y,

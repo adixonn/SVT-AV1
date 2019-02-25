@@ -157,7 +157,7 @@ void mode_decision_update_neighbor_arrays(
     context_ptr->mv_unit.predDirection = (uint8_t)(context_ptr->md_cu_arr_nsq[index_mds].prediction_unit_array[0].inter_pred_direction_index);
     context_ptr->mv_unit.mv[REF_LIST_0].mvUnion = context_ptr->md_cu_arr_nsq[index_mds].prediction_unit_array[0].mv[REF_LIST_0].mvUnion;
     context_ptr->mv_unit.mv[REF_LIST_1].mvUnion = context_ptr->md_cu_arr_nsq[index_mds].prediction_unit_array[0].mv[REF_LIST_1].mvUnion;
-    MvUnit_t                *mv_unit = &context_ptr->mv_unit;
+    MvUnit                *mv_unit = &context_ptr->mv_unit;
     (void)mv_unit;
 
 
@@ -916,7 +916,7 @@ void AV1PerformInverseTransformRecon(
     uint32_t                           tuTotalCount;
     uint32_t                           tu_index;
     uint32_t                           txb_itr;
-    TransformUnit_t                   *txb_ptr;
+    TransformUnit                   *txb_ptr;
     
     UNUSED(blk_geom);
 
@@ -2412,8 +2412,8 @@ void move_cu_data(
 {
 
 
-    //CHKN TransformUnit_t             transform_unit_array[TRANSFORM_UNIT_MAX_COUNT]; // 2-bytes * 21 = 42-bytes
-    memcpy(dst_cu->transform_unit_array, src_cu->transform_unit_array, TRANSFORM_UNIT_MAX_COUNT * sizeof(TransformUnit_t));
+    //CHKN TransformUnit             transform_unit_array[TRANSFORM_UNIT_MAX_COUNT]; // 2-bytes * 21 = 42-bytes
+    memcpy(dst_cu->transform_unit_array, src_cu->transform_unit_array, TRANSFORM_UNIT_MAX_COUNT * sizeof(TransformUnit));
 
 
     //CHKN PredictionUnit_t            prediction_unit_array[MAX_NUM_OF_PU_PER_CU];    // 35-bytes * 4 = 140 bytes
@@ -2739,7 +2739,7 @@ void inter_depth_tx_search(
 
         context_ptr->md_local_cu_unit[cu_ptr->mds_idx].count_non_zero_coeffs = candidate_ptr->count_non_zero_coeffs;
 
-        TransformUnit_t        *txb_ptr;
+        TransformUnit        *txb_ptr;
         uint32_t                txb_itr;
         uint32_t                tu_index;
         uint32_t                tuTotalCount;

@@ -53,7 +53,7 @@ typedef enum APPEXITCONDITIONTYPE {
  /**********************************
  * Constructor
  **********************************/
-static void eb_config_ctor(EbConfig_t *config_ptr)
+static void eb_config_ctor(EbConfig *config_ptr)
 {
     config_ptr->inputFile = NULL;
     config_ptr->bitstreamFile = NULL;
@@ -72,7 +72,7 @@ static void eb_config_ctor(EbConfig_t *config_ptr)
 /**********************************
 * Destructor
 **********************************/
-static void eb_config_dtor(EbConfig_t *config_ptr)
+static void eb_config_dtor(EbConfig *config_ptr)
 {
 
     if (config_ptr->inputFile) {
@@ -94,8 +94,8 @@ static void eb_config_dtor(EbConfig_t *config_ptr)
 }
 
 APPEXITCONDITIONTYPE ProcessOutputReconBuffer(
-    EbConfig_t             *config,
-    EbAppContext_t         *appCallBack)
+    EbConfig             *config,
+    EbAppContext         *appCallBack)
 {
     EbBufferHeaderType    *headerPtr = appCallBack->recon_buffer; // needs to change for buffered input
     EbComponentType       *componentHandle = (EbComponentType*)appCallBack->svtEncoderHandle;
@@ -131,8 +131,8 @@ APPEXITCONDITIONTYPE ProcessOutputReconBuffer(
     return return_value;
 }
 APPEXITCONDITIONTYPE ProcessOutputStreamBuffer(
-    EbConfig_t             *config,
-    EbAppContext_t         *appCallback,
+    EbConfig             *config,
+    EbAppContext         *appCallback,
     uint8_t           pic_send_done
 )
 {
@@ -167,7 +167,7 @@ APPEXITCONDITIONTYPE ProcessOutputStreamBuffer(
 
 #define SIZE_OF_ONE_FRAME_IN_BYTES(width, height,is16bit) ( ( ((width)*(height)*3)>>1 )<<is16bit)
 void ReadInputFrames(
-    EbConfig_t                  *config,
+    EbConfig                  *config,
     uint8_t                      is16bit,
     EbBufferHeaderType         *headerPtr)
 {
@@ -255,8 +255,8 @@ void ReadInputFrames(
 }
 #define  TEST_IDR 0
 APPEXITCONDITIONTYPE ProcessInputBuffer(
-    EbConfig_t                  *config,
-    EbAppContext_t              *appCallBack)
+    EbConfig                  *config,
+    EbAppContext              *appCallBack)
 {
     uint8_t            is16bit = (uint8_t)(config->encoderBitDepth > 8);
     EbBufferHeaderType     *headerPtr = appCallBack->inputPictureBuffer; // needs to change for buffered input
@@ -310,8 +310,8 @@ int32_t main(int32_t argc, char* argv[])
 {
     EbErrorType            return_error = EB_ErrorNone;            // Error Handling
     APPEXITCONDITIONTYPE    exitConditionOutput = APP_ExitConditionNone , exitConditionInput = APP_ExitConditionNone , exitConditionRecon = APP_ExitConditionNone;    // Processing loop exit condition
-    EbConfig_t             *config;        // Encoder Configuration
-    EbAppContext_t         *appCallback;   // Instances App callback data
+    EbConfig             *config;        // Encoder Configuration
+    EbAppContext         *appCallback;   // Instances App callback data
 
     // Print Encoder Info
     printf("-------------------------------------\n");
@@ -333,7 +333,7 @@ int32_t main(int32_t argc, char* argv[])
     fflush(stdout);
     {
         // Initialize config
-        config = (EbConfig_t*)malloc(sizeof(EbConfig_t));
+        config = (EbConfig*)malloc(sizeof(EbConfig));
         if (config){
             eb_config_ctor(config);
             if (argc != 6 && argc != 7) {
@@ -395,7 +395,7 @@ int32_t main(int32_t argc, char* argv[])
         if (return_error == EB_ErrorNone && (config != NULL)) {
 
             // Initialize appCallback
-            appCallback = (EbAppContext_t*)malloc(sizeof(EbAppContext_t));
+            appCallback = (EbAppContext*)malloc(sizeof(EbAppContext));
             if (appCallback){
                 EbAppContextCtor(appCallback,config);
 

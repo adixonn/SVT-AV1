@@ -363,10 +363,10 @@ void* motion_estimation_kernel(void *input_ptr)
     PictureParentControlSet   *picture_control_set_ptr;
     SequenceControlSet_t        *sequence_control_set_ptr;
 
-    EbObjectWrapper_t           *inputResultsWrapperPtr;
+    EbObjectWrapper           *inputResultsWrapperPtr;
     PictureDecisionResults    *inputResultsPtr;
 
-    EbObjectWrapper_t           *outputResultsWrapperPtr;
+    EbObjectWrapper           *outputResultsWrapperPtr;
     MotionEstimationResults   *outputResultsPtr;
 
     EbPictureBufferDesc       *input_picture_ptr;

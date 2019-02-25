@@ -59,7 +59,8 @@
 #define ROUND0_BITS 3
 #define COMPOUND_ROUND1_BITS 7
 
-typedef struct SubpelParams {
+typedef struct SubpelParams 
+{
     int32_t xs;
     int32_t ys;
     int32_t subpel_x;
@@ -968,7 +969,7 @@ EbErrorType av1_inter_prediction(
     uint32_t                                interp_filters,
     CodingUnit                           *cu_ptr,
     uint8_t                                 ref_frame_type,
-    MvUnit_t                               *mv_unit,
+    MvUnit                               *mv_unit,
     uint16_t                                pu_origin_x,
     uint16_t                                pu_origin_y,
     uint8_t                                 bwidth,
@@ -1454,7 +1455,7 @@ EbErrorType AV1MDInterPrediction(
     uint8_t                                  ref_frame_type,
     ModeDecisionContext                   *md_context_ptr,
     CodingUnit                            *cu_ptr,
-    MvUnit_t                                *mv_unit,
+    MvUnit                                *mv_unit,
     uint16_t                                 pu_origin_x,
     uint16_t                                 pu_origin_y,
     uint8_t                                  bwidth,
@@ -2038,7 +2039,7 @@ EbErrorType av1_inter_prediction_hbd(
     PictureControlSet                    *picture_control_set_ptr,
     uint8_t                                   ref_frame_type,
     CodingUnit                           *cu_ptr,
-    MvUnit_t                               *mv_unit,
+    MvUnit                               *mv_unit,
     uint16_t                                  pu_origin_x,
     uint16_t                                  pu_origin_y,
     uint8_t                                   bwidth,
@@ -2512,7 +2513,7 @@ EbErrorType av1_inter_prediction_hbd(
 
 
 EbErrorType warped_motion_prediction(
-    MvUnit_t                               *mv_unit,
+    MvUnit                               *mv_unit,
     uint16_t                                pu_origin_x,
     uint16_t                                pu_origin_y,
     CodingUnit                           *cu_ptr,
@@ -2864,7 +2865,7 @@ EbErrorType warped_motion_prediction(
 
 
 EbErrorType warped_motion_prediction_md(
-    MvUnit_t                               *mv_unit,
+    MvUnit                               *mv_unit,
     ModeDecisionContext                  *md_context_ptr,
     uint16_t                                pu_origin_x,
     uint16_t                                pu_origin_y,
@@ -3528,7 +3529,7 @@ static const int32_t filter_sets[DUAL_FILTER_SET_SIZE][2] = {
     EbPictureBufferDesc *prediction_ptr,
     ModeDecisionContext *md_context_ptr,
     ModeDecisionCandidateBuffer *candidate_buffer_ptr,
-    MvUnit_t mv_unit,
+    MvUnit mv_unit,
     EbPictureBufferDesc  *ref_pic_list0,
     EbPictureBufferDesc  *ref_pic_list1,
     EbAsm asm_type,
@@ -3877,7 +3878,7 @@ static const int32_t filter_sets[DUAL_FILTER_SET_SIZE][2] = {
     EbPictureBufferDesc *prediction_ptr,
     ModeDecisionContext *md_context_ptr,
     ModeDecisionCandidateBuffer *candidate_buffer_ptr,
-    MvUnit_t mv_unit,
+    MvUnit mv_unit,
     EbPictureBufferDesc  *ref_pic_list0,
     EbPictureBufferDesc  *ref_pic_list1,
     EbAsm asm_type,
@@ -4245,7 +4246,7 @@ EbErrorType inter_pu_prediction_av1(
     EbPictureBufferDesc  *ref_pic_list1 = NULL;
     ModeDecisionCandidate *const candidate_ptr = candidate_buffer_ptr->candidate_ptr;
 
-    MvUnit_t mv_unit;
+    MvUnit mv_unit;
     mv_unit.predDirection = candidate_buffer_ptr->candidate_ptr->prediction_direction[md_context_ptr->pu_itr];
     mv_unit.mv[0].x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
     mv_unit.mv[0].y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
