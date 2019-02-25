@@ -35,25 +35,27 @@ extern "C" {
       /**************************************
        * Member definitions
        **************************************/
-    typedef struct {
+    typedef struct EncDecSegDependencyMap 
+    {
         uint8_t      *dependencyMap;
         EbHandle   updateMutex;
-    } EncDecSegDependencyMap_t;
+    } EncDecSegDependencyMap;
 
-    typedef struct {
+    typedef struct EncDecSegSegmentRow 
+    {
         uint16_t      startingSegIndex;
         uint16_t      endingSegIndex;
         uint16_t      currentSegIndex;
         EbHandle   assignmentMutex;
-    } EncDecSegSegmentRow_t;
+    } EncDecSegSegmentRow;
 
     /**************************************
      * ENCDEC Segments
      **************************************/
-    typedef struct
+    typedef struct EncDecSegments
     {
-        EncDecSegDependencyMap_t  depMap;
-        EncDecSegSegmentRow_t    *rowArray;
+        EncDecSegDependencyMap  depMap;
+        EncDecSegSegmentRow    *rowArray;
 
         uint16_t                   *xStartArray;
         uint16_t                   *yStartArray;
@@ -69,19 +71,19 @@ extern "C" {
         uint32_t                    segmentMaxRowCount;
         uint32_t                    segmentMaxTotalCount;
 
-    } EncDecSegments_t;
+    } EncDecSegments;
 
     /**************************************
      * Extern Function Declarations
      **************************************/
     extern EbErrorType enc_dec_segments_ctor(
-        EncDecSegments_t **segments_dbl_ptr,
+        EncDecSegments **segments_dbl_ptr,
         uint32_t             segment_col_count,
         uint32_t             segment_row_count);
 
 
     extern void enc_dec_segments_init(
-        EncDecSegments_t *segments_ptr,
+        EncDecSegments *segments_ptr,
         uint32_t            col_count,
         uint32_t            row_count,
         uint32_t            pic_width_lcu,

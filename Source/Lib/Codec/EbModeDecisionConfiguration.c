@@ -256,7 +256,7 @@ EbErrorType MdcIntraCuRate(
     //uint64_t lumaRate;
     //uint64_t chromaRate;
 
-    //EncodeContext_t *encode_context_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
+    //EncodeContext *encode_context_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
 
     //CHECK_REPORT_ERROR(
     //    (partitionMode == SIZE_2Nx2N),

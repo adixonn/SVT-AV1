@@ -451,7 +451,7 @@ void* rest_kernel(void *input_ptr)
             eb_get_empty_object(
                 context_ptr->rest_output_fifo_ptr,
                 &rest_results_wrapper_ptr);
-            rest_results_ptr = (struct RestResults_s*)rest_results_wrapper_ptr->object_ptr;
+            rest_results_ptr = (struct RestResults*)rest_results_wrapper_ptr->object_ptr;
             rest_results_ptr->picture_control_set_wrapper_ptr = cdef_results_ptr->picture_control_set_wrapper_ptr;
             rest_results_ptr->completed_lcu_row_index_start = 0;
             rest_results_ptr->completed_lcu_row_count = ((sequence_control_set_ptr->luma_height + sequence_control_set_ptr->sb_size_pix - 1) >> lcuSizeLog2);

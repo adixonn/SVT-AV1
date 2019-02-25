@@ -10,13 +10,13 @@
 #include "EbThreads.h"
 
 EbErrorType enc_dec_segments_ctor(
-    EncDecSegments_t **segments_dbl_ptr,
+    EncDecSegments **segments_dbl_ptr,
     uint32_t             segment_col_count,
     uint32_t             segment_row_count)
 {
     uint32_t row_index;
-    EncDecSegments_t *segments_ptr;
-    EB_MALLOC(EncDecSegments_t*, segments_ptr, sizeof(EncDecSegments_t), EB_N_PTR);
+    EncDecSegments *segments_ptr;
+    EB_MALLOC(EncDecSegments*, segments_ptr, sizeof(EncDecSegments), EB_N_PTR);
 
     *segments_dbl_ptr = segments_ptr;
 
@@ -37,7 +37,7 @@ EbErrorType enc_dec_segments_ctor(
     EB_CREATEMUTEX(EbHandle, segments_ptr->depMap.updateMutex, sizeof(EbHandle), EB_MUTEX);
 
     // Segment rows
-    EB_MALLOC(EncDecSegSegmentRow_t*, segments_ptr->rowArray, sizeof(EncDecSegSegmentRow_t) * segments_ptr->segmentMaxRowCount, EB_N_PTR)
+    EB_MALLOC(EncDecSegSegmentRow*, segments_ptr->rowArray, sizeof(EncDecSegSegmentRow) * segments_ptr->segmentMaxRowCount, EB_N_PTR)
 
         for (row_index = 0; row_index < segments_ptr->segmentMaxRowCount; ++row_index) {
             EB_CREATEMUTEX(EbHandle, segments_ptr->rowArray[row_index].assignmentMutex, sizeof(EbHandle), EB_MUTEX);
@@ -49,7 +49,7 @@ EbErrorType enc_dec_segments_ctor(
 
 
 void enc_dec_segments_init(
-    EncDecSegments_t *segments_ptr,
+    EncDecSegments *segments_ptr,
     uint32_t            segColCount,
     uint32_t            segRowCount,
     uint32_t            pic_width_lcu,

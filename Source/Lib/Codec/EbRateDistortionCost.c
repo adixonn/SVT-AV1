@@ -1267,7 +1267,7 @@ EbErrorType av1_tu_estimate_coeff_bits(
     CodingUnit                           *cu_ptr,
     uint32_t                                  tu_origin_index,
     uint32_t                                  tuChromaOriginIndex,
-    EntropyCoder_t                         *entropy_coder_ptr,
+    EntropyCoder                         *entropy_coder_ptr,
     EbPictureBufferDesc_t                  *coeff_buffer_sb,
     uint32_t                                 y_eob,
     uint32_t                                 cb_eob,

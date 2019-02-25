@@ -40,7 +40,7 @@
 #define RC_GROUP_IN_GOP_MAX_NUMBER                          512
 #define PICTURE_IN_RC_GROUP_MAX_NUMBER                      64
 
-typedef struct EncodeContext_s
+typedef struct EncodeContext
 {
     // Callback Functions
     EbCallback                                    *app_callback_ptr;
@@ -90,11 +90,11 @@ typedef struct EncodeContext_s
     uint32_t                                         reference_picture_queue_tail_index;
 
     // Initial Rate Control Reorder Queue
-    InitialRateControlReorderEntry_t               **initial_rate_control_reorder_queue;
+    InitialRateControlReorderEntry               **initial_rate_control_reorder_queue;
     uint32_t                                         initial_rate_control_reorder_queue_head_index;
 
     // High Level Rate Control Histogram Queue
-    HlRateControlHistogramEntry_t                  **hl_rate_control_historgram_queue;
+    HlRateControlHistogramEntry                  **hl_rate_control_historgram_queue;
     uint32_t                                         hl_rate_control_historgram_queue_head_index;
     EbHandle                                         hl_rate_control_historgram_queue_mutex;
 
@@ -144,11 +144,11 @@ typedef struct EncodeContext_s
     EbObjectWrapper_t                                *previous_picture_control_set_wrapper_ptr;
     EbHandle                                          shared_reference_mutex;
 
-} EncodeContext_t;
+} EncodeContext;
 
-typedef struct EncodeContextInitData_s {
+typedef struct EncodeContextInitData {
     int32_t junk;
-} EncodeContextInitData_t;
+} EncodeContextInitData;
 
 /**************************************
  * Extern Function Declarations

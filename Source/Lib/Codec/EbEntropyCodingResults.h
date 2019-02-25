@@ -14,16 +14,13 @@ extern "C" {
     /**************************************
      * Process Results
      **************************************/
-    typedef struct
-    {
+    typedef struct EntropyCodingResults {
         EbObjectWrapper_t      *pictureControlSetWrapperPtr;
+    } EntropyCodingResults;
 
-    } EntropyCodingResults_t;
-
-    typedef struct
-    {
+    typedef struct EntropyCodingResultsInitData {
         uint32_t         junk;
-    } EntropyCodingResultsInitData_t;
+    } EntropyCodingResultsInitData;
 
     /**************************************
      * Extern Function Declarations

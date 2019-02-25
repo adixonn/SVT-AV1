@@ -2681,7 +2681,7 @@ void* mode_decision_configuration_kernel(void *input_ptr)
 
     // Output
     EbObjectWrapper_t                          *encDecTasksWrapperPtr;
-    EncDecTasks_t                              *encDecTasksPtr;
+    EncDecTasks                              *encDecTasksPtr;
 
     for (;;) {
 
@@ -2883,7 +2883,7 @@ void* mode_decision_configuration_kernel(void *input_ptr)
             context_ptr->mode_decision_configuration_output_fifo_ptr,
             &encDecTasksWrapperPtr);
 
-        encDecTasksPtr = (EncDecTasks_t*)encDecTasksWrapperPtr->object_ptr;
+        encDecTasksPtr = (EncDecTasks*)encDecTasksWrapperPtr->object_ptr;
         encDecTasksPtr->pictureControlSetWrapperPtr = rateControlResultsPtr->pictureControlSetWrapperPtr;
         encDecTasksPtr->inputType = ENCDEC_TASKS_MDC_INPUT;
 

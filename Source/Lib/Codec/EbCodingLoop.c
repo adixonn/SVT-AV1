@@ -2896,7 +2896,7 @@ EB_EXTERN void av1_encode_pass(
     uint64_t                  y_tu_coeff_bits;
     uint64_t                  cb_tu_coeff_bits;
     uint64_t                  cr_tu_coeff_bits;
-    EncodeContext_t          *encode_context_ptr;
+    EncodeContext          *encode_context_ptr;
     uint32_t                  lcuRowIndex = sb_origin_y / BLOCK_SIZE_64;
 
     // Dereferencing early
@@ -2924,7 +2924,7 @@ EB_EXTERN void av1_encode_pass(
         sequence_control_set_ptr->static_config.recon_enabled ||
         sequence_control_set_ptr->static_config.stat_report);
 
-    EntropyCoder_t  *coeff_est_entropy_coder_ptr = picture_control_set_ptr->coeff_est_entropy_coder_ptr;
+    EntropyCoder  *coeff_est_entropy_coder_ptr = picture_control_set_ptr->coeff_est_entropy_coder_ptr;
 
     uint32_t           dZoffset = 0;
 

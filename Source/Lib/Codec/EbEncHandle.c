@@ -535,20 +535,20 @@ void lib_svt_encoder_send_error_exit(
 * Encoder Library Handle Constructor
 **********************************/
 static EbErrorType eb_enc_handle_ctor(
-    EbEncHandle_t **encHandleDblPtr,
+    EbEncHandle **encHandleDblPtr,
     EbComponentType * ebHandlePtr)
 {
     uint32_t  instance_index;
     EbErrorType return_error = EB_ErrorNone;
     // Allocate Memory
-    EbEncHandle_t *encHandlePtr = (EbEncHandle_t*)malloc(sizeof(EbEncHandle_t));
+    EbEncHandle *encHandlePtr = (EbEncHandle*)malloc(sizeof(EbEncHandle));
     *encHandleDblPtr = encHandlePtr;
-    if (encHandlePtr == (EbEncHandle_t*)EB_NULL) {
+    if (encHandlePtr == (EbEncHandle*)EB_NULL) {
         return EB_ErrorInsufficientResources;
     }
     encHandlePtr->memory_map = (EbMemoryMapEntry*)malloc(sizeof(EbMemoryMapEntry) * MAX_NUM_PTR);
     encHandlePtr->memory_map_index = 0;
-    encHandlePtr->total_lib_memory = sizeof(EbEncHandle_t) + sizeof(EbMemoryMapEntry) * MAX_NUM_PTR;
+    encHandlePtr->total_lib_memory = sizeof(EbEncHandle) + sizeof(EbMemoryMapEntry) * MAX_NUM_PTR;
 
     // Save Memory Map Pointers 
     total_lib_memory = &encHandlePtr->total_lib_memory;
@@ -766,7 +766,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
 {
     if(svt_enc_component == NULL)
         return EB_ErrorBadParameter;
-    EbEncHandle_t *encHandlePtr = (EbEncHandle_t*)svt_enc_component->pComponentPrivate;
+    EbEncHandle *encHandlePtr = (EbEncHandle*)svt_enc_component->pComponentPrivate;
     EbErrorType return_error = EB_ErrorNone;
     uint32_t instance_index;
     uint32_t processIndex;
@@ -1277,7 +1277,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
     }
     // EncDec Tasks
     {
-        EncDecTasksInitData_t ModeDecisionResultInitData;
+        EncDecTasksInitData ModeDecisionResultInitData;
         unsigned i;
 
         ModeDecisionResultInitData.encDecSegmentRowCount = 0;
@@ -1329,7 +1329,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
 #if FILT_PROC
     //DLF results
     {
-        EntropyCodingResultsInitData_t dlfResultInitData;
+        EntropyCodingResultsInitData dlfResultInitData;
 
         return_error = eb_system_resource_ctor(
             &encHandlePtr->dlfResultsResourcePtr,
@@ -1347,7 +1347,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
     }
     //CDEF results
     {
-        EntropyCodingResultsInitData_t cdefResultInitData;
+        EntropyCodingResultsInitData cdefResultInitData;
 
         return_error = eb_system_resource_ctor(
             &encHandlePtr->cdefResultsResourcePtr,
@@ -1366,7 +1366,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
     }
     //REST results
     {
-        EntropyCodingResultsInitData_t restResultInitData;
+        EntropyCodingResultsInitData restResultInitData;
 
         return_error = eb_system_resource_ctor(
             &encHandlePtr->restResultsResourcePtr,
@@ -1386,7 +1386,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
 
     // Entropy Coding Results
     {
-        EntropyCodingResultsInitData_t entropyCodingResultInitData;
+        EntropyCodingResultsInitData entropyCodingResultInitData;
 
         return_error = eb_system_resource_ctor(
             &encHandlePtr->entropyCodingResultsResourcePtr,
@@ -1497,7 +1497,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
 
     // Initial Rate Control Context
     return_error = initial_rate_control_context_ctor(
-        (InitialRateControlContext_t**)&encHandlePtr->initialRateControlContextPtr,
+        (InitialRateControlContext**)&encHandlePtr->initialRateControlContextPtr,
         encHandlePtr->motionEstimationResultsConsumerFifoPtrArray[0],
         encHandlePtr->initialRateControlResultsProducerFifoPtrArray[0]);
     if (return_error == EB_ErrorInsufficientResources) {
@@ -1653,7 +1653,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
 
     for (processIndex = 0; processIndex < encHandlePtr->sequence_control_set_instance_array[0]->sequence_control_set_ptr->entropy_coding_process_init_count; ++processIndex) {
         return_error = entropy_coding_context_ctor(
-            (EntropyCodingContext_t**)&encHandlePtr->entropyCodingContextPtrArray[processIndex],
+            (EntropyCodingContext**)&encHandlePtr->entropyCodingContextPtrArray[processIndex],
 #if FILT_PROC
             encHandlePtr->restResultsConsumerFifoPtrArray[processIndex],
 #else
@@ -1782,7 +1782,7 @@ EB_API EbErrorType eb_deinit_encoder(EbComponentType *svt_enc_component)
 {
     if(svt_enc_component == NULL)
         return EB_ErrorBadParameter;
-    EbEncHandle_t *encHandlePtr = (EbEncHandle_t*)svt_enc_component->pComponentPrivate;
+    EbEncHandle *encHandlePtr = (EbEncHandle*)svt_enc_component->pComponentPrivate;
     EbErrorType return_error = EB_ErrorNone;
     int32_t              ptrIndex = 0;
     EbMemoryMapEntry*   memoryEntry = (EbMemoryMapEntry*)EB_NULL;
@@ -1883,7 +1883,7 @@ EbErrorType eb_h265_enc_component_de_init(EbComponentType  *svt_enc_component)
     EbErrorType       return_error = EB_ErrorNone;
 
     if (svt_enc_component->pComponentPrivate) {
-        free((EbEncHandle_t *)svt_enc_component->pComponentPrivate);
+        free((EbEncHandle *)svt_enc_component->pComponentPrivate);
     }
     else {
         return_error = EB_ErrorUndefined;
@@ -2799,7 +2799,7 @@ EB_API EbErrorType eb_svt_enc_set_parameter(
         return EB_ErrorBadParameter;
 
     EbErrorType           return_error  = EB_ErrorNone;
-    EbEncHandle_t        *pEncCompData  = (EbEncHandle_t*)svt_enc_component->pComponentPrivate;
+    EbEncHandle        *pEncCompData  = (EbEncHandle*)svt_enc_component->pComponentPrivate;
     uint32_t              instance_index = 0;
 
     // Acquire Config Mutex
@@ -3074,7 +3074,7 @@ EB_API EbErrorType eb_svt_enc_send_picture(
     EbComponentType      *svt_enc_component,
     EbBufferHeaderType   *p_buffer)
 {
-    EbEncHandle_t          *encHandlePtr = (EbEncHandle_t*)svt_enc_component->pComponentPrivate;
+    EbEncHandle          *encHandlePtr = (EbEncHandle*)svt_enc_component->pComponentPrivate;
     EbObjectWrapper_t      *ebWrapperPtr;
 
     // Take the buffer and put it into our internal queue structure
@@ -3126,7 +3126,7 @@ EB_API EbErrorType eb_svt_get_packet(
     unsigned char          pic_send_done)
 {
     EbErrorType             return_error = EB_ErrorNone;
-    EbEncHandle_t          *pEncCompData = (EbEncHandle_t*)svt_enc_component->pComponentPrivate;
+    EbEncHandle          *pEncCompData = (EbEncHandle*)svt_enc_component->pComponentPrivate;
     EbObjectWrapper_t      *ebWrapperPtr = NULL;
     EbBufferHeaderType    *packet;
     if (pic_send_done)
@@ -3190,7 +3190,7 @@ EB_API EbErrorType eb_svt_get_recon(
     EbBufferHeaderType   *p_buffer)
 {
     EbErrorType           return_error = EB_ErrorNone;
-    EbEncHandle_t          *pEncCompData = (EbEncHandle_t*)svt_enc_component->pComponentPrivate;
+    EbEncHandle          *pEncCompData = (EbEncHandle*)svt_enc_component->pComponentPrivate;
     EbObjectWrapper_t      *ebWrapperPtr = NULL;
 
     if (pEncCompData->sequence_control_set_instance_array[0]->sequence_control_set_ptr->static_config.recon_enabled) {
@@ -3230,7 +3230,7 @@ void lib_svt_encoder_send_error_exit(
     uint32_t                 error_code)
 {
     EbComponentType      *svt_enc_component = (EbComponentType*)hComponent;
-    EbEncHandle_t          *pEncCompData = (EbEncHandle_t*)svt_enc_component->pComponentPrivate;
+    EbEncHandle          *pEncCompData = (EbEncHandle*)svt_enc_component->pComponentPrivate;
     EbObjectWrapper_t      *ebWrapperPtr = NULL;
     EbBufferHeaderType    *outputPacket;
 
@@ -3276,7 +3276,7 @@ EbErrorType init_svt_av1_encoder_handle(
 
     // Encoder Private Handle Ctor
     return_error = (EbErrorType)eb_enc_handle_ctor(
-        (EbEncHandle_t**) &(svt_enc_component->pComponentPrivate),
+        (EbEncHandle**) &(svt_enc_component->pComponentPrivate),
         svt_enc_component);
 
     return return_error;

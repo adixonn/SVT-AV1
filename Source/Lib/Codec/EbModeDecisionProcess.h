@@ -126,7 +126,7 @@ extern "C" {
 
         // Transform and Quantization Buffers
         EbTransQuantBuffers_t          *trans_quant_buffers_ptr;
-        struct EncDecContext_s         *enc_dec_context_ptr;
+        struct EncDecContext         *enc_dec_context_ptr;
 
         uint64_t                       *fast_cost_array;
         uint64_t                       *full_cost_array;
@@ -160,7 +160,7 @@ extern "C" {
         MvUnit_t                        mv_unit;
 
         // Entropy Coder
-        EntropyCoder_t                 *coeff_est_entropy_coder_ptr;
+        EntropyCoder                 *coeff_est_entropy_coder_ptr;
         MdEncPassCuData_t               md_ep_pipe_sb[BLOCK_MAX_COUNT_SB_128];
 
         uint8_t                         group_of8x8_blocks_count;

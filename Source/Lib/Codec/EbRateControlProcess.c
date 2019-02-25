@@ -339,14 +339,14 @@ EbErrorType rate_control_context_ctor(
 void HighLevelRcInputPictureMode2(
     PictureParentControlSet_t         *picture_control_set_ptr,
     SequenceControlSet_t              *sequence_control_set_ptr,
-    EncodeContext_t                   *encode_context_ptr,
+    EncodeContext                   *encode_context_ptr,
     RateControlContext_t              *context_ptr,
     HighLevelRateControlContext_t     *highLevelRateControlPtr)
 {
 
     EbBool                             end_of_sequence_flag = EB_TRUE;
 
-    HlRateControlHistogramEntry_t      *hlRateControlHistogramPtrTemp;
+    HlRateControlHistogramEntry      *hlRateControlHistogramPtrTemp;
     // Queue variables
     uint32_t                             queueEntryIndexTemp;
     uint32_t                             queueEntryIndexTemp2;
@@ -966,7 +966,7 @@ void* rate_control_kernel(void *input_ptr)
 {
     // Context
     RateControlContext_t        *context_ptr = (RateControlContext_t*)input_ptr;
-    // EncodeContext_t             *encode_context_ptr;
+    // EncodeContext             *encode_context_ptr;
 
     RateControlIntervalParamContext_t *rateControlParamPtr;
 

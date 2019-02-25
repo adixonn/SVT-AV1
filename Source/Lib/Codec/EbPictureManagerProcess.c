@@ -110,7 +110,7 @@ void* picture_manager_kernel(void *input_ptr)
     PictureControlSet_t             *ChildPictureControlSetPtr;
     PictureParentControlSet_t       *picture_control_set_ptr;
     SequenceControlSet_t            *sequence_control_set_ptr;
-    EncodeContext_t                 *encode_context_ptr;
+    EncodeContext                 *encode_context_ptr;
 
 
     EbObjectWrapper_t               *inputPictureDemuxWrapperPtr;
@@ -529,7 +529,7 @@ void* picture_manager_kernel(void *input_ptr)
                 EB_ENC_PM_ERROR9);
 
             picture_control_set_ptr = (PictureParentControlSet_t*)EB_NULL;
-            encode_context_ptr = (EncodeContext_t*)EB_NULL;
+            encode_context_ptr = (EncodeContext*)EB_NULL;
 
             break;
         }
@@ -539,7 +539,7 @@ void* picture_manager_kernel(void *input_ptr)
         // *************************************
 
         // Walk the input queue and start all ready pictures.  Mark entry as null after started.  Increment the head as you go.
-        if (encode_context_ptr != (EncodeContext_t*)EB_NULL) {
+        if (encode_context_ptr != (EncodeContext*)EB_NULL) {
             inputQueueIndex = encode_context_ptr->input_picture_queue_head_index;
             while (inputQueueIndex != encode_context_ptr->input_picture_queue_tail_index) {
 

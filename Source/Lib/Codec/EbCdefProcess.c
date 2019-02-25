@@ -641,7 +641,7 @@ void* cdef_kernel(void *input_ptr)
             eb_get_empty_object(
                 context_ptr->cdef_output_fifo_ptr,
                 &cdef_results_wrapper_ptr);
-            cdef_results_ptr = (struct CdefResults_s*)cdef_results_wrapper_ptr->object_ptr;
+            cdef_results_ptr = (struct CdefResults*)cdef_results_wrapper_ptr->object_ptr;
             cdef_results_ptr->picture_control_set_wrapper_ptr = dlf_results_ptr->picture_control_set_wrapper_ptr;
             cdef_results_ptr->segment_index = segment_index;
             // Post Cdef Results
@@ -655,7 +655,7 @@ void* cdef_kernel(void *input_ptr)
         eb_get_empty_object(
             context_ptr->cdef_output_fifo_ptr,
             &cdefResultsWrapperPtr);
-        cdef_results_ptr = (struct CdefResults_s*)cdefResultsWrapperPtr->object_ptr;
+        cdef_results_ptr = (struct CdefResults*)cdefResultsWrapperPtr->object_ptr;
         cdef_results_ptr->pictureControlSetWrapperPtr = dlf_results_ptr->pictureControlSetWrapperPtr;
         cdef_results_ptr->completedLcuRowIndexStart = 0;
         cdef_results_ptr->completedLcuRowCount =  ((sequence_control_set_ptr->luma_height + sequence_control_set_ptr->sb_size_pix - 1) >> lcuSizeLog2);

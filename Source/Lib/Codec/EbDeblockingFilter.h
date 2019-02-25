@@ -102,9 +102,9 @@ extern "C" {
 
     void av1_pick_filter_level(
 #if FILT_PROC
-        DlfContext_t            *context_ptr,
+        DlfContext            *context_ptr,
 #else
-        EncDecContext_t         *context_ptr,
+        EncDecContext         *context_ptr,
 #endif
         EbPictureBufferDesc_t   *srcBuffer, // source input
         PictureControlSet_t     *pcsPtr,

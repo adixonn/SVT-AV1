@@ -278,7 +278,7 @@ EbBool SceneTransitionDetector(
 * ReleasePrevPictureFromReorderQueue
 ***************************************************************************************************/
 EbErrorType ReleasePrevPictureFromReorderQueue(
-    EncodeContext_t                 *encode_context_ptr) {
+    EncodeContext                 *encode_context_ptr) {
 
     EbErrorType return_error = EB_ErrorNone;
 
@@ -334,7 +334,7 @@ EbErrorType initialize_mini_gop_activity_array(
 ***************************************************************************************************/
 EbErrorType generate_picture_window_split(
     PictureDecisionContext_t        *context_ptr,
-    EncodeContext_t                 *encode_context_ptr) {
+    EncodeContext                 *encode_context_ptr) {
 
     EbErrorType return_error = EB_ErrorNone;
 
@@ -381,7 +381,7 @@ EbErrorType generate_picture_window_split(
 ***************************************************************************************************/
 EbErrorType handle_incomplete_picture_window_map(
     PictureDecisionContext_t        *context_ptr,
-    EncodeContext_t                 *encode_context_ptr) {
+    EncodeContext                 *encode_context_ptr) {
 
     EbErrorType return_error = EB_ErrorNone;
 
@@ -419,7 +419,7 @@ EbErrorType handle_incomplete_picture_window_map(
 ***************************************************************************************************/
 EbErrorType update_base_layer_reference_queue_dependent_count(
     PictureDecisionContext_t        *context_ptr,
-    EncodeContext_t                 *encode_context_ptr,
+    EncodeContext                 *encode_context_ptr,
     SequenceControlSet_t            *sequence_control_set_ptr,
     uint32_t                         mini_gop_index) {
 
@@ -592,7 +592,7 @@ EbBool is_supposedly_4L_reference_frame(
 ***************************************************************************************************/
 EbErrorType GenerateMiniGopRps(
     PictureDecisionContext_t        *context_ptr,
-    EncodeContext_t                 *encode_context_ptr) {
+    EncodeContext                 *encode_context_ptr) {
 
     EbErrorType return_error = EB_ErrorNone;
 
@@ -973,7 +973,7 @@ we do not break the GOP.
 *************************************************/
 void  Av1GenerateRpsInfo(
     PictureParentControlSet_t       *picture_control_set_ptr,
-    EncodeContext_t                 *encode_context_ptr,
+    EncodeContext                 *encode_context_ptr,
     PictureDecisionContext_t        *context_ptr,
     uint32_t                           pictureIndex
 )
@@ -1493,7 +1493,7 @@ void* picture_decision_kernel(void *input_ptr)
 
     PictureParentControlSet_t       *picture_control_set_ptr;
 
-    EncodeContext_t                 *encode_context_ptr;
+    EncodeContext                 *encode_context_ptr;
     SequenceControlSet_t            *sequence_control_set_ptr;
 
     EbObjectWrapper_t               *inputResultsWrapperPtr;
@@ -1550,7 +1550,7 @@ void* picture_decision_kernel(void *input_ptr)
         inputResultsPtr = (PictureAnalysisResults_t*)inputResultsWrapperPtr->object_ptr;
         picture_control_set_ptr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
-        encode_context_ptr = (EncodeContext_t*)sequence_control_set_ptr->encode_context_ptr;
+        encode_context_ptr = (EncodeContext*)sequence_control_set_ptr->encode_context_ptr;
 
         loopCount++;
 

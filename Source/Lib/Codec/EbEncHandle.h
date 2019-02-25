@@ -19,7 +19,7 @@
 /**************************************
  * Component Private Data
  **************************************/
-typedef struct EbEncHandle_s
+typedef struct EbEncHandle
 {
     // Encode Instances & Compute Segments
     uint32_t                                  encodeInstanceTotalCount;
@@ -172,7 +172,7 @@ typedef struct EbEncHandle_s
     uint32_t                                memory_map_index;
     uint64_t                                total_lib_memory;
 
-} EbEncHandle_t;
+} EbEncHandle;
 
 
 #endif // EbEncHandle_h

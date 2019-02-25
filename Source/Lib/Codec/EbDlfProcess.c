@@ -97,7 +97,7 @@ void* dlf_kernel(void *input_ptr)
 
     //// Output
     EbObjectWrapper_t                       *dlf_results_wrapper_ptr;
-    struct DlfResults_s*                     dlf_results_ptr;
+    struct DlfResults*                     dlf_results_ptr;
 
     // SB Loop variables
 
@@ -259,7 +259,7 @@ void* dlf_kernel(void *input_ptr)
             eb_get_empty_object(
                 context_ptr->dlf_output_fifo_ptr,
                 &dlf_results_wrapper_ptr);
-            dlf_results_ptr = (struct DlfResults_s*)dlf_results_wrapper_ptr->object_ptr;
+            dlf_results_ptr = (struct DlfResults*)dlf_results_wrapper_ptr->object_ptr;
             dlf_results_ptr->picture_control_set_wrapper_ptr = enc_dec_results_ptr->pictureControlSetWrapperPtr;
 
             dlf_results_ptr->segment_index = segment_index;
@@ -272,7 +272,7 @@ void* dlf_kernel(void *input_ptr)
             eb_get_empty_object(
                 context_ptr->dlf_output_fifo_ptr,
                 &dlf_results_wrapper_ptr);
-            dlf_results_ptr = (struct DlfResults_s*)dlf_results_wrapper_ptr->object_ptr;
+            dlf_results_ptr = (struct DlfResults*)dlf_results_wrapper_ptr->object_ptr;
             dlf_results_ptr->pictureControlSetWrapperPtr = enc_dec_results_ptr->pictureControlSetWrapperPtr;
             dlf_results_ptr->completedLcuRowIndexStart = 0;
             dlf_results_ptr->completedLcuRowCount = ((sequence_control_set_ptr->luma_height + sequence_control_set_ptr->sb_size_pix - 1) >> lcuSizeLog2);

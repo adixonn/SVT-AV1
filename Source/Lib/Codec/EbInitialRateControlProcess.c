@@ -409,12 +409,12 @@ void DetectGlobalMotion(
 * Initial Rate Control Context Constructor
 ************************************************/
 EbErrorType initial_rate_control_context_ctor(
-    InitialRateControlContext_t **context_dbl_ptr,
+    InitialRateControlContext **context_dbl_ptr,
     EbFifo_t                     *motion_estimation_results_input_fifo_ptr,
     EbFifo_t                     *initialrate_control_results_output_fifo_ptr)
 {
-    InitialRateControlContext_t *context_ptr;
-    EB_MALLOC(InitialRateControlContext_t*, context_ptr, sizeof(InitialRateControlContext_t), EB_N_PTR);
+    InitialRateControlContext *context_ptr;
+    EB_MALLOC(InitialRateControlContext*, context_ptr, sizeof(InitialRateControlContext), EB_N_PTR);
     *context_dbl_ptr = context_ptr;
     context_ptr->motion_estimation_results_input_fifo_ptr = motion_estimation_results_input_fifo_ptr;
     context_ptr->initialrate_control_results_output_fifo_ptr = initialrate_control_results_output_fifo_ptr;
@@ -886,12 +886,12 @@ void StationaryEdgeOverUpdateOverTimeLcu(
 ** LAD Window: min (8 or sliding window size)
 ************************************************/
 void UpdateGlobalMotionDetectionOverTime(
-    EncodeContext_t                   *encode_context_ptr,
+    EncodeContext                   *encode_context_ptr,
     SequenceControlSet_t              *sequence_control_set_ptr,
     PictureParentControlSet_t         *picture_control_set_ptr)
 {
 
-    InitialRateControlReorderEntry_t   *temporaryQueueEntryPtr;
+    InitialRateControlReorderEntry   *temporaryQueueEntryPtr;
     PictureParentControlSet_t          *temporaryPictureControlSetPtr;
 
     uint32_t                                totalPanPictures = 0;
@@ -952,10 +952,10 @@ void UpdateGlobalMotionDetectionOverTime(
 ************************************************/
 
 void UpdateBeaInfoOverTime(
-    EncodeContext_t                   *encode_context_ptr,
+    EncodeContext                   *encode_context_ptr,
     PictureParentControlSet_t         *picture_control_set_ptr)
 {
-    InitialRateControlReorderEntry_t   *temporaryQueueEntryPtr;
+    InitialRateControlReorderEntry   *temporaryQueueEntryPtr;
     PictureParentControlSet_t          *temporaryPictureControlSetPtr;
     uint32_t                                updateNonMovingIndexArrayFramesToCheck;
     uint16_t                              lcuIdx;
@@ -1036,11 +1036,11 @@ void InitZzCostInfo(
 ** LAD Window: min (2xmgpos+1 or sliding window size)
 ************************************************/
 void UpdateMotionFieldUniformityOverTime(
-    EncodeContext_t                   *encode_context_ptr,
+    EncodeContext                   *encode_context_ptr,
     SequenceControlSet_t              *sequence_control_set_ptr,
     PictureParentControlSet_t         *picture_control_set_ptr)
 {
-    InitialRateControlReorderEntry_t   *temporaryQueueEntryPtr;
+    InitialRateControlReorderEntry   *temporaryQueueEntryPtr;
     PictureParentControlSet_t          *temporaryPictureControlSetPtr;
     uint32_t                                inputQueueIndex;
     uint32_t                              NoFramesToCheck;
@@ -1094,10 +1094,10 @@ void UpdateMotionFieldUniformityOverTime(
 ** LAD Window: min (2xmgpos+1 or sliding window size)
 ************************************************/
 void UpdateHomogeneityOverTime(
-    EncodeContext_t                   *encode_context_ptr,
+    EncodeContext                   *encode_context_ptr,
     PictureParentControlSet_t         *picture_control_set_ptr)
 {
-    InitialRateControlReorderEntry_t   *temporaryQueueEntryPtr;
+    InitialRateControlReorderEntry   *temporaryQueueEntryPtr;
     PictureParentControlSet_t          *temporaryPictureControlSetPtr;
     uint32_t                              NoFramesToCheck;
 
@@ -1187,13 +1187,13 @@ void ResetHomogeneityStructures(
     return;
 }
 
-InitialRateControlReorderEntry_t  * DeterminePictureOffsetInQueue(
-    EncodeContext_t                   *encode_context_ptr,
+InitialRateControlReorderEntry  * DeterminePictureOffsetInQueue(
+    EncodeContext                   *encode_context_ptr,
     PictureParentControlSet_t         *picture_control_set_ptr,
     MotionEstimationResults_t         *inputResultsPtr)
 {
 
-    InitialRateControlReorderEntry_t  *queueEntryPtr;
+    InitialRateControlReorderEntry  *queueEntryPtr;
     int32_t                             queueEntryIndex;
 
     queueEntryIndex = (int32_t)(picture_control_set_ptr->picture_number - encode_context_ptr->initial_rate_control_reorder_queue[encode_context_ptr->initial_rate_control_reorder_queue_head_index]->picture_number);
@@ -1210,10 +1210,10 @@ InitialRateControlReorderEntry_t  * DeterminePictureOffsetInQueue(
 
 void GetHistogramQueueData(
     SequenceControlSet_t              *sequence_control_set_ptr,
-    EncodeContext_t                   *encode_context_ptr,
+    EncodeContext                   *encode_context_ptr,
     PictureParentControlSet_t         *picture_control_set_ptr)
 {
-    HlRateControlHistogramEntry_t     *histogramQueueEntryPtr;
+    HlRateControlHistogramEntry     *histogramQueueEntryPtr;
     int32_t                             histogramQueueEntryIndex;
 
     // Determine offset from the Head Ptr for HLRC histogram queue
@@ -1256,11 +1256,11 @@ void GetHistogramQueueData(
 
 void UpdateHistogramQueueEntry(
     SequenceControlSet_t              *sequence_control_set_ptr,
-    EncodeContext_t                   *encode_context_ptr,
+    EncodeContext                   *encode_context_ptr,
     PictureParentControlSet_t         *picture_control_set_ptr)
 {
 
-    HlRateControlHistogramEntry_t     *histogramQueueEntryPtr;
+    HlRateControlHistogramEntry     *histogramQueueEntryPtr;
     int32_t                             histogramQueueEntryIndex;
 
     eb_block_on_mutex(sequence_control_set_ptr->encode_context_ptr->rate_table_update_mutex);
@@ -1644,10 +1644,10 @@ void DeriveBlockinessPresentFlag(
 ************************************************/
 void* initial_rate_control_kernel(void *input_ptr)
 {
-    InitialRateControlContext_t       *context_ptr = (InitialRateControlContext_t*)input_ptr;
+    InitialRateControlContext       *context_ptr = (InitialRateControlContext*)input_ptr;
     PictureParentControlSet_t         *picture_control_set_ptr;
     PictureParentControlSet_t         *pictureControlSetPtrTemp;
-    EncodeContext_t                   *encode_context_ptr;
+    EncodeContext                   *encode_context_ptr;
     SequenceControlSet_t              *sequence_control_set_ptr;
 
     EbObjectWrapper_t                 *inputResultsWrapperPtr;
@@ -1659,7 +1659,7 @@ void* initial_rate_control_kernel(void *input_ptr)
     // Queue variables
     uint32_t                             queueEntryIndexTemp;
     uint32_t                             queueEntryIndexTemp2;
-    InitialRateControlReorderEntry_t  *queueEntryPtr;
+    InitialRateControlReorderEntry  *queueEntryPtr;
 
     EbBool                            moveSlideWondowFlag = EB_TRUE;
     EbBool                            end_of_sequence_flag = EB_TRUE;
@@ -1690,7 +1690,7 @@ void* initial_rate_control_kernel(void *input_ptr)
         // If the picture is complete, proceed
         if (SEGMENT_COMPLETION_MASK_TEST(picture_control_set_ptr->me_segments_completion_mask, picture_control_set_ptr->me_segments_total_count)) {
             sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
-            encode_context_ptr = (EncodeContext_t*)sequence_control_set_ptr->encode_context_ptr;
+            encode_context_ptr = (EncodeContext*)sequence_control_set_ptr->encode_context_ptr;
 
             // Mark picture when global motion is detected using ME results
             //reset intraCodedEstimationLcu

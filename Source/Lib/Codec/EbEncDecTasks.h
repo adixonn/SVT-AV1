@@ -18,18 +18,17 @@ extern "C" {
     /**************************************
      * Process Results
      **************************************/
-    typedef struct EncDecTasks_s
+    typedef struct EncDecTasks
     {
         EbObjectWrapper_t            *pictureControlSetWrapperPtr;
         uint32_t                        inputType;
         int16_t                        enc_dec_segment_row;
 
-    } EncDecTasks_t;
+    } EncDecTasks;
 
-    typedef struct EncDecTasksInitData_s
-    {
+    typedef struct EncDecTasksInitData {
         unsigned encDecSegmentRowCount;
-    } EncDecTasksInitData_t;
+    } EncDecTasksInitData;
 
     /**************************************
      * Extern Function Declarations

@@ -71,9 +71,9 @@ extern void av1_set_ref_frame(MvReferenceFrame *rf,
 * CABAC Encoder Constructor
 ************************************************/
 void CabacCtor(
-    CabacEncodeContext_t *cabacEncContextPtr)
+    CabacEncodeContext *cabacEncContextPtr)
 {
-    EB_MEMSET(cabacEncContextPtr, 0, sizeof(CabacEncodeContext_t));
+    EB_MEMSET(cabacEncContextPtr, 0, sizeof(CabacEncodeContext));
 
     return;
 }
@@ -709,7 +709,7 @@ int32_t  Av1WriteCoeffsTxb1D(
 **************************************/
 static EbErrorType Av1EncodeCoeff1D(
     PictureControlSet_t     *pcsPtr,
-    EntropyCodingContext_t  *context_ptr,
+    EntropyCodingContext  *context_ptr,
     FRAME_CONTEXT           *frameContext,
     aom_writer              *ecWriter,
     CodingUnit           *cu_ptr,
@@ -1419,7 +1419,7 @@ static int16_t Av1ModeContextAnalyzer(
 
 
 EbErrorType encode_slice_finish(
-    EntropyCoder_t        *entropy_coder_ptr)
+    EntropyCoder        *entropy_coder_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
@@ -1441,8 +1441,8 @@ EbErrorType reset_bitstream(
 }
 
 EbErrorType reset_entropy_coder(
-    EncodeContext_t            *encode_context_ptr,
-    EntropyCoder_t             *entropy_coder_ptr,
+    EncodeContext            *encode_context_ptr,
+    EntropyCoder             *entropy_coder_ptr,
     uint32_t                      qp,
     EB_SLICE                    slice_type)
 {
@@ -1458,11 +1458,11 @@ EbErrorType reset_entropy_coder(
 }
 
 EbErrorType copy_rbsp_bitstream_to_payload(
-    Bitstream_t *bitstream_ptr,
+    Bitstream *bitstream_ptr,
     EbByte      output_buffer,
     uint32_t      *output_buffer_index,
     uint32_t      *output_buffer_size,
-    EncodeContext_t         *encode_context_ptr)
+    EncodeContext         *encode_context_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
     OutputBitstreamUnit *outputBitstreamPtr = (OutputBitstreamUnit*)bitstream_ptr->outputBitstreamPtr;
@@ -1487,11 +1487,11 @@ EbErrorType copy_rbsp_bitstream_to_payload(
 
 
 EbErrorType bitstream_ctor(
-    Bitstream_t **bitstream_dbl_ptr,
+    Bitstream **bitstream_dbl_ptr,
     uint32_t buffer_size)
 {
     EbErrorType return_error = EB_ErrorNone;
-    EB_MALLOC(Bitstream_t*, *bitstream_dbl_ptr, sizeof(Bitstream_t), EB_N_PTR);
+    EB_MALLOC(Bitstream*, *bitstream_dbl_ptr, sizeof(Bitstream), EB_N_PTR);
 
     EB_MALLOC(EbPtr, (*bitstream_dbl_ptr)->outputBitstreamPtr, sizeof(OutputBitstreamUnit), EB_N_PTR);
 
@@ -1506,13 +1506,13 @@ EbErrorType bitstream_ctor(
 
 
 EbErrorType entropy_coder_ctor(
-    EntropyCoder_t **entropy_coder_dbl_ptr,
+    EntropyCoder **entropy_coder_dbl_ptr,
     uint32_t buffer_size)
 {
     EbErrorType return_error = EB_ErrorNone;
-    EB_MALLOC(EntropyCoder_t*, *entropy_coder_dbl_ptr, sizeof(EntropyCoder_t), EB_N_PTR);
+    EB_MALLOC(EntropyCoder*, *entropy_coder_dbl_ptr, sizeof(EntropyCoder), EB_N_PTR);
 
-    EB_MALLOC(EbPtr, (*entropy_coder_dbl_ptr)->cabacEncodeContextPtr, sizeof(CabacEncodeContext_t), EB_N_PTR);
+    EB_MALLOC(EbPtr, (*entropy_coder_dbl_ptr)->cabacEncodeContextPtr, sizeof(CabacEncodeContext), EB_N_PTR);
 
     EB_MALLOC(FRAME_CONTEXT*, (*entropy_coder_dbl_ptr)->fc, sizeof(FRAME_CONTEXT), EB_N_PTR);
 
@@ -1523,11 +1523,11 @@ EbErrorType entropy_coder_ctor(
         buffer_size);
 
     CabacCtor(
-        (CabacEncodeContext_t *)(*entropy_coder_dbl_ptr)->cabacEncodeContextPtr);
+        (CabacEncodeContext *)(*entropy_coder_dbl_ptr)->cabacEncodeContextPtr);
 
 
     return_error = output_bitstream_unit_ctor(
-        &((((CabacEncodeContext_t*)(*entropy_coder_dbl_ptr)->cabacEncodeContextPtr)->bacEncContext).m_pcTComBitIf),
+        &((((CabacEncodeContext*)(*entropy_coder_dbl_ptr)->cabacEncodeContextPtr)->bacEncContext).m_pcTComBitIf),
         buffer_size);
 
     return return_error;
@@ -1537,9 +1537,9 @@ EbErrorType entropy_coder_ctor(
 
 
 EbPtr entropy_coder_get_bitstream_ptr(
-    EntropyCoder_t *entropy_coder_ptr)
+    EntropyCoder *entropy_coder_ptr)
 {
-    CabacEncodeContext_t *cabacEncCtxPtr = (CabacEncodeContext_t*)entropy_coder_ptr->cabacEncodeContextPtr;
+    CabacEncodeContext *cabacEncCtxPtr = (CabacEncodeContext*)entropy_coder_ptr->cabacEncodeContextPtr;
     EbPtr bitstream_ptr = (EbPtr)&(cabacEncCtxPtr->bacEncContext.m_pcTComBitIf);
 
     return bitstream_ptr;
@@ -1938,7 +1938,7 @@ void write_mb_interp_filter(
     PictureParentControlSet_t   *pcsPtr,
     aom_writer                  *ecWriter,
     CodingUnit             *cu_ptr,
-    EntropyCoder_t *entropy_coder_ptr,
+    EntropyCoder *entropy_coder_ptr,
     NeighborArrayUnit32_t     *interpolation_type_neighbor_array,
     uint32_t blkOriginX,
     uint32_t blkOriginY)
@@ -4501,7 +4501,7 @@ static uint32_t WriteFrameHeaderObu(
 * EncodeFrameHeaderHeader
 **************************************************/
 EbErrorType write_frame_header_av1(
-    Bitstream_t *bitstream_ptr,
+    Bitstream *bitstream_ptr,
     SequenceControlSet_t *scsPtr,
     PictureControlSet_t *pcsPtr,
     uint8_t show_existing)
@@ -4571,7 +4571,7 @@ EbErrorType write_frame_header_av1(
 * encode_sps_av1
 **************************************************/
 EbErrorType encode_sps_av1(
-    Bitstream_t *bitstream_ptr,
+    Bitstream *bitstream_ptr,
     SequenceControlSet_t *scsPtr)
 {
     EbErrorType            return_error = EB_ErrorNone;
@@ -4601,7 +4601,7 @@ EbErrorType encode_sps_av1(
 * encode_td_av1
 **************************************************/
 EbErrorType encode_td_av1(
-    Bitstream_t *bitstream_ptr)
+    Bitstream *bitstream_ptr)
 {
     EbErrorType            return_error = EB_ErrorNone;
     OutputBitstreamUnit   *outputBitstreamPtr = (OutputBitstreamUnit*)bitstream_ptr->outputBitstreamPtr;
@@ -4858,7 +4858,7 @@ static void loop_restoration_write_sb_coeffs(PictureControlSet_t     *piCSetPtr,
 
 EbErrorType ec_update_neighbors(
     PictureControlSet_t     *picture_control_set_ptr,
-    EntropyCodingContext_t  *context_ptr,
+    EntropyCodingContext  *context_ptr,
     uint32_t                 blkOriginX,
     uint32_t                 blkOriginY,
     CodingUnit            *cu_ptr,
@@ -5019,8 +5019,8 @@ EbErrorType ec_update_neighbors(
 
 EbErrorType write_modes_b(
     PictureControlSet_t     *picture_control_set_ptr,
-    EntropyCodingContext_t  *context_ptr,
-    EntropyCoder_t          *entropy_coder_ptr,
+    EntropyCodingContext  *context_ptr,
+    EntropyCoder          *entropy_coder_ptr,
     LargestCodingUnit     *tb_ptr,
     CodingUnit            *cu_ptr,
     EbPictureBufferDesc_t   *coeff_ptr)
@@ -5451,10 +5451,10 @@ EbErrorType write_modes_b(
 * Write sb
 **********************************************/
 EB_EXTERN EbErrorType write_sb(
-    EntropyCodingContext_t  *context_ptr,
+    EntropyCodingContext  *context_ptr,
     LargestCodingUnit     *tb_ptr,
     PictureControlSet_t     *picture_control_set_ptr,
-    EntropyCoder_t          *entropy_coder_ptr,
+    EntropyCoder          *entropy_coder_ptr,
     EbPictureBufferDesc_t   *coeff_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;

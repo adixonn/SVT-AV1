@@ -487,14 +487,14 @@ static void EncDecConfigureLcu(
  *   threads from performing an update (A).
  ******************************************************/
 EbBool AssignEncDecSegments(
-    EncDecSegments_t   *segmentPtr,
+    EncDecSegments   *segmentPtr,
     uint16_t             *segmentInOutIndex,
-    EncDecTasks_t      *taskPtr,
+    EncDecTasks      *taskPtr,
     EbFifo_t           *srmFifoPtr)
 {
     EbBool continueProcessingFlag = EB_FALSE;
     EbObjectWrapper_t *wrapper_ptr;
-    EncDecTasks_t *feedbackTaskPtr;
+    EncDecTasks *feedbackTaskPtr;
 
     uint32_t rowSegmentIndex = 0;
     uint32_t segment_index;
@@ -607,7 +607,7 @@ EbBool AssignEncDecSegments(
             eb_get_empty_object(
                 srmFifoPtr,
                 &wrapper_ptr);
-            feedbackTaskPtr = (EncDecTasks_t*)wrapper_ptr->object_ptr;
+            feedbackTaskPtr = (EncDecTasks*)wrapper_ptr->object_ptr;
             feedbackTaskPtr->inputType = ENCDEC_TASKS_ENCDEC_INPUT;
             feedbackTaskPtr->enc_dec_segment_row = feedbackRowIndex;
             feedbackTaskPtr->pictureControlSetWrapperPtr = taskPtr->pictureControlSetWrapperPtr;
@@ -632,7 +632,7 @@ static void ReconOutput(
 
     EbObjectWrapper_t             *outputReconWrapperPtr;
     EbBufferHeaderType           *outputReconPtr;
-    EncodeContext_t               *encode_context_ptr = sequence_control_set_ptr->encode_context_ptr;
+    EncodeContext               *encode_context_ptr = sequence_control_set_ptr->encode_context_ptr;
     EbBool is16bit = (sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
     // The totalNumberOfReconFrames counter has to be write/read protected as
     //   it is used to determine the end of the stream.  If it is not protected
@@ -1390,7 +1390,7 @@ void* enc_dec_kernel(void *input_ptr)
 
     // Input
     EbObjectWrapper_t                       *encDecTasksWrapperPtr;
-    EncDecTasks_t                           *encDecTasksPtr;
+    EncDecTasks                           *encDecTasksPtr;
 
     // Output
     EbObjectWrapper_t                       *encDecResultsWrapperPtr;
@@ -1429,7 +1429,7 @@ void* enc_dec_kernel(void *input_ptr)
     uint32_t                                 segmentRowIndex;
     uint32_t                                 segmentBandIndex;
     uint32_t                                 segmentBandSize;
-    EncDecSegments_t                        *segments_ptr;
+    EncDecSegments                        *segments_ptr;
 #if ! FILT_PROC
     EbBool                                   enableEcRows = EB_FALSE;//for CDEF.
 #endif
@@ -1440,7 +1440,7 @@ void* enc_dec_kernel(void *input_ptr)
             context_ptr->mode_decision_input_fifo_ptr,
             &encDecTasksWrapperPtr);
 
-        encDecTasksPtr = (EncDecTasks_t*)encDecTasksWrapperPtr->object_ptr;
+        encDecTasksPtr = (EncDecTasks*)encDecTasksWrapperPtr->object_ptr;
         picture_control_set_ptr = (PictureControlSet_t*)encDecTasksPtr->pictureControlSetWrapperPtr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
         segments_ptr = picture_control_set_ptr->enc_dec_segment_ctrl;

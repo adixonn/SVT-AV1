@@ -59,11 +59,11 @@ void* PacketizationKernel(void *input_ptr)
     SequenceControlSet_t           *sequence_control_set_ptr;
 
     // Encoding Context
-    EncodeContext_t                *encode_context_ptr;
+    EncodeContext                *encode_context_ptr;
 
     // Input
     EbObjectWrapper_t              *entropyCodingResultsWrapperPtr;
-    EntropyCodingResults_t         *entropyCodingResultsPtr;
+    EntropyCodingResults         *entropyCodingResultsPtr;
 
     // Output
     EbObjectWrapper_t              *output_stream_wrapper_ptr;
@@ -85,10 +85,10 @@ void* PacketizationKernel(void *input_ptr)
         eb_get_full_object(
             context_ptr->entropy_coding_input_fifo_ptr,
             &entropyCodingResultsWrapperPtr);
-        entropyCodingResultsPtr = (EntropyCodingResults_t*)entropyCodingResultsWrapperPtr->object_ptr;
+        entropyCodingResultsPtr = (EntropyCodingResults*)entropyCodingResultsWrapperPtr->object_ptr;
         picture_control_set_ptr = (PictureControlSet_t*)entropyCodingResultsPtr->pictureControlSetWrapperPtr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
-        encode_context_ptr = (EncodeContext_t*)sequence_control_set_ptr->encode_context_ptr;
+        encode_context_ptr = (EncodeContext*)sequence_control_set_ptr->encode_context_ptr;
 
         //****************************************************
         // Input Entropy Results into Reordering Queue

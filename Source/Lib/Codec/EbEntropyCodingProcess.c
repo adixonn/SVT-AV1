@@ -32,14 +32,14 @@ void av1_tile_set_row(TileInfo *tile, PictureParentControlSet_t * pcsPtr, int ro
  * Enc Dec Context Constructor
  ******************************************************/
 EbErrorType entropy_coding_context_ctor(
-    EntropyCodingContext_t **context_dbl_ptr,
+    EntropyCodingContext **context_dbl_ptr,
     EbFifo_t                *enc_dec_input_fifo_ptr,
     EbFifo_t                *packetization_output_fifo_ptr,
     EbFifo_t                *rate_control_output_fifo_ptr,
     EbBool                  is16bit)
 {
-    EntropyCodingContext_t *context_ptr;
-    EB_MALLOC(EntropyCodingContext_t*, context_ptr, sizeof(EntropyCodingContext_t), EB_N_PTR);
+    EntropyCodingContext *context_ptr;
+    EB_MALLOC(EntropyCodingContext*, context_ptr, sizeof(EntropyCodingContext), EB_N_PTR);
     *context_dbl_ptr = context_ptr;
 
     context_ptr->is16bit = is16bit;
@@ -175,7 +175,7 @@ void av1_build_nmv_cost_table(int32_t *mvjoint, int32_t *mvcost[2],
  * Reset Entropy Coding Picture
  **************************************************/
 static void ResetEntropyCodingPicture(
-    EntropyCodingContext_t  *context_ptr,
+    EntropyCodingContext  *context_ptr,
     PictureControlSet_t     *picture_control_set_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr)
 {
@@ -254,7 +254,7 @@ static void ResetEntropyCodingPicture(
 static void reset_ec_tile(
     uint32_t  total_size,
     uint32_t  is_last_tile_in_tg,
-    EntropyCodingContext_t  *context_ptr,
+    EntropyCodingContext  *context_ptr,
     PictureControlSet_t     *picture_control_set_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr)
 {
@@ -336,7 +336,7 @@ static void reset_ec_tile(
  * EncDec Configure LCU
  ******************************************************/
 static void EntropyCodingConfigureLcu(
-    EntropyCodingContext_t  *context_ptr,
+    EntropyCodingContext  *context_ptr,
     LargestCodingUnit     *sb_ptr,
     PictureControlSet_t     *picture_control_set_ptr)
 {
@@ -359,7 +359,7 @@ static void EntropyCodingConfigureLcu(
  * Entropy Coding Lcu
  ******************************************************/
 static void EntropyCodingLcu(
-    EntropyCodingContext_t              *context_ptr,
+    EntropyCodingContext              *context_ptr,
     LargestCodingUnit               *sb_ptr,
     PictureControlSet_t               *picture_control_set_ptr,
     SequenceControlSet_t              *sequence_control_set_ptr,
@@ -507,7 +507,7 @@ static EbBool UpdateEntropyCodingRows(
 void* entropy_coding_kernel(void *input_ptr)
 {
     // Context & SCS & PCS
-    EntropyCodingContext_t                  *context_ptr = (EntropyCodingContext_t*)input_ptr;
+    EntropyCodingContext                  *context_ptr = (EntropyCodingContext*)input_ptr;
     PictureControlSet_t                     *picture_control_set_ptr;
     SequenceControlSet_t                    *sequence_control_set_ptr;
 
@@ -517,7 +517,7 @@ void* entropy_coding_kernel(void *input_ptr)
 
     // Output
     EbObjectWrapper_t                       *entropyCodingResultsWrapperPtr;
-    EntropyCodingResults_t                  *entropyCodingResultsPtr;
+    EntropyCodingResults                  *entropyCodingResultsPtr;
 
     // SB Loop variables
     LargestCodingUnit                     *sb_ptr;
@@ -662,7 +662,7 @@ void* entropy_coding_kernel(void *input_ptr)
                         eb_get_empty_object(
                             context_ptr->entropy_coding_output_fifo_ptr,
                             &entropyCodingResultsWrapperPtr);
-                        entropyCodingResultsPtr = (EntropyCodingResults_t*)entropyCodingResultsWrapperPtr->object_ptr;
+                        entropyCodingResultsPtr = (EntropyCodingResults*)entropyCodingResultsWrapperPtr->object_ptr;
                         entropyCodingResultsPtr->pictureControlSetWrapperPtr = encDecResultsPtr->pictureControlSetWrapperPtr;
 
                         // Post EntropyCoding Results
@@ -794,7 +794,7 @@ void* entropy_coding_kernel(void *input_ptr)
                  eb_get_empty_object(
                      context_ptr->entropy_coding_output_fifo_ptr,
                      &entropyCodingResultsWrapperPtr);
-                 entropyCodingResultsPtr = (EntropyCodingResults_t*)entropyCodingResultsWrapperPtr->object_ptr;
+                 entropyCodingResultsPtr = (EntropyCodingResults*)entropyCodingResultsWrapperPtr->object_ptr;
                  entropyCodingResultsPtr->pictureControlSetWrapperPtr = encDecResultsPtr->pictureControlSetWrapperPtr;
 
                  // Post EntropyCoding Results

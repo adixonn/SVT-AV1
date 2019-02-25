@@ -12,11 +12,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    typedef struct Bitstream_s {
+    typedef struct Bitstream {
         EbPtr outputBitstreamPtr;
-    } Bitstream_t;
+    } Bitstream;
 
-    typedef struct EntropyCoder_s {
+    typedef struct EntropyCoder {
         EbPtr cabacEncodeContextPtr;
         FRAME_CONTEXT   *fc;              /* this frame entropy */
         aom_writer       ecWriter;
@@ -24,18 +24,18 @@ extern "C" {
 #if TILES
         uint64_t   ec_frame_size;
 #endif
-    } EntropyCoder_t;
+    } EntropyCoder;
 
     extern EbErrorType bitstream_ctor(
-        Bitstream_t **bitstream_dbl_ptr,
+        Bitstream **bitstream_dbl_ptr,
         uint32_t buffer_size);
 
     extern EbErrorType entropy_coder_ctor(
-        EntropyCoder_t **entropy_coder_dbl_ptr,
+        EntropyCoder **entropy_coder_dbl_ptr,
         uint32_t buffer_size);
 
     extern EbPtr entropy_coder_get_bitstream_ptr(
-        EntropyCoder_t *entropy_coder_ptr);
+        EntropyCoder *entropy_coder_ptr);
 #ifdef __cplusplus
 }
 #endif

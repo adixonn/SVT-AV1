@@ -14,20 +14,21 @@
 /************************************************
  * Initial Rate Control Reorder Queue Entry
  ************************************************/
-typedef struct InitialRateControlReorderEntry_s {
+typedef struct InitialRateControlReorderEntry {
     uint64_t                          picture_number;
     EbObjectWrapper_t              *parentPcsWrapperPtr;
-} InitialRateControlReorderEntry_t;
+} InitialRateControlReorderEntry;
 
-extern EbErrorType InitialRateControlReorderEntryCtor(
-    InitialRateControlReorderEntry_t   **entry_dbl_ptr,
+extern EbErrorType initial_rate_control_reorder_entry_ctor(
+    InitialRateControlReorderEntry   **entry_dbl_ptr,
     uint32_t                               picture_number);
 
 
 /************************************************
  * High Level Rate Control Histogram Queue Entry
  ************************************************/
-typedef struct HlRateControlHistogramEntry_s {
+typedef struct HlRateControlHistogramEntry
+{
     uint64_t                          picture_number;
     int16_t                          lifeCount;
     EbBool                         passedToHlrc;
@@ -44,10 +45,10 @@ typedef struct HlRateControlHistogramEntry_s {
     uint16_t                         *me_distortion_histogram;
     uint16_t                         *ois_distortion_histogram;
     uint32_t                          full_sb_count;
-} HlRateControlHistogramEntry_t;
+} HlRateControlHistogramEntry;
 
 extern EbErrorType hl_rate_control_histogram_entry_ctor(
-    HlRateControlHistogramEntry_t   **entry_dbl_ptr,
+    HlRateControlHistogramEntry   **entry_dbl_ptr,
     uint32_t                            picture_number);
 
 #endif //EbInitialRateControlReorderQueue_h
