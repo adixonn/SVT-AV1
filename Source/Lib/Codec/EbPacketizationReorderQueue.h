@@ -16,7 +16,8 @@ extern "C" {
     /************************************************
      * Packetization Reorder Queue Entry
      ************************************************/
-    typedef struct PacketizationReorderEntry {
+    typedef struct PacketizationReorderEntry 
+    {
         uint64_t                          picture_number;
         EbObjectWrapper_t              *output_stream_wrapper_ptr;
         EbObjectWrapper_t              *outputStatisticsWrapperPtr;
@@ -31,7 +32,7 @@ extern "C" {
         uint64_t                                refPOCList1;
         uint64_t                                 poc;
         FRAME_TYPE                            av1FrameType;
-        Av1RpsNode_t                          av1RefSignal;
+        Av1RpsNode                          av1RefSignal;
         EbBool                               showFrame;
         EbBool                               hasShowExisting;
         uint8_t                                 showExistingLoc;

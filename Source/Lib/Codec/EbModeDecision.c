@@ -41,7 +41,7 @@ const uint32_t parentIndex[85] = { 0, 0, 0, 2, 2, 2, 2, 0, 7, 7, 7, 7, 0, 12, 12
 65, 65, 65, 65, 0, 70, 70, 70, 70, 0, 75, 75, 75, 75, 0, 80, 80, 80, 80 };
 
 uint8_t GetNumOfIntraModesFromOisPoint(
-    PictureParentControlSet_t   *picture_control_set_ptr,
+    PictureParentControlSet   *picture_control_set_ptr,
     uint32_t                       meSad,
     uint32_t                       oisDcSad
 );
@@ -140,10 +140,10 @@ EbErrorType mode_decision_candidate_buffer_ctor(
     uint64_t                         *full_cost_merge_ptr
 )
 {
-    EbPictureBufferDescInitData_t pictureBufferDescInitData;
-    EbPictureBufferDescInitData_t doubleWidthPictureBufferDescInitData;
+    EbPictureBufferDescInitData pictureBufferDescInitData;
+    EbPictureBufferDescInitData doubleWidthPictureBufferDescInitData;
 
-    EbPictureBufferDescInitData_t ThirtyTwoWidthPictureBufferDescInitData;
+    EbPictureBufferDescInitData ThirtyTwoWidthPictureBufferDescInitData;
 
 
     EbErrorType return_error = EB_ErrorNone;
@@ -278,7 +278,7 @@ EbErrorType SetMvpClipMVs(
     uint32_t                    cu_origin_y,
     uint32_t                    pu_index,
     uint32_t                    tbSize,
-    PictureControlSet_t      *picture_control_set_ptr)
+    PictureControlSet      *picture_control_set_ptr)
 {
     EbErrorType  return_error = EB_ErrorNone;
 
@@ -481,7 +481,7 @@ EbErrorType pre_mode_decision(
 
 
 void Me2Nx2NCandidatesInjectionSwResults(
-    PictureControlSet_t            *picture_control_set_ptr,
+    PictureControlSet            *picture_control_set_ptr,
     ModeDecisionContext          *context_ptr,
     const SequenceControlSet_t     *sequence_control_set_ptr,
     LargestCodingUnit            *sb_ptr,
@@ -612,7 +612,7 @@ int8_t BIPRED_3x3_Y_POS[BIPRED_3x3_REFINMENT_POSITIONS] = { 0, 1, 1, 1, 0, -1, -
 #endif
 #if IMPROVED_UNIPRED_INJECTION
 void Unipred3x3CandidatesInjection(
-    PictureControlSet_t            *picture_control_set_ptr,
+    PictureControlSet            *picture_control_set_ptr,
     ModeDecisionContext          *context_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                        me_sb_addr,
@@ -751,7 +751,7 @@ void Unipred3x3CandidatesInjection(
 #endif
 #if IMPROVED_BIPRED_INJECTION
 void Bipred3x3CandidatesInjection(
-    PictureControlSet_t            *picture_control_set_ptr,
+    PictureControlSet            *picture_control_set_ptr,
     ModeDecisionContext          *context_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                        me_sb_addr,
@@ -940,7 +940,7 @@ void InjectAv1MvpCandidates(
     struct ModeDecisionContext     *context_ptr,
     CodingUnit                     *cu_ptr,
     MvReferenceFrame               *ref_frames,
-    PictureControlSet_t              *picture_control_set_ptr,
+    PictureControlSet              *picture_control_set_ptr,
     uint32_t                            lcu_addr,
     uint32_t                            leaf_index,
     EbBool                           allow_bipred,
@@ -1165,7 +1165,7 @@ void InjectAv1MvpCandidates(
 }
 
 void inject_warped_motion_candidates(
-    PictureControlSet_t              *picture_control_set_ptr,
+    PictureControlSet              *picture_control_set_ptr,
     struct ModeDecisionContext     *context_ptr,
     CodingUnit                     *cu_ptr,
     uint32_t                         *candTotCnt,
@@ -1356,7 +1356,7 @@ void inject_warped_motion_candidates(
 
 // END of Function Declarations
 void  inject_inter_candidates(
-    PictureControlSet_t            *picture_control_set_ptr,
+    PictureControlSet            *picture_control_set_ptr,
     ModeDecisionContext          *context_ptr,
     SsMeContext                  *ss_mecontext,
     const SequenceControlSet_t     *sequence_control_set_ptr,
@@ -1974,7 +1974,7 @@ static INLINE TxType av1_get_tx_type(
 
 // END of Function Declarations
 void  inject_intra_candidates(
-    PictureControlSet_t            *picture_control_set_ptr,
+    PictureControlSet            *picture_control_set_ptr,
     ModeDecisionContext          *context_ptr,
     const SequenceControlSet_t     *sequence_control_set_ptr,
     LargestCodingUnit            *sb_ptr,
@@ -2182,7 +2182,7 @@ EbErrorType ProductGenerateMdCandidatesCu(
     uint32_t                           *bufferTotalCountPtr,
     uint32_t                           *candidateTotalCountPtr,
     EbPtr                              interPredContextPtr,
-    PictureControlSet_t              *picture_control_set_ptr)
+    PictureControlSet              *picture_control_set_ptr)
 {
 
     (void)lcu_addr;

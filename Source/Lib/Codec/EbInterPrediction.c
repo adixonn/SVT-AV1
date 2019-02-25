@@ -964,7 +964,7 @@ block_size scale_chroma_bsize(block_size bsize, int32_t subsampling_x,
     int32_t subsampling_y);
 
 EbErrorType av1_inter_prediction(
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     uint32_t                                interp_filters,
     CodingUnit                           *cu_ptr,
     uint8_t                                 ref_frame_type,
@@ -1450,7 +1450,7 @@ EbErrorType AV1InterPrediction10BitMD(
 #else
 EbErrorType AV1MDInterPrediction(
 #endif
-    PictureControlSet_t                     *picture_control_set_ptr,
+    PictureControlSet                     *picture_control_set_ptr,
     uint8_t                                  ref_frame_type,
     ModeDecisionContext                   *md_context_ptr,
     CodingUnit                            *cu_ptr,
@@ -2035,7 +2035,7 @@ EbErrorType AV1MDInterPrediction(
 
 
 EbErrorType av1_inter_prediction_hbd(
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     uint8_t                                   ref_frame_type,
     CodingUnit                           *cu_ptr,
     MvUnit_t                               *mv_unit,
@@ -3348,7 +3348,7 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
 /*static*/ void model_rd_from_sse(
     block_size bsize,
     int16_t quantizer,
-    //const AV1_COMP *const cpi,
+    //const AV1Comp *const cpi,
     //const MacroBlockD *const xd,
     //block_size bsize,
     //int32_t plane,
@@ -3386,10 +3386,10 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
 
 /*static*/ void model_rd_for_sb(
 
-    PictureControlSet_t *picture_control_set_ptr,
+    PictureControlSet *picture_control_set_ptr,
     EbPictureBufferDesc *prediction_ptr,
     ModeDecisionContext *md_context_ptr,
-    //const AV1_COMP *const cpi,
+    //const AV1Comp *const cpi,
     //block_size bsize,
     //Macroblock *x,
     //MacroBlockD *xd,
@@ -3479,7 +3479,7 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
 /*static*/ /*INLINE*/ int32_t is_nontrans_global_motion(
     block_size sb_type,
     ModeDecisionCandidateBuffer *candidate_buffer_ptr,
-    PictureControlSet_t *picture_control_set_ptr
+    PictureControlSet *picture_control_set_ptr
 ) {
     int32_t ref;
 
@@ -3501,7 +3501,7 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
 }
 static INLINE int32_t av1_is_interp_needed(
     ModeDecisionCandidateBuffer *candidate_buffer_ptr,
-    PictureControlSet_t *picture_control_set_ptr,
+    PictureControlSet *picture_control_set_ptr,
     block_size bsize)
 {
     if (candidate_buffer_ptr->candidate_ptr->merge_flag)
@@ -3524,7 +3524,7 @@ static const int32_t filter_sets[DUAL_FILTER_SET_SIZE][2] = {
 };
 
 /*static*/ void interpolation_filter_search(
-    PictureControlSet_t *picture_control_set_ptr,
+    PictureControlSet *picture_control_set_ptr,
     EbPictureBufferDesc *prediction_ptr,
     ModeDecisionContext *md_context_ptr,
     ModeDecisionCandidateBuffer *candidate_buffer_ptr,
@@ -3533,7 +3533,7 @@ static const int32_t filter_sets[DUAL_FILTER_SET_SIZE][2] = {
     EbPictureBufferDesc  *ref_pic_list1,
     EbAsm asm_type,
     //Macroblock *const xd,
-    //const AV1_COMP *const cpi,
+    //const AV1Comp *const cpi,
     //block_size bsize,
     //int32_t mi_row,
     //int32_t mi_col,
@@ -3873,7 +3873,7 @@ static const int32_t filter_sets[DUAL_FILTER_SET_SIZE][2] = {
 
 #if INTERPOL_FILTER_SEARCH_10BIT_SUPPORT
 /*static*/ void interpolation_filter_search_HBD(
-    PictureControlSet_t *picture_control_set_ptr,
+    PictureControlSet *picture_control_set_ptr,
     EbPictureBufferDesc *prediction_ptr,
     ModeDecisionContext *md_context_ptr,
     ModeDecisionCandidateBuffer *candidate_buffer_ptr,
@@ -3882,7 +3882,7 @@ static const int32_t filter_sets[DUAL_FILTER_SET_SIZE][2] = {
     EbPictureBufferDesc  *ref_pic_list1,
     EbAsm asm_type,
     //Macroblock *const xd,
-    //const AV1_COMP *const cpi,
+    //const AV1Comp *const cpi,
     //block_size bsize,
     //int32_t mi_row,
     //int32_t mi_col,
@@ -4233,7 +4233,7 @@ EbErrorType inter_pu_prediction_av1(
 #if !CHROMA_BLIND
     uint32_t                                  component_mask,
 #endif
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
     EbAsm                                   asm_type)
 {
@@ -4261,13 +4261,13 @@ EbErrorType inter_pu_prediction_av1(
     int64_t rd = INT64_MAX;
 
     if (is16bit) {
-        ref_pic_list0 = ((EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr)->referencePicture16bit;
+        ref_pic_list0 = ((EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr)->referencePicture16bit;
         if (picture_control_set_ptr->slice_type == B_SLICE)
-            ref_pic_list1 = ((EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr)->referencePicture16bit;
+            ref_pic_list1 = ((EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr)->referencePicture16bit;
     } else {
-        ref_pic_list0 = ((EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr)->referencePicture;
+        ref_pic_list0 = ((EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr)->referencePicture;
         if (picture_control_set_ptr->slice_type == B_SLICE)
-            ref_pic_list1 = ((EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr)->referencePicture;
+            ref_pic_list1 = ((EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr)->referencePicture;
     }
 
     if (picture_control_set_ptr->parent_pcs_ptr->allow_warped_motion
@@ -4452,14 +4452,14 @@ void RoundMvOnTheFly(
 EbErrorType inter2_nx2_n_pu_prediction_avc(
     ModeDecisionContext                  *md_context_ptr,
     uint32_t                                  component_mask,
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
     EbAsm                                  asm_type)
 {
     EbErrorType            return_error = EB_ErrorNone;
     EbPictureBufferDesc  *ref_pic_list0;
     EbPictureBufferDesc  *ref_pic_list1;
-    EbReferenceObject_t    *referenceObject;
+    EbReferenceObject    *referenceObject;
 
     uint32_t                  ref_list0_pos_x;
     uint32_t                  ref_list0_pos_y;
@@ -4497,7 +4497,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 
             puOriginIndex = ((pu_origin_y  & (63)) * 64) + (pu_origin_x & (63));
             puChromaOriginIndex = (((pu_origin_y  & (63)) * 32) + (pu_origin_x & (63))) >> 1;
-            referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
+            referenceObject = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
             ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
 
 
@@ -4548,7 +4548,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
         else {
             puOriginIndex = ((pu_origin_y  & (63)) * 64) + (pu_origin_x & (63));
             puChromaOriginIndex = (((pu_origin_y  & (63)) * 32) + (pu_origin_x & (63))) >> 1;
-            referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
+            referenceObject = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
             ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
@@ -4601,7 +4601,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
     case UNI_PRED_LIST_1:
         puOriginIndex = ((pu_origin_y  & (63)) * 64) + (pu_origin_x & (63));
         puChromaOriginIndex = (((pu_origin_y  & (63)) * 32) + (pu_origin_x & (63))) >> 1;
-        referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
+        referenceObject = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
 
         if (is16bit) {
 
@@ -4700,7 +4700,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
         puChromaOriginIndex = (((pu_origin_y  & (63)) * 32) + (pu_origin_x & (63))) >> 1;
 
         // List0
-        referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
+        referenceObject = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
 
         if (is16bit) {
 
@@ -4724,7 +4724,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
             );
 
             // List1
-            referenceObject = (EbReferenceObject_t *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
+            referenceObject = (EbReferenceObject *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
             ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
@@ -4804,7 +4804,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
             );
 
             // List1
-            referenceObject = (EbReferenceObject_t *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
+            referenceObject = (EbReferenceObject *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
             ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
@@ -4905,14 +4905,14 @@ void UnPackReferenceLumaBlock(
 EbErrorType inter2_nx2_n_pu_prediction_avc_style(
     ModeDecisionContext                  *md_context_ptr,
     uint32_t                                  component_mask,
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
     EbAsm                                  asm_type)
 {
     EbErrorType            return_error = EB_ErrorNone;
     EbPictureBufferDesc  *ref_pic_list0;
     EbPictureBufferDesc  *ref_pic_list1;
-    EbReferenceObject_t    *referenceObject;
+    EbReferenceObject    *referenceObject;
 
     uint32_t                  ref_list0_pos_x;
     uint32_t                  ref_list0_pos_y;
@@ -4953,7 +4953,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
             puOriginIndex = ((pu_origin_y  & (63)) * 64) + (pu_origin_x & (63));
             puChromaOriginIndex = (((pu_origin_y  & (63)) * 32) + (pu_origin_x & (63))) >> 1;
-            referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
+            referenceObject = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
             ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
 
 
@@ -5031,7 +5031,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
         else {
             puOriginIndex = ((pu_origin_y  & (63)) * 64) + (pu_origin_x & (63));
             puChromaOriginIndex = (((pu_origin_y  & (63)) * 32) + (pu_origin_x & (63))) >> 1;
-            referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
+            referenceObject = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
             ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
@@ -5083,7 +5083,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
     case UNI_PRED_LIST_1:
         puOriginIndex = ((pu_origin_y  & (63)) * 64) + (pu_origin_x & (63));
         puChromaOriginIndex = (((pu_origin_y  & (63)) * 32) + (pu_origin_x & (63))) >> 1;
-        referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
+        referenceObject = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
 
         if (is16bit) {
 
@@ -5209,7 +5209,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
         puChromaOriginIndex = (((pu_origin_y  & (63)) * 32) + (pu_origin_x & (63))) >> 1;
 
         // List0
-        referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
+        referenceObject = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
 
         if (is16bit) {
 
@@ -5237,7 +5237,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
             );
 
             // List1
-            referenceObject = (EbReferenceObject_t *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
+            referenceObject = (EbReferenceObject *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
             ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
@@ -5356,7 +5356,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
 
             // List1
-            referenceObject = (EbReferenceObject_t *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
+            referenceObject = (EbReferenceObject *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
             ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
@@ -5443,7 +5443,7 @@ EbErrorType choose_mvp_idx_v2(
     int16_t                   *ref1_amvp_cand_array_x,
     int16_t                   *ref1_amvp_cand_array_y,
     uint32_t                    ref1NumAvailableAMVPCand,
-    PictureControlSet_t      *picture_control_set_ptr)
+    PictureControlSet      *picture_control_set_ptr)
 {
     EbErrorType  return_error = EB_ErrorNone;
     uint8_t         mvpRef0Idx;

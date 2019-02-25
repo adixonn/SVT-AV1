@@ -112,7 +112,7 @@ void av1_predict_intra_block_16bit(
 
 typedef void(*EB_AV1_ENCODE_LOOP_FUNC_PTR)(
 #if ENCDEC_TX_SEARCH
-    PictureControlSet_t    *picture_control_set_ptr,
+    PictureControlSet    *picture_control_set_ptr,
 #endif
     EncDecContext       *context_ptr,
     LargestCodingUnit   *sb_ptr,
@@ -523,7 +523,7 @@ void PfZeroOutUselessQuadrants(
 }
 
 void encode_pass_tx_search(
-    PictureControlSet_t            *picture_control_set_ptr,
+    PictureControlSet            *picture_control_set_ptr,
     EncDecContext                *context_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                       cb_qp,
@@ -560,7 +560,7 @@ void encode_pass_tx_search(
 **********************************************************/
 static void Av1EncodeLoop(
 #if ENCDEC_TX_SEARCH
-    PictureControlSet_t    *picture_control_set_ptr,
+    PictureControlSet    *picture_control_set_ptr,
 #endif
     EncDecContext       *context_ptr,
     LargestCodingUnit   *sb_ptr,
@@ -1010,7 +1010,7 @@ static void Av1EncodeLoop(
 }
 
 void encode_pass_tx_search_hbd(
-    PictureControlSet_t            *picture_control_set_ptr,
+    PictureControlSet            *picture_control_set_ptr,
     EncDecContext                *context_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                       cb_qp,
@@ -1049,7 +1049,7 @@ void encode_pass_tx_search_hbd(
 **********************************************************/
 static void Av1EncodeLoop16bit(
 #if ENCDEC_TX_SEARCH
-    PictureControlSet_t    *picture_control_set_ptr,
+    PictureControlSet    *picture_control_set_ptr,
 #endif
     EncDecContext       *context_ptr,
     LargestCodingUnit   *sb_ptr,
@@ -2175,7 +2175,7 @@ EB_ENC_PASS_INTRA_FUNC_PTR EncodePassIntraPredictionFuncTable[2] =
 * Encode Pass - Assign Delta Qp
 *******************************************/
 static void EncodePassUpdateQp(
-    PictureControlSet_t     *picture_control_set_ptr,
+    PictureControlSet     *picture_control_set_ptr,
     EncDecContext         *context_ptr,
     EbBool                  availableCoeff,
     EbBool                  isDeltaQpEnable,
@@ -2279,7 +2279,7 @@ static void EncodePassUpdateQp(
 
 EbErrorType QpmDeriveBeaAndSkipQpmFlagLcu(
     SequenceControlSet_t                   *sequence_control_set_ptr,
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     LargestCodingUnit                    *sb_ptr,
     uint32_t                                 sb_index,
     EncDecContext                        *context_ptr)
@@ -2301,7 +2301,7 @@ EbErrorType QpmDeriveBeaAndSkipQpmFlagLcu(
 
     context_ptr->qpmQp = picture_qp;
 
-    SbStat_t *sb_stat_ptr = &(picture_control_set_ptr->parent_pcs_ptr->sb_stat_array[sb_index]);
+    SbStat *sb_stat_ptr = &(picture_control_set_ptr->parent_pcs_ptr->sb_stat_array[sb_index]);
 
 
     context_ptr->non_moving_delta_qp = 0;
@@ -2349,7 +2349,7 @@ EbErrorType QpmDeriveBeaAndSkipQpmFlagLcu(
 ******************************************************************************/
 EbErrorType Av1QpModulationLcu(
     SequenceControlSet_t                   *sequence_control_set_ptr,
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     LargestCodingUnit                    *sb_ptr,
     uint32_t                                  sb_index,
     uint8_t                                   type,
@@ -2450,7 +2450,7 @@ EbErrorType Av1QpModulationLcu(
             delta_qp = (delta_qp < context_ptr->min_delta_qp[0]) ? delta_qp : context_ptr->min_delta_qp[0];
         }
 
-        SbStat_t *sb_stat_ptr = &(picture_control_set_ptr->parent_pcs_ptr->sb_stat_array[sb_index]);
+        SbStat *sb_stat_ptr = &(picture_control_set_ptr->parent_pcs_ptr->sb_stat_array[sb_index]);
         if (sb_stat_ptr->stationary_edge_over_time_flag && delta_qp > 0) {
             delta_qp = 0;
         }
@@ -2525,7 +2525,7 @@ EbErrorType Av1QpModulationLcu(
 #endif
 EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
     SequenceControlSet_t                   *sequence_control_set_ptr,
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     LargestCodingUnit                    *sb_ptr,
     uint32_t                                  sb_index,
     CodingUnit                           *cu_ptr,
@@ -2539,7 +2539,7 @@ EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
     EbErrorType                    return_error = EB_ErrorNone;
 
 
-    //SbParams_t                        sb_params;
+    //SbParams                        sb_params;
     int64_t                          complexityDistance;
     int8_t                           delta_qp = 0;
     uint8_t                           qpmQp = (uint8_t)context_ptr->qpmQp;
@@ -2711,7 +2711,7 @@ EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
             delta_qp = (delta_qp < context_ptr->min_delta_qp[0]) ? delta_qp : context_ptr->min_delta_qp[0];
         }
 
-        SbStat_t *sb_stat_ptr = &(picture_control_set_ptr->parent_pcs_ptr->sb_stat_array[sb_index]);
+        SbStat *sb_stat_ptr = &(picture_control_set_ptr->parent_pcs_ptr->sb_stat_array[sb_index]);
         if (sb_stat_ptr->stationary_edge_over_time_flag && delta_qp > 0) {
             delta_qp = 0;
         }
@@ -2779,7 +2779,7 @@ EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
 
 void Store16bitInputSrc(
     EncDecContext         *context_ptr,
-    PictureControlSet_t     *picture_control_set_ptr,
+    PictureControlSet     *picture_control_set_ptr,
     uint32_t                 lcuX,
     uint32_t                 lcuY,
     uint32_t                 lcuW,
@@ -2826,7 +2826,7 @@ void update_av1_mi_map(
     uint32_t                          cu_origin_x,
     uint32_t                          cu_origin_y,
     const BlockGeom                 *blk_geom,
-    PictureControlSet_t            *picture_control_set_ptr);
+    PictureControlSet            *picture_control_set_ptr);
 
 void move_cu_data(
     CodingUnit *src_cu,
@@ -2853,7 +2853,7 @@ void move_cu_data(
 *******************************************/
 EB_EXTERN void av1_encode_pass(
     SequenceControlSet_t      *sequence_control_set_ptr,
-    PictureControlSet_t       *picture_control_set_ptr,
+    PictureControlSet       *picture_control_set_ptr,
     LargestCodingUnit       *sb_ptr,
     uint32_t                   tb_addr,
     uint32_t                   sb_origin_x,
@@ -2870,7 +2870,7 @@ EB_EXTERN void av1_encode_pass(
     mdcontextPtr = context_ptr->md_context;
     inputPicture = context_ptr->input_samples = (EbPictureBufferDesc*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
 
-    SbStat_t                *sb_stat_ptr = &(picture_control_set_ptr->parent_pcs_ptr->sb_stat_array[tb_addr]);
+    SbStat                *sb_stat_ptr = &(picture_control_set_ptr->parent_pcs_ptr->sb_stat_array[tb_addr]);
 
     EbBool                    availableCoeff;
 
@@ -2987,12 +2987,12 @@ EB_EXTERN void av1_encode_pass(
         //get the 16bit form of the input LCU
         if (is16bit) {
 
-            recon_buffer = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;
+            recon_buffer = ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;
 
         }
 
         else {
-            recon_buffer = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture;
+            recon_buffer = ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture;
         }
     }
     else { // non ref pictures
@@ -3113,8 +3113,8 @@ EB_EXTERN void av1_encode_pass(
         {
             if (picture_control_set_ptr->slice_type == B_SLICE) {
 
-                EbReferenceObject_t  *refObjL0 = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
-                EbReferenceObject_t  *refObjL1 = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
+                EbReferenceObject  *refObjL0 = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
+                EbReferenceObject  *refObjL1 = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
                 uint32_t const TH = (sequence_control_set_ptr->static_config.frame_rate >> 16) < 50 ? 25 : 30;
 
                 if ((refObjL0->tmpLayerIdx == 2 && refObjL0->intra_coded_area > TH) || (refObjL1->tmpLayerIdx == 2 && refObjL1->intra_coded_area > TH))
@@ -3649,9 +3649,9 @@ EB_EXTERN void av1_encode_pass(
                     context_ptr->is_inter = 1;
 #endif
 
-                    EbReferenceObject_t* refObj0 = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
-                    EbReferenceObject_t* refObj1 = picture_control_set_ptr->slice_type == B_SLICE ?
-                        (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr : 0;
+                    EbReferenceObject* refObj0 = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
+                    EbReferenceObject* refObj1 = picture_control_set_ptr->slice_type == B_SLICE ?
+                        (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr : 0;
 
                     uint16_t  txb_origin_x;
                     uint16_t  txb_origin_y;
@@ -4257,7 +4257,7 @@ EB_EXTERN void av1_encode_pass(
 #if NO_ENCDEC
 EB_EXTERN void no_enc_dec_pass(
     SequenceControlSet_t    *sequence_control_set_ptr,
-    PictureControlSet_t     *picture_control_set_ptr,
+    PictureControlSet     *picture_control_set_ptr,
     LargestCodingUnit     *sb_ptr,
     uint32_t                   tb_addr,
     uint32_t                   sb_origin_x,
@@ -4377,7 +4377,7 @@ EB_EXTERN void no_enc_dec_pass(
                     EbPictureBufferDesc          *ref_pic;
                     if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag)
                     {
-                        EbReferenceObject_t* refObj = (EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr;
+                        EbReferenceObject* refObj = (EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr;
                         ref_pic = refObj->referencePicture;
                     }
                     else

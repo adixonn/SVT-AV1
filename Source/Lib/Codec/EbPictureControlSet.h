@@ -13472,7 +13472,8 @@ extern "C" {
         int32_t  stride;
     };
 
-    typedef struct MacroblockPlane {
+    typedef struct MacroblockPlane 
+    {
 #if !MACRO_BLOCK_CLEANUP
         DECLARE_ALIGNED(16, int16_t, src_diff[MAX_SB_SQUARE]);
         tran_low_t *qcoeff;
@@ -13498,7 +13499,8 @@ extern "C" {
     // The Quants structure is used only for internal quantizer setup in
     // av1_quantize.c.
     // All of its fields use the same coefficient shift/scaling at TX.
-    typedef struct {
+    typedef struct Quants 
+    {
         // 0: dc 1: ac 2-8: ac repeated to SIMD width
         DECLARE_ALIGNED(16, int16_t, y_quant[QINDEX_RANGE][8]);
         DECLARE_ALIGNED(16, int16_t, y_quant_shift[QINDEX_RANGE][8]);
@@ -13528,7 +13530,8 @@ extern "C" {
     // av1_quantize.c.
     // Fields are sufffixed according to whether or not they're expressed in
     // the same coefficient shift/precision as TX or a fixed Q3 format.
-    typedef struct {
+    typedef struct Dequants 
+    {
         DECLARE_ALIGNED(16, int16_t,
         y_dequant_QTX[QINDEX_RANGE][8]);  // 8: SIMD width
         DECLARE_ALIGNED(16, int16_t,
@@ -13540,7 +13543,8 @@ extern "C" {
         DECLARE_ALIGNED(16, int16_t, v_dequant_Q3[QINDEX_RANGE][8]);  // 8: SIMD width
     } Dequants;
 
-    typedef struct MacroblockdPlane {
+    typedef struct MacroblockdPlane 
+    {
         //tran_low_t *dqcoeff;
         PLANE_TYPE plane_type;
         int32_t subsampling_x;
@@ -13566,9 +13570,10 @@ extern "C" {
         //const int16_t *dequant_Q3;
     } MacroblockdPlane;
 
-    struct PredictionUnit_s;
+    struct PredictionUnit;
 
-    typedef struct Av1Common {
+    typedef struct Av1Common 
+    {
 
         int32_t  mi_rows;
         int32_t  mi_cols;
@@ -13610,7 +13615,7 @@ extern "C" {
         int32_t tile_col_start_sb[MAX_TILE_COLS + 1];  // valid for 0 <= i <= tile_cols
         int32_t tile_row_start_sb[MAX_TILE_ROWS + 1];  // valid for 0 <= i <= tile_rows
         int32_t tile_width, tile_height;               // In MI units
-        struct PictureParentControlSet_s               *p_pcs_ptr;
+        struct PictureParentControlSet               *p_pcs_ptr;
 #if FAST_SG
         int8_t  sg_filter_mode;
         int32_t sg_frame_ep_cnt[SGRPROJ_PARAMS];
@@ -13626,16 +13631,16 @@ extern "C" {
      * Segment-based Control Sets
      **************************************/
 
-    typedef struct EbMdcLeafData_s
+    typedef struct EbMdcLeafData
     {
         uint32_t          mds_idx;
         uint32_t          tot_d1_blocks; //how many d1 bloks every parent square would have
         uint8_t           leaf_index;
         EbBool            split_flag;
-    } EbMdcLeafData_t;
+    } EbMdcLeafData;
 
 
-    typedef struct MdcLcuData_s
+    typedef struct MdcLcuData
     {
         // Rate Control
         uint8_t           qp;
@@ -13643,15 +13648,15 @@ extern "C" {
         // ME Results
         uint64_t          treeblock_variance;
         uint32_t          leaf_count;
-        EbMdcLeafData_t   leaf_data_array[BLOCK_MAX_COUNT_SB_128];
+        EbMdcLeafData   leaf_data_array[BLOCK_MAX_COUNT_SB_128];
 
-    } MdcLcuData_t;
+    } MdcLcuData;
 
 
     /**************************************
      * MD Segment Control
      **************************************/
-    typedef struct MdSegmentCtrl_s
+    typedef struct MdSegmentCtrl
     {
         uint64_t completion_mask;
         EbHandle write_lock_mutex;
@@ -13661,15 +13666,15 @@ extern "C" {
         EbBool   in_progress;
         uint32_t current_row_idx;
 
-    } MdSegmentCtrl_t;
+    } MdSegmentCtrl;
 
     /**************************************
      * Picture Control Set
      **************************************/
-    struct CodedTreeblock_s;
-    struct LargestCodingUnit_s;
+    struct CodedTreeBlock;
+    struct LargestCodingUnit;
 
-    typedef struct PictureControlSet_s
+    typedef struct PictureControlSet
     {
         EbObjectWrapper_t                    *sequence_control_set_wrapper_ptr;
         
@@ -13680,7 +13685,7 @@ extern "C" {
         EbPictureBufferDesc                *recon_picture32bit_ptr;
         EbPictureBufferDesc                *input_frame16bit;
 
-        struct PictureParentControlSet_s     *parent_pcs_ptr;  //The parent of this PCS.
+        struct PictureParentControlSet     *parent_pcs_ptr;  //The parent of this PCS.
         EbObjectWrapper_t                    *picture_parent_control_set_wrapper_ptr;
         EntropyCoder                       *entropy_coder_ptr;
         // Packetization (used to encode SPS, PPS, etc)
@@ -13730,7 +13735,7 @@ extern "C" {
         uint8_t                               rest_segments_row_count;            
 #endif
         // Mode Decision Config
-        MdcLcuData_t                         *mdc_sb_array;
+        MdcLcuData                         *mdc_sb_array;
 
         // Error Resilience
         EbBool                                constrained_intra_flag;
@@ -13851,11 +13856,11 @@ extern "C" {
         WienerInfo                            wiener_info[MAX_MB_PLANE];
         SgrprojInfo                           sgrproj_info[MAX_MB_PLANE];
 
-    } PictureControlSet_t;
+    } PictureControlSet;
 
     // To optimize based on the max input size
     // To study speed-memory trade-offs
-    typedef struct LcuParameters_s {
+    typedef struct SbParams {
         uint8_t   horizontal_index;
         uint8_t   vertical_index;
         uint16_t  origin_x;
@@ -13867,10 +13872,10 @@ extern "C" {
         EbBool    block_is_inside_md_scan[BLOCK_MAX_COUNT_SB_128];
         uint8_t   potential_logo_sb;
         uint8_t   is_edge_sb;
-    } SbParams_t;
+    } SbParams;
 
 
-    typedef struct SbGeom_s {
+    typedef struct SbGeom {
         uint16_t   horizontal_index;
         uint16_t   vertical_index;
         uint16_t   origin_x;
@@ -13879,20 +13884,20 @@ extern "C" {
         uint8_t    height;
         uint8_t    is_complete_sb;
         EbBool     block_is_inside_md_scan[BLOCK_MAX_COUNT_SB_128];
-    } SbGeom_t;
+    } SbGeom;
 
-    typedef struct CuStat_s {
+    typedef struct CuStat {
         EbBool            grass_area;
         EbBool            skin_area;
         uint16_t          edge_cu;
         uint16_t          similar_edge_count;
         uint16_t          pm_similar_edge_count;
         uint32_t          grad;
-    } CuStat_t;
+    } CuStat;
 
-    typedef struct SbStat_s {
+    typedef struct SbStat {
 
-        CuStat_t          cu_stat_array[CU_MAX_COUNT];
+        CuStat          cu_stat_array[CU_MAX_COUNT];
         uint8_t           stationary_edge_over_time_flag;
         uint8_t           pm_stationary_edge_over_time_flag;
         uint8_t           pm_check1_for_logo_stationary_edge_over_time_flag;
@@ -13900,23 +13905,23 @@ extern "C" {
         uint8_t           check2_for_logo_stationary_edge_over_time_flag;
         uint8_t           low_dist_logo;
 
-    } SbStat_t;
+    } SbStat;
 
     //CHKN
     // Add the concept of PictureParentControlSet which is a subset of the old PictureControlSet.
     // It actually holds only high level Pciture based control data:(GOP management,when to start a picture, when to release the PCS, ....).
     // The regular PictureControlSet(Child) will be dedicated to store SB based encoding results and information.
     // Parent is created before the Child, and continue to live more. Child PCS only lives the exact time needed to encode the picture: from ME to EC/ALF.
-    typedef struct PictureParentControlSet_s
+    typedef struct PictureParentControlSet
     {
         EbObjectWrapper_t                    *sequence_control_set_wrapper_ptr;
         EbObjectWrapper_t                    *input_picture_wrapper_ptr;
         EbObjectWrapper_t                    *reference_picture_wrapper_ptr;
         EbObjectWrapper_t                    *pa_reference_picture_wrapper_ptr;
         EbPictureBufferDesc                *enhanced_picture_ptr;
-        PredictionStructure_t                *pred_struct_ptr;          // need to check
-        struct SequenceControlSet_s          *sequence_control_set_ptr;
-        struct PictureParentControlSet_s     *ref_pa_pcs_array[MAX_NUM_OF_REF_PIC_LIST];
+        PredictionStructure                *pred_struct_ptr;          // need to check
+        struct SequenceControlSet          *sequence_control_set_ptr;
+        struct PictureParentControlSet     *ref_pa_pcs_array[MAX_NUM_OF_REF_PIC_LIST];
         EbObjectWrapper_t                    *p_pcs_wrapper_ptr;
         EbObjectWrapper_t                    *previous_picture_control_set_wrapper_ptr;
         EbObjectWrapper_t                    *output_stream_wrapper_ptr;
@@ -14034,7 +14039,7 @@ extern "C" {
         uint8_t                               grass_percentage_in_picture;
         uint8_t                               percentage_of_edgein_light_background;
         EbBool                                dark_back_groundlight_fore_ground;
-        SbStat_t                            *sb_stat_array;
+        SbStat                            *sb_stat_array;
         uint8_t                               very_low_var_pic_flag;
         EbBool                                high_dark_area_density_flag;        // computed @ PictureAnalysisProcess() and used @ SourceBasedOperationsProcess()
         EbBool                                high_dark_low_light_area_density_flag;        // computed @ PictureAnalysisProcess() and used @ SourceBasedOperationsProcess()
@@ -14134,7 +14139,7 @@ extern "C" {
         uint8_t                               intra_pred_mode;
         //**********************************************************************************************************//
         FRAME_TYPE                            av1FrameType;
-        Av1RpsNode_t                          av1RefSignal;
+        Av1RpsNode                          av1RefSignal;
         EbBool                                showFrame;
         EbBool                                hasShowExisting;
         uint8_t                               showExistingLoc;
@@ -14271,7 +14276,7 @@ extern "C" {
         int16_t                               tiltMvx;
         int16_t                               tiltMvy;
         EbWarpedMotionParams                  global_motion[TOTAL_REFS_PER_FRAME];
-        PictureControlSet_t                  *childPcs;
+        PictureControlSet                  *childPcs;
         Macroblock                           *av1x;
         int32_t                               film_grain_params_present; //todo (AN): Do we need this flag at picture level?
         aom_film_grain_t                      film_grain_params;
@@ -14298,10 +14303,10 @@ extern "C" {
         uint8_t                               nsq_search_level;
 #endif
 
-    } PictureParentControlSet_t;
+    } PictureParentControlSet;
 
 
-    typedef struct PictureControlSetInitData_s
+    typedef struct PictureControlSetInitData
     {
         uint16_t                           picture_width;
         uint16_t                           picture_height;
@@ -14326,9 +14331,9 @@ extern "C" {
         EbBool                             ext_block_flag;
         EbBool                             in_loop_me_flag;
 
-    } PictureControlSetInitData_t;
+    } PictureControlSetInitData;
 
-    typedef struct AV1_COMP {
+    typedef struct AV1Comp {
         //    Quants quants;
         //    ThreadData td;
         //    MB_MODE_INFO_EXT *mbmi_ext_base;
@@ -14552,7 +14557,7 @@ extern "C" {
         //    int32_t ref_conv[REF_FRAMES];
         //
         //    AV1LfSync lf_row_sync;
-    } AV1_COMP;
+    } AV1Comp;
 
     /**************************************
      * Extern Function Declarations

@@ -68,7 +68,7 @@ EbErrorType ProductGenerateMdCandidatesCu(
     uint32_t                         *buffer_total_count,
     uint32_t                         *fastCandidateTotalCount,
     EbPtr                           interPredContextPtr,
-    PictureControlSet_t            *picture_control_set_ptr);
+    PictureControlSet            *picture_control_set_ptr);
 
 
 
@@ -391,7 +391,7 @@ void mode_decision_update_neighbor_arrays(
 }
 
 void copy_neighbour_arrays(
-    PictureControlSet_t                *picture_control_set_ptr,
+    PictureControlSet                *picture_control_set_ptr,
     ModeDecisionContext               *context_ptr,
     uint32_t                            src_idx,
     uint32_t                            dst_idx,
@@ -579,7 +579,7 @@ void copy_neighbour_arrays(
 }
 
 void md_update_all_neighbour_arrays(
-    PictureControlSet_t                *picture_control_set_ptr,
+    PictureControlSet                *picture_control_set_ptr,
     ModeDecisionContext               *context_ptr,
     uint32_t                             lastCuIndex_mds,
     uint32_t                            sb_origin_x,
@@ -617,7 +617,7 @@ void md_update_all_neighbour_arrays(
 }
 
 void md_update_all_neighbour_arrays_multiple(
-    PictureControlSet_t                *picture_control_set_ptr,
+    PictureControlSet                *picture_control_set_ptr,
     ModeDecisionContext               *context_ptr,
     uint32_t                            blk_mds,
     uint32_t                            sb_origin_x,
@@ -645,7 +645,7 @@ void md_update_all_neighbour_arrays_multiple(
 //*************************//
 void set_nfl(
     ModeDecisionContext     *context_ptr,
-    PictureControlSet_t       *picture_control_set_ptr){
+    PictureControlSet       *picture_control_set_ptr){
 
     // Set NFL Candidates
     // NFL Level MD         Settings
@@ -682,7 +682,7 @@ void Initialize_cu_data_structure(
     ModeDecisionContext   *context_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr,
     LargestCodingUnit        *sb_ptr,
-    const MdcLcuData_t        * const mdc_result_tb_ptr)
+    const MdcLcuData        * const mdc_result_tb_ptr)
 {
     UNUSED(*sequence_control_set_ptr);
     UNUSED(*sb_ptr);
@@ -824,7 +824,7 @@ void picture_addition_kernel16_bit(
 }
 
 void AV1PerformInverseTransformReconLuma(
-    PictureControlSet_t               *picture_control_set_ptr,
+    PictureControlSet               *picture_control_set_ptr,
     ModeDecisionContext             *context_ptr,
     ModeDecisionCandidateBuffer     *candidate_buffer,
     CodingUnit                      *cu_ptr,
@@ -901,7 +901,7 @@ void AV1PerformInverseTransformReconLuma(
     }
 }
 void AV1PerformInverseTransformRecon(
-    PictureControlSet_t               *picture_control_set_ptr,
+    PictureControlSet               *picture_control_set_ptr,
     ModeDecisionContext             *context_ptr,
     ModeDecisionCandidateBuffer     *candidate_buffer,
     CodingUnit                      *cu_ptr,
@@ -1130,7 +1130,7 @@ void ProductCodingLoopInitFastLoop(
 }
 
 uint64_t ProductGenerateChromaWeight(
-    PictureControlSet_t                 *picture_control_set_ptr,
+    PictureControlSet                 *picture_control_set_ptr,
     uint32_t                               qp)
 {
     uint64_t weight;
@@ -1178,7 +1178,7 @@ uint64_t spatial_full_distortion_kernel16_mx_n_ssse3_intrin(
     uint32_t   area_height);
 
 void ProductMdFastPuPrediction(
-    PictureControlSet_t                 *picture_control_set_ptr,
+    PictureControlSet                 *picture_control_set_ptr,
     ModeDecisionCandidateBuffer       *candidate_buffer,
     ModeDecisionContext               *context_ptr,
 #if !CHROMA_BLIND
@@ -1228,7 +1228,7 @@ void generate_intra_reference_samples(
     ModeDecisionContext   *md_context_ptr);
 
 void ProductPerformFastLoop(
-    PictureControlSet_t                 *picture_control_set_ptr,
+    PictureControlSet                 *picture_control_set_ptr,
     LargestCodingUnit                 *sb_ptr,
     ModeDecisionContext               *context_ptr,
     ModeDecisionCandidateBuffer      **candidateBufferPtrArrayBase,
@@ -1483,7 +1483,7 @@ void ProductPerformFastLoop(
 }
 
 void ProductConfigureChroma(
-    PictureControlSet_t                 *picture_control_set_ptr,
+    PictureControlSet                 *picture_control_set_ptr,
     ModeDecisionContext               *context_ptr,
     LargestCodingUnit                 *sb_ptr) {
 
@@ -1501,7 +1501,7 @@ void ProductConfigureChroma(
 
 void ProductDerivePartialFrequencyN2Flag(
     SequenceControlSet_t               *sequence_control_set_ptr,
-    PictureControlSet_t                *picture_control_set_ptr,
+    PictureControlSet                *picture_control_set_ptr,
     ModeDecisionContext              *context_ptr)
 {
 #if ENCODER_MODE_CLEANUP
@@ -1559,7 +1559,7 @@ void ProductDerivePartialFrequencyN2Flag(
 }
 
 void AV1CostCalcCfl(
-    PictureControlSet_t                *picture_control_set_ptr,
+    PictureControlSet                *picture_control_set_ptr,
     ModeDecisionCandidateBuffer      *candidate_buffer,
     LargestCodingUnit                *sb_ptr,
     ModeDecisionContext              *context_ptr,
@@ -1745,7 +1745,7 @@ void cfl_rd_pick_alpha(
 #else
 static void cfl_rd_pick_alpha(
 #endif
-    PictureControlSet_t     *picture_control_set_ptr,
+    PictureControlSet     *picture_control_set_ptr,
     ModeDecisionCandidateBuffer  *candidate_buffer,
     LargestCodingUnit     *sb_ptr,
     ModeDecisionContext   *context_ptr,
@@ -1916,7 +1916,7 @@ static void cfl_rd_pick_alpha(
 // 3: Loop over alphas and find the best or choose DC
 // 4: Recalculate the residual for chroma
 static void CflPrediction(
-    PictureControlSet_t     *picture_control_set_ptr,
+    PictureControlSet     *picture_control_set_ptr,
     ModeDecisionCandidateBuffer  *candidate_buffer,
     LargestCodingUnit     *sb_ptr,
     ModeDecisionContext   *context_ptr,
@@ -2052,7 +2052,7 @@ uint8_t get_skip_tx_search_flag(
 #endif
 
 void AV1PerformFullLoop(
-    PictureControlSet_t     *picture_control_set_ptr,
+    PictureControlSet     *picture_control_set_ptr,
     LargestCodingUnit     *sb_ptr,
     CodingUnit            *cu_ptr,
     ModeDecisionContext   *context_ptr,
@@ -2563,7 +2563,7 @@ void init_candidate_buffer(
     memset(count_non_zero_coeffs[2], 0, sizeof(uint32_t)*MAX_NUM_OF_TU_PER_CU);
 }
 void inter_depth_tx_search(
-    PictureControlSet_t                      *picture_control_set_ptr,
+    PictureControlSet                      *picture_control_set_ptr,
     ModeDecisionCandidateBuffer            *candidate_buffer,
     CodingUnit                             *cu_ptr,
     ModeDecisionContext                    *context_ptr,
@@ -2859,7 +2859,7 @@ void inter_depth_tx_search(
 #endif
 void md_encode_block(
     SequenceControlSet_t             *sequence_control_set_ptr,
-    PictureControlSet_t              *picture_control_set_ptr,
+    PictureControlSet              *picture_control_set_ptr,
     ModeDecisionContext            *context_ptr,
     SsMeContext                    *ss_mecontext,
     uint32_t                          leaf_index,
@@ -3172,8 +3172,8 @@ void md_encode_block(
 
 EB_EXTERN EbErrorType mode_decision_sb(
     SequenceControlSet_t                *sequence_control_set_ptr,
-    PictureControlSet_t                 *picture_control_set_ptr,
-    const MdcLcuData_t * const           mdc_result_tb_ptr,
+    PictureControlSet                 *picture_control_set_ptr,
+    const MdcLcuData * const           mdc_result_tb_ptr,
     LargestCodingUnit                 *sb_ptr,
     uint16_t                             sb_origin_x,
     uint16_t                             sb_origin_y,
@@ -3194,7 +3194,7 @@ EB_EXTERN EbErrorType mode_decision_sb(
     const uint32_t                         sb_height = MIN(BLOCK_SIZE_64, (uint32_t)(sequence_control_set_ptr->luma_height - sb_origin_y));
 
     uint32_t                               leaf_count = mdc_result_tb_ptr->leaf_count;
-    const EbMdcLeafData_t *const           leaf_data_array = mdc_result_tb_ptr->leaf_data_array;
+    const EbMdcLeafData *const           leaf_data_array = mdc_result_tb_ptr->leaf_data_array;
     UNUSED(sb_height);
     UNUSED(asm_type);
     UNUSED(lastCuIndex);
@@ -3254,7 +3254,7 @@ EB_EXTERN EbErrorType mode_decision_sb(
         context_ptr->cu_origin_x = sb_origin_x + blk_geom->origin_x;
         context_ptr->cu_origin_y = sb_origin_y + blk_geom->origin_y;
 
-        const EbMdcLeafData_t * const leafDataPtr = &mdc_result_tb_ptr->leaf_data_array[cu_idx];
+        const EbMdcLeafData * const leafDataPtr = &mdc_result_tb_ptr->leaf_data_array[cu_idx];
         context_ptr->sb_sz = BLOCK_SIZE_64;
         context_ptr->round_origin_x = ((context_ptr->cu_origin_x >> 3) << 3);
         context_ptr->round_origin_y = ((context_ptr->cu_origin_y >> 3) << 3);
@@ -6781,7 +6781,7 @@ static void in_loop_me_quarterpel_search_sblock(
 *  on the reference reconstructed pictures
 ***************************************************************/
 EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
-    PictureControlSet_t         *picture_control_set_ptr,  // input parameter, Picture Control Set Ptr
+    PictureControlSet         *picture_control_set_ptr,  // input parameter, Picture Control Set Ptr
     uint32_t                       sb_origin_x,            // input parameter, SB Origin X
     uint32_t                       sb_origin_y,            // input parameter, SB Origin X
     int16_t                       x_mv_l0,
@@ -6818,7 +6818,7 @@ EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
     uint32_t                  numOfListToSearch;
     uint32_t                  listIndex;
     EbPictureBufferDesc  *refPicPtr;
-    EbReferenceObject_t    *referenceObject;
+    EbReferenceObject    *referenceObject;
 
     EbAsm                  asm_type = sequence_control_set_ptr->encode_context_ptr->asm_type;
 
@@ -6867,7 +6867,7 @@ EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
     for (listIndex = REF_LIST_0; listIndex <= numOfListToSearch; ++listIndex) {
 
         EbBool  is16bit = (EbBool)(sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
-        referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[listIndex]->object_ptr;
+        referenceObject = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[listIndex]->object_ptr;
         refPicPtr = is16bit ? (EbPictureBufferDesc*)referenceObject->referencePicture16bit : (EbPictureBufferDesc*)referenceObject->referencePicture;
         search_area_width = (int16_t)MIN(context_ptr->search_area_width, 127);
         search_area_height = (int16_t)MIN(context_ptr->search_area_height, 127);

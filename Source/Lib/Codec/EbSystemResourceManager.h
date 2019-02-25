@@ -54,7 +54,7 @@ extern "C" {
      *   The Fifo also contains a countingSemaphore for OS thread-blocking
      *   and dynamic EbObjectWrapper counting.
      *********************************************************************/
-    typedef struct EbFifo_s {
+    typedef struct EbFifo {
         // countingSemaphore - used for OS thread-blocking & dynamically
         //   counting the number of EbObjectWrappers currently in the
         //   EbFifo.
@@ -74,7 +74,7 @@ extern "C" {
         //   associated with.
         struct EbMuxingQueue_s *queuePtr;
 
-    } EbFifo_t;
+    } EbFifo;
 
     /*********************************************************************
      * CircularBuffer
@@ -96,7 +96,7 @@ extern "C" {
         EbCircularBuffer_t *objectQueue;
         EbCircularBuffer_t *processQueue;
         uint32_t              processTotalCount;
-        EbFifo_t          **processFifoPtrArray;
+        EbFifo          **processFifoPtrArray;
 
     } EbMuxingQueue_t;
 
@@ -119,11 +119,11 @@ extern "C" {
         EbObjectWrapper_t **wrapperPtrPool;
 
         // The empty FIFO contains a queue of empty buffers
-        //EbFifo_t           *emptyFifo;
+        //EbFifo           *emptyFifo;
         EbMuxingQueue_t     *emptyQueue;
 
         // The full FIFO contains a queue of completed buffers
-        //EbFifo_t           *fullFifo;
+        //EbFifo           *fullFifo;
         EbMuxingQueue_t     *fullQueue;
 
     } EbSystemResource_t;
@@ -215,8 +215,8 @@ extern "C" {
         uint32_t            object_total_count,
         uint32_t            producer_process_total_count,
         uint32_t            consumer_process_total_count,
-        EbFifo_t         ***producer_fifo_ptr_array_ptr,
-        EbFifo_t         ***consumer_fifo_ptr_array_ptr,
+        EbFifo         ***producer_fifo_ptr_array_ptr,
+        EbFifo         ***consumer_fifo_ptr_array_ptr,
         EbBool              full_fifo_enabled,
         EB_CTOR             object_ctor,
         EbPtr               object_init_data_ptr);
@@ -256,7 +256,7 @@ extern "C" {
      *      EbObjectWrapper pointer.
      *********************************************************************/
     extern EbErrorType eb_get_empty_object(
-        EbFifo_t           *empty_fifo_ptr,
+        EbFifo           *empty_fifo_ptr,
         EbObjectWrapper_t **wrapper_dbl_ptr);
 
     /*********************************************************************
@@ -292,11 +292,11 @@ extern "C" {
      *      EbObjectWrapper pointer.
      *********************************************************************/
     extern EbErrorType eb_get_full_object(
-        EbFifo_t           *full_fifo_ptr,
+        EbFifo           *full_fifo_ptr,
         EbObjectWrapper_t **wrapper_dbl_ptr);
 
     extern EbErrorType eb_get_full_object_non_blocking(
-        EbFifo_t           *full_fifo_ptr,
+        EbFifo           *full_fifo_ptr,
         EbObjectWrapper_t **wrapper_dbl_ptr);
 
     /*********************************************************************

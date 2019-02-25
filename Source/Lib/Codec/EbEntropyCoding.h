@@ -55,7 +55,7 @@ extern "C" {
     extern EbErrorType write_sb(
         struct EntropyCodingContext   *context_ptr,
         LargestCodingUnit     *tb_ptr,
-        PictureControlSet_t     *picture_control_set_ptr,
+        PictureControlSet     *picture_control_set_ptr,
         EntropyCoder          *entropy_coder_ptr,
         EbPictureBufferDesc   *coeff_ptr);
 
@@ -73,7 +73,7 @@ extern "C" {
         EB_SLICE               slice_type);
 
     extern EbErrorType av1_tu_estimate_coeff_bits(
-        PictureControlSet_t                    *picture_control_set_ptr,
+        PictureControlSet                    *picture_control_set_ptr,
         struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
         CodingUnit                           *cu_ptr,
         uint32_t                                  tu_origin_index,
@@ -101,17 +101,17 @@ extern "C" {
 
     //**********************************************************************************************************//
     //onyxc_int.h
-    static INLINE int32_t frame_is_intra_only(const PictureParentControlSet_t *const pcsPtr) {
+    static INLINE int32_t frame_is_intra_only(const PictureParentControlSet *const pcsPtr) {
         return pcsPtr->av1FrameType == KEY_FRAME || pcsPtr->av1FrameType == INTRA_ONLY_FRAME;
     }
 
-    static INLINE int32_t frame_is_sframe(const PictureParentControlSet_t *pcsPtr) {
+    static INLINE int32_t frame_is_sframe(const PictureParentControlSet *pcsPtr) {
         return pcsPtr->av1FrameType == S_FRAME;
     }
 
     // Returns 1 if this frame might allow mvs from some reference frame.
 
-    static INLINE int32_t frame_might_allow_ref_frame_mvs(const PictureParentControlSet_t *pcsPtr,
+    static INLINE int32_t frame_might_allow_ref_frame_mvs(const PictureParentControlSet *pcsPtr,
         SequenceControlSet_t    *scsPtr) {
 #if AV1_UPGRADE
         return !pcsPtr->error_resilient_mode &&
@@ -123,7 +123,7 @@ extern "C" {
     }
 
     // Returns 1 if this frame might use warped_motion
-    static INLINE int32_t frame_might_allow_warped_motion(const PictureParentControlSet_t *pcsPtr,
+    static INLINE int32_t frame_might_allow_warped_motion(const PictureParentControlSet *pcsPtr,
         SequenceControlSet_t    *scsPtr) {
         return !pcsPtr->error_resilient_mode && !frame_is_intra_only(pcsPtr) &&
             scsPtr->static_config.enable_warped_motion;
@@ -137,7 +137,7 @@ extern "C" {
 
     //**********************************************************************************************************//
     //encoder.h
-    static INLINE int32_t get_ref_frame_map_idx(const PictureParentControlSet_t *pcsPtr,
+    static INLINE int32_t get_ref_frame_map_idx(const PictureParentControlSet *pcsPtr,
         MvReferenceFrame ref_frame) {
         // (void)(*pcsPtr);
         // (void)ref_frame;
@@ -178,8 +178,8 @@ extern "C" {
     // bitstream.h
     struct aom_write_bit_buffer;
 
-    //void WriteSequenceHeader(/*AV1_COMP *cpi, */struct aom_write_bit_buffer *wb);
-    void WriteSequenceHeader(SequenceControlSet_t *scsPtr/*AV1_COMP *cpi*/, struct aom_write_bit_buffer *wb);
+    //void WriteSequenceHeader(/*AV1Comp *cpi, */struct aom_write_bit_buffer *wb);
+    void WriteSequenceHeader(SequenceControlSet_t *scsPtr/*AV1Comp *cpi*/, struct aom_write_bit_buffer *wb);
 
     uint32_t WriteObuHeader(obuType obuType, int32_t obuExtension,
         uint8_t *const dst);
@@ -187,9 +187,9 @@ extern "C" {
     int32_t WriteUlebObuSize(uint32_t obuHeaderSize, uint32_t obuPayloadSize,
         uint8_t *dest);
 
-    /*int32_t av1_pack_bitstream(AV1_COMP *const cpi, uint8_t *dest, size_t *size);
+    /*int32_t av1_pack_bitstream(AV1Comp *const cpi, uint8_t *dest, size_t *size);
 
-    static INLINE int32_t av1_preserve_existing_gf(AV1_COMP *cpi) {
+    static INLINE int32_t av1_preserve_existing_gf(AV1Comp *cpi) {
     // Do not swap gf and arf indices for internal overlay frames
     return !cpi->multi_arf_allowed && cpi->rc.is_src_frame_alt_ref &&
     !cpi->rc.is_src_frame_ext_arf;
@@ -297,7 +297,7 @@ extern "C" {
     extern EbErrorType write_frame_header_av1(
         Bitstream *bitstream_ptr,
         SequenceControlSet_t *scsPtr,
-        PictureControlSet_t *pcsPtr,
+        PictureControlSet *pcsPtr,
         uint8_t show_existing);
 
     extern EbErrorType encode_td_av1(
@@ -310,7 +310,7 @@ extern "C" {
     //*******************************************************************************************//
 
     MOTION_MODE motion_mode_allowed(
-        const PictureControlSet_t       *picture_control_set_ptr,
+        const PictureControlSet       *picture_control_set_ptr,
         const CodingUnit              *cu_ptr,
         const block_size                 bsize,
         MvReferenceFrame                rf0,

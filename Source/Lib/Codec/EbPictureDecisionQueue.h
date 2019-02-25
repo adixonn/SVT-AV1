@@ -15,24 +15,24 @@
 /************************************************
  * PA Reference Queue Entry
  ************************************************/
-typedef struct PaReferenceQueueEntry_s 
+typedef struct PaReferenceQueueEntry 
 {
     EbObjectWrapper_t              *inputObjectPtr;
     uint64_t                          picture_number;
     uint32_t                          dependentCount;
     uint32_t                          referenceEntryIndex;
-    ReferenceList_t                *list0Ptr;
-    ReferenceList_t                *list1Ptr;
+    ReferenceList                *list0Ptr;
+    ReferenceList                *list1Ptr;
     uint32_t                          depList0Count;
     uint32_t                          depList1Count;
-    DependentList_t                 list0;
-    DependentList_t                 list1;
+    DependentList                 list0;
+    DependentList                 list1;
 
-    PictureParentControlSet_t       *pPcsPtr;
-} PaReferenceQueueEntry_t;
+    PictureParentControlSet       *pPcsPtr;
+} PaReferenceQueueEntry;
 
 extern EbErrorType pa_reference_queue_entry_ctor(
-    PaReferenceQueueEntry_t  **entry_dbl_ptr);
+    PaReferenceQueueEntry  **entry_dbl_ptr);
 
 
 #endif // EbPictureDecisionQueue_h

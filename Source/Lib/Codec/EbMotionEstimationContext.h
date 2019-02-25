@@ -27,21 +27,24 @@ extern "C" {
 #define HME_DECIM_FILTER_TAP        9
 
 // Quater pel refinement methods
-    typedef enum EbQuarterPelRefinementMethod {
+    typedef enum EbQuarterPelRefinementMethod 
+    {
         EB_QUARTER_IN_FULL,
         EB_QUARTER_IN_HALF_HORIZONTAL,
         EB_QUARTER_IN_HALF_VERTICAL,
         EB_QUARTER_IN_HALF_DIAGONAL
     } EbQuarterPelInterpolationMethod;
 
-    typedef struct MePredictionUnit {
+    typedef struct MePredictionUnit 
+    {
         uint64_t  distortion;
         int16_t   x_mv;
         int16_t   y_mv;
         uint32_t  sub_pel_direction;
     } MePredictionUnit;
 
-    typedef enum EbMeTierZeroPu {
+    typedef enum EbMeTierZeroPu 
+    {
 
         // 2Nx2N [85 partitions]
         ME_TIER_ZERO_PU_64x64 = 0,
@@ -265,9 +268,11 @@ extern "C" {
         ME_TIER_ZERO_PU_16x64_2 = 207,
         ME_TIER_ZERO_PU_16x64_3 = 208
     } EbMeTierZeroPu;
-    typedef struct MeTierZero_s {
+
+    typedef struct MeTierZero {
         MePredictionUnit  pu[MAX_ME_PU_COUNT];
-    } MeTierZero_t;
+    } MeTierZero;
+
     typedef struct IntraReferenceSamplesOpenLoop
     {
         uint8_t                  *y_intra_reference_array;
@@ -291,7 +296,8 @@ extern "C" {
         MePredUnit  pu[MAX_ME_PU_COUNT];
     } MotionEstimationTierZero;
 
-    typedef struct MeContext {
+    typedef struct MeContext 
+    {
 
         // Search region stride
         uint32_t                      interpolated_stride;

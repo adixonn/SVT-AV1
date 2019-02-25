@@ -558,7 +558,7 @@ EbErrorType av1_intra_fast_cost(
     uint64_t                                  luma_distortion,
     uint64_t                                  chroma_distortion,
     uint64_t                                  lambda,
-    PictureControlSet_t                     *picture_control_set_ptr)
+    PictureControlSet                     *picture_control_set_ptr)
 {
 
     EbErrorType return_error = EB_ErrorNone;
@@ -699,7 +699,7 @@ extern void av1_set_ref_frame(MvReferenceFrame *rf,
 
 // This function encodes the reference frame
 uint64_t EstimateRefFramesNumBits(
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
     CodingUnit                           *cu_ptr,
     uint32_t                                 bwidth,
@@ -954,7 +954,7 @@ EbErrorType av1_inter_fast_cost(
     uint64_t                                  luma_distortion,
     uint64_t                                  chroma_distortion,
     uint64_t                                  lambda,
-    PictureControlSet_t                    *picture_control_set_ptr)
+    PictureControlSet                    *picture_control_set_ptr)
 {
     EbErrorType  return_error = EB_ErrorNone;
     ModeDecisionCandidate *candidate_ptr = candidate_buffer_ptr->candidate_ptr;
@@ -1262,7 +1262,7 @@ EbErrorType av1_inter_fast_cost(
 
 
 EbErrorType av1_tu_estimate_coeff_bits(
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
     CodingUnit                           *cu_ptr,
     uint32_t                                  tu_origin_index,
@@ -1397,7 +1397,7 @@ EbErrorType av1_tu_estimate_coeff_bits(
 *       lambda is the Lagrange multiplier
 **********************************************************************************/
 EbErrorType Av1FullCost(
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     ModeDecisionContext                  *context_ptr,
     struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
     CodingUnit                           *cu_ptr,
@@ -1492,7 +1492,7 @@ EbErrorType Av1FullCost(
 *       lambda is the Lagrange multiplier
 **********************************************************************************/
 EbErrorType  Av1MergeSkipFullCost(
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     ModeDecisionContext                  *context_ptr,
     struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
     CodingUnit                           *cu_ptr,
@@ -1649,7 +1649,7 @@ EbErrorType  Av1MergeSkipFullCost(
 *       lambda is the Lagrange multiplier
 **********************************************************************************/
 EbErrorType av1_intra_full_cost(
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     ModeDecisionContext                  *context_ptr,
     struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
     CodingUnit                           *cu_ptr,
@@ -1702,7 +1702,7 @@ EbErrorType av1_intra_full_cost(
 *       lambda is the Lagrange multiplier
 **********************************************************************************/
 EbErrorType av1_inter_full_cost(
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     ModeDecisionContext                  *context_ptr,
     struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
     CodingUnit                           *cu_ptr,

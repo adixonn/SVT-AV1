@@ -20,7 +20,7 @@ typedef enum EB_PIC_TYPE {
 /**************************************
  * Picture Demux Results
  **************************************/
-typedef struct PictureDemuxResults_s
+typedef struct PictureDemuxResults
 {
     EB_PIC_TYPE                    pictureType;
 
@@ -32,11 +32,11 @@ typedef struct PictureDemuxResults_s
     EbObjectWrapper_t             *sequence_control_set_wrapper_ptr;
     uint64_t                         picture_number;
 
-} PictureDemuxResults_t;
+} PictureDemuxResults;
 
-typedef struct PictureResultInitData_s {
+typedef struct PictureResultInitData {
     int32_t junk;
-} PictureResultInitData_t;
+} PictureResultInitData;
 
 /**************************************
  * Extern Function Declarations

@@ -16,8 +16,8 @@
 typedef struct PictureAnalysisContext
 {
     EB_ALIGN(64) uint8_t            local_cache[64];
-    EbFifo_t                     *resource_coordination_results_input_fifo_ptr;
-    EbFifo_t                     *picture_analysis_results_output_fifo_ptr;
+    EbFifo                     *resource_coordination_results_input_fifo_ptr;
+    EbFifo                     *picture_analysis_results_output_fifo_ptr;
     EbPictureBufferDesc        *denoised_picture_ptr;
     EbPictureBufferDesc        *noise_picture_ptr;
     double                          picNoiseVarianceFloat;
@@ -27,11 +27,11 @@ typedef struct PictureAnalysisContext
  * Extern Function Declaration
  ***************************************/
 extern EbErrorType picture_analysis_context_ctor(
-    EbPictureBufferDescInitData_t *input_picture_buffer_desc_init_data,
+    EbPictureBufferDescInitData *input_picture_buffer_desc_init_data,
     EbBool                         denoise_flag,
     PictureAnalysisContext     **context_dbl_ptr,
-    EbFifo_t                      *resource_coordination_results_input_fifo_ptr,
-    EbFifo_t                      *picture_analysis_results_output_fifo_ptr);
+    EbFifo                      *resource_coordination_results_input_fifo_ptr,
+    EbFifo                      *picture_analysis_results_output_fifo_ptr);
 
 extern void* picture_analysis_kernel(void *input_ptr);
 

@@ -166,20 +166,20 @@ uint8_t search_area_height[5][MAX_SUPPORTED_MODES] = {
  * Resource Coordination Context Constructor
  ************************************************/
 EbErrorType resource_coordination_context_ctor(
-    ResourceCoordinationContext_t  **context_dbl_ptr,
-    EbFifo_t                        *inputBufferFifoPtr,
-    EbFifo_t                        *resource_coordination_results_output_fifo_ptr,
-    EbFifo_t                        **picture_control_set_fifo_ptr_array,
+    ResourceCoordinationContext  **context_dbl_ptr,
+    EbFifo                        *inputBufferFifoPtr,
+    EbFifo                        *resource_coordination_results_output_fifo_ptr,
+    EbFifo                        **picture_control_set_fifo_ptr_array,
     EbSequenceControlSetInstance_t  **sequence_control_set_instance_array,
-    EbFifo_t                         *sequence_control_set_empty_fifo_ptr,
+    EbFifo                         *sequence_control_set_empty_fifo_ptr,
     EbCallback                    **app_callback_ptr_array,
     uint32_t                         *compute_segments_total_count_array,
     uint32_t                          encode_instances_total_count)
 {
     uint32_t instance_index;
 
-    ResourceCoordinationContext_t *context_ptr;
-    EB_MALLOC(ResourceCoordinationContext_t*, context_ptr, sizeof(ResourceCoordinationContext_t), EB_N_PTR);
+    ResourceCoordinationContext *context_ptr;
+    EB_MALLOC(ResourceCoordinationContext*, context_ptr, sizeof(ResourceCoordinationContext), EB_N_PTR);
 
     *context_dbl_ptr = context_ptr;
 
@@ -231,7 +231,7 @@ EbErrorType resource_coordination_context_ctor(
 #if !ME_HME_OQ
 // Set ME/HME Params
 void* SetMeHmeParams(
-    PictureParentControlSet_t       *picture_control_set_ptr,
+    PictureParentControlSet       *picture_control_set_ptr,
     SequenceControlSet_t                *sequence_control_set_ptr,
     EbInputResolution                 input_resolution)
 {
@@ -358,7 +358,7 @@ Output  : Pre-Analysis signal(s)
 ******************************************************/
 EbErrorType signal_derivation_pre_analysis_oq(
     SequenceControlSet_t       *sequence_control_set_ptr,
-    PictureParentControlSet_t  *picture_control_set_ptr) {
+    PictureParentControlSet  *picture_control_set_ptr) {
 
     EbErrorType return_error = EB_ErrorNone;
     uint8_t input_resolution = sequence_control_set_ptr->input_resolution;
@@ -389,8 +389,8 @@ EbErrorType signal_derivation_pre_analysis_oq(
 // Output: EncMod
 //******************************************************************************//
 void SpeedBufferControl(
-    ResourceCoordinationContext_t   *context_ptr,
-    PictureParentControlSet_t       *picture_control_set_ptr,
+    ResourceCoordinationContext   *context_ptr,
+    PictureParentControlSet       *picture_control_set_ptr,
     SequenceControlSet_t            *sequence_control_set_ptr)
 {
 
@@ -553,7 +553,7 @@ void SpeedBufferControl(
 }
 
 void ResetPcsAv1(
-    PictureParentControlSet_t       *picture_control_set_ptr) {
+    PictureParentControlSet       *picture_control_set_ptr) {
     picture_control_set_ptr->is_skip_mode_allowed = 0;
     picture_control_set_ptr->skip_mode_flag = 0;
     picture_control_set_ptr->av1FrameType = KEY_FRAME;
@@ -667,11 +667,11 @@ void ResetPcsAv1(
  ***************************************/
 void* resource_coordination_kernel(void *input_ptr)
 {
-    ResourceCoordinationContext_t   *context_ptr = (ResourceCoordinationContext_t*)input_ptr;
+    ResourceCoordinationContext   *context_ptr = (ResourceCoordinationContext*)input_ptr;
 
     EbObjectWrapper_t               *pictureControlSetWrapperPtr;
 
-    PictureParentControlSet_t       *picture_control_set_ptr;
+    PictureParentControlSet       *picture_control_set_ptr;
 
     EbObjectWrapper_t               *previousSequenceControlSetWrapperPtr;
     SequenceControlSet_t            *sequence_control_set_ptr;
@@ -679,7 +679,7 @@ void* resource_coordination_kernel(void *input_ptr)
     EbObjectWrapper_t               *ebInputWrapperPtr;
     EbBufferHeaderType              *ebInputPtr;
     EbObjectWrapper_t               *outputWrapperPtr;
-    ResourceCoordinationResults_t   *outputResultsPtr;
+    ResourceCoordinationResults   *outputResultsPtr;
 
     EbObjectWrapper_t               *input_picture_wrapper_ptr;
     EbObjectWrapper_t               *reference_picture_wrapper_ptr;
@@ -810,7 +810,7 @@ void* resource_coordination_kernel(void *input_ptr)
             pictureControlSetWrapperPtr,
             1);
 
-        picture_control_set_ptr = (PictureParentControlSet_t*)pictureControlSetWrapperPtr->object_ptr;
+        picture_control_set_ptr = (PictureParentControlSet*)pictureControlSetWrapperPtr->object_ptr;
 
         picture_control_set_ptr->p_pcs_wrapper_ptr = pictureControlSetWrapperPtr;
 
@@ -957,15 +957,15 @@ void* resource_coordination_kernel(void *input_ptr)
             pictureControlSetWrapperPtr,
             2);
     
-        ((EbPaReferenceObject_t*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->object_ptr)->inputPaddedPicturePtr->buffer_y = picture_control_set_ptr->enhanced_picture_ptr->buffer_y;
+        ((EbPaReferenceObject*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->object_ptr)->inputPaddedPicturePtr->buffer_y = picture_control_set_ptr->enhanced_picture_ptr->buffer_y;
         // Get Empty Output Results Object
         if (picture_control_set_ptr->picture_number > 0 && (prevPictureControlSetWrapperPtr != NULL))
         {
-            ((PictureParentControlSet_t       *)prevPictureControlSetWrapperPtr->object_ptr)->end_of_sequence_flag = end_of_sequence_flag;
+            ((PictureParentControlSet       *)prevPictureControlSetWrapperPtr->object_ptr)->end_of_sequence_flag = end_of_sequence_flag;
             eb_get_empty_object(
                 context_ptr->resource_coordination_results_output_fifo_ptr,
                 &outputWrapperPtr);
-            outputResultsPtr = (ResourceCoordinationResults_t*)outputWrapperPtr->object_ptr;
+            outputResultsPtr = (ResourceCoordinationResults*)outputWrapperPtr->object_ptr;
             outputResultsPtr->pictureControlSetWrapperPtr = prevPictureControlSetWrapperPtr;
 
             // Post the finished Results Object

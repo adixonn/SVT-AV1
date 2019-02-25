@@ -470,7 +470,7 @@ void get_txb_ctx(
 }
 
 void Av1WriteTxType(
-    PictureParentControlSet_t   *pcsPtr,
+    PictureParentControlSet   *pcsPtr,
     FRAME_CONTEXT               *frameContext,
     aom_writer                  *ecWriter,
     CodingUnit                *cu_ptr,
@@ -518,7 +518,7 @@ static INLINE void set_dc_sign(int32_t *cul_level, int32_t dc_val) {
 
 
 int32_t  Av1WriteCoeffsTxb1D(
-    PictureParentControlSet_t   *parent_pcs_ptr,
+    PictureParentControlSet   *parent_pcs_ptr,
     FRAME_CONTEXT               *frameContext,
     aom_writer                  *ecWriter,
     CodingUnit                *cu_ptr,
@@ -708,7 +708,7 @@ int32_t  Av1WriteCoeffsTxb1D(
 ******* Av1EncodeTuCoeff
 **************************************/
 static EbErrorType Av1EncodeCoeff1D(
-    PictureControlSet_t     *pcsPtr,
+    PictureControlSet     *pcsPtr,
     EntropyCodingContext  *context_ptr,
     FRAME_CONTEXT           *frameContext,
     aom_writer              *ecWriter,
@@ -1317,7 +1317,7 @@ static INLINE int is_global_mv_block(
 
 
 MOTION_MODE motion_mode_allowed(
-    const PictureControlSet_t       *picture_control_set_ptr,
+    const PictureControlSet       *picture_control_set_ptr,
     const CodingUnit              *cu_ptr,
     const block_size                 bsize,
     MvReferenceFrame                rf0,
@@ -1366,7 +1366,7 @@ static void write_motion_mode(
     MvReferenceFrame          rf0,
     MvReferenceFrame          rf1,
     CodingUnit             *cu_ptr,
-    PictureControlSet_t      *picture_control_set_ptr)
+    PictureControlSet      *picture_control_set_ptr)
 {
     const PredictionMode mode = cu_ptr->prediction_unit_array[0].inter_mode;
     MOTION_MODE last_motion_mode_allowed =
@@ -1769,7 +1769,7 @@ static INLINE int32_t is_mv_valid(const MV *mv) {
 }
 
 void av1_encode_mv(
-    PictureParentControlSet_t   *pcsPtr,
+    PictureParentControlSet   *pcsPtr,
     aom_writer                  *ecWriter,
     const MV *mv,
     const MV *ref,
@@ -1894,7 +1894,7 @@ int32_t av1_get_pred_context_switchable_interp(
     MvReferenceFrame             rf1,
     CodingUnit                  *cu_ptr,
     block_size sb_type,
-    PictureParentControlSet_t   *pcsPtr) {
+    PictureParentControlSet   *pcsPtr) {
     int32_t ref;
 
     // First check if all modes are GLOBALMV
@@ -1916,7 +1916,7 @@ static int32_t av1_is_interp_needed(
     MvReferenceFrame            rf1,
     CodingUnit               *cu_ptr,
     block_size                   bsize,
-    PictureParentControlSet_t  *pcsPtr)
+    PictureParentControlSet  *pcsPtr)
 {
     if (cu_ptr->skip_flag)
         return 0;
@@ -1935,7 +1935,7 @@ void write_mb_interp_filter(
     block_size bsize,
     MvReferenceFrame rf0,
     MvReferenceFrame rf1,
-    PictureParentControlSet_t   *pcsPtr,
+    PictureParentControlSet   *pcsPtr,
     aom_writer                  *ecWriter,
     CodingUnit             *cu_ptr,
     EntropyCoder *entropy_coder_ptr,
@@ -2434,7 +2434,7 @@ int32_t av1_get_pred_context_single_ref_p6(const MacroBlockD *xd) {
 static void WriteRefFrames(
     FRAME_CONTEXT               *frameContext,
     aom_writer                  *ecWriter,
-    PictureParentControlSet_t   *pcsPtr,
+    PictureParentControlSet   *pcsPtr,
     CodingUnit                *cu_ptr,
     block_size                   bsize,
     uint32_t                       cu_origin_x,
@@ -2612,7 +2612,7 @@ static void WriteRefFrames(
 }
 
 
-static void encode_restoration_mode(PictureParentControlSet_t *pcsPtr,
+static void encode_restoration_mode(PictureParentControlSet *pcsPtr,
     struct aom_write_bit_buffer *wb) {
 
     Av1Common* cm = pcsPtr->av1_cm;
@@ -2706,7 +2706,7 @@ static void encode_restoration_mode(PictureParentControlSet_t *pcsPtr,
 }
 
 
-static void encode_loopfilter(PictureParentControlSet_t *pcsPtr, struct aom_write_bit_buffer *wb) {
+static void encode_loopfilter(PictureParentControlSet *pcsPtr, struct aom_write_bit_buffer *wb) {
     assert(!pcsPtr->coded_lossless);
     if (pcsPtr->allow_intrabc) return;
     const int32_t num_planes = 3;// av1_num_planes(pcsPtr);
@@ -2768,7 +2768,7 @@ static void encode_loopfilter(PictureParentControlSet_t *pcsPtr, struct aom_writ
 
 }
 
-static void encode_cdef(const PictureParentControlSet_t *pcsPtr, struct aom_write_bit_buffer *wb) {
+static void encode_cdef(const PictureParentControlSet *pcsPtr, struct aom_write_bit_buffer *wb) {
     //assert(!cm->coded_lossless);
     // moved out side
     //if (!cm->seq_params.enable_cdef) return;
@@ -2797,7 +2797,7 @@ static void write_delta_q(struct aom_write_bit_buffer *wb, int32_t delta_q) {
     }
 }
 
-static void encode_quantization(const PictureParentControlSet_t *const pcsPtr,
+static void encode_quantization(const PictureParentControlSet *const pcsPtr,
     struct aom_write_bit_buffer *wb) {
     const int32_t num_planes = 3;//av1_num_planes(cm);
 
@@ -2827,7 +2827,7 @@ static void encode_quantization(const PictureParentControlSet_t *const pcsPtr,
     }
 }
 
-static void write_tile_info_max_tile(const PictureParentControlSet_t *const pcsPtr,
+static void write_tile_info_max_tile(const PictureParentControlSet *const pcsPtr,
     struct aom_write_bit_buffer *wb) {
 
 
@@ -2896,7 +2896,7 @@ static int32_t tile_log2(int32_t blk_size, int32_t target) {
     }
     return k;
 }
-void av1_get_tile_limits(PictureParentControlSet_t * pcsPtr) {
+void av1_get_tile_limits(PictureParentControlSet * pcsPtr) {
 
     Av1Common * cm = pcsPtr->av1_cm;
 
@@ -2918,7 +2918,7 @@ void av1_get_tile_limits(PictureParentControlSet_t * pcsPtr) {
 }
 
 #if TILES
-void av1_calculate_tile_cols(PictureParentControlSet_t * pcs_ptr) {
+void av1_calculate_tile_cols(PictureParentControlSet * pcs_ptr) {
 
     Av1Common *const cm = pcs_ptr->av1_cm;
 
@@ -2960,7 +2960,7 @@ void av1_calculate_tile_cols(PictureParentControlSet_t * pcs_ptr) {
     }
 }
 
-void av1_calculate_tile_rows(PictureParentControlSet_t * pcsPtr)
+void av1_calculate_tile_rows(PictureParentControlSet * pcsPtr)
 {
 
     Av1Common *const cm = pcsPtr->av1_cm;
@@ -2988,7 +2988,7 @@ void av1_calculate_tile_rows(PictureParentControlSet_t * pcsPtr)
     }
 }
 
- void set_tile_info(PictureParentControlSet_t * pcs_ptr)
+ void set_tile_info(PictureParentControlSet * pcs_ptr)
 {
 
      /*  Tiling algorithm:
@@ -3058,7 +3058,7 @@ void av1_calculate_tile_rows(PictureParentControlSet_t * pcsPtr)
     av1_calculate_tile_rows(pcs_ptr);
 }
 
- void av1_tile_set_row(TileInfo *tile, PictureParentControlSet_t * pcs_ptr, int row)
+ void av1_tile_set_row(TileInfo *tile, PictureParentControlSet * pcs_ptr, int row)
  {
 
      Av1Common *const cm = pcs_ptr->av1_cm;
@@ -3072,7 +3072,7 @@ void av1_calculate_tile_rows(PictureParentControlSet_t * pcsPtr)
      assert(tile->mi_row_end > tile->mi_row_start);
  }
 
- void av1_tile_set_col(TileInfo *tile, PictureParentControlSet_t * pcs_ptr, int col) {
+ void av1_tile_set_col(TileInfo *tile, PictureParentControlSet * pcs_ptr, int col) {
 
      Av1Common *const cm = pcs_ptr->av1_cm;
 
@@ -3088,11 +3088,11 @@ void av1_calculate_tile_rows(PictureParentControlSet_t * pcsPtr)
 #endif
 
 
-static void write_tile_info(const PictureParentControlSet_t *const pcs_ptr,
+static void write_tile_info(const PictureParentControlSet *const pcs_ptr,
     //struct aom_write_bit_buffer *saved_wb,
     struct aom_write_bit_buffer *wb) {
 
-    av1_get_tile_limits((PictureParentControlSet_t *)pcs_ptr);
+    av1_get_tile_limits((PictureParentControlSet *)pcs_ptr);
 #if AV1_UPGRADE
     write_tile_info_max_tile(pcs_ptr, wb);
 
@@ -3160,7 +3160,7 @@ static void write_tile_info(const PictureParentControlSet_t *const pcs_ptr,
     //}
 }
 
-static void write_frame_size(PictureParentControlSet_t *pcsPtr,
+static void write_frame_size(PictureParentControlSet *pcsPtr,
     int32_t frame_size_override,
     struct aom_write_bit_buffer *wb) {
     SequenceControlSet_t *scsPtr = (SequenceControlSet_t*)pcsPtr->sequence_control_set_wrapper_ptr->object_ptr;
@@ -3363,7 +3363,7 @@ static void WriteBitdepthColorspaceSampling(
     //aom_wb_write_bit(wb, cm->separate_uv_delta_q);
 }
 #endif
-void WriteSequenceHeader(SequenceControlSet_t *scsPtr/*AV1_COMP *cpi*/, struct aom_write_bit_buffer *wb) {
+void WriteSequenceHeader(SequenceControlSet_t *scsPtr/*AV1Comp *cpi*/, struct aom_write_bit_buffer *wb) {
     //    Av1Common *const cm = &cpi->common;
     //    SequenceHeader *seq_params = &cm->seq_params;
     //
@@ -3700,7 +3700,7 @@ static void write_global_motion_params(const EbWarpedMotionParams *params,
     }
 }
 static void WriteGlobalMotion(
-    PictureParentControlSet_t *pcsPtr,
+    PictureParentControlSet *pcsPtr,
     struct aom_write_bit_buffer *wb)
 
 {
@@ -3736,7 +3736,7 @@ static void WriteGlobalMotion(
     }
 }
 
-static void write_film_grain_params(PictureParentControlSet_t *pcsPtr,
+static void write_film_grain_params(PictureParentControlSet *pcsPtr,
     struct aom_write_bit_buffer *wb) {
 
     aom_film_grain_t *pars = &pcsPtr->film_grain_params;
@@ -3747,7 +3747,7 @@ static void write_film_grain_params(PictureParentControlSet_t *pcsPtr,
     aom_wb_write_literal(wb, pars->random_seed, 16);
 
     if (pcsPtr->av1FrameType == INTER_FRAME) {
-        EbReferenceObject_t* refObj0 = (EbReferenceObject_t*)pcsPtr->childPcs->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
+        EbReferenceObject* refObj0 = (EbReferenceObject*)pcsPtr->childPcs->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
         int32_t ref_idx = 0;
         pars->update_parameters = 1;
         if (film_grain_params_equal(&refObj0->film_grain_params, pars)) {
@@ -3756,7 +3756,7 @@ static void write_film_grain_params(PictureParentControlSet_t *pcsPtr,
         }
         else if (pcsPtr->childPcs->slice_type == B_SLICE)
         {
-            EbReferenceObject_t* refObj1 = (EbReferenceObject_t*)pcsPtr->childPcs->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
+            EbReferenceObject* refObj1 = (EbReferenceObject*)pcsPtr->childPcs->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
             if (film_grain_params_equal(&refObj1->film_grain_params, pars)) {
                 pars->update_parameters = 0;
                 ref_idx = get_ref_frame_map_idx(pcsPtr, ALTREF_FRAME);  //todo: will it always be ALF_REF in L1?
@@ -3852,8 +3852,8 @@ static void write_film_grain_params(PictureParentControlSet_t *pcsPtr,
 }
 
 // New function based on HLS R18
-static void WriteUncompressedHeaderObu(SequenceControlSet_t *scsPtr/*AV1_COMP *cpi*/,
-    PictureParentControlSet_t *pcsPtr,
+static void WriteUncompressedHeaderObu(SequenceControlSet_t *scsPtr/*AV1Comp *cpi*/,
+    PictureParentControlSet *pcsPtr,
     //struct aom_write_bit_buffer *saved_wb,
     struct aom_write_bit_buffer *wb,
     uint8_t show_existing) {
@@ -4472,7 +4472,7 @@ static uint32_t write_tile_group_header(uint8_t *const dst, int startTile,
 #endif
 static uint32_t WriteFrameHeaderObu(
     SequenceControlSet_t      *scsPtr,
-    PictureParentControlSet_t *pcsPtr,
+    PictureParentControlSet *pcsPtr,
     uint8_t                   *const dst,
     uint8_t show_existing,
     int32_t appendTrailingBits
@@ -4503,12 +4503,12 @@ static uint32_t WriteFrameHeaderObu(
 EbErrorType write_frame_header_av1(
     Bitstream *bitstream_ptr,
     SequenceControlSet_t *scsPtr,
-    PictureControlSet_t *pcsPtr,
+    PictureControlSet *pcsPtr,
     uint8_t show_existing)
 {
     EbErrorType                 return_error = EB_ErrorNone;
     OutputBitstreamUnit       *outputBitstreamPtr = (OutputBitstreamUnit*)bitstream_ptr->outputBitstreamPtr;
-    PictureParentControlSet_t   *parent_pcs_ptr = pcsPtr->parent_pcs_ptr;
+    PictureParentControlSet   *parent_pcs_ptr = pcsPtr->parent_pcs_ptr;
     uint8_t                     *data = outputBitstreamPtr->bufferAv1;
     uint32_t obuHeaderSize = 0;
 
@@ -4660,7 +4660,7 @@ static void Av1writeDeltaQindex(
 
 static void write_cdef(
     SequenceControlSet_t     *seqCSetPtr,
-    PictureControlSet_t     *p_pcs_ptr,
+    PictureControlSet     *p_pcs_ptr,
     //Av1Common *cm,
     MacroBlockD *const xd,
     aom_writer *w,
@@ -4708,7 +4708,7 @@ static void write_cdef(
 }
 
 
-void av1_reset_loop_restoration(PictureControlSet_t     *piCSetPtr) {
+void av1_reset_loop_restoration(PictureControlSet     *piCSetPtr) {
     for (int32_t p = 0; p < 3; ++p) {
         set_default_wiener(piCSetPtr->wiener_info + p);
         set_default_sgrproj(piCSetPtr->sgrproj_info + p);
@@ -4789,7 +4789,7 @@ static void write_sgrproj_filter(const SgrprojInfo *sgrproj_info,
 
     memcpy(ref_sgrproj_info, sgrproj_info, sizeof(*sgrproj_info));
 }
-static void loop_restoration_write_sb_coeffs(PictureControlSet_t     *piCSetPtr, FRAME_CONTEXT           *frameContext, const Av1Common *const cm,
+static void loop_restoration_write_sb_coeffs(PictureControlSet     *piCSetPtr, FRAME_CONTEXT           *frameContext, const Av1Common *const cm,
     //MacroBlockD *xd,
     const RestorationUnitInfo *rui,
     aom_writer *const w, int32_t plane/*,
@@ -4857,7 +4857,7 @@ static void loop_restoration_write_sb_coeffs(PictureControlSet_t     *piCSetPtr,
 }
 
 EbErrorType ec_update_neighbors(
-    PictureControlSet_t     *picture_control_set_ptr,
+    PictureControlSet     *picture_control_set_ptr,
     EntropyCodingContext  *context_ptr,
     uint32_t                 blkOriginX,
     uint32_t                 blkOriginY,
@@ -5018,7 +5018,7 @@ EbErrorType ec_update_neighbors(
 }
 
 EbErrorType write_modes_b(
-    PictureControlSet_t     *picture_control_set_ptr,
+    PictureControlSet     *picture_control_set_ptr,
     EntropyCodingContext  *context_ptr,
     EntropyCoder          *entropy_coder_ptr,
     LargestCodingUnit     *tb_ptr,
@@ -5453,7 +5453,7 @@ EbErrorType write_modes_b(
 EB_EXTERN EbErrorType write_sb(
     EntropyCodingContext  *context_ptr,
     LargestCodingUnit     *tb_ptr,
-    PictureControlSet_t     *picture_control_set_ptr,
+    PictureControlSet     *picture_control_set_ptr,
     EntropyCoder          *entropy_coder_ptr,
     EbPictureBufferDesc   *coeff_ptr)
 {
@@ -5478,7 +5478,7 @@ EB_EXTERN EbErrorType write_sb(
     tb_ptr->quantized_coeffs_bits = 0;
     EbBool checkCuOutOfBound = EB_FALSE;
 
-    SbGeom_t * sb_geom = &sequence_control_set_ptr->sb_geom[tb_ptr->index];// .block_is_inside_md_scan[blk_index])
+    SbGeom * sb_geom = &sequence_control_set_ptr->sb_geom[tb_ptr->index];// .block_is_inside_md_scan[blk_index])
 
 #if !TILES 
     if (context_ptr->sb_origin_x == 0 && context_ptr->sb_origin_y == 0)

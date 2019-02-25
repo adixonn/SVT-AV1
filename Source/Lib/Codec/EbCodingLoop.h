@@ -21,8 +21,8 @@ extern "C" {
 
     typedef EbErrorType(*EB_MODE_DECISION)(
         SequenceControlSet_t                *sequence_control_set_ptr,
-        PictureControlSet_t                 *picture_control_set_ptr,
-        const MdcLcuData_t * const           mdc_result_tb_ptr,
+        PictureControlSet                 *picture_control_set_ptr,
+        const MdcLcuData * const           mdc_result_tb_ptr,
         LargestCodingUnit                 *sb_ptr,
         uint32_t                             sb_origin_x,
         uint32_t                             sb_origin_y,
@@ -31,7 +31,7 @@ extern "C" {
 
 
     extern EbErrorType in_loop_motion_estimation_sblock(
-        PictureControlSet_t                 *picture_control_set_ptr,  // input parameter, Picture Control Set Ptr
+        PictureControlSet                 *picture_control_set_ptr,  // input parameter, Picture Control Set Ptr
         uint32_t                             sb_origin_x,            // input parameter, SB Origin X
         uint32_t                             sb_origin_y,            // input parameter, SB Origin X
         int16_t                              x_mv_l0,
@@ -42,8 +42,8 @@ extern "C" {
 
     extern EbErrorType mode_decision_sb(
         SequenceControlSet_t                *sequence_control_set_ptr,
-        PictureControlSet_t                 *picture_control_set_ptr,
-        const MdcLcuData_t * const           mdc_result_tb_ptr,
+        PictureControlSet                 *picture_control_set_ptr,
+        const MdcLcuData * const           mdc_result_tb_ptr,
         LargestCodingUnit                 *sb_ptr,
         uint16_t                             sb_origin_x,
         uint16_t                             sb_origin_y,
@@ -52,7 +52,7 @@ extern "C" {
         ModeDecisionContext               *context_ptr);
 
     extern EbErrorType qpm_derive_weights_min_and_max(
-        PictureControlSet_t                    *picture_control_set_ptr,
+        PictureControlSet                    *picture_control_set_ptr,
         EncDecContext                        *context_ptr);
 
 #if TX_SEARCH_LEVELS
@@ -65,7 +65,7 @@ extern "C" {
 
     extern void av1_encode_pass(
         SequenceControlSet_t    *sequence_control_set_ptr,
-        PictureControlSet_t     *picture_control_set_ptr,
+        PictureControlSet     *picture_control_set_ptr,
         LargestCodingUnit     *sb_ptr,
         uint32_t                   tb_addr,
         uint32_t                   sb_origin_x,
@@ -78,7 +78,7 @@ extern "C" {
 
     void no_enc_dec_pass(
         SequenceControlSet_t    *sequence_control_set_ptr,
-        PictureControlSet_t     *picture_control_set_ptr,
+        PictureControlSet     *picture_control_set_ptr,
         LargestCodingUnit     *sb_ptr,
         uint32_t                   tb_addr,
         uint32_t                   sb_origin_x,

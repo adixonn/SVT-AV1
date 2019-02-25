@@ -38,13 +38,13 @@ void *aom_malloc(size_t size);
 uint64_t compute_cdef_dist(uint16_t *dst, int32_t dstride, uint16_t *src,
     CdefList *dlist, int32_t cdef_count, block_size bsize,
     int32_t coeff_shift, int32_t pli);
-int32_t sb_all_skip(PictureControlSet_t   *picture_control_set_ptr, const Av1Common *const cm, int32_t mi_row, int32_t mi_col);
-int32_t sb_compute_cdef_list(PictureControlSet_t   *picture_control_set_ptr, const Av1Common *const cm, int32_t mi_row, int32_t mi_col,
+int32_t sb_all_skip(PictureControlSet   *picture_control_set_ptr, const Av1Common *const cm, int32_t mi_row, int32_t mi_col);
+int32_t sb_compute_cdef_list(PictureControlSet   *picture_control_set_ptr, const Av1Common *const cm, int32_t mi_row, int32_t mi_col,
     CdefList *dlist, block_size bs);
 void finish_cdef_search(
     EncDecContext                *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
-    PictureControlSet_t            *picture_control_set_ptr
+    PictureControlSet            *picture_control_set_ptr
 #if FAST_CDEF
     ,int32_t                         selected_strength_cnt[64]
 #endif
@@ -52,11 +52,11 @@ void finish_cdef_search(
 void av1_cdef_frame16bit(
     EncDecContext                *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
-    PictureControlSet_t            *pCs);
+    PictureControlSet            *pCs);
 void av1_cdef_frame(
     EncDecContext                *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
-    PictureControlSet_t            *pCs);
+    PictureControlSet            *pCs);
 void av1_loop_restoration_save_boundary_lines(const Yv12BufferConfig *frame, Av1Common *cm, int32_t after_cdef);
 #endif
 
@@ -65,8 +65,8 @@ void av1_loop_restoration_save_boundary_lines(const Yv12BufferConfig *frame, Av1
  ******************************************************/
 EbErrorType cdef_context_ctor(
     CdefContext          **context_dbl_ptr,
-    EbFifo_t                *cdef_input_fifo_ptr,
-    EbFifo_t                *cdef_output_fifo_ptr ,
+    EbFifo                *cdef_input_fifo_ptr,
+    EbFifo                *cdef_output_fifo_ptr ,
     EbBool                  is16bit,
     uint32_t                max_input_luma_width,
     uint32_t                max_input_luma_height){
@@ -91,12 +91,12 @@ EbErrorType cdef_context_ctor(
 #if CDEF_M
 
 void cdef_seg_search(
-    PictureControlSet_t            *picture_control_set_ptr,
+    PictureControlSet            *picture_control_set_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
     uint32_t                        segment_index)
 {
 
-    struct PictureParentControlSet_s     *pPcs = picture_control_set_ptr->parent_pcs_ptr;
+    struct PictureParentControlSet     *pPcs = picture_control_set_ptr->parent_pcs_ptr;
     Av1Common* cm = picture_control_set_ptr->parent_pcs_ptr->av1_cm;
     uint32_t  x_seg_idx;
     uint32_t  y_seg_idx;
@@ -266,17 +266,17 @@ void cdef_seg_search(
 
 }
 void cdef_seg_search16bit(
-    PictureControlSet_t            *picture_control_set_ptr,
+    PictureControlSet            *picture_control_set_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
     uint32_t                        segment_index)
 {
     EbPictureBufferDesc *input_pic_ptr = picture_control_set_ptr->input_frame16bit;
     EbPictureBufferDesc *recon_pic_ptr =
         (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE) ?
-        ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit :
+        ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit :
          picture_control_set_ptr->recon_picture16bit_ptr;
 
-    struct PictureParentControlSet_s     *pPcs = picture_control_set_ptr->parent_pcs_ptr;
+    struct PictureParentControlSet     *pPcs = picture_control_set_ptr->parent_pcs_ptr;
     Av1Common* cm = picture_control_set_ptr->parent_pcs_ptr->av1_cm;
     uint32_t  x_seg_idx;
     uint32_t  y_seg_idx;
@@ -450,7 +450,7 @@ void* cdef_kernel(void *input_ptr)
 {
     // Context & SCS & PCS
     CdefContext                            *context_ptr = (CdefContext*)input_ptr;
-    PictureControlSet_t                     *picture_control_set_ptr;
+    PictureControlSet                     *picture_control_set_ptr;
     SequenceControlSet_t                    *sequence_control_set_ptr;
 
     //// Input
@@ -472,7 +472,7 @@ void* cdef_kernel(void *input_ptr)
             &dlf_results_wrapper_ptr);
 
         dlf_results_ptr = (DlfResults*)dlf_results_wrapper_ptr->object_ptr;
-        picture_control_set_ptr = (PictureControlSet_t*)dlf_results_ptr->picture_control_set_wrapper_ptr->object_ptr;
+        picture_control_set_ptr = (PictureControlSet*)dlf_results_ptr->picture_control_set_wrapper_ptr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
         EbBool  is16bit = (EbBool)(sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
@@ -515,13 +515,13 @@ void* cdef_kernel(void *input_ptr)
         EbPictureBufferDesc  * recon_picture_ptr;
         if (is16bit) {
             if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE)
-                recon_picture_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;
+                recon_picture_ptr = ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;
             else
                 recon_picture_ptr = picture_control_set_ptr->recon_picture16bit_ptr;
         }
         else {
             if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE)
-                recon_picture_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture;
+                recon_picture_ptr = ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture;
             else
                 recon_picture_ptr = picture_control_set_ptr->recon_picture_ptr;
         }

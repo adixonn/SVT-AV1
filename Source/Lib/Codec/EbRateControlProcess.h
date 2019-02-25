@@ -91,34 +91,36 @@ static const uint64_t two_to_power_x_over_six[] = {
 /**************************************
  * Input Port Types
  **************************************/
-typedef enum RATE_CONTROL_INPUT_PORT_TYPES {
+typedef enum RateControlInputPortTypes {
     RATE_CONTROL_INPUT_PORT_PICTURE_MANAGER = 0,
     RATE_CONTROL_INPUT_PORT_PACKETIZATION = 1,
     RATE_CONTROL_INPUT_PORT_ENTROPY_CODING = 2,
     RATE_CONTROL_INPUT_PORT_TOTAL_COUNT = 3,
     RATE_CONTROL_INPUT_PORT_INVALID = ~0,
-} RATE_CONTROL_INPUT_PORT_TYPES;
+} RateControlInputPortTypes;
 
 /**************************************
  * Input Port Config
  **************************************/
-typedef struct RateControlPorts_s {
-    RATE_CONTROL_INPUT_PORT_TYPES    type;
-    uint32_t                           count;
-} RateControlPorts_t;
+typedef struct RateControlPorts 
+{
+    RateControlInputPortTypes type;
+    uint32_t                  count;
+} RateControlPorts;
 
 /**************************************
  * Coded Frames Stats
  **************************************/
-typedef struct CodedFramesStatsEntry_s {
+typedef struct CodedFramesStatsEntry 
+{
     uint64_t               picture_number;
     int64_t               frameTotalBitActual;
     EbBool              end_of_sequence_flag;
-} CodedFramesStatsEntry_t;
+} CodedFramesStatsEntry;
 /**************************************
  * Context
  **************************************/
-typedef struct RateControlLayerContext_s
+typedef struct RateControlLayerContext
 {
     uint64_t                  previousFrameSadMe;
     uint64_t                  previousFrameBitActual;
@@ -169,9 +171,9 @@ typedef struct RateControlLayerContext_s
 
     uint64_t                  alpha;
 
-} RateControlLayerContext_t;
+} RateControlLayerContext;
 
-typedef struct RateControlIntervalParamContext_s
+typedef struct RateControlIntervalParamContext
 {
     uint64_t                       firstPoc;
     uint64_t                       lastPoc;
@@ -179,7 +181,7 @@ typedef struct RateControlIntervalParamContext_s
     EbBool                      wasUsed;
     uint64_t                       processedFramesNumber;
     EbBool                      lastGop;
-    RateControlLayerContext_t  **rateControlLayerArray;
+    RateControlLayerContext  **rateControlLayerArray;
 
     int64_t                       virtualBufferLevel;
     int64_t                       previousVirtualBufferLevel;
@@ -196,9 +198,9 @@ typedef struct RateControlIntervalParamContext_s
     EbBool                      min_target_rate_assigned;
     int64_t                       extraApBitRatioI;
 
-} RateControlIntervalParamContext_t;
+} RateControlIntervalParamContext;
 
-typedef struct HighLevelRateControlContext_s
+typedef struct HighLevelRateControlContext
 {
 
     uint64_t                       targetBitsPerSlidingWindow;
@@ -215,16 +217,16 @@ typedef struct HighLevelRateControlContext_s
 #endif
 
 
-} HighLevelRateControlContext_t;
+} HighLevelRateControlContext;
 
-typedef struct RateControlContext_s
+typedef struct RateControlContext
 {
-    EbFifo_t                    *rate_control_input_tasks_fifo_ptr;
-    EbFifo_t                    *rate_control_output_results_fifo_ptr;
+    EbFifo                    *rate_control_input_tasks_fifo_ptr;
+    EbFifo                    *rate_control_output_results_fifo_ptr;
 
-    HighLevelRateControlContext_t *highLevelRateControlPtr;
+    HighLevelRateControlContext *highLevelRateControlPtr;
 
-    RateControlIntervalParamContext_t **rateControlParamQueue;
+    RateControlIntervalParamContext **rateControlParamQueue;
     uint64_t                       rateControlParamQueueHeadIndex;
 
     uint64_t                       frame_rate;
@@ -242,7 +244,7 @@ typedef struct RateControlContext_s
 
     // Rate Control Previous Bits Queue
 #if OVERSHOOT_STAT_PRINT
-    CodedFramesStatsEntry_t    **codedFramesStatQueue;
+    CodedFramesStatsEntry    **codedFramesStatQueue;
     uint32_t                       codedFramesStatQueueHeadIndex;
     uint32_t                       codedFramesStatQueueTailIndex;
 
@@ -269,26 +271,26 @@ typedef struct RateControlContext_s
     int16_t                      maxRateAdjustDeltaQP;
 
 
-} RateControlContext_t;
+} RateControlContext;
 
 /**************************************
  * Extern Function Declarations
  **************************************/
 extern EbErrorType rate_control_layer_context_ctor(
-    RateControlLayerContext_t **entry_dbl_ptr);
+    RateControlLayerContext **entry_dbl_ptr);
 
 extern EbErrorType rate_control_interval_param_context_ctor(
-    RateControlIntervalParamContext_t **entry_dbl_ptr);
+    RateControlIntervalParamContext **entry_dbl_ptr);
 
 extern EbErrorType rate_control_coded_frames_stats_context_ctor(
-    CodedFramesStatsEntry_t **entry_dbl_ptr,
-    uint64_t                  picture_number);
+    CodedFramesStatsEntry **entry_dbl_ptr,
+    uint64_t                picture_number);
 
 extern EbErrorType rate_control_context_ctor(
-    RateControlContext_t **context_dbl_ptr,
-    EbFifo_t              *rate_control_input_tasks_fifo_ptr,
-    EbFifo_t              *rate_control_output_results_fifo_ptr,
-    int32_t                intra_period_length);
+    RateControlContext **context_dbl_ptr,
+    EbFifo              *rate_control_input_tasks_fifo_ptr,
+    EbFifo              *rate_control_output_results_fifo_ptr,
+    int32_t              intra_period_length);
 
 extern void* rate_control_kernel(void *input_ptr);
 

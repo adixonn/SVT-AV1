@@ -65,7 +65,7 @@ extern "C" {
 #endif
 
     void set_qp_array_based_on_cu(
-        PictureControlSet_t *picture_control_set_ptr,          //input parameter
+        PictureControlSet *picture_control_set_ptr,          //input parameter
         uint32_t               cu_pos_x,                       //input parameter, sample-based horizontal picture-wise locatin of the CU
         uint32_t               cu_pos_y,                       //input parameter, sample-based vertical picture-wise locatin of the CU
         uint32_t               cu_size_in_min_cu_size,             //input parameter
@@ -77,10 +77,10 @@ extern "C" {
     struct macroblockd;
     struct AV1LfSyncData;
 
-    void av1_loop_filter_init(PictureControlSet_t *pcsPtr);
+    void av1_loop_filter_init(PictureControlSet *pcsPtr);
 
     void av1_loop_filter_frame_init(
-        PictureControlSet_t *pcsPtr, 
+        PictureControlSet *pcsPtr, 
         int32_t plane_start,
         int32_t plane_end);
 
@@ -88,7 +88,7 @@ extern "C" {
     void loop_filter_sb(
         EbPictureBufferDesc *frame_buffer,//reconpicture,
         //Yv12BufferConfig *frame_buffer,
-        PictureControlSet_t *pcsPtr,
+        PictureControlSet *pcsPtr,
         MacroBlockD *xd, int32_t mi_row, int32_t mi_col,
         int32_t plane_start, int32_t plane_end,
         uint8_t LastCol);
@@ -96,7 +96,7 @@ extern "C" {
     void av1_loop_filter_frame(
         EbPictureBufferDesc *frame_buffer,//reconpicture,
         //Yv12BufferConfig *frame_buffer,
-        PictureControlSet_t *pcsPtr,
+        PictureControlSet *pcsPtr,
         /*MacroBlockD *xd,*/ int32_t plane_start, int32_t plane_end/*,
         int32_t partial_frame*/);
 
@@ -107,19 +107,19 @@ extern "C" {
         EncDecContext         *context_ptr,
 #endif
         EbPictureBufferDesc   *srcBuffer, // source input
-        PictureControlSet_t     *pcsPtr,
+        PictureControlSet     *pcsPtr,
         LPF_PICK_METHOD          method);
 
 
     void av1_filter_block_plane_vert(
-        const PictureControlSet_t *const  pcsPtr,
+        const PictureControlSet *const  pcsPtr,
         const MacroBlockD *const xd,
         const int32_t plane,
         const MacroblockdPlane *const plane_ptr,
         const uint32_t mi_row, const uint32_t mi_col);
 
     void av1_filter_block_plane_horz(
-        const PictureControlSet_t *const  pcsPtr,
+        const PictureControlSet *const  pcsPtr,
         const MacroBlockD *const xd, const int32_t plane,
         const MacroblockdPlane *const plane_ptr,
         const uint32_t mi_row, const uint32_t mi_col);
@@ -128,7 +128,7 @@ extern "C" {
     {
         EbPictureBufferDesc *frame_buffer;//reconpicture,
         //Yv12BufferConfig *frame_buffer;
-        PictureControlSet_t *pcsPtr;
+        PictureControlSet *pcsPtr;
         struct MacroblockdPlane planes[MAX_MB_PLANE];
         // TODO(Ranjit): When the filter functions are modified to use xd->lossless
         // add lossless as a member here.

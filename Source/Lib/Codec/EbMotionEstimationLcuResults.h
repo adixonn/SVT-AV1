@@ -39,8 +39,8 @@ extern "C" {
     } MeCandidate;
 
     // move this to a new file with ctor & dtor
-    typedef struct MeLcuResults {
-
+    typedef struct MeLcuResults 
+    {
         uint32_t          lcuDistortion;
         uint8_t          *totalMeCandidateIndex;
         int16_t          xMvHmeSearchCenter[MAX_NUM_OF_REF_PIC_LIST][MAX_REF_IDX];
@@ -53,13 +53,15 @@ extern "C" {
 
 
 
-    typedef struct  DistDir {
+    typedef struct  DistDir 
+    {
         unsigned    distortion : 32; //20bits are enough
         unsigned    direction : 2;
     } DistDir;
 
 
-    typedef struct MeCuResults {
+    typedef struct MeCuResults 
+    {
         union {
             struct {
                 signed short     x_mv_l0;

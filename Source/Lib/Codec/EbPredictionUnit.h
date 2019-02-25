@@ -14,7 +14,7 @@
 extern "C" {
 #endif
 #pragma pack(push, 1)
-    typedef struct PredictionUnit_s
+    typedef struct PredictionUnit
     {
         Mv_t                         mv[MAX_NUM_OF_REF_PIC_LIST];  // 16-bytes
         Mvd_t                        mvd[MAX_NUM_OF_REF_PIC_LIST]; // 16-bytes

@@ -41,14 +41,14 @@
   * Picture Analysis Context Constructor
   ************************************************/
 EbErrorType picture_decision_context_ctor(
-    PictureDecisionContext_t **context_dbl_ptr,
-    EbFifo_t *picture_analysis_results_input_fifo_ptr,
-    EbFifo_t *picture_decision_results_output_fifo_ptr)
+    PictureDecisionContext **context_dbl_ptr,
+    EbFifo *picture_analysis_results_input_fifo_ptr,
+    EbFifo *picture_decision_results_output_fifo_ptr)
 {
-    PictureDecisionContext_t *context_ptr;
+    PictureDecisionContext *context_ptr;
     uint32_t arrayIndex;
     uint32_t arrayRow, arrowColumn;
-    EB_MALLOC(PictureDecisionContext_t*, context_ptr, sizeof(PictureDecisionContext_t), EB_N_PTR);
+    EB_MALLOC(PictureDecisionContext*, context_ptr, sizeof(PictureDecisionContext), EB_N_PTR);
     *context_dbl_ptr = context_ptr;
 
     context_ptr->picture_analysis_results_input_fifo_ptr = picture_analysis_results_input_fifo_ptr;
@@ -88,14 +88,14 @@ EbErrorType picture_decision_context_ctor(
 }
 
 EbBool SceneTransitionDetector(
-    PictureDecisionContext_t *context_ptr,
+    PictureDecisionContext *context_ptr,
     SequenceControlSet_t                 *sequence_control_set_ptr,
-    PictureParentControlSet_t           **ParentPcsWindow,
+    PictureParentControlSet           **ParentPcsWindow,
     uint32_t                                windowWidthFuture)
 {
-    PictureParentControlSet_t       *previousPictureControlSetPtr = ParentPcsWindow[0];
-    PictureParentControlSet_t       *currentPictureControlSetPtr = ParentPcsWindow[1];
-    PictureParentControlSet_t       *futurePictureControlSetPtr = ParentPcsWindow[2];
+    PictureParentControlSet       *previousPictureControlSetPtr = ParentPcsWindow[0];
+    PictureParentControlSet       *currentPictureControlSetPtr = ParentPcsWindow[1];
+    PictureParentControlSet       *futurePictureControlSetPtr = ParentPcsWindow[2];
 
     // calculating the frame threshold based on the number of 64x64 blocks in the frame
     uint32_t  regionThreshHold;
@@ -282,7 +282,7 @@ EbErrorType ReleasePrevPictureFromReorderQueue(
 
     EbErrorType return_error = EB_ErrorNone;
 
-    PictureDecisionReorderEntry_t   *queuePreviousEntryPtr;
+    PictureDecisionReorderEntry   *queuePreviousEntryPtr;
     int32_t                           previousEntryIndex;
 
 
@@ -309,7 +309,7 @@ EbErrorType ReleasePrevPictureFromReorderQueue(
 *
 ***************************************************************************************************/
 EbErrorType initialize_mini_gop_activity_array(
-    PictureDecisionContext_t        *context_ptr) {
+    PictureDecisionContext        *context_ptr) {
 
     EbErrorType return_error = EB_ErrorNone;
 
@@ -333,7 +333,7 @@ EbErrorType initialize_mini_gop_activity_array(
 *
 ***************************************************************************************************/
 EbErrorType generate_picture_window_split(
-    PictureDecisionContext_t        *context_ptr,
+    PictureDecisionContext        *context_ptr,
     EncodeContext                 *encode_context_ptr) {
 
     EbErrorType return_error = EB_ErrorNone;
@@ -380,7 +380,7 @@ EbErrorType generate_picture_window_split(
 *
 ***************************************************************************************************/
 EbErrorType handle_incomplete_picture_window_map(
-    PictureDecisionContext_t        *context_ptr,
+    PictureDecisionContext        *context_ptr,
     EncodeContext                 *encode_context_ptr) {
 
     EbErrorType return_error = EB_ErrorNone;
@@ -418,7 +418,7 @@ EbErrorType handle_incomplete_picture_window_map(
 *
 ***************************************************************************************************/
 EbErrorType update_base_layer_reference_queue_dependent_count(
-    PictureDecisionContext_t        *context_ptr,
+    PictureDecisionContext        *context_ptr,
     EncodeContext                 *encode_context_ptr,
     SequenceControlSet_t            *sequence_control_set_ptr,
     uint32_t                         mini_gop_index) {
@@ -428,11 +428,11 @@ EbErrorType update_base_layer_reference_queue_dependent_count(
 
     EbErrorType return_error = EB_ErrorNone;
 
-    PaReferenceQueueEntry_t         *input_entry_ptr;
+    PaReferenceQueueEntry         *input_entry_ptr;
     uint32_t                         input_queue_index;
 
-    PredictionStructure_t           *next_pred_struct_ptr;
-    PredictionStructureEntry_t      *next_base_layer_pred_position_ptr;
+    PredictionStructure           *next_pred_struct_ptr;
+    PredictionStructureEntry      *next_base_layer_pred_position_ptr;
 
     uint32_t                         dependant_list_positive_entries;
     uint32_t                         dependant_list_removed_entries;
@@ -441,10 +441,10 @@ EbErrorType update_base_layer_reference_queue_dependent_count(
     uint32_t                         dep_idx;
     uint64_t                         dep_poc;
 
-    PictureParentControlSet_t       *picture_control_set_ptr;
+    PictureParentControlSet       *picture_control_set_ptr;
 
     // Get the 1st PCS mini GOP
-    picture_control_set_ptr = (PictureParentControlSet_t*)encode_context_ptr->pre_assignment_buffer[context_ptr->miniGopStartIndex[mini_gop_index]]->object_ptr;
+    picture_control_set_ptr = (PictureParentControlSet*)encode_context_ptr->pre_assignment_buffer[context_ptr->miniGopStartIndex[mini_gop_index]]->object_ptr;
 
     // Derive the temporal layer difference between the current mini GOP and the previous mini GOP 
     picture_control_set_ptr->hierarchical_layers_diff = (uint8_t)(encode_context_ptr->previous_mini_gop_hierarchical_levels - picture_control_set_ptr->hierarchical_levels);
@@ -486,7 +486,7 @@ EbErrorType update_base_layer_reference_queue_dependent_count(
 
                 // 2nd step: inherit the positive dependant counts of the current mini GOP
                 // Get the RPS set of the current mini GOP
-                next_pred_struct_ptr = GetPredictionStructure(
+                next_pred_struct_ptr = get_prediction_structure(
                     encode_context_ptr->prediction_structure_group_ptr,
                     picture_control_set_ptr->pred_structure,
                     1,
@@ -570,7 +570,7 @@ EbErrorType update_base_layer_reference_queue_dependent_count(
 }
 
 EbBool is_supposedly_4L_reference_frame(
-    PictureDecisionContext_t        *context_ptr,
+    PictureDecisionContext        *context_ptr,
     uint32_t                         mini_gop_index,
     uint32_t				        picture_index) {
 
@@ -591,13 +591,13 @@ EbBool is_supposedly_4L_reference_frame(
 *
 ***************************************************************************************************/
 EbErrorType GenerateMiniGopRps(
-    PictureDecisionContext_t        *context_ptr,
+    PictureDecisionContext        *context_ptr,
     EncodeContext                 *encode_context_ptr) {
 
     EbErrorType return_error = EB_ErrorNone;
 
     uint32_t                         miniGopIndex;
-    PictureParentControlSet_t    *picture_control_set_ptr;
+    PictureParentControlSet    *picture_control_set_ptr;
     uint32_t                         pictureIndex;
 
     // Loop over all mini GOPs
@@ -606,12 +606,12 @@ EbErrorType GenerateMiniGopRps(
         // Loop over picture within the mini GOP
         for (pictureIndex = context_ptr->miniGopStartIndex[miniGopIndex]; pictureIndex <= context_ptr->miniGopEndIndex[miniGopIndex]; pictureIndex++) {
 
-            picture_control_set_ptr = (PictureParentControlSet_t*)encode_context_ptr->pre_assignment_buffer[pictureIndex]->object_ptr;
+            picture_control_set_ptr = (PictureParentControlSet*)encode_context_ptr->pre_assignment_buffer[pictureIndex]->object_ptr;
 
             picture_control_set_ptr->pred_structure = EB_PRED_RANDOM_ACCESS;
             picture_control_set_ptr->hierarchical_levels = (uint8_t)context_ptr->miniGopHierarchicalLevels[miniGopIndex];
 
-            picture_control_set_ptr->pred_struct_ptr = GetPredictionStructure(
+            picture_control_set_ptr->pred_struct_ptr = get_prediction_structure(
                 encode_context_ptr->prediction_structure_group_ptr,
                 picture_control_set_ptr->pred_structure,
                 1,
@@ -627,7 +627,7 @@ Input   : encoder mode and tune
 Output  : Multi-Processes signal(s)
 ******************************************************/
 EbErrorType signal_derivation_multi_processes_oq(
-    PictureParentControlSet_t   *picture_control_set_ptr) {
+    PictureParentControlSet   *picture_control_set_ptr) {
 
     EbErrorType return_error = EB_ErrorNone;
 
@@ -972,14 +972,14 @@ predStruct=LDP, and the last frame=I with pred struct=RA.
 we do not break the GOP.
 *************************************************/
 void  Av1GenerateRpsInfo(
-    PictureParentControlSet_t       *picture_control_set_ptr,
+    PictureParentControlSet       *picture_control_set_ptr,
     EncodeContext                 *encode_context_ptr,
-    PictureDecisionContext_t        *context_ptr,
+    PictureDecisionContext        *context_ptr,
     uint32_t                           pictureIndex
 )
 {
     (void)encode_context_ptr;
-    Av1RpsNode_t *av1Rps = &picture_control_set_ptr->av1RefSignal;
+    Av1RpsNode *av1Rps = &picture_control_set_ptr->av1RefSignal;
 
     //set Frame Type
     if (picture_control_set_ptr->slice_type == I_SLICE)
@@ -1489,9 +1489,9 @@ void  Av1GenerateRpsInfo(
  ***************************************************************************************************/
 void* picture_decision_kernel(void *input_ptr)
 {
-    PictureDecisionContext_t        *context_ptr = (PictureDecisionContext_t*)input_ptr;
+    PictureDecisionContext        *context_ptr = (PictureDecisionContext*)input_ptr;
 
-    PictureParentControlSet_t       *picture_control_set_ptr;
+    PictureParentControlSet       *picture_control_set_ptr;
 
     EncodeContext                 *encode_context_ptr;
     SequenceControlSet_t            *sequence_control_set_ptr;
@@ -1500,22 +1500,22 @@ void* picture_decision_kernel(void *input_ptr)
     PictureAnalysisResults        *inputResultsPtr;
 
     EbObjectWrapper_t               *outputResultsWrapperPtr;
-    PictureDecisionResults_t        *outputResultsPtr;
+    PictureDecisionResults        *outputResultsPtr;
 
-    PredictionStructureEntry_t      *predPositionPtr;
+    PredictionStructureEntry      *predPositionPtr;
 
     EbBool                          preAssignmentBufferFirstPassFlag;
     EB_SLICE                         pictureType;
 
-    PictureDecisionReorderEntry_t   *queueEntryPtr;
+    PictureDecisionReorderEntry   *queueEntryPtr;
     int32_t                           queueEntryIndex;
 
     int32_t                           previousEntryIndex;
 
-    PaReferenceQueueEntry_t         *inputEntryPtr;
+    PaReferenceQueueEntry         *inputEntryPtr;
     uint32_t                           inputQueueIndex;
 
-    PaReferenceQueueEntry_t         *paReferenceEntryPtr;
+    PaReferenceQueueEntry         *paReferenceEntryPtr;
     uint32_t                           paReferenceQueueIndex;
 
     uint64_t                           refPoc;
@@ -1535,7 +1535,7 @@ void* picture_decision_kernel(void *input_ptr)
     EbBool                          windowAvail, framePasseThru;
     uint32_t                           windowIndex;
     uint32_t                           entryIndex;
-    PictureParentControlSet_t        *ParentPcsWindow[FUTURE_WINDOW_WIDTH + 2];
+    PictureParentControlSet        *ParentPcsWindow[FUTURE_WINDOW_WIDTH + 2];
 
     // Debug
     uint64_t                           loopCount = 0;
@@ -1548,7 +1548,7 @@ void* picture_decision_kernel(void *input_ptr)
             &inputResultsWrapperPtr);
 
         inputResultsPtr = (PictureAnalysisResults*)inputResultsWrapperPtr->object_ptr;
-        picture_control_set_ptr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->object_ptr;
+        picture_control_set_ptr = (PictureParentControlSet*)inputResultsPtr->pictureControlSetWrapperPtr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
         encode_context_ptr = (EncodeContext*)sequence_control_set_ptr->encode_context_ptr;
 
@@ -1579,7 +1579,7 @@ void* picture_decision_kernel(void *input_ptr)
         while (queueEntryPtr->parentPcsWrapperPtr != EB_NULL) {
 
             if (queueEntryPtr->picture_number == 0 ||
-                ((PictureParentControlSet_t *)(queueEntryPtr->parentPcsWrapperPtr->object_ptr))->end_of_sequence_flag == EB_TRUE){
+                ((PictureParentControlSet *)(queueEntryPtr->parentPcsWrapperPtr->object_ptr))->end_of_sequence_flag == EB_TRUE){
                 framePasseThru = EB_TRUE;
             }
             else {
@@ -1592,24 +1592,24 @@ void* picture_decision_kernel(void *input_ptr)
                 windowAvail = EB_FALSE;
             }
             else {
-                ParentPcsWindow[0] = (PictureParentControlSet_t *)encode_context_ptr->picture_decision_reorder_queue[previousEntryIndex]->parentPcsWrapperPtr->object_ptr;
-                ParentPcsWindow[1] = (PictureParentControlSet_t *)encode_context_ptr->picture_decision_reorder_queue[encode_context_ptr->picture_decision_reorder_queue_head_index]->parentPcsWrapperPtr->object_ptr;
+                ParentPcsWindow[0] = (PictureParentControlSet *)encode_context_ptr->picture_decision_reorder_queue[previousEntryIndex]->parentPcsWrapperPtr->object_ptr;
+                ParentPcsWindow[1] = (PictureParentControlSet *)encode_context_ptr->picture_decision_reorder_queue[encode_context_ptr->picture_decision_reorder_queue_head_index]->parentPcsWrapperPtr->object_ptr;
                 for (windowIndex = 0; windowIndex < FUTURE_WINDOW_WIDTH; windowIndex++) {
                     entryIndex = QUEUE_GET_NEXT_SPOT(encode_context_ptr->picture_decision_reorder_queue_head_index, windowIndex + 1);
                     if (encode_context_ptr->picture_decision_reorder_queue[entryIndex]->parentPcsWrapperPtr == NULL) {
                         windowAvail = EB_FALSE;
                         break;
                     }
-                    else if (((PictureParentControlSet_t *)(encode_context_ptr->picture_decision_reorder_queue[entryIndex]->parentPcsWrapperPtr->object_ptr))->end_of_sequence_flag == EB_TRUE) {
+                    else if (((PictureParentControlSet *)(encode_context_ptr->picture_decision_reorder_queue[entryIndex]->parentPcsWrapperPtr->object_ptr))->end_of_sequence_flag == EB_TRUE) {
                         windowAvail = EB_FALSE;
                         framePasseThru = EB_TRUE;
                         break;
                     }else {
-                        ParentPcsWindow[2 + windowIndex] = (PictureParentControlSet_t *)encode_context_ptr->picture_decision_reorder_queue[entryIndex]->parentPcsWrapperPtr->object_ptr;
+                        ParentPcsWindow[2 + windowIndex] = (PictureParentControlSet *)encode_context_ptr->picture_decision_reorder_queue[entryIndex]->parentPcsWrapperPtr->object_ptr;
                     }
                 }
             }
-            picture_control_set_ptr = (PictureParentControlSet_t*)queueEntryPtr->parentPcsWrapperPtr->object_ptr;
+            picture_control_set_ptr = (PictureParentControlSet*)queueEntryPtr->parentPcsWrapperPtr->object_ptr;
 
             picture_control_set_ptr->fade_out_from_black = 0;
 
@@ -1647,7 +1647,7 @@ void* picture_decision_kernel(void *input_ptr)
                 encode_context_ptr->pre_assignment_buffer[encode_context_ptr->pre_assignment_buffer_count] = queueEntryPtr->parentPcsWrapperPtr;
 
                 // Setup the PCS & SCS
-                picture_control_set_ptr = (PictureParentControlSet_t*)encode_context_ptr->pre_assignment_buffer[encode_context_ptr->pre_assignment_buffer_count]->object_ptr;
+                picture_control_set_ptr = (PictureParentControlSet*)encode_context_ptr->pre_assignment_buffer[encode_context_ptr->pre_assignment_buffer_count]->object_ptr;
 
                 // Set the POC Number
                 picture_control_set_ptr->picture_number = (encode_context_ptr->current_input_poc + 1) /*& ((1 << sequence_control_set_ptr->bits_for_picture_order_count)-1)*/;
@@ -1776,7 +1776,7 @@ void* picture_decision_kernel(void *input_ptr)
                         // 1st Loop over Pictures in the Pre-Assignment Buffer
                         for (pictureIndex = context_ptr->miniGopStartIndex[miniGopIndex]; pictureIndex <= context_ptr->miniGopEndIndex[miniGopIndex]; ++pictureIndex) {
 
-                            picture_control_set_ptr = (PictureParentControlSet_t*)encode_context_ptr->pre_assignment_buffer[pictureIndex]->object_ptr;
+                            picture_control_set_ptr = (PictureParentControlSet*)encode_context_ptr->pre_assignment_buffer[pictureIndex]->object_ptr;
                             sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
                             // Keep track of the mini GOP size to which the input picture belongs - needed @ PictureManagerProcess()
@@ -1794,7 +1794,7 @@ void* picture_decision_kernel(void *input_ptr)
                                     encode_context_ptr->pred_struct_position -= picture_control_set_ptr->pred_struct_ptr->initPicIndex;
                                 }
 
-                                picture_control_set_ptr->pred_struct_ptr = GetPredictionStructure(
+                                picture_control_set_ptr->pred_struct_ptr = get_prediction_structure(
                                     encode_context_ptr->prediction_structure_group_ptr,
                                     EB_PRED_LOW_DELAY_P,
                                     1,
@@ -1891,7 +1891,7 @@ void* picture_decision_kernel(void *input_ptr)
 
                             // Set the Slice type
                             picture_control_set_ptr->slice_type = pictureType;
-                            ((EbPaReferenceObject_t*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->object_ptr)->slice_type = picture_control_set_ptr->slice_type;
+                            ((EbPaReferenceObject*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->object_ptr)->slice_type = picture_control_set_ptr->slice_type;
 
                             switch (pictureType) {
 
@@ -2152,7 +2152,7 @@ void* picture_decision_kernel(void *input_ptr)
                             else if (picture_control_set_ptr->idr_flag == EB_TRUE) {
 
                                 // Set the Picture Decision PA Reference Entry pointer
-                                inputEntryPtr = (PaReferenceQueueEntry_t*)EB_NULL;
+                                inputEntryPtr = (PaReferenceQueueEntry*)EB_NULL;
                             }
 
                             // Place Picture in Picture Decision PA Reference Queue
@@ -2201,9 +2201,9 @@ void* picture_decision_kernel(void *input_ptr)
 
                             }
 
-                            ((EbPaReferenceObject_t*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->object_ptr)->dependentPicturesCount = inputEntryPtr->dependentCount;
+                            ((EbPaReferenceObject*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->object_ptr)->dependentPicturesCount = inputEntryPtr->dependentCount;
 
-                            /* uint32_t depCnt = ((EbPaReferenceObject_t*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->object_ptr)->dependentPicturesCount;
+                            /* uint32_t depCnt = ((EbPaReferenceObject*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->object_ptr)->dependentPicturesCount;
                             if (picture_control_set_ptr->picture_number>0 && picture_control_set_ptr->slice_type==I_SLICE && depCnt!=8 )
                             printf("depCnt Error1  POC:%i  TL:%i   is needed:%i\n",picture_control_set_ptr->picture_number,picture_control_set_ptr->temporal_layer_index,inputEntryPtr->dependentCount);
                             else if (picture_control_set_ptr->slice_type==B_SLICE && picture_control_set_ptr->temporal_layer_index == 0 && depCnt!=8)
@@ -2232,7 +2232,7 @@ void* picture_decision_kernel(void *input_ptr)
                         // 2nd Loop over Pictures in the Pre-Assignment Buffer
                         for (pictureIndex = context_ptr->miniGopStartIndex[miniGopIndex]; pictureIndex <= context_ptr->miniGopEndIndex[miniGopIndex]; ++pictureIndex) {
 
-                            picture_control_set_ptr = (PictureParentControlSet_t*)encode_context_ptr->pre_assignment_buffer[pictureIndex]->object_ptr;
+                            picture_control_set_ptr = (PictureParentControlSet*)encode_context_ptr->pre_assignment_buffer[pictureIndex]->object_ptr;
 
                             // Find the Reference in the Picture Decision PA Reference Queue
                             inputQueueIndex = encode_context_ptr->picture_decision_pa_reference_queue_head_index;
@@ -2284,7 +2284,7 @@ void* picture_decision_kernel(void *input_ptr)
                                         paReferenceEntryPtr->inputObjectPtr,
                                         1);
 
-                                    ((EbPaReferenceObject_t*)picture_control_set_ptr->ref_pa_pic_ptr_array[REF_LIST_0]->object_ptr)->pPcsPtr = paReferenceEntryPtr->pPcsPtr;
+                                    ((EbPaReferenceObject*)picture_control_set_ptr->ref_pa_pic_ptr_array[REF_LIST_0]->object_ptr)->pPcsPtr = paReferenceEntryPtr->pPcsPtr;
 
                                     eb_object_inc_live_count(
                                         paReferenceEntryPtr->pPcsPtr->p_pcs_wrapper_ptr,
@@ -2319,7 +2319,7 @@ void* picture_decision_kernel(void *input_ptr)
                                         paReferenceEntryPtr->inputObjectPtr,
                                         1);
 
-                                    ((EbPaReferenceObject_t*)picture_control_set_ptr->ref_pa_pic_ptr_array[REF_LIST_1]->object_ptr)->pPcsPtr = paReferenceEntryPtr->pPcsPtr;
+                                    ((EbPaReferenceObject*)picture_control_set_ptr->ref_pa_pic_ptr_array[REF_LIST_1]->object_ptr)->pPcsPtr = paReferenceEntryPtr->pPcsPtr;
 
                                     eb_object_inc_live_count(
                                         paReferenceEntryPtr->pPcsPtr->p_pcs_wrapper_ptr,
@@ -2384,7 +2384,7 @@ void* picture_decision_kernel(void *input_ptr)
                                         context_ptr->picture_decision_results_output_fifo_ptr,
                                         &outputResultsWrapperPtr);
 
-                                    outputResultsPtr = (PictureDecisionResults_t*)outputResultsWrapperPtr->object_ptr;
+                                    outputResultsPtr = (PictureDecisionResults*)outputResultsWrapperPtr->object_ptr;
 
                                     outputResultsPtr->pictureControlSetWrapperPtr = encode_context_ptr->pre_assignment_buffer[pictureIndex];
 

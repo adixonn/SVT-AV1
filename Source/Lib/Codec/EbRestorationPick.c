@@ -28,7 +28,7 @@ void av1_foreach_rest_unit_in_frame_seg(Av1Common *cm, int32_t plane,
     rest_tile_start_visitor_t on_tile,
     rest_unit_visitor_t on_rest_unit,
     void *priv,
-    PictureControlSet_t   *picture_control_set_ptr,
+    PictureControlSet   *picture_control_set_ptr,
     uint32_t segment_index);
 #endif
 
@@ -1662,7 +1662,7 @@ static int32_t rest_tiles_in_plane(const Av1Common *cm, int32_t plane) {
 void *aom_memalign(size_t align, size_t size);
 void aom_free(void *memblk);
 
-void av1_pick_filter_restoration(const Yv12BufferConfig *src, Yv12BufferConfig * trial_frame_rst /*AV1_COMP *cpi*/, Macroblock *x, Av1Common *const cm) {
+void av1_pick_filter_restoration(const Yv12BufferConfig *src, Yv12BufferConfig * trial_frame_rst /*AV1Comp *cpi*/, Macroblock *x, Av1Common *const cm) {
 
     //CHKN Av1Common *const cm = &cpi->common;
     const int32_t num_planes = 3;// av1_num_planes(cm);
@@ -2027,11 +2027,11 @@ static double search_rest_type_finish(RestSearchCtxt *rsc, RestorationType rtype
 }
 
 void restoration_seg_search(
-    RestContext_t          *context_ptr,
+    RestContext          *context_ptr,
     Yv12BufferConfig       *org_fts,
     const Yv12BufferConfig *src,
     Yv12BufferConfig       *trial_frame_rst ,
-    PictureControlSet_t    *pcs_ptr,
+    PictureControlSet    *pcs_ptr,
     uint32_t                segment_index )
 {
     Av1Common *const cm = pcs_ptr->parent_pcs_ptr->av1_cm;

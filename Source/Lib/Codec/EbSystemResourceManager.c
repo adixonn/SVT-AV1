@@ -11,7 +11,7 @@
  * EbFifoCtor
  **************************************/
 static EbErrorType EbFifoCtor(
-    EbFifo_t           *fifoPtr,
+    EbFifo           *fifoPtr,
     uint32_t              initial_count,
     uint32_t              max_count,
     EbObjectWrapper_t  *firstWrapperPtr,
@@ -39,7 +39,7 @@ static EbErrorType EbFifoCtor(
  * EbFifoPushBack
  **************************************/
 static EbErrorType EbFifoPushBack(
-    EbFifo_t            *fifoPtr,
+    EbFifo            *fifoPtr,
     EbObjectWrapper_t   *wrapper_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
@@ -63,7 +63,7 @@ static EbErrorType EbFifoPushBack(
  * EbFifoPopFront
  **************************************/
 static EbErrorType EbFifoPopFront(
-    EbFifo_t            *fifoPtr,
+    EbFifo            *fifoPtr,
     EbObjectWrapper_t  **wrapper_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
@@ -192,7 +192,7 @@ static EbErrorType EbMuxingQueueCtor(
     EbMuxingQueue_t   **queueDblPtr,
     uint32_t              object_total_count,
     uint32_t              processTotalCount,
-    EbFifo_t         ***processFifoPtrArrayPtr)
+    EbFifo         ***processFifoPtrArrayPtr)
 {
     EbMuxingQueue_t *queuePtr;
     uint32_t processIndex;
@@ -221,10 +221,10 @@ static EbErrorType EbMuxingQueueCtor(
         return EB_ErrorInsufficientResources;
     }
     // Construct the Process Fifos
-    EB_MALLOC(EbFifo_t**, queuePtr->processFifoPtrArray, sizeof(EbFifo_t*) * queuePtr->processTotalCount, EB_N_PTR);
+    EB_MALLOC(EbFifo**, queuePtr->processFifoPtrArray, sizeof(EbFifo*) * queuePtr->processTotalCount, EB_N_PTR);
 
     for (processIndex = 0; processIndex < queuePtr->processTotalCount; ++processIndex) {
-        EB_MALLOC(EbFifo_t*, queuePtr->processFifoPtrArray[processIndex], sizeof(EbFifo_t) * queuePtr->processTotalCount, EB_N_PTR);
+        EB_MALLOC(EbFifo*, queuePtr->processFifoPtrArray[processIndex], sizeof(EbFifo) * queuePtr->processTotalCount, EB_N_PTR);
         return_error = EbFifoCtor(
             queuePtr->processFifoPtrArray[processIndex],
             0,
@@ -249,7 +249,7 @@ static EbErrorType EbMuxingQueueAssignation(
     EbMuxingQueue_t *queuePtr)
 {
     EbErrorType return_error = EB_ErrorNone;
-    EbFifo_t *processFifoPtr;
+    EbFifo *processFifoPtr;
     EbObjectWrapper_t *wrapper_ptr;
 
     // while loop
@@ -437,8 +437,8 @@ EbErrorType eb_system_resource_ctor(
     uint32_t               object_total_count,
     uint32_t               producer_process_total_count,
     uint32_t               consumer_process_total_count,
-    EbFifo_t          ***producer_fifo_ptr_array_ptr,
-    EbFifo_t          ***consumer_fifo_ptr_array_ptr,
+    EbFifo          ***producer_fifo_ptr_array_ptr,
+    EbFifo          ***consumer_fifo_ptr_array_ptr,
     EbBool              full_fifo_enabled,
     EB_CTOR              object_ctor,
     EbPtr               object_init_data_ptr)
@@ -503,7 +503,7 @@ EbErrorType eb_system_resource_ctor(
     }
     else {
         resource_ptr->fullQueue = (EbMuxingQueue_t *)EB_NULL;
-        consumer_fifo_ptr_array_ptr = (EbFifo_t ***)EB_NULL;
+        consumer_fifo_ptr_array_ptr = (EbFifo ***)EB_NULL;
     }
 
     return return_error;
@@ -515,7 +515,7 @@ EbErrorType eb_system_resource_ctor(
  * EbSystemResourceReleaseProcess
  *********************************************************************/
 static EbErrorType EbReleaseProcess(
-    EbFifo_t   *processFifoPtr)
+    EbFifo   *processFifoPtr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
@@ -614,7 +614,7 @@ EbErrorType eb_release_object(
  *      EbObjectWrapper pointer.
  *********************************************************************/
 EbErrorType eb_get_empty_object(
-    EbFifo_t   *empty_fifo_ptr,
+    EbFifo   *empty_fifo_ptr,
     EbObjectWrapper_t **wrapper_dbl_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
@@ -661,7 +661,7 @@ EbErrorType eb_get_empty_object(
  *      EbObjectWrapper pointer.
  *********************************************************************/
 EbErrorType eb_get_full_object(
-    EbFifo_t   *full_fifo_ptr,
+    EbFifo   *full_fifo_ptr,
     EbObjectWrapper_t **wrapper_dbl_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
@@ -689,7 +689,7 @@ EbErrorType eb_get_full_object(
 * EbFifoPopFront
 **************************************/
 static EbBool EbFifoPeakFront(
-    EbFifo_t            *fifoPtr)
+    EbFifo            *fifoPtr)
 {
 
     // Set wrapper_ptr to head of BufferPool
@@ -703,7 +703,7 @@ static EbBool EbFifoPeakFront(
 
 
 EbErrorType eb_get_full_object_non_blocking(
-    EbFifo_t   *full_fifo_ptr,
+    EbFifo   *full_fifo_ptr,
     EbObjectWrapper_t **wrapper_dbl_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;

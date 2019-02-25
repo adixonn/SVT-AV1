@@ -48,7 +48,7 @@ EbErrorType motion_compensation_prediction_context_ctor(
 
     //if(is16bit)
     {
-        EbPictureBufferDescInitData_t initData;
+        EbPictureBufferDescInitData initData;
 
         initData.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
 

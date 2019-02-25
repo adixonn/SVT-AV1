@@ -52,11 +52,11 @@ EbErrorType picture_control_set_ctor(
     EbPtr *object_dbl_ptr,
     EbPtr object_init_data_ptr)
 {
-    PictureControlSet_t *object_ptr;
-    PictureControlSetInitData_t *initDataPtr = (PictureControlSetInitData_t*)object_init_data_ptr;
+    PictureControlSet *object_ptr;
+    PictureControlSetInitData *initDataPtr = (PictureControlSetInitData*)object_init_data_ptr;
 
-    EbPictureBufferDescInitData_t input_picture_buffer_desc_init_data;
-    EbPictureBufferDescInitData_t coeffBufferDescInitData;
+    EbPictureBufferDescInitData input_picture_buffer_desc_init_data;
+    EbPictureBufferDescInitData coeffBufferDescInitData;
 
     // Max/Min CU Sizes
     const uint32_t maxCuSize = initDataPtr->sb_sz;
@@ -71,7 +71,7 @@ EbErrorType picture_control_set_ctor(
 
     EbBool is16bit = initDataPtr->is16bit;
 
-    EB_MALLOC(PictureControlSet_t*, object_ptr, sizeof(PictureControlSet_t), EB_N_PTR);
+    EB_MALLOC(PictureControlSet*, object_ptr, sizeof(PictureControlSet), EB_N_PTR);
 
     // Init Picture Init data
     input_picture_buffer_desc_init_data.maxWidth = initDataPtr->picture_width;
@@ -106,7 +106,7 @@ EbErrorType picture_control_set_ctor(
     object_ptr->recon_picture16bit_ptr = (EbPictureBufferDesc *)EB_NULL;
     object_ptr->recon_picture_ptr = (EbPictureBufferDesc *)EB_NULL;
 
-    EbPictureBufferDescInitData_t coeffBufferDes32bitInitData;
+    EbPictureBufferDescInitData coeffBufferDes32bitInitData;
     coeffBufferDes32bitInitData.maxWidth = initDataPtr->picture_width;
     coeffBufferDes32bitInitData.maxHeight = initDataPtr->picture_height;
     coeffBufferDes32bitInitData.bit_depth = EB_32BIT;
@@ -234,7 +234,7 @@ EbErrorType picture_control_set_ctor(
     EB_MEMCPY(object_ptr->sb_ptr_array_copy, object_ptr->sb_ptr_array, object_ptr->sb_total_count * sizeof(sizeof(LargestCodingUnit*)));
 
     // Mode Decision Control config
-    EB_MALLOC(MdcLcuData_t*, object_ptr->mdc_sb_array, object_ptr->sb_total_count * sizeof(MdcLcuData_t), EB_N_PTR);
+    EB_MALLOC(MdcLcuData*, object_ptr->mdc_sb_array, object_ptr->sb_total_count * sizeof(MdcLcuData), EB_N_PTR);
     object_ptr->qp_array_stride = (uint16_t)((initDataPtr->picture_width + MIN_BLOCK_SIZE - 1) / MIN_BLOCK_SIZE);
     object_ptr->qp_array_size = ((initDataPtr->picture_width + MIN_BLOCK_SIZE - 1) / MIN_BLOCK_SIZE) *
         ((initDataPtr->picture_height + MIN_BLOCK_SIZE - 1) / MIN_BLOCK_SIZE);
@@ -905,8 +905,8 @@ EbErrorType picture_parent_control_set_ctor(
     EbPtr *object_dbl_ptr,
     EbPtr object_init_data_ptr)
 {
-    PictureParentControlSet_t   *object_ptr;
-    PictureControlSetInitData_t *initDataPtr = (PictureControlSetInitData_t*)object_init_data_ptr;
+    PictureParentControlSet   *object_ptr;
+    PictureControlSetInitData *initDataPtr = (PictureControlSetInitData*)object_init_data_ptr;
     EbErrorType return_error = EB_ErrorNone;
     const uint16_t pictureLcuWidth = (uint16_t)((initDataPtr->picture_width + initDataPtr->sb_sz - 1) / initDataPtr->sb_sz);
     const uint16_t pictureLcuHeight = (uint16_t)((initDataPtr->picture_height + initDataPtr->sb_sz - 1) / initDataPtr->sb_sz);
@@ -914,7 +914,7 @@ EbErrorType picture_parent_control_set_ctor(
     uint32_t regionInPictureWidthIndex;
     uint32_t regionInPictureHeightIndex;
 
-    EB_MALLOC(PictureParentControlSet_t*, object_ptr, sizeof(PictureParentControlSet_t), EB_N_PTR);
+    EB_MALLOC(PictureParentControlSet*, object_ptr, sizeof(PictureParentControlSet), EB_N_PTR);
 
     *object_dbl_ptr = (EbPtr)object_ptr;
     object_ptr->sequence_control_set_wrapper_ptr = (EbObjectWrapper_t *)EB_NULL;
@@ -1067,7 +1067,7 @@ EbErrorType picture_parent_control_set_ctor(
     // Allocate memory for 32x32 cu array for clean sparse coeff
     EB_MALLOC(uint8_t*, object_ptr->cu32x32_clean_sparse_coeff_map_array, sizeof(uint8_t) * object_ptr->cu32x32_clean_sparse_coeff_map_array_size, EB_N_PTR);
 
-    EB_MALLOC(SbStat_t*, object_ptr->sb_stat_array, sizeof(SbStat_t) * object_ptr->sb_total_count, EB_N_PTR);
+    EB_MALLOC(SbStat*, object_ptr->sb_stat_array, sizeof(SbStat) * object_ptr->sb_total_count, EB_N_PTR);
 
     EB_MALLOC(EbSbComplexityStatus*, object_ptr->complex_sb_array, sizeof(EbSbComplexityStatus) * object_ptr->sb_total_count, EB_N_PTR);
 

@@ -3892,7 +3892,7 @@ extern "C" {
         EB_TRANS_COEFF_SHAPE trans_coeff_shape);
 
     extern void av1_quantize_inv_quantize(
-        PictureControlSet_t *picture_control_set_ptr,
+        PictureControlSet *picture_control_set_ptr,
         int32_t             *coeff,
         const uint32_t       coeff_stride,
         int32_t             *quant_coeff,
@@ -3915,7 +3915,7 @@ extern "C" {
         EbBool               clean_sparse_coeff_flag);
 
     extern void av1_quantize_inv_quantize_ii(
-        PictureControlSet_t *picture_control_set_ptr,
+        PictureControlSet *picture_control_set_ptr,
         int32_t             *coeff,
         const uint32_t       coeff_stride,
         int32_t             *quant_coeff,

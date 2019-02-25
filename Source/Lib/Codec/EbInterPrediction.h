@@ -32,19 +32,19 @@ extern "C" {
     extern EbErrorType inter2_nx2_n_pu_prediction_avc(
         struct ModeDecisionContext           *context_ptr,
         uint32_t                                component_mask,
-        PictureControlSet_t                    *picture_control_set_ptr,
+        PictureControlSet                    *picture_control_set_ptr,
         ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
         EbAsm                                   asm_type);
 
     EbErrorType inter2_nx2_n_pu_prediction_avc_style(
         struct ModeDecisionContext           *context_ptr,
         uint32_t                                component_mask,
-        PictureControlSet_t                    *picture_control_set_ptr,
+        PictureControlSet                    *picture_control_set_ptr,
         ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
         EbAsm                                   asm_type);
 #endif
     EbErrorType av1_inter_prediction(
-        PictureControlSet_t                    *picture_control_set_ptr,
+        PictureControlSet                    *picture_control_set_ptr,
         uint32_t                                interp_filters,
         CodingUnit                           *cu_ptr,
         uint8_t                                 ref_frame_type,
@@ -68,12 +68,12 @@ extern "C" {
 #if !CHROMA_BLIND
         uint32_t                                component_mask,
 #endif
-        PictureControlSet_t                    *picture_control_set_ptr,
+        PictureControlSet                    *picture_control_set_ptr,
         ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
         EbAsm                                   asm_type);
 
     EbErrorType av1_inter_prediction_hbd(
-        PictureControlSet_t                    *picture_control_set_ptr,
+        PictureControlSet                    *picture_control_set_ptr,
         uint8_t                                 ref_frame_type,
         CodingUnit                           *cu_ptr,
         MvUnit_t                               *mv_unit,
@@ -101,7 +101,7 @@ extern "C" {
         int16_t                               *ref1_amvp_cand_array_x,
         int16_t                               *ref1_amvp_cand_array_y,
         uint32_t                               ref1_num_available_amvp_cand,
-        PictureControlSet_t                   *picture_control_set_ptr);
+        PictureControlSet                   *picture_control_set_ptr);
 
 
     EbErrorType warped_motion_prediction(

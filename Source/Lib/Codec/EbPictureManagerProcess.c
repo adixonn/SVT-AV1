@@ -22,9 +22,9 @@
 #include "EbErrorCodes.h"
 
 #if TILES
-void av1_tile_set_col(TileInfo *tile, PictureParentControlSet_t * pcsPtr, int col);
-void av1_tile_set_row(TileInfo *tile, PictureParentControlSet_t * pcsPtr, int row);
-void set_tile_info(PictureParentControlSet_t * pcsPtr);
+void av1_tile_set_col(TileInfo *tile, PictureParentControlSet * pcsPtr, int col);
+void av1_tile_set_row(TileInfo *tile, PictureParentControlSet * pcsPtr, int row);
+void set_tile_info(PictureParentControlSet * pcsPtr);
 #endif
 
 /************************************************
@@ -37,7 +37,7 @@ void set_tile_info(PictureParentControlSet_t * pcsPtr);
   ************************************************/
 static void ConfigurePictureEdges(
     SequenceControlSet_t *scsPtr,
-    PictureControlSet_t  *ppsPtr)
+    PictureControlSet  *ppsPtr)
 {
     // Tiles Initialisation
     const uint16_t picture_width_in_sb = (scsPtr->luma_width + scsPtr->sb_size_pix - 1) / scsPtr->sb_size_pix;
@@ -61,13 +61,13 @@ static void ConfigurePictureEdges(
  * Picture Manager Context Constructor
  ************************************************/
 EbErrorType picture_manager_context_ctor(
-    PictureManagerContext_t **context_dbl_ptr,
-    EbFifo_t                 *picture_input_fifo_ptr,
-    EbFifo_t                 *pictureManagerOutputFifoPtr,
-    EbFifo_t                **picture_control_set_fifo_ptr_array)
+    PictureManagerContext **context_dbl_ptr,
+    EbFifo                 *picture_input_fifo_ptr,
+    EbFifo                 *pictureManagerOutputFifoPtr,
+    EbFifo                **picture_control_set_fifo_ptr_array)
 {
-    PictureManagerContext_t *context_ptr;
-    EB_MALLOC(PictureManagerContext_t*, context_ptr, sizeof(PictureManagerContext_t), EB_N_PTR);
+    PictureManagerContext *context_ptr;
+    EB_MALLOC(PictureManagerContext*, context_ptr, sizeof(PictureManagerContext), EB_N_PTR);
 
     *context_dbl_ptr = context_ptr;
 
@@ -104,25 +104,25 @@ EbErrorType picture_manager_context_ctor(
  ***************************************************************************************************/
 void* picture_manager_kernel(void *input_ptr)
 {
-    PictureManagerContext_t         *context_ptr = (PictureManagerContext_t*)input_ptr;
+    PictureManagerContext         *context_ptr = (PictureManagerContext*)input_ptr;
 
     EbObjectWrapper_t               *ChildPictureControlSetWrapperPtr;
-    PictureControlSet_t             *ChildPictureControlSetPtr;
-    PictureParentControlSet_t       *picture_control_set_ptr;
+    PictureControlSet             *ChildPictureControlSetPtr;
+    PictureParentControlSet       *picture_control_set_ptr;
     SequenceControlSet_t            *sequence_control_set_ptr;
     EncodeContext                 *encode_context_ptr;
 
 
     EbObjectWrapper_t               *inputPictureDemuxWrapperPtr;
-    PictureDemuxResults_t           *inputPictureDemuxPtr;
+    PictureDemuxResults           *inputPictureDemuxPtr;
 
     EbObjectWrapper_t               *outputWrapperPtr;
-    RateControlTasks_t              *rateControlTasksPtr;
+    RateControlTasks              *rateControlTasksPtr;
 
     EbBool                           availabilityFlag;
 
-    PredictionStructureEntry_t      *predPositionPtr;
-    InputQueueEntry_t               *inputEntryPtr;
+    PredictionStructureEntry      *predPositionPtr;
+    InputQueueEntry               *inputEntryPtr;
     uint32_t                         inputQueueIndex;
     uint64_t                         current_input_poc;
     ReferenceQueueEntry_t           *referenceEntryPtr;
@@ -131,13 +131,13 @@ void* picture_manager_kernel(void *input_ptr)
     uint32_t                         depIdx;
     uint64_t                         depPoc;
     uint32_t                         depListCount;
-    PictureParentControlSet_t       *entryPictureControlSetPtr;
+    PictureParentControlSet       *entryPictureControlSetPtr;
     SequenceControlSet_t            *entrySequenceControlSetPtr;
 
     // Initialization
     uint8_t                          picture_width_in_sb;
     uint8_t                          picture_height_in_sb;
-    PictureManagerReorderEntry_t    *queueEntryPtr;
+    PictureManagerReorderEntry    *queueEntryPtr;
     int32_t                          queueEntryIndex;
 
     // Debug
@@ -150,7 +150,7 @@ void* picture_manager_kernel(void *input_ptr)
             context_ptr->picture_input_fifo_ptr,
             &inputPictureDemuxWrapperPtr);
 
-        inputPictureDemuxPtr = (PictureDemuxResults_t*)inputPictureDemuxWrapperPtr->object_ptr;
+        inputPictureDemuxPtr = (PictureDemuxResults*)inputPictureDemuxWrapperPtr->object_ptr;
 
         // *Note - This should be overhauled and/or replaced when we
         //   need hierarchical support.
@@ -160,7 +160,7 @@ void* picture_manager_kernel(void *input_ptr)
 
         case EB_PIC_INPUT:
 
-            picture_control_set_ptr = (PictureParentControlSet_t*)inputPictureDemuxPtr->pictureControlSetWrapperPtr->object_ptr;
+            picture_control_set_ptr = (PictureParentControlSet*)inputPictureDemuxPtr->pictureControlSetWrapperPtr->object_ptr;
             sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
             encode_context_ptr = sequence_control_set_ptr->encode_context_ptr;
 
@@ -184,7 +184,7 @@ void* picture_manager_kernel(void *input_ptr)
 
             while (queueEntryPtr->parentPcsWrapperPtr != EB_NULL) {
 
-                picture_control_set_ptr = (PictureParentControlSet_t*)queueEntryPtr->parentPcsWrapperPtr->object_ptr;
+                picture_control_set_ptr = (PictureParentControlSet*)queueEntryPtr->parentPcsWrapperPtr->object_ptr;
 
                 predPositionPtr = picture_control_set_ptr->pred_struct_ptr->predStructEntryPtrArray[picture_control_set_ptr->pred_struct_index];
 #if NEW_PRED_STRUCT
@@ -192,8 +192,8 @@ void* picture_manager_kernel(void *input_ptr)
                 if (picture_control_set_ptr->hierarchical_layers_diff != 0) {
 
                     // Dynamic GOP
-                    PredictionStructure_t          *next_pred_struct_ptr;
-                    PredictionStructureEntry_t     *next_base_layer_pred_position_ptr;
+                    PredictionStructure          *next_pred_struct_ptr;
+                    PredictionStructureEntry     *next_base_layer_pred_position_ptr;
                     
                     uint32_t                        dependant_list_positive_entries;
                     uint32_t                        dependant_list_removed_entries;
@@ -207,7 +207,7 @@ void* picture_manager_kernel(void *input_ptr)
                         if (referenceEntryPtr->picture_number == (picture_control_set_ptr->picture_number - 1)) { // Picture where the change happened 
 
                             // Get the prediction struct entry of the next GOP structure
-                            next_pred_struct_ptr = GetPredictionStructure(
+                            next_pred_struct_ptr = get_prediction_structure(
                                 encode_context_ptr->prediction_structure_group_ptr,
                                 picture_control_set_ptr->pred_structure,
                                 1,
@@ -528,7 +528,7 @@ void* picture_manager_kernel(void *input_ptr)
                 encode_context_ptr->app_callback_ptr,
                 EB_ENC_PM_ERROR9);
 
-            picture_control_set_ptr = (PictureParentControlSet_t*)EB_NULL;
+            picture_control_set_ptr = (PictureParentControlSet*)EB_NULL;
             encode_context_ptr = (EncodeContext*)EB_NULL;
 
             break;
@@ -547,7 +547,7 @@ void* picture_manager_kernel(void *input_ptr)
 
                 if (inputEntryPtr->inputObjectPtr != EB_NULL) {
 
-                    entryPictureControlSetPtr = (PictureParentControlSet_t*)inputEntryPtr->inputObjectPtr->object_ptr;
+                    entryPictureControlSetPtr = (PictureParentControlSet*)inputEntryPtr->inputObjectPtr->object_ptr;
                     entrySequenceControlSetPtr = (SequenceControlSet_t*)entryPictureControlSetPtr->sequence_control_set_wrapper_ptr->object_ptr;
 
                     availabilityFlag = EB_TRUE;
@@ -634,7 +634,7 @@ void* picture_manager_kernel(void *input_ptr)
                             ChildPictureControlSetWrapperPtr,
                             1);
 
-                        ChildPictureControlSetPtr = (PictureControlSet_t*)ChildPictureControlSetWrapperPtr->object_ptr;
+                        ChildPictureControlSetPtr = (PictureControlSet*)ChildPictureControlSetWrapperPtr->object_ptr;
 
                         //1.Link The Child PCS to its Parent
                         ChildPictureControlSetPtr->picture_parent_control_set_wrapper_ptr = inputEntryPtr->inputObjectPtr;
@@ -686,7 +686,7 @@ void* picture_manager_kernel(void *input_ptr)
 #if TILES             
                         set_tile_info(ChildPictureControlSetPtr->parent_pcs_ptr);
 
-                        struct PictureParentControlSet_s     *ppcs_ptr = ChildPictureControlSetPtr->parent_pcs_ptr;
+                        struct PictureParentControlSet     *ppcs_ptr = ChildPictureControlSetPtr->parent_pcs_ptr;
                         Av1Common *const cm = ppcs_ptr->av1_cm;
                         int tile_row, tile_col;
                         uint32_t  x_lcu_index,  y_lcu_index;
@@ -753,11 +753,11 @@ void* picture_manager_kernel(void *input_ptr)
                                 ChildPictureControlSetPtr->ref_pic_ptr_array[REF_LIST_0] = referenceEntryPtr->referenceObjectPtr;
 
 #if ADD_DELTA_QP_SUPPORT
-                                ChildPictureControlSetPtr->ref_pic_qp_array[REF_LIST_0] = (uint8_t)((EbReferenceObject_t*)referenceEntryPtr->referenceObjectPtr->object_ptr)->qp;
-                                ChildPictureControlSetPtr->ref_slice_type_array[REF_LIST_0] = (uint8_t)((EbReferenceObject_t*)referenceEntryPtr->referenceObjectPtr->object_ptr)->slice_type;
+                                ChildPictureControlSetPtr->ref_pic_qp_array[REF_LIST_0] = (uint8_t)((EbReferenceObject*)referenceEntryPtr->referenceObjectPtr->object_ptr)->qp;
+                                ChildPictureControlSetPtr->ref_slice_type_array[REF_LIST_0] = (uint8_t)((EbReferenceObject*)referenceEntryPtr->referenceObjectPtr->object_ptr)->slice_type;
 #else
-                                ChildPictureControlSetPtr->ref_pic_qp_array[REF_LIST_0] = ((EbReferenceObject_t*)referenceEntryPtr->referenceObjectPtr->object_ptr)->qp;
-                                ChildPictureControlSetPtr->ref_slice_type_array[REF_LIST_0] = ((EbReferenceObject_t*)referenceEntryPtr->referenceObjectPtr->object_ptr)->slice_type;
+                                ChildPictureControlSetPtr->ref_pic_qp_array[REF_LIST_0] = ((EbReferenceObject*)referenceEntryPtr->referenceObjectPtr->object_ptr)->qp;
+                                ChildPictureControlSetPtr->ref_slice_type_array[REF_LIST_0] = ((EbReferenceObject*)referenceEntryPtr->referenceObjectPtr->object_ptr)->slice_type;
 #endif
                                 // Increment the Reference's liveCount by the number of tiles in the input picture
                                 eb_object_inc_live_count(
@@ -788,8 +788,8 @@ void* picture_manager_kernel(void *input_ptr)
                                 // Set the Reference Object
                                 ChildPictureControlSetPtr->ref_pic_ptr_array[REF_LIST_1] = referenceEntryPtr->referenceObjectPtr;
 
-                                ChildPictureControlSetPtr->ref_pic_qp_array[REF_LIST_1] = (uint8_t)((EbReferenceObject_t*)referenceEntryPtr->referenceObjectPtr->object_ptr)->qp;
-                                ChildPictureControlSetPtr->ref_slice_type_array[REF_LIST_1] = ((EbReferenceObject_t*)referenceEntryPtr->referenceObjectPtr->object_ptr)->slice_type;
+                                ChildPictureControlSetPtr->ref_pic_qp_array[REF_LIST_1] = (uint8_t)((EbReferenceObject*)referenceEntryPtr->referenceObjectPtr->object_ptr)->qp;
+                                ChildPictureControlSetPtr->ref_slice_type_array[REF_LIST_1] = ((EbReferenceObject*)referenceEntryPtr->referenceObjectPtr->object_ptr)->slice_type;
 
 
 
@@ -828,7 +828,7 @@ void* picture_manager_kernel(void *input_ptr)
                             context_ptr->pictureManagerOutputFifoPtr,
                             &outputWrapperPtr);
 
-                        rateControlTasksPtr = (RateControlTasks_t*)outputWrapperPtr->object_ptr;
+                        rateControlTasksPtr = (RateControlTasks*)outputWrapperPtr->object_ptr;
                         rateControlTasksPtr->pictureControlSetWrapperPtr = ChildPictureControlSetWrapperPtr;
                         rateControlTasksPtr->taskType = RC_PICTURE_MANAGER_RESULT;
 

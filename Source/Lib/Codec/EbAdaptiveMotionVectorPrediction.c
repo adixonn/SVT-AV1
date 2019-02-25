@@ -1154,7 +1154,7 @@ void generate_av1_mvp_table(
     uint16_t                          cu_origin_y,
     MvReferenceFrame                 *ref_frames,
     uint32_t                          tot_refs,
-    PictureControlSet_t              *picture_control_set_ptr)
+    PictureControlSet              *picture_control_set_ptr)
 {
     int32_t mi_row = cu_origin_y >> MI_SIZE_LOG2;
     int32_t mi_col = cu_origin_x >> MI_SIZE_LOG2;
@@ -1328,7 +1328,7 @@ void enc_pass_av1_mv_pred(
     const BlockGeom                  *blk_geom,
     uint16_t                          cu_origin_x,
     uint16_t                          cu_origin_y,
-    PictureControlSet_t              *picture_control_set_ptr,
+    PictureControlSet              *picture_control_set_ptr,
     MvReferenceFrame                  ref_frame,
     uint8_t                           is_compound,
     PredictionMode                    mode,
@@ -1367,7 +1367,7 @@ void update_av1_mi_map(
     uint32_t                        cu_origin_x,
     uint32_t                        cu_origin_y,
     const BlockGeom                *blk_geom,
-    PictureControlSet_t            *picture_control_set_ptr)
+    PictureControlSet            *picture_control_set_ptr)
 {
     uint32_t mi_stride = picture_control_set_ptr->parent_pcs_ptr->sequence_control_set_ptr->picture_width_in_sb*(BLOCK_SIZE_64 >> MI_SIZE_LOG2);
     int32_t mi_row = cu_origin_y >> MI_SIZE_LOG2;
@@ -1438,7 +1438,7 @@ void update_mi_map(
     uint32_t                        cu_origin_y,
     const BlockGeom                *blk_geom,
     const CodedUnitStats         *cu_stats,
-    PictureControlSet_t            *picture_control_set_ptr)
+    PictureControlSet            *picture_control_set_ptr)
 {
     UNUSED(cu_stats);
     uint32_t mi_stride = picture_control_set_ptr->parent_pcs_ptr->sequence_control_set_ptr->picture_width_in_sb*(BLOCK_SIZE_64 >> MI_SIZE_LOG2);
@@ -1736,7 +1736,7 @@ void wm_count_samples(
     uint16_t                            cu_origin_x,
     uint16_t                            cu_origin_y,
     uint8_t                             ref_frame_type,
-    PictureControlSet_t                *picture_control_set_ptr,
+    PictureControlSet                *picture_control_set_ptr,
     uint16_t                           *num_samples)
 {
     Av1Common  *cm = picture_control_set_ptr->parent_pcs_ptr->av1_cm;
@@ -1875,7 +1875,7 @@ uint16_t wm_find_samples(
     uint16_t                            cu_origin_x,
     uint16_t                            cu_origin_y,
     MvReferenceFrame                    rf0,
-    PictureControlSet_t                *picture_control_set_ptr,
+    PictureControlSet                *picture_control_set_ptr,
     int32_t                            *pts,
     int32_t                            *pts_inref)
 {
@@ -1893,7 +1893,7 @@ uint16_t wm_find_samples(
 
 
 EbBool warped_motion_parameters(
-    PictureControlSet_t              *picture_control_set_ptr,
+    PictureControlSet              *picture_control_set_ptr,
     CodingUnit                     *cu_ptr,
     MvUnit_t                         *mv_unit,
     const BlockGeom                  *blk_geom,
@@ -2032,7 +2032,7 @@ int count_overlappable_nb_left(
 
 
 void av1_count_overlappable_neighbors(
-    const PictureControlSet_t        *picture_control_set_ptr,
+    const PictureControlSet        *picture_control_set_ptr,
     CodingUnit                     *cu_ptr,
     const block_size                   bsize,
     int32_t                           mi_row,

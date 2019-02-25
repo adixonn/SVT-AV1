@@ -40,17 +40,17 @@ extern "C" {
      **************************************/
     typedef struct EncDecContext
     {
-        EbFifo_t                              *mode_decision_input_fifo_ptr;
-        EbFifo_t                              *enc_dec_output_fifo_ptr;
-        EbFifo_t                              *enc_dec_feedback_fifo_ptr;
-        EbFifo_t                              *picture_demux_output_fifo_ptr;   // to picture-manager
+        EbFifo                              *mode_decision_input_fifo_ptr;
+        EbFifo                              *enc_dec_output_fifo_ptr;
+        EbFifo                              *enc_dec_feedback_fifo_ptr;
+        EbFifo                              *picture_demux_output_fifo_ptr;   // to picture-manager
         int16_t                               *transform_inner_array_ptr;
         MdRateEstimationContext             *md_rate_estimation_ptr;
         ModeDecisionContext                 *md_context;
         const BlockGeom                       *blk_geom;
 
         // TMVP
-        EbReferenceObject_t                   *reference_object_write_ptr;
+        EbReferenceObject                   *reference_object_write_ptr;
 
         // MCP Context
         MotionCompensationPredictionContext *mcp_context;
@@ -148,10 +148,10 @@ extern "C" {
      **************************************/
     extern EbErrorType enc_dec_context_ctor(
         EncDecContext        **context_dbl_ptr,
-        EbFifo_t                *mode_decision_configuration_input_fifo_ptr,
-        EbFifo_t                *packetization_output_fifo_ptr,
-        EbFifo_t                *feedback_fifo_ptr,
-        EbFifo_t                *picture_demux_fifo_ptr,
+        EbFifo                *mode_decision_configuration_input_fifo_ptr,
+        EbFifo                *packetization_output_fifo_ptr,
+        EbFifo                *feedback_fifo_ptr,
+        EbFifo                *picture_demux_fifo_ptr,
         EbBool                   is16bit,
         uint32_t                 max_input_luma_width,
         uint32_t                 max_input_luma_height);

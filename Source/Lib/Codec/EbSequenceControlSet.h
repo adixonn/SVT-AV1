@@ -31,7 +31,7 @@ extern "C" {
     /************************************
      * Sequence Control Set
      ************************************/
-    typedef struct SequenceControlSet_s
+    typedef struct SequenceControlSet
     {
         EbSvtAv1EncConfiguration                static_config;
 
@@ -88,7 +88,7 @@ extern "C" {
         // Group of Pictures (GOP) Structure
         uint32_t                                max_ref_count;            // Maximum number of reference pictures, however each pred
                                                             //   entry can be less.
-        PredictionStructure_t                  *pred_struct_ptr;
+        PredictionStructure                  *pred_struct_ptr;
         int32_t                                 intra_period_length;      // The frequency of intra pictures
         uint32_t                                intra_refresh_type;       // 1: CRA, 2: IDR
 
@@ -175,14 +175,14 @@ extern "C" {
         uint32_t                                total_process_init_count;
         
         uint16_t                                film_grain_random_seed;
-        SbParams_t                             *sb_params_array;
+        SbParams                             *sb_params_array;
         uint8_t                                 picture_width_in_sb;
         uint8_t                                 picture_height_in_sb;
         uint16_t                                sb_total_count;
         uint16_t                                sb_size_pix;  //sb size in pixels 64/128
         uint16_t                                sb_tot_cnt;   // sb total number
         uint16_t                                max_block_cnt;
-        SbGeom_t                               *sb_geom;
+        SbGeom                               *sb_geom;
 
         EbInputResolution                       input_resolution;
         EbScdMode                               scd_mode;

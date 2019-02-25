@@ -58,7 +58,7 @@ extern "C" {
         uint16_t                            cu_origin_y,
         MvReferenceFrame                *ref_frames,
         uint32_t                            TotRefs,
-        PictureControlSet_t              *picture_control_set_ptr);
+        PictureControlSet              *picture_control_set_ptr);
 
     void get_av1_mv_pred_drl(
         struct ModeDecisionContext            *context_ptr,
@@ -80,7 +80,7 @@ extern "C" {
         const BlockGeom                   * blk_geom,
         uint16_t                            cu_origin_x,
         uint16_t                            cu_origin_y,
-        PictureControlSet_t              *picture_control_set_ptr,
+        PictureControlSet              *picture_control_set_ptr,
         MvReferenceFrame                ref_frame,
         uint8_t                             is_compound,
         PredictionMode                   mode,
@@ -96,7 +96,7 @@ extern "C" {
         uint32_t                          cu_origin_y,
         const BlockGeom               * blk_geom,
         const CodedUnitStats         *cu_stats,
-        PictureControlSet_t            *picture_control_set_ptr);
+        PictureControlSet            *picture_control_set_ptr);
 
     uint16_t wm_find_samples(
         CodingUnit                       *cu_ptr,
@@ -104,7 +104,7 @@ extern "C" {
         uint16_t                            cu_origin_x,
         uint16_t                            cu_origin_y,
         MvReferenceFrame                    rf0,
-        PictureControlSet_t                *picture_control_set_ptr,
+        PictureControlSet                *picture_control_set_ptr,
         int32_t                            *pts,
         int32_t                            *pts_inref);
 
@@ -114,11 +114,11 @@ extern "C" {
         uint16_t                            cu_origin_x,
         uint16_t                            cu_origin_y,
         uint8_t                             ref_frame_type,
-        PictureControlSet_t                *picture_control_set_ptr,
+        PictureControlSet                *picture_control_set_ptr,
         uint16_t                           *num_samples);
 
     EbBool warped_motion_parameters(
-        PictureControlSet_t              *picture_control_set_ptr,
+        PictureControlSet              *picture_control_set_ptr,
         CodingUnit                     *cu_ptr,
         MvUnit_t                         *mv_unit,
         const BlockGeom                  *blk_geom,
@@ -146,7 +146,7 @@ extern "C" {
     }
 
     void av1_count_overlappable_neighbors(
-        const PictureControlSet_t        *picture_control_set_ptr,
+        const PictureControlSet        *picture_control_set_ptr,
         CodingUnit                     *cu_ptr,
         const block_size                   bsize,
         int32_t                           mi_row,

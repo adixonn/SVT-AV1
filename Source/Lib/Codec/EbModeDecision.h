@@ -36,7 +36,7 @@ extern "C" {
 #if !CHROMA_BLIND
         uint32_t                                component_mask,
 #endif
-        PictureControlSet_t                    *picture_control_set_ptr,
+        PictureControlSet                    *picture_control_set_ptr,
         struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
         EbAsm                                   asm_type);
 
@@ -48,7 +48,7 @@ extern "C" {
         uint64_t                                luma_distortion,
         uint64_t                                chroma_distortion,
         uint64_t                                lambda,
-        PictureControlSet_t                    *picture_control_set_ptr);
+        PictureControlSet                    *picture_control_set_ptr);
 
     typedef EbErrorType(*EB_FULL_COST_FUNC)(
         LargestCodingUnit                    *sb_ptr,
@@ -67,10 +67,10 @@ extern "C" {
         uint64_t                               *cr_coeff_bits,
         uint32_t                                transform_size,
         uint32_t                                transform_chroma_size,
-        PictureControlSet_t                    *picture_control_set_ptr);
+        PictureControlSet                    *picture_control_set_ptr);
 
     typedef EbErrorType(*EB_AV1_FULL_COST_FUNC)(
-        PictureControlSet_t                    *picture_control_set_ptr,
+        PictureControlSet                    *picture_control_set_ptr,
         struct ModeDecisionContext           *context_ptr,
         struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
         CodingUnit                           *cu_ptr,
@@ -148,7 +148,7 @@ extern "C" {
         uint32_t                               full_distortion;
 
         EbPtr                                 prediction_context_ptr;
-        PictureControlSet_t                   *picture_control_set_ptr;
+        PictureControlSet                   *picture_control_set_ptr;
         EbPredDirection                        prediction_direction[MAX_NUM_OF_PU_PER_CU]; // 2 bits
 
         int16_t                                motion_vector_pred_x[MAX_NUM_OF_REF_PIC_LIST]; // 16 bits
@@ -199,7 +199,8 @@ extern "C" {
     /**************************************
     * Mode Decision Candidate Buffer
     **************************************/
-    typedef struct IntraChromaCandidateBuffer {
+    typedef struct IntraChromaCandidateBuffer 
+    {
         uint32_t                                mode;
         uint64_t                                cost;
         uint64_t                                distortion;
@@ -210,7 +211,8 @@ extern "C" {
     /**************************************
     * Mode Decision Candidate Buffer
     **************************************/
-    typedef struct ModeDecisionCandidateBuffer {
+    typedef struct ModeDecisionCandidateBuffer 
+    {
         // Candidate Ptr
         ModeDecisionCandidate                *candidate_ptr;
 
@@ -297,7 +299,7 @@ extern "C" {
         uint32_t                                transform_size);
 
     typedef EbErrorType(*EB_FULL_NXN_COST_FUNC)(
-        PictureControlSet_t                    *picture_control_set_ptr,
+        PictureControlSet                    *picture_control_set_ptr,
         struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
         uint32_t                                qp,
         uint64_t                               *y_distortion,

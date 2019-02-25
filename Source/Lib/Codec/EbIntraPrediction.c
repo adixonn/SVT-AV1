@@ -3581,7 +3581,7 @@ static inline void IntraModeAngular_all(
 EbErrorType intra_prediction_cl(
     ModeDecisionContext                  *md_context_ptr,
     uint32_t                                  component_mask,
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     ModeDecisionCandidateBuffer           *candidate_buffer_ptr,
     EbAsm                                  asm_type)
 {
@@ -3903,7 +3903,7 @@ EbErrorType intra4x4_intra_prediction_cl(
     uint32_t                                  pu_height,
     uint32_t                                  sb_sz,
     uint32_t                                  component_mask,
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
     EbPtr                                  prediction_context_ptr,
     EbAsm                                  asm_type)
@@ -9843,7 +9843,7 @@ EbErrorType av1_intra_prediction_cl(
 #if !CHROMA_BLIND
     uint32_t                                  component_mask,
 #endif
-    PictureControlSet_t                    *picture_control_set_ptr,
+    PictureControlSet                    *picture_control_set_ptr,
     ModeDecisionCandidateBuffer           *candidate_buffer_ptr,
     EbAsm                                  asm_type)
 {

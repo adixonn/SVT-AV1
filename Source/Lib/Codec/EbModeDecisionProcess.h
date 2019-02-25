@@ -88,8 +88,8 @@ extern "C" {
 
     typedef struct ModeDecisionContext
     {
-        EbFifo_t                       *mode_decision_configuration_input_fifo_ptr;
-        EbFifo_t                       *mode_decision_output_fifo_ptr;
+        EbFifo                       *mode_decision_configuration_input_fifo_ptr;
+        EbFifo                       *mode_decision_output_fifo_ptr;
         int16_t                        *transform_inner_array_ptr;
 
         ModeDecisionCandidate       **fast_candidate_ptr_array;
@@ -119,7 +119,7 @@ extern "C" {
         NeighborArrayUnit32          *interpolation_type_neighbor_array;
 
         // TMVP
-        EbReferenceObject_t            *reference_object_write_ptr;
+        EbReferenceObject            *reference_object_write_ptr;
 
         // Intra Reference Samples
         IntraReferenceSamples        *intra_ref_ptr;
@@ -251,11 +251,11 @@ extern "C" {
      **************************************/
     extern EbErrorType mode_decision_context_ctor(
         ModeDecisionContext      **context_dbl_ptr,
-        EbFifo_t                    *mode_decision_configuration_input_fifo_ptr,
-        EbFifo_t                    *mode_decision_output_fifo_ptr);
+        EbFifo                    *mode_decision_configuration_input_fifo_ptr,
+        EbFifo                    *mode_decision_output_fifo_ptr);
 
     extern void reset_mode_decision_neighbor_arrays(
-        PictureControlSet_t *picture_control_set_ptr);
+        PictureControlSet *picture_control_set_ptr);
 
     extern void lambda_assign_low_delay(
         uint32_t                    *fast_lambda,
@@ -291,14 +291,14 @@ extern "C" {
 
     extern void reset_mode_decision(
         ModeDecisionContext   *context_ptr,
-        PictureControlSet_t     *picture_control_set_ptr,
+        PictureControlSet     *picture_control_set_ptr,
         SequenceControlSet_t    *sequence_control_set_ptr,
         uint32_t                 segment_index);
 
     extern void mode_decision_configure_lcu(
         ModeDecisionContext   *context_ptr,
         LargestCodingUnit     *sb_ptr,
-        PictureControlSet_t     *picture_control_set_ptr,
+        PictureControlSet     *picture_control_set_ptr,
         SequenceControlSet_t    *sequence_control_set_ptr,
         uint8_t                  picture_qp,
         uint8_t                  sb_qp);
@@ -306,7 +306,7 @@ extern "C" {
 
 #if CHROMA_BLIND 
     extern void cfl_rd_pick_alpha(
-        PictureControlSet_t             *picture_control_set_ptr,
+        PictureControlSet             *picture_control_set_ptr,
         ModeDecisionCandidateBuffer   *candidate_buffer,
         LargestCodingUnit             *sb_ptr,
         ModeDecisionContext           *context_ptr,

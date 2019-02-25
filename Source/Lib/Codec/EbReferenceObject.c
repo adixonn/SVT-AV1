@@ -74,8 +74,8 @@ void InitializeSamplesNeighboringReferencePicture8Bit(
 }
 
 void InitializeSamplesNeighboringReferencePicture(
-    EbReferenceObject_t              *referenceObject,
-    EbPictureBufferDescInitData_t    *pictureBufferDescInitDataPtr,
+    EbReferenceObject              *referenceObject,
+    EbPictureBufferDescInitData    *pictureBufferDescInitDataPtr,
     EB_BITDEPTH                       bit_depth) {
 
     if (bit_depth == EB_10BIT) {
@@ -144,11 +144,11 @@ EbErrorType eb_reference_object_ctor(
     EbPtr   object_init_data_ptr)
 {
 
-    EbReferenceObject_t              *referenceObject;
-    EbPictureBufferDescInitData_t    *pictureBufferDescInitDataPtr = (EbPictureBufferDescInitData_t*)object_init_data_ptr;
-    EbPictureBufferDescInitData_t    pictureBufferDescInitData16BitPtr = *pictureBufferDescInitDataPtr;
+    EbReferenceObject              *referenceObject;
+    EbPictureBufferDescInitData    *pictureBufferDescInitDataPtr = (EbPictureBufferDescInitData*)object_init_data_ptr;
+    EbPictureBufferDescInitData    pictureBufferDescInitData16BitPtr = *pictureBufferDescInitDataPtr;
     EbErrorType return_error = EB_ErrorNone;
-    EB_MALLOC(EbReferenceObject_t*, referenceObject, sizeof(EbReferenceObject_t), EB_N_PTR);
+    EB_MALLOC(EbReferenceObject*, referenceObject, sizeof(EbReferenceObject), EB_N_PTR);
 
     *object_dbl_ptr = (EbPtr)referenceObject;
 
@@ -187,7 +187,7 @@ EbErrorType eb_reference_object_ctor(
 
     //RESTRICT THIS TO M4
     {
-        EbPictureBufferDescInitData_t bufDesc;
+        EbPictureBufferDescInitData bufDesc;
 
         bufDesc.maxWidth = pictureBufferDescInitDataPtr->maxWidth;
         bufDesc.maxHeight = pictureBufferDescInitDataPtr->maxHeight;
@@ -222,10 +222,10 @@ EbErrorType eb_pa_reference_object_ctor(
     EbPtr   object_init_data_ptr)
 {
 
-    EbPaReferenceObject_t               *paReferenceObject;
-    EbPictureBufferDescInitData_t       *pictureBufferDescInitDataPtr = (EbPictureBufferDescInitData_t*)object_init_data_ptr;
+    EbPaReferenceObject               *paReferenceObject;
+    EbPictureBufferDescInitData       *pictureBufferDescInitDataPtr = (EbPictureBufferDescInitData*)object_init_data_ptr;
     EbErrorType return_error = EB_ErrorNone;
-    EB_MALLOC(EbPaReferenceObject_t*, paReferenceObject, sizeof(EbPaReferenceObject_t), EB_N_PTR);
+    EB_MALLOC(EbPaReferenceObject*, paReferenceObject, sizeof(EbPaReferenceObject), EB_N_PTR);
     *object_dbl_ptr = (EbPtr)paReferenceObject;
 
     // Reference picture constructor

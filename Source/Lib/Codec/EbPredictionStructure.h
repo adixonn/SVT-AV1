@@ -35,12 +35,12 @@ extern "C" {
        *    the pictures referenced by the current
        *    picture.
        ************************************************/
-    typedef struct ReferenceList_s
+    typedef struct ReferenceList
     {
         int32_t                              referenceList;
         uint32_t                             referenceListCount;
 
-    } ReferenceList_t;
+    } ReferenceList;
 
     /************************************************
      * Dependent List
@@ -56,12 +56,12 @@ extern "C" {
      *     by the referenceCount group in ascending
      *     order.  The grouping is not display order!
      ************************************************/
-    typedef struct DependentList_s
+    typedef struct DependentList
     {
         int32_t                             *list;
         uint32_t                             listCount;
 
-    } DependentList_t;
+    } DependentList;
 
     /************************************************
      * Prediction Structure Config Entry
@@ -69,22 +69,24 @@ extern "C" {
      *   configurations for each Prediction Structure
      *   Config Entry.
      ************************************************/
-    typedef struct PredictionStructureConfigEntry_s {
+    typedef struct PredictionStructureConfigEntry 
+    {
         uint32_t                             temporal_layer_index;
         uint32_t                             decode_order;
         int32_t                              refList0;
         int32_t                              refList1;
-    } PredictionStructureConfigEntry_t;
+    } PredictionStructureConfigEntry;
 
     /************************************************
      * Prediction Structure Config
      *   Contains a collection of basic control data
      *   for the basic prediction structure.
      ************************************************/
-    typedef struct PredictionStructureConfig_s {
-        uint32_t                            entryCount;
-        PredictionStructureConfigEntry_t   *entryArray;
-    } PredictionStructureConfig_t;
+    typedef struct PredictionStructureConfig 
+    {
+        uint32_t                        entryCount;
+        PredictionStructureConfigEntry *entryArray;
+    } PredictionStructureConfig;
 
     /************************************************
      * Prediction Structure Entry
@@ -92,11 +94,12 @@ extern "C" {
      *   for a particular picture in the Prediction
      *   Structure.
      ************************************************/
-    typedef struct PredictionStructureEntry_s {
-        ReferenceList_t                     refList0;
-        ReferenceList_t                     refList1;
-        DependentList_t                     depList0;
-        DependentList_t                     depList1;
+    typedef struct PredictionStructureEntry 
+    {
+        ReferenceList                     refList0;
+        ReferenceList                     refList1;
+        DependentList                     depList0;
+        DependentList                     depList1;
         uint32_t                              temporal_layer_index;
         uint32_t                              decode_order;
         EbBool                             isReferenced;
@@ -149,17 +152,18 @@ extern "C" {
 
         // Lists Combination (STUB)
 
-    } PredictionStructureEntry_t;
+    } PredictionStructureEntry;
 
     /************************************************
      * Prediction Structure
      *   Contains a collection of control and RPS
      *   data types for an entire Prediction Structure
      ************************************************/
-    typedef struct PredictionStructure_s {
+    typedef struct PredictionStructure 
+    {
 
         uint32_t                              predStructEntryCount;
-        PredictionStructureEntry_t        **predStructEntryPtrArray;
+        PredictionStructureEntry        **predStructEntryPtrArray;
         EbPred                             predType;
         uint32_t                              temporalLayerCount;
         uint32_t                              predStructPeriod;
@@ -177,27 +181,28 @@ extern "C" {
         uint32_t                              defaultRefPicsList0TotalCountMinus1;
         uint32_t                              defaultRefPicsList1TotalCountMinus1;
 
-    } PredictionStructure_t;
+    } PredictionStructure;
 
     /************************************************
      * Prediction Structure Group
      *   Contains the control structures for all
      *   supported prediction structures.
      ************************************************/
-    typedef struct PredictionStructureGroup_s {
-        PredictionStructure_t             **predictionStructurePtrArray;
-        uint32_t                              predictionStructureCount;
-    } PredictionStructureGroup_t;
+    typedef struct PredictionStructureGroup 
+    {
+        PredictionStructure **predictionStructurePtrArray;
+        uint32_t              predictionStructureCount;
+    } PredictionStructureGroup;
 
     /************************************************
      * Declarations
      ************************************************/
-    extern EbErrorType PredictionStructureGroupCtor(
-        PredictionStructureGroup_t   **predictionStructureGroupDblPtr,
+    extern EbErrorType prediction_structure_group_ctor(
+        PredictionStructureGroup   **predictionStructureGroupDblPtr,
         uint32_t                        base_layer_switch_mode);
 
-    extern PredictionStructure_t* GetPredictionStructure(
-        PredictionStructureGroup_t    *prediction_structure_group_ptr,
+    extern PredictionStructure* get_prediction_structure(
+        PredictionStructureGroup    *prediction_structure_group_ptr,
         EbPred                        pred_structure,
         uint32_t                         numberOfReferences,
         uint32_t                         levelsOfHierarchy);
@@ -205,10 +210,11 @@ extern "C" {
 
 
 
-    typedef struct Av1RpsNode_s {
+    typedef struct Av1RpsNode 
+    {
         uint8_t refreshFrameMask;
         uint8_t refDpbIndex[7];//LAST-LAST2-LAST3-GOLDEN-BWD-ALT2-ALT
-    } Av1RpsNode_t;
+    } Av1RpsNode;
 
 
 

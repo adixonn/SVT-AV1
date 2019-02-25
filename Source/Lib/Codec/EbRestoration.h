@@ -178,23 +178,27 @@ extern "C" {
 #error "Wiener filter currently only works if WIENER_FILT_PREC_BITS == 7"
 #endif
 
-    typedef struct {
+    typedef struct WienerInfo 
+    {
         DECLARE_ALIGNED(16, InterpKernel, vfilter);
         DECLARE_ALIGNED(16, InterpKernel, hfilter);
     } WienerInfo;
 
-    typedef struct {
+    typedef struct SgrprojInfo 
+    {
         int32_t ep;
         int32_t xqd[2];
     } SgrprojInfo;
 
-    typedef struct {
+    typedef struct RestorationUnitInfo 
+    {
         RestorationType restoration_type;
         WienerInfo wiener_info;
         SgrprojInfo sgrproj_info;
     } RestorationUnitInfo;
 
-    typedef struct {
+    typedef struct AV1PixelRect 
+    {
         int32_t left, top, right, bottom;
     } AV1PixelRect;
 
@@ -209,14 +213,16 @@ extern "C" {
 #define RESTORATION_COLBUFFER_HEIGHT \
   (RESTORATION_PROC_UNIT_SIZE + 2 * RESTORATION_BORDER)
 
-    typedef struct {
+    typedef struct RestorationLineBuffers 
+    {
         // Temporary buffers to save/restore 3 lines above/below the restoration
         // stripe.
         uint16_t tmp_save_above[RESTORATION_BORDER][RESTORATION_LINEBUFFER_WIDTH];
         uint16_t tmp_save_below[RESTORATION_BORDER][RESTORATION_LINEBUFFER_WIDTH];
     } RestorationLineBuffers;
 
-    typedef struct {
+    typedef struct RestorationStripeBoundaries 
+    {
         uint8_t *stripe_boundary_above;
         uint8_t *stripe_boundary_below;
         int32_t stripe_boundary_stride;
@@ -259,7 +265,7 @@ extern "C" {
         wiener_info->vfilter[6] = wiener_info->hfilter[6] = WIENER_FILT_TAP0_MIDV;
     }
 
-    typedef struct {
+    typedef struct RestorationTileLimits {
         int32_t h_start, h_end, v_start, v_end;
     } RestorationTileLimits;
 
@@ -392,7 +398,8 @@ extern "C" {
 
 
 #if REST_M
-    typedef struct {
+    typedef struct RestUnitSearchInfo 
+    {
         // The best coefficients for Wiener or Sgrproj restoration
         WienerInfo wiener;
         SgrprojInfo sgrproj;

@@ -193,20 +193,22 @@ extern "C" {
         WEDGE_DIRECTIONS
     } WedgeDirectionType;
     // 3-tuple: {direction, x_offset, y_offset}
-    typedef struct {
+    typedef struct WedgeCodeType 
+    {
         WedgeDirectionType direction;
         int32_t x_offset;
         int32_t y_offset;
-    } wedge_code_type;
+    } WedgeCodeType;
 
-    typedef struct {
+    typedef struct WedgeParamsType 
+    {
         int32_t bits;
-        const wedge_code_type *codebook;
+        const WedgeCodeType *codebook;
         uint8_t *signflip;
         wedge_masks_type *masks;
-    } wedge_params_type;
+    } WedgeParamsType;
 
-    static const wedge_code_type wedge_codebook_16_hgtw[16] = {
+    static const WedgeCodeType wedge_codebook_16_hgtw[16] = {
         { WEDGE_OBLIQUE27, 4, 4 }, { WEDGE_OBLIQUE63, 4, 4 },
         { WEDGE_OBLIQUE117, 4, 4 }, { WEDGE_OBLIQUE153, 4, 4 },
         { WEDGE_HORIZONTAL, 4, 2 }, { WEDGE_HORIZONTAL, 4, 4 },
@@ -217,7 +219,7 @@ extern "C" {
         { WEDGE_OBLIQUE117, 2, 4 }, { WEDGE_OBLIQUE117, 6, 4 },
     };
 
-    static const wedge_code_type wedge_codebook_16_hltw[16] = {
+    static const WedgeCodeType wedge_codebook_16_hltw[16] = {
         { WEDGE_OBLIQUE27, 4, 4 }, { WEDGE_OBLIQUE63, 4, 4 },
         { WEDGE_OBLIQUE117, 4, 4 }, { WEDGE_OBLIQUE153, 4, 4 },
         { WEDGE_VERTICAL, 2, 4 }, { WEDGE_VERTICAL, 4, 4 },
@@ -228,7 +230,7 @@ extern "C" {
         { WEDGE_OBLIQUE117, 2, 4 }, { WEDGE_OBLIQUE117, 6, 4 },
     };
 
-    static const wedge_code_type wedge_codebook_16_heqw[16] = {
+    static const WedgeCodeType wedge_codebook_16_heqw[16] = {
         { WEDGE_OBLIQUE27, 4, 4 }, { WEDGE_OBLIQUE63, 4, 4 },
         { WEDGE_OBLIQUE117, 4, 4 }, { WEDGE_OBLIQUE153, 4, 4 },
         { WEDGE_HORIZONTAL, 4, 2 }, { WEDGE_HORIZONTAL, 4, 6 },
@@ -239,7 +241,7 @@ extern "C" {
         { WEDGE_OBLIQUE117, 2, 4 }, { WEDGE_OBLIQUE117, 6, 4 },
     };
 
-    static const wedge_params_type wedge_params_lookup[BlockSizeS_ALL] = {
+    static const WedgeParamsType wedge_params_lookup[BlockSizeS_ALL] = {
         { 0, NULL, NULL, NULL },
         { 0, NULL, NULL, NULL },
         { 0, NULL, NULL, NULL },

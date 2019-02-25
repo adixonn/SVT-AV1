@@ -15,8 +15,8 @@
  ******************************************************/
 EbErrorType mode_decision_context_ctor(
     ModeDecisionContext  **context_dbl_ptr,
-    EbFifo_t                *mode_decision_configuration_input_fifo_ptr,
-    EbFifo_t                *mode_decision_output_fifo_ptr){
+    EbFifo                *mode_decision_configuration_input_fifo_ptr,
+    EbFifo                *mode_decision_output_fifo_ptr){
 
     uint32_t bufferIndex;
     uint32_t candidateIndex;
@@ -118,7 +118,7 @@ EbErrorType mode_decision_context_ctor(
 
 #if NO_ENCDEC //SB128_TODO to upgrade
         {
-            EbPictureBufferDescInitData_t initData;
+            EbPictureBufferDescInitData initData;
 
             initData.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
             initData.maxWidth = SB_STRIDE_Y;
@@ -164,7 +164,7 @@ EbErrorType mode_decision_context_ctor(
 /**************************************************
  * Reset Mode Decision Neighbor Arrays
  *************************************************/
-void reset_mode_decision_neighbor_arrays(PictureControlSet_t *picture_control_set_ptr)
+void reset_mode_decision_neighbor_arrays(PictureControlSet *picture_control_set_ptr)
 {
     uint8_t depth;
     for (depth = 0; depth < NEIGHBOR_ARRAY_TOTAL_COUNT; depth++) {
@@ -195,7 +195,7 @@ void reset_mode_decision_neighbor_arrays(PictureControlSet_t *picture_control_se
 }
 
 
-void ResetMdRefinmentNeighborArrays(PictureControlSet_t *picture_control_set_ptr)
+void ResetMdRefinmentNeighborArrays(PictureControlSet *picture_control_set_ptr)
 {
     neighbor_array_unit_reset(picture_control_set_ptr->md_refinement_intra_luma_mode_neighbor_array);
     neighbor_array_unit_reset(picture_control_set_ptr->md_refinement_mode_type_neighbor_array);
@@ -353,7 +353,7 @@ const EB_AV1_LAMBDA_ASSIGN_FUNC av1_lambda_assignment_function_table[4] = {
 
 void reset_mode_decision(
     ModeDecisionContext   *context_ptr,
-    PictureControlSet_t     *picture_control_set_ptr,
+    PictureControlSet     *picture_control_set_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr,
     uint32_t                   segment_index)
 {
@@ -449,9 +449,9 @@ void reset_mode_decision(
 
     // TMVP Map Writer pointer
     if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE)
-        context_ptr->reference_object_write_ptr = (EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr;
+        context_ptr->reference_object_write_ptr = (EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr;
     else
-        context_ptr->reference_object_write_ptr = (EbReferenceObject_t*)EB_NULL;
+        context_ptr->reference_object_write_ptr = (EbReferenceObject*)EB_NULL;
 
     // Reset CABAC Contexts
     context_ptr->coeff_est_entropy_coder_ptr = picture_control_set_ptr->coeff_est_entropy_coder_ptr;
@@ -489,7 +489,7 @@ void reset_mode_decision(
 void mode_decision_configure_lcu(
     ModeDecisionContext   *context_ptr,
     LargestCodingUnit     *sb_ptr,
-    PictureControlSet_t     *picture_control_set_ptr,
+    PictureControlSet     *picture_control_set_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr,
     uint8_t                    picture_qp,
     uint8_t                    sb_qp){

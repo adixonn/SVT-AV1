@@ -99,7 +99,7 @@ extern "C" {
         uint64_t                               luma_distortion,
         uint64_t                               chroma_distortion,
         uint64_t                               lambda,
-        PictureControlSet_t                   *picture_control_set_ptr);
+        PictureControlSet                   *picture_control_set_ptr);
 
     extern EbErrorType  merge_skip_full_cost(
         LargestCodingUnit           *sb_ptr,
@@ -118,7 +118,7 @@ extern "C" {
         uint64_t                      *cr_coeff_bits,
         uint32_t                       transform_size,
         uint32_t                       transform_chroma_size,
-        PictureControlSet_t           *picture_control_set_ptr);
+        PictureControlSet           *picture_control_set_ptr);
 
     extern EbErrorType split_flag_rate(
         ModeDecisionContext     *context_ptr,
@@ -161,7 +161,7 @@ extern "C" {
         uint64_t                                  luma_distortion,
         uint64_t                                  chroma_distortion,
         uint64_t                                  lambda,
-        PictureControlSet_t                      *picture_control_set_ptr);
+        PictureControlSet                      *picture_control_set_ptr);
 
     extern EbErrorType av1_inter_fast_cost(
         struct ModeDecisionContext            *context_ptr,
@@ -171,10 +171,10 @@ extern "C" {
         uint64_t                                  luma_distortion,
         uint64_t                                  chroma_distortion,
         uint64_t                                  lambda,
-        PictureControlSet_t                        *picture_control_set_ptr);
+        PictureControlSet                        *picture_control_set_ptr);
 
     extern EbErrorType av1_intra_full_cost(
-        PictureControlSet_t                    *picture_control_set_ptr,
+        PictureControlSet                    *picture_control_set_ptr,
         ModeDecisionContext                  *context_ptr,
         struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
         CodingUnit                           *cu_ptr,
@@ -188,7 +188,7 @@ extern "C" {
         block_size                              bsize);
 
     extern EbErrorType av1_inter_full_cost(
-        PictureControlSet_t                    *picture_control_set_ptr,
+        PictureControlSet                    *picture_control_set_ptr,
         ModeDecisionContext                  *context_ptr,
         struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
         CodingUnit                           *cu_ptr,

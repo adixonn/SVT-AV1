@@ -10,8 +10,8 @@ EbErrorType picture_results_ctor(
     EbPtr *object_dbl_ptr,
     EbPtr object_init_data_ptr)
 {
-    PictureDemuxResults_t *object_ptr;
-    EB_MALLOC(PictureDemuxResults_t*, object_ptr, sizeof(PictureDemuxResults_t), EB_N_PTR);
+    PictureDemuxResults *object_ptr;
+    EB_MALLOC(PictureDemuxResults*, object_ptr, sizeof(PictureDemuxResults), EB_N_PTR);
 
     *object_dbl_ptr = object_ptr;
 

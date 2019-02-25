@@ -148,7 +148,8 @@ extern "C" {
         AOM_CSP_COLOCATED = 2,        /**< Co-located with luma(0, 0) sample */
         AOM_CSP_RESERVED = 3          /**< Reserved value */
     } aom_chroma_sample_position_t; /**< alias for enum aom_transfer_function */
-    typedef struct yv12_buffer_config {
+
+    typedef struct Yv12BufferConfig {
         union {
             struct {
                 int32_t y_width;
@@ -235,11 +236,11 @@ extern "C" {
         Yv12BufferConfig             *aomBuffDsc
     );
 
-    typedef struct aom_codec_frame_buffer {
+    typedef struct AomCodecFrameBuffer {
         uint8_t *data; /**< pointer to the data buffer */
         size_t size;   /**< Size of data in bytes */
         void *priv;    /**< Frame's private data */
-    } aom_codec_frame_buffer_t;
+    } AomCodecFrameBuffer;
 
     /*!\brief get frame buffer callback prototype
     *
@@ -257,10 +258,10 @@ extern "C" {
     *
     * \param[in] priv         Callback's private data
     * \param[in] new_size     Size in bytes needed by the buffer
-    * \param[in,out] fb       pointer to aom_codec_frame_buffer_t
+    * \param[in,out] fb       pointer to AomCodecFrameBuffer
     */
     typedef int32_t(*aom_get_frame_buffer_cb_fn_t)(void *priv, size_t min_size,
-        aom_codec_frame_buffer_t *fb);
+        AomCodecFrameBuffer *fb);
 
 #define ADDRESS_STORAGE_SIZE sizeof(size_t)
 
@@ -275,7 +276,7 @@ extern "C" {
 /************************************
  * EbPictureBufferDesc Init Data
  ************************************/
-    typedef struct EbPictureBufferDescInitData_s
+    typedef struct EbPictureBufferDescInitData
     {
         uint16_t          maxWidth;
         uint16_t          maxHeight;
@@ -287,7 +288,7 @@ extern "C" {
         uint16_t          bot_padding;
         EbBool            splitMode;         //ON: allocate 8bit data seperately from nbit data
 
-    } EbPictureBufferDescInitData_t;
+    } EbPictureBufferDescInitData;
 
     /**************************************
      * Extern Function Declarations

@@ -13,7 +13,7 @@ EbErrorType EbTransQuantBuffersCtor(
     EbTransQuantBuffers_t          *trans_quant_buffers_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
-    EbPictureBufferDescInitData_t transCoeffInitArray;
+    EbPictureBufferDescInitData transCoeffInitArray;
     transCoeffInitArray.maxWidth = SB_STRIDE_Y;
     transCoeffInitArray.maxHeight = SB_STRIDE_Y;
     transCoeffInitArray.bit_depth = EB_16BIT;
@@ -24,7 +24,7 @@ EbErrorType EbTransQuantBuffersCtor(
     transCoeffInitArray.bot_padding = 0;
     transCoeffInitArray.splitMode = EB_FALSE;
 
-    EbPictureBufferDescInitData_t ThirtyTwoBittransCoeffInitArray;
+    EbPictureBufferDescInitData ThirtyTwoBittransCoeffInitArray;
     ThirtyTwoBittransCoeffInitArray.maxWidth = SB_STRIDE_Y;
     ThirtyTwoBittransCoeffInitArray.maxHeight = SB_STRIDE_Y;
     ThirtyTwoBittransCoeffInitArray.bit_depth = EB_32BIT;

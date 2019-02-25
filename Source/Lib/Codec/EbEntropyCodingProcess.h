@@ -24,9 +24,9 @@
  **************************************/
 typedef struct EntropyCodingContext
 {
-    EbFifo_t                       *enc_dec_input_fifo_ptr;
-    EbFifo_t                       *entropy_coding_output_fifo_ptr;  // to packetization
-    EbFifo_t                       *rate_control_output_fifo_ptr; // feedback to rate control
+    EbFifo                       *enc_dec_input_fifo_ptr;
+    EbFifo                       *entropy_coding_output_fifo_ptr;  // to packetization
+    EbFifo                       *rate_control_output_fifo_ptr; // feedback to rate control
 
     uint32_t                        sb_total_count;
     // Lambda
@@ -78,9 +78,9 @@ typedef struct EntropyCodingContext
  **************************************/
 extern EbErrorType entropy_coding_context_ctor(
     EntropyCodingContext **context_dbl_ptr,
-    EbFifo_t                *enc_dec_input_fifo_ptr,
-    EbFifo_t                *packetization_output_fifo_ptr,
-    EbFifo_t                *rate_control_output_fifo_ptr,
+    EbFifo                *enc_dec_input_fifo_ptr,
+    EbFifo                *packetization_output_fifo_ptr,
+    EbFifo                *rate_control_output_fifo_ptr,
     EbBool                   is16bit);
 
 extern void* entropy_coding_kernel(void *input_ptr);

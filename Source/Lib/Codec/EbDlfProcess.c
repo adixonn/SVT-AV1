@@ -32,8 +32,8 @@ void av1_loop_restoration_save_boundary_lines(const Yv12BufferConfig *frame, Av1
  ******************************************************/
 EbErrorType dlf_context_ctor(
     DlfContext **context_dbl_ptr,
-    EbFifo_t                *dlf_input_fifo_ptr,
-    EbFifo_t                *dlf_output_fifo_ptr ,
+    EbFifo                *dlf_input_fifo_ptr,
+    EbFifo                *dlf_output_fifo_ptr ,
     EbBool                  is16bit,
     uint32_t                max_input_luma_width,
     uint32_t                max_input_luma_height
@@ -52,7 +52,7 @@ EbErrorType dlf_context_ctor(
 
     context_ptr->temp_lf_recon_picture16bit_ptr = (EbPictureBufferDesc *)EB_NULL;
     context_ptr->temp_lf_recon_picture_ptr = (EbPictureBufferDesc *)EB_NULL;
-    EbPictureBufferDescInitData_t temp_lf_recon_desc_init_data;
+    EbPictureBufferDescInitData temp_lf_recon_desc_init_data;
     temp_lf_recon_desc_init_data.maxWidth = (uint16_t)max_input_luma_width;
     temp_lf_recon_desc_init_data.maxHeight = (uint16_t)max_input_luma_height;
     temp_lf_recon_desc_init_data.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
@@ -88,7 +88,7 @@ void* dlf_kernel(void *input_ptr)
 {
     // Context & SCS & PCS
     DlfContext                            *context_ptr = (DlfContext*)input_ptr;
-    PictureControlSet_t                     *picture_control_set_ptr;
+    PictureControlSet                     *picture_control_set_ptr;
     SequenceControlSet_t                    *sequence_control_set_ptr;
 
     //// Input
@@ -110,7 +110,7 @@ void* dlf_kernel(void *input_ptr)
             &enc_dec_results_wrapper_ptr);
 
         enc_dec_results_ptr = (EncDecResults*)enc_dec_results_wrapper_ptr->object_ptr;
-        picture_control_set_ptr = (PictureControlSet_t*)enc_dec_results_ptr->pictureControlSetWrapperPtr->object_ptr;
+        picture_control_set_ptr = (PictureControlSet*)enc_dec_results_ptr->pictureControlSetWrapperPtr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
         EbBool  is16bit = (EbBool)(sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
@@ -126,10 +126,10 @@ void* dlf_kernel(void *input_ptr)
 
                 //get the 16bit form of the input LCU
                 if (is16bit) {
-                    recon_buffer = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;
+                    recon_buffer = ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;
                 }
                 else {
-                    recon_buffer = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture;
+                    recon_buffer = ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture;
                 }
             }
             else { // non ref pictures
@@ -177,13 +177,13 @@ void* dlf_kernel(void *input_ptr)
             EbPictureBufferDesc  * recon_picture_ptr;
             if (is16bit) {
                 if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE)
-                    recon_picture_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;
+                    recon_picture_ptr = ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;
                 else
                     recon_picture_ptr = picture_control_set_ptr->recon_picture16bit_ptr;
             }
             else {
                 if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE)
-                    recon_picture_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture;
+                    recon_picture_ptr = ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture;
                 else
                     recon_picture_ptr = picture_control_set_ptr->recon_picture_ptr;
             }

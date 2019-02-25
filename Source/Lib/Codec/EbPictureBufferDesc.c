@@ -30,7 +30,7 @@ EbErrorType eb_picture_buffer_desc_ctor(
     EbPtr   object_init_data_ptr)
 {
     EbPictureBufferDesc          *pictureBufferDescPtr;
-    EbPictureBufferDescInitData_t  *pictureBufferDescInitDataPtr = (EbPictureBufferDescInitData_t*)object_init_data_ptr;
+    EbPictureBufferDescInitData  *pictureBufferDescInitDataPtr = (EbPictureBufferDescInitData*)object_init_data_ptr;
 
     uint32_t bytesPerPixel = (pictureBufferDescInitDataPtr->bit_depth == EB_8BIT) ? 1 : (pictureBufferDescInitDataPtr->bit_depth <= EB_16BIT) ? 2 : 4;
 
@@ -136,7 +136,7 @@ EbErrorType eb_recon_picture_buffer_desc_ctor(
     EbPtr   object_init_data_ptr)
 {
     EbPictureBufferDesc          *pictureBufferDescPtr;
-    EbPictureBufferDescInitData_t  *pictureBufferDescInitDataPtr = (EbPictureBufferDescInitData_t*)object_init_data_ptr;
+    EbPictureBufferDescInitData  *pictureBufferDescInitDataPtr = (EbPictureBufferDescInitData*)object_init_data_ptr;
 
     uint32_t bytesPerPixel = (pictureBufferDescInitDataPtr->bit_depth == EB_8BIT) ? 1 : 2;
 
@@ -312,7 +312,7 @@ void aom_free(void *memblk);
 int32_t aom_realloc_frame_buffer(Yv12BufferConfig *ybf, int32_t width, int32_t height,
     int32_t ss_x, int32_t ss_y, int32_t use_highbitdepth,
     int32_t border, int32_t byte_alignment,
-    aom_codec_frame_buffer_t *fb,
+    AomCodecFrameBuffer *fb,
     aom_get_frame_buffer_cb_fn_t cb, void *cb_priv) {
     if (ybf) {
         const int32_t aom_byte_align = (byte_alignment == 0) ? 1 : byte_alignment;

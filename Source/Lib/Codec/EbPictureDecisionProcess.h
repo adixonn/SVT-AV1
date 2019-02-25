@@ -12,10 +12,10 @@
 /**************************************
  * Context
  **************************************/
-typedef struct PictureDecisionContext_s
+typedef struct PictureDecisionContext
 {
-    EbFifo_t                     *picture_analysis_results_input_fifo_ptr;
-    EbFifo_t                     *picture_decision_results_output_fifo_ptr;
+    EbFifo                     *picture_analysis_results_input_fifo_ptr;
+    EbFifo                     *picture_decision_results_output_fifo_ptr;
 
     uint64_t                       lastSolidColorFramePoc;
 
@@ -45,15 +45,15 @@ typedef struct PictureDecisionContext_s
 
 
     EbBool miniGopToggle;    //mini GOP toggling since last Key Frame  K-0-1-0-1-0-K-0-1-0-1-K-0-1.....
-} PictureDecisionContext_t;
+} PictureDecisionContext;
 
 /***************************************
  * Extern Function Declaration
  ***************************************/
 extern EbErrorType picture_decision_context_ctor(
-    PictureDecisionContext_t **context_dbl_ptr,
-    EbFifo_t                  *picture_analysis_results_input_fifo_ptr,
-    EbFifo_t                  *picture_decision_results_output_fifo_ptr);
+    PictureDecisionContext **context_dbl_ptr,
+    EbFifo                  *picture_analysis_results_input_fifo_ptr,
+    EbFifo                  *picture_decision_results_output_fifo_ptr);
 
 
 extern void* picture_decision_kernel(void *input_ptr);

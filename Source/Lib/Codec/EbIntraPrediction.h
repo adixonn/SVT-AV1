@@ -211,7 +211,7 @@ extern "C" {
     extern EbErrorType intra_prediction_cl(
         struct ModeDecisionContext           *context_ptr,
         uint32_t                                  component_mask,
-        PictureControlSet_t                    *picture_control_set_ptr,
+        PictureControlSet                    *picture_control_set_ptr,
         ModeDecisionCandidateBuffer           *candidate_buffer_ptr,
         EbAsm                                  asm_type);
 #endif
@@ -221,7 +221,7 @@ extern "C" {
  #if !CHROMA_BLIND
         uint32_t                                  component_mask,
 #endif
-        PictureControlSet_t                    *picture_control_set_ptr,
+        PictureControlSet                    *picture_control_set_ptr,
         ModeDecisionCandidateBuffer           *candidate_buffer_ptr,
         EbAsm                                  asm_type);
 
@@ -343,7 +343,7 @@ extern "C" {
         uint32_t                                pu_height,
         uint32_t                                sb_sz,
         uint32_t                                component_mask,
-        PictureControlSet_t                    *picture_control_set_ptr,
+        PictureControlSet                    *picture_control_set_ptr,
         ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
         EbPtr                                  prediction_context_ptr,
         EbAsm                                   asm_type);

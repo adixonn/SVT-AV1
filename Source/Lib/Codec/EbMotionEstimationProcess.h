@@ -17,8 +17,8 @@
  **************************************/
 typedef struct MotionEstimationContext
 {
-    EbFifo_t                        *picture_decision_results_input_fifo_ptr;
-    EbFifo_t                        *motion_estimation_results_output_fifo_ptr;
+    EbFifo                        *picture_decision_results_input_fifo_ptr;
+    EbFifo                        *motion_estimation_results_output_fifo_ptr;
     IntraReferenceSamplesOpenLoop *intra_ref_ptr;
     MeContext                     *me_context_ptr;
 
@@ -29,8 +29,8 @@ typedef struct MotionEstimationContext
  ***************************************/
 extern EbErrorType motion_estimation_context_ctor(
     MotionEstimationContext   **context_dbl_ptr,
-    EbFifo_t                     *picture_decision_results_input_fifo_ptr,
-    EbFifo_t                     *motion_estimation_results_output_fifo_ptr);
+    EbFifo                     *picture_decision_results_input_fifo_ptr,
+    EbFifo                     *motion_estimation_results_output_fifo_ptr);
 
 
 extern void* motion_estimation_kernel(void *input_ptr);

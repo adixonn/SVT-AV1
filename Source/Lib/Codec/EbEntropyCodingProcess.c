@@ -23,9 +23,9 @@
 
 #if TILES
 #define  AV1_MIN_TILE_SIZE_BYTES 1
-void av1_reset_loop_restoration(PictureControlSet_t     *piCSetPtr);
-void av1_tile_set_col(TileInfo *tile, PictureParentControlSet_t * pcsPtr, int col);
-void av1_tile_set_row(TileInfo *tile, PictureParentControlSet_t * pcsPtr, int row);
+void av1_reset_loop_restoration(PictureControlSet     *piCSetPtr);
+void av1_tile_set_col(TileInfo *tile, PictureParentControlSet * pcsPtr, int col);
+void av1_tile_set_row(TileInfo *tile, PictureParentControlSet * pcsPtr, int row);
 #endif
 
 /******************************************************
@@ -33,9 +33,9 @@ void av1_tile_set_row(TileInfo *tile, PictureParentControlSet_t * pcsPtr, int ro
  ******************************************************/
 EbErrorType entropy_coding_context_ctor(
     EntropyCodingContext **context_dbl_ptr,
-    EbFifo_t                *enc_dec_input_fifo_ptr,
-    EbFifo_t                *packetization_output_fifo_ptr,
-    EbFifo_t                *rate_control_output_fifo_ptr,
+    EbFifo                *enc_dec_input_fifo_ptr,
+    EbFifo                *packetization_output_fifo_ptr,
+    EbFifo                *rate_control_output_fifo_ptr,
     EbBool                  is16bit)
 {
     EntropyCodingContext *context_ptr;
@@ -55,7 +55,7 @@ EbErrorType entropy_coding_context_ctor(
 /***********************************************
  * Entropy Coding Reset Neighbor Arrays
  ***********************************************/
-static void EntropyCodingResetNeighborArrays(PictureControlSet_t *picture_control_set_ptr)
+static void EntropyCodingResetNeighborArrays(PictureControlSet *picture_control_set_ptr)
 {
     neighbor_array_unit_reset(picture_control_set_ptr->mode_type_neighbor_array);
 
@@ -176,7 +176,7 @@ void av1_build_nmv_cost_table(int32_t *mvjoint, int32_t *mvcost[2],
  **************************************************/
 static void ResetEntropyCodingPicture(
     EntropyCodingContext  *context_ptr,
-    PictureControlSet_t     *picture_control_set_ptr,
+    PictureControlSet     *picture_control_set_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr)
 {
     reset_bitstream(entropy_coder_get_bitstream_ptr(picture_control_set_ptr->entropy_coder_ptr));
@@ -255,7 +255,7 @@ static void reset_ec_tile(
     uint32_t  total_size,
     uint32_t  is_last_tile_in_tg,
     EntropyCodingContext  *context_ptr,
-    PictureControlSet_t     *picture_control_set_ptr,
+    PictureControlSet     *picture_control_set_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr)
 {
     reset_bitstream(entropy_coder_get_bitstream_ptr(picture_control_set_ptr->entropy_coder_ptr));
@@ -338,7 +338,7 @@ static void reset_ec_tile(
 static void EntropyCodingConfigureLcu(
     EntropyCodingContext  *context_ptr,
     LargestCodingUnit     *sb_ptr,
-    PictureControlSet_t     *picture_control_set_ptr)
+    PictureControlSet     *picture_control_set_ptr)
 {
 #if ADD_DELTA_QP_SUPPORT
     context_ptr->qp = picture_control_set_ptr->parent_pcs_ptr->base_qindex;
@@ -361,7 +361,7 @@ static void EntropyCodingConfigureLcu(
 static void EntropyCodingLcu(
     EntropyCodingContext              *context_ptr,
     LargestCodingUnit               *sb_ptr,
-    PictureControlSet_t               *picture_control_set_ptr,
+    PictureControlSet               *picture_control_set_ptr,
     SequenceControlSet_t              *sequence_control_set_ptr,
     uint32_t                             sb_origin_x,
     uint32_t                             sb_origin_y,
@@ -450,7 +450,7 @@ static void EntropyCodingLcu(
  *   threads from performing an update (A).
  ******************************************************/
 static EbBool UpdateEntropyCodingRows(
-    PictureControlSet_t *picture_control_set_ptr,
+    PictureControlSet *picture_control_set_ptr,
     uint32_t              *row_index,
     uint32_t               row_count,
     EbBool             *initialProcessCall)
@@ -508,7 +508,7 @@ void* entropy_coding_kernel(void *input_ptr)
 {
     // Context & SCS & PCS
     EntropyCodingContext                  *context_ptr = (EntropyCodingContext*)input_ptr;
-    PictureControlSet_t                     *picture_control_set_ptr;
+    PictureControlSet                     *picture_control_set_ptr;
     SequenceControlSet_t                    *sequence_control_set_ptr;
 
     // Input
@@ -539,7 +539,7 @@ void* entropy_coding_kernel(void *input_ptr)
             context_ptr->enc_dec_input_fifo_ptr,
             &encDecResultsWrapperPtr);
         encDecResultsPtr = (EncDecResults*)encDecResultsWrapperPtr->object_ptr;
-        picture_control_set_ptr = (PictureControlSet_t*)encDecResultsPtr->pictureControlSetWrapperPtr->object_ptr;
+        picture_control_set_ptr = (PictureControlSet*)encDecResultsPtr->pictureControlSetWrapperPtr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
         lastLcuFlag = EB_FALSE;
 
@@ -611,13 +611,13 @@ void* entropy_coding_kernel(void *input_ptr)
                 // At the end of each LCU-row, send the updated bit-count to Entropy Coding
                 {
                     EbObjectWrapper_t *rateControlTaskWrapperPtr;
-                    RateControlTasks_t *rateControlTaskPtr;
+                    RateControlTasks *rateControlTaskPtr;
 
                     // Get Empty EncDec Results
                     eb_get_empty_object(
                         context_ptr->rate_control_output_fifo_ptr,
                         &rateControlTaskWrapperPtr);
-                    rateControlTaskPtr = (RateControlTasks_t*)rateControlTaskWrapperPtr->object_ptr;
+                    rateControlTaskPtr = (RateControlTasks*)rateControlTaskWrapperPtr->object_ptr;
                     rateControlTaskPtr->taskType = RC_ENTROPY_CODING_ROW_FEEDBACK_RESULT;
                     rateControlTaskPtr->picture_number = picture_control_set_ptr->picture_number;
                     rateControlTaskPtr->rowNumber = y_lcu_index;
@@ -680,7 +680,7 @@ void* entropy_coding_kernel(void *input_ptr)
         else
         {
 
-             struct PictureParentControlSet_s     *ppcs_ptr = picture_control_set_ptr->parent_pcs_ptr;
+             struct PictureParentControlSet     *ppcs_ptr = picture_control_set_ptr->parent_pcs_ptr;
              Av1Common *const cm = ppcs_ptr->av1_cm;           
              uint32_t total_size = 0;
              int tile_row, tile_col;

@@ -33,8 +33,8 @@ static EbLinkedListNode* ExtractPassthroughData(EbLinkedListNode** llPtrPtr)
 
 EbErrorType packetization_context_ctor(
     PacketizationContext **context_dbl_ptr,
-    EbFifo_t                *entropy_coding_input_fifo_ptr,
-    EbFifo_t                *rate_control_tasks_output_fifo_ptr)
+    EbFifo                *entropy_coding_input_fifo_ptr,
+    EbFifo                *rate_control_tasks_output_fifo_ptr)
 {
     PacketizationContext *context_ptr;
     EB_MALLOC(PacketizationContext*, context_ptr, sizeof(PacketizationContext), EB_N_PTR);
@@ -53,7 +53,7 @@ void* PacketizationKernel(void *input_ptr)
     // Context
     PacketizationContext         *context_ptr = (PacketizationContext*)input_ptr;
 
-    PictureControlSet_t            *picture_control_set_ptr;
+    PictureControlSet            *picture_control_set_ptr;
 
     // Config
     SequenceControlSet_t           *sequence_control_set_ptr;
@@ -69,7 +69,7 @@ void* PacketizationKernel(void *input_ptr)
     EbObjectWrapper_t              *output_stream_wrapper_ptr;
     EbBufferHeaderType             *output_stream_ptr;
     EbObjectWrapper_t              *rateControlTasksWrapperPtr;
-    RateControlTasks_t             *rateControlTasksPtr;
+    RateControlTasks             *rateControlTasksPtr;
     
     // Queue variables
     int32_t                         queueEntryIndex;
@@ -86,7 +86,7 @@ void* PacketizationKernel(void *input_ptr)
             context_ptr->entropy_coding_input_fifo_ptr,
             &entropyCodingResultsWrapperPtr);
         entropyCodingResultsPtr = (EntropyCodingResults*)entropyCodingResultsWrapperPtr->object_ptr;
-        picture_control_set_ptr = (PictureControlSet_t*)entropyCodingResultsPtr->pictureControlSetWrapperPtr->object_ptr;
+        picture_control_set_ptr = (PictureControlSet*)entropyCodingResultsPtr->pictureControlSetWrapperPtr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
         encode_context_ptr = (EncodeContext*)sequence_control_set_ptr->encode_context_ptr;
 
@@ -122,7 +122,7 @@ void* PacketizationKernel(void *input_ptr)
         eb_get_empty_object(
             context_ptr->rate_control_tasks_output_fifo_ptr,
             &rateControlTasksWrapperPtr);
-        rateControlTasksPtr = (RateControlTasks_t*)rateControlTasksWrapperPtr->object_ptr;
+        rateControlTasksPtr = (RateControlTasks*)rateControlTasksWrapperPtr->object_ptr;
         rateControlTasksPtr->pictureControlSetWrapperPtr = picture_control_set_ptr->picture_parent_control_set_wrapper_ptr;
         rateControlTasksPtr->taskType = RC_PACKETIZATION_FEEDBACK_RESULT;
 
@@ -186,7 +186,7 @@ void* PacketizationKernel(void *input_ptr)
         picture_control_set_ptr->parent_pcs_ptr->total_num_bits = output_stream_ptr->n_filled_len << 3;
         queueEntryPtr->av1FrameType = picture_control_set_ptr->parent_pcs_ptr->av1FrameType;
         queueEntryPtr->poc = picture_control_set_ptr->picture_number;
-        memcpy(&queueEntryPtr->av1RefSignal, &picture_control_set_ptr->parent_pcs_ptr->av1RefSignal, sizeof(Av1RpsNode_t));
+        memcpy(&queueEntryPtr->av1RefSignal, &picture_control_set_ptr->parent_pcs_ptr->av1RefSignal, sizeof(Av1RpsNode));
 
         queueEntryPtr->slice_type = picture_control_set_ptr->slice_type;
         queueEntryPtr->refPOCList0 = picture_control_set_ptr->parent_pcs_ptr->ref_pic_poc_array[REF_LIST_0];

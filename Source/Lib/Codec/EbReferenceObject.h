@@ -10,7 +10,7 @@
 #include "EbDefinitions.h"
 #include "EbAdaptiveMotionVectorPrediction.h"
 
-typedef struct EbReferenceObject_s {
+typedef struct EbReferenceObject {
     EbPictureBufferDesc          *referencePicture;
     EbPictureBufferDesc          *referencePicture16bit;
     EbPictureBufferDesc          *refDenSrcPicture;
@@ -40,13 +40,13 @@ typedef struct EbReferenceObject_s {
 #if FAST_SG
     int8_t                          sg_frame_ep;
 #endif
-} EbReferenceObject_t;
+} EbReferenceObject;
 
-typedef struct EbReferenceObjectDescInitData_s {
-    EbPictureBufferDescInitData_t   referencePictureDescInitData;
-} EbReferenceObjectDescInitData_t;
+typedef struct EbReferenceObjectDescInitData {
+    EbPictureBufferDescInitData   referencePictureDescInitData;
+} EbReferenceObjectDescInitData;
 
-typedef struct EbPaReferenceObject_s {
+typedef struct EbPaReferenceObject {
     EbPictureBufferDesc          *inputPaddedPicturePtr;
     EbPictureBufferDesc          *quarterDecimatedPicturePtr;
     EbPictureBufferDesc          *sixteenthDecimatedPicturePtr;
@@ -54,15 +54,15 @@ typedef struct EbPaReferenceObject_s {
     uint8_t                         yMean[MAX_NUMBER_OF_TREEBLOCKS_PER_PICTURE];
     EB_SLICE                        slice_type;
     uint32_t                        dependentPicturesCount; //number of pic using this reference frame
-    PictureParentControlSet_t      *pPcsPtr;
+    PictureParentControlSet      *pPcsPtr;
 
-} EbPaReferenceObject_t;
+} EbPaReferenceObject;
 
-typedef struct EbPaReferenceObjectDescInitData_s {
-    EbPictureBufferDescInitData_t   referencePictureDescInitData;
-    EbPictureBufferDescInitData_t   quarterPictureDescInitData;
-    EbPictureBufferDescInitData_t   sixteenthPictureDescInitData;
-} EbPaReferenceObjectDescInitData_t;
+typedef struct EbPaReferenceObjectDescInitData {
+    EbPictureBufferDescInitData   referencePictureDescInitData;
+    EbPictureBufferDescInitData   quarterPictureDescInitData;
+    EbPictureBufferDescInitData   sixteenthPictureDescInitData;
+} EbPaReferenceObjectDescInitData;
 
 /**************************************
  * Extern Function Declarations

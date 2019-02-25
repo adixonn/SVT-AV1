@@ -2246,7 +2246,7 @@ static void PU_HalfPelRefinement(
 void HalfPelSearch_LCU(
     SequenceControlSet_t    *sequence_control_set_ptr,             // input parameter, Sequence control set Ptr
 #if DISABLE_NSQ_FOR_NON_REF || DISABLE_NSQ
-    PictureParentControlSet_t *picture_control_set_ptr,
+    PictureParentControlSet *picture_control_set_ptr,
 #endif
     MeContext             *context_ptr,                        // input/output parameter, ME context Ptr, used to get/update ME results
 #if M0_SSD_HALF_QUARTER_PEL_BIPRED_SEARCH
@@ -4114,7 +4114,7 @@ static void QuarterPelSearch_LCU(
 }
 #endif
 void HmeOneQuadrantLevel0(
-    PictureParentControlSet_t   *picture_control_set_ptr,
+    PictureParentControlSet   *picture_control_set_ptr,
     MeContext             *context_ptr,                        // input/output parameter, ME context Ptr, used to get/update ME results
     int16_t                   origin_x,                           // input parameter, SB position in the horizontal direction- sixteenth resolution
     int16_t                   origin_y,                           // input parameter, SB position in the vertical direction- sixteenth resolution
@@ -4304,7 +4304,7 @@ void HmeOneQuadrantLevel0(
 
 
 void HmeLevel0(
-    PictureParentControlSet_t   *picture_control_set_ptr,
+    PictureParentControlSet   *picture_control_set_ptr,
     MeContext             *context_ptr,                        // input/output parameter, ME context Ptr, used to get/update ME results
     int16_t                   origin_x,                           // input parameter, SB position in the horizontal direction- sixteenth resolution
     int16_t                   origin_y,                           // input parameter, SB position in the vertical direction- sixteenth resolution
@@ -4625,7 +4625,7 @@ void HmeLevel1(
 }
 
 void HmeLevel2(
-    PictureParentControlSet_t   *picture_control_set_ptr,            // input parameter, Picture control set Ptr
+    PictureParentControlSet   *picture_control_set_ptr,            // input parameter, Picture control set Ptr
     MeContext             *context_ptr,                        // input/output parameter, ME context Ptr, used to get/update ME results
     int16_t                   origin_x,                           // input parameter, SB position in the horizontal direction
     int16_t                   origin_y,                           // input parameter, SB position in the vertical direction
@@ -5266,7 +5266,7 @@ EbErrorType  BiPredictionSearch(
     uint32_t                        activeRefPicSecondLisNum,
     uint8_t                        *totalMeCandidateIndex,
     EbAsm                        asm_type,
-    PictureParentControlSet_t   *picture_control_set_ptr)
+    PictureParentControlSet   *picture_control_set_ptr)
 {
     EbErrorType                 return_error = EB_ErrorNone;
 
@@ -5551,7 +5551,7 @@ EbErrorType CheckZeroZeroCenter(
 
 EbErrorType     suPelEnable(
     MeContext                 *context_ptr,
-    PictureParentControlSet_t   *picture_control_set_ptr,
+    PictureParentControlSet   *picture_control_set_ptr,
     uint32_t listIndex,
     uint32_t refPicIndex,
     EbBool *enableHalfPel32x32,
@@ -6147,7 +6147,7 @@ static void hme_mv_center_check(
 *   performs ME (LCU)
 *******************************************/
 EbErrorType motion_estimate_lcu(
-    PictureParentControlSet_t   *picture_control_set_ptr,  // input parameter, Picture Control Set Ptr
+    PictureParentControlSet   *picture_control_set_ptr,  // input parameter, Picture Control Set Ptr
     uint32_t                       sb_index,              // input parameter, SB Index
     uint32_t                       sb_origin_x,            // input parameter, SB Origin X
     uint32_t                       sb_origin_y,            // input parameter, SB Origin X
@@ -6206,7 +6206,7 @@ EbErrorType motion_estimate_lcu(
     uint32_t                  listIndex;
     uint8_t                   candidateIndex = 0;
     uint8_t                   totalMeCandidateIndex = 0;
-    EbPaReferenceObject_t  *referenceObject;  // input parameter, reference Object Ptr
+    EbPaReferenceObject  *referenceObject;  // input parameter, reference Object Ptr
 
     EbPictureBufferDesc  *refPicPtr;
     EbPictureBufferDesc  *quarterRefPicPtr;
@@ -6273,12 +6273,12 @@ EbErrorType motion_estimate_lcu(
 #else
     numOfListToSearch = (picture_control_set_ptr->slice_type == P_SLICE) || (picture_control_set_ptr->temporal_layer_index == 0) ? (uint32_t)REF_LIST_0 : (uint32_t)REF_LIST_1;
 #endif
-    referenceObject = (EbPaReferenceObject_t*)picture_control_set_ptr->ref_pa_pic_ptr_array[0]->object_ptr;
+    referenceObject = (EbPaReferenceObject*)picture_control_set_ptr->ref_pa_pic_ptr_array[0]->object_ptr;
     ref0Poc = picture_control_set_ptr->ref_pic_poc_array[0];
 
     if (numOfListToSearch) {
 
-        referenceObject = (EbPaReferenceObject_t*)picture_control_set_ptr->ref_pa_pic_ptr_array[1]->object_ptr;
+        referenceObject = (EbPaReferenceObject*)picture_control_set_ptr->ref_pa_pic_ptr_array[1]->object_ptr;
         ref1Poc = picture_control_set_ptr->ref_pic_poc_array[1];
     }
 
@@ -6289,7 +6289,7 @@ EbErrorType motion_estimate_lcu(
         // Ref Picture Loop
         {
 
-            referenceObject = (EbPaReferenceObject_t*)picture_control_set_ptr->ref_pa_pic_ptr_array[listIndex]->object_ptr;
+            referenceObject = (EbPaReferenceObject*)picture_control_set_ptr->ref_pa_pic_ptr_array[listIndex]->object_ptr;
             refPicPtr = (EbPictureBufferDesc*)referenceObject->inputPaddedPicturePtr;
             quarterRefPicPtr = (EbPictureBufferDesc*)referenceObject->quarterDecimatedPicturePtr;
             sixteenthRefPicPtr = (EbPictureBufferDesc*)referenceObject->sixteenthDecimatedPicturePtr;
@@ -7296,9 +7296,9 @@ uint64_t SixteenthDecimatedSearch(
 *   returns true is the SB has a high spatial & temporal complexity
 *******************************************/
 EbBool IsComplexLcu(
-    PictureParentControlSet_t    *previousParentPcs,
-    PictureParentControlSet_t    *currentParentPcs,
-    PictureParentControlSet_t    *plusOneParentPcs,
+    PictureParentControlSet    *previousParentPcs,
+    PictureParentControlSet    *currentParentPcs,
+    PictureParentControlSet    *plusOneParentPcs,
     uint32_t pictureWidthInLcus,
     uint32_t lcuAdrr,
     uint32_t sb_origin_x,
@@ -7519,7 +7519,7 @@ void InjectIntraCandidatesBasedOnBestModeIslice(
 }
 
 void InjectIntraCandidatesBasedOnBestMode(
-    PictureParentControlSet_t   *picture_control_set_ptr,
+    PictureParentControlSet   *picture_control_set_ptr,
     OisCandidate              *OisCuPtr,
     uint32_t                        *stage1SadArray,
     uint8_t                        temporal_layer_index,
@@ -7850,7 +7850,7 @@ EbErrorType SortOisCandidateOpenLoop(
 }
 
 EbErrorType SortIntraModesOpenLoop(
-    PictureParentControlSet_t   *picture_control_set_ptr,          // input parameter, pointer to the current lcu
+    PictureParentControlSet   *picture_control_set_ptr,          // input parameter, pointer to the current lcu
     uint32_t                       sb_index,                      // input parameter, lcu Index
     uint32_t                       cu_index,                       // input parameter, cu index
     uint32_t                       sadDistortion,                 // input parameter, SAD
@@ -7945,7 +7945,7 @@ uint32_t update_neighbor_dc_intra_pred(
 }
 
 EbErrorType OpenLoopIntraDC(
-    PictureParentControlSet_t   *picture_control_set_ptr,
+    PictureParentControlSet   *picture_control_set_ptr,
     uint32_t                       sb_index,
     MotionEstimationContext   *context_ptr,
     EbPictureBufferDesc       *input_ptr,
@@ -8016,7 +8016,7 @@ EbErrorType OpenLoopIntraDC(
 }
 
 uint8_t GetNumOfIntraModesFromOisPoint(
-    PictureParentControlSet_t   *picture_control_set_ptr,
+    PictureParentControlSet   *picture_control_set_ptr,
     uint32_t                       meSad,
     uint32_t                       oisDcSad
 )
@@ -8041,7 +8041,7 @@ uint8_t GetNumOfIntraModesFromOisPoint(
 
 
 EbErrorType open_loop_intra_search_lcu(
-    PictureParentControlSet_t   *picture_control_set_ptr,
+    PictureParentControlSet   *picture_control_set_ptr,
     uint32_t                       sb_index,
     MotionEstimationContext   *context_ptr,
     EbPictureBufferDesc       *input_ptr,
@@ -8063,7 +8063,7 @@ EbErrorType open_loop_intra_search_lcu(
     uint32_t                     intraCandidateIndex;
     uint32_t                   bestMode = EB_INTRA_PLANAR;
 
-    SbParams_t             *sb_params = &sequence_control_set_ptr->sb_params_array[sb_index];
+    SbParams             *sb_params = &sequence_control_set_ptr->sb_params_array[sb_index];
 
 
     OisCu32Cu16Results            *oisCu32Cu16ResultsPtr = picture_control_set_ptr->ois_cu32_cu16_results[sb_index];
