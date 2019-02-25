@@ -124,7 +124,8 @@ extern "C" {
         const MacroblockdPlane *const plane_ptr,
         const uint32_t mi_row, const uint32_t mi_col);
 
-    typedef struct LoopFilterWorkerData {
+    typedef struct LoopFilterWorkerData 
+    {
         EbPictureBufferDesc_t *frame_buffer;//reconpicture,
         //Yv12BufferConfig *frame_buffer;
         PictureControlSet_t *pcsPtr;

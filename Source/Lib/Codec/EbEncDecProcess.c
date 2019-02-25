@@ -25,19 +25,19 @@
 #include "grainSynthesis.h"
 
 void av1_cdef_search(
-    EncDecContext_t                *context_ptr,
+    EncDecContext                *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
     PictureControlSet_t            *picture_control_set_ptr
 );
 
 void av1_cdef_frame(
-    EncDecContext_t                *context_ptr,
+    EncDecContext                *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
     PictureControlSet_t            *pCs
 );
 
 void av1_cdef_search16bit(
-    EncDecContext_t                *context_ptr,
+    EncDecContext                *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
     PictureControlSet_t            *picture_control_set_ptr
 );
@@ -45,7 +45,7 @@ void av1_cdef_frame16bit(
 #if FILT_PROC
     uint8_t is16bit,
 #else
-    EncDecContext_t                *context_ptr,
+    EncDecContext                *context_ptr,
 #endif
     SequenceControlSet_t           *sequence_control_set_ptr,
     PictureControlSet_t            *pCs
@@ -82,7 +82,7 @@ const int8_t  encMaxDeltaQpTab[4][MAX_TEMPORAL_LAYERS] = {
  * Enc Dec Context Constructor
  ******************************************************/
 EbErrorType enc_dec_context_ctor(
-    EncDecContext_t        **context_dbl_ptr,
+    EncDecContext        **context_dbl_ptr,
     EbFifo_t                *mode_decision_configuration_input_fifo_ptr,
     EbFifo_t                *packetization_output_fifo_ptr,
     EbFifo_t                *feedback_fifo_ptr,
@@ -94,8 +94,8 @@ EbErrorType enc_dec_context_ctor(
     (void)max_input_luma_width;
     (void)max_input_luma_height;
     EbErrorType return_error = EB_ErrorNone;
-    EncDecContext_t *context_ptr;
-    EB_MALLOC(EncDecContext_t*, context_ptr, sizeof(EncDecContext_t), EB_N_PTR);
+    EncDecContext *context_ptr;
+    EB_MALLOC(EncDecContext*, context_ptr, sizeof(EncDecContext), EB_N_PTR);
     *context_dbl_ptr = context_ptr;
 
     context_ptr->is16bit = is16bit;
@@ -307,7 +307,7 @@ static void ResetEncodePassNeighborArrays(PictureControlSet_t *picture_control_s
  * Reset Coding Loop
  **************************************************/
 static void ResetEncDec(
-    EncDecContext_t         *context_ptr,
+    EncDecContext         *context_ptr,
     PictureControlSet_t     *picture_control_set_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr,
     uint32_t                   segment_index)
@@ -409,7 +409,7 @@ static void ResetEncDec(
  * EncDec Configure LCU
  ******************************************************/
 static void EncDecConfigureLcu(
-    EncDecContext_t         *context_ptr,
+    EncDecContext         *context_ptr,
     LargestCodingUnit     *sb_ptr,
     PictureControlSet_t     *picture_control_set_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr,
@@ -1270,7 +1270,7 @@ void CopyStatisticsToRefObject(
 
 EbErrorType qpm_derive_weights_min_and_max(
     PictureControlSet_t                    *picture_control_set_ptr,
-    EncDecContext_t                        *context_ptr)
+    EncDecContext                        *context_ptr)
 {
     EbErrorType                    return_error = EB_ErrorNone;
     uint32_t cu_depth;
@@ -1384,7 +1384,7 @@ void move_cu_data(
 void* enc_dec_kernel(void *input_ptr)
 {
     // Context & SCS & PCS
-    EncDecContext_t                         *context_ptr = (EncDecContext_t*)input_ptr;
+    EncDecContext                         *context_ptr = (EncDecContext*)input_ptr;
     PictureControlSet_t                     *picture_control_set_ptr;
     SequenceControlSet_t                    *sequence_control_set_ptr;
 
@@ -1394,7 +1394,7 @@ void* enc_dec_kernel(void *input_ptr)
 
     // Output
     EbObjectWrapper_t                       *encDecResultsWrapperPtr;
-    EncDecResults_t                         *encDecResultsPtr;
+    EncDecResults                         *encDecResultsPtr;
 #if ! FILT_PROC
     EbObjectWrapper_t                       *pictureDemuxResultsWrapperPtr;
     PictureDemuxResults_t                   *pictureDemuxResultsPtr;
@@ -1983,7 +1983,7 @@ void* enc_dec_kernel(void *input_ptr)
             eb_get_empty_object(
                 context_ptr->enc_dec_output_fifo_ptr,
                 &encDecResultsWrapperPtr);
-            encDecResultsPtr = (EncDecResults_t*)encDecResultsWrapperPtr->object_ptr;
+            encDecResultsPtr = (EncDecResults*)encDecResultsWrapperPtr->object_ptr;
             encDecResultsPtr->pictureControlSetWrapperPtr = encDecTasksPtr->pictureControlSetWrapperPtr;
             //CHKN these are not needed for DLF
             encDecResultsPtr->completedLcuRowIndexStart = 0;
@@ -2002,7 +2002,7 @@ void* enc_dec_kernel(void *input_ptr)
                 eb_get_empty_object(
                     context_ptr->enc_dec_output_fifo_ptr,
                     &encDecResultsWrapperPtr);
-                encDecResultsPtr = (EncDecResults_t*)encDecResultsWrapperPtr->object_ptr;
+                encDecResultsPtr = (EncDecResults*)encDecResultsWrapperPtr->object_ptr;
                 encDecResultsPtr->pictureControlSetWrapperPtr = encDecTasksPtr->pictureControlSetWrapperPtr;
                 encDecResultsPtr->completedLcuRowIndexStart = lcuRowIndexStart;
                 encDecResultsPtr->completedLcuRowCount = lcuRowIndexCount;
@@ -2018,7 +2018,7 @@ void* enc_dec_kernel(void *input_ptr)
             eb_get_empty_object(
                 context_ptr->enc_dec_output_fifo_ptr,
                 &encDecResultsWrapperPtr);
-            encDecResultsPtr = (EncDecResults_t*)encDecResultsWrapperPtr->object_ptr;
+            encDecResultsPtr = (EncDecResults*)encDecResultsWrapperPtr->object_ptr;
             encDecResultsPtr->pictureControlSetWrapperPtr = encDecTasksPtr->pictureControlSetWrapperPtr;
             encDecResultsPtr->completedLcuRowIndexStart = 0;
             encDecResultsPtr->completedLcuRowCount = ((sequence_control_set_ptr->luma_height + sequence_control_set_ptr->sb_size_pix - 1) >> lcuSizeLog2);

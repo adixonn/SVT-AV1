@@ -924,12 +924,12 @@ static const uint8_t quantizer_to_qindex[] = {
 #define MAX_Q_INDEX 255
 #define MIN_Q_INDEX 0
 
-extern int16_t av1_ac_quant_Q3(int32_t qindex, int32_t delta, aom_bit_depth_t bit_depth);
+extern int16_t av1_ac_quant_Q3(int32_t qindex, int32_t delta, AomBitDepth bit_depth);
 // These functions use formulaic calculations to make playing with the
 // quantizer tables easier. If necessary they can be replaced by lookup
 // tables if and when things settle down in the experimental bitstream
 
-double av1_convert_qindex_to_q(int32_t qindex, aom_bit_depth_t bit_depth) {
+double av1_convert_qindex_to_q(int32_t qindex, AomBitDepth bit_depth) {
     // Convert the index to a real Q value (scaled down to match old Q values)
     switch (bit_depth) {
     case AOM_BITS_8: return av1_ac_quant_Q3(qindex, 0, bit_depth) / 4.0;
@@ -941,7 +941,7 @@ double av1_convert_qindex_to_q(int32_t qindex, aom_bit_depth_t bit_depth) {
     }
 }
 int32_t av1_compute_qdelta(double qstart, double qtarget,
-    aom_bit_depth_t bit_depth) {
+    AomBitDepth bit_depth) {
     int32_t start_index = MAX_Q_INDEX;
     int32_t target_index = MAX_Q_INDEX;
     int32_t i;
@@ -1114,13 +1114,13 @@ void* rate_control_kernel(void *input_ptr)
                 if (sequence_control_set_ptr->static_config.enable_qp_scaling_flag && picture_control_set_ptr->parent_pcs_ptr->qp_on_the_fly == EB_FALSE) {
 #if NEW_QPS
                     const int32_t qindex = quantizer_to_qindex[(uint8_t)sequence_control_set_ptr->qp];
-                    const double q_val = av1_convert_qindex_to_q(qindex, (aom_bit_depth_t)sequence_control_set_ptr->static_config.encoder_bit_depth);
+                    const double q_val = av1_convert_qindex_to_q(qindex, (AomBitDepth)sequence_control_set_ptr->static_config.encoder_bit_depth);
                     if (picture_control_set_ptr->slice_type == I_SLICE) {
 
                         const int32_t delta_qindex = av1_compute_qdelta(
                             q_val,
                             q_val * 0.25,
-                            (aom_bit_depth_t)sequence_control_set_ptr->static_config.encoder_bit_depth);
+                            (AomBitDepth)sequence_control_set_ptr->static_config.encoder_bit_depth);
                         picture_control_set_ptr->parent_pcs_ptr->base_qindex =
                             (uint8_t)CLIP3(
                             (int32_t)quantizer_to_qindex[sequence_control_set_ptr->static_config.min_qp_allowed],
@@ -1146,7 +1146,7 @@ void* rate_control_kernel(void *input_ptr)
 #else
                             q_val * delta_rate_new[picture_control_set_ptr->parent_pcs_ptr->temporal_layer_index],
 #endif     
-                            (aom_bit_depth_t)sequence_control_set_ptr->static_config.encoder_bit_depth);
+                            (AomBitDepth)sequence_control_set_ptr->static_config.encoder_bit_depth);
 
                         picture_control_set_ptr->parent_pcs_ptr->base_qindex =
                             (uint8_t)CLIP3(

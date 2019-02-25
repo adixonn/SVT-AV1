@@ -263,7 +263,7 @@ extern "C" {
         int32_t h_start, h_end, v_start, v_end;
     } RestorationTileLimits;
 
-    extern const sgr_params_type sgr_params[SGRPROJ_PARAMS];
+    extern const SgrParamsType sgr_params[SGRPROJ_PARAMS];
     extern int32_t sgrproj_mtable[SGRPROJ_PARAMS][2];
     extern const int32_t x_by_xplus1[256];
     extern const int32_t one_by_x[MAX_NELEM];
@@ -272,7 +272,7 @@ extern "C" {
     //                                  int32_t is_uv);
     void extend_frame(uint8_t *data, int32_t width, int32_t height, int32_t stride,
         int32_t border_horz, int32_t border_vert, int32_t highbd);
-    void decode_xq(const int32_t *xqd, int32_t *xq, const sgr_params_type *params);
+    void decode_xq(const int32_t *xqd, int32_t *xq, const SgrParamsType *params);
 
     // Filter a single loop restoration unit.
     //

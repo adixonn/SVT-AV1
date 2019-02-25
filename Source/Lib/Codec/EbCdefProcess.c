@@ -42,7 +42,7 @@ int32_t sb_all_skip(PictureControlSet_t   *picture_control_set_ptr, const Av1Com
 int32_t sb_compute_cdef_list(PictureControlSet_t   *picture_control_set_ptr, const Av1Common *const cm, int32_t mi_row, int32_t mi_col,
     cdef_list *dlist, block_size bs);
 void finish_cdef_search(
-    EncDecContext_t                *context_ptr,
+    EncDecContext                *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
     PictureControlSet_t            *picture_control_set_ptr
 #if FAST_CDEF
@@ -50,11 +50,11 @@ void finish_cdef_search(
 #endif
    );
 void av1_cdef_frame16bit(
-    EncDecContext_t                *context_ptr,
+    EncDecContext                *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
     PictureControlSet_t            *pCs);
 void av1_cdef_frame(
-    EncDecContext_t                *context_ptr,
+    EncDecContext                *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
     PictureControlSet_t            *pCs);
 void av1_loop_restoration_save_boundary_lines(const Yv12BufferConfig *frame, Av1Common *cm, int32_t after_cdef);
@@ -64,7 +64,7 @@ void av1_loop_restoration_save_boundary_lines(const Yv12BufferConfig *frame, Av1
  * Cdef Context Constructor
  ******************************************************/
 EbErrorType cdef_context_ctor(
-    CdefContext_t          **context_dbl_ptr,
+    CdefContext          **context_dbl_ptr,
     EbFifo_t                *cdef_input_fifo_ptr,
     EbFifo_t                *cdef_output_fifo_ptr ,
     EbBool                  is16bit,
@@ -76,8 +76,8 @@ EbErrorType cdef_context_ctor(
     (void)max_input_luma_height;
 
 
-    CdefContext_t *context_ptr;
-    EB_MALLOC(CdefContext_t*, context_ptr, sizeof(CdefContext_t), EB_N_PTR);
+    CdefContext *context_ptr;
+    EB_MALLOC(CdefContext*, context_ptr, sizeof(CdefContext), EB_N_PTR);
     *context_dbl_ptr = context_ptr;
 
     // Input/Output System Resource Manager FIFOs
@@ -449,17 +449,17 @@ void cdef_seg_search16bit(
 void* cdef_kernel(void *input_ptr)
 {
     // Context & SCS & PCS
-    CdefContext_t                            *context_ptr = (CdefContext_t*)input_ptr;
+    CdefContext                            *context_ptr = (CdefContext*)input_ptr;
     PictureControlSet_t                     *picture_control_set_ptr;
     SequenceControlSet_t                    *sequence_control_set_ptr;
 
     //// Input
     EbObjectWrapper_t                       *dlf_results_wrapper_ptr;
-    DlfResults_t                            *dlf_results_ptr;
+    DlfResults                            *dlf_results_ptr;
 
     //// Output
     EbObjectWrapper_t                       *cdef_results_wrapper_ptr;
-    CdefResults_t                           *cdef_results_ptr;
+    CdefResults                           *cdef_results_ptr;
 
     // SB Loop variables
 
@@ -471,7 +471,7 @@ void* cdef_kernel(void *input_ptr)
             context_ptr->cdef_input_fifo_ptr,
             &dlf_results_wrapper_ptr);
 
-        dlf_results_ptr = (DlfResults_t*)dlf_results_wrapper_ptr->object_ptr;
+        dlf_results_ptr = (DlfResults*)dlf_results_wrapper_ptr->object_ptr;
         picture_control_set_ptr = (PictureControlSet_t*)dlf_results_ptr->picture_control_set_wrapper_ptr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 

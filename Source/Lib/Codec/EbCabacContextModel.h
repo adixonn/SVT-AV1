@@ -889,7 +889,8 @@ extern "C" {
 #endif
 #define MV_LOW (-(1 << MV_IN_USE_BITS))
 
-    typedef struct {
+    typedef struct 
+    {
         aom_cdf_prob classes_cdf[CDF_SIZE(MV_CLASSES)];
         aom_cdf_prob class0_fp_cdf[CLASS0_SIZE][CDF_SIZE(MV_FP_SIZE)];
         aom_cdf_prob fp_cdf[CDF_SIZE(MV_FP_SIZE)];
@@ -900,7 +901,8 @@ extern "C" {
         aom_cdf_prob bits_cdf[MV_OFFSET_BITS][CDF_SIZE(2)];
     } nmv_component;
 
-    typedef struct {
+    typedef struct 
+    {
         aom_cdf_prob joints_cdf[CDF_SIZE(MV_JOINTS)];
         nmv_component comps[2];
     } nmv_context;
@@ -960,7 +962,8 @@ extern "C" {
 
 #define KF_MODE_CONTEXTS 5
 
-    typedef struct {
+    typedef struct 
+    {
         const int16_t *scan;
         const int16_t *iscan;
         const int16_t *neighbors;

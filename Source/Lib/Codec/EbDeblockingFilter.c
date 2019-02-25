@@ -605,7 +605,7 @@ static const int32_t mode_lf_lut[] = {
     1, 1, 1, 1, 1, 1, 0, 1  // INTER_COMPOUND_MODES (GLOBAL_GLOBALMV == 0)
 };
 
-static void update_sharpness(loop_filter_info_n *lfi, int32_t sharpness_lvl) {
+static void update_sharpness(LoopFilterInfo *lfi, int32_t sharpness_lvl) {
     int32_t lvl;
 
     // For each possible value for the loop filter fill out limits
@@ -627,7 +627,7 @@ static void update_sharpness(loop_filter_info_n *lfi, int32_t sharpness_lvl) {
 }
 static uint8_t get_filter_level(
     const PictureControlSet_t *pcsPtr,
-    const loop_filter_info_n *lfi_n,
+    const LoopFilterInfo *lfi_n,
     const int32_t dir_idx, int32_t plane,
     const MbModeInfo *mbmi) {
 
@@ -678,7 +678,7 @@ static uint8_t get_filter_level(
 
 void av1_loop_filter_init(PictureControlSet_t *pcsPtr) {
     //assert(MB_MODE_COUNT == n_elements(mode_lf_lut));
-    loop_filter_info_n *lfi = &pcsPtr->parent_pcs_ptr->lf_info;
+    LoopFilterInfo *lfi = &pcsPtr->parent_pcs_ptr->lf_info;
     struct loopfilter *lf = &pcsPtr->parent_pcs_ptr->lf;
     int32_t lvl;
 
@@ -703,7 +703,7 @@ void av1_loop_filter_frame_init(PictureControlSet_t *pcsPtr, int32_t plane_start
     // n_shift is the multiplier for lf_deltas
     // the multiplier is 1 for when filter_lvl is between 0 and 31;
     // 2 when filter_lvl is between 32 and 63
-    loop_filter_info_n *const lfi = &pcsPtr->parent_pcs_ptr->lf_info;
+    LoopFilterInfo *const lfi = &pcsPtr->parent_pcs_ptr->lf_info;
     struct loopfilter *const lf = &pcsPtr->parent_pcs_ptr->lf;
     // const struct segmentation *const seg = &pcsPtr->parent_pcs_ptr->seg;
 
@@ -1000,7 +1000,7 @@ static TxSize set_lpf_parameters(
             }
             // prepare common parameters
             if (params->filter_length) {
-                const loop_filter_thresh *const limits = pcsPtr->parent_pcs_ptr->lf_info.lfthr + level;
+                const LoopFilterThresh *const limits = pcsPtr->parent_pcs_ptr->lf_info.lfthr + level;
                 params->lim = limits->lim;
                 params->mblim = limits->mblim;
                 params->hev_thr = limits->hev_thr;
@@ -1388,7 +1388,7 @@ void av1_loop_filter_frame(
     }
 
 }
-extern int16_t av1_ac_quant_Q3(int32_t qindex, int32_t delta, aom_bit_depth_t bit_depth);
+extern int16_t av1_ac_quant_Q3(int32_t qindex, int32_t delta, AomBitDepth bit_depth);
 
 void EbCopyBuffer(
     EbPictureBufferDesc_t  *srcBuffer,
@@ -1880,9 +1880,9 @@ static int32_t search_filter_level(
 
 void av1_pick_filter_level(
 #if FILT_PROC
-    DlfContext_t            *context_ptr,
+    DlfContext            *context_ptr,
 #else
-    EncDecContext_t         *context_ptr,
+    EncDecContext         *context_ptr,
 #endif
     EbPictureBufferDesc_t   *srcBuffer, // source input
     PictureControlSet_t     *pcsPtr,
@@ -1901,7 +1901,7 @@ void av1_pick_filter_level(
     else if (method >= LPF_PICK_FROM_Q) {
         const int32_t min_filter_level = 0;
         const int32_t max_filter_level = MAX_LOOP_FILTER;// av1_get_max_filter_level(cpi);
-        const int32_t q = av1_ac_quant_Q3(pcsPtr->parent_pcs_ptr->base_qindex, 0, (aom_bit_depth_t)scsPtr->static_config.encoder_bit_depth);
+        const int32_t q = av1_ac_quant_Q3(pcsPtr->parent_pcs_ptr->base_qindex, 0, (AomBitDepth)scsPtr->static_config.encoder_bit_depth);
         // These values were determined by linear fitting the result of the
         // searched level for 8 bit depth:
         // Keyframes: filt_guess = q * 0.06699 - 1.60817

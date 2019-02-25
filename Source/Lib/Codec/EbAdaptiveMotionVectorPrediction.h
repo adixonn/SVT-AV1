@@ -27,7 +27,8 @@ extern "C" {
     } TmvpPos;
 
     // TMVP items corresponding to one LCU
-    typedef struct TmvpUnit {
+    typedef struct TmvpUnit 
+    {
         Mv_t              mv[MAX_NUM_OF_REF_PIC_LIST][MAX_TMVP_CAND_PER_LCU];
         uint64_t            refPicPOC[MAX_NUM_OF_REF_PIC_LIST][MAX_TMVP_CAND_PER_LCU];
         EbPredDirection  prediction_direction[MAX_TMVP_CAND_PER_LCU];

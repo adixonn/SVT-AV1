@@ -14189,7 +14189,7 @@ extern "C" {
         // Whether to use previous frame's motion vectors for prediction.
         int32_t                               allow_ref_frame_mvs;
         int32_t                               switchable_motion_mode;
-        loop_filter_info_n                    lf_info;
+        LoopFilterInfo                    lf_info;
 
         // Flag signaling how frame contexts should be updated at the end of
         // a frame decode

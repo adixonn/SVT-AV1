@@ -14,16 +14,16 @@ extern "C" {
     /**************************************
      * Process Results
      **************************************/
-    typedef struct EncDecResults_s
+    typedef struct EncDecResults
     {
         EbObjectWrapper_t      *pictureControlSetWrapperPtr;
         uint32_t                  completedLcuRowIndexStart;
         uint32_t                  completedLcuRowCount;
 
-    } EncDecResults_t;
+    } EncDecResults;
 
 #if FILT_PROC
-    typedef struct DlfResults_s
+    typedef struct DlfResults
     {
         EbObjectWrapper_t      *picture_control_set_wrapper_ptr;
       
@@ -31,8 +31,9 @@ extern "C" {
         uint32_t          segment_index;
 #endif
 
-    } DlfResults_t;
-    typedef struct CdefResults_s
+    } DlfResults;
+
+    typedef struct CdefResults
     {
         EbObjectWrapper_t      *picture_control_set_wrapper_ptr;
        
@@ -40,24 +41,24 @@ extern "C" {
         uint32_t          segment_index;
 #endif
 
-    } CdefResults_t;
-    typedef struct RestResults_s
+    } CdefResults;
+
+    typedef struct RestResults
     {
         EbObjectWrapper_t      *picture_control_set_wrapper_ptr;
         uint32_t                  completed_lcu_row_index_start;
         uint32_t                  completed_lcu_row_count;
 
-    } RestResults_t;
+    } RestResults;
 #endif
-    typedef struct EncDecResultsInitData_s
-    {
+    typedef struct EncDecResultsInitData {
         uint32_t         junk;
-    } EncDecResultsInitData_t;
+    } EncDecResultsInitData;
 
     /**************************************
      * Extern Function Declarations
      **************************************/
-    extern EbErrorType EncDecResultsCtor(
+    extern EbErrorType enc_dec_results_ctor(
         EbPtr *object_dbl_ptr,
         EbPtr object_init_data_ptr);
 

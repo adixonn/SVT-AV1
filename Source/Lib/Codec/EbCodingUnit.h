@@ -132,15 +132,18 @@ extern "C" {
     }
     struct PictureControlSet_s;
 
-    typedef struct MV {
+    typedef struct MV 
+    {
         int16_t row;
         int16_t col;
     } MV;
-    typedef union  IntMv {
+    typedef union  IntMv 
+    {
         uint32_t as_int;
         MV as_mv;
     } IntMv; /* facilitates faster equality tests and copies */
-    typedef struct CandidateMv {
+    typedef struct CandidateMv 
+    {
         IntMv this_mv;
         IntMv comp_mv;
         int32_t weight;
@@ -208,7 +211,8 @@ extern "C" {
     typedef struct ModeInfo {
         MbModeInfo mbmi;
     } ModeInfo;
-    typedef struct TileInfo {
+    typedef struct TileInfo 
+    {
         int32_t mi_row_start, mi_row_end;
         int32_t mi_col_start, mi_col_end;
         int32_t tg_horz_boundary;
@@ -217,7 +221,8 @@ extern "C" {
         int32_t tile_col;
 #endif
     } TileInfo;
-    typedef struct MacroBlockD {
+    typedef struct MacroBlockD 
+    {
         // block dimension in the unit of mode_info.
         uint8_t n8_w, n8_h;
         uint8_t n4_w, n4_h;  // for warped motion
@@ -237,7 +242,8 @@ extern "C" {
         int32_t mb_to_bottom_edge;
         uint8_t neighbors_ref_counts[TOTAL_REFS_PER_FRAME];
     } MacroBlockD;
-    typedef struct Macroblock {
+    typedef struct Macroblock 
+    {
         int32_t rdmult;
         int32_t switchable_restore_cost[RESTORE_SWITCHABLE_TYPES];
         int32_t wiener_restore_cost[2];
@@ -304,7 +310,8 @@ extern "C" {
         uint8_t                    *neigh_top_recon[3];
         uint32_t                    best_d1_blk;
     } CodingUnit;
-    typedef struct OisCandidate {
+    typedef struct OisCandidate 
+    {
         union {
             struct {
                 unsigned distortion : 20;
@@ -333,7 +340,8 @@ extern "C" {
         OisCandidate*    sorted_ois_candidate[64];
     } OisCu8Results;
 
-    typedef struct QpmLcuResults {
+    typedef struct QpmLcuResults 
+    {
         uint8_t  cu_qp;
         uint8_t  cu_intra_qp;
         uint8_t  cu_inter_qp;
@@ -341,12 +349,14 @@ extern "C" {
         int8_t   inner_sb_cu_delta_qp;
     } QpmLcuResults; // to be cleaned up
 
-    typedef struct EdgeLcuResults {
+    typedef struct EdgeLcuResults 
+    {
         uint8_t  edge_block_num;
         uint8_t  isolated_high_intensity_sb; // to be cleanedup
     } EdgeLcuResults;
 
-    typedef struct LargestCodingUnit {
+    typedef struct LargestCodingUnit 
+    {
         struct PictureControlSet_s     *picture_control_set_ptr;
         CodingUnit                   *final_cu_arr;
         uint32_t                        tot_final_cu;

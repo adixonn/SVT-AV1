@@ -513,7 +513,7 @@ void* entropy_coding_kernel(void *input_ptr)
 
     // Input
     EbObjectWrapper_t                       *encDecResultsWrapperPtr;
-    EncDecResults_t                         *encDecResultsPtr;
+    EncDecResults                         *encDecResultsPtr;
 
     // Output
     EbObjectWrapper_t                       *entropyCodingResultsWrapperPtr;
@@ -538,7 +538,7 @@ void* entropy_coding_kernel(void *input_ptr)
         eb_get_full_object(
             context_ptr->enc_dec_input_fifo_ptr,
             &encDecResultsWrapperPtr);
-        encDecResultsPtr = (EncDecResults_t*)encDecResultsWrapperPtr->object_ptr;
+        encDecResultsPtr = (EncDecResults*)encDecResultsWrapperPtr->object_ptr;
         picture_control_set_ptr = (PictureControlSet_t*)encDecResultsPtr->pictureControlSetWrapperPtr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
         lastLcuFlag = EB_FALSE;

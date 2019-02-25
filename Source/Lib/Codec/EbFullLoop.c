@@ -1360,7 +1360,7 @@ void product_full_loop_tx_search(
 #if ENCDEC_TX_SEARCH
 void encode_pass_tx_search(
     PictureControlSet_t            *picture_control_set_ptr,
-    EncDecContext_t                *context_ptr,
+    EncDecContext                *context_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                       cb_qp,
     EbPictureBufferDesc_t          *coeffSamplesTB,          
@@ -1563,7 +1563,7 @@ void encode_pass_tx_search(
 
 void encode_pass_tx_search_hbd(
     PictureControlSet_t            *picture_control_set_ptr,
-    EncDecContext_t                *context_ptr,
+    EncDecContext                *context_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                       cb_qp,
     EbPictureBufferDesc_t          *coeffSamplesTB,

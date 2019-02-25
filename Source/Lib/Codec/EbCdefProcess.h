@@ -18,17 +18,17 @@
 /**************************************
  * Cdef Context
  **************************************/
-typedef struct CdefContext_s
+typedef struct CdefContext
 {
     EbFifo_t                       *cdef_input_fifo_ptr;
     EbFifo_t                       *cdef_output_fifo_ptr;
-} CdefContext_t;
+} CdefContext;
 
 /**************************************
  * Extern Function Declarations
  **************************************/
 extern EbErrorType cdef_context_ctor(
-    CdefContext_t **context_dbl_ptr,
+    CdefContext **context_dbl_ptr,
     EbFifo_t               *cdef_input_fifo_ptr,
     EbFifo_t               *cdef_output_fifo_ptr,
     EbBool                  is16bit,

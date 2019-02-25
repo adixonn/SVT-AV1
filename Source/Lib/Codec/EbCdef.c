@@ -27,7 +27,7 @@ static void copy_sb16_16(uint16_t *dst, int32_t dstride, const uint16_t *src,
     int32_t src_voffset, int32_t src_hoffset, int32_t sstride,
     int32_t vsize, int32_t hsize);
 
-extern int16_t av1_ac_quant_Q3(int32_t qindex, int32_t delta, aom_bit_depth_t bit_depth);
+extern int16_t av1_ac_quant_Q3(int32_t qindex, int32_t delta, AomBitDepth bit_depth);
 
 //-------memory stuff
 
@@ -474,7 +474,7 @@ static INLINE void copy_rect(uint16_t *dst, int32_t dstride, const uint16_t *src
 }
 
 void av1_cdef_frame(
-    EncDecContext_t                *context_ptr,
+    EncDecContext                *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
     PictureControlSet_t            *pCs
 )
@@ -814,7 +814,7 @@ void av1_cdef_frame(
 }
 
 void av1_cdef_frame16bit(
-    EncDecContext_t                *context_ptr,
+    EncDecContext                *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
     PictureControlSet_t            *pCs
 )
@@ -1505,7 +1505,7 @@ uint64_t compute_cdef_dist(uint16_t *dst, int32_t dstride, uint16_t *src,
 }
 #if CDEF_M
 void finish_cdef_search(
-    EncDecContext_t                *context_ptr,
+    EncDecContext                *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
     PictureControlSet_t            *picture_control_set_ptr
 #if FAST_CDEF
@@ -1556,7 +1556,7 @@ void finish_cdef_search(
     const int32_t num_planes = 3;
 
     quantizer =
-        av1_ac_quant_Q3(pPcs->base_qindex, 0, (aom_bit_depth_t)sequence_control_set_ptr->static_config.encoder_bit_depth) >> (sequence_control_set_ptr->static_config.encoder_bit_depth - 8);
+        av1_ac_quant_Q3(pPcs->base_qindex, 0, (AomBitDepth)sequence_control_set_ptr->static_config.encoder_bit_depth) >> (sequence_control_set_ptr->static_config.encoder_bit_depth - 8);
     lambda = .12 * quantizer * quantizer / 256.;
 
     mse[0] = (uint64_t(*)[64])malloc(sizeof(**mse) * nvfb * nhfb);
@@ -1701,7 +1701,7 @@ void finish_cdef_search(
 #endif
 
 void av1_cdef_search(
-    EncDecContext_t                *context_ptr,
+    EncDecContext                *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
     PictureControlSet_t            *picture_control_set_ptr
     //Yv12BufferConfig *frame,
@@ -1792,7 +1792,7 @@ void av1_cdef_search(
 
     quantizer =
         //CHKN av1_ac_quant_Q3(cm->base_qindex, 0, cm->bit_depth) >> (cm->bit_depth - 8);
-        av1_ac_quant_Q3(pPcs->base_qindex, 0, (aom_bit_depth_t)sequence_control_set_ptr->static_config.encoder_bit_depth) >> (sequence_control_set_ptr->static_config.encoder_bit_depth - 8);
+        av1_ac_quant_Q3(pPcs->base_qindex, 0, (AomBitDepth)sequence_control_set_ptr->static_config.encoder_bit_depth) >> (sequence_control_set_ptr->static_config.encoder_bit_depth - 8);
     lambda = .12 * quantizer * quantizer / 256.;
 
     //av1_setup_dst_planes(xd->plane, cm->seq_params.sb_size, frame, 0, 0, 0,    num_planes);
@@ -2086,7 +2086,7 @@ void av1_cdef_search(
 }
 
 void av1_cdef_search16bit(
-    EncDecContext_t                *context_ptr,
+    EncDecContext                *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
     PictureControlSet_t            *picture_control_set_ptr
     //Yv12BufferConfig *frame,
@@ -2179,7 +2179,7 @@ void av1_cdef_search16bit(
 
     quantizer =
         //CHKN av1_ac_quant_Q3(cm->base_qindex, 0, cm->bit_depth) >> (cm->bit_depth - 8);
-        av1_ac_quant_Q3(pPcs->base_qindex, 0, (aom_bit_depth_t)sequence_control_set_ptr->static_config.encoder_bit_depth) >> (sequence_control_set_ptr->static_config.encoder_bit_depth - 8);
+        av1_ac_quant_Q3(pPcs->base_qindex, 0, (AomBitDepth)sequence_control_set_ptr->static_config.encoder_bit_depth) >> (sequence_control_set_ptr->static_config.encoder_bit_depth - 8);
     lambda = .12 * quantizer * quantizer / 256.;
 
     //av1_setup_dst_planes(xd->plane, cm->seq_params.sb_size, frame, 0, 0, 0,    num_planes);

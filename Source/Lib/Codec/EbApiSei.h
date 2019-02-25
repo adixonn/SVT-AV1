@@ -19,7 +19,8 @@ extern "C" {
 
 // User defined structures for passing data from application to the library should be added here
 
-    typedef struct RegistedUserData {
+    typedef struct RegistedUserData 
+    {
 
         uint8_t   *userData;    // First byte is itu_t_t35_country_code.
                               // If itu_t_t35_country_code  ==  0xFF, second byte is itu_t_t35_country_code_extension_byte.
@@ -29,7 +30,8 @@ extern "C" {
     } RegistedUserData;
 
     // SEI structures
-    typedef struct AppHrdParameters {
+    typedef struct AppHrdParameters 
+    {
 
         EbBool                            nalHrdParametersPresentFlag;
         EbBool                            vclHrdParametersPresentFlag;
@@ -70,7 +72,8 @@ extern "C" {
 
     } AppHrdParameters;
 
-    typedef struct AppVideoUsabilityInfo {
+    typedef struct AppVideoUsabilityInfo 
+    {
 
         EbBool                    aspectRatioInfoPresentFlag;
         uint32_t                  aspectRatioIdc;
@@ -129,7 +132,8 @@ extern "C" {
     } AppVideoUsabilityInfo;
 
 
-    typedef struct AppPictureTimingSei {
+    typedef struct AppPictureTimingSei 
+    {
 
         uint32_t   picStruct;
         uint32_t   sourceScanType;
@@ -145,7 +149,8 @@ extern "C" {
 
     } AppPictureTimingSei;
 
-    typedef struct AppBufferingPeriodSei {
+    typedef struct AppBufferingPeriodSei 
+    {
 
         uint32_t  bpSeqParameterSetId;
         EbBool rapCpbParamsPresentFlag;
@@ -161,7 +166,8 @@ extern "C" {
     } AppBufferingPeriodSei;
 
 
-    typedef struct AppRecoveryPoint {
+    typedef struct AppRecoveryPoint 
+    {
 
         uint32_t  recoveryPocCnt;
         EbBool exactMatchingFlag;
@@ -171,7 +177,8 @@ extern "C" {
 
     // Below is an example of PanScanRectangle SEI data structure
     // Other SEI messages can have data structure in this format
-    typedef struct AppPanScanRectangleSei {
+    typedef struct AppPanScanRectangleSei 
+    {
 
         uint32_t      panScanRectId;
         EbBool     panScanRectCancelFlag;

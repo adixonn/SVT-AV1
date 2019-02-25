@@ -278,15 +278,15 @@ extern "C" {
 #define MIN_HIERARCHICAL_LEVEL         2
     static const uint32_t MiniGopOffset[4] = { 1, 3, 7, 31 };
 
-    typedef struct MiniGopStats_s
+    typedef struct MiniGopStats
     {
         uint32_t  hierarchical_levels;
         uint32_t  startIndex;
         uint32_t  endIndex;
         uint32_t  lenght;
 
-    } MiniGopStats_t;
-    extern const MiniGopStats_t* GetMiniGopStats(const uint32_t miniGopIndex);
+    } MiniGopStats;
+    extern const MiniGopStats* GetMiniGopStats(const uint32_t miniGopIndex);
     typedef enum MINI_GOP_INDEX {
         L6_INDEX = 0,
         L5_0_INDEX = 1,

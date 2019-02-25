@@ -441,7 +441,7 @@ EbLinkedListNode* split_eb_linked_list(EbLinkedListNode* input, EbLinkedListNode
     return llTruePtr;
 }
 
-static const MiniGopStats_t MiniGopStatsArray[] = {
+static const MiniGopStats MiniGopStatsArray[] = {
 
     //    HierarchicalLevels    StartIndex    EndIndex    Lenght    miniGopIndex
     { 5,  0, 31, 32 },    // 0
@@ -464,7 +464,7 @@ static const MiniGopStats_t MiniGopStatsArray[] = {
 /**************************************************************
 * Get Mini GOP Statistics
 **************************************************************/
-const MiniGopStats_t* GetMiniGopStats(const uint32_t miniGopIndex)
+const MiniGopStats* GetMiniGopStats(const uint32_t miniGopIndex)
 {
     return &MiniGopStatsArray[miniGopIndex];
 }

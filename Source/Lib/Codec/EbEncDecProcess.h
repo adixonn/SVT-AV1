@@ -25,7 +25,7 @@ extern "C" {
 
 #define PM_STRIDE   4
 
-    typedef struct EbPmCand_s
+    typedef struct EbPmCand
     {
         int16_t        tr_coeff[4 * 4];
         int16_t        qu_coeff[4 * 4];
@@ -33,12 +33,12 @@ extern "C" {
         uint8_t        masking_level;
         uint64_t       cost;
         uint32_t       nz_coeff;
-    } EbPmCand_t;
+    } EbPmCand;
 
     /**************************************
      * Enc Dec Context
      **************************************/
-    typedef struct EncDecContext_s
+    typedef struct EncDecContext
     {
         EbFifo_t                              *mode_decision_input_fifo_ptr;
         EbFifo_t                              *enc_dec_output_fifo_ptr;
@@ -117,7 +117,7 @@ extern "C" {
 #endif
         EB_TRANS_COEFF_SHAPE                   trans_coeff_shape_luma;
         EB_TRANS_COEFF_SHAPE                   trans_coeff_shape_chroma;
-        EbPmCand_t                             pm_cand_buffer[5];
+        EbPmCand                             pm_cand_buffer[5];
         uint16_t                               qp_index;
         uint64_t                               three_quad_energy;
 
@@ -141,13 +141,13 @@ extern "C" {
 #if CHROMA_BLIND
         EbBool                                 evaluate_cfl_ep; // 0: CFL is evaluated @ mode decision, 1: CFL is evaluated @ encode pass
 #endif
-    } EncDecContext_t;
+    } EncDecContext;
 
     /**************************************
      * Extern Function Declarations
      **************************************/
     extern EbErrorType enc_dec_context_ctor(
-        EncDecContext_t        **context_dbl_ptr,
+        EncDecContext        **context_dbl_ptr,
         EbFifo_t                *mode_decision_configuration_input_fifo_ptr,
         EbFifo_t                *packetization_output_fifo_ptr,
         EbFifo_t                *feedback_fifo_ptr,

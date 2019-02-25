@@ -407,7 +407,8 @@ static __inline void mem_put_le32(void *vmem, MEM_VALUE_T val) {
 //#endif  // AOM_PORTS_MEM_OPS_H_
 
 typedef uint16_t CONV_BUF_TYPE;
-typedef struct ConvolveParams {
+typedef struct ConvolveParams 
+{
     int32_t ref;
     int32_t do_average;
     CONV_BUF_TYPE *dst;
@@ -478,7 +479,8 @@ typedef enum ATTRIBUTE_PACKED
 }InterpFilter;
 
 
-typedef struct InterpFilterParams {
+typedef struct InterpFilterParams 
+{
     const int16_t *filter_ptr;
     uint16_t taps;
     uint16_t subpel_shifts;
@@ -758,7 +760,8 @@ typedef enum ATTRIBUTE_PACKED {
     EXT_TX_SET_TYPES
 } TxSetType;
 
-typedef struct txfm_param {
+typedef struct TxfmParam 
+{
     // for both forward and inverse transforms
     TxType tx_type;
     TxSize tx_size;
@@ -771,6 +774,7 @@ typedef struct txfm_param {
     // for inverse transforms only
     int32_t eob;
 } TxfmParam;
+
 #define IS_2D_TRANSFORM(tx_type) (tx_type < IDTX)
 #define EXT_TX_SIZES 4       // number of sizes that use extended transforms
 #define EXT_TX_SETS_INTER 4  // Sets of transform selections for INTER
@@ -1118,7 +1122,8 @@ MAX_NUM_TEMPORAL_LAYERS * MAX_NUM_SPATIAL_LAYERS
 static INLINE int32_t is_valid_seq_level_idx(uint8_t seq_level_idx) {
     return seq_level_idx < 24 || seq_level_idx == 31;
 }
-typedef struct BitstreamLevel {
+typedef struct BitstreamLevel 
+{
     uint8_t major;
     uint8_t minor;
 } BitstreamLevel;
@@ -1255,7 +1260,8 @@ static const TxSize txsize_sqr_up_map[TX_SIZES_ALL] = {
 };
 
 // above and left partition
-typedef struct PartitionContext {
+typedef struct PartitionContext 
+{
     PARTITION_CONTEXT above;
     PARTITION_CONTEXT left;
 }PartitionContext;
@@ -1437,16 +1443,17 @@ static const uint8_t mi_size_high_log2[BlockSizeS_ALL] = {
     0, 1, 0, 1, 2, 1, 2, 3, 2, 3, 4, 3, 4, 5, 4, 5, 2, 0, 3, 1, 4, 2
 };
 
-typedef enum aom_bit_depth {
+typedef enum AomBitDepth {
     AOM_BITS_8 = 8,   /**<  8 bits */
     AOM_BITS_10 = 10, /**< 10 bits */
     AOM_BITS_12 = 12, /**< 12 bits */
-} aom_bit_depth_t;
+} AomBitDepth;
 
-typedef struct {
+typedef struct SgrParamsType
+{
     int32_t r[2];  // radii
     int32_t s[2];  // sgr parameters for r[0] and r[1], based on GenSgrprojVtable()
-} sgr_params_type;
+}SgrParamsType;
 
 //**********************************************************************************************************************//
 // blockd.h
@@ -1599,16 +1606,18 @@ struct loopfilter {
 #define SIMD_WIDTH 16
 // Need to align this structure so when it is declared and
 // passed it can be loaded into vector registers.
-typedef struct {
+typedef struct LoopFilterThresh 
+{
     DECLARE_ALIGNED(SIMD_WIDTH, uint8_t, mblim[SIMD_WIDTH]);
     DECLARE_ALIGNED(SIMD_WIDTH, uint8_t, lim[SIMD_WIDTH]);
     DECLARE_ALIGNED(SIMD_WIDTH, uint8_t, hev_thr[SIMD_WIDTH]);
-} loop_filter_thresh;
+} LoopFilterThresh;
 
-typedef struct {
-    loop_filter_thresh lfthr[MAX_LOOP_FILTER + 1];
+typedef struct LoopFilterInfo
+{
+    LoopFilterThresh lfthr[MAX_LOOP_FILTER + 1];
     uint8_t lvl[MAX_MB_PLANE][MAX_SEGMENTS][2][REF_FRAMES][MAX_MODE_LF_DELTAS];
-} loop_filter_info_n;
+} LoopFilterInfo;
 
 //**********************************************************************************************************************//
 // cdef.h
@@ -1687,7 +1696,8 @@ typedef enum {
 //      [x'     (m2 m3 m0   [x
 //  z .  y'  =   m4 m5 m1 *  y
 //       1]      m6 m7 1)    1]
-typedef struct {
+typedef struct EbWarpedMotionParams 
+{
     TransformationType wmtype;
     int32_t wmmat[8];
     int16_t alpha, beta, gamma, delta;
@@ -2542,7 +2552,8 @@ strnlen_ss(target, max_size)
 
 
 
-typedef struct EbParamPortDefinitionType {
+typedef struct EbParamPortDefinitionType 
+{
 uint32_t nFrameWidth;
 uint32_t nFrameHeight;
 int32_t  nStride;

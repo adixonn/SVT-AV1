@@ -31,7 +31,7 @@ void av1_loop_restoration_save_boundary_lines(const Yv12BufferConfig *frame, Av1
  * Dlf Context Constructor
  ******************************************************/
 EbErrorType dlf_context_ctor(
-    DlfContext_t **context_dbl_ptr,
+    DlfContext **context_dbl_ptr,
     EbFifo_t                *dlf_input_fifo_ptr,
     EbFifo_t                *dlf_output_fifo_ptr ,
     EbBool                  is16bit,
@@ -40,8 +40,8 @@ EbErrorType dlf_context_ctor(
    )
 {
     EbErrorType return_error = EB_ErrorNone;
-    DlfContext_t *context_ptr;
-    EB_MALLOC(DlfContext_t*, context_ptr, sizeof(DlfContext_t), EB_N_PTR);
+    DlfContext *context_ptr;
+    EB_MALLOC(DlfContext*, context_ptr, sizeof(DlfContext), EB_N_PTR);
     *context_dbl_ptr = context_ptr;
 
     // Input/Output System Resource Manager FIFOs
@@ -87,13 +87,13 @@ EbErrorType dlf_context_ctor(
 void* dlf_kernel(void *input_ptr)
 {
     // Context & SCS & PCS
-    DlfContext_t                            *context_ptr = (DlfContext_t*)input_ptr;
+    DlfContext                            *context_ptr = (DlfContext*)input_ptr;
     PictureControlSet_t                     *picture_control_set_ptr;
     SequenceControlSet_t                    *sequence_control_set_ptr;
 
     //// Input
     EbObjectWrapper_t                       *enc_dec_results_wrapper_ptr;
-    EncDecResults_t                         *enc_dec_results_ptr;
+    EncDecResults                         *enc_dec_results_ptr;
 
     //// Output
     EbObjectWrapper_t                       *dlf_results_wrapper_ptr;
@@ -109,7 +109,7 @@ void* dlf_kernel(void *input_ptr)
             context_ptr->dlf_input_fifo_ptr,
             &enc_dec_results_wrapper_ptr);
 
-        enc_dec_results_ptr = (EncDecResults_t*)enc_dec_results_wrapper_ptr->object_ptr;
+        enc_dec_results_ptr = (EncDecResults*)enc_dec_results_wrapper_ptr->object_ptr;
         picture_control_set_ptr = (PictureControlSet_t*)enc_dec_results_ptr->pictureControlSetWrapperPtr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 

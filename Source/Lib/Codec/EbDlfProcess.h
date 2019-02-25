@@ -18,7 +18,7 @@
 /**************************************
  * Dlf Context
  **************************************/
-typedef struct DlfContext_s
+typedef struct DlfContext
 {
     EbFifo_t                       *dlf_input_fifo_ptr;
     EbFifo_t                       *dlf_output_fifo_ptr;
@@ -28,13 +28,13 @@ typedef struct DlfContext_s
     EbPictureBufferDesc_t                 *temp_lf_recon_picture16bit_ptr;
 
 
-} DlfContext_t;
+} DlfContext;
 
 /**************************************
  * Extern Function Declarations
  **************************************/
 extern EbErrorType dlf_context_ctor(
-    DlfContext_t **context_dbl_ptr,
+    DlfContext **context_dbl_ptr,
     EbFifo_t                       *dlf_input_fifo_ptr,
     EbFifo_t                       *dlf_output_fifo_ptr,
     EbBool                  is16bit,

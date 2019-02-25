@@ -212,11 +212,11 @@ void* rest_kernel(void *input_ptr)
 
     //// Input
     EbObjectWrapper_t                       *cdef_results_wrapper_ptr;
-    CdefResults_t                         *cdef_results_ptr;
+    CdefResults                         *cdef_results_ptr;
 
     //// Output
     EbObjectWrapper_t                       *rest_results_wrapper_ptr;
-    RestResults_t*                          rest_results_ptr;
+    RestResults*                          rest_results_ptr;
     EbObjectWrapper_t                       *picture_demux_results_wrapper_ptr;
     PictureDemuxResults_t                   *picture_demux_results_rtr;
     // SB Loop variables
@@ -229,7 +229,7 @@ void* rest_kernel(void *input_ptr)
             context_ptr->rest_input_fifo_ptr,
             &cdef_results_wrapper_ptr);
 
-        cdef_results_ptr = (CdefResults_t*)cdef_results_wrapper_ptr->object_ptr;
+        cdef_results_ptr = (CdefResults*)cdef_results_wrapper_ptr->object_ptr;
         picture_control_set_ptr = (PictureControlSet_t*)cdef_results_ptr->picture_control_set_wrapper_ptr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
         uint8_t lcuSizeLog2 = (uint8_t)Log2f(sequence_control_set_ptr->sb_size_pix);

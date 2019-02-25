@@ -74,7 +74,7 @@ void av1_predict_intra_block_16bit(
 #if TILES   
     TileInfo               *tile,
 #endif
-    EncDecContext_t         *context_ptr,
+    EncDecContext         *context_ptr,
     CodingUnit *cu_ptr,
     const Av1Common *cm,
     int32_t wpx,
@@ -114,7 +114,7 @@ typedef void(*EB_AV1_ENCODE_LOOP_FUNC_PTR)(
 #if ENCDEC_TX_SEARCH
     PictureControlSet_t    *picture_control_set_ptr,
 #endif
-    EncDecContext_t       *context_ptr,
+    EncDecContext       *context_ptr,
     LargestCodingUnit   *sb_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
@@ -135,7 +135,7 @@ typedef void(*EB_AV1_ENCODE_LOOP_FUNC_PTR)(
 
 
 typedef void(*EB_AV1_GENERATE_RECON_FUNC_PTR)(
-    EncDecContext_t       *context_ptr,
+    EncDecContext       *context_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
     EbPictureBufferDesc_t *predSamples,     // no basis/offset
@@ -147,7 +147,7 @@ typedef void(*EB_AV1_GENERATE_RECON_FUNC_PTR)(
 
 
 typedef void(*EB_GENERATE_RECON_FUNC_PTR)(
-    EncDecContext_t       *context_ptr,
+    EncDecContext       *context_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
     EbPictureBufferDesc_t *predSamples,     // no basis/offset
@@ -156,7 +156,7 @@ typedef void(*EB_GENERATE_RECON_FUNC_PTR)(
     EbAsm                 asm_type);
 
 typedef void(*EB_GENERATE_RECON_INTRA_4x4_FUNC_PTR)(
-    EncDecContext_t       *context_ptr,
+    EncDecContext       *context_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
     EbPictureBufferDesc_t *predSamples,     // no basis/offset
@@ -524,7 +524,7 @@ void PfZeroOutUselessQuadrants(
 
 void encode_pass_tx_search(
     PictureControlSet_t            *picture_control_set_ptr,
-    EncDecContext_t                *context_ptr,
+    EncDecContext                *context_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                       cb_qp,
     EbPictureBufferDesc_t          *coeffSamplesTB,
@@ -562,7 +562,7 @@ static void Av1EncodeLoop(
 #if ENCDEC_TX_SEARCH
     PictureControlSet_t    *picture_control_set_ptr,
 #endif
-    EncDecContext_t       *context_ptr,
+    EncDecContext       *context_ptr,
     LargestCodingUnit   *sb_ptr,
     uint32_t                 origin_x,   //pic based tx org x
     uint32_t                 origin_y,   //pic based tx org y
@@ -1011,7 +1011,7 @@ static void Av1EncodeLoop(
 
 void encode_pass_tx_search_hbd(
     PictureControlSet_t            *picture_control_set_ptr,
-    EncDecContext_t                *context_ptr,
+    EncDecContext                *context_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                       cb_qp,
     EbPictureBufferDesc_t          *coeffSamplesTB,
@@ -1051,7 +1051,7 @@ static void Av1EncodeLoop16bit(
 #if ENCDEC_TX_SEARCH
     PictureControlSet_t    *picture_control_set_ptr,
 #endif
-    EncDecContext_t       *context_ptr,
+    EncDecContext       *context_ptr,
     LargestCodingUnit   *sb_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
@@ -1510,7 +1510,7 @@ static void Av1EncodeLoop16bit(
 *
 **********************************************************/
 static void Av1EncodeGenerateRecon(
-    EncDecContext_t       *context_ptr,
+    EncDecContext       *context_ptr,
     uint32_t               origin_x,
     uint32_t               origin_y,
     EbPictureBufferDesc_t *predSamples,     // no basis/offset
@@ -1632,7 +1632,7 @@ static void Av1EncodeGenerateRecon(
 *
 **********************************************************/
 static void Av1EncodeGenerateRecon16bit(
-    EncDecContext_t         *context_ptr,
+    EncDecContext         *context_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
     EbPictureBufferDesc_t   *predSamples,     // no basis/offset
@@ -1852,7 +1852,7 @@ static void Av1EncodeGenerateRecon16bit(
 *
 **********************************************************/
 static void EncodeGenerateRecon(
-    EncDecContext_t       *context_ptr,
+    EncDecContext       *context_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
     EbPictureBufferDesc_t *predSamples,     // no basis/offset
@@ -2000,7 +2000,7 @@ static void EncodeGenerateRecon(
 *
 **********************************************************/
 static void EncodeGenerateRecon16bit(
-    EncDecContext_t       *context_ptr,
+    EncDecContext       *context_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
     EbPictureBufferDesc_t *predSamples,     // no basis/offset
@@ -2176,7 +2176,7 @@ EB_ENC_PASS_INTRA_FUNC_PTR EncodePassIntraPredictionFuncTable[2] =
 *******************************************/
 static void EncodePassUpdateQp(
     PictureControlSet_t     *picture_control_set_ptr,
-    EncDecContext_t         *context_ptr,
+    EncDecContext         *context_ptr,
     EbBool                  availableCoeff,
     EbBool                  isDeltaQpEnable,
     EbBool                 *isDeltaQpNotCoded,
@@ -2282,7 +2282,7 @@ EbErrorType QpmDeriveBeaAndSkipQpmFlagLcu(
     PictureControlSet_t                    *picture_control_set_ptr,
     LargestCodingUnit                    *sb_ptr,
     uint32_t                                 sb_index,
-    EncDecContext_t                        *context_ptr)
+    EncDecContext                        *context_ptr)
 {
 
     EbErrorType                    return_error = EB_ErrorNone;
@@ -2353,7 +2353,7 @@ EbErrorType Av1QpModulationLcu(
     LargestCodingUnit                    *sb_ptr,
     uint32_t                                  sb_index,
     uint8_t                                   type,
-    EncDecContext_t                        *context_ptr)
+    EncDecContext                        *context_ptr)
 {
     EbErrorType                            return_error = EB_ErrorNone;
 
@@ -2534,7 +2534,7 @@ EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
     uint32_t                                  cu_size,
     uint8_t                                   type,
     uint8_t                                   parent32x32Index,
-    EncDecContext_t                        *context_ptr)
+    EncDecContext                        *context_ptr)
 {
     EbErrorType                    return_error = EB_ErrorNone;
 
@@ -2778,7 +2778,7 @@ EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
 }
 
 void Store16bitInputSrc(
-    EncDecContext_t         *context_ptr,
+    EncDecContext         *context_ptr,
     PictureControlSet_t     *picture_control_set_ptr,
     uint32_t                 lcuX,
     uint32_t                 lcuY,
@@ -2859,7 +2859,7 @@ EB_EXTERN void av1_encode_pass(
     uint32_t                   sb_origin_x,
     uint32_t                   sb_origin_y,
     uint32_t                   sb_qp,
-    EncDecContext_t           *context_ptr)
+    EncDecContext           *context_ptr)
 {
 
     EbBool                    is16bit = context_ptr->is16bit;
@@ -4263,7 +4263,7 @@ EB_EXTERN void no_enc_dec_pass(
     uint32_t                   sb_origin_x,
     uint32_t                   sb_origin_y,
     uint32_t                   sb_qp,
-    EncDecContext_t         *context_ptr)
+    EncDecContext         *context_ptr)
 {
 
     context_ptr->coded_area_sb = 0;

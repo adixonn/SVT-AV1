@@ -19,7 +19,8 @@ extern "C" {
 /**********************************
  * Bitstream Unit Types
  **********************************/
-    typedef struct OutputBitstreamUnit {
+    typedef struct OutputBitstreamUnit 
+    {
         uint32_t             size;                               // allocated buffer size
         uint32_t             writtenBitsCount;                   // count of written bits
         uint8_t     *bufferBeginAv1;                        // the byte buffer

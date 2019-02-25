@@ -9629,7 +9629,7 @@ void av1_predict_intra_block_16bit(
 #if TILES   
     TileInfo * tile,
 #endif
-    EncDecContext_t         *context_ptr,
+    EncDecContext         *context_ptr,
     CodingUnit *cu_ptr,
     const Av1Common *cm,
     int32_t wpx,
