@@ -15,7 +15,7 @@
  * Neighbor Array Unit Ctor
  *************************************************/
 EbErrorType neighbor_array_unit_ctor32(
-    NeighborArrayUnit32_t **na_unit_dbl_ptr,
+    NeighborArrayUnit32 **na_unit_dbl_ptr,
     uint32_t   max_picture_width,
     uint32_t   max_picture_height,
     uint32_t   unit_size,
@@ -23,8 +23,8 @@ EbErrorType neighbor_array_unit_ctor32(
     uint32_t   granularity_top_left,
     uint32_t   type_mask)
 {
-    NeighborArrayUnit32_t *na_unit_ptr;
-    EB_MALLOC(NeighborArrayUnit32_t*, na_unit_ptr, sizeof(NeighborArrayUnit32_t), EB_N_PTR);
+    NeighborArrayUnit32 *na_unit_ptr;
+    EB_MALLOC(NeighborArrayUnit32*, na_unit_ptr, sizeof(NeighborArrayUnit32), EB_N_PTR);
 
     *na_unit_dbl_ptr = na_unit_ptr;
     na_unit_ptr->unit_size = (uint8_t)(unit_size);
@@ -61,7 +61,7 @@ EbErrorType neighbor_array_unit_ctor32(
 }
 
 EbErrorType neighbor_array_unit_ctor(
-    NeighborArrayUnit_t **na_unit_dbl_ptr,
+    NeighborArrayUnit **na_unit_dbl_ptr,
     uint32_t   max_picture_width,
     uint32_t   max_picture_height,
     uint32_t   unit_size,
@@ -69,8 +69,8 @@ EbErrorType neighbor_array_unit_ctor(
     uint32_t   granularity_top_left,
     uint32_t   type_mask)
 {
-    NeighborArrayUnit_t *na_unit_ptr;
-    EB_MALLOC(NeighborArrayUnit_t*, na_unit_ptr, sizeof(NeighborArrayUnit_t), EB_N_PTR);
+    NeighborArrayUnit *na_unit_ptr;
+    EB_MALLOC(NeighborArrayUnit*, na_unit_ptr, sizeof(NeighborArrayUnit), EB_N_PTR);
 
     *na_unit_dbl_ptr = na_unit_ptr;
     na_unit_ptr->unit_size = (uint8_t)(unit_size);
@@ -111,7 +111,7 @@ EbErrorType neighbor_array_unit_ctor(
  * Neighbor Array Unit Reset
  *************************************************/
 
-void neighbor_array_unit_reset32(NeighborArrayUnit32_t *na_unit_ptr)
+void neighbor_array_unit_reset32(NeighborArrayUnit32 *na_unit_ptr)
 {
     if (na_unit_ptr->leftArray) {
         EB_MEMSET(na_unit_ptr->leftArray, ~0, na_unit_ptr->unit_size * na_unit_ptr->leftArraySize);
@@ -127,7 +127,7 @@ void neighbor_array_unit_reset32(NeighborArrayUnit32_t *na_unit_ptr)
 
     return;
 }
-void neighbor_array_unit_reset(NeighborArrayUnit_t *na_unit_ptr)
+void neighbor_array_unit_reset(NeighborArrayUnit *na_unit_ptr)
 {
     if (na_unit_ptr->leftArray) {
         EB_MEMSET(na_unit_ptr->leftArray, ~0, na_unit_ptr->unit_size * na_unit_ptr->leftArraySize);
@@ -149,14 +149,14 @@ void neighbor_array_unit_reset(NeighborArrayUnit_t *na_unit_ptr)
  * Neighbor Array Unit Get Left Index
  *************************************************/
 uint32_t get_neighbor_array_unit_left_index32(
-    NeighborArrayUnit32_t *na_unit_ptr,
+    NeighborArrayUnit32 *na_unit_ptr,
     uint32_t               loc_y)
 {
     return (loc_y >> na_unit_ptr->granularityNormalLog2);
 }
 
 uint32_t get_neighbor_array_unit_left_index(
-    NeighborArrayUnit_t *na_unit_ptr,
+    NeighborArrayUnit *na_unit_ptr,
     uint32_t               loc_y)
 {
     return (loc_y >> na_unit_ptr->granularityNormalLog2);
@@ -166,14 +166,14 @@ uint32_t get_neighbor_array_unit_left_index(
  * Neighbor Array Unit Get Top Index
  *************************************************/
 uint32_t get_neighbor_array_unit_top_index32(
-    NeighborArrayUnit32_t *na_unit_ptr,
+    NeighborArrayUnit32 *na_unit_ptr,
     uint32_t               loc_x)
 {
     return (loc_x >> na_unit_ptr->granularityNormalLog2);
 }
 
 uint32_t get_neighbor_array_unit_top_index(
-    NeighborArrayUnit_t *na_unit_ptr,
+    NeighborArrayUnit *na_unit_ptr,
     uint32_t               loc_x)
 {
     return (loc_x >> na_unit_ptr->granularityNormalLog2);
@@ -183,7 +183,7 @@ uint32_t get_neighbor_array_unit_top_index(
  * Neighbor Array Unit Get Top Index
  *************************************************/
 uint32_t GetNeighborArrayUnitTopLeftIndex32(
-    NeighborArrayUnit32_t *na_unit_ptr,
+    NeighborArrayUnit32 *na_unit_ptr,
     int32_t               loc_x,
     int32_t               loc_y)
 {
@@ -191,7 +191,7 @@ uint32_t GetNeighborArrayUnitTopLeftIndex32(
 }
 
 uint32_t get_neighbor_array_unit_top_left_index(
-    NeighborArrayUnit_t *na_unit_ptr,
+    NeighborArrayUnit *na_unit_ptr,
     int32_t               loc_x,
     int32_t               loc_y)
 {
@@ -199,7 +199,7 @@ uint32_t get_neighbor_array_unit_top_left_index(
 }
 
 void update_recon_neighbor_array(
-    NeighborArrayUnit_t *na_unit_ptr,
+    NeighborArrayUnit *na_unit_ptr,
     uint8_t               *src_ptr_top,
     uint8_t               *src_ptr_left,
     uint32_t               pic_origin_x,
@@ -307,7 +307,7 @@ void update_recon_neighbor_array(
  * Neighbor Array Sample Update
  *************************************************/
 void neighbor_array_unit_sample_write(
-    NeighborArrayUnit_t *na_unit_ptr,
+    NeighborArrayUnit *na_unit_ptr,
     uint8_t               *src_ptr,
     uint32_t               stride,
     uint32_t               src_origin_x,
@@ -474,7 +474,7 @@ void neighbor_array_unit_sample_write(
  * Neighbor Array Sample Update for 16 bit case
  *************************************************/
 void neighbor_array_unit16bit_sample_write(
-    NeighborArrayUnit_t *na_unit_ptr,
+    NeighborArrayUnit *na_unit_ptr,
     uint16_t               *src_ptr,
     uint32_t               stride,
     uint32_t               src_origin_x,
@@ -650,7 +650,7 @@ void neighbor_array_unit16bit_sample_write(
  * Neighbor Array Unit Mode Write
  *************************************************/
 void neighbor_array_unit_mode_write32(
-    NeighborArrayUnit32_t *na_unit_ptr,
+    NeighborArrayUnit32 *na_unit_ptr,
     uint32_t               value,
     uint32_t               origin_x,
     uint32_t               origin_y,
@@ -781,7 +781,7 @@ void neighbor_array_unit_mode_write32(
 }
 
 void neighbor_array_unit_mode_write(
-    NeighborArrayUnit_t *na_unit_ptr,
+    NeighborArrayUnit *na_unit_ptr,
     uint8_t               *value,
     uint32_t               origin_x,
     uint32_t               origin_y,
@@ -912,8 +912,8 @@ void neighbor_array_unit_mode_write(
 }
 
 void copy_neigh_arr(
-    NeighborArrayUnit_t   *na_src,
-    NeighborArrayUnit_t   *na_dst,
+    NeighborArrayUnit   *na_src,
+    NeighborArrayUnit   *na_dst,
     uint32_t               origin_x,
     uint32_t               origin_y,
     uint32_t               bw,
@@ -992,8 +992,8 @@ void copy_neigh_arr(
 }
 
 void copy_neigh_arr_32(
-    NeighborArrayUnit32_t   *na_src,
-    NeighborArrayUnit32_t   *na_dst,
+    NeighborArrayUnit32   *na_src,
+    NeighborArrayUnit32   *na_dst,
     uint32_t               origin_x,
     uint32_t               origin_y,
     uint32_t               bw,
@@ -1076,7 +1076,7 @@ void copy_neigh_arr_32(
  * Neighbor Array Unit Mode Write
  *************************************************/
 void neighbor_array_unit_mv_write(
-    NeighborArrayUnit_t *na_unit_ptr,
+    NeighborArrayUnit *na_unit_ptr,
     uint8_t               *value,
     uint32_t               origin_x,
     uint32_t               origin_y,

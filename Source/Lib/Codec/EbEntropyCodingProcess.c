@@ -103,7 +103,7 @@ void av1_cost_tokens_from_cdf(int32_t *costs, const aom_cdf_prob *cdf,
 }
 
 static void build_nmv_component_cost_table(int32_t *mvcost,
-    const nmv_component *const mvcomp,
+    const NMVComponent *const mvcomp,
     MvSubpelPrecision precision) {
     int32_t i, v;
     int32_t sign_cost[2], class_cost[MV_CLASSES], class0_cost[CLASS0_SIZE];
@@ -163,7 +163,7 @@ static void build_nmv_component_cost_table(int32_t *mvcost,
     }
 }
 void av1_build_nmv_cost_table(int32_t *mvjoint, int32_t *mvcost[2],
-    const nmv_context *ctx,
+    const NMVContext *ctx,
     MvSubpelPrecision precision) {
     av1_cost_tokens_from_cdf(mvjoint, ctx->joints_cdf, NULL);
     build_nmv_component_cost_table(mvcost[0], &ctx->comps[0], precision);
@@ -373,7 +373,7 @@ static void EntropyCodingLcu(
     UNUSED(sb_origin_y);
     (void)terminateSliceFlag;
     (void)sequence_control_set_ptr;
-    EbPictureBufferDesc_t *coeffPicturePtr = sb_ptr->quantized_coeff;
+    EbPictureBufferDesc *coeffPicturePtr = sb_ptr->quantized_coeff;
 
     //rate Control
     uint32_t                       writtenBitsBeforeQuantizedCoeff;

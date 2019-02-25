@@ -23,8 +23,8 @@ extern "C" {
         uint32_t                       sb_index,
         uint32_t                       sb_origin_x,
         uint32_t                       sb_origin_y,
-        MeContext_t                 *context_ptr,
-        EbPictureBufferDesc_t       *input_ptr);
+        MeContext                 *context_ptr,
+        EbPictureBufferDesc       *input_ptr);
 
     extern void decimation_2d(
         uint8_t  *input_samples,
@@ -38,8 +38,8 @@ extern "C" {
     extern EbErrorType open_loop_intra_search_lcu(
         PictureParentControlSet_t   *picture_control_set_ptr,
         uint32_t                     sb_index,
-        MotionEstimationContext_t   *context_ptr,
-        EbPictureBufferDesc_t       *input_ptr,
+        MotionEstimationContext   *context_ptr,
+        EbPictureBufferDesc       *input_ptr,
         EbAsm                       asm_type);
 
 

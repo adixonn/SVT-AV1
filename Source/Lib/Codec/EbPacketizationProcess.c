@@ -32,18 +32,18 @@ static EbLinkedListNode* ExtractPassthroughData(EbLinkedListNode** llPtrPtr)
 
 
 EbErrorType packetization_context_ctor(
-    PacketizationContext_t **context_dbl_ptr,
+    PacketizationContext **context_dbl_ptr,
     EbFifo_t                *entropy_coding_input_fifo_ptr,
     EbFifo_t                *rate_control_tasks_output_fifo_ptr)
 {
-    PacketizationContext_t *context_ptr;
-    EB_MALLOC(PacketizationContext_t*, context_ptr, sizeof(PacketizationContext_t), EB_N_PTR);
+    PacketizationContext *context_ptr;
+    EB_MALLOC(PacketizationContext*, context_ptr, sizeof(PacketizationContext), EB_N_PTR);
     *context_dbl_ptr = context_ptr;
 
     context_ptr->entropy_coding_input_fifo_ptr = entropy_coding_input_fifo_ptr;
     context_ptr->rate_control_tasks_output_fifo_ptr = rate_control_tasks_output_fifo_ptr;
 
-    EB_MALLOC(EbPPSConfig_t*, context_ptr->ppsConfig, sizeof(EbPPSConfig_t), EB_N_PTR);
+    EB_MALLOC(EbPPSConfig*, context_ptr->ppsConfig, sizeof(EbPPSConfig), EB_N_PTR);
 
     return EB_ErrorNone;
 }
@@ -51,7 +51,7 @@ EbErrorType packetization_context_ctor(
 void* PacketizationKernel(void *input_ptr)
 {
     // Context
-    PacketizationContext_t         *context_ptr = (PacketizationContext_t*)input_ptr;
+    PacketizationContext         *context_ptr = (PacketizationContext*)input_ptr;
 
     PictureControlSet_t            *picture_control_set_ptr;
 
@@ -73,7 +73,7 @@ void* PacketizationKernel(void *input_ptr)
     
     // Queue variables
     int32_t                         queueEntryIndex;
-    PacketizationReorderEntry_t    *queueEntryPtr;
+    PacketizationReorderEntry    *queueEntryPtr;
     EbLinkedListNode               *appDataLLHeadTempPtr;
 
     context_ptr->totShownFrames = 0;

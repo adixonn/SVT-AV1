@@ -22,7 +22,7 @@ extern EbErrorType early_mode_decision_lcu(
     PictureControlSet_t                    *picture_control_set_ptr,
     LargestCodingUnit                    *sb_ptr,
     uint32_t                                sb_index,
-    ModeDecisionConfigurationContext_t     *context_ptr);
+    ModeDecisionConfigurationContext     *context_ptr);
 
 
 /*******************************************
@@ -38,10 +38,10 @@ extern EbErrorType derive_delta_qp_for_each_leaf_lcu(
     int32_t                                  intra_max_distance,
     int32_t                                  inter_min_distance,
     int32_t                                  inter_max_distance,
-    ModeDecisionConfigurationContext_t     *context_ptr);
+    ModeDecisionConfigurationContext     *context_ptr);
 
 void qpm_derive_delta_qp_map_weights(
-    ModeDecisionConfigurationContext_t    *context_ptr,
+    ModeDecisionConfigurationContext    *context_ptr,
     PictureControlSet_t                  *picture_control_set_ptr);
 
 extern uint8_t derive_contouring_class(
@@ -52,7 +52,7 @@ extern uint8_t derive_contouring_class(
 * Function Ptrs Definitions
 **************************************/
 typedef EbErrorType(*EB_MDC_FUNC)(
-    MdcpLocalCodingUnit_t                   *local_cu_array,
+    MdcpLocalCodingUnit                   *local_cu_array,
     uint32_t                                   cu_index,
     uint32_t                                   depth,
     EbBool                                 *mdc_prediction64);

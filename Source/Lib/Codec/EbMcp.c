@@ -24,14 +24,14 @@
 #endif
 
 EbErrorType motion_compensation_prediction_context_ctor(
-    MotionCompensationPredictionContext_t **context_dbl_ptr,
+    MotionCompensationPredictionContext **context_dbl_ptr,
     uint16_t                                  max_cu_width,
     uint16_t                                  max_cu_height)
 
 {
     EbErrorType return_error = EB_ErrorNone;
-    MotionCompensationPredictionContext_t *context_ptr;
-    EB_MALLOC(MotionCompensationPredictionContext_t *, context_ptr, sizeof(MotionCompensationPredictionContext_t), EB_N_PTR);
+    MotionCompensationPredictionContext *context_ptr;
+    EB_MALLOC(MotionCompensationPredictionContext *, context_ptr, sizeof(MotionCompensationPredictionContext), EB_N_PTR);
     *(context_dbl_ptr) = context_ptr;
 #if !EXTRA_ALLOCATION
     EB_MALLOC(EbByte, context_ptr->avc_style_mcp_intermediate_result_buf0, sizeof(uint8_t)*max_cu_width*max_cu_height * 6 * 3 / 2 + 16, EB_N_PTR);        //Y + U + V;
@@ -96,12 +96,12 @@ EbErrorType motion_compensation_prediction_context_ctor(
 }
 
 void encode_uni_pred_interpolation(
-    EbPictureBufferDesc_t *ref_pic,                  //input parameter, please refer to the detailed explanation above.
+    EbPictureBufferDesc *ref_pic,                  //input parameter, please refer to the detailed explanation above.
     uint32_t                 pos_x,                    //input parameter, please refer to the detailed explanation above.
     uint32_t                 pos_y,                    //input parameter, please refer to the detailed explanation above.
     uint32_t                 pu_width,                 //input parameter
     uint32_t                 pu_height,                //input parameter
-    EbPictureBufferDesc_t *dst,                     //output parameter, please refer to the detailed explanation above.
+    EbPictureBufferDesc *dst,                     //output parameter, please refer to the detailed explanation above.
     uint32_t                 dst_luma_index,            //input parameter, please refer to the detailed explanation above.
     uint32_t                 dst_chroma_index,          //input parameter, please refer to the detailed explanation above.
     int16_t                *tempBuf0,                //input parameter, please refer to the detailed explanation above.

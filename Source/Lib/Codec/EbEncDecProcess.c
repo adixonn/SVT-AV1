@@ -51,8 +51,8 @@ void av1_cdef_frame16bit(
     PictureControlSet_t            *pCs
 );
 
-void av1_add_film_grain(EbPictureBufferDesc_t *src,
-    EbPictureBufferDesc_t *dst,
+void av1_add_film_grain(EbPictureBufferDesc *src,
+    EbPictureBufferDesc *dst,
     aom_film_grain_t *film_grain_ptr);
 
 void av1_loop_restoration_save_boundary_lines(const Yv12BufferConfig *frame, Av1Common *cm, int32_t after_cdef);
@@ -109,7 +109,7 @@ EbErrorType enc_dec_context_ctor(
     // Trasform Scratch Memory
     EB_MALLOC(int16_t*, context_ptr->transform_inner_array_ptr, 3152, EB_N_PTR); //refer to EbInvTransform_SSE2.as. case 32x32
     // MD rate Estimation tables
-    EB_MALLOC(MdRateEstimationContext_t*, context_ptr->md_rate_estimation_ptr, sizeof(MdRateEstimationContext_t), EB_N_PTR);
+    EB_MALLOC(MdRateEstimationContext*, context_ptr->md_rate_estimation_ptr, sizeof(MdRateEstimationContext), EB_N_PTR);
 
 
     // Prediction Buffer
@@ -126,7 +126,7 @@ EbErrorType enc_dec_context_ctor(
         initData.bot_padding = 0;
         initData.splitMode = EB_FALSE;
 
-        context_ptr->input_sample16bit_buffer = (EbPictureBufferDesc_t *)EB_NULL;
+        context_ptr->input_sample16bit_buffer = (EbPictureBufferDesc *)EB_NULL;
         if (is16bit) {
             initData.bit_depth = EB_16BIT;
 
@@ -194,7 +194,7 @@ EbErrorType enc_dec_context_ctor(
     if (return_error == EB_ErrorInsufficientResources) {
         return EB_ErrorInsufficientResources;
     }
-    context_ptr->intra_ref_ptr16 = (IntraReference16bitSamples_t *)EB_NULL;
+    context_ptr->intra_ref_ptr16 = (IntraReference16bitSamples *)EB_NULL;
     if (is16bit) {
         return_error = intra_reference16bit_samples_ctor(&context_ptr->intra_ref_ptr16);
         if (return_error == EB_ErrorInsufficientResources) {
@@ -221,8 +221,8 @@ EbErrorType enc_dec_context_ctor(
 
     context_ptr->md_context->enc_dec_context_ptr = context_ptr;
 #if ! FILT_PROC
-    context_ptr->temp_lf_recon_picture16bit_ptr = (EbPictureBufferDesc_t *)EB_NULL;
-    context_ptr->temp_lf_recon_picture_ptr = (EbPictureBufferDesc_t *)EB_NULL;
+    context_ptr->temp_lf_recon_picture16bit_ptr = (EbPictureBufferDesc *)EB_NULL;
+    context_ptr->temp_lf_recon_picture_ptr = (EbPictureBufferDesc *)EB_NULL;
     EbPictureBufferDescInitData_t tempLfReconDescInitData;
     tempLfReconDescInitData.maxWidth = (uint16_t)max_input_luma_width;
     tempLfReconDescInitData.maxHeight = (uint16_t)max_input_luma_height;
@@ -313,7 +313,7 @@ static void ResetEncDec(
     uint32_t                   segment_index)
 {
     EB_SLICE                     slice_type;
-    MdRateEstimationContext_t   *md_rate_estimation_array;
+    MdRateEstimationContext   *md_rate_estimation_array;
     uint32_t                       entropyCodingQp;
 
     context_ptr->is16bit = (EbBool)(sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
@@ -352,7 +352,7 @@ static void ResetEncDec(
         picture_control_set_ptr->slice_type;
 
     // Increment the MD Rate Estimation array pointer to point to the right address based on the QP and slice type
-    md_rate_estimation_array = (MdRateEstimationContext_t*)sequence_control_set_ptr->encode_context_ptr->md_rate_estimation_array;
+    md_rate_estimation_array = (MdRateEstimationContext*)sequence_control_set_ptr->encode_context_ptr->md_rate_estimation_array;
 #if ADD_DELTA_QP_SUPPORT
     md_rate_estimation_array += slice_type * TOTAL_NUMBER_OF_QP_VALUES + picture_control_set_ptr->parent_pcs_ptr->picture_qp;
 #else
@@ -663,7 +663,7 @@ static void ReconOutput(
         uint8_t *reconReadPtr;
         uint8_t *reconWritePtr;
 
-        EbPictureBufferDesc_t *recon_ptr;
+        EbPictureBufferDesc *recon_ptr;
         {
             if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE)
                 recon_ptr = is16bit ?
@@ -680,7 +680,7 @@ static void ReconOutput(
         // FGN: Create a buffer if needed, copy the reconstructed picture and run the film grain synthesis algorithm
 
         if (sequence_control_set_ptr->film_grain_params_present) {
-            EbPictureBufferDesc_t  *intermediateBufferPtr;
+            EbPictureBufferDesc  *intermediateBufferPtr;
             {
                 if (is16bit)
                     intermediateBufferPtr = picture_control_set_ptr->film_grain_picture16bit_ptr;
@@ -780,14 +780,14 @@ void PsnrCalculations(
 
     if (!is16bit) {
 
-        EbPictureBufferDesc_t *recon_ptr;
+        EbPictureBufferDesc *recon_ptr;
 
         if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE)
             recon_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture;
         else
             recon_ptr = picture_control_set_ptr->recon_picture_ptr;
 
-        EbPictureBufferDesc_t *input_picture_ptr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+        EbPictureBufferDesc *input_picture_ptr = (EbPictureBufferDesc*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
 
         uint64_t sseTotal[3] = { 0 };
         uint32_t   columnIndex;
@@ -861,13 +861,13 @@ void PsnrCalculations(
     }
     else {
 
-        EbPictureBufferDesc_t *recon_ptr;
+        EbPictureBufferDesc *recon_ptr;
 
         if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE)
             recon_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;
         else
             recon_ptr = picture_control_set_ptr->recon_picture16bit_ptr;
-        EbPictureBufferDesc_t *input_picture_ptr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+        EbPictureBufferDesc *input_picture_ptr = (EbPictureBufferDesc*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
 
         uint64_t sseTotal[3] = { 0 };
         uint32_t   columnIndex;
@@ -1139,8 +1139,8 @@ void PadRefAndSetFlags(
 {
 
     EbReferenceObject_t   *referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr;
-    EbPictureBufferDesc_t *refPicPtr = (EbPictureBufferDesc_t*)referenceObject->referencePicture;
-    EbPictureBufferDesc_t *refPic16BitPtr = (EbPictureBufferDesc_t*)referenceObject->referencePicture16bit;
+    EbPictureBufferDesc *refPicPtr = (EbPictureBufferDesc*)referenceObject->referencePicture;
+    EbPictureBufferDesc *refPic16BitPtr = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
     EbBool                is16bit = (sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
 
     if (!is16bit) {
@@ -1339,7 +1339,7 @@ EbErrorType signal_derivation_enc_dec_kernel_oq(
     SequenceControlSet_t    *sequence_control_set_ptr,
 #endif
     PictureControlSet_t     *picture_control_set_ptr,
-    ModeDecisionContext_t   *context_ptr) {
+    ModeDecisionContext   *context_ptr) {
 
     EbErrorType return_error = EB_ErrorNone;
 
@@ -1515,7 +1515,7 @@ void* enc_dec_kernel(void *input_ptr)
                     context_ptr->md_context->cu_use_ref_src_flag = (picture_control_set_ptr->parent_pcs_ptr->use_src_ref) && (picture_control_set_ptr->parent_pcs_ptr->edge_results_ptr[sb_index].edge_block_num == EB_FALSE || picture_control_set_ptr->parent_pcs_ptr->sb_flat_noise_array[sb_index]) ? EB_TRUE : EB_FALSE;
 
                     // Configure the LCU
-                    ModeDecisionConfigureLcu(
+                    mode_decision_configure_lcu(
                         context_ptr->md_context,
                         sb_ptr,
                         picture_control_set_ptr,
@@ -1526,7 +1526,7 @@ void* enc_dec_kernel(void *input_ptr)
                     uint32_t lcuRow;
                     if (picture_control_set_ptr->parent_pcs_ptr->enable_in_loop_motion_estimation_flag) {
 
-                        EbPictureBufferDesc_t       *input_picture_ptr;
+                        EbPictureBufferDesc       *input_picture_ptr;
 
                         input_picture_ptr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
 
@@ -1566,10 +1566,10 @@ void* enc_dec_kernel(void *input_ptr)
                             uint32_t me_sb_addr_2 = (me_sb_y + 1) < me_pic_height_in_sb ? (me_sb_x + 0) + ((me_sb_y + 1) * me_pic_width_in_sb) : me_sb_addr_0;
                             uint32_t me_sb_addr_3 = ((me_sb_x + 1) < me_pic_width_in_sb) && ((me_sb_y + 1) < me_pic_height_in_sb) ? (me_sb_x + 1) + ((me_sb_y + 1) * me_pic_width_in_sb) : me_sb_addr_0;
 
-                            MeCuResults_t * me_block_results_0 = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr_0][0];
-                            MeCuResults_t * me_block_results_1 = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr_1][0];
-                            MeCuResults_t * me_block_results_2 = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr_2][0];
-                            MeCuResults_t * me_block_results_3 = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr_3][0];
+                            MeCuResults * me_block_results_0 = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr_0][0];
+                            MeCuResults * me_block_results_1 = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr_1][0];
+                            MeCuResults * me_block_results_2 = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr_2][0];
+                            MeCuResults * me_block_results_3 = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr_3][0];
 
                             // Compute average open_loop 64x64 MVs
                             mv_l0_x = ((me_block_results_0->x_mv_l0 + me_block_results_1->x_mv_l0 + me_block_results_2->x_mv_l0 + me_block_results_3->x_mv_l0) >> 2) >> 2;
@@ -1580,7 +1580,7 @@ void* enc_dec_kernel(void *input_ptr)
                         }
                         else {
                             me_sb_addr = sb_index;
-                            MeCuResults_t * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr][0];
+                            MeCuResults * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr][0];
 
                             mv_l0_x = mePuResult->x_mv_l0 >> 2;
                             mv_l0_y = mePuResult->y_mv_l0 >> 2;
@@ -1681,7 +1681,7 @@ void* enc_dec_kernel(void *input_ptr)
                     sequence_control_set_ptr->static_config.stat_report));
 
             if (dlfEnableFlag && picture_control_set_ptr->parent_pcs_ptr->loop_filter_mode == 2) {
-                EbPictureBufferDesc_t  *recon_buffer = is16bit ? picture_control_set_ptr->recon_picture16bit_ptr : picture_control_set_ptr->recon_picture_ptr;
+                EbPictureBufferDesc  *recon_buffer = is16bit ? picture_control_set_ptr->recon_picture16bit_ptr : picture_control_set_ptr->recon_picture_ptr;
                 if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE && picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr) {
 
                     //get the 16bit form of the input LCU
@@ -1701,7 +1701,7 @@ void* enc_dec_kernel(void *input_ptr)
 
                 av1_pick_filter_level(
                     context_ptr,
-                    (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr,
+                    (EbPictureBufferDesc*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr,
                     picture_control_set_ptr,
                     LPF_PICK_FROM_FULL_IMAGE);
 
@@ -1725,7 +1725,7 @@ void* enc_dec_kernel(void *input_ptr)
 #if !FILT_PROC
             Av1Common* cm = picture_control_set_ptr->parent_pcs_ptr->av1_cm;
 
-            EbPictureBufferDesc_t  * recon_picture_ptr;
+            EbPictureBufferDesc  * recon_picture_ptr;
 
             if (is16bit) {
                 if ((picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr != NULL) && (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE))
@@ -1891,13 +1891,13 @@ void* enc_dec_kernel(void *input_ptr)
 
             if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE && picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr)
             {
-                EbPictureBufferDesc_t *input_picture_ptr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+                EbPictureBufferDesc *input_picture_ptr = (EbPictureBufferDesc*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
                 const uint32_t  SrclumaOffSet = input_picture_ptr->origin_x + input_picture_ptr->origin_y    *input_picture_ptr->stride_y;
                 const uint32_t  SrccbOffset = (input_picture_ptr->origin_x >> 1) + (input_picture_ptr->origin_y >> 1)*input_picture_ptr->strideCb;
                 const uint32_t  SrccrOffset = (input_picture_ptr->origin_x >> 1) + (input_picture_ptr->origin_y >> 1)*input_picture_ptr->strideCr;
 
                 EbReferenceObject_t   *referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr;
-                EbPictureBufferDesc_t *refDenPic = referenceObject->refDenSrcPicture;
+                EbPictureBufferDesc *refDenPic = referenceObject->refDenSrcPicture;
                 const uint32_t           ReflumaOffSet = refDenPic->origin_x + refDenPic->origin_y    *refDenPic->stride_y;
                 const uint32_t           RefcbOffset = (refDenPic->origin_x >> 1) + (refDenPic->origin_y >> 1)*refDenPic->strideCb;
                 const uint32_t           RefcrOffset = (refDenPic->origin_x >> 1) + (refDenPic->origin_y >> 1)*refDenPic->strideCr;
@@ -2034,8 +2034,8 @@ void* enc_dec_kernel(void *input_ptr)
     return EB_NULL;
 }
 
-void av1_add_film_grain(EbPictureBufferDesc_t *src,
-    EbPictureBufferDesc_t *dst,
+void av1_add_film_grain(EbPictureBufferDesc *src,
+    EbPictureBufferDesc *dst,
     aom_film_grain_t *film_grain_ptr) {
     uint8_t *luma, *cb, *cr;
     int32_t height, width, luma_stride, chroma_stride;

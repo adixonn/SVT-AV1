@@ -74,7 +74,7 @@ void av1_get_syntax_rate_from_cdf(
 * all scenarios based on the frame CDF
 **************************************************************/
 void av1_estimate_syntax_rate(
-    MdRateEstimationContext_t  *md_rate_estimation_array,
+    MdRateEstimationContext  *md_rate_estimation_array,
     EbBool                     is_i_slice,
     FRAME_CONTEXT              *fc)
 {
@@ -339,11 +339,11 @@ MV_CLASS_TYPE av1_get_mv_class(int32_t z, int32_t *offset) {
 }
 
 //void av1_build_nmv_cost_table(int32_t *mvjoint, int32_t *mvcost[2],
-//    const nmv_context *ctx,
+//    const NMVContext *ctx,
 //    MvSubpelPrecision precision)
 
 void av1_build_nmv_cost_table(int32_t *mvjoint, int32_t *mvcost[2],
-    const nmv_context *ctx,
+    const NMVContext *ctx,
     MvSubpelPrecision precision);
 
 /**************************************************************************
@@ -352,8 +352,8 @@ void av1_build_nmv_cost_table(int32_t *mvjoint, int32_t *mvcost[2],
 * based on the frame CDF
 ***************************************************************************/
 void av1_estimate_mv_rate(
-    MdRateEstimationContext_t  *md_rate_estimation_array,
-    nmv_context                *nmv_ctx)
+    MdRateEstimationContext  *md_rate_estimation_array,
+    NMVContext                *nmv_ctx)
 {
 
     int32_t *nmvcost[2];
@@ -390,7 +390,7 @@ void av1_estimate_mv_rate(
 * based on the frame CDF
 ***************************************************************************/
 void av1_estimate_coefficients_rate(
-    MdRateEstimationContext_t  *md_rate_estimation_array,
+    MdRateEstimationContext  *md_rate_estimation_array,
     FRAME_CONTEXT              *fc)
 {
     int32_t num_planes = 3; // NM - Hardcoded to 3
@@ -402,7 +402,7 @@ void av1_estimate_coefficients_rate(
 
     for (eob_multi_size = 0; eob_multi_size < 7; ++eob_multi_size) {
         for (plane = 0; plane < nplanes; ++plane) {
-            LV_MAP_EOB_COST *pcost = &md_rate_estimation_array->eobFracBits[eob_multi_size][plane];
+            LvMapEobCost *pcost = &md_rate_estimation_array->eobFracBits[eob_multi_size][plane];
             for (ctx = 0; ctx < 2; ++ctx) {
                 aom_cdf_prob *pcdf;
                 switch (eob_multi_size) {
@@ -421,7 +421,7 @@ void av1_estimate_coefficients_rate(
     }
     for (tx_size = 0; tx_size < TX_SIZES; ++tx_size) {
         for (plane = 0; plane < nplanes; ++plane) {
-            LV_MAP_COEFF_COST *pcost = &md_rate_estimation_array->coeffFacBits[tx_size][plane];
+            LvMapCoeffCost *pcost = &md_rate_estimation_array->coeffFacBits[tx_size][plane];
 
             for (ctx = 0; ctx < TXB_SKIP_CONTEXTS; ++ctx)
                 av1_get_syntax_rate_from_cdf(pcost->txb_skip_cost[ctx],
@@ -471,13 +471,13 @@ void av1_estimate_coefficients_rate(
 
 
 
-EbErrorType md_rate_estimation_context_ctor(MdRateEstimationContext_t *md_rate_estimation_array)
+EbErrorType md_rate_estimation_context_ctor(MdRateEstimationContext *md_rate_estimation_array)
 {
     uint32_t                      caseIndex1;
     uint32_t                      caseIndex2;
     uint32_t                      sliceIndex;
     uint32_t                      qp_index;
-    MdRateEstimationContext_t  *mdRateEstimationTemp;
+    MdRateEstimationContext  *mdRateEstimationTemp;
 
     uint32_t                      cabacContextModelArrayOffset1 = 0;
     uint32_t                      cabacContextModelArrayOffset2;

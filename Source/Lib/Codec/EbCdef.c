@@ -278,7 +278,7 @@ static INLINE int32_t adjust_strength(int32_t strength, int32_t var) {
 void cdef_filter_fb(uint8_t *dst8, uint16_t *dst16, int32_t dstride, uint16_t *in,
     int32_t xdec, int32_t ydec, int32_t dir[CDEF_NBLOCKS][CDEF_NBLOCKS],
     int32_t *dirinit, int32_t var[CDEF_NBLOCKS][CDEF_NBLOCKS], int32_t pli,
-    cdef_list *dlist, int32_t cdef_count, int32_t level,
+    CdefList *dlist, int32_t cdef_count, int32_t level,
     int32_t sec_strength, int32_t pri_damping, int32_t sec_damping,
     int32_t coeff_shift) {
     int32_t bi;
@@ -393,7 +393,7 @@ static int32_t is_8x8_block_skip(ModeInfo **grid, int32_t mi_row, int32_t mi_col
 }
 
 int32_t sb_compute_cdef_list(PictureControlSet_t            *picture_control_set_ptr, const Av1Common *const cm, int32_t mi_row, int32_t mi_col,
-    cdef_list *dlist, block_size bs)
+    CdefList *dlist, block_size bs)
 {
     //MbModeInfo **grid = cm->mi_grid_visible;
     ModeInfo **grid = picture_control_set_ptr->mi_grid_base;
@@ -486,7 +486,7 @@ void av1_cdef_frame(
     Av1Common*   cm = pPcs->av1_cm;
 
 
-    EbPictureBufferDesc_t  * recon_picture_ptr;
+    EbPictureBufferDesc  * recon_picture_ptr;
 
 
     if (pPcs->is_used_as_reference_flag == EB_TRUE)
@@ -515,7 +515,7 @@ void av1_cdef_frame(
     DECLARE_ALIGNED(16, uint16_t, src[CDEF_INBUF_SIZE]);
     uint16_t *linebuf[3];
     uint16_t *colbuf[3];
-    cdef_list dlist[MI_SIZE_64X64 * MI_SIZE_64X64];
+    CdefList dlist[MI_SIZE_64X64 * MI_SIZE_64X64];
     uint8_t *row_cdef, *prev_row_cdef, *curr_row_cdef;
     int32_t cdef_count;
     int32_t dir[CDEF_NBLOCKS][CDEF_NBLOCKS] = { { 0 } };
@@ -824,7 +824,7 @@ void av1_cdef_frame16bit(
     Av1Common*   cm = pPcs->av1_cm;
 
 
-    EbPictureBufferDesc_t  * recon_picture_ptr;
+    EbPictureBufferDesc  * recon_picture_ptr;
 
 
     if (pPcs->is_used_as_reference_flag == EB_TRUE)
@@ -843,7 +843,7 @@ void av1_cdef_frame16bit(
     DECLARE_ALIGNED(16, uint16_t, src[CDEF_INBUF_SIZE]);
     uint16_t *linebuf[3];
     uint16_t *colbuf[3];
-    cdef_list dlist[MI_SIZE_64X64 * MI_SIZE_64X64];
+    CdefList dlist[MI_SIZE_64X64 * MI_SIZE_64X64];
     uint8_t *row_cdef, *prev_row_cdef, *curr_row_cdef;
     int32_t cdef_count;
     int32_t dir[CDEF_NBLOCKS][CDEF_NBLOCKS] = { { 0 } };
@@ -1454,7 +1454,7 @@ uint64_t mse_4x4_16bit_c(uint16_t *dst, int32_t dstride, uint16_t *src,
 
 /* Compute MSE only on the blocks we filtered. */
 uint64_t compute_cdef_dist(uint16_t *dst, int32_t dstride, uint16_t *src,
-    cdef_list *dlist, int32_t cdef_count, block_size bsize,
+    CdefList *dlist, int32_t cdef_count, block_size bsize,
     int32_t coeff_shift, int32_t pli) {
     uint64_t sum = 0;
     int32_t bi, bx, by;
@@ -1718,7 +1718,7 @@ void av1_cdef_search(
     int32_t mi_rows = pPcs->av1_cm->mi_rows;
     int32_t mi_cols = pPcs->av1_cm->mi_cols;
 
-    EbPictureBufferDesc_t  * recon_picture_ptr;
+    EbPictureBufferDesc  * recon_picture_ptr;
     if (pPcs->is_used_as_reference_flag == EB_TRUE)
         recon_picture_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture;
     else
@@ -1729,7 +1729,7 @@ void av1_cdef_search(
     EbByte  reconBufferCr = &((recon_picture_ptr->bufferCr)[recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->strideCr]);
 
 
-    EbPictureBufferDesc_t *input_picture_ptr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+    EbPictureBufferDesc *input_picture_ptr = (EbPictureBufferDesc*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
     EbByte  inputBufferY = &((input_picture_ptr->buffer_y)[input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->stride_y]);
     EbByte  inputBufferCb = &((input_picture_ptr->bufferCb)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb]);
     EbByte  inputBufferCr = &((input_picture_ptr->bufferCr)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCr]);
@@ -1739,7 +1739,7 @@ void av1_cdef_search(
     int32_t fbr, fbc;
     uint16_t *src[3];
     uint16_t *ref_coeff[3];
-    /*static*/ cdef_list dlist[MI_SIZE_128X128 * MI_SIZE_128X128];
+    /*static*/ CdefList dlist[MI_SIZE_128X128 * MI_SIZE_128X128];
     int32_t dir[CDEF_NBLOCKS][CDEF_NBLOCKS] = { { 0 } };
     int32_t var[CDEF_NBLOCKS][CDEF_NBLOCKS] = { { 0 } };
     int32_t stride[3];
@@ -2103,7 +2103,7 @@ void av1_cdef_search16bit(
     int32_t mi_rows = pPcs->av1_cm->mi_rows;
     int32_t mi_cols = pPcs->av1_cm->mi_cols;
 
-    EbPictureBufferDesc_t  * recon_picture_ptr;
+    EbPictureBufferDesc  * recon_picture_ptr;
     if (pPcs->is_used_as_reference_flag == EB_TRUE)
         recon_picture_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;
     else
@@ -2115,7 +2115,7 @@ void av1_cdef_search16bit(
     uint16_t*  reconBufferCr = (uint16_t*)recon_picture_ptr->bufferCr + (recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->strideCr);
 
 
-    EbPictureBufferDesc_t *input_picture_ptr = picture_control_set_ptr->input_frame16bit;
+    EbPictureBufferDesc *input_picture_ptr = picture_control_set_ptr->input_frame16bit;
     uint16_t*  inputBufferY = (uint16_t*)input_picture_ptr->buffer_y + (input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->stride_y);
     uint16_t*  inputBufferCb = (uint16_t*)input_picture_ptr->bufferCb + (input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb);
     uint16_t*  inputBufferCr = (uint16_t*)input_picture_ptr->bufferCr + (input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCr);
@@ -2125,7 +2125,7 @@ void av1_cdef_search16bit(
     int32_t fbr, fbc;
     uint16_t *src[3];
     uint16_t *ref_coeff[3];
-    /*static*/ cdef_list dlist[MI_SIZE_128X128 * MI_SIZE_128X128];
+    /*static*/ CdefList dlist[MI_SIZE_128X128 * MI_SIZE_128X128];
     int32_t dir[CDEF_NBLOCKS][CDEF_NBLOCKS] = { { 0 } };
     int32_t var[CDEF_NBLOCKS][CDEF_NBLOCKS] = { { 0 } };
     int32_t stride[3];

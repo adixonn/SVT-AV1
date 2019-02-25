@@ -13,9 +13,9 @@ extern "C" {
 
     void full_loop_r(
         LargestCodingUnit            *sb_ptr,
-        ModeDecisionCandidateBuffer_t  *candidate_buffer,
-        ModeDecisionContext_t          *context_ptr,
-        EbPictureBufferDesc_t          *input_picture_ptr,
+        ModeDecisionCandidateBuffer  *candidate_buffer,
+        ModeDecisionContext          *context_ptr,
+        EbPictureBufferDesc          *input_picture_ptr,
         PictureControlSet_t            *picture_control_set_ptr,
         uint32_t                          component_mask,
         uint32_t                          cb_qp,
@@ -25,9 +25,9 @@ extern "C" {
 
     void cu_full_distortion_fast_tu_mode_r(
         LargestCodingUnit            *sb_ptr,
-        ModeDecisionCandidateBuffer_t  *candidate_buffer,
-        ModeDecisionContext_t            *context_ptr,
-        ModeDecisionCandidate_t           *candidate_ptr,
+        ModeDecisionCandidateBuffer  *candidate_buffer,
+        ModeDecisionContext            *context_ptr,
+        ModeDecisionCandidate           *candidate_ptr,
         PictureControlSet_t            *picture_control_set_ptr,
         uint64_t                          cb_full_distortion[DIST_CALC_TOTAL],
         uint64_t                          cr_full_distortion[DIST_CALC_TOTAL],
@@ -40,8 +40,8 @@ extern "C" {
         EbAsm                            asm_type);
 
     void product_full_loop(
-        ModeDecisionCandidateBuffer_t  *candidate_buffer,
-        ModeDecisionContext_t          *context_ptr,
+        ModeDecisionCandidateBuffer  *candidate_buffer,
+        ModeDecisionContext          *context_ptr,
         PictureControlSet_t            *picture_control_set_ptr,
         uint32_t                          qp,
         uint32_t                           *y_count_non_zero_coeffs,
@@ -50,24 +50,24 @@ extern "C" {
 
 
     void product_full_loop_tx_search(
-        ModeDecisionCandidateBuffer_t  *candidate_buffer,
-        ModeDecisionContext_t          *context_ptr,
+        ModeDecisionCandidateBuffer  *candidate_buffer,
+        ModeDecisionContext          *context_ptr,
         PictureControlSet_t            *picture_control_set_ptr);
 
     extern uint32_t d2_inter_depth_block_decision(
-        ModeDecisionContext_t          *context_ptr,
+        ModeDecisionContext          *context_ptr,
         uint32_t                        blk_mds,
         LargestCodingUnit            *tb_ptr,
         uint32_t                          lcu_addr,
         uint32_t                          tbOriginX,
         uint32_t                          tbOriginY,
         uint64_t                          full_lambda,
-        MdRateEstimationContext_t      *md_rate_estimation_ptr,
+        MdRateEstimationContext      *md_rate_estimation_ptr,
         PictureControlSet_t            *picture_control_set_ptr);
 
 
     void  d1_non_square_block_decision(
-        ModeDecisionContext_t               *context_ptr);
+        ModeDecisionContext               *context_ptr);
 
 
 

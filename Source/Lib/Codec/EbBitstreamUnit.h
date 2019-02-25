@@ -294,14 +294,14 @@ on a larger type, you can speed up the decoder by using it here.*/
     // bitwriter.h
     typedef struct daala_writer aom_writer;
 
-    typedef struct TOKEN_STATS {
+    typedef struct TokenStats {
         int32_t cost;
 #if CONFIG_RD_DEBUG
         int32_t txb_coeff_cost_map[TXB_COEFF_COST_MAP_SIZE][TXB_COEFF_COST_MAP_SIZE];
 #endif
-    } TOKEN_STATS;
+    } TokenStats;
 
-    static INLINE void init_token_stats(TOKEN_STATS *token_stats) {
+    static INLINE void init_token_stats(TokenStats *token_stats) {
 #if CONFIG_RD_DEBUG
         int32_t r, c;
         for (r = 0; r < TXB_COEFF_COST_MAP_SIZE; ++r) {

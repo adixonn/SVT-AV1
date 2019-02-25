@@ -26,7 +26,7 @@ extern "C" {
 #endif
 #define MAX_PU_SIZE                            64
 
-    struct ModeDecisionContext_s;
+    struct ModeDecisionContext;
 
     typedef void(*intra_pred_fn_c)(uint8_t *dst, ptrdiff_t stride, int32_t w, int32_t h,
         const uint8_t *above, const uint8_t *left);
@@ -40,7 +40,7 @@ extern "C" {
         const uint16_t *above, const uint16_t *left,
         int32_t bd);
 
-    typedef struct IntraReferenceSamples_s {
+    typedef struct IntraReferenceSamples {
 
         uint8_t                  *y_intra_reference_array;
         uint8_t                  *cbIntraReferenceArray;
@@ -68,9 +68,9 @@ extern "C" {
         EbBool                 AboveReadyFlagCr;
         EbBool                 LeftReadyFlagCr;
 
-    } IntraReferenceSamples_t;
+    } IntraReferenceSamples;
 
-    typedef struct IntraReference16bitSamples_s {
+    typedef struct IntraReference16bitSamples {
 
         uint16_t                  *y_intra_reference_array;
         uint16_t                  *cbIntraReferenceArray;
@@ -98,15 +98,15 @@ extern "C" {
         EbBool                  AboveReadyFlagCr;
         EbBool                  LeftReadyFlagCr;
 
-    } IntraReference16bitSamples_t;
+    } IntraReference16bitSamples;
 
     extern EbErrorType intra_reference_samples_ctor(
-        IntraReferenceSamples_t **context_dbl_ptr);
+        IntraReferenceSamples **context_dbl_ptr);
 
 
 
     extern EbErrorType intra_reference16bit_samples_ctor(
-        IntraReference16bitSamples_t **context_dbl_ptr);
+        IntraReference16bitSamples **context_dbl_ptr);
 
 
 
@@ -134,10 +134,10 @@ extern "C" {
         uint32_t                      origin_y,
         uint32_t                      size,
         uint32_t                      cu_depth,
-        NeighborArrayUnit_t        *mode_type_neighbor_array,
-        NeighborArrayUnit_t        *luma_recon_neighbor_array,
-        NeighborArrayUnit_t        *cb_recon_neighbor_array,
-        NeighborArrayUnit_t        *cr_recon_neighbor_array,
+        NeighborArrayUnit        *mode_type_neighbor_array,
+        NeighborArrayUnit        *luma_recon_neighbor_array,
+        NeighborArrayUnit        *cb_recon_neighbor_array,
+        NeighborArrayUnit        *cr_recon_neighbor_array,
         void                       *ref_wrapper_ptr,
         EbBool                     picture_left_boundary,
         EbBool                     picture_top_boundary,
@@ -158,10 +158,10 @@ extern "C" {
         uint32_t                      origin_y,
         uint32_t                      size,
         uint32_t                      cu_depth,
-        NeighborArrayUnit_t        *mode_type_neighbor_array,
-        NeighborArrayUnit_t        *luma_recon_neighbor_array,
-        NeighborArrayUnit_t        *cb_recon_neighbor_array,
-        NeighborArrayUnit_t        *cr_recon_neighbor_array,
+        NeighborArrayUnit        *mode_type_neighbor_array,
+        NeighborArrayUnit        *luma_recon_neighbor_array,
+        NeighborArrayUnit        *cb_recon_neighbor_array,
+        NeighborArrayUnit        *cr_recon_neighbor_array,
         void                       *ref_wrapper_ptr,
         EbBool                     picture_left_boundary,
         EbBool                     picture_top_boundary,
@@ -178,10 +178,10 @@ extern "C" {
         uint32_t                      size,
         uint32_t                      sb_sz,
         uint32_t                      cu_depth,
-        NeighborArrayUnit_t        *mode_type_neighbor_array,
-        NeighborArrayUnit_t        *luma_recon_neighbor_array,
-        NeighborArrayUnit_t        *cb_recon_neighbor_array,
-        NeighborArrayUnit_t        *cr_recon_neighbor_array,
+        NeighborArrayUnit        *mode_type_neighbor_array,
+        NeighborArrayUnit        *luma_recon_neighbor_array,
+        NeighborArrayUnit        *cb_recon_neighbor_array,
+        NeighborArrayUnit        *cr_recon_neighbor_array,
         void                       *ref_wrapper_ptr,
         EbBool                     picture_left_boundary,
         EbBool                     picture_top_boundary,
@@ -198,10 +198,10 @@ extern "C" {
         uint32_t                      size,
         uint32_t                      sb_sz,
         uint32_t                      cu_depth,
-        NeighborArrayUnit_t        *mode_type_neighbor_array,
-        NeighborArrayUnit_t        *luma_recon_neighbor_array,
-        NeighborArrayUnit_t        *cb_recon_neighbor_array,
-        NeighborArrayUnit_t        *cr_recon_neighbor_array,
+        NeighborArrayUnit        *mode_type_neighbor_array,
+        NeighborArrayUnit        *luma_recon_neighbor_array,
+        NeighborArrayUnit        *cb_recon_neighbor_array,
+        NeighborArrayUnit        *cr_recon_neighbor_array,
         void                       *ref_wrapper_ptr,
         EbBool                     picture_left_boundary,
         EbBool                     picture_top_boundary,
@@ -209,20 +209,20 @@ extern "C" {
 
 
     extern EbErrorType intra_prediction_cl(
-        struct ModeDecisionContext_s           *context_ptr,
+        struct ModeDecisionContext           *context_ptr,
         uint32_t                                  component_mask,
         PictureControlSet_t                    *picture_control_set_ptr,
-        ModeDecisionCandidateBuffer_t           *candidate_buffer_ptr,
+        ModeDecisionCandidateBuffer           *candidate_buffer_ptr,
         EbAsm                                  asm_type);
 #endif
 
     extern EbErrorType av1_intra_prediction_cl(
-        struct ModeDecisionContext_s           *context_ptr,
+        struct ModeDecisionContext           *context_ptr,
  #if !CHROMA_BLIND
         uint32_t                                  component_mask,
 #endif
         PictureControlSet_t                    *picture_control_set_ptr,
-        ModeDecisionCandidateBuffer_t           *candidate_buffer_ptr,
+        ModeDecisionCandidateBuffer           *candidate_buffer_ptr,
         EbAsm                                  asm_type);
 
 #if !QT_10BIT_SUPPORT
@@ -239,7 +239,7 @@ extern "C" {
         uint32_t                                  origin_x,
         uint32_t                                  origin_y,
         uint32_t                                  pu_size,
-        EbPictureBufferDesc_t                  *prediction_ptr,
+        EbPictureBufferDesc                  *prediction_ptr,
         uint32_t                                  luma_mode,
         uint32_t                                  chroma_mode,
         int32_t                                  angle_delta,
@@ -258,7 +258,7 @@ extern "C" {
         uint32_t                                  origin_x,
         uint32_t                                  origin_y,
         uint32_t                                  pu_size,
-        EbPictureBufferDesc_t                  *prediction_ptr,
+        EbPictureBufferDesc                  *prediction_ptr,
         uint32_t                                  luma_mode,
         uint32_t                                  chroma_mode,
         int32_t                                  angle_delta,
@@ -273,12 +273,12 @@ extern "C" {
 
         EbBool                         is_left_availble,
         EbBool                         is_above_availble,
-        IntraReferenceSamples_t                *referenceSamples,
+        IntraReferenceSamples                *referenceSamples,
         uint32_t                                  origin_x,
         uint32_t                                  origin_y,
         uint32_t                                  pu_size,
         uint32_t                                  chromaPuSize,
-        EbPictureBufferDesc_t                  *prediction_ptr,
+        EbPictureBufferDesc                  *prediction_ptr,
         uint32_t                                  luma_mode,
         uint32_t                                  chroma_mode,
         uint32_t                                  component_mask,
@@ -293,12 +293,12 @@ extern "C" {
 
         EbBool                         is_left_availble,
         EbBool                         is_above_availble,
-        IntraReference16bitSamples_t           *referenceSamples,
+        IntraReference16bitSamples           *referenceSamples,
         uint32_t                                  origin_x,
         uint32_t                                  origin_y,
         uint32_t                                  pu_size,
         uint32_t                                  chromaPuSize,
-        EbPictureBufferDesc_t                  *prediction_ptr,
+        EbPictureBufferDesc                  *prediction_ptr,
         uint32_t                                  luma_mode,
         uint32_t                                  chroma_mode,
         uint32_t                                  component_mask,
@@ -318,11 +318,11 @@ extern "C" {
 
 
     extern EbErrorType intra_open_loop_reference_samples_ctor(
-        IntraReferenceSamplesOpenLoop_t **context_dbl_ptr);
+        IntraReferenceSamplesOpenLoop **context_dbl_ptr);
 
     extern EbErrorType update_neighbor_samples_array_open_loop(
-        IntraReferenceSamplesOpenLoop_t *intra_ref_ptr,
-        EbPictureBufferDesc_t           *input_ptr,
+        IntraReferenceSamplesOpenLoop *intra_ref_ptr,
+        EbPictureBufferDesc           *input_ptr,
         uint32_t                           stride,
         uint32_t                           src_origin_x,
         uint32_t                           src_origin_y,
@@ -330,7 +330,7 @@ extern "C" {
 
     extern EbErrorType intra_prediction_open_loop(
         uint32_t                       cu_size,
-        MotionEstimationContext_t   *context_ptr,
+        MotionEstimationContext   *context_ptr,
         uint32_t           open_loop_intra_candidate,
         EbAsm                       asm_type);
 
@@ -344,7 +344,7 @@ extern "C" {
         uint32_t                                sb_sz,
         uint32_t                                component_mask,
         PictureControlSet_t                    *picture_control_set_ptr,
-        ModeDecisionCandidateBuffer_t          *candidate_buffer_ptr,
+        ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
         EbPtr                                  prediction_context_ptr,
         EbAsm                                   asm_type);
 #endif
@@ -369,8 +369,8 @@ extern "C" {
         const EbBool  skip);                       //skip half rows
 
     typedef uint32_t(*EB_NEIGHBOR_DC_INTRA_TYPE)(
-        MotionEstimationContext_t       *context_ptr,
-        EbPictureBufferDesc_t           *input_ptr,
+        MotionEstimationContext       *context_ptr,
+        EbPictureBufferDesc           *input_ptr,
         uint32_t                           src_origin_x,
         uint32_t                           src_origin_y,
         uint32_t                           block_size,
@@ -608,8 +608,8 @@ extern "C" {
     };
 
     uint32_t update_neighbor_dc_intra_pred(
-        MotionEstimationContext_t       *context_ptr,
-        EbPictureBufferDesc_t           *input_ptr,
+        MotionEstimationContext       *context_ptr,
+        EbPictureBufferDesc           *input_ptr,
         uint32_t                           src_origin_x,
         uint32_t                           src_origin_y,
         uint32_t                           block_size,

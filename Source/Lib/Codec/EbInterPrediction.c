@@ -973,9 +973,9 @@ EbErrorType av1_inter_prediction(
     uint16_t                                pu_origin_y,
     uint8_t                                 bwidth,
     uint8_t                                 bheight,
-    EbPictureBufferDesc_t                  *ref_pic_list0,
-    EbPictureBufferDesc_t                  *ref_pic_list1,
-    EbPictureBufferDesc_t                  *prediction_ptr,
+    EbPictureBufferDesc                  *ref_pic_list0,
+    EbPictureBufferDesc                  *ref_pic_list1,
+    EbPictureBufferDesc                  *prediction_ptr,
     uint16_t                                dst_origin_x,
     uint16_t                                dst_origin_y,
 #if CHROMA_BLIND
@@ -1139,7 +1139,7 @@ EbErrorType av1_inter_prediction(
                     conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCb, BLOCK_SIZE_64, is_compound, EB_8BIT);
                     conv_params.use_jnt_comp_avg = 0;
 
-                    EbPictureBufferDesc_t                  *ref_pic = this_mbmi->ref_frame[0] == LAST_FRAME ? ref_pic_list0 : ref_pic_list1;
+                    EbPictureBufferDesc                  *ref_pic = this_mbmi->ref_frame[0] == LAST_FRAME ? ref_pic_list0 : ref_pic_list1;
                     ASSERT(ref_pic != NULL);
                     src_ptr = ref_pic->bufferCb + (ref_pic->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic->strideCb;
                     dst_ptr = prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
@@ -1452,16 +1452,16 @@ EbErrorType AV1MDInterPrediction(
 #endif
     PictureControlSet_t                     *picture_control_set_ptr,
     uint8_t                                  ref_frame_type,
-    ModeDecisionContext_t                   *md_context_ptr,
+    ModeDecisionContext                   *md_context_ptr,
     CodingUnit                            *cu_ptr,
     MvUnit_t                                *mv_unit,
     uint16_t                                 pu_origin_x,
     uint16_t                                 pu_origin_y,
     uint8_t                                  bwidth,
     uint8_t                                  bheight,
-    EbPictureBufferDesc_t                   *ref_pic_list0,
-    EbPictureBufferDesc_t                   *ref_pic_list1,
-    EbPictureBufferDesc_t                   *prediction_ptr,
+    EbPictureBufferDesc                   *ref_pic_list0,
+    EbPictureBufferDesc                   *ref_pic_list1,
+    EbPictureBufferDesc                   *prediction_ptr,
     uint16_t                                 dst_origin_x,
     uint16_t                                 dst_origin_y,
 #if CHROMA_BLIND
@@ -1470,7 +1470,7 @@ EbErrorType AV1MDInterPrediction(
     EbAsm                                    asm_type)
 {
     EbErrorType  return_error = EB_ErrorNone;
-    InterPredictionContext_t *context_ptr = (InterPredictionContext_t*)(md_context_ptr->inter_prediction_context);
+    InterPredictionContext *context_ptr = (InterPredictionContext*)(md_context_ptr->inter_prediction_context);
     uint8_t         is_compound = (mv_unit->predDirection == BI_PRED) ? 1 : 0;
     DECLARE_ALIGNED(32, uint16_t, tmp_dstY[128 * 128]);//move this to context if stack does not hold.
     DECLARE_ALIGNED(32, uint16_t, tmp_dstCb[64 * 64]);
@@ -1626,7 +1626,7 @@ EbErrorType AV1MDInterPrediction(
                     conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCb, BLOCK_SIZE_64, is_compound, EB_8BIT);
                     conv_params.use_jnt_comp_avg = 0;
 
-                    EbPictureBufferDesc_t                  *ref_pic = this_mbmi->ref_frame[0] == LAST_FRAME ? ref_pic_list0 : ref_pic_list1;
+                    EbPictureBufferDesc                  *ref_pic = this_mbmi->ref_frame[0] == LAST_FRAME ? ref_pic_list0 : ref_pic_list1;
                     ASSERT(ref_pic != NULL);
                     src_ptr = (uint16_t*)ref_pic->bufferCb + (ref_pic->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic->strideCb;
                     dst_ptr = prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
@@ -1642,7 +1642,7 @@ EbErrorType AV1MDInterPrediction(
                     subpel_y = mv_q4.row & SUBPEL_MASK;
                     src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
 
-                    EbPictureBufferDesc_t                  *local_buffer = this_mbmi->ref_frame[0] == LAST_FRAME ? context_ptr->mcp_context->local_reference_block8_bitl0 : context_ptr->mcp_context->local_reference_block8_bitl1;
+                    EbPictureBufferDesc                  *local_buffer = this_mbmi->ref_frame[0] == LAST_FRAME ? context_ptr->mcp_context->local_reference_block8_bitl0 : context_ptr->mcp_context->local_reference_block8_bitl1;
 
                     av1_get_convolve_filter_params(cu_ptr->interp_filters, &filter_params_x,
                         &filter_params_y, blk_geom->bwidth_uv, blk_geom->bheight_uv);
@@ -1692,7 +1692,7 @@ EbErrorType AV1MDInterPrediction(
                     av1_get_convolve_filter_params(cu_ptr->interp_filters, &filter_params_x,
                         &filter_params_y, blk_geom->bwidth_uv, blk_geom->bheight_uv);
 
-                    //EbPictureBufferDesc_t                  *local_buffer = this_mbmi->ref_frame[0] == LAST_FRAME ? context_ptr->mcp_context->local_reference_block8_bitl0 : context_ptr->mcp_context->local_reference_block8_bitl1;
+                    //EbPictureBufferDesc                  *local_buffer = this_mbmi->ref_frame[0] == LAST_FRAME ? context_ptr->mcp_context->local_reference_block8_bitl0 : context_ptr->mcp_context->local_reference_block8_bitl1;
 
                     Av1UnPackReferenceBlock(
                         src_ptr,
@@ -2043,9 +2043,9 @@ EbErrorType av1_inter_prediction_hbd(
     uint16_t                                  pu_origin_y,
     uint8_t                                   bwidth,
     uint8_t                                   bheight,
-    EbPictureBufferDesc_t                  *ref_pic_list0,
-    EbPictureBufferDesc_t                  *ref_pic_list1,
-    EbPictureBufferDesc_t                  *prediction_ptr,
+    EbPictureBufferDesc                  *ref_pic_list0,
+    EbPictureBufferDesc                  *ref_pic_list1,
+    EbPictureBufferDesc                  *prediction_ptr,
     uint16_t                                  dst_origin_x,
     uint16_t                                  dst_origin_y,
     uint8_t                                   bit_depth,
@@ -2202,7 +2202,7 @@ EbErrorType av1_inter_prediction_hbd(
                      //    0, plane, xd->tmp_conv_dst, tmp_dst_stride, is_compound, xd->bd);
                     conv_params = get_conv_params_no_round(0, 0, 0, tmp_dstCb, BLOCK_SIZE_64, is_compound, bit_depth);
                     conv_params.use_jnt_comp_avg = 0;
-                    EbPictureBufferDesc_t                  *ref_pic = this_mbmi->ref_frame[0] == LAST_FRAME ? ref_pic_list0 : ref_pic_list1;
+                    EbPictureBufferDesc                  *ref_pic = this_mbmi->ref_frame[0] == LAST_FRAME ? ref_pic_list0 : ref_pic_list1;
                     src_ptr = (uint16_t*)ref_pic->bufferCb + (ref_pic->origin_x + ((pu_origin_x >> 3) << 3)) / 2 + (ref_pic->origin_y + ((pu_origin_y >> 3) << 3)) / 2 * ref_pic->strideCb;
                     dst_ptr = (uint16_t*)prediction_ptr->bufferCb + (prediction_ptr->origin_x + ((dst_origin_x >> 3) << 3)) / 2 + (prediction_ptr->origin_y + ((dst_origin_y >> 3) << 3)) / 2 * prediction_ptr->strideCb;
                     src_stride = ref_pic->strideCb;
@@ -2517,8 +2517,8 @@ EbErrorType warped_motion_prediction(
     uint16_t                                pu_origin_y,
     CodingUnit                           *cu_ptr,
     const BlockGeom                        *blk_geom,
-    EbPictureBufferDesc_t                  *ref_pic_list0,
-    EbPictureBufferDesc_t                  *prediction_ptr,
+    EbPictureBufferDesc                  *ref_pic_list0,
+    EbPictureBufferDesc                  *prediction_ptr,
     uint16_t                                dst_origin_x,
     uint16_t                                dst_origin_y,
     EbWarpedMotionParams                   *wm_params,
@@ -2865,20 +2865,20 @@ EbErrorType warped_motion_prediction(
 
 EbErrorType warped_motion_prediction_md(
     MvUnit_t                               *mv_unit,
-    ModeDecisionContext_t                  *md_context_ptr,
+    ModeDecisionContext                  *md_context_ptr,
     uint16_t                                pu_origin_x,
     uint16_t                                pu_origin_y,
     CodingUnit                           *cu_ptr,
     const BlockGeom                        *blk_geom,
-    EbPictureBufferDesc_t                  *ref_pic_list0,
-    EbPictureBufferDesc_t                  *prediction_ptr,
+    EbPictureBufferDesc                  *ref_pic_list0,
+    EbPictureBufferDesc                  *prediction_ptr,
     uint16_t                                dst_origin_x,
     uint16_t                                dst_origin_y,
     EbWarpedMotionParams                   *wm_params,
     EbAsm                                   asm_type)
 {
     EbErrorType  return_error = EB_ErrorNone;
-    InterPredictionContext_t *context_ptr = (InterPredictionContext_t*)(md_context_ptr->inter_prediction_context);
+    InterPredictionContext *context_ptr = (InterPredictionContext*)(md_context_ptr->inter_prediction_context);
     uint8_t is_compound = (mv_unit->predDirection == BI_PRED) ? 1 : 0;
     assert(!is_compound);
 
@@ -3110,10 +3110,10 @@ EbErrorType warped_motion_prediction_md(
 
 #define SWITCHABLE_INTERP_RATE_FACTOR 1
 extern int32_t av1_get_pred_context_switchable_interp(
-    NeighborArrayUnit_t     *ref_frame_type_neighbor_array,
+    NeighborArrayUnit     *ref_frame_type_neighbor_array,
     MvReferenceFrame rf0,
     MvReferenceFrame rf1,
-    NeighborArrayUnit32_t     *interpolation_type_neighbor_array,
+    NeighborArrayUnit32     *interpolation_type_neighbor_array,
     uint32_t cu_origin_x,
     uint32_t cu_origin_y,
     int32_t dir
@@ -3121,9 +3121,9 @@ extern int32_t av1_get_pred_context_switchable_interp(
 
 
 int32_t av1_get_switchable_rate(
-    ModeDecisionCandidateBuffer_t *candidate_buffer_ptr,
+    ModeDecisionCandidateBuffer *candidate_buffer_ptr,
     const Av1Common *const cm,
-    ModeDecisionContext_t *md_context_ptr//,
+    ModeDecisionContext *md_context_ptr//,
     // Macroblock *x,
     // const MacroBlockD *xd
 ) {
@@ -3387,8 +3387,8 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
 /*static*/ void model_rd_for_sb(
 
     PictureControlSet_t *picture_control_set_ptr,
-    EbPictureBufferDesc_t *prediction_ptr,
-    ModeDecisionContext_t *md_context_ptr,
+    EbPictureBufferDesc *prediction_ptr,
+    ModeDecisionContext *md_context_ptr,
     //const AV1_COMP *const cpi,
     //block_size bsize,
     //Macroblock *x,
@@ -3413,7 +3413,7 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
     int64_t total_sse = 0;
 
 
-    EbPictureBufferDesc_t                  *input_picture_ptr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+    EbPictureBufferDesc                  *input_picture_ptr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
     const uint32_t inputOriginIndex = (md_context_ptr->cu_origin_y + input_picture_ptr->origin_y) * input_picture_ptr->stride_y + (md_context_ptr->cu_origin_x + input_picture_ptr->origin_x);
     const uint32_t inputChromaOriginIndex = ((md_context_ptr->cu_origin_y + input_picture_ptr->origin_y) * input_picture_ptr->strideCb + (md_context_ptr->cu_origin_x + input_picture_ptr->origin_x)) / 2;
 
@@ -3478,7 +3478,7 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
 
 /*static*/ /*INLINE*/ int32_t is_nontrans_global_motion(
     block_size sb_type,
-    ModeDecisionCandidateBuffer_t *candidate_buffer_ptr,
+    ModeDecisionCandidateBuffer *candidate_buffer_ptr,
     PictureControlSet_t *picture_control_set_ptr
 ) {
     int32_t ref;
@@ -3500,7 +3500,7 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
     return 1;
 }
 static INLINE int32_t av1_is_interp_needed(
-    ModeDecisionCandidateBuffer_t *candidate_buffer_ptr,
+    ModeDecisionCandidateBuffer *candidate_buffer_ptr,
     PictureControlSet_t *picture_control_set_ptr,
     block_size bsize)
 {
@@ -3525,12 +3525,12 @@ static const int32_t filter_sets[DUAL_FILTER_SET_SIZE][2] = {
 
 /*static*/ void interpolation_filter_search(
     PictureControlSet_t *picture_control_set_ptr,
-    EbPictureBufferDesc_t *prediction_ptr,
-    ModeDecisionContext_t *md_context_ptr,
-    ModeDecisionCandidateBuffer_t *candidate_buffer_ptr,
+    EbPictureBufferDesc *prediction_ptr,
+    ModeDecisionContext *md_context_ptr,
+    ModeDecisionCandidateBuffer *candidate_buffer_ptr,
     MvUnit_t mv_unit,
-    EbPictureBufferDesc_t  *ref_pic_list0,
-    EbPictureBufferDesc_t  *ref_pic_list1,
+    EbPictureBufferDesc  *ref_pic_list0,
+    EbPictureBufferDesc  *ref_pic_list1,
     EbAsm asm_type,
     //Macroblock *const xd,
     //const AV1_COMP *const cpi,
@@ -3874,12 +3874,12 @@ static const int32_t filter_sets[DUAL_FILTER_SET_SIZE][2] = {
 #if INTERPOL_FILTER_SEARCH_10BIT_SUPPORT
 /*static*/ void interpolation_filter_search_HBD(
     PictureControlSet_t *picture_control_set_ptr,
-    EbPictureBufferDesc_t *prediction_ptr,
-    ModeDecisionContext_t *md_context_ptr,
-    ModeDecisionCandidateBuffer_t *candidate_buffer_ptr,
+    EbPictureBufferDesc *prediction_ptr,
+    ModeDecisionContext *md_context_ptr,
+    ModeDecisionCandidateBuffer *candidate_buffer_ptr,
     MvUnit_t mv_unit,
-    EbPictureBufferDesc_t  *ref_pic_list0,
-    EbPictureBufferDesc_t  *ref_pic_list1,
+    EbPictureBufferDesc  *ref_pic_list0,
+    EbPictureBufferDesc  *ref_pic_list1,
     EbAsm asm_type,
     //Macroblock *const xd,
     //const AV1_COMP *const cpi,
@@ -4229,21 +4229,21 @@ static const int32_t filter_sets[DUAL_FILTER_SET_SIZE][2] = {
 #endif
 
 EbErrorType inter_pu_prediction_av1(
-    ModeDecisionContext_t                  *md_context_ptr,
+    ModeDecisionContext                  *md_context_ptr,
 #if !CHROMA_BLIND
     uint32_t                                  component_mask,
 #endif
     PictureControlSet_t                    *picture_control_set_ptr,
-    ModeDecisionCandidateBuffer_t          *candidate_buffer_ptr,
+    ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
     EbAsm                                   asm_type)
 {
 #if !CHROMA_BLIND
     (void)component_mask;
 #endif
     EbErrorType            return_error = EB_ErrorNone;
-    EbPictureBufferDesc_t  *ref_pic_list0;
-    EbPictureBufferDesc_t  *ref_pic_list1 = NULL;
-    ModeDecisionCandidate_t *const candidate_ptr = candidate_buffer_ptr->candidate_ptr;
+    EbPictureBufferDesc  *ref_pic_list0;
+    EbPictureBufferDesc  *ref_pic_list1 = NULL;
+    ModeDecisionCandidate *const candidate_ptr = candidate_buffer_ptr->candidate_ptr;
 
     MvUnit_t mv_unit;
     mv_unit.predDirection = candidate_buffer_ptr->candidate_ptr->prediction_direction[md_context_ptr->pu_itr];
@@ -4415,14 +4415,14 @@ EbErrorType inter_pu_prediction_av1(
 
 
 EbErrorType inter_prediction_context_ctor(
-    InterPredictionContext_t **inter_prediction_context,
+    InterPredictionContext **inter_prediction_context,
     uint16_t                     max_cu_width,
     uint16_t                     max_cu_height)
 
 {
     EbErrorType              return_error = EB_ErrorNone;
-    InterPredictionContext_t *context_ptr;
-    EB_MALLOC(InterPredictionContext_t*, context_ptr, sizeof(InterPredictionContext_t), EB_N_PTR);
+    InterPredictionContext *context_ptr;
+    EB_MALLOC(InterPredictionContext*, context_ptr, sizeof(InterPredictionContext), EB_N_PTR);
 
     (*inter_prediction_context) = context_ptr;
 
@@ -4450,15 +4450,15 @@ void RoundMvOnTheFly(
 
 #if !CHROMA_BLIND
 EbErrorType inter2_nx2_n_pu_prediction_avc(
-    ModeDecisionContext_t                  *md_context_ptr,
+    ModeDecisionContext                  *md_context_ptr,
     uint32_t                                  component_mask,
     PictureControlSet_t                    *picture_control_set_ptr,
-    ModeDecisionCandidateBuffer_t          *candidate_buffer_ptr,
+    ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
     EbAsm                                  asm_type)
 {
     EbErrorType            return_error = EB_ErrorNone;
-    EbPictureBufferDesc_t  *ref_pic_list0;
-    EbPictureBufferDesc_t  *ref_pic_list1;
+    EbPictureBufferDesc  *ref_pic_list0;
+    EbPictureBufferDesc  *ref_pic_list1;
     EbReferenceObject_t    *referenceObject;
 
     uint32_t                  ref_list0_pos_x;
@@ -4471,8 +4471,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
     const uint32_t pu_height = md_context_ptr->blk_geom->bheight;
     const uint32_t pu_index = md_context_ptr->pu_itr;
 
-    //InterPredictionContext_t  *context_ptr = (InterPredictionContext_t*)prediction_context_ptr;
-    InterPredictionContext_t *context_ptr = (InterPredictionContext_t*)(md_context_ptr->inter_prediction_context);
+    //InterPredictionContext  *context_ptr = (InterPredictionContext*)prediction_context_ptr;
+    InterPredictionContext *context_ptr = (InterPredictionContext*)(md_context_ptr->inter_prediction_context);
     uint32_t                  puOriginIndex;
     uint32_t                  puChromaOriginIndex;
     EncodeContext        *encode_context_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
@@ -4498,7 +4498,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
             puOriginIndex = ((pu_origin_y  & (63)) * 64) + (pu_origin_x & (63));
             puChromaOriginIndex = (((pu_origin_y  & (63)) * 32) + (pu_origin_x & (63))) >> 1;
             referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
-            ref_pic_list0 = (EbPictureBufferDesc_t*)referenceObject->referencePicture16bit;
+            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
 
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
@@ -4549,7 +4549,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
             puOriginIndex = ((pu_origin_y  & (63)) * 64) + (pu_origin_x & (63));
             puChromaOriginIndex = (((pu_origin_y  & (63)) * 32) + (pu_origin_x & (63))) >> 1;
             referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
-            ref_pic_list0 = (EbPictureBufferDesc_t*)referenceObject->referencePicture;
+            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
                 ref_pic_list0 = referenceObject->refDenSrcPicture;
@@ -4605,7 +4605,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 
         if (is16bit) {
 
-            ref_pic_list1 = (EbPictureBufferDesc_t*)referenceObject->referencePicture16bit;
+            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
@@ -4647,7 +4647,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 
         }
         else {
-            ref_pic_list1 = (EbPictureBufferDesc_t*)referenceObject->referencePicture;
+            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
                 ref_pic_list1 = referenceObject->refDenSrcPicture;
@@ -4704,7 +4704,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 
         if (is16bit) {
 
-            ref_pic_list0 = (EbPictureBufferDesc_t*)referenceObject->referencePicture16bit;
+            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
@@ -4725,7 +4725,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 
             // List1
             referenceObject = (EbReferenceObject_t *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
-            ref_pic_list1 = (EbPictureBufferDesc_t*)referenceObject->referencePicture16bit;
+            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
@@ -4774,7 +4774,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 
         }
         else {
-            ref_pic_list0 = (EbPictureBufferDesc_t*)referenceObject->referencePicture;
+            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
                 ref_pic_list0 = referenceObject->refDenSrcPicture;
@@ -4805,7 +4805,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 
             // List1
             referenceObject = (EbReferenceObject_t *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
-            ref_pic_list1 = (EbPictureBufferDesc_t*)referenceObject->referencePicture;
+            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
                 ref_pic_list1 = referenceObject->refDenSrcPicture;
@@ -4873,12 +4873,12 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 *  PreLoad Reference Block  for 16bit mode
 ***************************************************/
 void UnPackReferenceLumaBlock(
-    EbPictureBufferDesc_t *refFramePic,
+    EbPictureBufferDesc *refFramePic,
     uint32_t                 pos_x,
     uint32_t                 pos_y,
     uint32_t                 pu_width,
     uint32_t                 pu_height,
-    EbPictureBufferDesc_t *dst,
+    EbPictureBufferDesc *dst,
     EbBool                sub_pred,
     EbAsm                 asm_type)
 {
@@ -4903,15 +4903,15 @@ void UnPackReferenceLumaBlock(
 
 #if !CHROMA_BLIND
 EbErrorType inter2_nx2_n_pu_prediction_avc_style(
-    ModeDecisionContext_t                  *md_context_ptr,
+    ModeDecisionContext                  *md_context_ptr,
     uint32_t                                  component_mask,
     PictureControlSet_t                    *picture_control_set_ptr,
-    ModeDecisionCandidateBuffer_t          *candidate_buffer_ptr,
+    ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
     EbAsm                                  asm_type)
 {
     EbErrorType            return_error = EB_ErrorNone;
-    EbPictureBufferDesc_t  *ref_pic_list0;
-    EbPictureBufferDesc_t  *ref_pic_list1;
+    EbPictureBufferDesc  *ref_pic_list0;
+    EbPictureBufferDesc  *ref_pic_list1;
     EbReferenceObject_t    *referenceObject;
 
     uint32_t                  ref_list0_pos_x;
@@ -4925,8 +4925,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
     const uint32_t pu_index = md_context_ptr->pu_itr;
 
 
-    //InterPredictionContext_t  *context_ptr = (InterPredictionContext_t*)prediction_context_ptr;
-    InterPredictionContext_t *context_ptr = (InterPredictionContext_t*)(md_context_ptr->inter_prediction_context);
+    //InterPredictionContext  *context_ptr = (InterPredictionContext*)prediction_context_ptr;
+    InterPredictionContext *context_ptr = (InterPredictionContext*)(md_context_ptr->inter_prediction_context);
     uint32_t                  puOriginIndex;
     uint32_t                  puChromaOriginIndex;
     EncodeContext        *encode_context_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
@@ -4954,7 +4954,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
             puOriginIndex = ((pu_origin_y  & (63)) * 64) + (pu_origin_x & (63));
             puChromaOriginIndex = (((pu_origin_y  & (63)) * 32) + (pu_origin_x & (63))) >> 1;
             referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
-            ref_pic_list0 = (EbPictureBufferDesc_t*)referenceObject->referencePicture16bit;
+            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
 
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
@@ -5032,7 +5032,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
             puOriginIndex = ((pu_origin_y  & (63)) * 64) + (pu_origin_x & (63));
             puChromaOriginIndex = (((pu_origin_y  & (63)) * 32) + (pu_origin_x & (63))) >> 1;
             referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
-            ref_pic_list0 = (EbPictureBufferDesc_t*)referenceObject->referencePicture;
+            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
                 ref_pic_list0 = referenceObject->refDenSrcPicture;
@@ -5087,7 +5087,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
         if (is16bit) {
 
-            ref_pic_list1 = (EbPictureBufferDesc_t*)referenceObject->referencePicture16bit;
+            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
@@ -5157,7 +5157,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
         }
         else {
-            ref_pic_list1 = (EbPictureBufferDesc_t*)referenceObject->referencePicture;
+            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
                 ref_pic_list1 = referenceObject->refDenSrcPicture;
@@ -5213,7 +5213,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
         if (is16bit) {
 
-            ref_pic_list0 = (EbPictureBufferDesc_t*)referenceObject->referencePicture16bit;
+            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
@@ -5238,7 +5238,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
             // List1
             referenceObject = (EbReferenceObject_t *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
-            ref_pic_list1 = (EbPictureBufferDesc_t*)referenceObject->referencePicture16bit;
+            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
@@ -5326,7 +5326,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
         }
         else {
-            ref_pic_list0 = (EbPictureBufferDesc_t*)referenceObject->referencePicture;
+            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
                 ref_pic_list0 = referenceObject->refDenSrcPicture;
@@ -5357,7 +5357,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
             // List1
             referenceObject = (EbReferenceObject_t *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
-            ref_pic_list1 = (EbPictureBufferDesc_t*)referenceObject->referencePicture;
+            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
                 ref_pic_list1 = referenceObject->refDenSrcPicture;
@@ -5432,7 +5432,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
     @param ref1NumAvailableAMVPCand(input)
  */
 EbErrorType choose_mvp_idx_v2(
-    ModeDecisionCandidate_t  *candidate_ptr,
+    ModeDecisionCandidate  *candidate_ptr,
     uint32_t                    cu_origin_x,
     uint32_t                    cu_origin_y,
     uint32_t                    pu_index,

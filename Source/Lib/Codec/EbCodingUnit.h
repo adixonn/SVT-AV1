@@ -149,7 +149,8 @@ extern "C" {
         int32_t weight;
     } CandidateMv;
 
-    typedef struct MbModeInfo {
+    typedef struct MbModeInfo 
+    {
         // Common for both INTER and INTRA blocks
         block_size sb_type;
         PredictionMode mode;
@@ -208,9 +209,11 @@ extern "C" {
         int8_t cdef_strength;
         TxSize tx_size;
     } MbModeInfo;
+
     typedef struct ModeInfo {
         MbModeInfo mbmi;
     } ModeInfo;
+
     typedef struct TileInfo 
     {
         int32_t mi_row_start, mi_row_end;
@@ -242,6 +245,7 @@ extern "C" {
         int32_t mb_to_bottom_edge;
         uint8_t neighbors_ref_counts[TOTAL_REFS_PER_FRAME];
     } MacroBlockD;
+
     typedef struct Macroblock 
     {
         int32_t rdmult;
@@ -249,6 +253,7 @@ extern "C" {
         int32_t wiener_restore_cost[2];
         int32_t sgrproj_restore_cost[2];
     } Macroblock;
+
     typedef struct CodingUnit
     {
         TransformUnit_t             transform_unit_array[TRANSFORM_UNIT_MAX_COUNT]; // 2-bytes * 21 = 42-bytes
@@ -279,9 +284,9 @@ extern "C" {
 #endif
         };
 #if NO_ENCDEC
-        EbPictureBufferDesc_t      *quant_tmp;
-        EbPictureBufferDesc_t      *coeff_tmp;
-        EbPictureBufferDesc_t      *recon_tmp;
+        EbPictureBufferDesc      *quant_tmp;
+        EbPictureBufferDesc      *coeff_tmp;
+        EbPictureBufferDesc      *recon_tmp;
         uint32_t                    cand_buff_index;
 #endif
         MacroBlockD                *av1xd;
@@ -384,7 +389,7 @@ extern "C" {
         uint32_t                        total_bits;
 
         // Quantized Coefficients
-        EbPictureBufferDesc_t          *quantized_coeff;
+        EbPictureBufferDesc          *quantized_coeff;
 #if TILES
         TileInfo tile_info;
 #endif

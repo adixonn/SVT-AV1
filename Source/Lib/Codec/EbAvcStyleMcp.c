@@ -30,12 +30,12 @@ static const   uint8_t  integer_posoffset_tab_y[16] = { 0, 0, 0, 0,
 
 
 void estimate_uni_pred_interpolation_unpacked_avc_style(
-    EbPictureBufferDesc_t   *ref_pic,
+    EbPictureBufferDesc   *ref_pic,
     uint32_t                 pos_x,
     uint32_t                 pos_y,
     uint32_t                 pu_width,
     uint32_t                 pu_height,
-    EbPictureBufferDesc_t   *dst,
+    EbPictureBufferDesc   *dst,
     uint32_t                 dst_luma_index,
     uint32_t                 dst_chroma_index,          //input parameter, please refer to the detailed explanation above.
     uint32_t                 component_mask,
@@ -79,15 +79,15 @@ void estimate_uni_pred_interpolation_unpacked_avc_style(
 * Requirement (x86 only): dst->chromaStride % 16 = 0 when pu_width %32 = 0
 *******************************************************************************/
 void estimate_bi_pred_interpolation_unpacked_avc_style(
-    EbPictureBufferDesc_t   *ref_pic_list0,
-    EbPictureBufferDesc_t   *ref_pic_list1,
+    EbPictureBufferDesc   *ref_pic_list0,
+    EbPictureBufferDesc   *ref_pic_list1,
     uint32_t                 ref_list0_pos_x,
     uint32_t                 ref_list0_pos_y,
     uint32_t                 ref_list1_pos_x,
     uint32_t                 ref_list1_pos_y,
     uint32_t                 pu_width,
     uint32_t                 pu_height,
-    EbPictureBufferDesc_t   *bi_dst,
+    EbPictureBufferDesc   *bi_dst,
     uint32_t                 dst_luma_index,
     uint32_t                 dst_chroma_index,
     uint32_t                 component_mask,
@@ -163,12 +163,12 @@ void estimate_bi_pred_interpolation_unpacked_avc_style(
 * Requirement (x86 only): dst->chromaStride % 16 = 0 when pu_width %32 = 0
 *******************************************************************************/
 void estimate_uni_pred_interpolation_avc_luma(
-    EbPictureBufferDesc_t   *ref_pic,
+    EbPictureBufferDesc   *ref_pic,
     uint32_t                 pos_x,
     uint32_t                 pos_y,
     uint32_t                 pu_width,
     uint32_t                 pu_height,
-    EbPictureBufferDesc_t   *dst,
+    EbPictureBufferDesc   *dst,
     uint32_t                 dst_luma_index,
     uint32_t                 dst_chroma_index,          //input parameter, please refer to the detailed explanation above.
     uint32_t                 component_mask,
@@ -274,15 +274,15 @@ void estimate_uni_pred_interpolation_avc_luma(
  * Requirement (x86 only): dst->chromaStride % 16 = 0 when pu_width %32 = 0
 *******************************************************************************/
 void estimate_bi_pred_interpolation_avc_luma(
-    EbPictureBufferDesc_t   *ref_pic_list0,
-    EbPictureBufferDesc_t   *ref_pic_list1,
+    EbPictureBufferDesc   *ref_pic_list0,
+    EbPictureBufferDesc   *ref_pic_list1,
     uint32_t                 ref_list0_pos_x,
     uint32_t                 ref_list0_pos_y,
     uint32_t                 ref_list1_pos_x,
     uint32_t                 ref_list1_pos_y,
     uint32_t                 pu_width,
     uint32_t                 pu_height,
-    EbPictureBufferDesc_t   *bi_dst,
+    EbPictureBufferDesc   *bi_dst,
     uint32_t                 dst_luma_index,
     uint32_t                 dst_chroma_index,
     uint32_t                 component_mask,
@@ -509,12 +509,12 @@ void estimate_bi_pred_interpolation_avc_luma(
 
 
 void estimate_uni_pred_interpolation_avc_lumaRef10Bit(
-    EbPictureBufferDesc_t   *ref_frame_pic_list0,
+    EbPictureBufferDesc   *ref_frame_pic_list0,
     uint32_t                 pos_x,
     uint32_t                 pos_y,
     uint32_t                 pu_width,
     uint32_t                 pu_height,
-    EbPictureBufferDesc_t   *dst,
+    EbPictureBufferDesc   *dst,
     uint32_t                 dst_luma_index,
     uint32_t                 dst_chroma_index,          //input parameter, please refer to the detailed explanation above.
     uint32_t                 component_mask,
@@ -579,12 +579,12 @@ void estimate_uni_pred_interpolation_avc_lumaRef10Bit(
 }
 
 void estimate_uni_pred_interpolation_avc_chroma_ref10_bit(
-    EbPictureBufferDesc_t   *ref_frame_pic_list0,
+    EbPictureBufferDesc   *ref_frame_pic_list0,
     uint32_t                 pos_x,
     uint32_t                 pos_y,
     uint32_t                 pu_width,
     uint32_t                 pu_height,
-    EbPictureBufferDesc_t   *dst,
+    EbPictureBufferDesc   *dst,
     uint32_t                 dst_luma_index,
     uint32_t                 dst_chroma_index,          //input parameter, please refer to the detailed explanation above.
     uint32_t                 component_mask,
@@ -625,15 +625,15 @@ void estimate_uni_pred_interpolation_avc_chroma_ref10_bit(
     );
 }
 void estimate_bi_pred_interpolation_avc_chroma_ref10_bit(
-    EbPictureBufferDesc_t   *ref_frame_pic_list0,
-    EbPictureBufferDesc_t   *ref_frame_pic_list1,
+    EbPictureBufferDesc   *ref_frame_pic_list0,
+    EbPictureBufferDesc   *ref_frame_pic_list1,
     uint32_t                 ref_list0_pos_x,
     uint32_t                 ref_list0_pos_y,
     uint32_t                 ref_list1_pos_x,
     uint32_t                 ref_list1_pos_y,
     uint32_t                 pu_width,
     uint32_t                 pu_height,
-    EbPictureBufferDesc_t   *bi_dst,
+    EbPictureBufferDesc   *bi_dst,
     uint32_t                 dst_luma_index,
     uint32_t                 dst_chroma_index,
     uint32_t                 component_mask,
@@ -677,15 +677,15 @@ void estimate_bi_pred_interpolation_avc_chroma_ref10_bit(
 }
 
 void estimate_bi_pred_interpolation_avc_luma_ref10_bit(
-    EbPictureBufferDesc_t   *ref_frame_pic_list0,
-    EbPictureBufferDesc_t   *ref_frame_pic_list1,
+    EbPictureBufferDesc   *ref_frame_pic_list0,
+    EbPictureBufferDesc   *ref_frame_pic_list1,
     uint32_t                 ref_list0_pos_x,
     uint32_t                 ref_list0_pos_y,
     uint32_t                 ref_list1_pos_x,
     uint32_t                 ref_list1_pos_y,
     uint32_t                 pu_width,
     uint32_t                 pu_height,
-    EbPictureBufferDesc_t   *bi_dst,
+    EbPictureBufferDesc   *bi_dst,
     uint32_t                 dst_luma_index,
     uint32_t                 dst_chroma_index,
     uint32_t                 component_mask,
@@ -747,12 +747,12 @@ void estimate_bi_pred_interpolation_avc_luma_ref10_bit(
 }
 
 void uni_pred_i_free_ref8_bit(
-    EbPictureBufferDesc_t   *ref_pic,
+    EbPictureBufferDesc   *ref_pic,
     uint32_t                 pos_x,
     uint32_t                 pos_y,
     uint32_t                 pu_width,
     uint32_t                 pu_height,
-    EbPictureBufferDesc_t   *dst,
+    EbPictureBufferDesc   *dst,
     uint32_t                 dst_luma_index,
     uint32_t                 dst_chroma_index,          //input parameter, please refer to the detailed explanation above.
     uint32_t                 component_mask,
@@ -845,15 +845,15 @@ void uni_pred_i_free_ref8_bit(
 }
 
 void bi_pred_i_free_ref8_bit(
-    EbPictureBufferDesc_t   *ref_pic_list0,
-    EbPictureBufferDesc_t   *ref_pic_list1,
+    EbPictureBufferDesc   *ref_pic_list0,
+    EbPictureBufferDesc   *ref_pic_list1,
     uint32_t                 ref_list0_pos_x,
     uint32_t                 ref_list0_pos_y,
     uint32_t                 ref_list1_pos_x,
     uint32_t                 ref_list1_pos_y,
     uint32_t                 pu_width,
     uint32_t                 pu_height,
-    EbPictureBufferDesc_t   *bi_dst,
+    EbPictureBufferDesc   *bi_dst,
     uint32_t                 dst_luma_index,
     uint32_t                 dst_chroma_index,
     uint32_t                 component_mask,

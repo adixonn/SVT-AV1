@@ -42,8 +42,8 @@
 -------------------------------------*/
 EbErrorType CheckZeroZeroCenter(
     PictureParentControlSet_t   *picture_control_set_ptr,
-    EbPictureBufferDesc_t        *refPicPtr,
-    MeContext_t                  *context_ptr,
+    EbPictureBufferDesc        *refPicPtr,
+    MeContext                  *context_ptr,
     uint32_t                       sb_origin_x,
     uint32_t                       sb_origin_y,
     uint32_t                       sb_width,
@@ -58,7 +58,7 @@ EbErrorType CheckZeroZeroCenter(
  ************************************************/
 void* set_me_hme_params_from_config(
     SequenceControlSet_t        *sequence_control_set_ptr,
-    MeContext_t                 *me_context_ptr)
+    MeContext                 *me_context_ptr)
 {
 
     uint16_t hmeRegionIndex = 0;
@@ -92,7 +92,7 @@ void* set_me_hme_params_from_config(
  * Set ME/HME Params
  ************************************************/
 void* set_me_hme_params_oq(
-    MeContext_t                     *me_context_ptr,
+    MeContext                     *me_context_ptr,
     PictureParentControlSet_t       *picture_control_set_ptr,
     SequenceControlSet_t            *sequence_control_set_ptr,
     EbInputResolution                 input_resolution)
@@ -160,7 +160,7 @@ void* set_me_hme_params_oq(
 EbErrorType signal_derivation_me_kernel_oq(
     SequenceControlSet_t        *sequence_control_set_ptr,
     PictureParentControlSet_t   *picture_control_set_ptr,
-    MotionEstimationContext_t   *context_ptr) {
+    MotionEstimationContext   *context_ptr) {
 
     EbErrorType return_error = EB_ErrorNone;
 
@@ -186,13 +186,13 @@ EbErrorType signal_derivation_me_kernel_oq(
  ************************************************/
 
 EbErrorType motion_estimation_context_ctor(
-    MotionEstimationContext_t   **context_dbl_ptr,
+    MotionEstimationContext   **context_dbl_ptr,
     EbFifo_t                     *picture_decision_results_input_fifo_ptr,
     EbFifo_t                     *motion_estimation_results_output_fifo_ptr) {
 
     EbErrorType return_error = EB_ErrorNone;
-    MotionEstimationContext_t *context_ptr;
-    EB_MALLOC(MotionEstimationContext_t*, context_ptr, sizeof(MotionEstimationContext_t), EB_N_PTR);
+    MotionEstimationContext *context_ptr;
+    EB_MALLOC(MotionEstimationContext*, context_ptr, sizeof(MotionEstimationContext), EB_N_PTR);
 
     *context_dbl_ptr = context_ptr;
 
@@ -202,7 +202,7 @@ EbErrorType motion_estimation_context_ctor(
     if (return_error == EB_ErrorInsufficientResources) {
         return EB_ErrorInsufficientResources;
     }
-    return_error = MeContextCtor(&(context_ptr->me_context_ptr));
+    return_error = me_context_ctor(&(context_ptr->me_context_ptr));
     if (return_error == EB_ErrorInsufficientResources) {
         return EB_ErrorInsufficientResources;
     }
@@ -215,10 +215,10 @@ EbErrorType motion_estimation_context_ctor(
 * ZZ Decimated SAD Computation
 ***************************************************************************************************/
 EbErrorType ComputeDecimatedZzSad(
-    MotionEstimationContext_t   *context_ptr,
+    MotionEstimationContext   *context_ptr,
     SequenceControlSet_t        *sequence_control_set_ptr,
     PictureParentControlSet_t   *picture_control_set_ptr,
-    EbPictureBufferDesc_t       *sixteenthDecimatedPicturePtr,
+    EbPictureBufferDesc       *sixteenthDecimatedPicturePtr,
     uint32_t                         xLcuStartIndex,
     uint32_t                         xLcuEndIndex,
     uint32_t                         yLcuStartIndex,
@@ -229,7 +229,7 @@ EbErrorType ComputeDecimatedZzSad(
     EbAsm asm_type = sequence_control_set_ptr->encode_context_ptr->asm_type;
 
     PictureParentControlSet_t    *previous_picture_control_set_wrapper_ptr = ((PictureParentControlSet_t*)picture_control_set_ptr->previous_picture_control_set_wrapper_ptr->object_ptr);
-    EbPictureBufferDesc_t        *previousInputPictureFull = previous_picture_control_set_wrapper_ptr->enhanced_picture_ptr;
+    EbPictureBufferDesc        *previousInputPictureFull = previous_picture_control_set_wrapper_ptr->enhanced_picture_ptr;
 
     uint32_t sb_index;
 
@@ -358,7 +358,7 @@ EbErrorType ComputeDecimatedZzSad(
  ************************************************/
 void* motion_estimation_kernel(void *input_ptr)
 {
-    MotionEstimationContext_t   *context_ptr = (MotionEstimationContext_t*)input_ptr;
+    MotionEstimationContext   *context_ptr = (MotionEstimationContext*)input_ptr;
 
     PictureParentControlSet_t   *picture_control_set_ptr;
     SequenceControlSet_t        *sequence_control_set_ptr;
@@ -367,11 +367,11 @@ void* motion_estimation_kernel(void *input_ptr)
     PictureDecisionResults_t    *inputResultsPtr;
 
     EbObjectWrapper_t           *outputResultsWrapperPtr;
-    MotionEstimationResults_t   *outputResultsPtr;
+    MotionEstimationResults   *outputResultsPtr;
 
-    EbPictureBufferDesc_t       *input_picture_ptr;
+    EbPictureBufferDesc       *input_picture_ptr;
 
-    EbPictureBufferDesc_t       *inputPaddedPicturePtr;
+    EbPictureBufferDesc       *inputPaddedPicturePtr;
 
     uint32_t                       bufferIndex;
 
@@ -389,8 +389,8 @@ void* motion_estimation_kernel(void *input_ptr)
 
 
     EbPaReferenceObject_t       *paReferenceObject;
-    EbPictureBufferDesc_t       *quarterDecimatedPicturePtr;
-    EbPictureBufferDesc_t       *sixteenthDecimatedPicturePtr;
+    EbPictureBufferDesc       *quarterDecimatedPicturePtr;
+    EbPictureBufferDesc       *sixteenthDecimatedPicturePtr;
 
     // Segments
     uint32_t                      segment_index;
@@ -404,7 +404,7 @@ void* motion_estimation_kernel(void *input_ptr)
     uint32_t                      intra_sad_interval_index;
 
     EbAsm                      asm_type;
-    MdRateEstimationContext_t   *md_rate_estimation_array;
+    MdRateEstimationContext   *md_rate_estimation_array;
 
 
     for (;;) {
@@ -419,10 +419,10 @@ void* motion_estimation_kernel(void *input_ptr)
         picture_control_set_ptr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
         paReferenceObject = (EbPaReferenceObject_t*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->object_ptr;
-        quarterDecimatedPicturePtr = (EbPictureBufferDesc_t*)paReferenceObject->quarterDecimatedPicturePtr;
-        sixteenthDecimatedPicturePtr = (EbPictureBufferDesc_t*)paReferenceObject->sixteenthDecimatedPicturePtr;
+        quarterDecimatedPicturePtr = (EbPictureBufferDesc*)paReferenceObject->quarterDecimatedPicturePtr;
+        sixteenthDecimatedPicturePtr = (EbPictureBufferDesc*)paReferenceObject->sixteenthDecimatedPicturePtr;
 
-        inputPaddedPicturePtr = (EbPictureBufferDesc_t*)paReferenceObject->inputPaddedPicturePtr;
+        inputPaddedPicturePtr = (EbPictureBufferDesc*)paReferenceObject->inputPaddedPicturePtr;
 
         input_picture_ptr = picture_control_set_ptr->enhanced_picture_ptr;
 
@@ -437,7 +437,7 @@ void* motion_estimation_kernel(void *input_ptr)
         yLcuEndIndex = SEGMENT_END_IDX(ySegmentIndex, picture_height_in_sb, picture_control_set_ptr->me_segments_row_count);
         asm_type = sequence_control_set_ptr->encode_context_ptr->asm_type;
         // Increment the MD Rate Estimation array pointer to point to the right address based on the QP and slice type
-        md_rate_estimation_array = (MdRateEstimationContext_t*)sequence_control_set_ptr->encode_context_ptr->md_rate_estimation_array;
+        md_rate_estimation_array = (MdRateEstimationContext*)sequence_control_set_ptr->encode_context_ptr->md_rate_estimation_array;
         md_rate_estimation_array += picture_control_set_ptr->slice_type * TOTAL_NUMBER_OF_QP_VALUES + picture_control_set_ptr->picture_qp;
         // Reset MD rate Estimation table to initial values by copying from md_rate_estimation_array
         EB_MEMCPY(&(context_ptr->me_context_ptr->mvd_bits_array[0]), &(md_rate_estimation_array->mvdBits[0]), sizeof(EB_BitFraction)*NUMBER_OF_MVD_CASES);
@@ -729,7 +729,7 @@ void* motion_estimation_kernel(void *input_ptr)
             context_ptr->motion_estimation_results_output_fifo_ptr,
             &outputResultsWrapperPtr);
 
-        outputResultsPtr = (MotionEstimationResults_t*)outputResultsWrapperPtr->object_ptr;
+        outputResultsPtr = (MotionEstimationResults*)outputResultsWrapperPtr->object_ptr;
         outputResultsPtr->pictureControlSetWrapperPtr = inputResultsPtr->pictureControlSetWrapperPtr;
         outputResultsPtr->segment_index = segment_index;
 

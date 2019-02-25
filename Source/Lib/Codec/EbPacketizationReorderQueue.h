@@ -16,7 +16,7 @@ extern "C" {
     /************************************************
      * Packetization Reorder Queue Entry
      ************************************************/
-    typedef struct PacketizationReorderEntry_s {
+    typedef struct PacketizationReorderEntry {
         uint64_t                          picture_number;
         EbObjectWrapper_t              *output_stream_wrapper_ptr;
         EbObjectWrapper_t              *outputStatisticsWrapperPtr;
@@ -37,10 +37,10 @@ extern "C" {
         uint8_t                                 showExistingLoc;
 
 
-    } PacketizationReorderEntry_t;
+    } PacketizationReorderEntry;
 
     extern EbErrorType packetization_reorder_entry_ctor(
-        PacketizationReorderEntry_t **entry_dbl_ptr,
+        PacketizationReorderEntry **entry_dbl_ptr,
         uint32_t                      picture_number);
 
 

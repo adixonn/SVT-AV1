@@ -1140,7 +1140,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
 
     // Picture Analysis Results
     {
-        PictureAnalysisResultInitData_t pictureAnalysisResultInitData;
+        PictureAnalysisResultInitData pictureAnalysisResultInitData;
 
         return_error = eb_system_resource_ctor(
             &encHandlePtr->pictureAnalysisResultsResourcePtr,
@@ -1178,7 +1178,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
 
     // Motion Estimation Results
     {
-        MotionEstimationResultsInitData_t motionEstimationResultInitData;
+        MotionEstimationResultsInitData motionEstimationResultInitData;
 
         return_error = eb_system_resource_ctor(
             &encHandlePtr->motionEstimationResultsResourcePtr,
@@ -1197,7 +1197,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
 
     // Initial Rate Control Results
     {
-        InitialRateControlResultInitData_t initialRateControlResultInitData;
+        InitialRateControlResultInitData initialRateControlResultInitData;
 
         return_error = eb_system_resource_ctor(
             &encHandlePtr->initialRateControlResultsResourcePtr,
@@ -1455,7 +1455,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
         return_error = picture_analysis_context_ctor(
             &pictureBufferDescConf,
             EB_TRUE,
-            (PictureAnalysisContext_t**)&encHandlePtr->pictureAnalysisContextPtrArray[processIndex],
+            (PictureAnalysisContext**)&encHandlePtr->pictureAnalysisContextPtrArray[processIndex],
             encHandlePtr->resourceCoordinationResultsConsumerFifoPtrArray[processIndex],
             encHandlePtr->pictureAnalysisResultsProducerFifoPtrArray[processIndex]);
 
@@ -1486,7 +1486,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
     for (processIndex = 0; processIndex < encHandlePtr->sequence_control_set_instance_array[0]->sequence_control_set_ptr->motion_estimation_process_init_count; ++processIndex) {
 
         return_error = motion_estimation_context_ctor(
-            (MotionEstimationContext_t**)&encHandlePtr->motionEstimationContextPtrArray[processIndex],
+            (MotionEstimationContext**)&encHandlePtr->motionEstimationContextPtrArray[processIndex],
             encHandlePtr->pictureDecisionResultsConsumerFifoPtrArray[processIndex],
             encHandlePtr->motionEstimationResultsProducerFifoPtrArray[processIndex]);
 
@@ -1547,7 +1547,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
 
         for (processIndex = 0; processIndex < encHandlePtr->sequence_control_set_instance_array[0]->sequence_control_set_ptr->mode_decision_configuration_process_init_count; ++processIndex) {
             return_error = mode_decision_configuration_context_ctor(
-                (ModeDecisionConfigurationContext_t**)&encHandlePtr->modeDecisionConfigurationContextPtrArray[processIndex],
+                (ModeDecisionConfigurationContext**)&encHandlePtr->modeDecisionConfigurationContextPtrArray[processIndex],
                 encHandlePtr->rateControlResultsConsumerFifoPtrArray[processIndex],
 
                 encHandlePtr->encDecTasksProducerFifoPtrArray[EncDecPortLookup(ENCDEC_INPUT_PORT_MDC, processIndex)],
@@ -1669,7 +1669,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
 
     // Packetization Context
     return_error = packetization_context_ctor(
-        (PacketizationContext_t**)&encHandlePtr->packetizationContextPtr,
+        (PacketizationContext**)&encHandlePtr->packetizationContextPtr,
         encHandlePtr->entropyCodingResultsConsumerFifoPtrArray[0],
         encHandlePtr->rateControlTasksProducerFifoPtrArray[RateControlPortLookup(RATE_CONTROL_INPUT_PORT_PACKETIZATION, 0)]);
 
@@ -2888,7 +2888,7 @@ static EbErrorType CopyFrameBuffer(
     EbSvtAv1EncConfiguration          *config = &sequence_control_set_ptr->static_config;
     EbErrorType                      return_error = EB_ErrorNone;
 
-    EbPictureBufferDesc_t           *input_picture_ptr = (EbPictureBufferDesc_t*)dst;
+    EbPictureBufferDesc           *input_picture_ptr = (EbPictureBufferDesc*)dst;
     EbSvtEncInput               *inputPtr = (EbSvtEncInput*)src;
     uint16_t                         inputRowIndex;
     EbBool                           is16BitInput = (EbBool)(config->encoder_bit_depth > EB_8BIT);
@@ -3325,9 +3325,9 @@ static EbErrorType allocate_frame_buffer(
 
     if (is16bit && config->compressed_ten_bit_format == 1) {
         //pack 4 2bit pixels into 1Byte
-        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc_t*)(inputBuffer->p_buffer))->bufferBitIncY, sizeof(uint8_t) * (input_picture_buffer_desc_init_data.maxWidth / 4)*(input_picture_buffer_desc_init_data.maxHeight), EB_A_PTR);
-        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc_t*)(inputBuffer->p_buffer))->bufferBitIncCb, sizeof(uint8_t) * (input_picture_buffer_desc_init_data.maxWidth / 8)*(input_picture_buffer_desc_init_data.maxHeight / 2), EB_A_PTR);
-        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc_t*)(inputBuffer->p_buffer))->bufferBitIncCr, sizeof(uint8_t) * (input_picture_buffer_desc_init_data.maxWidth / 8)*(input_picture_buffer_desc_init_data.maxHeight / 2), EB_A_PTR);
+        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc*)(inputBuffer->p_buffer))->bufferBitIncY, sizeof(uint8_t) * (input_picture_buffer_desc_init_data.maxWidth / 4)*(input_picture_buffer_desc_init_data.maxHeight), EB_A_PTR);
+        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc*)(inputBuffer->p_buffer))->bufferBitIncCb, sizeof(uint8_t) * (input_picture_buffer_desc_init_data.maxWidth / 8)*(input_picture_buffer_desc_init_data.maxHeight / 2), EB_A_PTR);
+        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc*)(inputBuffer->p_buffer))->bufferBitIncCr, sizeof(uint8_t) * (input_picture_buffer_desc_init_data.maxWidth / 8)*(input_picture_buffer_desc_init_data.maxHeight / 2), EB_A_PTR);
     }
 
     return return_error;

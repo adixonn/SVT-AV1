@@ -326,7 +326,7 @@ static INLINE int16_t GetBrCtx(
 
 void get_txb_ctx(
     const int32_t               plane,
-    NeighborArrayUnit_t     *dc_sign_level_coeff_neighbor_array,
+    NeighborArrayUnit     *dc_sign_level_coeff_neighbor_array,
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
     const block_size        plane_bsize,
@@ -717,10 +717,10 @@ static EbErrorType Av1EncodeCoeff1D(
     uint32_t                  cu_origin_y,
     uint32_t                  intraLumaDir,
     block_size              plane_bsize,
-    EbPictureBufferDesc_t  *coeff_ptr,
-    NeighborArrayUnit_t     *luma_dc_sign_level_coeff_neighbor_array,
-    NeighborArrayUnit_t     *cr_dc_sign_level_coeff_neighbor_array,
-    NeighborArrayUnit_t     *cb_dc_sign_level_coeff_neighbor_array)
+    EbPictureBufferDesc  *coeff_ptr,
+    NeighborArrayUnit     *luma_dc_sign_level_coeff_neighbor_array,
+    NeighborArrayUnit     *cr_dc_sign_level_coeff_neighbor_array,
+    NeighborArrayUnit     *cb_dc_sign_level_coeff_neighbor_array)
 {
 
     EbErrorType return_error = EB_ErrorNone;
@@ -963,7 +963,7 @@ static void EncodePartitionAv1(
     PartitionType          p,
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
-    NeighborArrayUnit_t    *partition_context_neighbor_array)
+    NeighborArrayUnit    *partition_context_neighbor_array)
 {
 
     const int32_t is_partition_point = bsize >= BLOCK_8X8;
@@ -1042,7 +1042,7 @@ static void EncodeSkipCoeffAv1(
     EbBool                 skipCoeffFlag,
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
-    NeighborArrayUnit_t    *skip_coeff_neighbor_array)
+    NeighborArrayUnit    *skip_coeff_neighbor_array)
 {
 
     uint32_t skipCoeffLeftNeighborIndex = get_neighbor_array_unit_left_index(
@@ -1082,8 +1082,8 @@ static void EncodeIntraLumaModeAv1(
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
     uint32_t                  luma_mode,
-    NeighborArrayUnit_t    *mode_type_neighbor_array,
-    NeighborArrayUnit_t    *intra_luma_mode_neighbor_array)
+    NeighborArrayUnit    *mode_type_neighbor_array,
+    NeighborArrayUnit    *intra_luma_mode_neighbor_array)
 {
     uint32_t modeTypeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         mode_type_neighbor_array,
@@ -1219,7 +1219,7 @@ static void EncodeSkipModeAv1(
     EbBool                 skipModeFlag,
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
-    NeighborArrayUnit_t    *skip_flag_neighbor_array)
+    NeighborArrayUnit    *skip_flag_neighbor_array)
 {
 
     uint32_t skipFlagLeftNeighborIndex = get_neighbor_array_unit_left_index(
@@ -1258,7 +1258,7 @@ static void EncodePredModeAv1(
     EbBool                 predModeFlag,
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
-    NeighborArrayUnit_t    *mode_type_neighbor_array)
+    NeighborArrayUnit    *mode_type_neighbor_array)
 {
     uint32_t modeTypeLeftNeighborIndex = get_neighbor_array_unit_left_index(
         mode_type_neighbor_array,
@@ -1710,7 +1710,7 @@ void WriteDrlIdx(
 }
 
 extern MV_JOINT_TYPE av1_get_mv_joint(int32_t diff[2]);
-static void encode_mv_component(aom_writer *w, int32_t comp, nmv_component *mvcomp,
+static void encode_mv_component(aom_writer *w, int32_t comp, NMVComponent *mvcomp,
     MvSubpelPrecision precision) {
     int32_t offset;
     const int32_t sign = comp < 0;
@@ -1773,7 +1773,7 @@ void av1_encode_mv(
     aom_writer                  *ecWriter,
     const MV *mv,
     const MV *ref,
-    nmv_context *mvctx,
+    NMVContext *mvctx,
     int32_t usehp) {
 
 
@@ -1811,10 +1811,10 @@ void av1_encode_mv(
 #define INTER_FILTER_DIR_OFFSET ((SWITCHABLE_FILTERS + 1) * 2)
 
 int32_t av1_get_pred_context_switchable_interp(
-    NeighborArrayUnit_t     *ref_frame_type_neighbor_array,
+    NeighborArrayUnit     *ref_frame_type_neighbor_array,
     MvReferenceFrame rf0,
     MvReferenceFrame rf1,
-    NeighborArrayUnit32_t     *interpolation_type_neighbor_array,
+    NeighborArrayUnit32     *interpolation_type_neighbor_array,
 
     uint32_t cu_origin_x,
     uint32_t cu_origin_y,
@@ -1931,7 +1931,7 @@ static int32_t av1_is_interp_needed(
 }
 
 void write_mb_interp_filter(
-    NeighborArrayUnit_t     *ref_frame_type_neighbor_array,
+    NeighborArrayUnit     *ref_frame_type_neighbor_array,
     block_size bsize,
     MvReferenceFrame rf0,
     MvReferenceFrame rf1,
@@ -1939,7 +1939,7 @@ void write_mb_interp_filter(
     aom_writer                  *ecWriter,
     CodingUnit             *cu_ptr,
     EntropyCoder *entropy_coder_ptr,
-    NeighborArrayUnit32_t     *interpolation_type_neighbor_array,
+    NeighborArrayUnit32     *interpolation_type_neighbor_array,
     uint32_t blkOriginX,
     uint32_t blkOriginY)
 {
@@ -1996,8 +1996,8 @@ static void WriteInterCompoundMode(
 int32_t av1_get_reference_mode_context(
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
-    NeighborArrayUnit_t    *mode_type_neighbor_array,
-    NeighborArrayUnit_t    *inter_pred_dir_neighbor_array)
+    NeighborArrayUnit    *mode_type_neighbor_array,
+    NeighborArrayUnit    *inter_pred_dir_neighbor_array)
 {
 
 
@@ -2072,8 +2072,8 @@ int32_t av1_get_reference_mode_context(
 int32_t av1_get_comp_reference_type_context(
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
-    NeighborArrayUnit_t    *mode_type_neighbor_array,
-    NeighborArrayUnit_t     *inter_pred_dir_neighbor_array) {
+    NeighborArrayUnit    *mode_type_neighbor_array,
+    NeighborArrayUnit     *inter_pred_dir_neighbor_array) {
 
     int32_t pred_context = 0;
 
@@ -2179,9 +2179,9 @@ void av1_collect_neighbors_ref_counts(
     CodingUnit            *cu_ptr,
     uint32_t                   cu_origin_x,
     uint32_t                   cu_origin_y,
-    NeighborArrayUnit_t     *mode_type_neighbor_array,
-    NeighborArrayUnit_t     *inter_pred_dir_neighbor_array,
-    NeighborArrayUnit_t     *ref_frame_type_neighbor_array) {
+    NeighborArrayUnit     *mode_type_neighbor_array,
+    NeighborArrayUnit     *inter_pred_dir_neighbor_array,
+    NeighborArrayUnit     *ref_frame_type_neighbor_array) {
 
 
     av1_zero(cu_ptr->av1xd->neighbors_ref_counts);
@@ -2439,8 +2439,8 @@ static void WriteRefFrames(
     block_size                   bsize,
     uint32_t                       cu_origin_x,
     uint32_t                       cu_origin_y,
-    NeighborArrayUnit_t         *mode_type_neighbor_array,
-    NeighborArrayUnit_t         *inter_pred_dir_neighbor_array)
+    NeighborArrayUnit         *mode_type_neighbor_array,
+    NeighborArrayUnit         *inter_pred_dir_neighbor_array)
 {
     //const MbModeInfo *const mbmi = &xd->mi[0]->mbmi;
     const int32_t is_compound = (cu_ptr->prediction_unit_array[0].inter_pred_direction_index == BI_PRED); //is_compound;// has_second_ref(mbmi);
@@ -4863,20 +4863,20 @@ EbErrorType ec_update_neighbors(
     uint32_t                 blkOriginY,
     CodingUnit            *cu_ptr,
     block_size                bsize,
-    EbPictureBufferDesc_t   *coeff_ptr)
+    EbPictureBufferDesc   *coeff_ptr)
 {
     UNUSED(coeff_ptr);
     EbErrorType return_error = EB_ErrorNone;
-    NeighborArrayUnit_t     *mode_type_neighbor_array = picture_control_set_ptr->mode_type_neighbor_array;
-    NeighborArrayUnit_t     *partition_context_neighbor_array = picture_control_set_ptr->partition_context_neighbor_array;
-    NeighborArrayUnit_t     *skip_flag_neighbor_array = picture_control_set_ptr->skip_flag_neighbor_array;
-    NeighborArrayUnit_t     *skip_coeff_neighbor_array = picture_control_set_ptr->skip_coeff_neighbor_array;
-    NeighborArrayUnit_t     *luma_dc_sign_level_coeff_neighbor_array = picture_control_set_ptr->luma_dc_sign_level_coeff_neighbor_array;
-    NeighborArrayUnit_t     *cr_dc_sign_level_coeff_neighbor_array = picture_control_set_ptr->cr_dc_sign_level_coeff_neighbor_array;
-    NeighborArrayUnit_t     *cb_dc_sign_level_coeff_neighbor_array = picture_control_set_ptr->cb_dc_sign_level_coeff_neighbor_array;
-    NeighborArrayUnit_t     *inter_pred_dir_neighbor_array = picture_control_set_ptr->inter_pred_dir_neighbor_array;
-    NeighborArrayUnit_t     *ref_frame_type_neighbor_array = picture_control_set_ptr->ref_frame_type_neighbor_array;
-    NeighborArrayUnit32_t   *interpolation_type_neighbor_array = picture_control_set_ptr->interpolation_type_neighbor_array;
+    NeighborArrayUnit     *mode_type_neighbor_array = picture_control_set_ptr->mode_type_neighbor_array;
+    NeighborArrayUnit     *partition_context_neighbor_array = picture_control_set_ptr->partition_context_neighbor_array;
+    NeighborArrayUnit     *skip_flag_neighbor_array = picture_control_set_ptr->skip_flag_neighbor_array;
+    NeighborArrayUnit     *skip_coeff_neighbor_array = picture_control_set_ptr->skip_coeff_neighbor_array;
+    NeighborArrayUnit     *luma_dc_sign_level_coeff_neighbor_array = picture_control_set_ptr->luma_dc_sign_level_coeff_neighbor_array;
+    NeighborArrayUnit     *cr_dc_sign_level_coeff_neighbor_array = picture_control_set_ptr->cr_dc_sign_level_coeff_neighbor_array;
+    NeighborArrayUnit     *cb_dc_sign_level_coeff_neighbor_array = picture_control_set_ptr->cb_dc_sign_level_coeff_neighbor_array;
+    NeighborArrayUnit     *inter_pred_dir_neighbor_array = picture_control_set_ptr->inter_pred_dir_neighbor_array;
+    NeighborArrayUnit     *ref_frame_type_neighbor_array = picture_control_set_ptr->ref_frame_type_neighbor_array;
+    NeighborArrayUnit32   *interpolation_type_neighbor_array = picture_control_set_ptr->interpolation_type_neighbor_array;
     const BlockGeom         *blk_geom = get_blk_geom_mds(cu_ptr->mds_idx);
     EbBool                   skipCoeff = EB_FALSE;
     PartitionContext         partition;
@@ -5023,7 +5023,7 @@ EbErrorType write_modes_b(
     EntropyCoder          *entropy_coder_ptr,
     LargestCodingUnit     *tb_ptr,
     CodingUnit            *cu_ptr,
-    EbPictureBufferDesc_t   *coeff_ptr)
+    EbPictureBufferDesc   *coeff_ptr)
 {
     UNUSED(tb_ptr);
     EbErrorType return_error = EB_ErrorNone;
@@ -5031,16 +5031,16 @@ EbErrorType write_modes_b(
     aom_writer              *ecWriter = &entropy_coder_ptr->ecWriter;
     SequenceControlSet_t     *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
-    NeighborArrayUnit_t     *mode_type_neighbor_array = picture_control_set_ptr->mode_type_neighbor_array;
-    NeighborArrayUnit_t     *intra_luma_mode_neighbor_array = picture_control_set_ptr->intra_luma_mode_neighbor_array;
-    NeighborArrayUnit_t     *skip_flag_neighbor_array = picture_control_set_ptr->skip_flag_neighbor_array;
-    NeighborArrayUnit_t     *skip_coeff_neighbor_array = picture_control_set_ptr->skip_coeff_neighbor_array;
-    NeighborArrayUnit_t     *luma_dc_sign_level_coeff_neighbor_array = picture_control_set_ptr->luma_dc_sign_level_coeff_neighbor_array;
-    NeighborArrayUnit_t     *cr_dc_sign_level_coeff_neighbor_array = picture_control_set_ptr->cr_dc_sign_level_coeff_neighbor_array;
-    NeighborArrayUnit_t     *cb_dc_sign_level_coeff_neighbor_array = picture_control_set_ptr->cb_dc_sign_level_coeff_neighbor_array;
-    NeighborArrayUnit_t     *inter_pred_dir_neighbor_array = picture_control_set_ptr->inter_pred_dir_neighbor_array;
-    NeighborArrayUnit_t     *ref_frame_type_neighbor_array = picture_control_set_ptr->ref_frame_type_neighbor_array;
-    NeighborArrayUnit32_t   *interpolation_type_neighbor_array = picture_control_set_ptr->interpolation_type_neighbor_array;
+    NeighborArrayUnit     *mode_type_neighbor_array = picture_control_set_ptr->mode_type_neighbor_array;
+    NeighborArrayUnit     *intra_luma_mode_neighbor_array = picture_control_set_ptr->intra_luma_mode_neighbor_array;
+    NeighborArrayUnit     *skip_flag_neighbor_array = picture_control_set_ptr->skip_flag_neighbor_array;
+    NeighborArrayUnit     *skip_coeff_neighbor_array = picture_control_set_ptr->skip_coeff_neighbor_array;
+    NeighborArrayUnit     *luma_dc_sign_level_coeff_neighbor_array = picture_control_set_ptr->luma_dc_sign_level_coeff_neighbor_array;
+    NeighborArrayUnit     *cr_dc_sign_level_coeff_neighbor_array = picture_control_set_ptr->cr_dc_sign_level_coeff_neighbor_array;
+    NeighborArrayUnit     *cb_dc_sign_level_coeff_neighbor_array = picture_control_set_ptr->cb_dc_sign_level_coeff_neighbor_array;
+    NeighborArrayUnit     *inter_pred_dir_neighbor_array = picture_control_set_ptr->inter_pred_dir_neighbor_array;
+    NeighborArrayUnit     *ref_frame_type_neighbor_array = picture_control_set_ptr->ref_frame_type_neighbor_array;
+    NeighborArrayUnit32   *interpolation_type_neighbor_array = picture_control_set_ptr->interpolation_type_neighbor_array;
 
     const BlockGeom          *blk_geom = get_blk_geom_mds(cu_ptr->mds_idx);
     uint32_t blkOriginX = context_ptr->sb_origin_x + blk_geom->origin_x;
@@ -5319,7 +5319,7 @@ EbErrorType write_modes_b(
                     IntMv ref_mv;
 
                     for (uint8_t ref = 0; ref < 1 + is_compound; ++ref) {
-                        nmv_context *nmvc = &frameContext->nmvc;
+                        NMVContext *nmvc = &frameContext->nmvc;
                         ref_mv = cu_ptr->predmv[ref];
 
                         MV mv;
@@ -5341,7 +5341,7 @@ EbErrorType write_modes_b(
                     }
                 }
                 else if (inter_mode == NEAREST_NEWMV || inter_mode == NEAR_NEWMV) {
-                    nmv_context *nmvc = &frameContext->nmvc;
+                    NMVContext *nmvc = &frameContext->nmvc;
                     IntMv ref_mv = cu_ptr->predmv[1];
 
                     MV mv;
@@ -5358,7 +5358,7 @@ EbErrorType write_modes_b(
 
                 }
                 else if (inter_mode == NEW_NEARESTMV || inter_mode == NEW_NEARMV) {
-                    nmv_context *nmvc = &frameContext->nmvc;
+                    NMVContext *nmvc = &frameContext->nmvc;
                     IntMv ref_mv = cu_ptr->predmv[0];
 
                     MV mv;
@@ -5455,13 +5455,13 @@ EB_EXTERN EbErrorType write_sb(
     LargestCodingUnit     *tb_ptr,
     PictureControlSet_t     *picture_control_set_ptr,
     EntropyCoder          *entropy_coder_ptr,
-    EbPictureBufferDesc_t   *coeff_ptr)
+    EbPictureBufferDesc   *coeff_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
     FRAME_CONTEXT           *frameContext = entropy_coder_ptr->fc;
     aom_writer              *ecWriter = &entropy_coder_ptr->ecWriter;
     SequenceControlSet_t     *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
-    NeighborArrayUnit_t     *partition_context_neighbor_array = picture_control_set_ptr->partition_context_neighbor_array;
+    NeighborArrayUnit     *partition_context_neighbor_array = picture_control_set_ptr->partition_context_neighbor_array;
 
     // CU Varaiables
     const BlockGeom          *blk_geom;

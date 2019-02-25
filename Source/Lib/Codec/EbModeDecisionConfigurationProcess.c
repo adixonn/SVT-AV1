@@ -663,7 +663,7 @@ void set_reference_cdef_strength(
 * Compute Tc, and Beta offsets for a given picture
 ******************************************************/
 void AdaptiveDlfParameterComputation(
-    ModeDecisionConfigurationContext_t     *context_ptr,
+    ModeDecisionConfigurationContext     *context_ptr,
     SequenceControlSet_t                   *sequence_control_set_ptr,
     PictureControlSet_t                    *picture_control_set_ptr,
     EbBool                                    scene_transition_flag)
@@ -712,16 +712,16 @@ void AdaptiveDlfParameterComputation(
  * Mode Decision Configuration Context Constructor
  ******************************************************/
 EbErrorType mode_decision_configuration_context_ctor(
-    ModeDecisionConfigurationContext_t **context_dbl_ptr,
+    ModeDecisionConfigurationContext **context_dbl_ptr,
     EbFifo_t                            *rate_control_input_fifo_ptr,
 
     EbFifo_t                            *mode_decision_configuration_output_fifo_ptr,
     uint16_t                                 sb_total_count)
 
 {
-    ModeDecisionConfigurationContext_t *context_ptr;
+    ModeDecisionConfigurationContext *context_ptr;
 
-    EB_MALLOC(ModeDecisionConfigurationContext_t*, context_ptr, sizeof(ModeDecisionConfigurationContext_t), EB_N_PTR);
+    EB_MALLOC(ModeDecisionConfigurationContext*, context_ptr, sizeof(ModeDecisionConfigurationContext), EB_N_PTR);
 
     *context_dbl_ptr = context_ptr;
 
@@ -729,7 +729,7 @@ EbErrorType mode_decision_configuration_context_ctor(
     context_ptr->rate_control_input_fifo_ptr = rate_control_input_fifo_ptr;
     context_ptr->mode_decision_configuration_output_fifo_ptr = mode_decision_configuration_output_fifo_ptr;
     // Rate estimation
-    EB_MALLOC(MdRateEstimationContext_t*, context_ptr->md_rate_estimation_ptr, sizeof(MdRateEstimationContext_t), EB_N_PTR);
+    EB_MALLOC(MdRateEstimationContext*, context_ptr->md_rate_estimation_ptr, sizeof(MdRateEstimationContext), EB_N_PTR);
 
 
     // Budgeting
@@ -744,7 +744,7 @@ EbErrorType mode_decision_configuration_context_ctor(
 * Predict the SB partitionning
 ******************************************************/
 void PerformEarlyLcuPartitionning(
-    ModeDecisionConfigurationContext_t     *context_ptr,
+    ModeDecisionConfigurationContext     *context_ptr,
     SequenceControlSet_t                   *sequence_control_set_ptr,
     PictureControlSet_t                    *picture_control_set_ptr) {
 
@@ -753,7 +753,7 @@ void PerformEarlyLcuPartitionning(
     uint32_t                         slice_type;
 
     // MD Conf Rate Estimation Array from encodeContext
-    MdRateEstimationContext_t    *mdConfRateEstimationArray;
+    MdRateEstimationContext    *mdConfRateEstimationArray;
 
     // Lambda Assignement
     if (sequence_control_set_ptr->static_config.pred_structure == EB_PRED_RANDOM_ACCESS) {
@@ -800,11 +800,11 @@ void PerformEarlyLcuPartitionning(
         picture_control_set_ptr->slice_type;
 
     // Increment the MD Rate Estimation array pointer to point to the right address based on the QP and slice type
-    mdConfRateEstimationArray = (MdRateEstimationContext_t*)sequence_control_set_ptr->encode_context_ptr->md_rate_estimation_array;
+    mdConfRateEstimationArray = (MdRateEstimationContext*)sequence_control_set_ptr->encode_context_ptr->md_rate_estimation_array;
     mdConfRateEstimationArray += slice_type * TOTAL_NUMBER_OF_QP_VALUES + context_ptr->qp;
 
     // Reset MD rate Estimation table to initial values by copying from md_rate_estimation_array
-    EB_MEMCPY(&(context_ptr->md_rate_estimation_ptr->splitFlagBits[0]), &(mdConfRateEstimationArray->splitFlagBits[0]), sizeof(MdRateEstimationContext_t));
+    EB_MEMCPY(&(context_ptr->md_rate_estimation_ptr->splitFlagBits[0]), &(mdConfRateEstimationArray->splitFlagBits[0]), sizeof(MdRateEstimationContext));
 
     picture_control_set_ptr->parent_pcs_ptr->average_qp = (uint8_t)picture_control_set_ptr->parent_pcs_ptr->picture_qp;
 
@@ -828,7 +828,7 @@ void PerformEarlyLcuPartitionning(
 }
 
 void PerformEarlyLcuPartitionningLcu(
-    ModeDecisionConfigurationContext_t     *context_ptr,
+    ModeDecisionConfigurationContext     *context_ptr,
     SequenceControlSet_t                   *sequence_control_set_ptr,
     PictureControlSet_t                    *picture_control_set_ptr,
     uint32_t                                    sb_index) {
@@ -1290,13 +1290,13 @@ void Forward84CuToModeDecision(
 void PartitioningInitialization(
     SequenceControlSet_t                   *sequence_control_set_ptr,
     PictureControlSet_t                    *picture_control_set_ptr,
-    ModeDecisionConfigurationContext_t     *context_ptr) {
+    ModeDecisionConfigurationContext     *context_ptr) {
 
     uint32_t                         slice_type;
 
     // HG: to collapse
     // MD Conf Rate Estimation Array from encodeContext
-    MdRateEstimationContext_t    *mdConfRateEstimationArray;
+    MdRateEstimationContext    *mdConfRateEstimationArray;
 
     // Lambda Assignement
     if (sequence_control_set_ptr->static_config.pred_structure == EB_PRED_RANDOM_ACCESS) {
@@ -1327,11 +1327,11 @@ void PartitioningInitialization(
         picture_control_set_ptr->slice_type;
 
     // Increment the MD Rate Estimation array pointer to point to the right address based on the QP and slice type
-    mdConfRateEstimationArray = (MdRateEstimationContext_t*)sequence_control_set_ptr->encode_context_ptr->md_rate_estimation_array;
+    mdConfRateEstimationArray = (MdRateEstimationContext*)sequence_control_set_ptr->encode_context_ptr->md_rate_estimation_array;
     mdConfRateEstimationArray += slice_type * TOTAL_NUMBER_OF_QP_VALUES + context_ptr->qp;
 
     // Reset MD rate Estimation table to initial values by copying from md_rate_estimation_array
-    EB_MEMCPY(&(context_ptr->md_rate_estimation_ptr->splitFlagBits[0]), &(mdConfRateEstimationArray->splitFlagBits[0]), sizeof(MdRateEstimationContext_t)/*sizeof(EB_BitFraction)* MAX_SIZE_OF_MD_RATE_ESTIMATION_CASES*/);
+    EB_MEMCPY(&(context_ptr->md_rate_estimation_ptr->splitFlagBits[0]), &(mdConfRateEstimationArray->splitFlagBits[0]), sizeof(MdRateEstimationContext)/*sizeof(EB_BitFraction)* MAX_SIZE_OF_MD_RATE_ESTIMATION_CASES*/);
 
     picture_control_set_ptr->parent_pcs_ptr->average_qp = (uint8_t)picture_control_set_ptr->parent_pcs_ptr->picture_qp;
 }
@@ -1472,7 +1472,7 @@ EbAuraStatus AuraDetection64x64Gold(
 
 
 
-        MeCuResults_t * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[sb_index][0];
+        MeCuResults * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[sb_index][0];
 
         //Curr Block
 
@@ -1595,7 +1595,7 @@ void AuraDetection(
 
 EbErrorType DeriveDefaultSegments(
     PictureControlSet_t                 *picture_control_set_ptr,
-    ModeDecisionConfigurationContext_t  *context_ptr)
+    ModeDecisionConfigurationContext  *context_ptr)
 {
     EbErrorType                    return_error = EB_ErrorNone;
 
@@ -1738,7 +1738,7 @@ EbErrorType DeriveDefaultSegments(
 void SetTargetBudget(
     SequenceControlSet_t                *sequence_control_set_ptr,
     PictureControlSet_t                 *picture_control_set_ptr,
-    ModeDecisionConfigurationContext_t  *context_ptr)
+    ModeDecisionConfigurationContext  *context_ptr)
 {
 
     uint32_t budget;
@@ -2020,7 +2020,7 @@ EbBool IsAvcPartitioningMode(
 ******************************************************/
 void ConfigureAdp(
     PictureControlSet_t                 *picture_control_set_ptr,
-    ModeDecisionConfigurationContext_t  *context_ptr)
+    ModeDecisionConfigurationContext  *context_ptr)
 {
 
     context_ptr->costDepthMode[LCU_FULL85_DEPTH_MODE - 1] = FULL_SEARCH_COST;
@@ -2081,7 +2081,7 @@ void ConfigureAdp(
 ******************************************************/
 void DeriveSearchMethod(
     PictureControlSet_t                 *picture_control_set_ptr,
-    ModeDecisionConfigurationContext_t  *context_ptr)
+    ModeDecisionConfigurationContext  *context_ptr)
 {
 
     uint32_t sb_index;
@@ -2129,7 +2129,7 @@ void SetLcuBudget(
     SequenceControlSet_t                *sequence_control_set_ptr,
     PictureControlSet_t                 *picture_control_set_ptr,
     LargestCodingUnit                 *sb_ptr,
-    ModeDecisionConfigurationContext_t  *context_ptr) {
+    ModeDecisionConfigurationContext  *context_ptr) {
 
     uint32_t      sb_index = sb_ptr->index;
     uint32_t      maxToMinScore, scoreToMin;
@@ -2191,7 +2191,7 @@ void SetLcuBudget(
 void  DeriveOptimalBudgetPerLcu(
     SequenceControlSet_t                *sequence_control_set_ptr,
     PictureControlSet_t                 *picture_control_set_ptr,
-    ModeDecisionConfigurationContext_t  *context_ptr) {
+    ModeDecisionConfigurationContext  *context_ptr) {
 
 
     uint32_t sb_index;
@@ -2268,7 +2268,7 @@ void  DeriveOptimalBudgetPerLcu(
 void ComputeRefinementCost(
     SequenceControlSet_t                *sequence_control_set_ptr,
     PictureControlSet_t                 *picture_control_set_ptr,
-    ModeDecisionConfigurationContext_t  *context_ptr)
+    ModeDecisionConfigurationContext  *context_ptr)
 {
 
     uint32_t  sb_index;
@@ -2302,7 +2302,7 @@ void ComputeRefinementCost(
 void DeriveLcuScore(
     SequenceControlSet_t               *sequence_control_set_ptr,
     PictureControlSet_t                *picture_control_set_ptr,
-    ModeDecisionConfigurationContext_t *context_ptr)
+    ModeDecisionConfigurationContext *context_ptr)
 {
     uint32_t  sb_index;
     uint32_t  lcuScore;
@@ -2406,7 +2406,7 @@ void DeriveLcuScore(
 void PerformOutlierRemoval(
     SequenceControlSet_t                *sequence_control_set_ptr,
     PictureParentControlSet_t           *picture_control_set_ptr,
-    ModeDecisionConfigurationContext_t  *context_ptr)
+    ModeDecisionConfigurationContext  *context_ptr)
 {
 
     uint32_t maxInterval = 0;
@@ -2494,7 +2494,7 @@ void PerformOutlierRemoval(
 void DeriveLcuMdMode(
     SequenceControlSet_t                *sequence_control_set_ptr,
     PictureControlSet_t                 *picture_control_set_ptr,
-    ModeDecisionConfigurationContext_t  *context_ptr) {
+    ModeDecisionConfigurationContext  *context_ptr) {
 
     // Configure ADP
     ConfigureAdp(
@@ -2671,7 +2671,7 @@ void forward_all_c_blocks_to_md(
 void* mode_decision_configuration_kernel(void *input_ptr)
 {
     // Context & SCS & PCS
-    ModeDecisionConfigurationContext_t         *context_ptr = (ModeDecisionConfigurationContext_t*)input_ptr;
+    ModeDecisionConfigurationContext         *context_ptr = (ModeDecisionConfigurationContext*)input_ptr;
     PictureControlSet_t                        *picture_control_set_ptr;
     SequenceControlSet_t                       *sequence_control_set_ptr;
 

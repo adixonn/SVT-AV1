@@ -36,11 +36,11 @@ void *aom_memalign(size_t align, size_t size);
 void aom_free(void *memblk);
 void *aom_malloc(size_t size);
 uint64_t compute_cdef_dist(uint16_t *dst, int32_t dstride, uint16_t *src,
-    cdef_list *dlist, int32_t cdef_count, block_size bsize,
+    CdefList *dlist, int32_t cdef_count, block_size bsize,
     int32_t coeff_shift, int32_t pli);
 int32_t sb_all_skip(PictureControlSet_t   *picture_control_set_ptr, const Av1Common *const cm, int32_t mi_row, int32_t mi_col);
 int32_t sb_compute_cdef_list(PictureControlSet_t   *picture_control_set_ptr, const Av1Common *const cm, int32_t mi_row, int32_t mi_col,
-    cdef_list *dlist, block_size bs);
+    CdefList *dlist, block_size bs);
 void finish_cdef_search(
     EncDecContext                *context_ptr,
     SequenceControlSet_t           *sequence_control_set_ptr,
@@ -115,7 +115,7 @@ void cdef_seg_search(
     uint32_t fbr, fbc;
     uint16_t *src[3];
     uint16_t *ref_coeff[3];
-    cdef_list dlist[MI_SIZE_128X128 * MI_SIZE_128X128];
+    CdefList dlist[MI_SIZE_128X128 * MI_SIZE_128X128];
     int32_t dir[CDEF_NBLOCKS][CDEF_NBLOCKS] = { { 0 } };
     int32_t var[CDEF_NBLOCKS][CDEF_NBLOCKS] = { { 0 } };
     int32_t stride[3];
@@ -270,8 +270,8 @@ void cdef_seg_search16bit(
     SequenceControlSet_t           *sequence_control_set_ptr,
     uint32_t                        segment_index)
 {
-    EbPictureBufferDesc_t *input_pic_ptr = picture_control_set_ptr->input_frame16bit;
-    EbPictureBufferDesc_t *recon_pic_ptr =
+    EbPictureBufferDesc *input_pic_ptr = picture_control_set_ptr->input_frame16bit;
+    EbPictureBufferDesc *recon_pic_ptr =
         (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE) ?
         ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit :
          picture_control_set_ptr->recon_picture16bit_ptr;
@@ -295,7 +295,7 @@ void cdef_seg_search16bit(
     uint32_t fbr, fbc;
     uint16_t *src[3];
     uint16_t *ref_coeff[3];
-    cdef_list dlist[MI_SIZE_128X128 * MI_SIZE_128X128];
+    CdefList dlist[MI_SIZE_128X128 * MI_SIZE_128X128];
     int32_t dir[CDEF_NBLOCKS][CDEF_NBLOCKS] = { { 0 } };
     int32_t var[CDEF_NBLOCKS][CDEF_NBLOCKS] = { { 0 } };
     int32_t stride_src[3];
@@ -512,7 +512,7 @@ void* cdef_kernel(void *input_ptr)
            // printf("    CDEF all seg here  %i\n", picture_control_set_ptr->picture_number);
 
 #if ! CDEF_M
-        EbPictureBufferDesc_t  * recon_picture_ptr;
+        EbPictureBufferDesc  * recon_picture_ptr;
         if (is16bit) {
             if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE)
                 recon_picture_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;

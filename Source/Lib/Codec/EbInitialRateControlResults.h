@@ -12,13 +12,13 @@
 /**************************************
  * Process Results
  **************************************/
-typedef struct InitialRateControlResults_s {
+typedef struct InitialRateControlResults {
     EbObjectWrapper_t   *pictureControlSetWrapperPtr;
-} InitialRateControlResults_t;
+} InitialRateControlResults;
 
-typedef struct InitialRateControlResultInitData_s {
+typedef struct InitialRateControlResultInitData {
     int32_t junk;
-} InitialRateControlResultInitData_t;
+} InitialRateControlResultInitData;
 
 /**************************************
  * Extern Function Declarations

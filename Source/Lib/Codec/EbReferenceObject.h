@@ -11,9 +11,9 @@
 #include "EbAdaptiveMotionVectorPrediction.h"
 
 typedef struct EbReferenceObject_s {
-    EbPictureBufferDesc_t          *referencePicture;
-    EbPictureBufferDesc_t          *referencePicture16bit;
-    EbPictureBufferDesc_t          *refDenSrcPicture;
+    EbPictureBufferDesc          *referencePicture;
+    EbPictureBufferDesc          *referencePicture16bit;
+    EbPictureBufferDesc          *refDenSrcPicture;
 
     TmvpUnit                     *tmvpMap;
     EbBool                          tmvpEnableFlag;
@@ -47,9 +47,9 @@ typedef struct EbReferenceObjectDescInitData_s {
 } EbReferenceObjectDescInitData_t;
 
 typedef struct EbPaReferenceObject_s {
-    EbPictureBufferDesc_t          *inputPaddedPicturePtr;
-    EbPictureBufferDesc_t          *quarterDecimatedPicturePtr;
-    EbPictureBufferDesc_t          *sixteenthDecimatedPicturePtr;
+    EbPictureBufferDesc          *inputPaddedPicturePtr;
+    EbPictureBufferDesc          *quarterDecimatedPicturePtr;
+    EbPictureBufferDesc          *sixteenthDecimatedPicturePtr;
     uint16_t                        variance[MAX_NUMBER_OF_TREEBLOCKS_PER_PICTURE];
     uint8_t                         yMean[MAX_NUMBER_OF_TREEBLOCKS_PER_PICTURE];
     EB_SLICE                        slice_type;

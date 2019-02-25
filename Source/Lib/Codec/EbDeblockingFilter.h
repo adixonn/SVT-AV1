@@ -86,7 +86,7 @@ extern "C" {
 
 
     void loop_filter_sb(
-        EbPictureBufferDesc_t *frame_buffer,//reconpicture,
+        EbPictureBufferDesc *frame_buffer,//reconpicture,
         //Yv12BufferConfig *frame_buffer,
         PictureControlSet_t *pcsPtr,
         MacroBlockD *xd, int32_t mi_row, int32_t mi_col,
@@ -94,7 +94,7 @@ extern "C" {
         uint8_t LastCol);
 
     void av1_loop_filter_frame(
-        EbPictureBufferDesc_t *frame_buffer,//reconpicture,
+        EbPictureBufferDesc *frame_buffer,//reconpicture,
         //Yv12BufferConfig *frame_buffer,
         PictureControlSet_t *pcsPtr,
         /*MacroBlockD *xd,*/ int32_t plane_start, int32_t plane_end/*,
@@ -106,7 +106,7 @@ extern "C" {
 #else
         EncDecContext         *context_ptr,
 #endif
-        EbPictureBufferDesc_t   *srcBuffer, // source input
+        EbPictureBufferDesc   *srcBuffer, // source input
         PictureControlSet_t     *pcsPtr,
         LPF_PICK_METHOD          method);
 
@@ -126,7 +126,7 @@ extern "C" {
 
     typedef struct LoopFilterWorkerData 
     {
-        EbPictureBufferDesc_t *frame_buffer;//reconpicture,
+        EbPictureBufferDesc *frame_buffer;//reconpicture,
         //Yv12BufferConfig *frame_buffer;
         PictureControlSet_t *pcsPtr;
         struct MacroblockdPlane planes[MAX_MB_PLANE];

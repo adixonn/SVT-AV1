@@ -34,7 +34,7 @@ extern "C" {
 #define NEIGHBOR_ARRAY_UNIT_FULL_MASK                   (NEIGHBOR_ARRAY_UNIT_LEFT_MASK | NEIGHBOR_ARRAY_UNIT_TOP_MASK | NEIGHBOR_ARRAY_UNIT_TOPLEFT_MASK)
 #define NEIGHBOR_ARRAY_UNIT_TOP_AND_LEFT_ONLY_MASK      (NEIGHBOR_ARRAY_UNIT_LEFT_MASK | NEIGHBOR_ARRAY_UNIT_TOP_MASK)
 
-    typedef struct NeighborArrayUnit_s
+    typedef struct NeighborArrayUnit
     {
         uint8_t   *leftArray;
         uint8_t   *topArray;
@@ -48,9 +48,9 @@ extern "C" {
         uint8_t    granularity_top_left;
         uint8_t    granularityTopLeftLog2;
 
-    } NeighborArrayUnit_t;
+    } NeighborArrayUnit;
 
-    typedef struct NeighborArrayUnit32_s
+    typedef struct NeighborArrayUnit32
     {
         uint32_t   *leftArray;
         uint32_t   *topArray;
@@ -64,10 +64,10 @@ extern "C" {
         uint8_t    granularity_top_left;
         uint8_t    granularityTopLeftLog2;
 
-    } NeighborArrayUnit32_t;
+    } NeighborArrayUnit32;
 
     extern EbErrorType neighbor_array_unit_ctor32(
-        NeighborArrayUnit32_t **na_unit_dbl_ptr,
+        NeighborArrayUnit32 **na_unit_dbl_ptr,
         uint32_t   max_picture_width,
         uint32_t   max_picture_height,
         uint32_t   unit_size,
@@ -77,7 +77,7 @@ extern "C" {
 
 
     extern EbErrorType neighbor_array_unit_ctor(
-        NeighborArrayUnit_t **na_unit_dbl_ptr,
+        NeighborArrayUnit **na_unit_dbl_ptr,
         uint32_t   max_picture_width,
         uint32_t   max_picture_height,
         uint32_t   unit_size,
@@ -85,33 +85,33 @@ extern "C" {
         uint32_t   granularity_top_left,
         uint32_t   type_mask);
 
-    extern void neighbor_array_unit_reset(NeighborArrayUnit_t *na_unit_ptr);
+    extern void neighbor_array_unit_reset(NeighborArrayUnit *na_unit_ptr);
 
-    extern void neighbor_array_unit_reset32(NeighborArrayUnit32_t *na_unit_ptr);
+    extern void neighbor_array_unit_reset32(NeighborArrayUnit32 *na_unit_ptr);
 
     extern uint32_t get_neighbor_array_unit_left_index32(
-        NeighborArrayUnit32_t *na_unit_ptr,
+        NeighborArrayUnit32 *na_unit_ptr,
         uint32_t               loc_y);
 
     extern uint32_t get_neighbor_array_unit_top_index32(
-        NeighborArrayUnit32_t *na_unit_ptr,
+        NeighborArrayUnit32 *na_unit_ptr,
         uint32_t               loc_x);
 
     extern uint32_t get_neighbor_array_unit_left_index(
-        NeighborArrayUnit_t *na_unit_ptr,
+        NeighborArrayUnit *na_unit_ptr,
         uint32_t             loc_y);
 
     extern uint32_t get_neighbor_array_unit_top_index(
-        NeighborArrayUnit_t *na_unit_ptr,
+        NeighborArrayUnit *na_unit_ptr,
         uint32_t             loc_x);
 
     extern uint32_t get_neighbor_array_unit_top_left_index(
-        NeighborArrayUnit_t *na_unit_ptr,
+        NeighborArrayUnit *na_unit_ptr,
         int32_t              loc_x,
         int32_t              loc_y);
 
     extern void neighbor_array_unit_sample_write(
-        NeighborArrayUnit_t *na_unit_ptr,
+        NeighborArrayUnit *na_unit_ptr,
         uint8_t             *src_ptr,
         uint32_t             stride,
         uint32_t             src_origin_x,
@@ -123,7 +123,7 @@ extern "C" {
         uint32_t             neighbor_array_type_mask);
 
     void update_recon_neighbor_array(
-        NeighborArrayUnit_t *na_unit_ptr,
+        NeighborArrayUnit *na_unit_ptr,
         uint8_t             *src_ptr_top,
         uint8_t             *src_ptr_left,
         uint32_t             pic_origin_x,
@@ -133,8 +133,8 @@ extern "C" {
 
 
     void copy_neigh_arr(
-        NeighborArrayUnit_t *na_src,
-        NeighborArrayUnit_t *na_dst,
+        NeighborArrayUnit *na_src,
+        NeighborArrayUnit *na_dst,
         uint32_t             origin_x,
         uint32_t             origin_y,
         uint32_t             bw,
@@ -142,8 +142,8 @@ extern "C" {
         uint32_t             neighbor_array_type_mask);
 
     void copy_neigh_arr_32(
-        NeighborArrayUnit32_t *na_src,
-        NeighborArrayUnit32_t *na_dst,
+        NeighborArrayUnit32 *na_src,
+        NeighborArrayUnit32 *na_dst,
         uint32_t               origin_x,
         uint32_t               origin_y,
         uint32_t               bw,
@@ -151,7 +151,7 @@ extern "C" {
         uint32_t               neighbor_array_type_mask);
 
     extern void neighbor_array_unit16bit_sample_write(
-        NeighborArrayUnit_t *na_unit_ptr,
+        NeighborArrayUnit *na_unit_ptr,
         uint16_t            *src_ptr,
         uint32_t             stride,
         uint32_t             src_origin_x,
@@ -163,7 +163,7 @@ extern "C" {
         uint32_t             neighbor_array_type_mask);
 
     extern void neighbor_array_unit_mode_write32(
-        NeighborArrayUnit32_t *na_unit_ptr,
+        NeighborArrayUnit32 *na_unit_ptr,
         uint32_t               value,
         uint32_t               origin_x,
         uint32_t               origin_y,
@@ -172,7 +172,7 @@ extern "C" {
         uint32_t               neighbor_array_type_mask);
 
     extern void neighbor_array_unit_mode_write(
-        NeighborArrayUnit_t *na_unit_ptr,
+        NeighborArrayUnit *na_unit_ptr,
         uint8_t             *value,
         uint32_t             origin_x,
         uint32_t             origin_y,
@@ -181,7 +181,7 @@ extern "C" {
         uint32_t             neighbor_array_type_mask);
 
     extern void neighbor_array_unit_mv_write(
-        NeighborArrayUnit_t *na_unit_ptr,
+        NeighborArrayUnit *na_unit_ptr,
         uint8_t             *value,
         uint32_t             origin_x,
         uint32_t             origin_y,

@@ -24,18 +24,19 @@ extern "C" {
      // Cost of coding an n bit literal, using 128 (i.e. 50%) probability for each bit.
 #define av1_cost_literal(n) ((n) * (1 << AV1_PROB_COST_SHIFT))
 
-    typedef struct {
+    typedef struct LvMapEobCost {
         int32_t eob_cost[2][11];
-    } LV_MAP_EOB_COST;
+    } LvMapEobCost;
 
-    typedef struct {
+    typedef struct LvMapCoeffCost 
+    {
         int32_t txb_skip_cost[TXB_SKIP_CONTEXTS][2];
         int32_t base_eob_cost[SIG_COEF_CONTEXTS_EOB][3];
         int32_t base_cost[SIG_COEF_CONTEXTS][4];
         int32_t eob_extra_cost[EOB_COEF_CONTEXTS][2];
         int32_t dc_sign_cost[DC_SIGN_CONTEXTS][2];
         int32_t lps_cost[LEVEL_CONTEXTS][COEFF_BASE_RANGE + 1];
-    } LV_MAP_COEFF_COST;
+    } LvMapCoeffCost;
 
 
     /**************************************
@@ -46,7 +47,7 @@ extern "C" {
     /**************************************
      * MD Rate Estimation Structure
      **************************************/
-    typedef struct MdRateEstimationContext_s {
+    typedef struct MdRateEstimationContext {
         EB_BitFraction  splitFlagBits[NUMBER_OF_SPLIT_FLAG_CASES];
         EB_BitFraction  mvdBits[NUMBER_OF_MVD_CASES];
         // Partition
@@ -107,8 +108,8 @@ extern "C" {
         int32_t paletteUVmodeFacBits[PALETTE_UV_MODE_CONTEXTS][CDF_SIZE(2)];
 
         // Tx and Coeff Rate Estimation
-        LV_MAP_COEFF_COST coeffFacBits[TX_SIZES][PLANE_TYPES];
-        LV_MAP_EOB_COST eobFracBits[7][2];
+        LvMapCoeffCost coeffFacBits[TX_SIZES][PLANE_TYPES];
+        LvMapEobCost eobFracBits[7][2];
         int32_t txfmPartitionFacBits[TXFM_PARTITION_CONTEXTS][CDF_SIZE(2)];
         int32_t skipFacBits[SKIP_CONTEXTS][CDF_SIZE(2)];
         int32_t txSizeFacBits[MAX_TX_CATS][TX_SIZE_CONTEXTS][CDF_SIZE(MAX_TX_DEPTH + 1)];
@@ -117,12 +118,12 @@ extern "C" {
         int32_t switchable_interp_FacBitss[SWITCHABLE_FILTER_CONTEXTS][SWITCHABLE_FILTERS];
         int32_t initialized;
 
-    } MdRateEstimationContext_t;
+    } MdRateEstimationContext;
 
     /**************************************
     * Extern Function Declarations
     **************************************/
-    extern EbErrorType md_rate_estimation_context_ctor(MdRateEstimationContext_t *md_rate_estimation_array);
+    extern EbErrorType md_rate_estimation_context_ctor(MdRateEstimationContext *md_rate_estimation_array);
     /***************************************************************************
     * AV1 Probability table
     * // round(-log2(i/256.) * (1 << AV1_PROB_COST_SHIFT)); i = 128~255.
@@ -299,7 +300,7 @@ extern "C" {
     * all scenarios based on the frame CDF
     ***************************************************************************/
     extern void av1_estimate_syntax_rate(
-        MdRateEstimationContext_t      *md_rate_estimation_array,
+        MdRateEstimationContext      *md_rate_estimation_array,
         EbBool                          is_i_slice,
         FRAME_CONTEXT                  *fc);
     /**************************************************************************
@@ -307,7 +308,7 @@ extern "C" {
     * based on the frame CDF
     ***************************************************************************/
     extern void av1_estimate_coefficients_rate(
-        MdRateEstimationContext_t  *md_rate_estimation_array,
+        MdRateEstimationContext  *md_rate_estimation_array,
         FRAME_CONTEXT              *fc);
     /**************************************************************************
     * av1_estimate_mv_rate()
@@ -315,8 +316,8 @@ extern "C" {
     * based on the frame CDF
     ***************************************************************************/
     extern void av1_estimate_mv_rate(
-        MdRateEstimationContext_t  *md_rate_estimation_array,
-        nmv_context                *nmv_ctx);
+        MdRateEstimationContext  *md_rate_estimation_array,
+        NMVContext                *nmv_ctx);
 
 
 #ifdef __cplusplus

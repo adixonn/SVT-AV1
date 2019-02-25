@@ -889,7 +889,7 @@ extern "C" {
 #endif
 #define MV_LOW (-(1 << MV_IN_USE_BITS))
 
-    typedef struct 
+    typedef struct NMVComponent
     {
         aom_cdf_prob classes_cdf[CDF_SIZE(MV_CLASSES)];
         aom_cdf_prob class0_fp_cdf[CLASS0_SIZE][CDF_SIZE(MV_FP_SIZE)];
@@ -899,13 +899,13 @@ extern "C" {
         aom_cdf_prob hp_cdf[CDF_SIZE(2)];
         aom_cdf_prob class0_cdf[CDF_SIZE(CLASS0_SIZE)];
         aom_cdf_prob bits_cdf[MV_OFFSET_BITS][CDF_SIZE(2)];
-    } nmv_component;
+    } NMVComponent;
 
-    typedef struct 
+    typedef struct NMVContext
     {
         aom_cdf_prob joints_cdf[CDF_SIZE(MV_JOINTS)];
-        nmv_component comps[2];
-    } nmv_context;
+        NMVComponent comps[2];
+    } NMVContext;
 
     //static INLINE MV_JOINT_TYPE av1_get_mv_joint(const MV *mv) {
     //    if (mv->row == 0) {
@@ -1027,8 +1027,8 @@ extern "C" {
         aom_cdf_prob skip_mode_cdfs[SKIP_CONTEXTS][CDF_SIZE(2)];
         aom_cdf_prob skip_cdfs[SKIP_CONTEXTS][CDF_SIZE(2)];
         aom_cdf_prob intra_inter_cdf[INTRA_INTER_CONTEXTS][CDF_SIZE(2)];
-        nmv_context nmvc;
-        nmv_context ndvc;
+        NMVContext nmvc;
+        NMVContext ndvc;
         aom_cdf_prob intrabc_cdf[CDF_SIZE(2)];
         //struct segmentation_probs seg;
         aom_cdf_prob filter_intra_cdfs[BlockSizeS_ALL][CDF_SIZE(2)];

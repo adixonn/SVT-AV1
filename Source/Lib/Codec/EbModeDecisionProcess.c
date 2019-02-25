@@ -14,7 +14,7 @@
  * Mode Decision Context Constructor
  ******************************************************/
 EbErrorType mode_decision_context_ctor(
-    ModeDecisionContext_t  **context_dbl_ptr,
+    ModeDecisionContext  **context_dbl_ptr,
     EbFifo_t                *mode_decision_configuration_input_fifo_ptr,
     EbFifo_t                *mode_decision_output_fifo_ptr){
 
@@ -22,8 +22,8 @@ EbErrorType mode_decision_context_ctor(
     uint32_t candidateIndex;
     EbErrorType return_error = EB_ErrorNone;
 
-    ModeDecisionContext_t *context_ptr;
-    EB_MALLOC(ModeDecisionContext_t*, context_ptr, sizeof(ModeDecisionContext_t), EB_N_PTR);
+    ModeDecisionContext *context_ptr;
+    EB_MALLOC(ModeDecisionContext*, context_ptr, sizeof(ModeDecisionContext), EB_N_PTR);
     *context_dbl_ptr = context_ptr;
 
     // Input/Output System Resource Manager FIFOs
@@ -34,12 +34,12 @@ EbErrorType mode_decision_context_ctor(
     EB_MALLOC(int16_t*, context_ptr->transform_inner_array_ptr, 3120, EB_N_PTR); //refer to EbInvTransform_SSE2.as. case 32x32
 
     // MD rate Estimation tables
-    EB_MALLOC(MdRateEstimationContext_t*, context_ptr->md_rate_estimation_ptr, sizeof(MdRateEstimationContext_t), EB_N_PTR);
+    EB_MALLOC(MdRateEstimationContext*, context_ptr->md_rate_estimation_ptr, sizeof(MdRateEstimationContext), EB_N_PTR);
 
     // Fast Candidate Array
-    EB_MALLOC(ModeDecisionCandidate_t*, context_ptr->fast_candidate_array, sizeof(ModeDecisionCandidate_t) * MODE_DECISION_CANDIDATE_MAX_COUNT, EB_N_PTR);
+    EB_MALLOC(ModeDecisionCandidate*, context_ptr->fast_candidate_array, sizeof(ModeDecisionCandidate) * MODE_DECISION_CANDIDATE_MAX_COUNT, EB_N_PTR);
 
-    EB_MALLOC(ModeDecisionCandidate_t**, context_ptr->fast_candidate_ptr_array, sizeof(ModeDecisionCandidate_t*) * MODE_DECISION_CANDIDATE_MAX_COUNT, EB_N_PTR);
+    EB_MALLOC(ModeDecisionCandidate**, context_ptr->fast_candidate_ptr_array, sizeof(ModeDecisionCandidate*) * MODE_DECISION_CANDIDATE_MAX_COUNT, EB_N_PTR);
 
     for (candidateIndex = 0; candidateIndex < MODE_DECISION_CANDIDATE_MAX_COUNT; ++candidateIndex) {
         context_ptr->fast_candidate_ptr_array[candidateIndex] = &context_ptr->fast_candidate_array[candidateIndex];
@@ -66,7 +66,7 @@ EbErrorType mode_decision_context_ctor(
     EB_MALLOC(uint64_t*, context_ptr->full_cost_merge_ptr, sizeof(uint64_t) * MODE_DECISION_CANDIDATE_BUFFER_MAX_COUNT, EB_N_PTR);
 
     // Candidate Buffers
-    EB_MALLOC(ModeDecisionCandidateBuffer_t**, context_ptr->candidate_buffer_ptr_array, sizeof(ModeDecisionCandidateBuffer_t*) * MODE_DECISION_CANDIDATE_BUFFER_MAX_COUNT, EB_N_PTR);
+    EB_MALLOC(ModeDecisionCandidateBuffer**, context_ptr->candidate_buffer_ptr_array, sizeof(ModeDecisionCandidateBuffer*) * MODE_DECISION_CANDIDATE_BUFFER_MAX_COUNT, EB_N_PTR);
 
     for (bufferIndex = 0; bufferIndex < MODE_DECISION_CANDIDATE_BUFFER_MAX_COUNT; ++bufferIndex) {
         return_error = mode_decision_candidate_buffer_ctor(
@@ -352,14 +352,14 @@ const EB_AV1_LAMBDA_ASSIGN_FUNC av1_lambda_assignment_function_table[4] = {
 };
 
 void reset_mode_decision(
-    ModeDecisionContext_t   *context_ptr,
+    ModeDecisionContext   *context_ptr,
     PictureControlSet_t     *picture_control_set_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr,
     uint32_t                   segment_index)
 {
     EB_SLICE                     slice_type;
     uint32_t                       lcuRowIndex;
-    MdRateEstimationContext_t   *md_rate_estimation_array;
+    MdRateEstimationContext   *md_rate_estimation_array;
 
     // QP
 #if ADD_DELTA_QP_SUPPORT
@@ -431,7 +431,7 @@ void reset_mode_decision(
 
     /* Note(CHKN) : Rate estimation will use FrameQP even when Qp modulation is ON */
 
-    md_rate_estimation_array = (MdRateEstimationContext_t*)sequence_control_set_ptr->encode_context_ptr->md_rate_estimation_array;
+    md_rate_estimation_array = (MdRateEstimationContext*)sequence_control_set_ptr->encode_context_ptr->md_rate_estimation_array;
 #if ADD_DELTA_QP_SUPPORT
     md_rate_estimation_array += slice_type * TOTAL_NUMBER_OF_QP_VALUES + picture_control_set_ptr->picture_qp;
 #else
@@ -486,8 +486,8 @@ void reset_mode_decision(
 /******************************************************
  * Mode Decision Configure LCU
  ******************************************************/
-void ModeDecisionConfigureLcu(
-    ModeDecisionContext_t   *context_ptr,
+void mode_decision_configure_lcu(
+    ModeDecisionContext   *context_ptr,
     LargestCodingUnit     *sb_ptr,
     PictureControlSet_t     *picture_control_set_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr,

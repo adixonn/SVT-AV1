@@ -53,8 +53,8 @@ int32_t av1_mv_bit_cost(const MV *mv, const MV *ref, const int32_t *mvjcost,
 #define MV_COST_WEIGHT 108
 
 void ChooseBestAv1MvPred(
-    ModeDecisionContext_t            *context_ptr,
-    struct MdRateEstimationContext_s      *md_rate_estimation_ptr,
+    ModeDecisionContext            *context_ptr,
+    struct MdRateEstimationContext      *md_rate_estimation_ptr,
     CodingUnit      *cu_ptr,
     MvReferenceFrame ref_frame,
     uint8_t              is_compound,
@@ -131,7 +131,7 @@ void ChooseBestAv1MvPred(
 * Mode Decision Candidate Ctor
 ***************************************/
 EbErrorType mode_decision_candidate_buffer_ctor(
-    ModeDecisionCandidateBuffer_t **buffer_dbl_ptr,
+    ModeDecisionCandidateBuffer **buffer_dbl_ptr,
     uint16_t                          sb_max_size,
     EB_BITDEPTH                     max_bitdepth,
     uint64_t                         *fast_cost_ptr,
@@ -148,8 +148,8 @@ EbErrorType mode_decision_candidate_buffer_ctor(
 
     EbErrorType return_error = EB_ErrorNone;
     // Allocate Buffer
-    ModeDecisionCandidateBuffer_t *bufferPtr;
-    EB_MALLOC(ModeDecisionCandidateBuffer_t*, bufferPtr, sizeof(ModeDecisionCandidateBuffer_t), EB_N_PTR);
+    ModeDecisionCandidateBuffer *bufferPtr;
+    EB_MALLOC(ModeDecisionCandidateBuffer*, bufferPtr, sizeof(ModeDecisionCandidateBuffer), EB_N_PTR);
     *buffer_dbl_ptr = bufferPtr;
 
     // Init Picture Data
@@ -185,7 +185,7 @@ EbErrorType mode_decision_candidate_buffer_ctor(
     ThirtyTwoWidthPictureBufferDescInitData.splitMode = EB_FALSE;
 
     // Candidate Ptr
-    bufferPtr->candidate_ptr = (ModeDecisionCandidate_t*)EB_NULL;
+    bufferPtr->candidate_ptr = (ModeDecisionCandidate*)EB_NULL;
 
     // Video Buffers
     return_error = eb_picture_buffer_desc_ctor(
@@ -258,7 +258,7 @@ EbErrorType mode_decision_candidate_buffer_ctor(
 
 // Function Declarations
 void RoundMv(
-    ModeDecisionCandidate_t    *candidateArray,
+    ModeDecisionCandidate    *candidateArray,
     uint32_t                   canTotalCnt)
 {
 
@@ -273,7 +273,7 @@ void RoundMv(
 }
 
 EbErrorType SetMvpClipMVs(
-    ModeDecisionCandidate_t  *candidate_ptr,
+    ModeDecisionCandidate  *candidate_ptr,
     uint32_t                    cu_origin_x,
     uint32_t                    cu_origin_y,
     uint32_t                    pu_index,
@@ -356,7 +356,7 @@ EbErrorType SetMvpClipMVs(
 void LimitMvOverBound(
     int16_t *mvx,
     int16_t *mvy,
-    ModeDecisionContext_t     *ctxtPtr,
+    ModeDecisionContext     *ctxtPtr,
     const SequenceControlSet_t      *sCSet)
 {
     int32_t mvxF, mvyF;
@@ -393,7 +393,7 @@ void LimitMvOverBound(
 EbErrorType pre_mode_decision(
     CodingUnit                   *cu_ptr,
     uint32_t                          buffer_total_count,
-    ModeDecisionCandidateBuffer_t **buffer_ptr_array,
+    ModeDecisionCandidateBuffer **buffer_ptr_array,
     uint32_t                         *full_candidate_total_count_ptr,
     uint8_t                          *best_candidate_index_array,
     uint8_t                          *disable_merge_index,
@@ -482,7 +482,7 @@ EbErrorType pre_mode_decision(
 
 void Me2Nx2NCandidatesInjectionSwResults(
     PictureControlSet_t            *picture_control_set_ptr,
-    ModeDecisionContext_t          *context_ptr,
+    ModeDecisionContext          *context_ptr,
     const SequenceControlSet_t     *sequence_control_set_ptr,
     LargestCodingUnit            *sb_ptr,
     const uint32_t                    me2Nx2NTableOffset,
@@ -498,8 +498,8 @@ void Me2Nx2NCandidatesInjectionSwResults(
     const uint32_t             cu_origin_x = context_ptr->cu_origin_x;
     const uint32_t             cu_origin_y = context_ptr->cu_origin_y;
 
-    MeCuResults_t * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[lcu_addr][me2Nx2NTableOffset];
-    ModeDecisionCandidate_t    *candidateArray = context_ptr->fast_candidate_array;
+    MeCuResults * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[lcu_addr][me2Nx2NTableOffset];
+    ModeDecisionCandidate    *candidateArray = context_ptr->fast_candidate_array;
     const uint32_t             meTotalCnt = mePuResult->totalMeCandidateIndex;
 
     for (meCandidateIndex = 0; meCandidateIndex < meTotalCnt; ++meCandidateIndex)
@@ -613,10 +613,10 @@ int8_t BIPRED_3x3_Y_POS[BIPRED_3x3_REFINMENT_POSITIONS] = { 0, 1, 1, 1, 0, -1, -
 #if IMPROVED_UNIPRED_INJECTION
 void Unipred3x3CandidatesInjection(
     PictureControlSet_t            *picture_control_set_ptr,
-    ModeDecisionContext_t          *context_ptr,
+    ModeDecisionContext          *context_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                        me_sb_addr,
-    SsMeContext_t                  *inloop_me_context,
+    SsMeContext                  *inloop_me_context,
     EbBool                          use_close_loop_me,
     uint32_t                        close_loop_me_index,
     const uint32_t                  me2Nx2NTableOffset,
@@ -625,8 +625,8 @@ void Unipred3x3CandidatesInjection(
     UNUSED(sb_ptr);
     uint32_t                   bipredIndex;
     uint32_t                   canTotalCnt = (*candidateTotalCnt);
-    MeCuResults_t * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr][me2Nx2NTableOffset];
-    ModeDecisionCandidate_t    *candidateArray = context_ptr->fast_candidate_array;
+    MeCuResults * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr][me2Nx2NTableOffset];
+    ModeDecisionCandidate    *candidateArray = context_ptr->fast_candidate_array;
     EbBool isCompoundEnabled = (picture_control_set_ptr->parent_pcs_ptr->reference_mode == SINGLE_REFERENCE) ? 0 : 1;
     IntMv  bestPredmv[2] = { {0}, {0} };
 
@@ -752,10 +752,10 @@ void Unipred3x3CandidatesInjection(
 #if IMPROVED_BIPRED_INJECTION
 void Bipred3x3CandidatesInjection(
     PictureControlSet_t            *picture_control_set_ptr,
-    ModeDecisionContext_t          *context_ptr,
+    ModeDecisionContext          *context_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                        me_sb_addr,
-    SsMeContext_t                  *inloop_me_context,
+    SsMeContext                  *inloop_me_context,
     EbBool                          use_close_loop_me,
     uint32_t                        close_loop_me_index,
     const uint32_t                  me2Nx2NTableOffset,
@@ -764,8 +764,8 @@ void Bipred3x3CandidatesInjection(
     UNUSED(sb_ptr);
     uint32_t                   bipredIndex;
     uint32_t                   canTotalCnt = (*candidateTotalCnt);
-    MeCuResults_t * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr][me2Nx2NTableOffset];
-    ModeDecisionCandidate_t    *candidateArray = context_ptr->fast_candidate_array;
+    MeCuResults * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr][me2Nx2NTableOffset];
+    ModeDecisionCandidate    *candidateArray = context_ptr->fast_candidate_array;
     EbBool isCompoundEnabled = (picture_control_set_ptr->parent_pcs_ptr->reference_mode == SINGLE_REFERENCE) ? 0 : 1;
     IntMv  bestPredmv[2] = { {0}, {0} };
 
@@ -937,7 +937,7 @@ BIPred     : NEARST_NEARST  + upto 3x NEAR_NEAR
 **********************************************************************
 **********************************************************************/
 void InjectAv1MvpCandidates(
-    struct ModeDecisionContext_s     *context_ptr,
+    struct ModeDecisionContext     *context_ptr,
     CodingUnit                     *cu_ptr,
     MvReferenceFrame               *ref_frames,
     PictureControlSet_t              *picture_control_set_ptr,
@@ -950,7 +950,7 @@ void InjectAv1MvpCandidates(
     (void)lcu_addr;
     (void)ref_frames;
     uint32_t                   canIdx = *candTotCnt;
-    ModeDecisionCandidate_t    *candidateArray = context_ptr->fast_candidate_array;
+    ModeDecisionCandidate    *candidateArray = context_ptr->fast_candidate_array;
     EbBool isCompoundEnabled = (picture_control_set_ptr->parent_pcs_ptr->reference_mode == SINGLE_REFERENCE) ? 0 : 1;
     isCompoundEnabled = (context_ptr->blk_geom->bwidth == 4 || context_ptr->blk_geom->bheight == 4) ? EB_FALSE : isCompoundEnabled;
 
@@ -1166,16 +1166,16 @@ void InjectAv1MvpCandidates(
 
 void inject_warped_motion_candidates(
     PictureControlSet_t              *picture_control_set_ptr,
-    struct ModeDecisionContext_s     *context_ptr,
+    struct ModeDecisionContext     *context_ptr,
     CodingUnit                     *cu_ptr,
     uint32_t                         *candTotCnt,
-    SsMeContext_t                    *ss_mecontext,
-    MeCuResults_t                    *mePuResult,
+    SsMeContext                    *ss_mecontext,
+    MeCuResults                    *mePuResult,
     EbBool                            use_close_loop_me,
     uint32_t                          close_loop_me_index)
 {
     uint32_t canIdx = *candTotCnt;
-    ModeDecisionCandidate_t *candidateArray = context_ptr->fast_candidate_array;
+    ModeDecisionCandidate *candidateArray = context_ptr->fast_candidate_array;
     MacroBlockD  *xd = cu_ptr->av1xd;
     uint8_t drli, maxDrlIndex;
     IntMv nearestmv[2], nearmv[2], ref_mv[2];
@@ -1357,8 +1357,8 @@ void inject_warped_motion_candidates(
 // END of Function Declarations
 void  inject_inter_candidates(
     PictureControlSet_t            *picture_control_set_ptr,
-    ModeDecisionContext_t          *context_ptr,
-    SsMeContext_t                  *ss_mecontext,
+    ModeDecisionContext          *context_ptr,
+    SsMeContext                  *ss_mecontext,
     const SequenceControlSet_t     *sequence_control_set_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                       *candidateTotalCnt,
@@ -1367,7 +1367,7 @@ void  inject_inter_candidates(
     (void)sequence_control_set_ptr;
     uint32_t                   canTotalCnt = *candidateTotalCnt;
     const uint32_t             lcu_addr = sb_ptr->index;
-    ModeDecisionCandidate_t    *candidateArray = context_ptr->fast_candidate_array;
+    ModeDecisionCandidate    *candidateArray = context_ptr->fast_candidate_array;
     static MvReferenceFrame ref_frames[] = { LAST_FRAME, BWDREF_FRAME, LAST_BWD_FRAME };
     EbBool isCompoundEnabled = (picture_control_set_ptr->parent_pcs_ptr->reference_mode == SINGLE_REFERENCE) ? 0 : 1;
     uint32_t me_sb_addr;
@@ -1426,7 +1426,7 @@ void  inject_inter_candidates(
 #endif
 #endif
 
-    MeCuResults_t * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr][me2Nx2NTableOffset];
+    MeCuResults * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[me_sb_addr][me2Nx2NTableOffset];
     EbBool use_close_loop_me = picture_control_set_ptr->parent_pcs_ptr->enable_in_loop_motion_estimation_flag &&
         ((context_ptr->blk_geom->bwidth == 4 || context_ptr->blk_geom->bheight == 4) || (context_ptr->blk_geom->bwidth > 64 || context_ptr->blk_geom->bheight > 64)) ? EB_TRUE : EB_FALSE;
 
@@ -1975,7 +1975,7 @@ static INLINE TxType av1_get_tx_type(
 // END of Function Declarations
 void  inject_intra_candidates(
     PictureControlSet_t            *picture_control_set_ptr,
-    ModeDecisionContext_t          *context_ptr,
+    ModeDecisionContext          *context_ptr,
     const SequenceControlSet_t     *sequence_control_set_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                       *candidateTotalCnt,
@@ -1991,7 +1991,7 @@ void  inject_intra_candidates(
     uint8_t                     angleDeltaCounter = 0;
     EbBool                      use_angle_delta = (context_ptr->blk_geom->bsize >= BLOCK_8X8);
     uint8_t                     angleDeltaCandidateCount = use_angle_delta ? 7 : 1;
-    ModeDecisionCandidate_t    *candidateArray = context_ptr->fast_candidate_array;
+    ModeDecisionCandidate    *candidateArray = context_ptr->fast_candidate_array;
 
     EbBool                      disable_cfl_flag = (context_ptr->blk_geom->sq_size > 32 || 
                                                     context_ptr->blk_geom->bwidth == 4  ||   
@@ -2158,7 +2158,7 @@ void  inject_intra_candidates(
 }
 
 void ProductInitMdCandInjection(
-    ModeDecisionContext_t          *context_ptr,
+    ModeDecisionContext          *context_ptr,
     uint32_t                         *candidateTotalCnt)
 
 {
@@ -2175,8 +2175,8 @@ void ProductInitMdCandInjection(
 ***************************************/
 EbErrorType ProductGenerateMdCandidatesCu(
     LargestCodingUnit                 *sb_ptr,
-    ModeDecisionContext_t             *context_ptr,
-    SsMeContext_t                    *ss_mecontext,
+    ModeDecisionContext             *context_ptr,
+    SsMeContext                    *ss_mecontext,
     const uint32_t                      leaf_index,
     const uint32_t                      lcu_addr,
     uint32_t                           *bufferTotalCountPtr,
@@ -2267,11 +2267,11 @@ EbErrorType ProductGenerateMdCandidatesCu(
 * Full Mode Decision
 ***************************************/
 uint8_t product_full_mode_decision(
-    struct ModeDecisionContext_s   *context_ptr,
+    struct ModeDecisionContext   *context_ptr,
     CodingUnit                   *cu_ptr,
     uint8_t                           bwidth,
     uint8_t                           bheight,
-    ModeDecisionCandidateBuffer_t **buffer_ptr_array,
+    ModeDecisionCandidateBuffer **buffer_ptr_array,
     uint32_t                          candidate_total_count,
     uint8_t                          *best_candidate_index_array,
     uint32_t                           *best_intra_mode)
@@ -2285,7 +2285,7 @@ uint8_t product_full_mode_decision(
     uint8_t                   lowestCostIndex = 0;
     PredictionUnit_t       *pu_ptr;
     uint32_t                   i;
-    ModeDecisionCandidate_t       *candidate_ptr;
+    ModeDecisionCandidate       *candidate_ptr;
 
     lowestCostIndex = best_candidate_index_array[0];
 

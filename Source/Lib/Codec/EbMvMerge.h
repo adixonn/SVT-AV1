@@ -27,10 +27,11 @@ extern "C" {
                 ((pu1_mv_y) == (pu2_mv_y)))         \
                 )
 
-    typedef struct MvMergeCandidate_s {
+    typedef struct MvMergeCandidate
+    {
         Mv_t    mv[MAX_NUM_OF_REF_PIC_LIST];
         uint8_t   prediction_direction;
-    } MvMergeCandidate_t;
+    } MvMergeCandidate;
 
 
 #ifdef __cplusplus

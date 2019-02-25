@@ -1517,8 +1517,8 @@ struct aom_denoise_and_model_t {
     uint8_t *denoised[3];
     uint8_t *flat_blocks;
     uint16_t *packed[3];
-    EbPictureBufferDesc_t *denoised_pic;
-    EbPictureBufferDesc_t *packed_pic;
+    EbPictureBufferDesc *denoised_pic;
+    EbPictureBufferDesc *packed_pic;
 
     aom_flat_block_finder_t flat_block_finder;
     aom_noise_model_t noise_model;
@@ -1608,7 +1608,7 @@ void aom_denoise_and_model_free(struct aom_denoise_and_model_t *ctx, int32_t use
 }
 
 static int32_t denoise_and_model_realloc_if_necessary(struct aom_denoise_and_model_t *ctx,
-    EbPictureBufferDesc_t *sd, int32_t use_highbd) {
+    EbPictureBufferDesc *sd, int32_t use_highbd) {
 
     int32_t chroma_sub_log2[2] = { 1, 1 };  //todo: send chroma subsampling
 
@@ -1649,7 +1649,7 @@ static int32_t denoise_and_model_realloc_if_necessary(struct aom_denoise_and_mod
     return 1;
 }
 
-static void pack_2d_pic(EbPictureBufferDesc_t *inputPicture,
+static void pack_2d_pic(EbPictureBufferDesc *inputPicture,
     uint16_t *packed[3],
     EbAsm asm_type) {
 
@@ -1696,7 +1696,7 @@ static void pack_2d_pic(EbPictureBufferDesc_t *inputPicture,
 }
 
 static void unpack_2d_pic(uint8_t *packed[3],
-    EbPictureBufferDesc_t  *outputPicturePtr,
+    EbPictureBufferDesc  *outputPicturePtr,
     EbAsm asm_type) {
 
     uint32_t lumaBufferOffset = ((outputPicturePtr->origin_y)      * outputPicturePtr->stride_y) + (outputPicturePtr->origin_x);
@@ -1742,7 +1742,7 @@ static void unpack_2d_pic(uint8_t *packed[3],
 }
 
 int32_t aom_denoise_and_model_run(struct aom_denoise_and_model_t *ctx,
-    EbPictureBufferDesc_t *sd,
+    EbPictureBufferDesc *sd,
     aom_film_grain_t *film_grain,
     int32_t use_highbd,
     EbAsm asm_type) {

@@ -257,7 +257,6 @@ extern "C" {
                                                 //   If the last frame is valid, the data will be included in the bistream
                                                 //   If the last frame is NOT valid, the frame will be coded as IDR in the encoder, but
                                                 //   not included in the bitstream.
-
     } EbEosDataDef;
 
 

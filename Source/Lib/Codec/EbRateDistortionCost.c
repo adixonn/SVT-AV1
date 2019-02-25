@@ -152,7 +152,7 @@ static const PredictionMode fimode_to_intradir[FILTER_INTRA_MODES] = {
 };
 // TODO(angiebird): use this function whenever it's possible
 int32_t Av1TransformTypeRateEstimation(
-    struct ModeDecisionCandidateBuffer_s    *candidate_buffer_ptr,
+    struct ModeDecisionCandidateBuffer    *candidate_buffer_ptr,
     EbBool                                  is_inter,
     EbBool                                  useFilterIntraFlag,
     TxSize                                  transform_size,
@@ -225,8 +225,8 @@ static INLINE int32_t get_eob_pos_token(const int32_t eob, int32_t *const extra)
     return t;
 }
 
-static int32_t get_eob_cost(int32_t eob, const LV_MAP_EOB_COST *txb_eob_costs,
-    const LV_MAP_COEFF_COST *txb_costs, TxType tx_type) {
+static int32_t get_eob_cost(int32_t eob, const LvMapEobCost *txb_eob_costs,
+    const LvMapCoeffCost *txb_costs, TxType tx_type) {
     int32_t eob_extra;
     const int32_t eob_pt = get_eob_pos_token(eob, &eob_extra);
     int32_t eob_cost = 0;
@@ -398,18 +398,18 @@ static INLINE int32_t get_br_ctx(const uint8_t *const levels,
 }
 
 static INLINE int32_t av1_cost_skip_txb(
-    struct ModeDecisionCandidateBuffer_s    *candidate_buffer_ptr,
+    struct ModeDecisionCandidateBuffer    *candidate_buffer_ptr,
     TxSize                                  transform_size,
     PLANE_TYPE                               plane_type,
     int16_t                                   txb_skip_ctx)
 {
     const TxSize txs_ctx = (TxSize)((txsize_sqr_map[transform_size] + txsize_sqr_up_map[transform_size] + 1) >> 1);
-    const LV_MAP_COEFF_COST *const coeff_costs = &candidate_buffer_ptr->candidate_ptr->md_rate_estimation_ptr->coeffFacBits[txs_ctx][plane_type];
+    const LvMapCoeffCost *const coeff_costs = &candidate_buffer_ptr->candidate_ptr->md_rate_estimation_ptr->coeffFacBits[txs_ctx][plane_type];
     return coeff_costs->txb_skip_cost[txb_skip_ctx][1];
 }
 // Note: don't call this function when eob is 0.
 uint64_t av1_cost_coeffs_txb(
-    struct ModeDecisionCandidateBuffer_s    *candidate_buffer_ptr,
+    struct ModeDecisionCandidateBuffer    *candidate_buffer_ptr,
     const tran_low_t                        *const qcoeff,
     uint16_t                                   eob,
     PLANE_TYPE                               plane_type,
@@ -437,10 +437,10 @@ uint64_t av1_cost_coeffs_txb(
     uint8_t levels_buf[TX_PAD_2D];
     uint8_t *const levels = set_levels(levels_buf, width);
     DECLARE_ALIGNED(16, int8_t, coeff_contexts[MAX_TX_SQUARE]);
-    const LV_MAP_COEFF_COST *const coeff_costs = &candidate_buffer_ptr->candidate_ptr->md_rate_estimation_ptr->coeffFacBits[txs_ctx][plane_type];
+    const LvMapCoeffCost *const coeff_costs = &candidate_buffer_ptr->candidate_ptr->md_rate_estimation_ptr->coeffFacBits[txs_ctx][plane_type];
 
     const int32_t eob_multi_size = txsize_log2_minus4[transform_size];
-    const LV_MAP_EOB_COST *const eobBits = &candidate_buffer_ptr->candidate_ptr->md_rate_estimation_ptr->eobFracBits[eob_multi_size][plane_type];
+    const LvMapEobCost *const eobBits = &candidate_buffer_ptr->candidate_ptr->md_rate_estimation_ptr->eobFracBits[eob_multi_size][plane_type];
     // eob must be greater than 0 here.
     assert(eob > 0);
     cost = coeff_costs->txb_skip_cost[txb_skip_ctx][0];
@@ -551,9 +551,9 @@ uint64_t av1_cost_coeffs_txb(
 *       lambda is the Lagrange multiplier
 **********************************************************************************/
 EbErrorType av1_intra_fast_cost(
-    struct ModeDecisionContext_s            *context_ptr,
+    struct ModeDecisionContext            *context_ptr,
     CodingUnit                            *cu_ptr,
-    struct ModeDecisionCandidateBuffer_s    *candidate_buffer_ptr,
+    struct ModeDecisionCandidateBuffer    *candidate_buffer_ptr,
     uint32_t                                  qp,
     uint64_t                                  luma_distortion,
     uint64_t                                  chroma_distortion,
@@ -700,7 +700,7 @@ extern void av1_set_ref_frame(MvReferenceFrame *rf,
 // This function encodes the reference frame
 uint64_t EstimateRefFramesNumBits(
     PictureControlSet_t                    *picture_control_set_ptr,
-    ModeDecisionCandidateBuffer_t          *candidate_buffer_ptr,
+    ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
     CodingUnit                           *cu_ptr,
     uint32_t                                 bwidth,
     uint32_t                                 bheight,
@@ -947,9 +947,9 @@ static INLINE int16_t Av1ModeContextAnalyzer(
 *       lambda is the Lagrange multiplier
 **********************************************************************************/
 EbErrorType av1_inter_fast_cost(
-    struct ModeDecisionContext_s           *context_ptr,
+    struct ModeDecisionContext           *context_ptr,
     CodingUnit                           *cu_ptr,
-    ModeDecisionCandidateBuffer_t          *candidate_buffer_ptr,
+    ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
     uint32_t                                  qp,
     uint64_t                                  luma_distortion,
     uint64_t                                  chroma_distortion,
@@ -957,7 +957,7 @@ EbErrorType av1_inter_fast_cost(
     PictureControlSet_t                    *picture_control_set_ptr)
 {
     EbErrorType  return_error = EB_ErrorNone;
-    ModeDecisionCandidate_t *candidate_ptr = candidate_buffer_ptr->candidate_ptr;
+    ModeDecisionCandidate *candidate_ptr = candidate_buffer_ptr->candidate_ptr;
     // Luma rate
     uint64_t           lumaRate = 0;
     uint64_t           chromaRate = 0;
@@ -1263,12 +1263,12 @@ EbErrorType av1_inter_fast_cost(
 
 EbErrorType av1_tu_estimate_coeff_bits(
     PictureControlSet_t                    *picture_control_set_ptr,
-    struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
+    struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
     CodingUnit                           *cu_ptr,
     uint32_t                                  tu_origin_index,
     uint32_t                                  tuChromaOriginIndex,
     EntropyCoder                         *entropy_coder_ptr,
-    EbPictureBufferDesc_t                  *coeff_buffer_sb,
+    EbPictureBufferDesc                  *coeff_buffer_sb,
     uint32_t                                 y_eob,
     uint32_t                                 cb_eob,
     uint32_t                                 cr_eob,
@@ -1398,8 +1398,8 @@ EbErrorType av1_tu_estimate_coeff_bits(
 **********************************************************************************/
 EbErrorType Av1FullCost(
     PictureControlSet_t                    *picture_control_set_ptr,
-    ModeDecisionContext_t                  *context_ptr,
-    struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
+    ModeDecisionContext                  *context_ptr,
+    struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
     CodingUnit                           *cu_ptr,
     uint64_t                               *y_distortion,
     uint64_t                               *cb_distortion,
@@ -1493,8 +1493,8 @@ EbErrorType Av1FullCost(
 **********************************************************************************/
 EbErrorType  Av1MergeSkipFullCost(
     PictureControlSet_t                    *picture_control_set_ptr,
-    ModeDecisionContext_t                  *context_ptr,
-    struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
+    ModeDecisionContext                  *context_ptr,
+    struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
     CodingUnit                           *cu_ptr,
     uint64_t                               *y_distortion,
     uint64_t                               *cb_distortion,
@@ -1650,8 +1650,8 @@ EbErrorType  Av1MergeSkipFullCost(
 **********************************************************************************/
 EbErrorType av1_intra_full_cost(
     PictureControlSet_t                    *picture_control_set_ptr,
-    ModeDecisionContext_t                  *context_ptr,
-    struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
+    ModeDecisionContext                  *context_ptr,
+    struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
     CodingUnit                           *cu_ptr,
     uint64_t                                 *y_distortion,
     uint64_t                                 *cb_distortion,
@@ -1703,8 +1703,8 @@ EbErrorType av1_intra_full_cost(
 **********************************************************************************/
 EbErrorType av1_inter_full_cost(
     PictureControlSet_t                    *picture_control_set_ptr,
-    ModeDecisionContext_t                  *context_ptr,
-    struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
+    ModeDecisionContext                  *context_ptr,
+    struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
     CodingUnit                           *cu_ptr,
     uint64_t                                 *y_distortion,
     uint64_t                                 *cb_distortion,
@@ -1757,24 +1757,24 @@ EbErrorType av1_inter_full_cost(
 * Coding Loop Context Generation
 ************************************************************/
 void coding_loop_context_generation(
-    ModeDecisionContext_t      *context_ptr,
+    ModeDecisionContext      *context_ptr,
     CodingUnit               *cu_ptr,
     uint32_t                      cu_origin_x,
     uint32_t                      cu_origin_y,
     uint32_t                      sb_sz,
 
-    NeighborArrayUnit_t        *skip_coeff_neighbor_array,
-    NeighborArrayUnit_t        *luma_dc_sign_level_coeff_neighbor_array,
-    NeighborArrayUnit_t        *cb_dc_sign_level_coeff_neighbor_array,
-    NeighborArrayUnit_t        *cr_dc_sign_level_coeff_neighbor_array,
-    NeighborArrayUnit_t        *inter_pred_dir_neighbor_array,
-    NeighborArrayUnit_t        *ref_frame_type_neighbor_array,
+    NeighborArrayUnit        *skip_coeff_neighbor_array,
+    NeighborArrayUnit        *luma_dc_sign_level_coeff_neighbor_array,
+    NeighborArrayUnit        *cb_dc_sign_level_coeff_neighbor_array,
+    NeighborArrayUnit        *cr_dc_sign_level_coeff_neighbor_array,
+    NeighborArrayUnit        *inter_pred_dir_neighbor_array,
+    NeighborArrayUnit        *ref_frame_type_neighbor_array,
 
-    NeighborArrayUnit_t        *intraLumaNeighborArray,
-    NeighborArrayUnit_t        *skip_flag_neighbor_array,
-    NeighborArrayUnit_t        *mode_type_neighbor_array,
-    NeighborArrayUnit_t        *leaf_depth_neighbor_array,
-    NeighborArrayUnit_t       *leaf_partition_neighbor_array)
+    NeighborArrayUnit        *intraLumaNeighborArray,
+    NeighborArrayUnit        *skip_flag_neighbor_array,
+    NeighborArrayUnit        *mode_type_neighbor_array,
+    NeighborArrayUnit        *leaf_depth_neighbor_array,
+    NeighborArrayUnit       *leaf_partition_neighbor_array)
 {
     (void)sb_sz;
     uint32_t modeTypeLeftNeighborIndex = get_neighbor_array_unit_left_index(
@@ -1968,7 +1968,7 @@ void coding_loop_context_generation(
 *   computes TU Cost and generetes TU Cbf
 ********************************************/
 EbErrorType av1_tu_calc_cost(
-    ModeDecisionCandidate_t *candidate_ptr,                        // input parameter, prediction result Ptr
+    ModeDecisionCandidate *candidate_ptr,                        // input parameter, prediction result Ptr
     int16_t                   txb_skip_ctx,
     uint32_t                   tu_index,                             // input parameter, TU index inside the CU
     uint32_t                   y_count_non_zero_coeffs,                 // input parameter, number of non zero Y quantized coefficients
@@ -2023,7 +2023,7 @@ EbErrorType av1_tu_calc_cost(
         // Esimate Cbf's Bits
 
         const TxSize txs_ctx = (TxSize)((txsize_sqr_map[txsize] + txsize_sqr_up_map[txsize] + 1) >> 1);
-        const LV_MAP_COEFF_COST *const coeff_costs = &candidate_ptr->md_rate_estimation_ptr->coeffFacBits[txs_ctx][0];
+        const LvMapCoeffCost *const coeff_costs = &candidate_ptr->md_rate_estimation_ptr->coeffFacBits[txs_ctx][0];
 
         y_zero_coeff_luma_flag_bits_num = coeff_costs->txb_skip_cost[txb_skip_ctx][1];
 
@@ -2071,7 +2071,7 @@ EbErrorType av1_tu_calc_cost(
 EbErrorType av1_tu_calc_cost_luma(
 
     int16_t                   txb_skip_ctx,
-    ModeDecisionCandidate_t *candidate_ptr,                        // input parameter, prediction result Ptr
+    ModeDecisionCandidate *candidate_ptr,                        // input parameter, prediction result Ptr
     uint32_t                   tu_index,                             // input parameter, TU index inside the CU
     TxSize                  tx_size,
     uint32_t                   y_count_non_zero_coeffs,                 // input parameter, number of non zero Y quantized coefficients
@@ -2116,7 +2116,7 @@ EbErrorType av1_tu_calc_cost_luma(
     // Esimate Cbf's Bits
 
     const TxSize txs_ctx = (TxSize)((txsize_sqr_map[tx_size] + txsize_sqr_up_map[tx_size] + 1) >> 1);
-    const LV_MAP_COEFF_COST *const coeff_costs = &candidate_ptr->md_rate_estimation_ptr->coeffFacBits[txs_ctx][0];
+    const LvMapCoeffCost *const coeff_costs = &candidate_ptr->md_rate_estimation_ptr->coeffFacBits[txs_ctx][0];
 
     yZeroCbfLumaFlagBitsNum = coeff_costs->txb_skip_cost[txb_skip_ctx][1];
 
@@ -2222,13 +2222,13 @@ static void partition_gather_vert_alike(int32_t *out,
 **********************************************************************************/
 EbErrorType av1_split_flag_rate(
     SequenceControlSet_t                  *sequence_control_set_ptr,
-    ModeDecisionContext_t                  *context_ptr,
+    ModeDecisionContext                  *context_ptr,
     CodingUnit                           *cu_ptr,
     uint32_t                                  leaf_index,
     PartitionType                          partitionType,
     uint64_t                                 *split_rate,
     uint64_t                                  lambda,
-    MdRateEstimationContext_t              *md_rate_estimation_ptr,
+    MdRateEstimationContext              *md_rate_estimation_ptr,
     uint32_t                                  tb_max_depth)
 {
     (void)tb_max_depth;
@@ -2311,7 +2311,7 @@ EbErrorType av1_encode_tu_calc_cost(
 {
     CodingUnit              *cu_ptr = context_ptr->cu_ptr;
     uint32_t                     tu_index = context_ptr->txb_itr;
-    MdRateEstimationContext_t *md_rate_estimation_ptr = context_ptr->md_rate_estimation_ptr;
+    MdRateEstimationContext *md_rate_estimation_ptr = context_ptr->md_rate_estimation_ptr;
     uint64_t                     lambda = context_ptr->full_lambda;
     uint32_t                     y_count_non_zero_coeffs = count_non_zero_coeffs[0];
     uint32_t                     cb_count_non_zero_coeffs = count_non_zero_coeffs[1];
@@ -2351,7 +2351,7 @@ EbErrorType av1_encode_tu_calc_cost(
         TxSize    txSize = context_ptr->blk_geom->txsize[context_ptr->txb_itr];
 
         const TxSize txs_ctx = (TxSize)((txsize_sqr_map[txSize] + txsize_sqr_up_map[txSize] + 1) >> 1);
-        const LV_MAP_COEFF_COST *const coeff_costs = &md_rate_estimation_ptr->coeffFacBits[txs_ctx][0];
+        const LvMapCoeffCost *const coeff_costs = &md_rate_estimation_ptr->coeffFacBits[txs_ctx][0];
 
         yZeroCbfLumaFlagBitsNum = coeff_costs->txb_skip_cost[txb_skip_ctx][1];
 

@@ -57,7 +57,7 @@ extern "C" {
         LargestCodingUnit     *tb_ptr,
         PictureControlSet_t     *picture_control_set_ptr,
         EntropyCoder          *entropy_coder_ptr,
-        EbPictureBufferDesc_t   *coeff_ptr);
+        EbPictureBufferDesc   *coeff_ptr);
 
 
     extern EbErrorType encode_slice_finish(
@@ -74,12 +74,12 @@ extern "C" {
 
     extern EbErrorType av1_tu_estimate_coeff_bits(
         PictureControlSet_t                    *picture_control_set_ptr,
-        struct ModeDecisionCandidateBuffer_s   *candidate_buffer_ptr,
+        struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
         CodingUnit                           *cu_ptr,
         uint32_t                                  tu_origin_index,
         uint32_t                                  tuChromaOriginIndex,
         EntropyCoder                         *entropy_coder_ptr,
-        EbPictureBufferDesc_t                  *coeff_buffer_sb,
+        EbPictureBufferDesc                  *coeff_buffer_sb,
         uint32_t                                 y_eob,
         uint32_t                                 cb_eob,
         uint32_t                                 cr_eob,
@@ -209,7 +209,7 @@ extern "C" {
 
     void get_txb_ctx(
         const int32_t               plane,
-        NeighborArrayUnit_t     *dc_sign_level_coeff_neighbor_array,
+        NeighborArrayUnit     *dc_sign_level_coeff_neighbor_array,
         uint32_t                  cu_origin_x,
         uint32_t                  cu_origin_y,
         const block_size        plane_bsize,
@@ -220,22 +220,22 @@ extern "C" {
     extern int32_t av1_get_reference_mode_context(
         uint32_t                  cu_origin_x,
         uint32_t                  cu_origin_y,
-        NeighborArrayUnit_t    *mode_type_neighbor_array,
-        NeighborArrayUnit_t    *inter_pred_dir_neighbor_array);
+        NeighborArrayUnit    *mode_type_neighbor_array,
+        NeighborArrayUnit    *inter_pred_dir_neighbor_array);
 
     extern int32_t av1_get_comp_reference_type_context(
         uint32_t                  cu_origin_x,
         uint32_t                  cu_origin_y,
-        NeighborArrayUnit_t    *mode_type_neighbor_array,
-        NeighborArrayUnit_t     *inter_pred_dir_neighbor_array);
+        NeighborArrayUnit    *mode_type_neighbor_array,
+        NeighborArrayUnit     *inter_pred_dir_neighbor_array);
 
     extern void av1_collect_neighbors_ref_counts(
         CodingUnit            *cu_ptr,
         uint32_t                   cu_origin_x,
         uint32_t                   cu_origin_y,
-        NeighborArrayUnit_t     *mode_type_neighbor_array,
-        NeighborArrayUnit_t     *inter_pred_dir_neighbor_array,
-        NeighborArrayUnit_t     *ref_frame_type_neighbor_array);
+        NeighborArrayUnit     *mode_type_neighbor_array,
+        NeighborArrayUnit     *inter_pred_dir_neighbor_array,
+        NeighborArrayUnit     *ref_frame_type_neighbor_array);
 
     // Obtain contexts to signal a reference frame be either BWDREF/ALTREF2, or
     // ALTREF.

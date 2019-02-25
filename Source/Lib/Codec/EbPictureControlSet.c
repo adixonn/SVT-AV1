@@ -103,8 +103,8 @@ EbErrorType picture_control_set_ctor(
 
     object_ptr->sequence_control_set_wrapper_ptr = (EbObjectWrapper_t *)EB_NULL;
 
-    object_ptr->recon_picture16bit_ptr = (EbPictureBufferDesc_t *)EB_NULL;
-    object_ptr->recon_picture_ptr = (EbPictureBufferDesc_t *)EB_NULL;
+    object_ptr->recon_picture16bit_ptr = (EbPictureBufferDesc *)EB_NULL;
+    object_ptr->recon_picture_ptr = (EbPictureBufferDesc *)EB_NULL;
 
     EbPictureBufferDescInitData_t coeffBufferDes32bitInitData;
     coeffBufferDes32bitInitData.maxWidth = initDataPtr->picture_width;
@@ -117,7 +117,7 @@ EbErrorType picture_control_set_ctor(
     coeffBufferDes32bitInitData.bot_padding = 0;
     coeffBufferDes32bitInitData.splitMode = EB_FALSE;
 
-    object_ptr->recon_picture32bit_ptr = (EbPictureBufferDesc_t *)EB_NULL;
+    object_ptr->recon_picture32bit_ptr = (EbPictureBufferDesc *)EB_NULL;
     return_error = eb_recon_picture_buffer_desc_ctor(
         (EbPtr*)&(object_ptr->recon_picture32bit_ptr),
         (EbPtr)&coeffBufferDes32bitInitData);
@@ -921,7 +921,7 @@ EbErrorType picture_parent_control_set_ctor(
     object_ptr->input_picture_wrapper_ptr = (EbObjectWrapper_t *)EB_NULL;
     object_ptr->reference_picture_wrapper_ptr = (EbObjectWrapper_t *)EB_NULL;
 
-    object_ptr->enhanced_picture_ptr = (EbPictureBufferDesc_t *)EB_NULL;
+    object_ptr->enhanced_picture_ptr = (EbPictureBufferDesc *)EB_NULL;
 
     // GOP
     object_ptr->pred_struct_index = 0;
@@ -1003,10 +1003,10 @@ EbErrorType picture_parent_control_set_ctor(
     }
     // Motion Estimation Results
     object_ptr->max_number_of_pus_per_sb = (initDataPtr->ext_block_flag) ? MAX_ME_PU_COUNT : SQUARE_PU_COUNT;
-    EB_MALLOC(MeCuResults_t**, object_ptr->me_results, sizeof(MeCuResults_t*) * object_ptr->sb_total_count, EB_N_PTR);
+    EB_MALLOC(MeCuResults**, object_ptr->me_results, sizeof(MeCuResults*) * object_ptr->sb_total_count, EB_N_PTR);
 
     for (sb_index = 0; sb_index < object_ptr->sb_total_count; ++sb_index) {
-        EB_MALLOC(MeCuResults_t*, object_ptr->me_results[sb_index], sizeof(MeCuResults_t) * MAX_ME_PU_COUNT, EB_N_PTR);
+        EB_MALLOC(MeCuResults*, object_ptr->me_results[sb_index], sizeof(MeCuResults) * MAX_ME_PU_COUNT, EB_N_PTR);
     }
     EB_MALLOC(uint32_t*, object_ptr->rc_me_distortion, sizeof(uint32_t) * object_ptr->sb_total_count, EB_N_PTR);
     // ME and OIS Distortion Histograms

@@ -360,7 +360,7 @@ void CalculateAcEnergy(
     PictureParentControlSet_t        *picture_control_set_ptr,
     uint32_t                             sb_index) {
 
-    EbPictureBufferDesc_t    *input_picture_ptr = picture_control_set_ptr->enhanced_picture_ptr;
+    EbPictureBufferDesc    *input_picture_ptr = picture_control_set_ptr->enhanced_picture_ptr;
     uint32_t                     inputLumaStride = input_picture_ptr->stride_y;
     uint32_t                   inputOriginIndex;
     SbParams_t  *sb_params = &sequence_control_set_ptr->sb_params_array[sb_index];
@@ -977,7 +977,7 @@ void* source_based_operations_kernel(void *input_ptr)
     PictureParentControlSet_t       *picture_control_set_ptr;
     SequenceControlSet_t            *sequence_control_set_ptr;
     EbObjectWrapper_t               *inputResultsWrapperPtr;
-    InitialRateControlResults_t        *inputResultsPtr;
+    InitialRateControlResults        *inputResultsPtr;
     EbObjectWrapper_t               *outputResultsWrapperPtr;
     PictureDemuxResults_t           *outputResultsPtr;
 
@@ -988,7 +988,7 @@ void* source_based_operations_kernel(void *input_ptr)
             context_ptr->initial_rate_control_results_input_fifo_ptr,
             &inputResultsWrapperPtr);
 
-        inputResultsPtr = (InitialRateControlResults_t*)inputResultsWrapperPtr->object_ptr;
+        inputResultsPtr = (InitialRateControlResults*)inputResultsWrapperPtr->object_ptr;
         picture_control_set_ptr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 

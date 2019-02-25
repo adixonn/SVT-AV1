@@ -99,7 +99,7 @@ typedef struct EncodeContext
     EbHandle                                         hl_rate_control_historgram_queue_mutex;
 
     // Packetization Reorder Queue
-    PacketizationReorderEntry_t                    **packetization_reorder_queue;
+    PacketizationReorderEntry                    **packetization_reorder_queue;
     uint32_t                                         packetization_reorder_queue_head_index;
 
     // GOP Counters
@@ -119,7 +119,7 @@ typedef struct EncodeContext
     PredictionStructureGroup_t                       *prediction_structure_group_ptr;
                                                      
     // MD Rate Estimation Table                      
-    MdRateEstimationContext_t                        *md_rate_estimation_array;
+    MdRateEstimationContext                        *md_rate_estimation_array;
 
     // Rate Control Bit Tables
     RateControlTables_t                              *rate_control_tables_array;

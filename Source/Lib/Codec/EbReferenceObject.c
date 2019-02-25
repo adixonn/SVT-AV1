@@ -237,7 +237,7 @@ EbErrorType eb_pa_reference_object_ctor(
     }
 
     // Quarter Decim reference picture constructor
-    paReferenceObject->quarterDecimatedPicturePtr = (EbPictureBufferDesc_t*)EB_NULL;
+    paReferenceObject->quarterDecimatedPicturePtr = (EbPictureBufferDesc*)EB_NULL;
     return_error = eb_picture_buffer_desc_ctor(
         (EbPtr*) &(paReferenceObject->quarterDecimatedPicturePtr),
         (EbPtr)(pictureBufferDescInitDataPtr + 1));
@@ -246,7 +246,7 @@ EbErrorType eb_pa_reference_object_ctor(
     }
 
     // Sixteenth Decim reference picture constructor
-    paReferenceObject->sixteenthDecimatedPicturePtr = (EbPictureBufferDesc_t*)EB_NULL;
+    paReferenceObject->sixteenthDecimatedPicturePtr = (EbPictureBufferDesc*)EB_NULL;
     return_error = eb_picture_buffer_desc_ctor(
         (EbPtr*) &(paReferenceObject->sixteenthDecimatedPicturePtr),
         (EbPtr)(pictureBufferDescInitDataPtr + 2));

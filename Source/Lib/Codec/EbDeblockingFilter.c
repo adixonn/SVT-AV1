@@ -797,7 +797,7 @@ static INLINE void setup_pred_plane(struct Buf2d *dst, block_size bsize,
 }
 void av1_setup_dst_planes(struct MacroblockdPlane *planes, block_size bsize,
     //const Yv12BufferConfig *src,
-    const EbPictureBufferDesc_t *src,
+    const EbPictureBufferDesc *src,
     int32_t mi_row, int32_t mi_col,
     const int32_t plane_start, const int32_t plane_end) {
     // We use AOMMIN(num_planes, MAX_MB_PLANE) instead of num_planes to quiet
@@ -1271,7 +1271,7 @@ void av1_filter_block_plane_horz(
 
 // New function to filter each sb (64x64)
 void loop_filter_sb(
-    EbPictureBufferDesc_t *frame_buffer,//reconpicture,
+    EbPictureBufferDesc *frame_buffer,//reconpicture,
     //Yv12BufferConfig *frame_buffer,
     PictureControlSet_t *pcsPtr,
     MacroBlockD *xd, int32_t mi_row, int32_t mi_col,
@@ -1349,7 +1349,7 @@ void loop_filter_sb(
 }
 
 void av1_loop_filter_frame(
-    EbPictureBufferDesc_t *frame_buffer,
+    EbPictureBufferDesc *frame_buffer,
     PictureControlSet_t *picture_control_set_ptr,
     int32_t plane_start, int32_t plane_end) {
 
@@ -1391,8 +1391,8 @@ void av1_loop_filter_frame(
 extern int16_t av1_ac_quant_Q3(int32_t qindex, int32_t delta, AomBitDepth bit_depth);
 
 void EbCopyBuffer(
-    EbPictureBufferDesc_t  *srcBuffer,
-    EbPictureBufferDesc_t  *dstBuffer,
+    EbPictureBufferDesc  *srcBuffer,
+    EbPictureBufferDesc  *dstBuffer,
     PictureControlSet_t    *pcsPtr,
     uint8_t                   plane) {
 
@@ -1496,7 +1496,7 @@ void EbCopyBuffer(
 
 uint64_t PictureSseCalculations(
     PictureControlSet_t    *picture_control_set_ptr,
-    EbPictureBufferDesc_t *recon_ptr,
+    EbPictureBufferDesc *recon_ptr,
     int32_t plane)
 
 {
@@ -1505,7 +1505,7 @@ uint64_t PictureSseCalculations(
 
     if (!is16bit) {
 
-        EbPictureBufferDesc_t *input_picture_ptr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+        EbPictureBufferDesc *input_picture_ptr = (EbPictureBufferDesc*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
 
         uint32_t   columnIndex;
         uint32_t   row_index = 0;
@@ -1580,7 +1580,7 @@ uint64_t PictureSseCalculations(
     }
     else {
 #if LF_10BIT_FIX
-        EbPictureBufferDesc_t *input_picture_ptr = (EbPictureBufferDesc_t*)picture_control_set_ptr->input_frame16bit;
+        EbPictureBufferDesc *input_picture_ptr = (EbPictureBufferDesc*)picture_control_set_ptr->input_frame16bit;
 
         uint32_t   columnIndex;
         uint32_t   row_index = 0;
@@ -1662,8 +1662,8 @@ uint64_t PictureSseCalculations(
 static int64_t try_filter_frame(
     //const Yv12BufferConfig *sd,
     //AV1_COMP *const cpi,
-    const EbPictureBufferDesc_t *sd,
-    EbPictureBufferDesc_t  *tempLfReconBuffer,
+    const EbPictureBufferDesc *sd,
+    EbPictureBufferDesc  *tempLfReconBuffer,
     PictureControlSet_t *pcsPtr,
     int32_t filt_level,
     int32_t partial_frame, int32_t plane, int32_t dir) {
@@ -1678,7 +1678,7 @@ static int64_t try_filter_frame(
     if (plane == 0 && dir == 1) filter_level[0] = pcsPtr->parent_pcs_ptr->lf.filter_level[0];
 
     EbBool is16bit = (EbBool)(pcsPtr->parent_pcs_ptr->sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
-    EbPictureBufferDesc_t  *recon_buffer = is16bit ? pcsPtr->recon_picture16bit_ptr : pcsPtr->recon_picture_ptr;
+    EbPictureBufferDesc  *recon_buffer = is16bit ? pcsPtr->recon_picture16bit_ptr : pcsPtr->recon_picture_ptr;
     if (pcsPtr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE) {
 
         //get the 16bit form of the input LCU
@@ -1716,8 +1716,8 @@ static int64_t try_filter_frame(
 }
 static int32_t search_filter_level(
     //const Yv12BufferConfig *sd, AV1_COMP *cpi,
-    EbPictureBufferDesc_t *sd, // source
-    EbPictureBufferDesc_t  *tempLfReconBuffer,
+    EbPictureBufferDesc *sd, // source
+    EbPictureBufferDesc  *tempLfReconBuffer,
     PictureControlSet_t *pcsPtr,
     int32_t partial_frame,
     const int32_t *last_frame_filter_level,
@@ -1742,7 +1742,7 @@ static int32_t search_filter_level(
     int32_t filter_step = filt_mid < 16 ? 4 : filt_mid / 4;
 
     EbBool is16bit = (EbBool)(pcsPtr->parent_pcs_ptr->sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
-    EbPictureBufferDesc_t  *recon_buffer = is16bit ? pcsPtr->recon_picture16bit_ptr : pcsPtr->recon_picture_ptr;
+    EbPictureBufferDesc  *recon_buffer = is16bit ? pcsPtr->recon_picture16bit_ptr : pcsPtr->recon_picture_ptr;
 
     if (pcsPtr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE) {
 
@@ -1884,7 +1884,7 @@ void av1_pick_filter_level(
 #else
     EncDecContext         *context_ptr,
 #endif
-    EbPictureBufferDesc_t   *srcBuffer, // source input
+    EbPictureBufferDesc   *srcBuffer, // source input
     PictureControlSet_t     *pcsPtr,
     LPF_PICK_METHOD          method) {
 
@@ -1947,7 +1947,7 @@ void av1_pick_filter_level(
             lf->filter_level[1],
             lf->filter_level_u,
             lf->filter_level_v };
-        EbPictureBufferDesc_t  *tempLfReconBuffer = (scsPtr->static_config.encoder_bit_depth != EB_8BIT) ? context_ptr->temp_lf_recon_picture16bit_ptr : context_ptr->temp_lf_recon_picture_ptr;
+        EbPictureBufferDesc  *tempLfReconBuffer = (scsPtr->static_config.encoder_bit_depth != EB_8BIT) ? context_ptr->temp_lf_recon_picture16bit_ptr : context_ptr->temp_lf_recon_picture_ptr;
 
         lf->filter_level[0] = lf->filter_level[1] =
             search_filter_level(srcBuffer, tempLfReconBuffer, pcsPtr, method == LPF_PICK_FROM_SUBIMAGE,

@@ -45,36 +45,36 @@ extern "C" {
         EbFifo_t                              *enc_dec_feedback_fifo_ptr;
         EbFifo_t                              *picture_demux_output_fifo_ptr;   // to picture-manager
         int16_t                               *transform_inner_array_ptr;
-        MdRateEstimationContext_t             *md_rate_estimation_ptr;
-        ModeDecisionContext_t                 *md_context;
+        MdRateEstimationContext             *md_rate_estimation_ptr;
+        ModeDecisionContext                 *md_context;
         const BlockGeom                       *blk_geom;
 
         // TMVP
         EbReferenceObject_t                   *reference_object_write_ptr;
 
         // MCP Context
-        MotionCompensationPredictionContext_t *mcp_context;
-        SsMeContext_t                         *ss_mecontext;
+        MotionCompensationPredictionContext *mcp_context;
+        SsMeContext                         *ss_mecontext;
 
         // Intra Reference Samples
-        IntraReferenceSamples_t               *intra_ref_ptr;
-        IntraReference16bitSamples_t          *intra_ref_ptr16;  //We need a different buffer for ENC pass then the MD one.
+        IntraReferenceSamples               *intra_ref_ptr;
+        IntraReference16bitSamples          *intra_ref_ptr16;  //We need a different buffer for ENC pass then the MD one.
         
         // Coding Unit Workspace---------------------------
-        EbPictureBufferDesc_t                 *residual_buffer;
-        EbPictureBufferDesc_t                 *transform_buffer;
-        EbPictureBufferDesc_t                 *input_samples;
-        EbPictureBufferDesc_t                 *input_sample16bit_buffer;
+        EbPictureBufferDesc                 *residual_buffer;
+        EbPictureBufferDesc                 *transform_buffer;
+        EbPictureBufferDesc                 *input_samples;
+        EbPictureBufferDesc                 *input_sample16bit_buffer;
 #if !FILT_PROC
-        EbPictureBufferDesc_t                 *trial_frame_rst;
+        EbPictureBufferDesc                 *trial_frame_rst;
 #endif
         // temporary buffers for decision making of LF (LPF_PICK_FROM_FULL_IMAGE).
         // Since recon switches between recon_ptr and referencePtr, the temporary buffers sizes used the referencePtr's which has padding,...
 #if !FILT_PROC
-        EbPictureBufferDesc_t                 *temp_lf_recon_picture_ptr;
-        EbPictureBufferDesc_t                 *temp_lf_recon_picture16bit_ptr;
+        EbPictureBufferDesc                 *temp_lf_recon_picture_ptr;
+        EbPictureBufferDesc                 *temp_lf_recon_picture16bit_ptr;
 #endif
-        EbPictureBufferDesc_t                 *inverse_quant_buffer;
+        EbPictureBufferDesc                 *inverse_quant_buffer;
         // Lambda
 #if ADD_DELTA_QP_SUPPORT
         uint16_t                               qp;

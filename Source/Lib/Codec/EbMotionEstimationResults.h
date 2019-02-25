@@ -14,16 +14,15 @@ extern "C" {
     /**************************************
      * Process Results
      **************************************/
-    typedef struct MotionEstimationResults_s
+    typedef struct MotionEstimationResults
     {
         EbObjectWrapper_t   *pictureControlSetWrapperPtr;
         uint32_t               segment_index;
-    } MotionEstimationResults_t;
+    } MotionEstimationResults;
 
-    typedef struct MotionEstimationResultsInitData_s
-    {
+    typedef struct MotionEstimationResultsInitData {
         int32_t junk;
-    } MotionEstimationResultsInitData_t;
+    } MotionEstimationResultsInitData;
 
     /**************************************
      * Extern Function Declarations

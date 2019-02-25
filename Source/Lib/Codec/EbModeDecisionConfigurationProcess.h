@@ -22,25 +22,25 @@ extern "C" {
     static const uint32_t ns_blk_offset[10] = { 0, 1, 3, 25, 5, 8, 11, 14 ,17, 21 };
     static const uint32_t ns_blk_num[10] = { 1, 2, 2, 4, 3, 3, 3, 3, 4, 4 };
 
-    typedef struct MdcpLocalCodingUnit_s
+    typedef struct MdcpLocalCodingUnit
     {
         uint64_t                          earlyCost;
         EbBool                         earlySplitFlag;
         uint32_t                          splitContext;
         EbBool                         slectedCu;
         EbBool                         stopSplit;
-    } MdcpLocalCodingUnit_t;
+    } MdcpLocalCodingUnit;
 
-    typedef struct ModeDecisionConfigurationContext_s
+    typedef struct ModeDecisionConfigurationContext
     {
         EbFifo_t                            *rate_control_input_fifo_ptr;
         EbFifo_t                            *mode_decision_configuration_output_fifo_ptr;
 
-        MdRateEstimationContext_t           *md_rate_estimation_ptr;
+        MdRateEstimationContext           *md_rate_estimation_ptr;
 
         uint8_t                               qp;
         uint64_t                              lambda;
-        MdcpLocalCodingUnit_t               local_cu_array[CU_MAX_COUNT];
+        MdcpLocalCodingUnit               local_cu_array[CU_MAX_COUNT];
 
         // Inter depth decision
         uint8_t                               group_of8x8_blocks_count;
@@ -81,7 +81,7 @@ extern "C" {
 
 
 
-    } ModeDecisionConfigurationContext_t;
+    } ModeDecisionConfigurationContext;
 
 
 
@@ -89,7 +89,7 @@ extern "C" {
      * Extern Function Declarations
      **************************************/
     extern EbErrorType mode_decision_configuration_context_ctor(
-        ModeDecisionConfigurationContext_t **context_dbl_ptr,
+        ModeDecisionConfigurationContext **context_dbl_ptr,
         EbFifo_t                            *rate_control_input_fifo_ptr,
         EbFifo_t                            *mode_decision_configuration_output_fifo_ptr,
         uint16_t                                 sb_total_count);

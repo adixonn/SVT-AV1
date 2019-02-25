@@ -97,10 +97,10 @@ static const uint32_t invIntraModeAngularTable[] = {
  * Intra Reference Samples Ctor
  **********************************************/
 EbErrorType intra_reference_samples_ctor(
-    IntraReferenceSamples_t **context_dbl_ptr)
+    IntraReferenceSamples **context_dbl_ptr)
 {
-    IntraReferenceSamples_t *context_ptr;
-    EB_MALLOC(IntraReferenceSamples_t*, context_ptr, sizeof(IntraReferenceSamples_t), EB_N_PTR);
+    IntraReferenceSamples *context_ptr;
+    EB_MALLOC(IntraReferenceSamples*, context_ptr, sizeof(IntraReferenceSamples), EB_N_PTR);
     *context_dbl_ptr = context_ptr;
 
     EB_MALLOC(uint8_t*, context_ptr->y_intra_reference_array, sizeof(uint8_t) * (4 * BLOCK_SIZE_64 + 1), EB_N_PTR);
@@ -131,10 +131,10 @@ EbErrorType intra_reference_samples_ctor(
  * Intra Reference Samples Ctor
  **********************************************/
 EbErrorType intra_reference16bit_samples_ctor(
-    IntraReference16bitSamples_t **context_dbl_ptr)
+    IntraReference16bitSamples **context_dbl_ptr)
 {
-    IntraReference16bitSamples_t *context_ptr;
-    EB_MALLOC(IntraReference16bitSamples_t*, context_ptr, sizeof(IntraReference16bitSamples_t), EB_N_PTR);
+    IntraReference16bitSamples *context_ptr;
+    EB_MALLOC(IntraReference16bitSamples*, context_ptr, sizeof(IntraReference16bitSamples), EB_N_PTR);
     *context_dbl_ptr = context_ptr;
 
     EB_MALLOC(uint16_t*, context_ptr->y_intra_reference_array, sizeof(uint16_t) * (4 * BLOCK_SIZE_64 + 1), EB_N_PTR);
@@ -530,10 +530,10 @@ EbErrorType generate_intra_reference_samples_encode_pass(
     uint32_t                      origin_y,
     uint32_t                      size,
     uint32_t                      cu_depth,
-    NeighborArrayUnit_t        *mode_type_neighbor_array,
-    NeighborArrayUnit_t        *luma_recon_neighbor_array,
-    NeighborArrayUnit_t        *cb_recon_neighbor_array,
-    NeighborArrayUnit_t        *cr_recon_neighbor_array,
+    NeighborArrayUnit        *mode_type_neighbor_array,
+    NeighborArrayUnit        *luma_recon_neighbor_array,
+    NeighborArrayUnit        *cb_recon_neighbor_array,
+    NeighborArrayUnit        *cr_recon_neighbor_array,
     void                       *ref_wrapper_ptr,
     EbBool                     picture_left_boundary,
     EbBool                     picture_top_boundary,
@@ -541,7 +541,7 @@ EbErrorType generate_intra_reference_samples_encode_pass(
 {
     (void)strong_intra_smoothing_flag;
     EbErrorType          return_error = EB_ErrorNone;
-    IntraReferenceSamples_t          *intra_ref_ptr = (IntraReferenceSamples_t          *)ref_wrapper_ptr;
+    IntraReferenceSamples          *intra_ref_ptr = (IntraReferenceSamples          *)ref_wrapper_ptr;
     uint8_t                *yBorder = intra_ref_ptr->y_intra_reference_array;
     uint8_t                *cbBorder = intra_ref_ptr->cbIntraReferenceArray;
     uint8_t                *crBorder = intra_ref_ptr->crIntraReferenceArray;
@@ -1047,10 +1047,10 @@ EbErrorType generate_intra_reference16bit_samples_encode_pass(
     uint32_t                      origin_y,
     uint32_t                      size,
     uint32_t                      cu_depth,
-    NeighborArrayUnit_t        *mode_type_neighbor_array,
-    NeighborArrayUnit_t        *luma_recon_neighbor_array,
-    NeighborArrayUnit_t        *cb_recon_neighbor_array,
-    NeighborArrayUnit_t        *cr_recon_neighbor_array,
+    NeighborArrayUnit        *mode_type_neighbor_array,
+    NeighborArrayUnit        *luma_recon_neighbor_array,
+    NeighborArrayUnit        *cb_recon_neighbor_array,
+    NeighborArrayUnit        *cr_recon_neighbor_array,
     void                       *ref_wrapper_ptr,
     EbBool                     picture_left_boundary,
     EbBool                     picture_top_boundary,
@@ -1058,7 +1058,7 @@ EbErrorType generate_intra_reference16bit_samples_encode_pass(
 {
     (void)strong_intra_smoothing_flag;
     EbErrorType          return_error = EB_ErrorNone;
-    IntraReference16bitSamples_t       *intra_ref_ptr = (IntraReference16bitSamples_t*)ref_wrapper_ptr;
+    IntraReference16bitSamples       *intra_ref_ptr = (IntraReference16bitSamples*)ref_wrapper_ptr;
     uint16_t                *yBorder = intra_ref_ptr->y_intra_reference_array;
     uint16_t                *cbBorder = intra_ref_ptr->cbIntraReferenceArray;
     uint16_t                *crBorder = intra_ref_ptr->crIntraReferenceArray;
@@ -1568,10 +1568,10 @@ EbErrorType generate_luma_intra_reference16bit_samples_encode_pass(
     uint32_t                      size,
     uint32_t                      sb_sz,
     uint32_t                      cu_depth,
-    NeighborArrayUnit_t        *mode_type_neighbor_array,
-    NeighborArrayUnit_t        *luma_recon_neighbor_array,
-    NeighborArrayUnit_t        *cb_recon_neighbor_array,
-    NeighborArrayUnit_t        *cr_recon_neighbor_array,
+    NeighborArrayUnit        *mode_type_neighbor_array,
+    NeighborArrayUnit        *luma_recon_neighbor_array,
+    NeighborArrayUnit        *cb_recon_neighbor_array,
+    NeighborArrayUnit        *cr_recon_neighbor_array,
     void                       *ref_wrapper_ptr,
     EbBool                     picture_left_boundary,
     EbBool                     picture_top_boundary,
@@ -1579,7 +1579,7 @@ EbErrorType generate_luma_intra_reference16bit_samples_encode_pass(
 {
     (void)strong_intra_smoothing_flag;
     EbErrorType          return_error = EB_ErrorNone;
-    IntraReference16bitSamples_t       *intra_ref_ptr = (IntraReference16bitSamples_t*)ref_wrapper_ptr;
+    IntraReference16bitSamples       *intra_ref_ptr = (IntraReference16bitSamples*)ref_wrapper_ptr;
     uint16_t                *yBorder = intra_ref_ptr->y_intra_reference_array;
     uint16_t                *yBorderFilt = intra_ref_ptr->yIntraFilteredReferenceArray;
 
@@ -1983,17 +1983,17 @@ EbErrorType generate_chroma_intra_reference16bit_samples_encode_pass(
     uint32_t                      size,
     uint32_t                      sb_sz,
     uint32_t                      cu_depth,
-    NeighborArrayUnit_t        *mode_type_neighbor_array,
-    NeighborArrayUnit_t        *luma_recon_neighbor_array,
-    NeighborArrayUnit_t        *cb_recon_neighbor_array,
-    NeighborArrayUnit_t        *cr_recon_neighbor_array,
+    NeighborArrayUnit        *mode_type_neighbor_array,
+    NeighborArrayUnit        *luma_recon_neighbor_array,
+    NeighborArrayUnit        *cb_recon_neighbor_array,
+    NeighborArrayUnit        *cr_recon_neighbor_array,
     void                       *ref_wrapper_ptr,
     EbBool                     picture_left_boundary,
     EbBool                     picture_top_boundary,
     EbBool                     picture_right_boundary)
 {
     EbErrorType          return_error = EB_ErrorNone;
-    IntraReference16bitSamples_t       *intra_ref_ptr = (IntraReference16bitSamples_t*)ref_wrapper_ptr;
+    IntraReference16bitSamples       *intra_ref_ptr = (IntraReference16bitSamples*)ref_wrapper_ptr;
 
     uint16_t                *cbBorder = intra_ref_ptr->cbIntraReferenceArray;
     uint16_t                *crBorder = intra_ref_ptr->crIntraReferenceArray;
@@ -3579,10 +3579,10 @@ static inline void IntraModeAngular_all(
         is the main function to compute intra prediction for a PU
  */
 EbErrorType intra_prediction_cl(
-    ModeDecisionContext_t                  *md_context_ptr,
+    ModeDecisionContext                  *md_context_ptr,
     uint32_t                                  component_mask,
     PictureControlSet_t                    *picture_control_set_ptr,
-    ModeDecisionCandidateBuffer_t           *candidate_buffer_ptr,
+    ModeDecisionCandidateBuffer           *candidate_buffer_ptr,
     EbAsm                                  asm_type)
 {
     EbErrorType return_error = EB_ErrorNone;
@@ -3594,7 +3594,7 @@ EbErrorType intra_prediction_cl(
     const uint32_t pu_height = md_context_ptr->cu_stats->size;
 
 
-    IntraReferenceSamples_t * const context_ptr = (IntraReferenceSamples_t*)(md_context_ptr->intra_ref_ptr);
+    IntraReferenceSamples * const context_ptr = (IntraReferenceSamples*)(md_context_ptr->intra_ref_ptr);
     const EncodeContext * const encode_context_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
 
     // Map the mode to the function table index
@@ -3629,7 +3629,7 @@ EbErrorType intra_prediction_cl(
 
         if (md_context_ptr->luma_intra_ref_samples_gen_done == EB_FALSE)
         {
-            EbPictureBufferDesc_t     *input_picture_ptr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+            EbPictureBufferDesc     *input_picture_ptr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
 
             GenerateIntraLumaReferenceSamplesMd(
                 md_context_ptr,
@@ -3735,7 +3735,7 @@ EbErrorType intra_prediction_cl(
         if (md_context_ptr->chroma_intra_ref_samples_gen_done == EB_FALSE)
         {
 
-            EbPictureBufferDesc_t *input_picture_ptr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+            EbPictureBufferDesc *input_picture_ptr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
             GenerateIntraChromaReferenceSamplesMd(
                 md_context_ptr,
                 picture_control_set_ptr,
@@ -3904,7 +3904,7 @@ EbErrorType intra4x4_intra_prediction_cl(
     uint32_t                                  sb_sz,
     uint32_t                                  component_mask,
     PictureControlSet_t                    *picture_control_set_ptr,
-    ModeDecisionCandidateBuffer_t          *candidate_buffer_ptr,
+    ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
     EbPtr                                  prediction_context_ptr,
     EbAsm                                  asm_type)
 {
@@ -3912,7 +3912,7 @@ EbErrorType intra4x4_intra_prediction_cl(
     uint32_t          luma_mode = candidate_buffer_ptr->candidate_ptr->intra_luma_mode;
     uint32_t        chroma_mode;
 
-    IntraReferenceSamples_t *context_ptr = (IntraReferenceSamples_t*)(((ModeDecisionContext_t*)prediction_context_ptr)->intra_ref_ptr);
+    IntraReferenceSamples *context_ptr = (IntraReferenceSamples*)(((ModeDecisionContext*)prediction_context_ptr)->intra_ref_ptr);
     EncodeContext         *encode_context_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
 
     // Map the mode to the function table index
@@ -4215,7 +4215,7 @@ EbErrorType encode_pass_intra_prediction(
     uint32_t                                  origin_x,
     uint32_t                                  origin_y,
     uint32_t                                  pu_size,
-    EbPictureBufferDesc_t                  *prediction_ptr,
+    EbPictureBufferDesc                  *prediction_ptr,
     uint32_t                                  luma_mode,
     uint32_t                                  chroma_mode,
     int32_t                                  angle_delta,
@@ -4223,7 +4223,7 @@ EbErrorType encode_pass_intra_prediction(
     EbAsm                                  asm_type)
 {
     EbErrorType             return_error = EB_ErrorNone;
-    IntraReferenceSamples_t *referenceSamples = (IntraReferenceSamples_t*)ref_samples;
+    IntraReferenceSamples *referenceSamples = (IntraReferenceSamples*)ref_samples;
     uint32_t lumaOffset;
     uint32_t chromaOffset;
 
@@ -4407,7 +4407,7 @@ EbErrorType encode_pass_intra_prediction16bit(
     uint32_t                                  origin_x,
     uint32_t                                  origin_y,
     uint32_t                                  pu_size,
-    EbPictureBufferDesc_t                  *prediction_ptr,
+    EbPictureBufferDesc                  *prediction_ptr,
     uint32_t                                  luma_mode,
     uint32_t                                  chroma_mode,
     int32_t                                  angle_delta,
@@ -4422,7 +4422,7 @@ EbErrorType encode_pass_intra_prediction16bit(
 
 
     EbErrorType                return_error = EB_ErrorNone;
-    IntraReference16bitSamples_t *referenceSamples = (IntraReference16bitSamples_t *)ref_samples;
+    IntraReference16bitSamples *referenceSamples = (IntraReference16bitSamples *)ref_samples;
     uint32_t lumaOffset;
     uint32_t chromaOffset;
 
@@ -4597,12 +4597,12 @@ EbErrorType encode_pass_intra4x4_prediction(
     uint8_t                          upsample_above_chroma,
     EbBool                         is_left_availble,
     EbBool                         is_above_availble,
-    IntraReferenceSamples_t                *referenceSamples,
+    IntraReferenceSamples                *referenceSamples,
     uint32_t                                  origin_x,
     uint32_t                                  origin_y,
     uint32_t                                  pu_size,
     uint32_t                                  chromaPuSize,
-    EbPictureBufferDesc_t                  *prediction_ptr,
+    EbPictureBufferDesc                  *prediction_ptr,
     uint32_t                      luma_mode,
     uint32_t                    chroma_mode,
     uint32_t                                  component_mask,
@@ -4796,12 +4796,12 @@ EbErrorType encode_pass_intra4x4_prediction16bit(
     uint8_t                          upsample_above_chroma,
     EbBool                         is_left_availble,
     EbBool                         is_above_availble,
-    IntraReference16bitSamples_t           *referenceSamples,
+    IntraReference16bitSamples           *referenceSamples,
     uint32_t                                  origin_x,
     uint32_t                                  origin_y,
     uint32_t                                  pu_size,
     uint32_t                                  chromaPuSize,
-    EbPictureBufferDesc_t                  *prediction_ptr,
+    EbPictureBufferDesc                  *prediction_ptr,
     uint32_t                      luma_mode,
     uint32_t                    chroma_mode,
     uint32_t                                  component_mask,
@@ -4980,10 +4980,10 @@ EbErrorType encode_pass_intra4x4_prediction16bit(
  * Intra Reference Samples Ctor
  **********************************************/
 EbErrorType intra_open_loop_reference_samples_ctor(
-    IntraReferenceSamplesOpenLoop_t **context_dbl_ptr)
+    IntraReferenceSamplesOpenLoop **context_dbl_ptr)
 {
-    IntraReferenceSamplesOpenLoop_t *context_ptr;
-    EB_MALLOC(IntraReferenceSamplesOpenLoop_t*, context_ptr, sizeof(IntraReferenceSamplesOpenLoop_t), EB_N_PTR);
+    IntraReferenceSamplesOpenLoop *context_ptr;
+    EB_MALLOC(IntraReferenceSamplesOpenLoop*, context_ptr, sizeof(IntraReferenceSamplesOpenLoop), EB_N_PTR);
 
     *context_dbl_ptr = context_ptr;
 
@@ -5002,8 +5002,8 @@ EbErrorType intra_open_loop_reference_samples_ctor(
         updates neighbor sample array
  */
 EbErrorType update_neighbor_samples_array_open_loop(
-    IntraReferenceSamplesOpenLoop_t *intra_ref_ptr,
-    EbPictureBufferDesc_t           *inputPtr,
+    IntraReferenceSamplesOpenLoop *intra_ref_ptr,
+    EbPictureBufferDesc           *inputPtr,
     uint32_t                           stride,
     uint32_t                           src_origin_x,
     uint32_t                           src_origin_y,
@@ -5123,7 +5123,7 @@ EbErrorType update_neighbor_samples_array_open_loop(
  */
 EbErrorType intra_prediction_open_loop(
     uint32_t                               cu_size,                       // input parameter, pointer to the current cu
-    MotionEstimationContext_t           *context_ptr,                  // input parameter, ME context
+    MotionEstimationContext           *context_ptr,                  // input parameter, ME context
     uint32_t                   openLoopIntraCandidateIndex, // input parameter, intra mode
     EbAsm                               asm_type)
 {
@@ -8027,7 +8027,7 @@ void av1_upsample_intra_edge_c(uint8_t *p, int32_t sz) {
 }
 static void build_intra_predictors_md(
 
-    ModeDecisionContext_t            *cu_ptr,
+    ModeDecisionContext            *cu_ptr,
     const MacroBlockD *xd,
     uint8_t* topNeighArray,
     uint8_t* leftNeighArray,
@@ -8301,7 +8301,7 @@ static void build_intra_predictors_md(
 // use neighbor sample arrays to construct intra reference samples
 void generate_intra_reference_samples(
     const Av1Common         *cm,
-    ModeDecisionContext_t   *md_context_ptr)
+    ModeDecisionContext   *md_context_ptr)
 {
 
     uint8_t    topNeighArray[64 * 2 + 1];
@@ -8597,7 +8597,7 @@ static void build_intra_predictors(
 
 
 #if INTRA_CORE_OPT
-    ModeDecisionContext_t                  *md_context_ptr,
+    ModeDecisionContext                  *md_context_ptr,
     STAGE       stage,
 #endif
     uint8_t    intra_luma_left_mode,
@@ -9090,7 +9090,7 @@ static void build_intra_predictors_high(
 
 
 extern void av1_predict_intra_block_md(
-    ModeDecisionContext_t *cu_ptr,
+    ModeDecisionContext *cu_ptr,
     const Av1Common *cm,
     int32_t wpx,
     int32_t hpx,
@@ -9101,7 +9101,7 @@ extern void av1_predict_intra_block_md(
     FILTER_INTRA_MODE filter_intra_mode,
     uint8_t* topNeighArray,
     uint8_t* leftNeighArray,
-    EbPictureBufferDesc_t  *recon_buffer,
+    EbPictureBufferDesc  *recon_buffer,
     int32_t col_off,
     int32_t row_off,
     int32_t plane,
@@ -9287,7 +9287,7 @@ extern void av1_predict_intra_block(
     TileInfo * tile,
 #endif
 #if INTRA_CORE_OPT
-    ModeDecisionContext_t                  *md_context_ptr,
+    ModeDecisionContext                  *md_context_ptr,
 #endif
     STAGE       stage,
     uint8_t    intra_luma_left_mode,
@@ -9305,7 +9305,7 @@ extern void av1_predict_intra_block(
     FILTER_INTRA_MODE filter_intra_mode,
     uint8_t* topNeighArray,
     uint8_t* leftNeighArray,
-    EbPictureBufferDesc_t  *recon_buffer,
+    EbPictureBufferDesc  *recon_buffer,
 #if !INTRA_CORE_OPT
     int32_t col_off,
     int32_t row_off,
@@ -9641,7 +9641,7 @@ void av1_predict_intra_block_16bit(
     FILTER_INTRA_MODE filter_intra_mode,
     uint16_t* topNeighArray,
     uint16_t* leftNeighArray,
-    EbPictureBufferDesc_t  *recon_buffer,
+    EbPictureBufferDesc  *recon_buffer,
     int32_t col_off,
     int32_t row_off,
     int32_t plane,
@@ -9839,12 +9839,12 @@ void av1_predict_intra_block_16bit(
 is the main function to compute intra prediction for a PU
 */
 EbErrorType av1_intra_prediction_cl(
-    ModeDecisionContext_t                  *md_context_ptr,
+    ModeDecisionContext                  *md_context_ptr,
 #if !CHROMA_BLIND
     uint32_t                                  component_mask,
 #endif
     PictureControlSet_t                    *picture_control_set_ptr,
-    ModeDecisionCandidateBuffer_t           *candidate_buffer_ptr,
+    ModeDecisionCandidateBuffer           *candidate_buffer_ptr,
     EbAsm                                  asm_type)
 {
 #if !CHROMA_BLIND

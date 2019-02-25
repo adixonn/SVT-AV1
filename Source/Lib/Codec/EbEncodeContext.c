@@ -156,7 +156,7 @@ EbErrorType encode_context_ctor(
 
     // Packetization Reordering Queue
     encode_context_ptr->packetization_reorder_queue_head_index = 0;
-    EB_MALLOC(PacketizationReorderEntry_t**, encode_context_ptr->packetization_reorder_queue, sizeof(PacketizationReorderEntry_t*) * PACKETIZATION_REORDER_QUEUE_MAX_DEPTH, EB_N_PTR);
+    EB_MALLOC(PacketizationReorderEntry**, encode_context_ptr->packetization_reorder_queue, sizeof(PacketizationReorderEntry*) * PACKETIZATION_REORDER_QUEUE_MAX_DEPTH, EB_N_PTR);
 
     for (pictureIndex = 0; pictureIndex < PACKETIZATION_REORDER_QUEUE_MAX_DEPTH; ++pictureIndex) {
         return_error = packetization_reorder_entry_ctor(
@@ -184,9 +184,9 @@ EbErrorType encode_context_ctor(
     encode_context_ptr->prediction_structure_group_ptr = (PredictionStructureGroup_t*)EB_NULL;
 
     // MD Rate Estimation Array
-    EB_MALLOC(MdRateEstimationContext_t*, encode_context_ptr->md_rate_estimation_array, sizeof(MdRateEstimationContext_t) * TOTAL_NUMBER_OF_MD_RATE_ESTIMATION_CASE_BUFFERS, EB_N_PTR);
+    EB_MALLOC(MdRateEstimationContext*, encode_context_ptr->md_rate_estimation_array, sizeof(MdRateEstimationContext) * TOTAL_NUMBER_OF_MD_RATE_ESTIMATION_CASE_BUFFERS, EB_N_PTR);
 
-    memset(encode_context_ptr->md_rate_estimation_array, 0, sizeof(MdRateEstimationContext_t) * TOTAL_NUMBER_OF_MD_RATE_ESTIMATION_CASE_BUFFERS);
+    memset(encode_context_ptr->md_rate_estimation_array, 0, sizeof(MdRateEstimationContext) * TOTAL_NUMBER_OF_MD_RATE_ESTIMATION_CASE_BUFFERS);
 
     return_error = md_rate_estimation_context_ctor(encode_context_ptr->md_rate_estimation_array);
     if (return_error == EB_ErrorInsufficientResources) {

@@ -896,7 +896,7 @@ static const aom_cdf_prob default_tx_size_cdf[MAX_TX_CATS][TX_SIZE_CONTEXTS]
     { AOM_CDF3(16803, 22759) } },
 };
 
-static const nmv_context default_nmv_context = {
+static const NMVContext default_nmv_context = {
     { AOM_CDF4(4096, 11264, 19328) },  // joints_cdf
     { {
             // Vertical component
@@ -4484,7 +4484,7 @@ static void reset_cdf_symbol_counter(aom_cdf_prob *cdf_ptr, int32_t num_cdfs,
     reset_cdf_symbol_counter(cdf_ptr, num_cdfs, cdf_stride, nsymbs); \
     } while (0)
 
-static void reset_nmv_counter(nmv_context *nmv) {
+static void reset_nmv_counter(NMVContext *nmv) {
     RESET_CDF_COUNTER(nmv->joints_cdf, 4);
     for (int32_t i = 0; i < 2; i++) {
         RESET_CDF_COUNTER(nmv->comps[i].classes_cdf, MV_CLASSES);

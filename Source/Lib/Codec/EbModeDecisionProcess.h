@@ -51,7 +51,7 @@ extern "C" {
       /**************************************
        * Coding Loop Context
        **************************************/
-    typedef struct MdEncPassCuData_s
+    typedef struct MdEncPassCuData
     {
         uint64_t                    skip_cost;
         uint64_t                    merge_cost;
@@ -62,10 +62,10 @@ extern "C" {
         uint64_t                    fast_luma_rate;
         uint16_t                    y_count_non_zero_coeffs[4];// Store nonzero CoeffNum, per TU. If one TU, stored in 0, otherwise 4 tus stored in 0 to 3
 
-    } MdEncPassCuData_t;
+    } MdEncPassCuData;
 
 
-    typedef struct MdCodingUnit_s
+    typedef struct MdCodingUnit
     {
         unsigned                    tested_cu_flag                  : 1;   //tells whether this CU is tested in MD.
         unsigned                    mdc_array_index                 : 7;
@@ -83,46 +83,46 @@ extern "C" {
         uint64_t                    cost_luma;
         CandidateMv ed_ref_mv_stack[MODE_CTX_REF_FRAMES][MAX_REF_MV_STACK_SIZE];//to be used in MD and EncDec
 
-    } MdCodingUnit_t;
+    } MdCodingUnit;
 
 
-    typedef struct ModeDecisionContext_s
+    typedef struct ModeDecisionContext
     {
         EbFifo_t                       *mode_decision_configuration_input_fifo_ptr;
         EbFifo_t                       *mode_decision_output_fifo_ptr;
         int16_t                        *transform_inner_array_ptr;
 
-        ModeDecisionCandidate_t       **fast_candidate_ptr_array;
-        ModeDecisionCandidate_t        *fast_candidate_array;
-        ModeDecisionCandidateBuffer_t **candidate_buffer_ptr_array;
-        MdRateEstimationContext_t      *md_rate_estimation_ptr;
-        InterPredictionContext_t       *inter_prediction_context;
-        MdCodingUnit_t                  md_local_cu_unit[BLOCK_MAX_COUNT_SB_128];
+        ModeDecisionCandidate       **fast_candidate_ptr_array;
+        ModeDecisionCandidate        *fast_candidate_array;
+        ModeDecisionCandidateBuffer **candidate_buffer_ptr_array;
+        MdRateEstimationContext      *md_rate_estimation_ptr;
+        InterPredictionContext       *inter_prediction_context;
+        MdCodingUnit                  md_local_cu_unit[BLOCK_MAX_COUNT_SB_128];
         CodingUnit                    md_cu_arr_nsq[BLOCK_MAX_COUNT_SB_128];
 
-        NeighborArrayUnit_t            *intra_luma_mode_neighbor_array;
-        NeighborArrayUnit_t            *intra_chroma_mode_neighbor_array;
-        NeighborArrayUnit_t            *mv_neighbor_array;
-        NeighborArrayUnit_t            *skip_flag_neighbor_array;
-        NeighborArrayUnit_t            *mode_type_neighbor_array;
-        NeighborArrayUnit_t            *leaf_depth_neighbor_array;
-        NeighborArrayUnit_t            *luma_recon_neighbor_array;
-        NeighborArrayUnit_t            *cb_recon_neighbor_array;
-        NeighborArrayUnit_t            *cr_recon_neighbor_array;
-        NeighborArrayUnit_t            *skip_coeff_neighbor_array;
-        NeighborArrayUnit_t            *luma_dc_sign_level_coeff_neighbor_array; // Stored per 4x4. 8 bit: lower 6 bits (COEFF_CONTEXT_BITS), shows if there is at least one Coef. Top 2 bit store the sign of DC as follow: 0->0,1->-1,2-> 1
-        NeighborArrayUnit_t            *cr_dc_sign_level_coeff_neighbor_array; // Stored per 4x4. 8 bit: lower 6 bits(COEFF_CONTEXT_BITS), shows if there is at least one Coef. Top 2 bit store the sign of DC as follow: 0->0,1->-1,2-> 1
-        NeighborArrayUnit_t            *cb_dc_sign_level_coeff_neighbor_array; // Stored per 4x4. 8 bit: lower 6 bits(COEFF_CONTEXT_BITS), shows if there is at least one Coef. Top 2 bit store the sign of DC as follow: 0->0,1->-1,2-> 1
-        NeighborArrayUnit_t            *inter_pred_dir_neighbor_array;
-        NeighborArrayUnit_t            *ref_frame_type_neighbor_array;
-        NeighborArrayUnit_t            *leaf_partition_neighbor_array;
-        NeighborArrayUnit32_t          *interpolation_type_neighbor_array;
+        NeighborArrayUnit            *intra_luma_mode_neighbor_array;
+        NeighborArrayUnit            *intra_chroma_mode_neighbor_array;
+        NeighborArrayUnit            *mv_neighbor_array;
+        NeighborArrayUnit            *skip_flag_neighbor_array;
+        NeighborArrayUnit            *mode_type_neighbor_array;
+        NeighborArrayUnit            *leaf_depth_neighbor_array;
+        NeighborArrayUnit            *luma_recon_neighbor_array;
+        NeighborArrayUnit            *cb_recon_neighbor_array;
+        NeighborArrayUnit            *cr_recon_neighbor_array;
+        NeighborArrayUnit            *skip_coeff_neighbor_array;
+        NeighborArrayUnit            *luma_dc_sign_level_coeff_neighbor_array; // Stored per 4x4. 8 bit: lower 6 bits (COEFF_CONTEXT_BITS), shows if there is at least one Coef. Top 2 bit store the sign of DC as follow: 0->0,1->-1,2-> 1
+        NeighborArrayUnit            *cr_dc_sign_level_coeff_neighbor_array; // Stored per 4x4. 8 bit: lower 6 bits(COEFF_CONTEXT_BITS), shows if there is at least one Coef. Top 2 bit store the sign of DC as follow: 0->0,1->-1,2-> 1
+        NeighborArrayUnit            *cb_dc_sign_level_coeff_neighbor_array; // Stored per 4x4. 8 bit: lower 6 bits(COEFF_CONTEXT_BITS), shows if there is at least one Coef. Top 2 bit store the sign of DC as follow: 0->0,1->-1,2-> 1
+        NeighborArrayUnit            *inter_pred_dir_neighbor_array;
+        NeighborArrayUnit            *ref_frame_type_neighbor_array;
+        NeighborArrayUnit            *leaf_partition_neighbor_array;
+        NeighborArrayUnit32          *interpolation_type_neighbor_array;
 
         // TMVP
         EbReferenceObject_t            *reference_object_write_ptr;
 
         // Intra Reference Samples
-        IntraReferenceSamples_t        *intra_ref_ptr;
+        IntraReferenceSamples        *intra_ref_ptr;
 
         // Transform and Quantization Buffers
         EbTransQuantBuffers_t          *trans_quant_buffers_ptr;
@@ -161,7 +161,7 @@ extern "C" {
 
         // Entropy Coder
         EntropyCoder                 *coeff_est_entropy_coder_ptr;
-        MdEncPassCuData_t               md_ep_pipe_sb[BLOCK_MAX_COUNT_SB_128];
+        MdEncPassCuData               md_ep_pipe_sb[BLOCK_MAX_COUNT_SB_128];
 
         uint8_t                         group_of8x8_blocks_count;
         uint8_t                         group_of16x16_blocks_count;
@@ -226,7 +226,7 @@ extern "C" {
         uint8_t                           chroma_level;
 #endif
 
-    } ModeDecisionContext_t;
+    } ModeDecisionContext;
 
     typedef void(*EB_AV1_LAMBDA_ASSIGN_FUNC)(
         uint32_t                    *fast_lambda,
@@ -250,7 +250,7 @@ extern "C" {
      * Extern Function Declarations
      **************************************/
     extern EbErrorType mode_decision_context_ctor(
-        ModeDecisionContext_t      **context_dbl_ptr,
+        ModeDecisionContext      **context_dbl_ptr,
         EbFifo_t                    *mode_decision_configuration_input_fifo_ptr,
         EbFifo_t                    *mode_decision_output_fifo_ptr);
 
@@ -290,13 +290,13 @@ extern "C" {
         208, 212, 216, 220, 224, 228, 232, 236, 240, 244, 249, 255};
 
     extern void reset_mode_decision(
-        ModeDecisionContext_t   *context_ptr,
+        ModeDecisionContext   *context_ptr,
         PictureControlSet_t     *picture_control_set_ptr,
         SequenceControlSet_t    *sequence_control_set_ptr,
         uint32_t                 segment_index);
 
-    extern void ModeDecisionConfigureLcu(
-        ModeDecisionContext_t   *context_ptr,
+    extern void mode_decision_configure_lcu(
+        ModeDecisionContext   *context_ptr,
         LargestCodingUnit     *sb_ptr,
         PictureControlSet_t     *picture_control_set_ptr,
         SequenceControlSet_t    *sequence_control_set_ptr,
@@ -307,10 +307,10 @@ extern "C" {
 #if CHROMA_BLIND 
     extern void cfl_rd_pick_alpha(
         PictureControlSet_t             *picture_control_set_ptr,
-        ModeDecisionCandidateBuffer_t   *candidate_buffer,
+        ModeDecisionCandidateBuffer   *candidate_buffer,
         LargestCodingUnit             *sb_ptr,
-        ModeDecisionContext_t           *context_ptr,
-        EbPictureBufferDesc_t           *input_picture_ptr,
+        ModeDecisionContext           *context_ptr,
+        EbPictureBufferDesc           *input_picture_ptr,
         uint32_t                         input_cb_origin_index,
         uint32_t                         cu_chroma_origin_index,
         EbAsm                            asm_type);

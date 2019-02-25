@@ -946,8 +946,8 @@ void av1_quantize_inv_quantize(
  ************  Full loop ****************
 ****************************************/
 void product_full_loop(
-    ModeDecisionCandidateBuffer_t  *candidate_buffer,
-    ModeDecisionContext_t          *context_ptr,
+    ModeDecisionCandidateBuffer  *candidate_buffer,
+    ModeDecisionContext          *context_ptr,
     PictureControlSet_t            *picture_control_set_ptr,
     uint32_t                          qp,
     uint32_t                          *y_count_non_zero_coeffs,
@@ -1138,8 +1138,8 @@ uint8_t allowed_tx_set_b[TX_SIZES_ALL][TX_TYPES] = {
 };
 #endif
 void product_full_loop_tx_search(
-    ModeDecisionCandidateBuffer_t  *candidate_buffer,
-    ModeDecisionContext_t          *context_ptr,
+    ModeDecisionCandidateBuffer  *candidate_buffer,
+    ModeDecisionContext          *context_ptr,
     PictureControlSet_t            *picture_control_set_ptr)
 {
     uint32_t                       tu_origin_index;
@@ -1363,10 +1363,10 @@ void encode_pass_tx_search(
     EncDecContext                *context_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                       cb_qp,
-    EbPictureBufferDesc_t          *coeffSamplesTB,          
-    EbPictureBufferDesc_t          *residual16bit,           
-    EbPictureBufferDesc_t          *transform16bit,          
-    EbPictureBufferDesc_t          *inverse_quant_buffer,
+    EbPictureBufferDesc          *coeffSamplesTB,          
+    EbPictureBufferDesc          *residual16bit,           
+    EbPictureBufferDesc          *transform16bit,          
+    EbPictureBufferDesc          *inverse_quant_buffer,
     int16_t                        *transformScratchBuffer,
     EbAsm                          asm_type,
     uint32_t                       *count_non_zero_coeffs,
@@ -1500,9 +1500,9 @@ void encode_pass_tx_search(
 
         //LUMA-ONLY
 
-        ModeDecisionCandidateBuffer_t         **candidateBufferPtrArrayBase = context_ptr->md_context->candidate_buffer_ptr_array;
-        ModeDecisionCandidateBuffer_t         **candidate_buffer_ptr_array = &(candidateBufferPtrArrayBase[context_ptr->md_context->buffer_depth_index_start[0]]);
-        ModeDecisionCandidateBuffer_t          *candidate_buffer;
+        ModeDecisionCandidateBuffer         **candidateBufferPtrArrayBase = context_ptr->md_context->candidate_buffer_ptr_array;
+        ModeDecisionCandidateBuffer         **candidate_buffer_ptr_array = &(candidateBufferPtrArrayBase[context_ptr->md_context->buffer_depth_index_start[0]]);
+        ModeDecisionCandidateBuffer          *candidate_buffer;
 
         // Set the Candidate Buffer
         candidate_buffer = candidate_buffer_ptr_array[0];
@@ -1566,10 +1566,10 @@ void encode_pass_tx_search_hbd(
     EncDecContext                *context_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                       cb_qp,
-    EbPictureBufferDesc_t          *coeffSamplesTB,
-    EbPictureBufferDesc_t          *residual16bit,
-    EbPictureBufferDesc_t          *transform16bit,
-    EbPictureBufferDesc_t          *inverse_quant_buffer,
+    EbPictureBufferDesc          *coeffSamplesTB,
+    EbPictureBufferDesc          *residual16bit,
+    EbPictureBufferDesc          *transform16bit,
+    EbPictureBufferDesc          *inverse_quant_buffer,
     int16_t                        *transformScratchBuffer,
     EbAsm                          asm_type,
     uint32_t                       *count_non_zero_coeffs,
@@ -1712,9 +1712,9 @@ void encode_pass_tx_search_hbd(
 
         //LUMA-ONLY
 
-        ModeDecisionCandidateBuffer_t         **candidateBufferPtrArrayBase = context_ptr->md_context->candidate_buffer_ptr_array;
-        ModeDecisionCandidateBuffer_t         **candidate_buffer_ptr_array = &(candidateBufferPtrArrayBase[context_ptr->md_context->buffer_depth_index_start[0]]);
-        ModeDecisionCandidateBuffer_t          *candidate_buffer;
+        ModeDecisionCandidateBuffer         **candidateBufferPtrArrayBase = context_ptr->md_context->candidate_buffer_ptr_array;
+        ModeDecisionCandidateBuffer         **candidate_buffer_ptr_array = &(candidateBufferPtrArrayBase[context_ptr->md_context->buffer_depth_index_start[0]]);
+        ModeDecisionCandidateBuffer          *candidate_buffer;
 
         // Set the Candidate Buffer
         candidate_buffer = candidate_buffer_ptr_array[0];
@@ -1779,9 +1779,9 @@ void encode_pass_tx_search_hbd(
 ****************************************/
 void full_loop_r(
     LargestCodingUnit            *sb_ptr,
-    ModeDecisionCandidateBuffer_t  *candidate_buffer,
-    ModeDecisionContext_t          *context_ptr,
-    EbPictureBufferDesc_t          *input_picture_ptr,
+    ModeDecisionCandidateBuffer  *candidate_buffer,
+    ModeDecisionContext          *context_ptr,
+    EbPictureBufferDesc          *input_picture_ptr,
     PictureControlSet_t            *picture_control_set_ptr,
     uint32_t                          component_mask,
     uint32_t                          cb_qp,
@@ -1802,8 +1802,8 @@ void full_loop_r(
     uint32_t                 txb_origin_x;
     uint32_t                 txb_origin_y;
 
-    // EbPictureBufferDesc_t         * tuTransCoeffTmpPtr;
-     //EbPictureBufferDesc_t         * tuQuantCoeffTmpPtr;
+    // EbPictureBufferDesc         * tuTransCoeffTmpPtr;
+     //EbPictureBufferDesc         * tuQuantCoeffTmpPtr;
 
     SequenceControlSet_t    *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     EbAsm     asm_type = sequence_control_set_ptr->encode_context_ptr->asm_type;
@@ -1941,9 +1941,9 @@ void full_loop_r(
 //****************************************/
 void cu_full_distortion_fast_tu_mode_r(
     LargestCodingUnit            *sb_ptr,
-    ModeDecisionCandidateBuffer_t  *candidate_buffer,
-    ModeDecisionContext_t            *context_ptr,
-    ModeDecisionCandidate_t           *candidate_ptr,
+    ModeDecisionCandidateBuffer  *candidate_buffer,
+    ModeDecisionContext            *context_ptr,
+    ModeDecisionCandidate           *candidate_ptr,
     PictureControlSet_t            *picture_control_set_ptr,
     uint64_t                          cb_full_distortion[DIST_CALC_TOTAL],
     uint64_t                          cr_full_distortion[DIST_CALC_TOTAL],
@@ -1965,7 +1965,7 @@ void cu_full_distortion_fast_tu_mode_r(
     int32_t                          chromaShift;
     uint32_t                          tuChromaOriginIndex;
     uint64_t                          tuFullDistortion[3][DIST_CALC_TOTAL];
-    EbPictureBufferDesc_t          *transform_buffer;
+    EbPictureBufferDesc          *transform_buffer;
     uint32_t                          tuTotalCount;
     uint32_t                          txb_itr = 0;
     //    SequenceControlSet_t           *sequence_control_set_ptr=((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr);
@@ -2101,7 +2101,7 @@ void cu_full_distortion_fast_tu_mode_r(
 
 
 void  d1_non_square_block_decision(
-    ModeDecisionContext_t               *context_ptr
+    ModeDecisionContext               *context_ptr
 )
 {
     //compute total cost for the whole block partition
@@ -2128,7 +2128,7 @@ void  d1_non_square_block_decision(
 #if FIX_INTER_DEPTH
 /// compute the cost of curr depth, and the depth above
 void   compute_depth_costs(
-    ModeDecisionContext_t    *context_ptr,
+    ModeDecisionContext    *context_ptr,
     SequenceControlSet_t     *sequence_control_set_ptr,
     uint32_t                  curr_depth_mds,
     uint32_t                  above_depth_mds,
@@ -2274,7 +2274,7 @@ void   compute_depth_costs(
 #else
 /// compute the cost of curr depth, and the depth above
 void   compute_depth_costs(
-    ModeDecisionContext_t    *context_ptr,
+    ModeDecisionContext    *context_ptr,
     SequenceControlSet_t     *sequence_control_set_ptr,
     uint32_t                  curr_depth_mds,
     uint32_t                  above_depth_mds,
@@ -2383,14 +2383,14 @@ void   compute_depth_costs(
 }
 #endif
 uint32_t d2_inter_depth_block_decision(
-    ModeDecisionContext_t          *context_ptr,
+    ModeDecisionContext          *context_ptr,
     uint32_t                        blk_mds,
     LargestCodingUnit            *tb_ptr,
     uint32_t                          lcu_addr,
     uint32_t                          tbOriginX,
     uint32_t                          tbOriginY,
     uint64_t                          full_lambda,
-    MdRateEstimationContext_t      *md_rate_estimation_ptr,
+    MdRateEstimationContext      *md_rate_estimation_ptr,
     PictureControlSet_t            *picture_control_set_ptr)
 {
     UNUSED(tb_ptr);

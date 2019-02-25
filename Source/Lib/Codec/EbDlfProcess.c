@@ -50,8 +50,8 @@ EbErrorType dlf_context_ctor(
 
 
 
-    context_ptr->temp_lf_recon_picture16bit_ptr = (EbPictureBufferDesc_t *)EB_NULL;
-    context_ptr->temp_lf_recon_picture_ptr = (EbPictureBufferDesc_t *)EB_NULL;
+    context_ptr->temp_lf_recon_picture16bit_ptr = (EbPictureBufferDesc *)EB_NULL;
+    context_ptr->temp_lf_recon_picture_ptr = (EbPictureBufferDesc *)EB_NULL;
     EbPictureBufferDescInitData_t temp_lf_recon_desc_init_data;
     temp_lf_recon_desc_init_data.maxWidth = (uint16_t)max_input_luma_width;
     temp_lf_recon_desc_init_data.maxHeight = (uint16_t)max_input_luma_height;
@@ -121,7 +121,7 @@ void* dlf_kernel(void *input_ptr)
 
         if (dlfEnableFlag && picture_control_set_ptr->parent_pcs_ptr->loop_filter_mode >= 2) {
 
-            EbPictureBufferDesc_t  *recon_buffer = is16bit ? picture_control_set_ptr->recon_picture16bit_ptr : picture_control_set_ptr->recon_picture_ptr;
+            EbPictureBufferDesc  *recon_buffer = is16bit ? picture_control_set_ptr->recon_picture16bit_ptr : picture_control_set_ptr->recon_picture_ptr;
             if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE) {
 
                 //get the 16bit form of the input LCU
@@ -142,7 +142,7 @@ void* dlf_kernel(void *input_ptr)
 
                 av1_pick_filter_level(
                     context_ptr,
-                    (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr,
+                    (EbPictureBufferDesc*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr,
                     picture_control_set_ptr,
                     LPF_PICK_FROM_Q);
 
@@ -150,7 +150,7 @@ void* dlf_kernel(void *input_ptr)
 
             av1_pick_filter_level(
                 context_ptr,
-                (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr,
+                (EbPictureBufferDesc*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr,
                 picture_control_set_ptr,
                 LPF_PICK_FROM_FULL_IMAGE);
 
@@ -174,7 +174,7 @@ void* dlf_kernel(void *input_ptr)
         //pre-cdef prep
         {
             Av1Common* cm = picture_control_set_ptr->parent_pcs_ptr->av1_cm;
-            EbPictureBufferDesc_t  * recon_picture_ptr;
+            EbPictureBufferDesc  * recon_picture_ptr;
             if (is16bit) {
                 if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE)
                     recon_picture_ptr = ((EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;
@@ -206,7 +206,7 @@ void* dlf_kernel(void *input_ptr)
                     picture_control_set_ptr->src[1] = (uint16_t*)recon_picture_ptr->bufferCb + (recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->strideCb);
                     picture_control_set_ptr->src[2] = (uint16_t*)recon_picture_ptr->bufferCr + (recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->strideCr);
 
-                    EbPictureBufferDesc_t *input_picture_ptr = picture_control_set_ptr->input_frame16bit;
+                    EbPictureBufferDesc *input_picture_ptr = picture_control_set_ptr->input_frame16bit;
                     picture_control_set_ptr->ref_coeff[0] = (uint16_t*)input_picture_ptr->buffer_y + (input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->stride_y);
                     picture_control_set_ptr->ref_coeff[1] = (uint16_t*)input_picture_ptr->bufferCb + (input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb);
                     picture_control_set_ptr->ref_coeff[2] = (uint16_t*)input_picture_ptr->bufferCr + (input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCr);
@@ -219,7 +219,7 @@ void* dlf_kernel(void *input_ptr)
                     EbByte  rec_ptr_cb = &((recon_picture_ptr->bufferCb)[recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->strideCb]);
                     EbByte  rec_ptr_cr = &((recon_picture_ptr->bufferCr)[recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->strideCr]);
 
-                    EbPictureBufferDesc_t *input_picture_ptr = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+                    EbPictureBufferDesc *input_picture_ptr = (EbPictureBufferDesc*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
                     EbByte  enh_ptr = &((input_picture_ptr->buffer_y)[input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->stride_y]);
                     EbByte  enh_ptr_cb = &((input_picture_ptr->bufferCb)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb]);
                     EbByte  enh_ptr_cr = &((input_picture_ptr->bufferCr)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCr]);

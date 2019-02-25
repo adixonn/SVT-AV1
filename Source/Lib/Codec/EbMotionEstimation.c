@@ -1063,7 +1063,7 @@ static EB_EXTSADCALCULATION_TYPE ExtSadCalculation_funcPtrArray[ASM_TYPE_TOTAL] 
 * open_loop_me_get_search_point_results_block
 *******************************************/
 static void open_loop_me_get_search_point_results_block(
-    MeContext_t             *context_ptr,                    // input parameter, ME context Ptr, used to get SB Ptr
+    MeContext             *context_ptr,                    // input parameter, ME context Ptr, used to get SB Ptr
     uint32_t                   listIndex,                     // input parameter, reference list index
     uint32_t                   searchRegionIndex,             // input parameter, search area origin, used to point to reference samples
     int32_t                   xSearchIndex,                  // input parameter, search region position in the horizontal direction, used to derive xMV
@@ -1235,7 +1235,7 @@ static void open_loop_me_get_search_point_results_block(
 * GetSearchPointResults
 *******************************************/
 static void GetSearchPointResults(
-    MeContext_t             *context_ptr,                    // input parameter, ME context Ptr, used to get SB Ptr
+    MeContext             *context_ptr,                    // input parameter, ME context Ptr, used to get SB Ptr
     uint32_t                   listIndex,                     // input parameter, reference list index
     uint32_t                   searchRegionIndex,             // input parameter, search area origin, used to point to reference samples
     int32_t                   xSearchIndex,                  // input parameter, search region position in the horizontal direction, used to derive xMV
@@ -1367,7 +1367,7 @@ static void GetSearchPointResults(
 * GetEightHorizontalSearchPointResultsAll85CUs
 *******************************************/
 static void GetEightHorizontalSearchPointResultsAll85PUs(
-    MeContext_t             *context_ptr,
+    MeContext             *context_ptr,
     uint32_t                   listIndex,
     uint32_t                   searchRegionIndex,
     int32_t                   xSearchIndex,                  // input parameter, search region position in the horizontal direction, used to derive xMV
@@ -1502,7 +1502,7 @@ static void GetEightHorizontalSearchPointResultsAll85PUs(
 * FullPelSearch_LCU
 *******************************************/
 static void FullPelSearch_LCU(
-    MeContext_t             *context_ptr,
+    MeContext             *context_ptr,
     uint32_t                   listIndex,
     int16_t                   x_search_area_origin,
     int16_t                     y_search_area_origin,
@@ -1554,7 +1554,7 @@ static void FullPelSearch_LCU(
 * open_loop_me_fullpel_search_sblock
 *******************************************/
 static void open_loop_me_fullpel_search_sblock(
-    MeContext_t             *context_ptr,
+    MeContext             *context_ptr,
     uint32_t                   listIndex,
     int16_t                   x_search_area_origin,
     int16_t                     y_search_area_origin,
@@ -1705,7 +1705,7 @@ static void AvcStyleInterpolation(
 *   F2: {-2, 16, 54, -4}
 ********************************************/
 void InterpolateSearchRegionAVC(
-    MeContext_t             *context_ptr,           // input/output parameter, ME context ptr, used to get/set interpolated search area Ptr
+    MeContext             *context_ptr,           // input/output parameter, ME context ptr, used to get/set interpolated search area Ptr
     uint32_t                   listIndex,            // Refrence picture list index
     uint8_t                   *searchRegionBuffer,   // input parameter, search region index, used to point to reference samples
     uint32_t                   lumaStride,           // input parameter, reference Picture stride
@@ -1841,7 +1841,7 @@ void InterpolateSearchRegionAVC(
 *******************************************/
 static void PU_HalfPelRefinement(
     SequenceControlSet_t    *sequence_control_set_ptr,             // input parameter, Sequence control set Ptr
-    MeContext_t             *context_ptr,                        // input parameter, ME context Ptr, used to get SB Ptr
+    MeContext             *context_ptr,                        // input parameter, ME context Ptr, used to get SB Ptr
 #if M0_SSD_HALF_QUARTER_PEL_BIPRED_SEARCH
     uint8_t                   *refBuffer,
     uint32_t                   ref_stride,
@@ -2248,7 +2248,7 @@ void HalfPelSearch_LCU(
 #if DISABLE_NSQ_FOR_NON_REF || DISABLE_NSQ
     PictureParentControlSet_t *picture_control_set_ptr,
 #endif
-    MeContext_t             *context_ptr,                        // input/output parameter, ME context Ptr, used to get/update ME results
+    MeContext             *context_ptr,                        // input/output parameter, ME context Ptr, used to get/update ME results
 #if M0_SSD_HALF_QUARTER_PEL_BIPRED_SEARCH
     uint8_t                   *refBuffer,
     uint32_t                   ref_stride,
@@ -2822,7 +2822,7 @@ uint32_t combined_averaging_ssd_c(
 *   performs Quarter Pel refinement for each PU
 *******************************************/
 static void PU_QuarterPelRefinementOnTheFly(
-    MeContext_t           *context_ptr,                      // [IN] ME context Ptr, used to get SB Ptr
+    MeContext           *context_ptr,                      // [IN] ME context Ptr, used to get SB Ptr
 #if M0_SSD_HALF_QUARTER_PEL_BIPRED_SEARCH
     uint32_t                *pBestSsd,
 #endif
@@ -3335,7 +3335,7 @@ static void SetQuarterPelRefinementInputsOnTheFly(
 *   performs Quarter Pel refinement for the 85 PUs
 *******************************************/
 static void QuarterPelSearch_LCU(
-    MeContext_t                    *context_ptr,                     //[IN/OUT]  ME context Ptr, used to get/update ME results
+    MeContext                    *context_ptr,                     //[IN/OUT]  ME context Ptr, used to get/update ME results
     uint8_t                        *pos_Full,                       //[IN]
     uint32_t                        FullStride,                      //[IN]
     uint8_t                        *pos_b,                          //[IN]
@@ -4115,14 +4115,14 @@ static void QuarterPelSearch_LCU(
 #endif
 void HmeOneQuadrantLevel0(
     PictureParentControlSet_t   *picture_control_set_ptr,
-    MeContext_t             *context_ptr,                        // input/output parameter, ME context Ptr, used to get/update ME results
+    MeContext             *context_ptr,                        // input/output parameter, ME context Ptr, used to get/update ME results
     int16_t                   origin_x,                           // input parameter, SB position in the horizontal direction- sixteenth resolution
     int16_t                   origin_y,                           // input parameter, SB position in the vertical direction- sixteenth resolution
     uint32_t                   sb_width,                          // input parameter, SB pwidth - sixteenth resolution
     uint32_t                   sb_height,                         // input parameter, SB height - sixteenth resolution
     int16_t                   xHmeSearchCenter,                  // input parameter, HME search center in the horizontal direction
     int16_t                   yHmeSearchCenter,                  // input parameter, HME search center in the vertical direction
-    EbPictureBufferDesc_t   *sixteenthRefPicPtr,                // input parameter, sixteenth reference Picture Ptr
+    EbPictureBufferDesc   *sixteenthRefPicPtr,                // input parameter, sixteenth reference Picture Ptr
     uint64_t                  *level0BestSad,                     // output parameter, Level0 SAD at (searchRegionNumberInWidth, searchRegionNumberInHeight)
     int16_t                  *xLevel0SearchCenter,               // output parameter, Level0 xMV at (searchRegionNumberInWidth, searchRegionNumberInHeight)
     int16_t                  *yLevel0SearchCenter,               // output parameter, Level0 yMV at (searchRegionNumberInWidth, searchRegionNumberInHeight)
@@ -4305,14 +4305,14 @@ void HmeOneQuadrantLevel0(
 
 void HmeLevel0(
     PictureParentControlSet_t   *picture_control_set_ptr,
-    MeContext_t             *context_ptr,                        // input/output parameter, ME context Ptr, used to get/update ME results
+    MeContext             *context_ptr,                        // input/output parameter, ME context Ptr, used to get/update ME results
     int16_t                   origin_x,                           // input parameter, SB position in the horizontal direction- sixteenth resolution
     int16_t                   origin_y,                           // input parameter, SB position in the vertical direction- sixteenth resolution
     uint32_t                   sb_width,                          // input parameter, SB pwidth - sixteenth resolution
     uint32_t                   sb_height,                         // input parameter, SB height - sixteenth resolution
     int16_t                   xHmeSearchCenter,                  // input parameter, HME search center in the horizontal direction
     int16_t                   yHmeSearchCenter,                  // input parameter, HME search center in the vertical direction
-    EbPictureBufferDesc_t   *sixteenthRefPicPtr,                // input parameter, sixteenth reference Picture Ptr
+    EbPictureBufferDesc   *sixteenthRefPicPtr,                // input parameter, sixteenth reference Picture Ptr
     uint32_t                   searchRegionNumberInWidth,         // input parameter, search region number in the horizontal direction
     uint32_t                   searchRegionNumberInHeight,        // input parameter, search region number in the vertical direction
     uint64_t                  *level0BestSad,                     // output parameter, Level0 SAD at (searchRegionNumberInWidth, searchRegionNumberInHeight)
@@ -4503,12 +4503,12 @@ void HmeLevel0(
 }
 
 void HmeLevel1(
-    MeContext_t             *context_ptr,                        // input/output parameter, ME context Ptr, used to get/update ME results
+    MeContext             *context_ptr,                        // input/output parameter, ME context Ptr, used to get/update ME results
     int16_t                   origin_x,                           // input parameter, SB position in the horizontal direction - quarter resolution
     int16_t                   origin_y,                           // input parameter, SB position in the vertical direction - quarter resolution
     uint32_t                   sb_width,                          // input parameter, SB pwidth - quarter resolution
     uint32_t                   sb_height,                         // input parameter, SB height - quarter resolution
-    EbPictureBufferDesc_t   *quarterRefPicPtr,                  // input parameter, quarter reference Picture Ptr
+    EbPictureBufferDesc   *quarterRefPicPtr,                  // input parameter, quarter reference Picture Ptr
     int16_t                   hmeLevel1SearchAreaInWidth,         // input parameter, hme level 1 search area in width
     int16_t                   hmeLevel1SearchAreaInHeight,        // input parameter, hme level 1 search area in height
     int16_t                   xLevel0SearchCenter,               // input parameter, best Level0 xMV at (searchRegionNumberInWidth, searchRegionNumberInHeight)
@@ -4626,12 +4626,12 @@ void HmeLevel1(
 
 void HmeLevel2(
     PictureParentControlSet_t   *picture_control_set_ptr,            // input parameter, Picture control set Ptr
-    MeContext_t             *context_ptr,                        // input/output parameter, ME context Ptr, used to get/update ME results
+    MeContext             *context_ptr,                        // input/output parameter, ME context Ptr, used to get/update ME results
     int16_t                   origin_x,                           // input parameter, SB position in the horizontal direction
     int16_t                   origin_y,                           // input parameter, SB position in the vertical direction
     uint32_t                   sb_width,                          // input parameter, SB pwidth - full resolution
     uint32_t                   sb_height,                         // input parameter, SB height - full resolution
-    EbPictureBufferDesc_t   *refPicPtr,                         // input parameter, reference Picture Ptr
+    EbPictureBufferDesc   *refPicPtr,                         // input parameter, reference Picture Ptr
     uint32_t                   searchRegionNumberInWidth,         // input parameter, search region number in the horizontal direction
     uint32_t                   searchRegionNumberInHeight,        // input parameter, search region number in the vertical direction
     int16_t                   xLevel1SearchCenter,               // input parameter, best Level1 xMV at(searchRegionNumberInWidth, searchRegionNumberInHeight)
@@ -4932,11 +4932,11 @@ static void QuarterPelCompensation(
 *******************************************************************************/
 uint32_t BiPredAverging(
 #if M0_SAD_HALF_QUARTER_PEL_BIPRED_SEARCH
-    MeContext_t           *context_ptr,
+    MeContext           *context_ptr,
 #else
-    // MeContext_t           *context_ptr,
+    // MeContext           *context_ptr,
 #endif
-    MePredUnit_t          *me_candidate,
+    MePredUnit          *me_candidate,
     uint32_t                 pu_index,
     uint8_t                 *sourcePic,
     uint32_t                 lumaStride,
@@ -5088,9 +5088,9 @@ uint32_t BiPredAverging(
 *   average
 *******************************************/
 EbErrorType  BiPredictionCompensation(
-    MeContext_t             *context_ptr,
+    MeContext             *context_ptr,
     uint32_t                  pu_index,
-    MePredUnit_t            *me_candidate,
+    MePredUnit            *me_candidate,
     uint32_t                  firstList,
     uint32_t                  firstRefMv,
     uint32_t                  secondList,
@@ -5259,7 +5259,7 @@ EbErrorType  BiPredictionCompensation(
 *******************************************/
 // This function enables all 16 Bipred candidates when MRP is ON
 EbErrorType  BiPredictionSearch(
-    MeContext_t                    *context_ptr,
+    MeContext                    *context_ptr,
     uint32_t                        pu_index,
     uint8_t                        candidateIndex,
     uint32_t                        activeRefPicFirstLisNum,
@@ -5464,8 +5464,8 @@ int8_t sort_3_elements(uint32_t a, uint32_t b, uint32_t c) {
 
 
 EbErrorType CheckZeroZeroCenter(
-    EbPictureBufferDesc_t        *refPicPtr,
-    MeContext_t                  *context_ptr,
+    EbPictureBufferDesc        *refPicPtr,
+    MeContext                  *context_ptr,
     uint32_t                       sb_origin_x,
     uint32_t                       sb_origin_y,
     uint32_t                       sb_width,
@@ -5550,7 +5550,7 @@ EbErrorType CheckZeroZeroCenter(
 }
 
 EbErrorType     suPelEnable(
-    MeContext_t                 *context_ptr,
+    MeContext                 *context_ptr,
     PictureParentControlSet_t   *picture_control_set_ptr,
     uint32_t listIndex,
     uint32_t refPicIndex,
@@ -5878,8 +5878,8 @@ EbErrorType     suPelEnable(
 }
 
 static void hme_mv_center_check(
-    EbPictureBufferDesc_t       *ref_pic_ptr,
-    MeContext_t                    *context_ptr,
+    EbPictureBufferDesc       *ref_pic_ptr,
+    MeContext                    *context_ptr,
     int16_t                     *xsc,
     int16_t                     *ysc,
     uint32_t                     list_index,
@@ -6151,8 +6151,8 @@ EbErrorType motion_estimate_lcu(
     uint32_t                       sb_index,              // input parameter, SB Index
     uint32_t                       sb_origin_x,            // input parameter, SB Origin X
     uint32_t                       sb_origin_y,            // input parameter, SB Origin X
-    MeContext_t                    *context_ptr,                        // input parameter, ME Context Ptr, used to store decimated/interpolated LCU/SR
-    EbPictureBufferDesc_t       *input_ptr)              // input parameter, source Picture Ptr
+    MeContext                    *context_ptr,                        // input parameter, ME Context Ptr, used to store decimated/interpolated LCU/SR
+    EbPictureBufferDesc       *input_ptr)              // input parameter, source Picture Ptr
 {
     EbErrorType return_error = EB_ErrorNone;
 
@@ -6208,9 +6208,9 @@ EbErrorType motion_estimate_lcu(
     uint8_t                   totalMeCandidateIndex = 0;
     EbPaReferenceObject_t  *referenceObject;  // input parameter, reference Object Ptr
 
-    EbPictureBufferDesc_t  *refPicPtr;
-    EbPictureBufferDesc_t  *quarterRefPicPtr;
-    EbPictureBufferDesc_t  *sixteenthRefPicPtr;
+    EbPictureBufferDesc  *refPicPtr;
+    EbPictureBufferDesc  *quarterRefPicPtr;
+    EbPictureBufferDesc  *sixteenthRefPicPtr;
 
     int16_t                  tempXHmeSearchCenter = 0;
     int16_t                  tempYHmeSearchCenter = 0;
@@ -6290,9 +6290,9 @@ EbErrorType motion_estimate_lcu(
         {
 
             referenceObject = (EbPaReferenceObject_t*)picture_control_set_ptr->ref_pa_pic_ptr_array[listIndex]->object_ptr;
-            refPicPtr = (EbPictureBufferDesc_t*)referenceObject->inputPaddedPicturePtr;
-            quarterRefPicPtr = (EbPictureBufferDesc_t*)referenceObject->quarterDecimatedPicturePtr;
-            sixteenthRefPicPtr = (EbPictureBufferDesc_t*)referenceObject->sixteenthDecimatedPicturePtr;
+            refPicPtr = (EbPictureBufferDesc*)referenceObject->inputPaddedPicturePtr;
+            quarterRefPicPtr = (EbPictureBufferDesc*)referenceObject->quarterDecimatedPicturePtr;
+            sixteenthRefPicPtr = (EbPictureBufferDesc*)referenceObject->sixteenthDecimatedPicturePtr;
 
             if (picture_control_set_ptr->temporal_layer_index > 0 || listIndex == 0) {
                 // A - The MV center for Tier0 search could be either (0,0), or HME
@@ -7040,7 +7040,7 @@ EbErrorType motion_estimate_lcu(
             }
         }
 
-        MeCuResults_t * mePuResult = &picture_control_set_ptr->me_results[sb_index][pu_index];
+        MeCuResults * mePuResult = &picture_control_set_ptr->me_results[sb_index][pu_index];
         mePuResult->totalMeCandidateIndex = totalMeCandidateIndex;
 
         if (totalMeCandidateIndex == 3) {
@@ -7163,12 +7163,12 @@ EbErrorType motion_estimate_lcu(
 *  performs a 1/16 decimated search
 *******************************************/
 uint64_t SixteenthDecimatedSearch(
-    MeContext_t             *context_ptr,
+    MeContext             *context_ptr,
     int16_t                   origin_x,
     int16_t                   origin_y,
     uint32_t                   sb_width,
     uint32_t                   sb_height,
-    EbPictureBufferDesc_t   *sixteenthRefPicPtr,
+    EbPictureBufferDesc   *sixteenthRefPicPtr,
     int16_t                     search_area_width,
     int16_t                     search_area_height,
     EbAsm                   asm_type)
@@ -7414,7 +7414,7 @@ EbBool IsComplexLcu(
 */
 void IntraOpenLoopSearchTheseModesOutputBest(
     uint32_t                               cu_size,
-    MotionEstimationContext_t           *context_ptr,
+    MotionEstimationContext           *context_ptr,
     EbAsm                               asm_type,
     uint8_t                               *src,
     uint32_t                               src_stride,
@@ -7741,8 +7741,8 @@ void InjectIntraCandidatesBasedOnBestMode(
 }
 
 int32_t GetInterIntraSadDistance(
-    MotionEstimationContext_t   *context_ptr,
-    EbPictureBufferDesc_t       *input_ptr,
+    MotionEstimationContext   *context_ptr,
+    EbPictureBufferDesc       *input_ptr,
     uint32_t                       cu_size,
     uint32_t                      *stage1SadArray,
     uint32_t                       meSad,
@@ -7909,8 +7909,8 @@ EbErrorType SortIntraModesOpenLoop(
 }
 
 uint32_t update_neighbor_dc_intra_pred(
-    MotionEstimationContext_t       *context_ptr,
-    EbPictureBufferDesc_t           *input_ptr,
+    MotionEstimationContext       *context_ptr,
+    EbPictureBufferDesc           *input_ptr,
     uint32_t                           cu_origin_x,
     uint32_t                           cu_origin_y,
     uint32_t                           cu_size,
@@ -7947,8 +7947,8 @@ uint32_t update_neighbor_dc_intra_pred(
 EbErrorType OpenLoopIntraDC(
     PictureParentControlSet_t   *picture_control_set_ptr,
     uint32_t                       sb_index,
-    MotionEstimationContext_t   *context_ptr,
-    EbPictureBufferDesc_t       *input_ptr,
+    MotionEstimationContext   *context_ptr,
+    EbPictureBufferDesc       *input_ptr,
     EbAsm                       asm_type,
     uint32_t                         cu_origin_x,
     uint32_t                         cu_origin_y,
@@ -8043,8 +8043,8 @@ uint8_t GetNumOfIntraModesFromOisPoint(
 EbErrorType open_loop_intra_search_lcu(
     PictureParentControlSet_t   *picture_control_set_ptr,
     uint32_t                       sb_index,
-    MotionEstimationContext_t   *context_ptr,
-    EbPictureBufferDesc_t       *input_ptr,
+    MotionEstimationContext   *context_ptr,
+    EbPictureBufferDesc       *input_ptr,
     EbAsm                       asm_type)
 {
     EbErrorType return_error = EB_ErrorNone;

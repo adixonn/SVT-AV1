@@ -13673,12 +13673,12 @@ extern "C" {
     {
         EbObjectWrapper_t                    *sequence_control_set_wrapper_ptr;
         
-        EbPictureBufferDesc_t                *recon_picture_ptr;
-        EbPictureBufferDesc_t                *film_grain_picture_ptr;
-        EbPictureBufferDesc_t                *recon_picture16bit_ptr;
-        EbPictureBufferDesc_t                *film_grain_picture16bit_ptr;
-        EbPictureBufferDesc_t                *recon_picture32bit_ptr;
-        EbPictureBufferDesc_t                *input_frame16bit;
+        EbPictureBufferDesc                *recon_picture_ptr;
+        EbPictureBufferDesc                *film_grain_picture_ptr;
+        EbPictureBufferDesc                *recon_picture16bit_ptr;
+        EbPictureBufferDesc                *film_grain_picture16bit_ptr;
+        EbPictureBufferDesc                *recon_picture32bit_ptr;
+        EbPictureBufferDesc                *input_frame16bit;
 
         struct PictureParentControlSet_s     *parent_pcs_ptr;  //The parent of this PCS.
         EbObjectWrapper_t                    *picture_parent_control_set_wrapper_ptr;
@@ -13768,62 +13768,62 @@ extern "C" {
         EntropyCoder                       *coeff_est_entropy_coder_ptr;
 
         // Mode Decision Neighbor Arrays
-        NeighborArrayUnit_t                  *md_intra_luma_mode_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
-        NeighborArrayUnit_t                  *md_intra_chroma_mode_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
-        NeighborArrayUnit_t                  *md_mv_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
-        NeighborArrayUnit_t                  *md_skip_flag_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
-        NeighborArrayUnit_t                  *md_mode_type_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
-        NeighborArrayUnit_t                  *md_leaf_depth_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
-        NeighborArrayUnit_t                  *md_luma_recon_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
-        NeighborArrayUnit_t                  *md_cb_recon_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
-        NeighborArrayUnit_t                  *md_cr_recon_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
-        NeighborArrayUnit_t                  *md_skip_coeff_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
-        NeighborArrayUnit_t                  *md_luma_dc_sign_level_coeff_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
-        NeighborArrayUnit_t                  *md_cb_dc_sign_level_coeff_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
-        NeighborArrayUnit_t                  *md_cr_dc_sign_level_coeff_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
-        NeighborArrayUnit_t                  *md_inter_pred_dir_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
-        NeighborArrayUnit_t                  *md_ref_frame_type_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit                  *md_intra_luma_mode_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit                  *md_intra_chroma_mode_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit                  *md_mv_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit                  *md_skip_flag_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit                  *md_mode_type_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit                  *md_leaf_depth_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit                  *md_luma_recon_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit                  *md_cb_recon_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit                  *md_cr_recon_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit                  *md_skip_coeff_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit                  *md_luma_dc_sign_level_coeff_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit                  *md_cb_dc_sign_level_coeff_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit                  *md_cr_dc_sign_level_coeff_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit                  *md_inter_pred_dir_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit                  *md_ref_frame_type_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
 
 
-        NeighborArrayUnit32_t                *md_interpolation_type_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit32                *md_interpolation_type_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
 
-        NeighborArrayUnit_t                  *mdleaf_partition_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
+        NeighborArrayUnit                  *mdleaf_partition_neighbor_array[NEIGHBOR_ARRAY_TOTAL_COUNT];
 
         // Mode Decision Refinement Neighbor Arrays
-        NeighborArrayUnit_t                  *md_refinement_intra_luma_mode_neighbor_array;
-        NeighborArrayUnit_t                  *md_refinement_mode_type_neighbor_array;
-        NeighborArrayUnit_t                  *md_refinement_luma_recon_neighbor_array;
+        NeighborArrayUnit                  *md_refinement_intra_luma_mode_neighbor_array;
+        NeighborArrayUnit                  *md_refinement_mode_type_neighbor_array;
+        NeighborArrayUnit                  *md_refinement_luma_recon_neighbor_array;
 
         // Encode Pass Neighbor Arrays
-        NeighborArrayUnit_t                  *ep_intra_luma_mode_neighbor_array;
-        NeighborArrayUnit_t                  *ep_intra_chroma_mode_neighbor_array;
-        NeighborArrayUnit_t                  *ep_mv_neighbor_array;
-        NeighborArrayUnit_t                  *ep_skip_flag_neighbor_array;
-        NeighborArrayUnit_t                  *ep_mode_type_neighbor_array;
-        NeighborArrayUnit_t                  *ep_leaf_depth_neighbor_array;
-        NeighborArrayUnit_t                  *ep_luma_recon_neighbor_array;
-        NeighborArrayUnit_t                  *ep_cb_recon_neighbor_array;
-        NeighborArrayUnit_t                  *ep_cr_recon_neighbor_array;
-        NeighborArrayUnit_t                  *ep_luma_recon_neighbor_array16bit;
-        NeighborArrayUnit_t                  *ep_cb_recon_neighbor_array16bit;
-        NeighborArrayUnit_t                  *ep_cr_recon_neighbor_array16bit;
+        NeighborArrayUnit                  *ep_intra_luma_mode_neighbor_array;
+        NeighborArrayUnit                  *ep_intra_chroma_mode_neighbor_array;
+        NeighborArrayUnit                  *ep_mv_neighbor_array;
+        NeighborArrayUnit                  *ep_skip_flag_neighbor_array;
+        NeighborArrayUnit                  *ep_mode_type_neighbor_array;
+        NeighborArrayUnit                  *ep_leaf_depth_neighbor_array;
+        NeighborArrayUnit                  *ep_luma_recon_neighbor_array;
+        NeighborArrayUnit                  *ep_cb_recon_neighbor_array;
+        NeighborArrayUnit                  *ep_cr_recon_neighbor_array;
+        NeighborArrayUnit                  *ep_luma_recon_neighbor_array16bit;
+        NeighborArrayUnit                  *ep_cb_recon_neighbor_array16bit;
+        NeighborArrayUnit                  *ep_cr_recon_neighbor_array16bit;
 
         // AMVP & MV Merge Neighbor Arrays
-        NeighborArrayUnit_t                  *amvp_mv_merge_mv_neighbor_array;
-        NeighborArrayUnit_t                  *amvp_mv_merge_mode_type_neighbor_array;
+        NeighborArrayUnit                  *amvp_mv_merge_mv_neighbor_array;
+        NeighborArrayUnit                  *amvp_mv_merge_mode_type_neighbor_array;
 
         // Entropy Coding Neighbor Arrays
-        NeighborArrayUnit_t                  *mode_type_neighbor_array;
-        NeighborArrayUnit_t                  *partition_context_neighbor_array;
-        NeighborArrayUnit_t                  *intra_luma_mode_neighbor_array;
-        NeighborArrayUnit_t                  *skip_flag_neighbor_array;
-        NeighborArrayUnit_t                  *skip_coeff_neighbor_array;
-        NeighborArrayUnit_t                  *luma_dc_sign_level_coeff_neighbor_array; // Stored per 4x4. 8 bit: lower 6 bits (COEFF_CONTEXT_BITS), shows if there is at least one Coef. Top 2 bit store the sign of DC as follow: 0->0,1->-1,2-> 1
-        NeighborArrayUnit_t                  *cr_dc_sign_level_coeff_neighbor_array; // Stored per 4x4. 8 bit: lower 6 bits(COEFF_CONTEXT_BITS), shows if there is at least one Coef. Top 2 bit store the sign of DC as follow: 0->0,1->-1,2-> 1
-        NeighborArrayUnit_t                  *cb_dc_sign_level_coeff_neighbor_array; // Stored per 4x4. 8 bit: lower 6 bits(COEFF_CONTEXT_BITS), shows if there is at least one Coef. Top 2 bit store the sign of DC as follow: 0->0,1->-1,2-> 1
-        NeighborArrayUnit_t                  *inter_pred_dir_neighbor_array;
-        NeighborArrayUnit_t                  *ref_frame_type_neighbor_array;
-        NeighborArrayUnit32_t                *interpolation_type_neighbor_array;
+        NeighborArrayUnit                  *mode_type_neighbor_array;
+        NeighborArrayUnit                  *partition_context_neighbor_array;
+        NeighborArrayUnit                  *intra_luma_mode_neighbor_array;
+        NeighborArrayUnit                  *skip_flag_neighbor_array;
+        NeighborArrayUnit                  *skip_coeff_neighbor_array;
+        NeighborArrayUnit                  *luma_dc_sign_level_coeff_neighbor_array; // Stored per 4x4. 8 bit: lower 6 bits (COEFF_CONTEXT_BITS), shows if there is at least one Coef. Top 2 bit store the sign of DC as follow: 0->0,1->-1,2-> 1
+        NeighborArrayUnit                  *cr_dc_sign_level_coeff_neighbor_array; // Stored per 4x4. 8 bit: lower 6 bits(COEFF_CONTEXT_BITS), shows if there is at least one Coef. Top 2 bit store the sign of DC as follow: 0->0,1->-1,2-> 1
+        NeighborArrayUnit                  *cb_dc_sign_level_coeff_neighbor_array; // Stored per 4x4. 8 bit: lower 6 bits(COEFF_CONTEXT_BITS), shows if there is at least one Coef. Top 2 bit store the sign of DC as follow: 0->0,1->-1,2-> 1
+        NeighborArrayUnit                  *inter_pred_dir_neighbor_array;
+        NeighborArrayUnit                  *ref_frame_type_neighbor_array;
+        NeighborArrayUnit32                *interpolation_type_neighbor_array;
 
         ModeInfo                            **mi_grid_base; //2 SB Rows of mi Data are enough
         ModeInfo                             *mip;
@@ -13913,7 +13913,7 @@ extern "C" {
         EbObjectWrapper_t                    *input_picture_wrapper_ptr;
         EbObjectWrapper_t                    *reference_picture_wrapper_ptr;
         EbObjectWrapper_t                    *pa_reference_picture_wrapper_ptr;
-        EbPictureBufferDesc_t                *enhanced_picture_ptr;
+        EbPictureBufferDesc                *enhanced_picture_ptr;
         PredictionStructure_t                *pred_struct_ptr;          // need to check
         struct SequenceControlSet_s          *sequence_control_set_ptr;
         struct PictureParentControlSet_s     *ref_pa_pcs_array[MAX_NUM_OF_REF_PIC_LIST];
@@ -14069,7 +14069,7 @@ extern "C" {
 
         // Motion Estimation Results
         uint8_t                               max_number_of_pus_per_sb;
-        MeCuResults_t                       **me_results;
+        MeCuResults                       **me_results;
         uint32_t                             *rc_me_distortion;
 
         // Motion Estimation Distortion and OIS Historgram

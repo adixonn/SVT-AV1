@@ -29,7 +29,7 @@ EbErrorType eb_picture_buffer_desc_ctor(
     EbPtr  *object_dbl_ptr,
     EbPtr   object_init_data_ptr)
 {
-    EbPictureBufferDesc_t          *pictureBufferDescPtr;
+    EbPictureBufferDesc          *pictureBufferDescPtr;
     EbPictureBufferDescInitData_t  *pictureBufferDescInitDataPtr = (EbPictureBufferDescInitData_t*)object_init_data_ptr;
 
     uint32_t bytesPerPixel = (pictureBufferDescInitDataPtr->bit_depth == EB_8BIT) ? 1 : (pictureBufferDescInitDataPtr->bit_depth <= EB_16BIT) ? 2 : 4;
@@ -37,7 +37,7 @@ EbErrorType eb_picture_buffer_desc_ctor(
     if (pictureBufferDescInitDataPtr->bit_depth > EB_8BIT && pictureBufferDescInitDataPtr->bit_depth <= EB_16BIT && pictureBufferDescInitDataPtr->splitMode == EB_TRUE)
         bytesPerPixel = 1;
 
-    EB_MALLOC(EbPictureBufferDesc_t*, pictureBufferDescPtr, sizeof(EbPictureBufferDesc_t), EB_N_PTR);
+    EB_MALLOC(EbPictureBufferDesc*, pictureBufferDescPtr, sizeof(EbPictureBufferDesc), EB_N_PTR);
 
     // Allocate the PictureBufferDesc Object
     *object_dbl_ptr = (EbPtr)pictureBufferDescPtr;
@@ -135,12 +135,12 @@ EbErrorType eb_recon_picture_buffer_desc_ctor(
     EbPtr  *object_dbl_ptr,
     EbPtr   object_init_data_ptr)
 {
-    EbPictureBufferDesc_t          *pictureBufferDescPtr;
+    EbPictureBufferDesc          *pictureBufferDescPtr;
     EbPictureBufferDescInitData_t  *pictureBufferDescInitDataPtr = (EbPictureBufferDescInitData_t*)object_init_data_ptr;
 
     uint32_t bytesPerPixel = (pictureBufferDescInitDataPtr->bit_depth == EB_8BIT) ? 1 : 2;
 
-    EB_MALLOC(EbPictureBufferDesc_t*, pictureBufferDescPtr, sizeof(EbPictureBufferDesc_t), EB_N_PTR);
+    EB_MALLOC(EbPictureBufferDesc*, pictureBufferDescPtr, sizeof(EbPictureBufferDesc), EB_N_PTR);
 
     // Allocate the PictureBufferDesc Object
     *object_dbl_ptr = (EbPtr)pictureBufferDescPtr;
@@ -201,7 +201,7 @@ EbErrorType eb_recon_picture_buffer_desc_ctor(
 
 
 void LinkEbToAomBufferDesc(
-    EbPictureBufferDesc_t          *picBuffDsc,
+    EbPictureBufferDesc          *picBuffDsc,
     Yv12BufferConfig             *aomBuffDsc
 )
 {

@@ -20,7 +20,7 @@ extern "C" {
 #define SQUARE_PU_COUNT          85
 #define MAX_ME_CANDIDATE_PER_PU   3
 
-    typedef struct MeCandidate_s {
+    typedef struct MeCandidate {
 
         union {
             struct {
@@ -36,30 +36,30 @@ extern "C" {
 
         unsigned    direction : 8;      // 0: uni-pred L0, 1: uni-pred L1, 2: bi-pred
 
-    } MeCandidate_t;
+    } MeCandidate;
 
     // move this to a new file with ctor & dtor
-    typedef struct MeLcuResults_s {
+    typedef struct MeLcuResults {
 
         uint32_t          lcuDistortion;
         uint8_t          *totalMeCandidateIndex;
         int16_t          xMvHmeSearchCenter[MAX_NUM_OF_REF_PIC_LIST][MAX_REF_IDX];
         int16_t          yMvHmeSearchCenter[MAX_NUM_OF_REF_PIC_LIST][MAX_REF_IDX];
-        MeCandidate_t **me_candidate;
-        MeCandidate_t  *meCandidateArray;
+        MeCandidate **me_candidate;
+        MeCandidate  *meCandidateArray;
 
-    } MeLcuResults_t;
-
-
+    } MeLcuResults;
 
 
-    typedef struct  DistDir_s {
+
+
+    typedef struct  DistDir {
         unsigned    distortion : 32; //20bits are enough
         unsigned    direction : 2;
-    } DistDir_t;
+    } DistDir;
 
 
-    typedef struct MeCuResults_s {
+    typedef struct MeCuResults {
         union {
             struct {
                 signed short     x_mv_l0;
@@ -70,10 +70,10 @@ extern "C" {
             uint64_t MVs;
         };
 
-        DistDir_t    distortionDirection[3];
+        DistDir    distortionDirection[3];
 
         uint8_t        totalMeCandidateIndex;
-    } MeCuResults_t;
+    } MeCuResults;
 
 #ifdef __cplusplus
 }

@@ -37,7 +37,7 @@ void GetMv(
 
     uint32_t             meCandidateIndex;
 
-    MeCuResults_t * cuResults = &picture_control_set_ptr->me_results[sb_index][0];
+    MeCuResults * cuResults = &picture_control_set_ptr->me_results[sb_index][0];
 
 
 
@@ -1190,7 +1190,7 @@ void ResetHomogeneityStructures(
 InitialRateControlReorderEntry  * DeterminePictureOffsetInQueue(
     EncodeContext                   *encode_context_ptr,
     PictureParentControlSet_t         *picture_control_set_ptr,
-    MotionEstimationResults_t         *inputResultsPtr)
+    MotionEstimationResults         *inputResultsPtr)
 {
 
     InitialRateControlReorderEntry  *queueEntryPtr;
@@ -1651,10 +1651,10 @@ void* initial_rate_control_kernel(void *input_ptr)
     SequenceControlSet_t              *sequence_control_set_ptr;
 
     EbObjectWrapper_t                 *inputResultsWrapperPtr;
-    MotionEstimationResults_t         *inputResultsPtr;
+    MotionEstimationResults         *inputResultsPtr;
 
     EbObjectWrapper_t                 *outputResultsWrapperPtr;
-    InitialRateControlResults_t       *outputResultsPtr;
+    InitialRateControlResults       *outputResultsPtr;
 
     // Queue variables
     uint32_t                             queueEntryIndexTemp;
@@ -1679,7 +1679,7 @@ void* initial_rate_control_kernel(void *input_ptr)
             context_ptr->motion_estimation_results_input_fifo_ptr,
             &inputResultsWrapperPtr);
 
-        inputResultsPtr = (MotionEstimationResults_t*)inputResultsWrapperPtr->object_ptr;
+        inputResultsPtr = (MotionEstimationResults*)inputResultsWrapperPtr->object_ptr;
         picture_control_set_ptr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->object_ptr;
 
         segment_index = inputResultsPtr->segment_index;
@@ -1994,7 +1994,7 @@ void* initial_rate_control_kernel(void *input_ptr)
                         context_ptr->initialrate_control_results_output_fifo_ptr,
                         &outputResultsWrapperPtr);
 
-                    outputResultsPtr = (InitialRateControlResults_t*)outputResultsWrapperPtr->object_ptr;
+                    outputResultsPtr = (InitialRateControlResults*)outputResultsWrapperPtr->object_ptr;
                     outputResultsPtr->pictureControlSetWrapperPtr = queueEntryPtr->parentPcsWrapperPtr;
                     /////////////////////////////
                     // Post the Full Results Object

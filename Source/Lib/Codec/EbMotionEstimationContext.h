@@ -33,12 +33,14 @@ extern "C" {
         EB_QUARTER_IN_HALF_VERTICAL,
         EB_QUARTER_IN_HALF_DIAGONAL
     } EbQuarterPelInterpolationMethod;
-    typedef struct MePredictionUnit_s {
+
+    typedef struct MePredictionUnit {
         uint64_t  distortion;
         int16_t   x_mv;
         int16_t   y_mv;
         uint32_t  sub_pel_direction;
-    } MePredictionUnit_t;
+    } MePredictionUnit;
+
     typedef enum EbMeTierZeroPu {
 
         // 2Nx2N [85 partitions]
@@ -264,9 +266,10 @@ extern "C" {
         ME_TIER_ZERO_PU_16x64_3 = 208
     } EbMeTierZeroPu;
     typedef struct MeTierZero_s {
-        MePredictionUnit_t  pu[MAX_ME_PU_COUNT];
+        MePredictionUnit  pu[MAX_ME_PU_COUNT];
     } MeTierZero_t;
-    typedef struct IntraReferenceSamplesOpenLoop_s {
+    typedef struct IntraReferenceSamplesOpenLoop
+    {
         uint8_t                  *y_intra_reference_array;
         uint8_t                  *y_intra_reference_array_reverse;
 
@@ -275,22 +278,26 @@ extern "C" {
         uint8_t                   reference_left_line_y[MAX_INTRA_REFERENCE_SAMPLES];
         EbBool                    above_ready_flag_y;
         EbBool                    left_ready_flag_y;
-    }IntraReferenceSamplesOpenLoop_t;
-    typedef struct MePredUnit_s {
+    }IntraReferenceSamplesOpenLoop;
+
+    typedef struct MePredUnit
+    {
         uint32_t         distortion;
         EbPredDirection  prediction_direction;
         uint32_t         mv[MAX_NUM_OF_REF_PIC_LIST];
-    } MePredUnit_t;
-    typedef struct MotionEstimationTierZero_s {
-        MePredUnit_t  pu[MAX_ME_PU_COUNT];
-    } MotionEstimationTierZero_t;
-    typedef struct MeContext_s {
+    } MePredUnit;
+
+    typedef struct MotionEstimationTierZero {
+        MePredUnit  pu[MAX_ME_PU_COUNT];
+    } MotionEstimationTierZero;
+
+    typedef struct MeContext {
 
         // Search region stride
         uint32_t                      interpolated_stride;
         uint32_t                      interpolated_full_stride[MAX_NUM_OF_REF_PIC_LIST][MAX_REF_IDX];
 
-        MotionEstimationTierZero_t    me_candidate[MAX_ME_CANDIDATE_PER_PU];
+        MotionEstimationTierZero    me_candidate[MAX_ME_CANDIDATE_PER_PU];
 
         // Intermediate LCU-sized buffer to retain the input samples
         uint8_t                      *sb_buffer;
@@ -416,13 +423,14 @@ extern "C" {
 #endif
         uint8_t                       update_hme_search_center_flag;
 
-    } MeContext_t;
-    typedef struct SsMeContext_s {
+    } MeContext;
+
+    typedef struct SsMeContext {
 
         // Search region stride
         uint32_t                      interpolated_stride;
         uint32_t                      interpolated_full_stride[MAX_NUM_OF_REF_PIC_LIST][MAX_REF_IDX];
-        MotionEstimationTierZero_t    me_candidate[MAX_ME_CANDIDATE_PER_PU];
+        MotionEstimationTierZero    me_candidate[MAX_ME_CANDIDATE_PER_PU];
 
         // Intermediate LCU-sized buffer to retain the input samples
         uint8_t                      *sb_buffer;
@@ -567,7 +575,7 @@ extern "C" {
         block_size                     sb_size;
         uint32_t                      sb_side;
 
-    } SsMeContext_t;
+    } SsMeContext;
 
     typedef uint64_t(*EB_ME_DISTORTION_FUNC)(
         uint8_t                     *src,
@@ -577,8 +585,8 @@ extern "C" {
         uint32_t                     width,
         uint32_t                     height);
 
-    extern EbErrorType MeContextCtor(
-        MeContext_t     **object_dbl_ptr);
+    extern EbErrorType me_context_ctor(
+        MeContext     **object_dbl_ptr);
 
 #ifdef __cplusplus
 }

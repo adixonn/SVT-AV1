@@ -36,7 +36,7 @@
 
 #define TH_NFL_BIAS             7
 extern void av1_predict_intra_block_md(
-    ModeDecisionContext_t       *cu_ptr,
+    ModeDecisionContext       *cu_ptr,
     const Av1Common *cm,
 
     int32_t wpx,
@@ -48,7 +48,7 @@ extern void av1_predict_intra_block_md(
     FILTER_INTRA_MODE filter_intra_mode,
     uint8_t* topNeighArray,
     uint8_t* leftNeighArray,
-    EbPictureBufferDesc_t  *recon_buffer,
+    EbPictureBufferDesc  *recon_buffer,
     int32_t col_off,
     int32_t row_off,
     int32_t plane,
@@ -60,8 +60,8 @@ extern void av1_predict_intra_block_md(
 );
 EbErrorType ProductGenerateMdCandidatesCu(
     LargestCodingUnit             *sb_ptr,
-    ModeDecisionContext_t           *context_ptr,
-    SsMeContext_t                  *ss_mecontext,
+    ModeDecisionContext           *context_ptr,
+    SsMeContext                  *ss_mecontext,
     const uint32_t                    leaf_index,
 
     const uint32_t                    lcu_addr,
@@ -121,7 +121,7 @@ const EB_AV1_FULL_COST_FUNC   Av1ProductFullCostFuncTable[3] =
 * Update Recon Samples Neighbor Arrays
 ***************************************************/
 void mode_decision_update_neighbor_arrays(
-    ModeDecisionContext_t   *context_ptr,
+    ModeDecisionContext   *context_ptr,
     uint32_t                   index_mds,
     EbBool                  intraMdOpenLoop,
     EbBool                  intra4x4Selected
@@ -392,7 +392,7 @@ void mode_decision_update_neighbor_arrays(
 
 void copy_neighbour_arrays(
     PictureControlSet_t                *picture_control_set_ptr,
-    ModeDecisionContext_t               *context_ptr,
+    ModeDecisionContext               *context_ptr,
     uint32_t                            src_idx,
     uint32_t                            dst_idx,
     uint32_t                            blk_mds,
@@ -580,7 +580,7 @@ void copy_neighbour_arrays(
 
 void md_update_all_neighbour_arrays(
     PictureControlSet_t                *picture_control_set_ptr,
-    ModeDecisionContext_t               *context_ptr,
+    ModeDecisionContext               *context_ptr,
     uint32_t                             lastCuIndex_mds,
     uint32_t                            sb_origin_x,
     uint32_t                            sb_origin_y)
@@ -618,7 +618,7 @@ void md_update_all_neighbour_arrays(
 
 void md_update_all_neighbour_arrays_multiple(
     PictureControlSet_t                *picture_control_set_ptr,
-    ModeDecisionContext_t               *context_ptr,
+    ModeDecisionContext               *context_ptr,
     uint32_t                            blk_mds,
     uint32_t                            sb_origin_x,
     uint32_t                            sb_origin_y){
@@ -644,7 +644,7 @@ void md_update_all_neighbour_arrays_multiple(
 // the NFL candidates numbers are set
 //*************************//
 void set_nfl(
-    ModeDecisionContext_t     *context_ptr,
+    ModeDecisionContext     *context_ptr,
     PictureControlSet_t       *picture_control_set_ptr){
 
     // Set NFL Candidates
@@ -679,7 +679,7 @@ void set_nfl(
 // the NMM candidates numbers are set
 //*************************//
 void Initialize_cu_data_structure(
-    ModeDecisionContext_t   *context_ptr,
+    ModeDecisionContext   *context_ptr,
     SequenceControlSet_t    *sequence_control_set_ptr,
     LargestCodingUnit        *sb_ptr,
     const MdcLcuData_t        * const mdc_result_tb_ptr)
@@ -825,8 +825,8 @@ void picture_addition_kernel16_bit(
 
 void AV1PerformInverseTransformReconLuma(
     PictureControlSet_t               *picture_control_set_ptr,
-    ModeDecisionContext_t             *context_ptr,
-    ModeDecisionCandidateBuffer_t     *candidate_buffer,
+    ModeDecisionContext             *context_ptr,
+    ModeDecisionCandidateBuffer     *candidate_buffer,
     CodingUnit                      *cu_ptr,
     const BlockGeom                   *blk_geom,
     EbAsm                              asm_type) {
@@ -902,8 +902,8 @@ void AV1PerformInverseTransformReconLuma(
 }
 void AV1PerformInverseTransformRecon(
     PictureControlSet_t               *picture_control_set_ptr,
-    ModeDecisionContext_t             *context_ptr,
-    ModeDecisionCandidateBuffer_t     *candidate_buffer,
+    ModeDecisionContext             *context_ptr,
+    ModeDecisionCandidateBuffer     *candidate_buffer,
     CodingUnit                      *cu_ptr,
     const BlockGeom                   *blk_geom,
     EbAsm                              asm_type) {
@@ -1070,18 +1070,18 @@ void AV1PerformInverseTransformRecon(
 * Coding Loop - Fast Loop Initialization
 *******************************************/
 void ProductCodingLoopInitFastLoop(
-    ModeDecisionContext_t      *context_ptr,
-    NeighborArrayUnit_t        *skip_coeff_neighbor_array,
-    NeighborArrayUnit_t        *luma_dc_sign_level_coeff_neighbor_array,
-    NeighborArrayUnit_t        *cb_dc_sign_level_coeff_neighbor_array,
-    NeighborArrayUnit_t        *cr_dc_sign_level_coeff_neighbor_array,
-    NeighborArrayUnit_t        *inter_pred_dir_neighbor_array,
-    NeighborArrayUnit_t        *ref_frame_type_neighbor_array,
-    NeighborArrayUnit_t        *intraLumaNeighborArray,
-    NeighborArrayUnit_t        *skip_flag_neighbor_array,
-    NeighborArrayUnit_t        *mode_type_neighbor_array,
-    NeighborArrayUnit_t        *leaf_depth_neighbor_array,
-    NeighborArrayUnit_t        *leaf_partition_neighbor_array
+    ModeDecisionContext      *context_ptr,
+    NeighborArrayUnit        *skip_coeff_neighbor_array,
+    NeighborArrayUnit        *luma_dc_sign_level_coeff_neighbor_array,
+    NeighborArrayUnit        *cb_dc_sign_level_coeff_neighbor_array,
+    NeighborArrayUnit        *cr_dc_sign_level_coeff_neighbor_array,
+    NeighborArrayUnit        *inter_pred_dir_neighbor_array,
+    NeighborArrayUnit        *ref_frame_type_neighbor_array,
+    NeighborArrayUnit        *intraLumaNeighborArray,
+    NeighborArrayUnit        *skip_flag_neighbor_array,
+    NeighborArrayUnit        *mode_type_neighbor_array,
+    NeighborArrayUnit        *leaf_depth_neighbor_array,
+    NeighborArrayUnit        *leaf_partition_neighbor_array
 )
 {
     // Keep track of the SB Ptr
@@ -1179,13 +1179,13 @@ uint64_t spatial_full_distortion_kernel16_mx_n_ssse3_intrin(
 
 void ProductMdFastPuPrediction(
     PictureControlSet_t                 *picture_control_set_ptr,
-    ModeDecisionCandidateBuffer_t       *candidate_buffer,
-    ModeDecisionContext_t               *context_ptr,
+    ModeDecisionCandidateBuffer       *candidate_buffer,
+    ModeDecisionContext               *context_ptr,
 #if !CHROMA_BLIND
     uint32_t                             use_chroma_information_in_fast_loop,
 #endif
     uint32_t                             modeType,
-    ModeDecisionCandidate_t             *const candidate_ptr,
+    ModeDecisionCandidate             *const candidate_ptr,
     uint32_t                             fastLoopCandidateIndex,
     uint32_t                             bestFirstFastCostSearchCandidateIndex,
     EbAsm                                asm_type)
@@ -1225,16 +1225,16 @@ void ProductMdFastPuPrediction(
 }
 void generate_intra_reference_samples(
     const Av1Common         *cm,
-    ModeDecisionContext_t   *md_context_ptr);
+    ModeDecisionContext   *md_context_ptr);
 
 void ProductPerformFastLoop(
     PictureControlSet_t                 *picture_control_set_ptr,
     LargestCodingUnit                 *sb_ptr,
-    ModeDecisionContext_t               *context_ptr,
-    ModeDecisionCandidateBuffer_t      **candidateBufferPtrArrayBase,
-    ModeDecisionCandidate_t             *fast_candidate_array,
+    ModeDecisionContext               *context_ptr,
+    ModeDecisionCandidateBuffer      **candidateBufferPtrArrayBase,
+    ModeDecisionCandidate             *fast_candidate_array,
     uint32_t                             fastCandidateTotalCount,
-    EbPictureBufferDesc_t               *input_picture_ptr,
+    EbPictureBufferDesc               *input_picture_ptr,
     uint32_t                             inputOriginIndex,
     uint32_t                             input_cb_origin_index,
     uint32_t                             inputCrOriginIndex,
@@ -1248,7 +1248,7 @@ void ProductPerformFastLoop(
     int32_t                          fastLoopCandidateIndex;
     uint64_t                          lumaFastDistortion;
     uint64_t                          chromaFastDistortion;
-    ModeDecisionCandidateBuffer_t  *candidate_buffer;
+    ModeDecisionCandidateBuffer  *candidate_buffer;
     //    const EB_SLICE                  slice_type = picture_control_set_ptr->slice_type;
     uint32_t                          highestCostIndex;
     uint64_t                          highestCost;
@@ -1284,7 +1284,7 @@ void ProductPerformFastLoop(
 
             // Set the Candidate Buffer
             candidate_buffer = candidateBufferPtrArrayBase[0];
-            ModeDecisionCandidate_t *const candidate_ptr = candidate_buffer->candidate_ptr = &fast_candidate_array[fastLoopCandidateIndex];
+            ModeDecisionCandidate *const candidate_ptr = candidate_buffer->candidate_ptr = &fast_candidate_array[fastLoopCandidateIndex];
             const unsigned distortion_ready = candidate_ptr->distortion_ready;
 
 
@@ -1333,9 +1333,9 @@ void ProductPerformFastLoop(
     do
     {
         candidate_buffer = candidateBufferPtrArrayBase[highestCostIndex];
-        ModeDecisionCandidate_t *const  candidate_ptr = candidate_buffer->candidate_ptr = &fast_candidate_array[fastLoopCandidateIndex];
+        ModeDecisionCandidate *const  candidate_ptr = candidate_buffer->candidate_ptr = &fast_candidate_array[fastLoopCandidateIndex];
         const unsigned                  distortion_ready = candidate_ptr->distortion_ready;
-        EbPictureBufferDesc_t * const   prediction_ptr = candidate_buffer->prediction_ptr;
+        EbPictureBufferDesc * const   prediction_ptr = candidate_buffer->prediction_ptr;
 
         {
             candidate_buffer->sub_sampled_pred = EB_FALSE;
@@ -1484,7 +1484,7 @@ void ProductPerformFastLoop(
 
 void ProductConfigureChroma(
     PictureControlSet_t                 *picture_control_set_ptr,
-    ModeDecisionContext_t               *context_ptr,
+    ModeDecisionContext               *context_ptr,
     LargestCodingUnit                 *sb_ptr) {
 
     uint32_t  lcu_addr = sb_ptr->index;
@@ -1502,7 +1502,7 @@ void ProductConfigureChroma(
 void ProductDerivePartialFrequencyN2Flag(
     SequenceControlSet_t               *sequence_control_set_ptr,
     PictureControlSet_t                *picture_control_set_ptr,
-    ModeDecisionContext_t              *context_ptr)
+    ModeDecisionContext              *context_ptr)
 {
 #if ENCODER_MODE_CLEANUP
     context_ptr->pf_md_mode = PF_OFF;
@@ -1560,18 +1560,18 @@ void ProductDerivePartialFrequencyN2Flag(
 
 void AV1CostCalcCfl(
     PictureControlSet_t                *picture_control_set_ptr,
-    ModeDecisionCandidateBuffer_t      *candidate_buffer,
+    ModeDecisionCandidateBuffer      *candidate_buffer,
     LargestCodingUnit                *sb_ptr,
-    ModeDecisionContext_t              *context_ptr,
+    ModeDecisionContext              *context_ptr,
     uint32_t                            component_mask,
-    EbPictureBufferDesc_t              *input_picture_ptr,
+    EbPictureBufferDesc              *input_picture_ptr,
     uint32_t                            input_cb_origin_index,
     uint32_t                            cu_chroma_origin_index,
     uint64_t                            full_distortion[DIST_CALC_TOTAL],
     uint64_t                           *coeffBits,
     EbAsm                               asm_type) {
 
-    ModeDecisionCandidate_t            *candidate_ptr = candidate_buffer->candidate_ptr;
+    ModeDecisionCandidate            *candidate_ptr = candidate_buffer->candidate_ptr;
     uint32_t                            count_non_zero_coeffs[3][MAX_NUM_OF_TU_PER_CU];
     uint64_t                            cb_full_distortion[DIST_CALC_TOTAL];
     uint64_t                            cr_full_distortion[DIST_CALC_TOTAL];
@@ -1746,10 +1746,10 @@ void cfl_rd_pick_alpha(
 static void cfl_rd_pick_alpha(
 #endif
     PictureControlSet_t     *picture_control_set_ptr,
-    ModeDecisionCandidateBuffer_t  *candidate_buffer,
+    ModeDecisionCandidateBuffer  *candidate_buffer,
     LargestCodingUnit     *sb_ptr,
-    ModeDecisionContext_t   *context_ptr,
-    EbPictureBufferDesc_t   *input_picture_ptr,
+    ModeDecisionContext   *context_ptr,
+    EbPictureBufferDesc   *input_picture_ptr,
     uint32_t                   input_cb_origin_index,
     uint32_t                     cu_chroma_origin_index,
     EbAsm                    asm_type) {
@@ -1917,10 +1917,10 @@ static void cfl_rd_pick_alpha(
 // 4: Recalculate the residual for chroma
 static void CflPrediction(
     PictureControlSet_t     *picture_control_set_ptr,
-    ModeDecisionCandidateBuffer_t  *candidate_buffer,
+    ModeDecisionCandidateBuffer  *candidate_buffer,
     LargestCodingUnit     *sb_ptr,
-    ModeDecisionContext_t   *context_ptr,
-    EbPictureBufferDesc_t   *input_picture_ptr,
+    ModeDecisionContext   *context_ptr,
+    EbPictureBufferDesc   *input_picture_ptr,
     uint32_t                   input_cb_origin_index,
     uint32_t                     cu_chroma_origin_index,
     EbAsm                    asm_type)
@@ -2055,8 +2055,8 @@ void AV1PerformFullLoop(
     PictureControlSet_t     *picture_control_set_ptr,
     LargestCodingUnit     *sb_ptr,
     CodingUnit            *cu_ptr,
-    ModeDecisionContext_t   *context_ptr,
-    EbPictureBufferDesc_t   *input_picture_ptr,
+    ModeDecisionContext   *context_ptr,
+    EbPictureBufferDesc   *input_picture_ptr,
     uint32_t                 inputOriginIndex,
     uint32_t                 input_cb_origin_index,
     uint32_t                 cuOriginIndex,
@@ -2085,10 +2085,10 @@ void AV1PerformFullLoop(
 
     bestfullCost = 0xFFFFFFFFull;
 
-    ModeDecisionCandidateBuffer_t         **candidateBufferPtrArrayBase = context_ptr->candidate_buffer_ptr_array;
-    ModeDecisionCandidateBuffer_t         **candidate_buffer_ptr_array = &(candidateBufferPtrArrayBase[context_ptr->buffer_depth_index_start[0]]);
-    ModeDecisionCandidateBuffer_t          *candidate_buffer;
-    ModeDecisionCandidate_t                *candidate_ptr;
+    ModeDecisionCandidateBuffer         **candidateBufferPtrArrayBase = context_ptr->candidate_buffer_ptr_array;
+    ModeDecisionCandidateBuffer         **candidate_buffer_ptr_array = &(candidateBufferPtrArrayBase[context_ptr->buffer_depth_index_start[0]]);
+    ModeDecisionCandidateBuffer          *candidate_buffer;
+    ModeDecisionCandidate                *candidate_ptr;
 
     //  if (context_ptr->blk_geom->origin_x == 16 && context_ptr->blk_geom->origin_y == 0 && context_ptr->blk_geom->bsize == BLOCK_8X8)
     //      printf("NOPPPP");
@@ -2528,7 +2528,7 @@ void move_cu_data(
 *   performs CL (LCU)
 *******************************************/
 EbBool allowed_ns_cu(
-    ModeDecisionContext_t             *context_ptr,
+    ModeDecisionContext             *context_ptr,
     uint8_t                            is_complete_sb){
   
     EbBool  ret = 1;
@@ -2543,7 +2543,7 @@ EbBool allowed_ns_cu(
 
 #if TX_SEARCH_LEVELS
 void init_candidate_buffer(
-    ModeDecisionCandidate_t        *candidate_ptr,
+    ModeDecisionCandidate        *candidate_ptr,
     uint32_t                        count_non_zero_coeffs[3][MAX_NUM_OF_TU_PER_CU])
 {
     candidate_ptr->y_has_coeff = 0;
@@ -2564,10 +2564,10 @@ void init_candidate_buffer(
 }
 void inter_depth_tx_search(
     PictureControlSet_t                      *picture_control_set_ptr,
-    ModeDecisionCandidateBuffer_t            *candidate_buffer,
+    ModeDecisionCandidateBuffer            *candidate_buffer,
     CodingUnit                             *cu_ptr,
-    ModeDecisionContext_t                    *context_ptr,
-    EbPictureBufferDesc_t                    *input_picture_ptr,
+    ModeDecisionContext                    *context_ptr,
+    EbPictureBufferDesc                    *input_picture_ptr,
     uint64_t                                  ref_fast_cost,
     EbAsm                                     asm_type)
 {
@@ -2590,7 +2590,7 @@ void inter_depth_tx_search(
         uint64_t      cb_coeff_bits = 0;
         uint64_t      cr_coeff_bits = 0;
 
-        ModeDecisionCandidate_t                *candidate_ptr = candidate_buffer->candidate_ptr;
+        ModeDecisionCandidate                *candidate_ptr = candidate_buffer->candidate_ptr;
 
         init_candidate_buffer(
             candidate_ptr,
@@ -2860,20 +2860,20 @@ void inter_depth_tx_search(
 void md_encode_block(
     SequenceControlSet_t             *sequence_control_set_ptr,
     PictureControlSet_t              *picture_control_set_ptr,
-    ModeDecisionContext_t            *context_ptr,
-    SsMeContext_t                    *ss_mecontext,
+    ModeDecisionContext            *context_ptr,
+    SsMeContext                    *ss_mecontext,
     uint32_t                          leaf_index,
     uint32_t                          lcu_addr,
-    ModeDecisionCandidateBuffer_t    *bestCandidateBuffers[5])
+    ModeDecisionCandidateBuffer    *bestCandidateBuffers[5])
 {
 
-    ModeDecisionCandidateBuffer_t         **candidateBufferPtrArrayBase = context_ptr->candidate_buffer_ptr_array;
-    ModeDecisionCandidateBuffer_t         **candidate_buffer_ptr_array;
+    ModeDecisionCandidateBuffer         **candidateBufferPtrArrayBase = context_ptr->candidate_buffer_ptr_array;
+    ModeDecisionCandidateBuffer         **candidate_buffer_ptr_array;
     const BlockGeom                          *blk_geom = context_ptr->blk_geom;
 
     uint32_t                                  buffer_total_count;
-    ModeDecisionCandidateBuffer_t            *candidate_buffer;
-    ModeDecisionCandidate_t                  *fast_candidate_array = context_ptr->fast_candidate_array;
+    ModeDecisionCandidateBuffer            *candidate_buffer;
+    ModeDecisionCandidate                  *fast_candidate_array = context_ptr->fast_candidate_array;
     uint8_t                                   candidateIndex;
     uint32_t                                  fastCandidateTotalCount;
     uint32_t                                  fullCandidateTotalCount;
@@ -2882,7 +2882,7 @@ void md_encode_block(
     EbAsm                                     asm_type = sequence_control_set_ptr->encode_context_ptr->asm_type;
     uint32_t                                  best_intra_mode = EB_INTRA_MODE_INVALID;
 
-    EbPictureBufferDesc_t                    *input_picture_ptr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+    EbPictureBufferDesc                    *input_picture_ptr = picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
     const uint32_t                            inputOriginIndex = (context_ptr->cu_origin_y + input_picture_ptr->origin_y) * input_picture_ptr->stride_y + (context_ptr->cu_origin_x + input_picture_ptr->origin_x);
 
     const uint32_t input_cb_origin_index = ((context_ptr->round_origin_y >> 1) + (input_picture_ptr->origin_y >> 1)) * input_picture_ptr->strideCb + ((context_ptr->round_origin_x >> 1) + (input_picture_ptr->origin_x >> 1));
@@ -3075,7 +3075,7 @@ void md_encode_block(
         //copy neigh recon data in cu_ptr
         {
             uint32_t j;
-            EbPictureBufferDesc_t  *recon_ptr = candidate_buffer->recon_ptr;
+            EbPictureBufferDesc  *recon_ptr = candidate_buffer->recon_ptr;
             uint32_t recLumaOffset = context_ptr->blk_geom->origin_x + context_ptr->blk_geom->origin_y * recon_ptr->stride_y;
 
             uint32_t recCbOffset = ((((context_ptr->blk_geom->origin_x >> 3) << 3) + ((context_ptr->blk_geom->origin_y >> 3) << 3) * candidate_buffer->recon_ptr->strideCb) >> 1);
@@ -3178,13 +3178,13 @@ EB_EXTERN EbErrorType mode_decision_sb(
     uint16_t                             sb_origin_x,
     uint16_t                             sb_origin_y,
     uint32_t                             lcu_addr,
-    SsMeContext_t                       *ss_mecontext,
-    ModeDecisionContext_t               *context_ptr)
+    SsMeContext                       *ss_mecontext,
+    ModeDecisionContext               *context_ptr)
 {
     EbErrorType                          return_error = EB_ErrorNone;
 
     uint32_t                             cu_idx;
-    ModeDecisionCandidateBuffer_t       *bestCandidateBuffers[5];
+    ModeDecisionCandidateBuffer       *bestCandidateBuffers[5];
 
     // CTB merge
     uint32_t                               lastCuIndex;
@@ -4086,7 +4086,7 @@ static void in_loop_me_128xN_Nx128_distortion_update(
 ***************************************************************/
 
 static void in_loop_me_get_search_point_results_block(
-    SsMeContext_t            *context_ptr,                    // input parameter, ME context Ptr, used to get SB Ptr
+    SsMeContext            *context_ptr,                    // input parameter, ME context Ptr, used to get SB Ptr
     uint32_t                   list_index,                      // input parameter, reference list index
     uint32_t                   ref_index,
     int32_t                   x_search_index,                  // input parameter, search region position in the horizontal direction, used to derive xMV
@@ -4365,7 +4365,7 @@ static void in_loop_me_get_search_point_results_block(
 *  perform the full pel search for the whole super-block
 ***************************************************************/
 static void in_loop_me_fullpel_search_sblock(
-    SsMeContext_t            *context_ptr,
+    SsMeContext            *context_ptr,
     uint32_t                   list_index,
     int16_t                   x_search_area_origin,
     int16_t                     y_search_area_origin,
@@ -4398,13 +4398,13 @@ static void in_loop_me_fullpel_search_sblock(
 *  in-loop motion estimation construtor
 ***************************************************************/
 EbErrorType in_loop_me_context_ctor(
-    SsMeContext_t                          **object_dbl_ptr)
+    SsMeContext                          **object_dbl_ptr)
 {
 
     uint32_t                   listIndex;
     uint32_t                   refPicIndex;
 
-    EB_MALLOC(SsMeContext_t*, *object_dbl_ptr, sizeof(SsMeContext_t), EB_N_PTR);
+    EB_MALLOC(SsMeContext*, *object_dbl_ptr, sizeof(SsMeContext), EB_N_PTR);
 
     // Intermediate LCU-sized buffer to retain the input samples
     (*object_dbl_ptr)->sb_buffer_stride = MAX_SB_SIZE;
@@ -4488,7 +4488,7 @@ EbErrorType in_loop_me_context_ctor(
 *  performs AVC-style interpolation for the whole Search Region
 ***************************************************************/
 static void in_loop_me_interpolate_search_region_avc_style(
-    SsMeContext_t           *context_ptr,                       // input/output parameter, ME context ptr, used to get/set interpolated search area Ptr
+    SsMeContext           *context_ptr,                       // input/output parameter, ME context ptr, used to get/set interpolated search area Ptr
     uint32_t                   listIndex,                        // Refrence picture list index
     uint8_t                   *searchRegionBuffer,               // input parameter, search region index, used to point to reference samples
     uint32_t                   lumaStride,                       // input parameter, reference Picture stride
@@ -4583,7 +4583,7 @@ static void in_loop_me_interpolate_search_region_avc_style(
 ***************************************************************/
 static void in_loop_me_halfpel_refinement_block(
     SequenceControlSet_t    *sequence_control_set_ptr,             // input parameter, Sequence control set Ptr
-    SsMeContext_t           *context_ptr,                        // input parameter, ME context Ptr, used to get SB Ptr
+    SsMeContext           *context_ptr,                        // input parameter, ME context Ptr, used to get SB Ptr
     uint32_t                   block_index_in_sb_buffer,                  // input parameter, PU origin, used to point to source samples
     uint8_t                   *pos_b_buffer,                        // input parameter, position "b" interpolated search area Ptr
     uint8_t                   *pos_h_buffer,                        // input parameter, position "h" interpolated search area Ptr
@@ -4786,7 +4786,7 @@ static void in_loop_me_halfpel_refinement_block(
 ***************************************************************/
 void in_loop_me_halfpel_search_sblock(
     SequenceControlSet_t    *sequence_control_set_ptr,             // input parameter, Sequence control set Ptr
-    SsMeContext_t           *context_ptr,                        // input/output parameter, ME context Ptr, used to get/update ME results
+    SsMeContext           *context_ptr,                        // input/output parameter, ME context Ptr, used to get/update ME results
     uint8_t                   *pos_b_buffer,                        // input parameter, position "b" interpolated search area Ptr
     uint8_t                   *pos_h_buffer,                        // input parameter, position "h" interpolated search area Ptr
     uint8_t                   *pos_j_buffer,                        // input parameter, position "j" interpolated search area Ptr
@@ -5470,7 +5470,7 @@ void in_loop_me_halfpel_search_sblock(
 *   performs Quarter Pel refinement for each block
 ***************************************************************/
 static void in_loop_me_quarterpel_refinement_on_the_fly_block(
-    SsMeContext_t         *context_ptr,                      // [IN] ME context Ptr, used to get SB Ptr
+    SsMeContext         *context_ptr,                      // [IN] ME context Ptr, used to get SB Ptr
     uint32_t                 block_index_in_sb_buffer,                // [IN] PU origin, used to point to source samples
     uint8_t                **buf1,                            // [IN]
     uint32_t                *buf1Stride,
@@ -5801,7 +5801,7 @@ static void set_quarterpel_refinement_inputs_on_the_fly_block(
 *   perform the quarter-pel refinement for the whole super-block
 ***************************************************************/
 static void in_loop_me_quarterpel_search_sblock(
-    SsMeContext_t                *context_ptr,                     //[IN/OUT]  ME context Ptr, used to get/update ME results
+    SsMeContext                *context_ptr,                     //[IN/OUT]  ME context Ptr, used to get/update ME results
     uint8_t                        *pos_Full,                       //[IN]
     uint32_t                        full_stride,                      //[IN]
     uint8_t                        *pos_b,                          //[IN]
@@ -6788,7 +6788,7 @@ EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
     int16_t                       y_mv_l0,
     int16_t                       x_mv_l1,
     int16_t                       y_mv_l1,
-    SsMeContext_t                 *context_ptr)           // input parameter, ME Context Ptr, used to store decimated/interpolated LCU/SR
+    SsMeContext                 *context_ptr)           // input parameter, ME Context Ptr, used to store decimated/interpolated LCU/SR
 
 {
     EbErrorType return_error = EB_ErrorNone;
@@ -6817,7 +6817,7 @@ EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
 
     uint32_t                  numOfListToSearch;
     uint32_t                  listIndex;
-    EbPictureBufferDesc_t  *refPicPtr;
+    EbPictureBufferDesc  *refPicPtr;
     EbReferenceObject_t    *referenceObject;
 
     EbAsm                  asm_type = sequence_control_set_ptr->encode_context_ptr->asm_type;
@@ -6868,7 +6868,7 @@ EB_EXTERN EbErrorType in_loop_motion_estimation_sblock(
 
         EbBool  is16bit = (EbBool)(sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
         referenceObject = (EbReferenceObject_t*)picture_control_set_ptr->ref_pic_ptr_array[listIndex]->object_ptr;
-        refPicPtr = is16bit ? (EbPictureBufferDesc_t*)referenceObject->referencePicture16bit : (EbPictureBufferDesc_t*)referenceObject->referencePicture;
+        refPicPtr = is16bit ? (EbPictureBufferDesc*)referenceObject->referencePicture16bit : (EbPictureBufferDesc*)referenceObject->referencePicture;
         search_area_width = (int16_t)MIN(context_ptr->search_area_width, 127);
         search_area_height = (int16_t)MIN(context_ptr->search_area_height, 127);
         x_search_center = listIndex == REF_LIST_0 ? x_mv_l0 : x_mv_l1;

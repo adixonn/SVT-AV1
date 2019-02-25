@@ -39,7 +39,7 @@ extern void av1_predict_intra_block(
     TileInfo                    *tile,
 #endif
 #if INTRA_CORE_OPT
-    ModeDecisionContext_t                  *md_context_ptr,
+    ModeDecisionContext                  *md_context_ptr,
 #endif
     STAGE                       stage,
     uint8_t                     intra_luma_left_mode,
@@ -57,7 +57,7 @@ extern void av1_predict_intra_block(
     FILTER_INTRA_MODE filter_intra_mode,
     uint8_t* topNeighArray,
     uint8_t* leftNeighArray,
-    EbPictureBufferDesc_t  *recon_buffer,
+    EbPictureBufferDesc  *recon_buffer,
 #if !INTRA_CORE_OPT
     int32_t col_off,
     int32_t row_off,
@@ -86,7 +86,7 @@ void av1_predict_intra_block_16bit(
     FILTER_INTRA_MODE filter_intra_mode,
     uint16_t* topNeighArray,
     uint16_t* leftNeighArray,
-    EbPictureBufferDesc_t  *recon_buffer,
+    EbPictureBufferDesc  *recon_buffer,
     int32_t col_off,
     int32_t row_off,
     int32_t plane,
@@ -119,11 +119,11 @@ typedef void(*EB_AV1_ENCODE_LOOP_FUNC_PTR)(
     uint32_t                 origin_x,
     uint32_t                 origin_y,
     uint32_t                 cb_qp,
-    EbPictureBufferDesc_t *predSamples,             // no basis/offset
-    EbPictureBufferDesc_t *coeffSamplesTB,          // lcu based
-    EbPictureBufferDesc_t *residual16bit,           // no basis/offset
-    EbPictureBufferDesc_t *transform16bit,          // no basis/offset
-    EbPictureBufferDesc_t *inverse_quant_buffer,
+    EbPictureBufferDesc *predSamples,             // no basis/offset
+    EbPictureBufferDesc *coeffSamplesTB,          // lcu based
+    EbPictureBufferDesc *residual16bit,           // no basis/offset
+    EbPictureBufferDesc *transform16bit,          // no basis/offset
+    EbPictureBufferDesc *inverse_quant_buffer,
     int16_t                *transformScratchBuffer,
     EbAsm                 asm_type,
     uint32_t                  *count_non_zero_coeffs,
@@ -138,8 +138,8 @@ typedef void(*EB_AV1_GENERATE_RECON_FUNC_PTR)(
     EncDecContext       *context_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
-    EbPictureBufferDesc_t *predSamples,     // no basis/offset
-    EbPictureBufferDesc_t *residual16bit,    // no basis/offset
+    EbPictureBufferDesc *predSamples,     // no basis/offset
+    EbPictureBufferDesc *residual16bit,    // no basis/offset
     int16_t                *transformScratchBuffer,
     uint32_t                 component_mask,
     uint16_t                *eob,
@@ -150,8 +150,8 @@ typedef void(*EB_GENERATE_RECON_FUNC_PTR)(
     EncDecContext       *context_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
-    EbPictureBufferDesc_t *predSamples,     // no basis/offset
-    EbPictureBufferDesc_t *residual16bit,    // no basis/offset
+    EbPictureBufferDesc *predSamples,     // no basis/offset
+    EbPictureBufferDesc *residual16bit,    // no basis/offset
     int16_t                *transformScratchBuffer,
     EbAsm                 asm_type);
 
@@ -159,8 +159,8 @@ typedef void(*EB_GENERATE_RECON_INTRA_4x4_FUNC_PTR)(
     EncDecContext       *context_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
-    EbPictureBufferDesc_t *predSamples,     // no basis/offset
-    EbPictureBufferDesc_t *residual16bit,    // no basis/offset
+    EbPictureBufferDesc *predSamples,     // no basis/offset
+    EbPictureBufferDesc *residual16bit,    // no basis/offset
     int16_t                *transformScratchBuffer,
     uint32_t                 component_mask,
     EbAsm                 asm_type);
@@ -174,10 +174,10 @@ typedef EbErrorType(*EB_GENERATE_INTRA_SAMPLES_FUNC_PTR)(
     uint32_t                      origin_y,
     uint32_t                      size,
     uint32_t                      cu_depth,
-    NeighborArrayUnit_t        *mode_type_neighbor_array,
-    NeighborArrayUnit_t        *luma_recon_neighbor_array,
-    NeighborArrayUnit_t        *cb_recon_neighbor_array,
-    NeighborArrayUnit_t        *cr_recon_neighbor_array,
+    NeighborArrayUnit        *mode_type_neighbor_array,
+    NeighborArrayUnit        *luma_recon_neighbor_array,
+    NeighborArrayUnit        *cb_recon_neighbor_array,
+    NeighborArrayUnit        *cr_recon_neighbor_array,
     void                       *ref_wrapper_ptr,
     EbBool                     picture_left_boundary,
     EbBool                     picture_top_boundary,
@@ -193,7 +193,7 @@ typedef EbErrorType(*EB_ENC_PASS_INTRA_FUNC_PTR)(
     uint32_t                      origin_x,
     uint32_t                      origin_y,
     uint32_t                      pu_size,
-    EbPictureBufferDesc_t      *prediction_ptr,
+    EbPictureBufferDesc      *prediction_ptr,
     uint32_t                      luma_mode,
     uint32_t                      chroma_mode,
     int32_t                      angle_delta,
@@ -205,9 +205,9 @@ typedef EbErrorType(*EB_ENC_PASS_INTRA_FUNC_PTR)(
 * Update Intra Mode Neighbor Arrays
 ***************************************************/
 static void EncodePassUpdateIntraModeNeighborArrays(
-    NeighborArrayUnit_t     *mode_type_neighbor_array,
-    NeighborArrayUnit_t     *intra_luma_mode_neighbor_array,
-    NeighborArrayUnit_t     *intra_chroma_mode_neighbor_array,
+    NeighborArrayUnit     *mode_type_neighbor_array,
+    NeighborArrayUnit     *intra_luma_mode_neighbor_array,
+    NeighborArrayUnit     *intra_chroma_mode_neighbor_array,
     uint8_t                    luma_mode,
     uint8_t                    chroma_mode,
     uint32_t                   origin_x,
@@ -262,9 +262,9 @@ static void EncodePassUpdateIntraModeNeighborArrays(
 * Update Inter Mode Neighbor Arrays
 ***************************************************/
 static void EncodePassUpdateInterModeNeighborArrays(
-    NeighborArrayUnit_t     *mode_type_neighbor_array,
-    NeighborArrayUnit_t     *mv_neighbor_array,
-    NeighborArrayUnit_t     *skipNeighborArray,
+    NeighborArrayUnit     *mode_type_neighbor_array,
+    NeighborArrayUnit     *mv_neighbor_array,
+    NeighborArrayUnit     *skipNeighborArray,
     MvUnit_t                *mv_unit,
     uint8_t                   *skip_flag,
     uint32_t                   origin_x,
@@ -311,10 +311,10 @@ static void EncodePassUpdateInterModeNeighborArrays(
 * Update Recon Samples Neighbor Arrays
 ***************************************************/
 static void EncodePassUpdateReconSampleNeighborArrays(
-    NeighborArrayUnit_t     *lumaReconSampleNeighborArray,
-    NeighborArrayUnit_t     *cbReconSampleNeighborArray,
-    NeighborArrayUnit_t     *crReconSampleNeighborArray,
-    EbPictureBufferDesc_t   *recon_buffer,
+    NeighborArrayUnit     *lumaReconSampleNeighborArray,
+    NeighborArrayUnit     *cbReconSampleNeighborArray,
+    NeighborArrayUnit     *crReconSampleNeighborArray,
+    EbPictureBufferDesc   *recon_buffer,
     uint32_t                   origin_x,
     uint32_t                   origin_y,
     uint32_t                   width,
@@ -435,9 +435,9 @@ void GeneratePuIntraLumaNeighborModes(
     uint32_t                   pu_origin_x,
     uint32_t                   pu_origin_y,
     uint32_t                   sb_sz,
-    NeighborArrayUnit_t     *intraLumaNeighborArray,
-    NeighborArrayUnit_t     *intraChromaNeighborArray,
-    NeighborArrayUnit_t     *mode_type_neighbor_array)
+    NeighborArrayUnit     *intraLumaNeighborArray,
+    NeighborArrayUnit     *intraChromaNeighborArray,
+    NeighborArrayUnit     *mode_type_neighbor_array)
 {
 
     (void)sb_sz;
@@ -527,10 +527,10 @@ void encode_pass_tx_search(
     EncDecContext                *context_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                       cb_qp,
-    EbPictureBufferDesc_t          *coeffSamplesTB,
-    EbPictureBufferDesc_t          *residual16bit,
-    EbPictureBufferDesc_t          *transform16bit,
-    EbPictureBufferDesc_t          *inverse_quant_buffer,
+    EbPictureBufferDesc          *coeffSamplesTB,
+    EbPictureBufferDesc          *residual16bit,
+    EbPictureBufferDesc          *transform16bit,
+    EbPictureBufferDesc          *inverse_quant_buffer,
     int16_t                        *transformScratchBuffer,
     EbAsm                          asm_type,
     uint32_t                       *count_non_zero_coeffs,
@@ -567,11 +567,11 @@ static void Av1EncodeLoop(
     uint32_t                 origin_x,   //pic based tx org x
     uint32_t                 origin_y,   //pic based tx org y
     uint32_t                 cb_qp,
-    EbPictureBufferDesc_t *predSamples,             // no basis/offset
-    EbPictureBufferDesc_t *coeffSamplesTB,          // lcu based
-    EbPictureBufferDesc_t *residual16bit,           // no basis/offset
-    EbPictureBufferDesc_t *transform16bit,          // no basis/offset
-    EbPictureBufferDesc_t *inverse_quant_buffer,
+    EbPictureBufferDesc *predSamples,             // no basis/offset
+    EbPictureBufferDesc *coeffSamplesTB,          // lcu based
+    EbPictureBufferDesc *residual16bit,           // no basis/offset
+    EbPictureBufferDesc *transform16bit,          // no basis/offset
+    EbPictureBufferDesc *inverse_quant_buffer,
     int16_t                *transformScratchBuffer,
     EbAsm                 asm_type,
     uint32_t                  *count_non_zero_coeffs,
@@ -591,7 +591,7 @@ static void Av1EncodeLoop(
     //    EB_SLICE               slice_type = sb_ptr->picture_control_set_ptr->slice_type;
     //    uint32_t                 temporal_layer_index = sb_ptr->picture_control_set_ptr->temporal_layer_index;
     uint32_t                 qp = cu_ptr->qp;
-    EbPictureBufferDesc_t  *input_samples = context_ptr->input_samples;
+    EbPictureBufferDesc  *input_samples = context_ptr->input_samples;
 
     uint32_t                 round_origin_x = (origin_x >> 3) << 3;// for Chroma blocks with size of 4
     uint32_t                 round_origin_y = (origin_y >> 3) << 3;// for Chroma blocks with size of 4
@@ -738,7 +738,7 @@ static void Av1EncodeLoop(
 #endif
 
 
-            EbPictureBufferDesc_t *reconSamples = predSamples;
+            EbPictureBufferDesc *reconSamples = predSamples;
             uint32_t reconLumaOffset = (reconSamples->origin_y + origin_y)            * reconSamples->stride_y + (reconSamples->origin_x + origin_x);
 
             if (txb_ptr->y_has_coeff == EB_TRUE && cu_ptr->skip_flag == EB_FALSE) {
@@ -790,7 +790,7 @@ static void Av1EncodeLoop(
             {
                 // 3: Loop over alphas and find the best or choose DC
                 // Use the 1st spot of the candidate buffer to hold cfl settings: (1) to use same kernel as MD for CFL evaluation: cfl_rd_pick_alpha() (toward unification), (2) to avoid dedicated buffers for CFL evaluation @ EP (toward less memory)
-                ModeDecisionCandidateBuffer_t  *candidate_buffer = &(context_ptr->md_context->candidate_buffer_ptr_array[0][0]);
+                ModeDecisionCandidateBuffer  *candidate_buffer = &(context_ptr->md_context->candidate_buffer_ptr_array[0][0]);
 
                 // Input(s)
                 candidate_buffer->candidate_ptr->type = INTRA_MODE;
@@ -1014,10 +1014,10 @@ void encode_pass_tx_search_hbd(
     EncDecContext                *context_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                       cb_qp,
-    EbPictureBufferDesc_t          *coeffSamplesTB,
-    EbPictureBufferDesc_t          *residual16bit,
-    EbPictureBufferDesc_t          *transform16bit,
-    EbPictureBufferDesc_t          *inverse_quant_buffer,
+    EbPictureBufferDesc          *coeffSamplesTB,
+    EbPictureBufferDesc          *residual16bit,
+    EbPictureBufferDesc          *transform16bit,
+    EbPictureBufferDesc          *inverse_quant_buffer,
     int16_t                        *transformScratchBuffer,
     EbAsm                          asm_type,
     uint32_t                       *count_non_zero_coeffs,
@@ -1056,11 +1056,11 @@ static void Av1EncodeLoop16bit(
     uint32_t                 origin_x,
     uint32_t                 origin_y,
     uint32_t                 cb_qp,
-    EbPictureBufferDesc_t *predSamples,         // no basis/offset
-    EbPictureBufferDesc_t *coeffSamplesTB,      // lcu based
-    EbPictureBufferDesc_t *residual16bit,       // no basis/offset
-    EbPictureBufferDesc_t *transform16bit,      // no basis/offset
-    EbPictureBufferDesc_t *inverse_quant_buffer,
+    EbPictureBufferDesc *predSamples,         // no basis/offset
+    EbPictureBufferDesc *coeffSamplesTB,      // lcu based
+    EbPictureBufferDesc *residual16bit,       // no basis/offset
+    EbPictureBufferDesc *transform16bit,      // no basis/offset
+    EbPictureBufferDesc *inverse_quant_buffer,
     int16_t                *transformScratchBuffer,
     EbAsm                 asm_type,
     uint32_t                  *count_non_zero_coeffs,
@@ -1085,8 +1085,8 @@ static void Av1EncodeLoop16bit(
     //    uint32_t                 temporal_layer_index = sb_ptr->picture_control_set_ptr->temporal_layer_index;
     uint32_t                 qp = cu_ptr->qp;
 
-    EbPictureBufferDesc_t *inputSamples16bit = context_ptr->input_sample16bit_buffer;
-    EbPictureBufferDesc_t *predSamples16bit = predSamples;
+    EbPictureBufferDesc *inputSamples16bit = context_ptr->input_sample16bit_buffer;
+    EbPictureBufferDesc *predSamples16bit = predSamples;
     uint32_t                 round_origin_x = (origin_x >> 3) << 3;// for Chroma blocks with size of 4
     uint32_t                 round_origin_y = (origin_y >> 3) << 3;// for Chroma blocks with size of 4
     const uint32_t           inputLumaOffset = context_ptr->blk_geom->tx_org_x[context_ptr->txb_itr] + context_ptr->blk_geom->tx_org_y[context_ptr->txb_itr] * SB_STRIDE_Y;
@@ -1227,7 +1227,7 @@ static void Av1EncodeLoop16bit(
         if (component_mask == PICTURE_BUFFER_DESC_FULL_MASK || component_mask == PICTURE_BUFFER_DESC_CHROMA_MASK) {
 
             if (cu_ptr->prediction_mode_flag == INTRA_MODE && cu_ptr->prediction_unit_array->intra_chroma_mode == UV_CFL_PRED) {
-                EbPictureBufferDesc_t *reconSamples = predSamples16bit;
+                EbPictureBufferDesc *reconSamples = predSamples16bit;
                 uint32_t reconLumaOffset = (reconSamples->origin_y + origin_y)            * reconSamples->stride_y + (reconSamples->origin_x + origin_x);
                 if (txb_ptr->y_has_coeff == EB_TRUE && cu_ptr->skip_flag == EB_FALSE) {
 #if QT_10BIT_SUPPORT
@@ -1513,8 +1513,8 @@ static void Av1EncodeGenerateRecon(
     EncDecContext       *context_ptr,
     uint32_t               origin_x,
     uint32_t               origin_y,
-    EbPictureBufferDesc_t *predSamples,     // no basis/offset
-    EbPictureBufferDesc_t *residual16bit,    // no basis/offset
+    EbPictureBufferDesc *predSamples,     // no basis/offset
+    EbPictureBufferDesc *residual16bit,    // no basis/offset
     int16_t               *transformScratchBuffer,
     uint32_t               component_mask,
     uint16_t              *eob,
@@ -1635,8 +1635,8 @@ static void Av1EncodeGenerateRecon16bit(
     EncDecContext         *context_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
-    EbPictureBufferDesc_t   *predSamples,     // no basis/offset
-    EbPictureBufferDesc_t   *residual16bit,    // no basis/offset
+    EbPictureBufferDesc   *predSamples,     // no basis/offset
+    EbPictureBufferDesc   *residual16bit,    // no basis/offset
     int16_t                 *transformScratchBuffer,
     uint32_t                 component_mask,
     uint16_t                *eob,
@@ -1855,8 +1855,8 @@ static void EncodeGenerateRecon(
     EncDecContext       *context_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
-    EbPictureBufferDesc_t *predSamples,     // no basis/offset
-    EbPictureBufferDesc_t *residual16bit,    // no basis/offset
+    EbPictureBufferDesc *predSamples,     // no basis/offset
+    EbPictureBufferDesc *residual16bit,    // no basis/offset
     int16_t                *transformScratchBuffer,
     EbAsm                 asm_type)
 {
@@ -1871,7 +1871,7 @@ static void EncodeGenerateRecon(
     TransformUnit_t       *txb_ptr = &cu_ptr->transform_unit_array[context_ptr->txb_itr];
     uint32_t                 txb_size = context_ptr->cu_stats->size;
 
-    EbPictureBufferDesc_t *reconSamples = predSamples;
+    EbPictureBufferDesc *reconSamples = predSamples;
     // *Note - The prediction is built in-place in the Recon buffer. It is overwritten with Reconstructed
     //   samples if the CBF==1 && SKIP==False
 
@@ -2003,8 +2003,8 @@ static void EncodeGenerateRecon16bit(
     EncDecContext       *context_ptr,
     uint32_t                 origin_x,
     uint32_t                 origin_y,
-    EbPictureBufferDesc_t *predSamples,     // no basis/offset
-    EbPictureBufferDesc_t *residual16bit,    // no basis/offset
+    EbPictureBufferDesc *predSamples,     // no basis/offset
+    EbPictureBufferDesc *residual16bit,    // no basis/offset
     int16_t                *transformScratchBuffer,
     EbAsm                 asm_type)
 {
@@ -2863,12 +2863,12 @@ EB_EXTERN void av1_encode_pass(
 {
 
     EbBool                    is16bit = context_ptr->is16bit;
-    EbPictureBufferDesc_t    *recon_buffer = is16bit ? picture_control_set_ptr->recon_picture16bit_ptr : picture_control_set_ptr->recon_picture_ptr;
-    EbPictureBufferDesc_t    *coeff_buffer_sb = sb_ptr->quantized_coeff;
-    EbPictureBufferDesc_t    *inputPicture;
-    ModeDecisionContext_t    *mdcontextPtr;
+    EbPictureBufferDesc    *recon_buffer = is16bit ? picture_control_set_ptr->recon_picture16bit_ptr : picture_control_set_ptr->recon_picture_ptr;
+    EbPictureBufferDesc    *coeff_buffer_sb = sb_ptr->quantized_coeff;
+    EbPictureBufferDesc    *inputPicture;
+    ModeDecisionContext    *mdcontextPtr;
     mdcontextPtr = context_ptr->md_context;
-    inputPicture = context_ptr->input_samples = (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
+    inputPicture = context_ptr->input_samples = (EbPictureBufferDesc*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
 
     SbStat_t                *sb_stat_ptr = &(picture_control_set_ptr->parent_pcs_ptr->sb_stat_array[tb_addr]);
 
@@ -2900,14 +2900,14 @@ EB_EXTERN void av1_encode_pass(
     uint32_t                  lcuRowIndex = sb_origin_y / BLOCK_SIZE_64;
 
     // Dereferencing early
-    NeighborArrayUnit_t      *ep_mode_type_neighbor_array = picture_control_set_ptr->ep_mode_type_neighbor_array;
-    NeighborArrayUnit_t      *ep_intra_luma_mode_neighbor_array = picture_control_set_ptr->ep_intra_luma_mode_neighbor_array;
-    NeighborArrayUnit_t      *ep_intra_chroma_mode_neighbor_array = picture_control_set_ptr->ep_intra_chroma_mode_neighbor_array;
-    NeighborArrayUnit_t      *ep_mv_neighbor_array = picture_control_set_ptr->ep_mv_neighbor_array;
-    NeighborArrayUnit_t      *ep_luma_recon_neighbor_array = is16bit ? picture_control_set_ptr->ep_luma_recon_neighbor_array16bit : picture_control_set_ptr->ep_luma_recon_neighbor_array;
-    NeighborArrayUnit_t      *ep_cb_recon_neighbor_array = is16bit ? picture_control_set_ptr->ep_cb_recon_neighbor_array16bit : picture_control_set_ptr->ep_cb_recon_neighbor_array;
-    NeighborArrayUnit_t      *ep_cr_recon_neighbor_array = is16bit ? picture_control_set_ptr->ep_cr_recon_neighbor_array16bit : picture_control_set_ptr->ep_cr_recon_neighbor_array;
-    NeighborArrayUnit_t      *ep_skip_flag_neighbor_array = picture_control_set_ptr->ep_skip_flag_neighbor_array;
+    NeighborArrayUnit      *ep_mode_type_neighbor_array = picture_control_set_ptr->ep_mode_type_neighbor_array;
+    NeighborArrayUnit      *ep_intra_luma_mode_neighbor_array = picture_control_set_ptr->ep_intra_luma_mode_neighbor_array;
+    NeighborArrayUnit      *ep_intra_chroma_mode_neighbor_array = picture_control_set_ptr->ep_intra_chroma_mode_neighbor_array;
+    NeighborArrayUnit      *ep_mv_neighbor_array = picture_control_set_ptr->ep_mv_neighbor_array;
+    NeighborArrayUnit      *ep_luma_recon_neighbor_array = is16bit ? picture_control_set_ptr->ep_luma_recon_neighbor_array16bit : picture_control_set_ptr->ep_luma_recon_neighbor_array;
+    NeighborArrayUnit      *ep_cb_recon_neighbor_array = is16bit ? picture_control_set_ptr->ep_cb_recon_neighbor_array16bit : picture_control_set_ptr->ep_cb_recon_neighbor_array;
+    NeighborArrayUnit      *ep_cr_recon_neighbor_array = is16bit ? picture_control_set_ptr->ep_cr_recon_neighbor_array16bit : picture_control_set_ptr->ep_cr_recon_neighbor_array;
+    NeighborArrayUnit      *ep_skip_flag_neighbor_array = picture_control_set_ptr->ep_skip_flag_neighbor_array;
 
     EbBool                 constrained_intra_flag = picture_control_set_ptr->constrained_intra_flag;
 
@@ -3145,7 +3145,7 @@ EB_EXTERN void av1_encode_pass(
 #else
                 context_ptr,
 #endif
-                (EbPictureBufferDesc_t*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr,
+                (EbPictureBufferDesc*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr,
                 picture_control_set_ptr,
                 LPF_PICK_FROM_Q);
 
@@ -3200,10 +3200,10 @@ EB_EXTERN void av1_encode_pass(
 
                 // PU Stack variables
                 PredictionUnit_t        *pu_ptr = (PredictionUnit_t *)EB_NULL; //  done
-                EbPictureBufferDesc_t   *residual_buffer = context_ptr->residual_buffer;
-                EbPictureBufferDesc_t   *transform_buffer = context_ptr->transform_buffer;
+                EbPictureBufferDesc   *residual_buffer = context_ptr->residual_buffer;
+                EbPictureBufferDesc   *transform_buffer = context_ptr->transform_buffer;
 
-                EbPictureBufferDesc_t   *inverse_quant_buffer = context_ptr->inverse_quant_buffer;
+                EbPictureBufferDesc   *inverse_quant_buffer = context_ptr->inverse_quant_buffer;
 
                 int16_t                  *transform_inner_array_ptr = context_ptr->transform_inner_array_ptr;
 
@@ -3906,9 +3906,9 @@ EB_EXTERN void av1_encode_pass(
 
                                 if (!zeroLumaCbfMD) {
 
-                                    ModeDecisionCandidateBuffer_t         **candidateBufferPtrArrayBase = context_ptr->md_context->candidate_buffer_ptr_array;
-                                    ModeDecisionCandidateBuffer_t         **candidate_buffer_ptr_array = &(candidateBufferPtrArrayBase[context_ptr->md_context->buffer_depth_index_start[0]]);
-                                    ModeDecisionCandidateBuffer_t          *candidate_buffer;
+                                    ModeDecisionCandidateBuffer         **candidateBufferPtrArrayBase = context_ptr->md_context->candidate_buffer_ptr_array;
+                                    ModeDecisionCandidateBuffer         **candidate_buffer_ptr_array = &(candidateBufferPtrArrayBase[context_ptr->md_context->buffer_depth_index_start[0]]);
+                                    ModeDecisionCandidateBuffer          *candidate_buffer;
 
                                     // Set the Candidate Buffer
                                     candidate_buffer = candidate_buffer_ptr_array[0];
@@ -4374,7 +4374,7 @@ EB_EXTERN void no_enc_dec_pass(
 
                 //copy recon
                 {
-                    EbPictureBufferDesc_t          *ref_pic;
+                    EbPictureBufferDesc          *ref_pic;
                     if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag)
                     {
                         EbReferenceObject_t* refObj = (EbReferenceObject_t*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr;

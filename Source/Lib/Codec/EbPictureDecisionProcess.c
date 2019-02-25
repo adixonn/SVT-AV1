@@ -1497,7 +1497,7 @@ void* picture_decision_kernel(void *input_ptr)
     SequenceControlSet_t            *sequence_control_set_ptr;
 
     EbObjectWrapper_t               *inputResultsWrapperPtr;
-    PictureAnalysisResults_t        *inputResultsPtr;
+    PictureAnalysisResults        *inputResultsPtr;
 
     EbObjectWrapper_t               *outputResultsWrapperPtr;
     PictureDecisionResults_t        *outputResultsPtr;
@@ -1547,7 +1547,7 @@ void* picture_decision_kernel(void *input_ptr)
             context_ptr->picture_analysis_results_input_fifo_ptr,
             &inputResultsWrapperPtr);
 
-        inputResultsPtr = (PictureAnalysisResults_t*)inputResultsWrapperPtr->object_ptr;
+        inputResultsPtr = (PictureAnalysisResults*)inputResultsWrapperPtr->object_ptr;
         picture_control_set_ptr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
         encode_context_ptr = (EncodeContext*)sequence_control_set_ptr->encode_context_ptr;

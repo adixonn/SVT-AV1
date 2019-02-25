@@ -70,7 +70,7 @@ mdcSetDepth : set depth to be tested
 
 
 EbErrorType MdcRefinement(
-    MdcpLocalCodingUnit_t                   *local_cu_array,
+    MdcpLocalCodingUnit                   *local_cu_array,
     uint32_t                                  cu_index,
     uint32_t                                  depth,
     uint8_t                                   refinementLevel,
@@ -234,7 +234,7 @@ Cost Computation for intra CU
 // TO be updated with AV1 functions
 EbErrorType MdcIntraCuRate(
     uint32_t                                  cu_depth,
-    MdRateEstimationContext_t               *md_rate_estimation_ptr,
+    MdRateEstimationContext               *md_rate_estimation_ptr,
     PictureControlSet_t                    *picture_control_set_ptr,
     uint64_t                                  *mdcIntraRate)
 {
@@ -432,10 +432,10 @@ void RefinementPredictionLoop(
     PictureControlSet_t                    *picture_control_set_ptr,
     LargestCodingUnit                    *sb_ptr,
     uint32_t                                  sb_index,
-    ModeDecisionConfigurationContext_t     *context_ptr)
+    ModeDecisionConfigurationContext     *context_ptr)
 {
 
-    MdcpLocalCodingUnit_t  *local_cu_array = context_ptr->local_cu_array;
+    MdcpLocalCodingUnit  *local_cu_array = context_ptr->local_cu_array;
     SbParams_t            *sb_params = &sequence_control_set_ptr->sb_params_array[sb_index];
     uint32_t                  temporal_layer_index = picture_control_set_ptr->temporal_layer_index;
     uint32_t                  cu_index = 0;
@@ -590,7 +590,7 @@ void ForwardCuToModeDecision(
     PictureControlSet_t                    *picture_control_set_ptr,
 
     uint32_t                                  sb_index,
-    ModeDecisionConfigurationContext_t     *context_ptr
+    ModeDecisionConfigurationContext     *context_ptr
 )
 {
 
@@ -599,7 +599,7 @@ void ForwardCuToModeDecision(
     EbBool                 split_flag = EB_TRUE;
     MdcLcuData_t           *resultsPtr = &picture_control_set_ptr->mdc_sb_array[sb_index];
     SbParams_t            *sb_params = &sequence_control_set_ptr->sb_params_array[sb_index];
-    MdcpLocalCodingUnit_t  *local_cu_array = context_ptr->local_cu_array;
+    MdcpLocalCodingUnit  *local_cu_array = context_ptr->local_cu_array;
     EB_SLICE                slice_type = picture_control_set_ptr->slice_type;
 
 
@@ -715,7 +715,7 @@ void ForwardCuToModeDecision(
 
 
 void MdcInterDepthDecision(
-    ModeDecisionConfigurationContext_t     *context_ptr,
+    ModeDecisionConfigurationContext     *context_ptr,
     uint32_t                                 origin_x,
     uint32_t                                 origin_y,
     uint32_t                                 endDepth,
@@ -737,7 +737,7 @@ void MdcInterDepthDecision(
     uint64_t               depthNPlusOneRate = 0;
     uint64_t               depthNCost = 0;
     uint64_t               depthNPlusOneCost = 0;
-    MdcpLocalCodingUnit_t *local_cu_array = context_ptr->local_cu_array;
+    MdcpLocalCodingUnit *local_cu_array = context_ptr->local_cu_array;
     /*** Stage 0: Inter depth decision: depth 2 vs depth 3 ***/
     // Walks to the last coded 8x8 block for merging
     uint8_t  group_of8x8_blocks_count = context_ptr->group_of8x8_blocks_count;
@@ -910,13 +910,13 @@ void PredictionPartitionLoop(
     uint32_t                                  tbOriginY,
     uint32_t                                  startDepth,
     uint32_t                                  endDepth,
-    ModeDecisionConfigurationContext_t     *context_ptr
+    ModeDecisionConfigurationContext     *context_ptr
 )
 {
 
-    MdRateEstimationContext_t *md_rate_estimation_ptr = context_ptr->md_rate_estimation_ptr;
-    MdcpLocalCodingUnit_t *local_cu_array = context_ptr->local_cu_array;
-    MdcpLocalCodingUnit_t   *cu_ptr;
+    MdRateEstimationContext *md_rate_estimation_ptr = context_ptr->md_rate_estimation_ptr;
+    MdcpLocalCodingUnit *local_cu_array = context_ptr->local_cu_array;
+    MdcpLocalCodingUnit   *cu_ptr;
 
     SbParams_t *sb_params = &sequence_control_set_ptr->sb_params_array[sb_index];
     uint32_t      cuInterSad = 0;
@@ -1014,7 +1014,7 @@ void PredictionPartitionLoop(
 
 
 
-                    MeCuResults_t * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[sb_index][cuIndexInRaterScan];
+                    MeCuResults * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[sb_index][cuIndexInRaterScan];
                     cuInterRate = MdcInterCuRate(
                         mePuResult->distortionDirection[0].direction,
                         mePuResult->x_mv_l0,
@@ -1072,7 +1072,7 @@ EbErrorType early_mode_decision_lcu(
     PictureControlSet_t                    *picture_control_set_ptr,
     LargestCodingUnit                    *sb_ptr,
     uint32_t                                  sb_index,
-    ModeDecisionConfigurationContext_t     *context_ptr)
+    ModeDecisionConfigurationContext     *context_ptr)
 {
 
     EbErrorType    return_error = EB_ErrorNone;

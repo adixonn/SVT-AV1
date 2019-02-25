@@ -25,7 +25,7 @@ extern "C" {
     /************************************
      * EbPictureBufferDesc
      ************************************/
-    typedef struct EbPictureBufferDesc_s
+    typedef struct EbPictureBufferDesc
     {
         // Buffer Ptrs
         EbByte         buffer_y;             // pointer to the Y luma buffer
@@ -60,7 +60,7 @@ extern "C" {
 
         EbBool            film_grain_flag;  // Indicates if film grain parameters are present for the frame
 
-    } EbPictureBufferDesc_t;
+    } EbPictureBufferDesc;
 
 
 
@@ -231,7 +231,7 @@ extern "C" {
     } Yv12BufferConfig;
 
     void LinkEbToAomBufferDesc(
-        EbPictureBufferDesc_t          *picBuffDsc,
+        EbPictureBufferDesc          *picBuffDsc,
         Yv12BufferConfig             *aomBuffDsc
     );
 

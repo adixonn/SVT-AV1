@@ -18,29 +18,29 @@
 extern "C" {
 #endif
 
-    struct ModeDecisionContext_s;
-    typedef struct InterPredictionContext_s {
+    struct ModeDecisionContext;
+    typedef struct InterPredictionContext {
         // mcp context
-        MotionCompensationPredictionContext_t  *mcp_context;
-    } InterPredictionContext_t;
+        MotionCompensationPredictionContext  *mcp_context;
+    } InterPredictionContext;
 
     extern EbErrorType inter_prediction_context_ctor(
-        InterPredictionContext_t   **inter_prediction_context,
+        InterPredictionContext   **inter_prediction_context,
         uint16_t                     max_cu_width,
         uint16_t                     max_cu_height);
 #if !CHROMA_BLIND
     extern EbErrorType inter2_nx2_n_pu_prediction_avc(
-        struct ModeDecisionContext_s           *context_ptr,
+        struct ModeDecisionContext           *context_ptr,
         uint32_t                                component_mask,
         PictureControlSet_t                    *picture_control_set_ptr,
-        ModeDecisionCandidateBuffer_t          *candidate_buffer_ptr,
+        ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
         EbAsm                                   asm_type);
 
     EbErrorType inter2_nx2_n_pu_prediction_avc_style(
-        struct ModeDecisionContext_s           *context_ptr,
+        struct ModeDecisionContext           *context_ptr,
         uint32_t                                component_mask,
         PictureControlSet_t                    *picture_control_set_ptr,
-        ModeDecisionCandidateBuffer_t          *candidate_buffer_ptr,
+        ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
         EbAsm                                   asm_type);
 #endif
     EbErrorType av1_inter_prediction(
@@ -53,9 +53,9 @@ extern "C" {
         uint16_t                                pu_origin_y,
         uint8_t                                 bwidth,
         uint8_t                                 bheight,
-        EbPictureBufferDesc_t                  *ref_pic_list0,
-        EbPictureBufferDesc_t                  *ref_pic_list1,
-        EbPictureBufferDesc_t                  *prediction_ptr,
+        EbPictureBufferDesc                  *ref_pic_list0,
+        EbPictureBufferDesc                  *ref_pic_list1,
+        EbPictureBufferDesc                  *prediction_ptr,
         uint16_t                                dst_origin_x,
         uint16_t                                dst_origin_y,
 #if CHROMA_BLIND
@@ -64,12 +64,12 @@ extern "C" {
         EbAsm                                   asm_type);
 
     EbErrorType inter_pu_prediction_av1(
-        struct ModeDecisionContext_s           *md_context_ptr,
+        struct ModeDecisionContext           *md_context_ptr,
 #if !CHROMA_BLIND
         uint32_t                                component_mask,
 #endif
         PictureControlSet_t                    *picture_control_set_ptr,
-        ModeDecisionCandidateBuffer_t          *candidate_buffer_ptr,
+        ModeDecisionCandidateBuffer          *candidate_buffer_ptr,
         EbAsm                                   asm_type);
 
     EbErrorType av1_inter_prediction_hbd(
@@ -81,16 +81,16 @@ extern "C" {
         uint16_t                                pu_origin_y,
         uint8_t                                 bwidth,
         uint8_t                                 bheight,
-        EbPictureBufferDesc_t                  *ref_pic_list0,
-        EbPictureBufferDesc_t                  *ref_pic_list1,
-        EbPictureBufferDesc_t                  *prediction_ptr,
+        EbPictureBufferDesc                  *ref_pic_list0,
+        EbPictureBufferDesc                  *ref_pic_list1,
+        EbPictureBufferDesc                  *prediction_ptr,
         uint16_t                                dst_origin_x,
         uint16_t                                dst_origin_y,
         uint8_t                                 bit_depth,
         EbAsm                                   asm_type);
 
     EbErrorType choose_mvp_idx_v2(
-        ModeDecisionCandidate_t               *candidate_ptr,
+        ModeDecisionCandidate               *candidate_ptr,
         uint32_t                               cu_origin_x,
         uint32_t                               cu_origin_y,
         uint32_t                               pu_index,
@@ -110,8 +110,8 @@ extern "C" {
         uint16_t                                pu_origin_y,
         CodingUnit                           *cu_ptr,
         const BlockGeom                        *blk_geom,
-        EbPictureBufferDesc_t                  *ref_pic_list0,
-        EbPictureBufferDesc_t                  *prediction_ptr,
+        EbPictureBufferDesc                  *ref_pic_list0,
+        EbPictureBufferDesc                  *prediction_ptr,
         uint16_t                                dst_origin_x,
         uint16_t                                dst_origin_y,
         EbWarpedMotionParams                   *wm_params,
