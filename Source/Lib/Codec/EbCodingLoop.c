@@ -3199,7 +3199,7 @@ EB_EXTERN void av1_encode_pass(
                 const BlockGeom * blk_geom = context_ptr->blk_geom = get_blk_geom_mds(d1_itr);
 
                 // PU Stack variables
-                PredictionUnit_t        *pu_ptr = (PredictionUnit_t *)EB_NULL; //  done
+                PredictionUnit        *pu_ptr = (PredictionUnit *)EB_NULL; //  done
                 EbPictureBufferDesc   *residual_buffer = context_ptr->residual_buffer;
                 EbPictureBufferDesc   *transform_buffer = context_ptr->transform_buffer;
 
