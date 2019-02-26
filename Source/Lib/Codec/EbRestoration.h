@@ -193,7 +193,7 @@ extern "C" {
     typedef struct RestorationUnitInfo 
     {
         RestorationType restoration_type;
-        WienerInfo wiener_info;
+        WienerInfo  wiener_info;
         SgrprojInfo sgrproj_info;
     } RestorationUnitInfo;
 
@@ -225,8 +225,8 @@ extern "C" {
     {
         uint8_t *stripe_boundary_above;
         uint8_t *stripe_boundary_below;
-        int32_t stripe_boundary_stride;
-        int32_t stripe_boundary_size;
+        int32_t  stripe_boundary_stride;
+        int32_t  stripe_boundary_size;
     } RestorationStripeBoundaries;
 
     typedef struct RestorationInfo {
@@ -401,7 +401,7 @@ extern "C" {
     typedef struct RestUnitSearchInfo 
     {
         // The best coefficients for Wiener or Sgrproj restoration
-        WienerInfo wiener;
+        WienerInfo  wiener;
         SgrprojInfo sgrproj;
 
         // The sum of squared errors for this rtype.
