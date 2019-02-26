@@ -1175,7 +1175,7 @@ void SendQpOnTheFly(
 // Reads yuv frames from file and copy
 // them into the input buffer
 /************************************/
-APPEXITCONDITIONTYPE ProcessInputBuffer(
+AppExitConditionType ProcessInputBuffer(
     EbConfig             *config,
     EbAppContext         *appCallBack)
 {
@@ -1183,7 +1183,7 @@ APPEXITCONDITIONTYPE ProcessInputBuffer(
     EbBufferHeaderType     *headerPtr = appCallBack->inputBufferPool;
     EbComponentType        *componentHandle = (EbComponentType*)appCallBack->svtEncoderHandle;
 
-    APPEXITCONDITIONTYPE    return_value = APP_ExitConditionNone;
+    AppExitConditionType    return_value = APP_ExitConditionNone;
 
     int64_t                  inputPaddedWidth           = config->inputPaddedWidth;
     int64_t                  inputPaddedHeight          = config->inputPaddedHeight;
@@ -1320,15 +1320,15 @@ static void write_ivf_frame_header(EbConfig *config, uint32_t byte_count){
 }
 #define OBU_FRAME_HEADER_SIZE   3
 #define TD_SPS_SIZE             17
-APPEXITCONDITIONTYPE ProcessOutputStreamBuffer(
+AppExitConditionType ProcessOutputStreamBuffer(
     EbConfig             *config,
     EbAppContext         *appCallBack,
     uint8_t                 pic_send_done)
 {
-    APPPORTACTIVETYPE      *portState       = &appCallBack->outputStreamPortActive;
+    AppPortActiveType      *portState       = &appCallBack->outputStreamPortActive;
     EbBufferHeaderType     *headerPtr;
     EbComponentType        *componentHandle = (EbComponentType*)appCallBack->svtEncoderHandle;
-    APPEXITCONDITIONTYPE    return_value    = APP_ExitConditionNone;
+    AppExitConditionType    return_value    = APP_ExitConditionNone;
     EbErrorType             stream_status   = EB_ErrorNone;
     // Per channel variables
     FILE                   *streamFile       = config->bitstreamFile;
@@ -1440,13 +1440,13 @@ APPEXITCONDITIONTYPE ProcessOutputStreamBuffer(
     }
     return return_value;
 }
-APPEXITCONDITIONTYPE ProcessOutputReconBuffer(
+AppExitConditionType ProcessOutputReconBuffer(
     EbConfig             *config,
     EbAppContext         *appCallBack)
 {
     EbBufferHeaderType    *headerPtr = appCallBack->recon_buffer; // needs to change for buffered input
     EbComponentType       *componentHandle = (EbComponentType*)appCallBack->svtEncoderHandle;
-    APPEXITCONDITIONTYPE    return_value = APP_ExitConditionNone;
+    AppExitConditionType    return_value = APP_ExitConditionNone;
     EbErrorType            recon_status = EB_ErrorNone;
     int32_t fseekReturnVal;
     // non-blocking call until all input frames are sent

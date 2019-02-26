@@ -33,14 +33,14 @@
 #include <errno.h>
 #endif
 
-/** The APPEXITCONDITIONTYPE type is used to define the App main loop exit
+/** The AppExitConditionType type is used to define the App main loop exit
 conditions.
 */
-typedef enum APPEXITCONDITIONTYPE {
+typedef enum AppExitConditionType {
     APP_ExitConditionNone = 0,
     APP_ExitConditionFinished,
     APP_ExitConditionError
-} APPEXITCONDITIONTYPE;
+} AppExitConditionType;
 
 /****************************************
 * Padding
@@ -93,13 +93,13 @@ static void eb_config_dtor(EbConfig *config_ptr)
     return;
 }
 
-APPEXITCONDITIONTYPE ProcessOutputReconBuffer(
+AppExitConditionType ProcessOutputReconBuffer(
     EbConfig             *config,
     EbAppContext         *appCallBack)
 {
     EbBufferHeaderType    *headerPtr = appCallBack->recon_buffer; // needs to change for buffered input
     EbComponentType       *componentHandle = (EbComponentType*)appCallBack->svtEncoderHandle;
-    APPEXITCONDITIONTYPE    return_value = APP_ExitConditionNone;
+    AppExitConditionType    return_value = APP_ExitConditionNone;
     EbErrorType            recon_status = EB_ErrorNone;
     int32_t fseekReturnVal;
     // non-blocking call until all input frames are sent
@@ -130,7 +130,7 @@ APPEXITCONDITIONTYPE ProcessOutputReconBuffer(
     }
     return return_value;
 }
-APPEXITCONDITIONTYPE ProcessOutputStreamBuffer(
+AppExitConditionType ProcessOutputStreamBuffer(
     EbConfig             *config,
     EbAppContext         *appCallback,
     uint8_t           pic_send_done
@@ -138,7 +138,7 @@ APPEXITCONDITIONTYPE ProcessOutputStreamBuffer(
 {
     EbBufferHeaderType    *headerPtr;
     EbComponentType       *componentHandle = (EbComponentType*)appCallback->svtEncoderHandle;
-    APPEXITCONDITIONTYPE    return_value = APP_ExitConditionNone;
+    AppExitConditionType    return_value = APP_ExitConditionNone;
     EbErrorType            stream_status = EB_ErrorNone;
     // System performance variables
     static int64_t          frameCount = 0;
@@ -254,14 +254,14 @@ void ReadInputFrames(
     return;
 }
 #define  TEST_IDR 0
-APPEXITCONDITIONTYPE ProcessInputBuffer(
+AppExitConditionType ProcessInputBuffer(
     EbConfig                  *config,
     EbAppContext              *appCallBack)
 {
     uint8_t            is16bit = (uint8_t)(config->encoderBitDepth > 8);
     EbBufferHeaderType     *headerPtr = appCallBack->inputPictureBuffer; // needs to change for buffered input
     EbComponentType        *componentHandle = (EbComponentType*)appCallBack->svtEncoderHandle;
-    APPEXITCONDITIONTYPE     return_value = APP_ExitConditionNone;
+    AppExitConditionType     return_value = APP_ExitConditionNone;
     static int32_t               frameCount = 0;
 
     if (config->stopEncoder == 0) {
@@ -309,7 +309,7 @@ APPEXITCONDITIONTYPE ProcessInputBuffer(
 int32_t main(int32_t argc, char* argv[])
 {
     EbErrorType            return_error = EB_ErrorNone;            // Error Handling
-    APPEXITCONDITIONTYPE    exitConditionOutput = APP_ExitConditionNone , exitConditionInput = APP_ExitConditionNone , exitConditionRecon = APP_ExitConditionNone;    // Processing loop exit condition
+    AppExitConditionType    exitConditionOutput = APP_ExitConditionNone , exitConditionInput = APP_ExitConditionNone , exitConditionRecon = APP_ExitConditionNone;    // Processing loop exit condition
     EbConfig             *config;        // Encoder Configuration
     EbAppContext         *appCallback;   // Instances App callback data
 

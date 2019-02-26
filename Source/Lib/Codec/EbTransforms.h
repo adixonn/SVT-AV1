@@ -3888,7 +3888,7 @@ extern "C" {
         uint32_t             bit_increment,
         TxType               transform_type,
         EbAsm                asm_type,
-        PLANE_TYPE           component_type,
+        PLANE_TYPE           ComponentType,
         EB_TRANS_COEFF_SHAPE trans_coeff_shape);
 
     extern void av1_quantize_inv_quantize(
@@ -3907,7 +3907,7 @@ extern "C" {
         uint32_t            *y_count_non_zero_coeffs,
         EbPfMode             pf_mode,
         uint8_t              enable_contouring_qc_update_flag,
-        uint32_t             component_type,
+        uint32_t             ComponentType,
 #if QT_10BIT_SUPPORT
         uint32_t             bit_increment,
 #endif
@@ -3929,7 +3929,7 @@ extern "C" {
         uint32_t            *y_count_non_zero_coeffs,
         EbPfMode             pf_mode,
         uint8_t              enable_contouring_qc_update_flag,
-        uint32_t             component_type,
+        uint32_t             ComponentType,
 #if QT_10BIT_SUPPORT
         uint32_t             bit_increment,
 #endif
@@ -3957,7 +3957,7 @@ extern "C" {
         TxSize      txsize,
         uint32_t    bit_increment,
         TxType      transform_type,
-        PLANE_TYPE  component_type,
+        PLANE_TYPE  ComponentType,
         uint32_t    eob);
 
     EbErrorType av1_inv_transform_recon8bit(
@@ -3966,7 +3966,7 @@ extern "C" {
         uint32_t    recon_stride,
         TxSize      txsize,
         TxType      transform_type,
-        PLANE_TYPE  component_type,
+        PLANE_TYPE  ComponentType,
         uint32_t    eob);
 
     extern EbErrorType encode_inv_transform(

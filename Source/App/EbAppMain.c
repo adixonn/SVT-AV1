@@ -39,15 +39,15 @@
 /***************************************
  * External Functions
  ***************************************/
-extern APPEXITCONDITIONTYPE ProcessInputBuffer(
+extern AppExitConditionType ProcessInputBuffer(
     EbConfig             *config,
     EbAppContext         *appCallBack);
 
-extern APPEXITCONDITIONTYPE ProcessOutputReconBuffer(
+extern AppExitConditionType ProcessOutputReconBuffer(
     EbConfig             *config,
     EbAppContext         *appCallBack);
 
-extern APPEXITCONDITIONTYPE ProcessOutputStreamBuffer(
+extern AppExitConditionType ProcessOutputStreamBuffer(
     EbConfig             *config,
     EbAppContext         *appCallBack,
     uint8_t           pic_send_done);
@@ -87,13 +87,13 @@ int32_t main(int32_t argc, char* argv[])
 #endif
     // GLOBAL VARIABLES
     EbErrorType            return_error = EB_ErrorNone;            // Error Handling
-    APPEXITCONDITIONTYPE    exitCondition = APP_ExitConditionNone;    // Processing loop exit condition
+    AppExitConditionType    exitCondition = APP_ExitConditionNone;    // Processing loop exit condition
 
     EbErrorType            return_errors[MAX_CHANNEL_NUMBER];          // Error Handling
-    APPEXITCONDITIONTYPE    exitConditions[MAX_CHANNEL_NUMBER];          // Processing loop exit condition
-    APPEXITCONDITIONTYPE    exitConditionsOutput[MAX_CHANNEL_NUMBER];         // Processing loop exit condition
-    APPEXITCONDITIONTYPE    exitConditionsRecon[MAX_CHANNEL_NUMBER];         // Processing loop exit condition
-    APPEXITCONDITIONTYPE    exitConditionsInput[MAX_CHANNEL_NUMBER];          // Processing loop exit condition
+    AppExitConditionType    exitConditions[MAX_CHANNEL_NUMBER];          // Processing loop exit condition
+    AppExitConditionType    exitConditionsOutput[MAX_CHANNEL_NUMBER];         // Processing loop exit condition
+    AppExitConditionType    exitConditionsRecon[MAX_CHANNEL_NUMBER];         // Processing loop exit condition
+    AppExitConditionType    exitConditionsInput[MAX_CHANNEL_NUMBER];          // Processing loop exit condition
 
 
     EbBool                 channelActive[MAX_CHANNEL_NUMBER];
@@ -214,9 +214,9 @@ int32_t main(int32_t argc, char* argv[])
                                 ((exitConditionsRecon[instanceCount] == APP_ExitConditionError && configs[instanceCount]->reconFile) || exitConditionsOutput[instanceCount] == APP_ExitConditionError || exitConditionsInput[instanceCount] == APP_ExitConditionError)){
                                 channelActive[instanceCount] = EB_FALSE;
                                 if (configs[instanceCount]->reconFile)
-                                    exitConditions[instanceCount] = (APPEXITCONDITIONTYPE)(exitConditionsRecon[instanceCount] | exitConditionsOutput[instanceCount] | exitConditionsInput[instanceCount]);
+                                    exitConditions[instanceCount] = (AppExitConditionType)(exitConditionsRecon[instanceCount] | exitConditionsOutput[instanceCount] | exitConditionsInput[instanceCount]);
                                 else
-                                    exitConditions[instanceCount] = (APPEXITCONDITIONTYPE)(exitConditionsOutput[instanceCount] | exitConditionsInput[instanceCount]);
+                                    exitConditions[instanceCount] = (AppExitConditionType)(exitConditionsOutput[instanceCount] | exitConditionsInput[instanceCount]);
                             }
                         }
                     }

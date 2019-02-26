@@ -597,7 +597,7 @@ void aom_highbd_lpf_vertical_8_c(uint16_t *s, int32_t pitch, const uint8_t *blim
 //};
 
 
-typedef enum EDGE_DIR { VERT_EDGE = 0, HORZ_EDGE = 1, NUM_EDGE_DIRS } EDGE_DIR;
+typedef enum EdgeDir { VERT_EDGE = 0, HORZ_EDGE = 1, NUM_EDGE_DIRS } EdgeDir;
 
 static const int32_t mode_lf_lut[] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  // INTRA_MODES
@@ -847,7 +847,7 @@ av1_get_max_uv_txsize(block_size bsize, const struct MacroblockdPlane *pd) {
 
 static TxSize get_transform_size(const MacroBlockD *const xd,
     const MbModeInfo *const mbmi,
-    const EDGE_DIR edge_dir, const int32_t mi_row,
+    const EdgeDir EdgeDir, const int32_t mi_row,
     const int32_t mi_col, const int32_t plane,
     const struct MacroblockdPlane *plane_ptr) {
     assert(mbmi != NULL);
@@ -874,7 +874,7 @@ static TxSize get_transform_size(const MacroBlockD *const xd,
     // transform size into transform size in particular direction.
     // for vertical edge, filter direction is horizontal, for horizontal
     // edge, filter direction is vertical.
-    tx_size = (VERT_EDGE == edge_dir) ? txsize_horz_map[tx_size]
+    tx_size = (VERT_EDGE == EdgeDir) ? txsize_horz_map[tx_size]
         : txsize_vert_map[tx_size];
     return tx_size;
 }
@@ -893,7 +893,7 @@ typedef struct AV1DeblockingParameters {
 static TxSize set_lpf_parameters(
     AV1DeblockingParameters *const params, const uint64_t mode_step,
     const PictureControlSet *const  pcsPtr, const MacroBlockD *const xd,
-    const EDGE_DIR edge_dir, const uint32_t x, const uint32_t y,
+    const EdgeDir EdgeDir, const uint32_t x, const uint32_t y,
     const int32_t plane, const struct MacroblockdPlane *const plane_ptr) {
     // reset to initial values
     params->filter_length = 0;
@@ -928,12 +928,12 @@ static TxSize set_lpf_parameters(
     if (mbmi == NULL) return TX_INVALID;
 
     const TxSize ts =
-        get_transform_size(xd, mbmi/*mi[0]*/, edge_dir, mi_row, mi_col, plane, plane_ptr);
+        get_transform_size(xd, mbmi/*mi[0]*/, EdgeDir, mi_row, mi_col, plane, plane_ptr);
 
     {
-        const uint32_t coord = (VERT_EDGE == edge_dir) ? (x) : (y);
+        const uint32_t coord = (VERT_EDGE == EdgeDir) ? (x) : (y);
         const uint32_t transform_masks =
-            edge_dir == VERT_EDGE ? tx_size_wide[ts] - 1 : tx_size_high[ts] - 1;
+            EdgeDir == VERT_EDGE ? tx_size_wide[ts] - 1 : tx_size_high[ts] - 1;
         const int32_t tu_edge = (coord & transform_masks) ? (0) : (1);
 
         if (!tu_edge) return ts;
@@ -941,7 +941,7 @@ static TxSize set_lpf_parameters(
         // prepare outer edge parameters. deblock the edge if it's an edge of a TU
         {
             const uint32_t curr_level =
-                get_filter_level(pcsPtr, &pcsPtr->parent_pcs_ptr->lf_info, edge_dir, plane, mbmi);
+                get_filter_level(pcsPtr, &pcsPtr->parent_pcs_ptr->lf_info, EdgeDir, plane, mbmi);
             const int32_t curr_skipped = mbmi->skip && is_inter_block(mbmi);
             uint32_t level = curr_level;
             if (coord) {
@@ -952,21 +952,21 @@ static TxSize set_lpf_parameters(
                     //
                     if (mi_prev == NULL) return TX_INVALID;
                     const int32_t pv_row =
-                        (VERT_EDGE == edge_dir) ? (mi_row) : (mi_row - (1 << scale_vert));
+                        (VERT_EDGE == EdgeDir) ? (mi_row) : (mi_row - (1 << scale_vert));
                     const int32_t pv_col =
-                        (VERT_EDGE == edge_dir) ? (mi_col - (1 << scale_horz)) : (mi_col);
+                        (VERT_EDGE == EdgeDir) ? (mi_col - (1 << scale_horz)) : (mi_col);
                     const TxSize pv_ts = get_transform_size(
-                        xd, mi_prev, edge_dir, pv_row, pv_col, plane, plane_ptr);
+                        xd, mi_prev, EdgeDir, pv_row, pv_col, plane, plane_ptr);
 
                     const uint32_t pv_lvl =
-                        get_filter_level(pcsPtr, &pcsPtr->parent_pcs_ptr->lf_info, edge_dir, plane, mi_prev);
+                        get_filter_level(pcsPtr, &pcsPtr->parent_pcs_ptr->lf_info, EdgeDir, plane, mi_prev);
 
                     const int32_t pv_skip = mi_prev->skip && is_inter_block(mi_prev);
 
                     const block_size bsize =
                         get_plane_block_size(mbmi->sb_type, plane_ptr->subsampling_x, plane_ptr->subsampling_y);
                     ASSERT(bsize < BlockSizeS_ALL);
-                    const int32_t prediction_masks = edge_dir == VERT_EDGE
+                    const int32_t prediction_masks = EdgeDir == VERT_EDGE
                         ? block_size_wide[bsize] - 1
                         : block_size_high[bsize] - 1;
                     const int32_t pu_edge = !(coord & prediction_masks);
@@ -1886,7 +1886,7 @@ void av1_pick_filter_level(
 #endif
     EbPictureBufferDesc   *srcBuffer, // source input
     PictureControlSet     *pcsPtr,
-    LPF_PICK_METHOD          method) {
+    LpfPickMethod          method) {
 
     SequenceControlSet_t *scsPtr = (SequenceControlSet_t*)pcsPtr->parent_pcs_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     const int32_t num_planes = 3;

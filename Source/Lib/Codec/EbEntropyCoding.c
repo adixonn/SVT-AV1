@@ -528,7 +528,7 @@ int32_t  Av1WriteCoeffsTxb1D(
     uint32_t                       intraLumaDir,
     int32_t                     *coeffBufferPtr,
     const uint16_t                coeff_stride,
-    COMPONENT_TYPE              component_type,
+    ComponentType              ComponentType,
     int16_t                      txb_skip_ctx,
     int16_t                      dcSignCtx,
     int16_t                      eob)
@@ -536,7 +536,7 @@ int32_t  Av1WriteCoeffsTxb1D(
     (void)pu_index;
     (void)coeff_stride;
     const TxSize txs_ctx = (TxSize)((txsize_sqr_map[txSize] + txsize_sqr_up_map[txSize] + 1) >> 1);
-    TxType txType = cu_ptr->transform_unit_array[tu_index].transform_type[component_type];
+    TxType txType = cu_ptr->transform_unit_array[tu_index].transform_type[ComponentType];
     const SCAN_ORDER *const scan_order = &av1_scan_orders[txSize][txType];
     const int16_t *const scan = scan_order->scan;
     int32_t c;
@@ -552,7 +552,7 @@ int32_t  Av1WriteCoeffsTxb1D(
 
         frameContext->txb_skip_cdf[txs_ctx][txb_skip_ctx], 2);
 
-    if (component_type == 0 && eob == 0) {
+    if (ComponentType == 0 && eob == 0) {
         // INTER. Chroma follows Luma in transform type
         if (cu_ptr->prediction_mode_flag == INTER_MODE) {
             txType = cu_ptr->transform_unit_array[tu_index].transform_type[PLANE_TYPE_Y] = DCT_DCT;
@@ -575,7 +575,7 @@ int32_t  Av1WriteCoeffsTxb1D(
         height,
         levels);
 
-    if (component_type == COMPONENT_LUMA) {
+    if (ComponentType == COMPONENT_LUMA) {
         Av1WriteTxType(
             parent_pcs_ptr,
             frameContext,
@@ -593,31 +593,31 @@ int32_t  Av1WriteCoeffsTxb1D(
     switch (eobMultiSize) {
     case 0:
         aom_write_symbol(ecWriter, eobPt - 1,
-            frameContext->eob_flag_cdf16[component_type][eobMultiCtx], 5);
+            frameContext->eob_flag_cdf16[ComponentType][eobMultiCtx], 5);
         break;
     case 1:
         aom_write_symbol(ecWriter, eobPt - 1,
-            frameContext->eob_flag_cdf32[component_type][eobMultiCtx], 6);
+            frameContext->eob_flag_cdf32[ComponentType][eobMultiCtx], 6);
         break;
     case 2:
         aom_write_symbol(ecWriter, eobPt - 1,
-            frameContext->eob_flag_cdf64[component_type][eobMultiCtx], 7);
+            frameContext->eob_flag_cdf64[ComponentType][eobMultiCtx], 7);
         break;
     case 3:
         aom_write_symbol(ecWriter, eobPt - 1,
-            frameContext->eob_flag_cdf128[component_type][eobMultiCtx], 8);
+            frameContext->eob_flag_cdf128[ComponentType][eobMultiCtx], 8);
         break;
     case 4:
         aom_write_symbol(ecWriter, eobPt - 1,
-            frameContext->eob_flag_cdf256[component_type][eobMultiCtx], 9);
+            frameContext->eob_flag_cdf256[ComponentType][eobMultiCtx], 9);
         break;
     case 5:
         aom_write_symbol(ecWriter, eobPt - 1,
-            frameContext->eob_flag_cdf512[component_type][eobMultiCtx], 10);
+            frameContext->eob_flag_cdf512[ComponentType][eobMultiCtx], 10);
         break;
     default:
         aom_write_symbol(ecWriter, eobPt - 1,
-            frameContext->eob_flag_cdf1024[component_type][eobMultiCtx], 11);
+            frameContext->eob_flag_cdf1024[ComponentType][eobMultiCtx], 11);
         break;
     }
 
@@ -625,7 +625,7 @@ int32_t  Av1WriteCoeffsTxb1D(
     if (eobOffsetBits > 0) {
         int32_t eobShift = eobOffsetBits - 1;
         int32_t bit = (eobExtra & (1 << eobShift)) ? 1 : 0;
-        aom_write_symbol(ecWriter, bit, frameContext->eob_extra_cdf[txs_ctx][component_type][eobPt], 2);
+        aom_write_symbol(ecWriter, bit, frameContext->eob_extra_cdf[txs_ctx][ComponentType][eobPt], 2);
         for (int32_t i = 1; i < eobOffsetBits; i++) {
             eobShift = eobOffsetBits - 1 - i;
             bit = (eobExtra & (1 << eobShift)) ? 1 : 0;
@@ -645,11 +645,11 @@ int32_t  Av1WriteCoeffsTxb1D(
         if (c == eob - 1) {
             aom_write_symbol(
                 ecWriter, AOMMIN(level, 3) - 1,
-                frameContext->coeff_base_eob_cdf[txs_ctx][component_type][coeffCtx], 3);
+                frameContext->coeff_base_eob_cdf[txs_ctx][ComponentType][coeffCtx], 3);
         }
         else {
             aom_write_symbol(ecWriter, AOMMIN(level, 3),
-                frameContext->coeff_base_cdf[txs_ctx][component_type][coeffCtx],
+                frameContext->coeff_base_cdf[txs_ctx][ComponentType][coeffCtx],
                 4);
         }
         if (level > NUM_BASE_LEVELS) {
@@ -661,7 +661,7 @@ int32_t  Av1WriteCoeffsTxb1D(
                 const int32_t k = AOMMIN(base_range - idx, BR_CDF_SIZE - 1);
                 aom_write_symbol(
                     ecWriter, k,
-                    frameContext->coeff_br_cdf[AOMMIN(txs_ctx, TX_32X32)][component_type][brCtx],
+                    frameContext->coeff_br_cdf[AOMMIN(txs_ctx, TX_32X32)][ComponentType][brCtx],
                     BR_CDF_SIZE);
                 if (k < BR_CDF_SIZE - 1) break;
             }
@@ -683,7 +683,7 @@ int32_t  Av1WriteCoeffsTxb1D(
         if (level) {
             if (c == 0) {
                 aom_write_symbol(
-                    ecWriter, sign, frameContext->dc_sign_cdf[component_type][dcSignCtx], 2);
+                    ecWriter, sign, frameContext->dc_sign_cdf[ComponentType][dcSignCtx], 2);
             }
             else {
                 aom_write_bit(ecWriter, sign);
@@ -1709,7 +1709,7 @@ void WriteDrlIdx(
     }
 }
 
-extern MV_JOINT_TYPE av1_get_mv_joint(int32_t diff[2]);
+extern MvJointType av1_get_mv_joint(int32_t diff[2]);
 static void encode_mv_component(aom_writer *w, int32_t comp, NMVComponent *mvcomp,
     MvSubpelPrecision precision) {
     int32_t offset;
@@ -1753,7 +1753,7 @@ static void encode_mv_component(aom_writer *w, int32_t comp, NMVComponent *mvcom
             2);
 }
 
-MV_JOINT_TYPE av1_get_mv_joint_diff(int32_t diff[2]) {
+MvJointType av1_get_mv_joint_diff(int32_t diff[2]) {
     if (diff[0] == 0) {
         return diff[1] == 0 ? MV_JOINT_ZERO : MV_JOINT_HNZVZ;
     }
@@ -1783,7 +1783,7 @@ void av1_encode_mv(
 
 
     int32_t diff[2] = { mv->row - ref->row, mv->col - ref->col };
-    const MV_JOINT_TYPE j = av1_get_mv_joint_diff(diff);
+    const MvJointType j = av1_get_mv_joint_diff(diff);
 
     if (pcsPtr->cur_frame_force_integer_mv) {
         usehp = MV_SUBPEL_NONE;
@@ -3186,7 +3186,7 @@ static void write_frame_size(PictureParentControlSet *pcsPtr,
 
 }
 
-static void WriteProfile(BITSTREAM_PROFILE profile,
+static void WriteProfile(BitstreamProfile profile,
     struct aom_write_bit_buffer *wb) {
     assert(profile >= PROFILE_0 && profile < MAX_PROFILES);
     aom_wb_write_literal(wb, profile, PROFILE_BITS);
@@ -4304,7 +4304,7 @@ static uint32_t WriteSequenceHeaderObu(
 
     SetBitstreamLevelTier(scsPtr);
 
-    WriteProfile((BITSTREAM_PROFILE)scsPtr->static_config.profile, &wb);
+    WriteProfile((BitstreamProfile)scsPtr->static_config.profile, &wb);
 
     // Still picture or not
     aom_wb_write_bit(&wb, scsPtr->still_picture);

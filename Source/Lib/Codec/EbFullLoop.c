@@ -686,7 +686,7 @@ void av1_quantize_inv_quantize_ii(
     uint32_t                *y_count_non_zero_coeffs,
     EbPfMode              pf_mode,
     uint8_t                 enable_contouring_qc_update_flag,
-    uint32_t                component_type,
+    uint32_t                ComponentType,
 #if QT_10BIT_SUPPORT
     uint32_t                bit_increment,
 #endif
@@ -727,7 +727,7 @@ void av1_quantize_inv_quantize_ii(
 #endif
 #if MD_10BIT_FIX
     if (bit_increment == 0) {
-        if (component_type == COMPONENT_LUMA) {
+        if (ComponentType == COMPONENT_LUMA) {
             candidate_plane.quant_QTX = picture_control_set_ptr->parent_pcs_ptr->quantsMd.y_quant[qIndex];
             candidate_plane.quant_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quantsMd.y_quant_fp[qIndex];
             candidate_plane.round_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quantsMd.y_round_fp[qIndex];
@@ -737,7 +737,7 @@ void av1_quantize_inv_quantize_ii(
             candidate_plane.dequant_QTX = picture_control_set_ptr->parent_pcs_ptr->deqMd.y_dequant_QTX[qIndex];
         }
 
-        if (component_type == COMPONENT_CHROMA_CB) {
+        if (ComponentType == COMPONENT_CHROMA_CB) {
             candidate_plane.quant_QTX = picture_control_set_ptr->parent_pcs_ptr->quantsMd.u_quant[qIndex];
             candidate_plane.quant_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quantsMd.u_quant_fp[qIndex];
             candidate_plane.round_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quantsMd.u_round_fp[qIndex];
@@ -748,7 +748,7 @@ void av1_quantize_inv_quantize_ii(
 
         }
 
-        if (component_type == COMPONENT_CHROMA_CR) {
+        if (ComponentType == COMPONENT_CHROMA_CR) {
             candidate_plane.quant_QTX = picture_control_set_ptr->parent_pcs_ptr->quantsMd.v_quant[qIndex];
             candidate_plane.quant_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quantsMd.v_quant_fp[qIndex];
             candidate_plane.round_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quantsMd.v_round_fp[qIndex];
@@ -761,7 +761,7 @@ void av1_quantize_inv_quantize_ii(
 
     }
     else {
-        if (component_type == COMPONENT_LUMA) {
+        if (ComponentType == COMPONENT_LUMA) {
             candidate_plane.quant_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.y_quant[qIndex];
             candidate_plane.quant_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.y_quant_fp[qIndex];
             candidate_plane.round_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.y_round_fp[qIndex];
@@ -771,7 +771,7 @@ void av1_quantize_inv_quantize_ii(
             candidate_plane.dequant_QTX = picture_control_set_ptr->parent_pcs_ptr->deq.y_dequant_QTX[qIndex];
         }
 
-        if (component_type == COMPONENT_CHROMA_CB) {
+        if (ComponentType == COMPONENT_CHROMA_CB) {
             candidate_plane.quant_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.u_quant[qIndex];
             candidate_plane.quant_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.u_quant_fp[qIndex];
             candidate_plane.round_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.u_round_fp[qIndex];
@@ -782,7 +782,7 @@ void av1_quantize_inv_quantize_ii(
 
         }
 
-        if (component_type == COMPONENT_CHROMA_CR) {
+        if (ComponentType == COMPONENT_CHROMA_CR) {
             candidate_plane.quant_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.v_quant[qIndex];
             candidate_plane.quant_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.v_quant_fp[qIndex];
             candidate_plane.round_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.v_round_fp[qIndex];
@@ -793,7 +793,7 @@ void av1_quantize_inv_quantize_ii(
         }
     }
 #else
-    if (component_type == COMPONENT_LUMA) {
+    if (ComponentType == COMPONENT_LUMA) {
         candidate_plane.quant_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.y_quant[qIndex];
         candidate_plane.quant_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.y_quant_fp[qIndex];
         candidate_plane.round_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.y_round_fp[qIndex];
@@ -803,7 +803,7 @@ void av1_quantize_inv_quantize_ii(
         candidate_plane.dequant_QTX = picture_control_set_ptr->parent_pcs_ptr->deq.y_dequant_QTX[qIndex];
     }
 
-    if (component_type == COMPONENT_CHROMA_CB) {
+    if (ComponentType == COMPONENT_CHROMA_CB) {
         candidate_plane.quant_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.u_quant[qIndex];
         candidate_plane.quant_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.u_quant_fp[qIndex];
         candidate_plane.round_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.u_round_fp[qIndex];
@@ -814,7 +814,7 @@ void av1_quantize_inv_quantize_ii(
 
     }
 
-    if (component_type == COMPONENT_CHROMA_CR) {
+    if (ComponentType == COMPONENT_CHROMA_CR) {
         candidate_plane.quant_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.v_quant[qIndex];
         candidate_plane.quant_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.v_quant_fp[qIndex];
         candidate_plane.round_fp_QTX = picture_control_set_ptr->parent_pcs_ptr->quants.v_round_fp[qIndex];
@@ -892,7 +892,7 @@ void av1_quantize_inv_quantize(
     uint32_t                *y_count_non_zero_coeffs,
     EbPfMode              pf_mode,
     uint8_t                 enable_contouring_qc_update_flag,
-    uint32_t                component_type,
+    uint32_t                ComponentType,
 #if QT_10BIT_SUPPORT
     uint32_t                bit_increment,
 #endif
@@ -931,7 +931,7 @@ void av1_quantize_inv_quantize(
         y_count_non_zero_coeffs,
         0,
         0,
-        component_type,
+        ComponentType,
 #if QT_10BIT_SUPPORT
         bit_increment,
 #endif
@@ -1948,7 +1948,7 @@ void cu_full_distortion_fast_tu_mode_r(
     uint64_t                          cb_full_distortion[DIST_CALC_TOTAL],
     uint64_t                          cr_full_distortion[DIST_CALC_TOTAL],
     uint32_t                          count_non_zero_coeffs[3][MAX_NUM_OF_TU_PER_CU],
-    COMPONENT_TYPE                  component_type,
+    ComponentType                  ComponentType,
     uint64_t                         *cb_coeff_bits,
     uint64_t                         *cr_coeff_bits,
     EbAsm                            asm_type)
@@ -1993,7 +1993,7 @@ void cu_full_distortion_fast_tu_mode_r(
         cb_tu_coeff_bits = 0;
         cr_tu_coeff_bits = 0;
 
-        if (component_type == COMPONENT_CHROMA_CB || component_type == COMPONENT_CHROMA_CR || component_type == COMPONENT_CHROMA || component_type == COMPONENT_ALL) {
+        if (ComponentType == COMPONENT_CHROMA_CB || ComponentType == COMPONENT_CHROMA_CR || ComponentType == COMPONENT_CHROMA || ComponentType == COMPONENT_ALL) {
             uint32_t countNonZeroCoeffsAll[3];
             countNonZeroCoeffsAll[0] = count_non_zero_coeffs[0][currentTuIndex];
             countNonZeroCoeffsAll[1] = count_non_zero_coeffs[1][currentTuIndex];
@@ -2023,7 +2023,7 @@ void cu_full_distortion_fast_tu_mode_r(
                 countNonZeroCoeffsAll[0],
                 countNonZeroCoeffsAll[1],
                 countNonZeroCoeffsAll[2],
-                component_type,
+                ComponentType,
                 asm_type);
 
             TxSize    txSize = context_ptr->blk_geom->txsize_uv[txb_itr];
@@ -2055,7 +2055,7 @@ void cu_full_distortion_fast_tu_mode_r(
                 context_ptr->blk_geom->txsize[txb_itr],
                 context_ptr->blk_geom->txsize_uv[txb_itr],
 
-                component_type,
+                ComponentType,
                 asm_type);
 
 
@@ -2070,7 +2070,7 @@ void cu_full_distortion_fast_tu_mode_r(
                 tuFullDistortion[0],
                 tuFullDistortion[1],
                 tuFullDistortion[2],
-                component_type,
+                ComponentType,
                 &y_tu_coeff_bits,
                 &cb_tu_coeff_bits,
                 &cr_tu_coeff_bits,

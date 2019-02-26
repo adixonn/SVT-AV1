@@ -19,9 +19,10 @@ extern "C" {
 #endif
 
     struct ModeDecisionContext;
-    struct InterPredictionContext_s;
+    struct InterPredictionContext;
 
-    typedef enum TmvpPos {
+    typedef enum TmvpPos 
+    {
         TmvpColocatedBottomRight = 0,
         TmvpColocatedCenter = 1
     } TmvpPos;

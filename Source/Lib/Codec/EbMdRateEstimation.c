@@ -326,14 +326,14 @@ static const uint8_t log_in_base_2[] = {
     9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 10
 };
 
-static INLINE int32_t mv_class_base(MV_CLASS_TYPE c) {
+static INLINE int32_t mv_class_base(MvClassType c) {
     return c ? CLASS0_SIZE << (c + 2) : 0;
 }
 
-MV_CLASS_TYPE av1_get_mv_class(int32_t z, int32_t *offset) {
-    const MV_CLASS_TYPE c = (z >= CLASS0_SIZE * 4096)
+MvClassType av1_get_mv_class(int32_t z, int32_t *offset) {
+    const MvClassType c = (z >= CLASS0_SIZE * 4096)
         ? MV_CLASS_10
-        : (MV_CLASS_TYPE)log_in_base_2[z >> 3];
+        : (MvClassType)log_in_base_2[z >> 3];
     if (offset) *offset = z - mv_class_base(c);
     return c;
 }

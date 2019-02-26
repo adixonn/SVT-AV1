@@ -14,7 +14,7 @@ extern "C" {
 #define   CHECK_REPORT_ERROR_NC(app_callback_ptr, error_code)     { {(app_callback_ptr)->ErrorHandler(((app_callback_ptr)->handle),(error_code));while(1);} }
 
 
-    typedef enum ENCODER_ERROR_CODES
+    typedef enum EncoderErrorCodes
     {
         EB_APP_ERRORS = 0x0100,
 
@@ -235,7 +235,7 @@ extern "C" {
         EB_ENC_PD_ERROR7 = 0x2106,
         EB_ENC_PD_ERROR8 = 0x2107,
 
-    } ENCODER_ERROR_CODES;
+    } EncoderErrorCodes;
 
 #ifdef __cplusplus
 }

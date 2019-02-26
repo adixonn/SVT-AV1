@@ -208,7 +208,7 @@ extern "C" {
         AOM_NOISE_STATUS_INSUFFICIENT_FLAT_BLOCKS,
         AOM_NOISE_STATUS_DIFFERENT_NOISE_TYPE,
         AOM_NOISE_STATUS_INTERNAL_ERROR,
-    } aom_noise_status_t;
+    } AomNoiseStatus;
 
     /************************************
      * DenoiseAndModelInitData
@@ -260,7 +260,7 @@ extern "C" {
      * \param[in]     flat_blocks     A map to blocks that have been determined flat
      * \param[in]     block_size      The size of blocks.
      */
-    aom_noise_status_t aom_noise_model_update(
+    AomNoiseStatus aom_noise_model_update(
         aom_noise_model_t *const noise_model, const uint8_t *const data[3],
         const uint8_t *const denoised[3], int32_t w, int32_t h, int32_t strides[3],
         int32_t chroma_sub_log2[2], const uint8_t *const flat_blocks, int32_t block_size);

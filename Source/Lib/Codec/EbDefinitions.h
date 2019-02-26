@@ -431,7 +431,7 @@ typedef enum ATTRIBUTE_PACKED
     COMPONENT_CHROMA_CR = 3,            // chroma Cr
     COMPONENT_ALL = 4,            // Y+Cb+Cr
     COMPONENT_NONE = 15
-}COMPONENT_TYPE;
+} ComponentType;
 
 static int32_t clamp(int32_t value, int32_t low, int32_t high) {
     return value < low ? low : (value > high ? high : value);
@@ -488,56 +488,61 @@ typedef struct InterpFilterParams
 } InterpFilterParams;
 
 #if TX_SEARCH_LEVELS
-typedef enum TX_SEARCH_LEVEL {
+typedef enum TxSearchLevel 
+{
     TX_SEARCH_OFF,
     TX_SEARCH_ENC_DEC,
     TX_SEARCH_INTER_DEPTH,
     TX_SEARCH_FULL_LOOP
-} TX_SEARCH_LEVEL;
+} TxSearchLevel;
 #endif
 
 #if INTERPOLATION_SEARCH_LEVELS
-typedef enum INTERPOLATION_SEARCH_LEVEL {
+typedef enum InterpolationSearchLevel 
+{
     IT_SEARCH_OFF,
     IT_SEARCH_INTER_DEPTH,
     IT_SEARCH_FULL_LOOP,
     IT_SEARCH_FAST_LOOP,
-} INTERPOLATION_SEARCH_LEVEL;
+} InterpolationSearchLevel;
 #endif
 #if NSQ_SEARCH_LEVELS
-typedef enum NSQ_SEARCH_LEVEL {
+typedef enum NsqSearchLevel 
+{
     NSQ_SEARCH_OFF,
     NSQ_SEARCH_BASE_ON_SQ_TYPE,
     NSQ_SEARCH_BASE_ON_SQ_COEFF,
     NSQ_INTER_SEARCH_BASE_ON_SQ_MVMODE,
     NSQ_INTER_SEARCH_BASE_ON_SQ_INTRAMODE,
     NSQ_SEARCH_FULL
-} NSQ_SEARCH_LEVEL;
+} NsqSearchLevel;
 #endif
 #if NSQ_SEARCH_LEVELS
 #define MAX_PARENT_SQ     6
 #endif
-typedef enum COMPOUND_DIST_WEIGHT_MODE {
+typedef enum CompoundDistWeightMode {
     DIST,
-} COMPOUND_DIST_WEIGHT_MODE;
+} CompoundDistWeightMode;
 
 
 // Profile 0.  8-bit and 10-bit 4:2:0 and 4:0:0 only.
 // Profile 1.  8-bit and 10-bit 4:4:4
 // Profile 2.  8-bit and 10-bit 4:2:2
 //            12 bit  4:0:0, 4:2:2 and 4:4:4
-typedef enum BITSTREAM_PROFILE {
+typedef enum BitstreamProfile 
+{
     PROFILE_0,
     PROFILE_1,
     PROFILE_2,
     MAX_PROFILES
-} BITSTREAM_PROFILE;
+} BitstreamProfile;
 // Note: Some enums use the attribute 'packed' to use smallest possible integer
 // type, so that we can save memory when they are used in structs/arrays.
 
 
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     BLOCK_4X4,
     BLOCK_4X8,
     BLOCK_8X4,
@@ -566,7 +571,8 @@ typedef enum ATTRIBUTE_PACKED {
     BLOCK_LARGEST = (BlockSizeS - 1)
 } block_size;
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED
+{
     PARTITION_NONE,
     PARTITION_HORZ,
     PARTITION_VERT,
@@ -585,7 +591,8 @@ typedef enum ATTRIBUTE_PACKED {
 
 #define MAX_NUM_BLOCKS_ALLOC  7493  //max number of blocks assuming 128x128-4x4 all partitions.
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     PART_N,
     PART_H,
     PART_V,

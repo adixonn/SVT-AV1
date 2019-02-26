@@ -1028,7 +1028,7 @@ static int32_t ar_equation_system_solve(aom_noise_state_t *state, int32_t is_chr
     return ret;
 }
 
-aom_noise_status_t aom_noise_model_update(
+AomNoiseStatus aom_noise_model_update(
     aom_noise_model_t *const noise_model, const uint8_t *const data[3],
     const uint8_t *const denoised[3], int32_t w, int32_t h, int32_t stride[3],
     int32_t chroma_sub_log2[2], const uint8_t *const flat_blocks, int32_t block_size) {
@@ -1785,7 +1785,7 @@ int32_t aom_denoise_and_model_run(struct aom_denoise_and_model_t *ctx,
         return 0;
     }
 
-    const aom_noise_status_t status = aom_noise_model_update(
+    const AomNoiseStatus status = aom_noise_model_update(
         &ctx->noise_model, data, (const uint8_t *const *)ctx->denoised,
         sd->width, sd->height, strides, chroma_sub_log2, ctx->flat_blocks,
         block_size);

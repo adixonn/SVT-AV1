@@ -61,15 +61,15 @@ extern "C" {
         LPF_PICK_FROM_Q,
         // Pick 0 to disable LPF if LPF was enabled last frame
         LPF_PICK_MINIMAL_LPF
-    } LPF_PICK_METHOD;
+    } LpfPickMethod;
 #endif
 
     void set_qp_array_based_on_cu(
         PictureControlSet *picture_control_set_ptr,          //input parameter
-        uint32_t               cu_pos_x,                       //input parameter, sample-based horizontal picture-wise locatin of the CU
-        uint32_t               cu_pos_y,                       //input parameter, sample-based vertical picture-wise locatin of the CU
-        uint32_t               cu_size_in_min_cu_size,             //input parameter
-        uint32_t               cuQp);                         //input parameter, Qp of the CU
+        uint32_t           cu_pos_x,                       //input parameter, sample-based horizontal picture-wise locatin of the CU
+        uint32_t           cu_pos_y,                       //input parameter, sample-based vertical picture-wise locatin of the CU
+        uint32_t           cu_size_in_min_cu_size,             //input parameter
+        uint32_t           cuQp);                         //input parameter, Qp of the CU
 
 
     /* assorted loopfilter functions which get used elsewhere */
@@ -108,7 +108,7 @@ extern "C" {
 #endif
         EbPictureBufferDesc   *srcBuffer, // source input
         PictureControlSet     *pcsPtr,
-        LPF_PICK_METHOD          method);
+        LpfPickMethod          method);
 
 
     void av1_filter_block_plane_vert(

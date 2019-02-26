@@ -454,14 +454,14 @@ EbErrorType picture_full_distortion32_bits(
     uint32_t                   y_count_non_zero_coeffs,
     uint32_t                   cb_count_non_zero_coeffs,
     uint32_t                   cr_count_non_zero_coeffs,
-    COMPONENT_TYPE            component_type,
+    ComponentType            ComponentType,
     EbAsm                   asm_type)
 {
     EbErrorType return_error = EB_ErrorNone;
 
     //TODO due to a change in full kernel distortion , ASM has to be updated to not accumulate the input distortion by the output
 
-    if (component_type == COMPONENT_LUMA || component_type == COMPONENT_ALL) {
+    if (ComponentType == COMPONENT_LUMA || ComponentType == COMPONENT_ALL) {
 
         y_distortion[0] = 0;
         y_distortion[1] = 0;
@@ -492,7 +492,7 @@ EbErrorType picture_full_distortion32_bits(
         }
     }
 
-    if (component_type == COMPONENT_CHROMA_CB || component_type == COMPONENT_CHROMA || component_type == COMPONENT_ALL) {
+    if (ComponentType == COMPONENT_CHROMA_CB || ComponentType == COMPONENT_CHROMA || ComponentType == COMPONENT_ALL) {
         cb_distortion[0] = 0;
         cb_distortion[1] = 0;
 
@@ -518,7 +518,7 @@ EbErrorType picture_full_distortion32_bits(
                 bheight_uv);
         }
     }
-    if (component_type == COMPONENT_CHROMA_CR || component_type == COMPONENT_CHROMA || component_type == COMPONENT_ALL) {
+    if (ComponentType == COMPONENT_CHROMA_CR || ComponentType == COMPONENT_CHROMA || ComponentType == COMPONENT_ALL) {
         cr_distortion[0] = 0;
         cr_distortion[1] = 0;
         // CR

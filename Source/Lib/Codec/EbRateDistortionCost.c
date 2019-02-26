@@ -64,11 +64,11 @@ uint8_t av1_drl_ctx(const CandidateMv *ref_mv_stack,
 //    MV_JOINT_HNZVZ = 1,  /* Vert zero, hor nonzero */
 //    MV_JOINT_HZVNZ = 2,  /* Hor zero, vert nonzero */
 //    MV_JOINT_HNZVNZ = 3, /* Both components nonzero */
-//} MV_JOINT_TYPE;
+//} MvJointType;
 
 
 
-MV_JOINT_TYPE av1_get_mv_joint(const MV *mv) {
+MvJointType av1_get_mv_joint(const MV *mv) {
     if (mv->row == 0) {
         return mv->col == 0 ? MV_JOINT_ZERO : MV_JOINT_HNZVZ;
     }
@@ -1277,7 +1277,7 @@ EbErrorType av1_tu_estimate_coeff_bits(
     uint64_t                                 *cr_tu_coeff_bits,
     TxSize                                 txsize,
     TxSize                                 txsize_uv,
-    COMPONENT_TYPE                          component_type,
+    ComponentType                          ComponentType,
     EbAsm                                  asm_type)
 {
     (void)asm_type;
@@ -1300,7 +1300,7 @@ EbErrorType av1_tu_estimate_coeff_bits(
 
     //Estimate the rate of the transform type and coefficient for Luma
 
-    if (component_type == COMPONENT_LUMA || component_type == COMPONENT_ALL) {
+    if (ComponentType == COMPONENT_LUMA || ComponentType == COMPONENT_ALL) {
         if (y_eob) {
             coeff_buffer = (int32_t*)&coeff_buffer_sb->buffer_y[tu_origin_index * sizeof(int32_t)];
 
@@ -1324,7 +1324,7 @@ EbErrorType av1_tu_estimate_coeff_bits(
     }
     //Estimate the rate of the transform type and coefficient for chroma Cb
 
-    if (component_type == COMPONENT_CHROMA_CB || component_type == COMPONENT_CHROMA || component_type == COMPONENT_ALL) {
+    if (ComponentType == COMPONENT_CHROMA_CB || ComponentType == COMPONENT_CHROMA || ComponentType == COMPONENT_ALL) {
 
         if (cb_eob) {
 
@@ -1351,7 +1351,7 @@ EbErrorType av1_tu_estimate_coeff_bits(
         }
     }
 
-    if (component_type == COMPONENT_CHROMA_CR || component_type == COMPONENT_CHROMA || component_type == COMPONENT_ALL) {
+    if (ComponentType == COMPONENT_CHROMA_CR || ComponentType == COMPONENT_CHROMA || ComponentType == COMPONENT_ALL) {
 
         //Estimate the rate of the transform type and coefficient for chroma Cr
         if (cr_eob) {
@@ -1977,7 +1977,7 @@ EbErrorType av1_tu_calc_cost(
     uint64_t                   y_tu_distortion[DIST_CALC_TOTAL],      // input parameter, Y distortion for both Normal and Cbf zero modes
     uint64_t                   cb_tu_distortion[DIST_CALC_TOTAL],     // input parameter, Cb distortion for both Normal and Cbf zero modes
     uint64_t                   cr_tu_distortion[DIST_CALC_TOTAL],     // input parameter, Cr distortion for both Normal and Cbf zero modes
-    COMPONENT_TYPE           component_type,
+    ComponentType           ComponentType,
     uint64_t                  *y_tu_coeff_bits,                        // input parameter, Y quantized coefficients rate
     uint64_t                  *cb_tu_coeff_bits,                       // input parameter, Cb quantized coefficients rate
     uint64_t                  *cr_tu_coeff_bits,                       // input parameter, Cr quantized coefficients rate
@@ -2004,7 +2004,7 @@ EbErrorType av1_tu_calc_cost(
     uint64_t y_zero_coeff_rate;
 
     uint64_t y_zero_coeff_cost = 0;
-    if (component_type == COMPONENT_LUMA || component_type == COMPONENT_ALL) {
+    if (ComponentType == COMPONENT_LUMA || ComponentType == COMPONENT_ALL) {
 
         // Non Zero Distortion
         // *Note - As of Oct 2011, the JCT-VC uses the PSNR forumula
@@ -2051,11 +2051,11 @@ EbErrorType av1_tu_calc_cost(
         *y_tu_coeff_bits = (y_nonzero_coeff_cost < y_zero_coeff_cost) ? *y_tu_coeff_bits : 0;
         y_tu_distortion[DIST_CALC_RESIDUAL] = (y_nonzero_coeff_cost < y_zero_coeff_cost) ? y_tu_distortion[DIST_CALC_RESIDUAL] : y_tu_distortion[DIST_CALC_PREDICTION];
         }
-    if (component_type == COMPONENT_CHROMA_CB || component_type == COMPONENT_CHROMA || component_type == COMPONENT_ALL) {
+    if (ComponentType == COMPONENT_CHROMA_CB || ComponentType == COMPONENT_CHROMA || ComponentType == COMPONENT_ALL) {
 
         candidate_ptr->u_has_coeff |= ((cb_count_non_zero_coeffs != 0) << tu_index);
     }
-    if (component_type == COMPONENT_CHROMA_CR || component_type == COMPONENT_CHROMA || component_type == COMPONENT_ALL) {
+    if (ComponentType == COMPONENT_CHROMA_CR || ComponentType == COMPONENT_CHROMA || ComponentType == COMPONENT_ALL) {
 
         candidate_ptr->v_has_coeff |= ((cr_count_non_zero_coeffs != 0) << tu_index);
     }

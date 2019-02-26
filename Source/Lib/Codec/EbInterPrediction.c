@@ -3619,7 +3619,7 @@ static const int32_t filter_sets[DUAL_FILTER_SET_SIZE][2] = {
             uint32_t best_filters = 0;// mbmi->interp_filters;
 
 #if INTERPOLATION_SEARCH_LEVELS
-            if (picture_control_set_ptr->parent_pcs_ptr->interpolation_search_level &&
+            if (picture_control_set_ptr->parent_pcs_ptr->InterpolationSearchLevel &&
 #else
             if (picture_control_set_ptr->parent_pcs_ptr->interpolation_filter_search_mode == 1 &&
 #endif
@@ -3969,7 +3969,7 @@ static const int32_t filter_sets[DUAL_FILTER_SET_SIZE][2] = {
             uint32_t best_filters = 0;// mbmi->interp_filters;
 
 #if INTERPOLATION_SEARCH_LEVELS
-            if (picture_control_set_ptr->parent_pcs_ptr->interpolation_search_level &&
+            if (picture_control_set_ptr->parent_pcs_ptr->InterpolationSearchLevel &&
 #else
             if (picture_control_set_ptr->parent_pcs_ptr->interpolation_filter_search_mode == 1 &&
 #endif

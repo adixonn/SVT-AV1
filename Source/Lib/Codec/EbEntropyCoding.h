@@ -88,7 +88,7 @@ extern "C" {
         uint64_t                                 *cr_tu_coeff_bits,
         TxSize                                 txsize,
         TxSize                                 txsize_uv,
-        COMPONENT_TYPE                          component_type,
+        ComponentType                          ComponentType,
         EbAsm                                  asm_type);
 
     extern EbErrorType copy_rbsp_bitstream_to_payload(

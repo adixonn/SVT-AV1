@@ -49,7 +49,7 @@ extern "C" {
         uint64_t                 y_tu_distortion[DIST_CALC_TOTAL],      // input parameter, Y distortion for both Normal and Cbf zero modes
         uint64_t                 cb_tu_distortion[DIST_CALC_TOTAL],     // input parameter, Cb distortion for both Normal and Cbf zero modes
         uint64_t                 cr_tu_distortion[DIST_CALC_TOTAL],     // input parameter, Cr distortion for both Normal and Cbf zero modes
-        COMPONENT_TYPE           component_type,
+        ComponentType           ComponentType,
         uint64_t                *y_tu_coeff_bits,                        // input parameter, Y quantized coefficients rate
         uint64_t                *cb_tu_coeff_bits,                       // input parameter, Cb quantized coefficients rate
         uint64_t                *cr_tu_coeff_bits,                       // input parameter, Cr quantized coefficients rate

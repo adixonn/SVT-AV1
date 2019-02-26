@@ -4418,7 +4418,7 @@ EbErrorType av1_estimate_transform(
     uint32_t              bit_increment,
     TxType                transform_type,
     EbAsm                 asm_type,
-    PLANE_TYPE            component_type,
+    PLANE_TYPE            ComponentType,
     EB_TRANS_COEFF_SHAPE  trans_coeff_shape)
 
 {
@@ -4428,7 +4428,7 @@ EbErrorType av1_estimate_transform(
     (void)trans_coeff_shape;
     (void)transform_inner_array_ptr;
     (void)coeff_stride;
-    (void)component_type;
+    (void)ComponentType;
     uint8_t      bit_depth = bit_increment ? 10 : 8;// NM - Set to zero for the moment
 
     switch (transform_size) {
@@ -8348,10 +8348,10 @@ EbErrorType av1_inv_transform_recon(
     TxSize        txsize,
     uint32_t      bit_increment,
     TxType        transform_type,
-    PLANE_TYPE   component_type,
+    PLANE_TYPE   ComponentType,
     uint32_t       eob)
 {
-    UNUSED(component_type);
+    UNUSED(ComponentType);
     EbErrorType return_error = EB_ErrorNone;
     TxfmParam txfm_param;
     
@@ -8377,11 +8377,11 @@ EbErrorType av1_inv_transform_recon8bit(
     uint32_t       recon_stride,
     TxSize         txsize,
     TxType         transform_type,
-    PLANE_TYPE     component_type,
+    PLANE_TYPE     ComponentType,
     uint32_t       eob
 )
 {
-    UNUSED(component_type);
+    UNUSED(ComponentType);
     EbErrorType return_error = EB_ErrorNone;
     TxfmParam txfm_param;
     txfm_param.tx_type = transform_type;

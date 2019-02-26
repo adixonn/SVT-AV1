@@ -20,7 +20,7 @@ typedef struct EbAppContext {
     EbSvtAv1EncConfiguration              ebEncParameters;
 
     // Output Ports Active Flags
-    APPPORTACTIVETYPE                   outputStreamPortActive;
+    AppPortActiveType                   outputStreamPortActive;
 
     // Component Handle
     EbComponentType*                   svtEncoderHandle;

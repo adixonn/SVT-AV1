@@ -34,22 +34,22 @@ typedef size_t rsize_t;
 typedef int32_t errno_t;
 #endif  /* _ERRNO_T_DEFINED */
 
-/** The APPEXITCONDITIONTYPE type is used to define the App main loop exit
+/** The AppExitConditionType type is used to define the App main loop exit
 conditions.
 */
-typedef enum APPEXITCONDITIONTYPE {
+typedef enum AppExitConditionType {
     APP_ExitConditionNone = 0,
     APP_ExitConditionFinished,
     APP_ExitConditionError
-} APPEXITCONDITIONTYPE;
+} AppExitConditionType;
 
-/** The APPPORTACTIVETYPE type is used to define the state of output ports in
+/** The AppPortActiveType type is used to define the state of output ports in
 the App.
 */
-typedef enum APPPORTACTIVETYPE {
+typedef enum AppPortActiveType {
     APP_PortActive = 0,
     APP_PortInactive
-} APPPORTACTIVETYPE;
+} AppPortActiveType;
 
 //typedef enum EbPtrType {
 //    EB_N_PTR = 0,                                   // malloc'd pointer
