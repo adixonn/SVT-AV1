@@ -120,7 +120,7 @@ extern "C" {
         uint8_t   size_log2;
         uint16_t  origin_x;
         uint16_t  origin_y;
-        uint8_t   cuNumInDepth;
+        uint8_t   cu_num_in_depth;
         uint8_t   parent32x32Index;
 
     } CodedUnitStats;
@@ -130,8 +130,8 @@ extern "C" {
     {
         uint8_t  width;
         uint8_t  height;
-        uint8_t  offsetX;
-        uint8_t  offsetY;
+        uint8_t  offset_x;
+        uint8_t  offset_y;
 
     } PredictionUnitStats;
 
@@ -139,8 +139,8 @@ extern "C" {
     typedef struct TransformUnitStats
     {
         uint8_t  depth;
-        uint8_t  offsetX;
-        uint8_t  offsetY;
+        uint8_t  offset_x;
+        uint8_t  offset_y;
 
     } TransformUnitStats;
 
@@ -281,12 +281,12 @@ extern "C" {
     typedef struct MiniGopStats
     {
         uint32_t  hierarchical_levels;
-        uint32_t  startIndex;
-        uint32_t  endIndex;
+        uint32_t  start_index;
+        uint32_t  end_index;
         uint32_t  lenght;
 
     } MiniGopStats;
-    extern const MiniGopStats* GetMiniGopStats(const uint32_t miniGopIndex);
+    extern const MiniGopStats* get_mini_gop_stats(const uint32_t mini_gop_index);
     
     typedef enum MiniGopIndex 
     {

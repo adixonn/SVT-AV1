@@ -927,14 +927,14 @@ void PredictionPartitionLoop(
     uint32_t     cuIndexInRaterScan;
     uint64_t      cuInterCost = 0;
     uint32_t cu_index = 0;
-    uint32_t startIndex = 0;
+    uint32_t start_index = 0;
 
     (void)tbOriginX;
     (void)tbOriginY;
 
     const CodedUnitStats *cuStatsPtr;
 
-    for (cu_index = startIndex; cu_index < CU_MAX_COUNT; ++cu_index)
+    for (cu_index = start_index; cu_index < CU_MAX_COUNT; ++cu_index)
 
     {
 
@@ -991,7 +991,7 @@ void PredictionPartitionLoop(
                             else {
 
                                 const CodedUnitStats  *cu_stats = get_coded_unit_stats(parent_block_index[cu_index]);
-                                const uint32_t me2Nx2NTableOffset = cu_stats->cuNumInDepth + me2Nx2NOffset[cu_stats->depth];
+                                const uint32_t me2Nx2NTableOffset = cu_stats->cu_num_in_depth + me2Nx2NOffset[cu_stats->depth];
 
 
                                 if (oisCu8ResultsPtr->sorted_ois_candidate[me2Nx2NTableOffset][0].valid_distortion) {

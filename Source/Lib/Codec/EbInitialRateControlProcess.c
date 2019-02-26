@@ -1377,7 +1377,7 @@ void QpmGatherStatisticsSW(
 
                     OisCu32Cu16Results     *oisCu32Cu16ResultsPtr = picture_control_set_ptr->ois_cu32_cu16_results[sb_index];
                     const CodedUnitStats  *cu_stats = get_coded_unit_stats(parent_block_index[mdScanCuIndex]);
-                    const uint32_t me2Nx2NTableOffset = cu_stats->cuNumInDepth + me2Nx2NOffset[cu_stats->depth];
+                    const uint32_t me2Nx2NTableOffset = cu_stats->cu_num_in_depth + me2Nx2NOffset[cu_stats->depth];
                     if (oisCu32Cu16ResultsPtr->sorted_ois_candidate[me2Nx2NTableOffset][0].valid_distortion) {
                         oisSad = oisCu32Cu16ResultsPtr->sorted_ois_candidate[me2Nx2NTableOffset][0].distortion;
                     }

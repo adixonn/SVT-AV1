@@ -182,7 +182,7 @@ void z_order_increment_with_level(
 
 static CodedUnitStats CodedUnitStatsArray[] = {
 
-    //   Depth       Size      SizeLog2     OriginX    OriginY   cuNumInDepth   Index
+    //   Depth       Size      SizeLog2     OriginX    OriginY   cu_num_in_depth   Index
         {0,           64,         6,           0,         0,        0     ,   0    },   // 0
         {1,           32,         5,           0,         0,        0     ,   1    },   // 1
         {2,           16,         4,           0,         0,        0     ,   1    },   // 2
@@ -286,9 +286,9 @@ static const TransformUnitStats TransformUnitStatsArray[] = {
     //
     //        depth
     //       /
-    //      /       offsetX (units of the current depth)
+    //      /       offset_x (units of the current depth)
     //     /       /
-    //    /       /       offsetY (units of the current depth)
+    //    /       /       offset_y (units of the current depth)
     //   /       /       /
     {0,     0,      0},     // 0
     {1,     0,      0},     // 1
@@ -443,7 +443,7 @@ EbLinkedListNode* split_eb_linked_list(EbLinkedListNode* input, EbLinkedListNode
 
 static const MiniGopStats MiniGopStatsArray[] = {
 
-    //    HierarchicalLevels    StartIndex    EndIndex    Lenght    miniGopIndex
+    //    HierarchicalLevels    start_index    end_index    Lenght    mini_gop_index
     { 5,  0, 31, 32 },    // 0
     { 4,  0, 15, 16 },    // 1
     { 3,  0,  7,  8 },    // 2
@@ -464,9 +464,9 @@ static const MiniGopStats MiniGopStatsArray[] = {
 /**************************************************************
 * Get Mini GOP Statistics
 **************************************************************/
-const MiniGopStats* GetMiniGopStats(const uint32_t miniGopIndex)
+const MiniGopStats* get_mini_gop_stats(const uint32_t mini_gop_index)
 {
-    return &MiniGopStatsArray[miniGopIndex];
+    return &MiniGopStatsArray[mini_gop_index];
 }
 
 

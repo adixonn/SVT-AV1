@@ -2595,12 +2595,12 @@ EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
                     oisCu32Cu16ResultsPtr->sorted_ois_candidate[4][0].distortion;
             }
             else if (cu_size == 32) {
-                const uint32_t me2Nx2NTableOffset = context_ptr->cu_stats->cuNumInDepth + me2Nx2NOffset[context_ptr->cu_stats->depth];
+                const uint32_t me2Nx2NTableOffset = context_ptr->cu_stats->cu_num_in_depth + me2Nx2NOffset[context_ptr->cu_stats->depth];
                 distortion = oisCu32Cu16ResultsPtr->sorted_ois_candidate[me2Nx2NTableOffset][0].distortion;
             }
             else {
                 if (cu_size > 8) {
-                    const uint32_t me2Nx2NTableOffset = context_ptr->cu_stats->cuNumInDepth + me2Nx2NOffset[context_ptr->cu_stats->depth];
+                    const uint32_t me2Nx2NTableOffset = context_ptr->cu_stats->cu_num_in_depth + me2Nx2NOffset[context_ptr->cu_stats->depth];
                     distortion = oisCu32Cu16ResultsPtr->sorted_ois_candidate[me2Nx2NTableOffset][0].distortion;
                 }
                 else {
@@ -2609,7 +2609,7 @@ EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
                     if (use16x16Stat) {
 
                         const CodedUnitStats  *cu_stats = get_coded_unit_stats(parent_block_index[cu_index]);
-                        const uint32_t me2Nx2NTableOffset = cu_stats->cuNumInDepth + me2Nx2NOffset[cu_stats->depth];
+                        const uint32_t me2Nx2NTableOffset = cu_stats->cu_num_in_depth + me2Nx2NOffset[cu_stats->depth];
 
                         distortion = oisCu32Cu16ResultsPtr->sorted_ois_candidate[me2Nx2NTableOffset][0].distortion;
                     }
@@ -2617,7 +2617,7 @@ EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
 
 
 
-                        const uint32_t me2Nx2NTableOffset = context_ptr->cu_stats->cuNumInDepth;
+                        const uint32_t me2Nx2NTableOffset = context_ptr->cu_stats->cu_num_in_depth;
 
                         if (oisCu8ResultsPtr->sorted_ois_candidate[me2Nx2NTableOffset][0].valid_distortion) {
                             distortion = oisCu8ResultsPtr->sorted_ois_candidate[me2Nx2NTableOffset][0].distortion;
@@ -2625,7 +2625,7 @@ EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
                         else {
 
                             const CodedUnitStats  *cu_stats = get_coded_unit_stats(parent_block_index[cu_index]);
-                            const uint32_t me2Nx2NTableOffset = cu_stats->cuNumInDepth + me2Nx2NOffset[cu_stats->depth];
+                            const uint32_t me2Nx2NTableOffset = cu_stats->cu_num_in_depth + me2Nx2NOffset[cu_stats->depth];
 
                             if (oisCu32Cu16ResultsPtr->sorted_ois_candidate[me2Nx2NTableOffset][0].valid_distortion) {
                                 distortion = oisCu32Cu16ResultsPtr->sorted_ois_candidate[me2Nx2NTableOffset][0].distortion;
