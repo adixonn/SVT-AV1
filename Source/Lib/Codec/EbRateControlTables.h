@@ -38,8 +38,8 @@ typedef uint16_t EbBitNumber;
  * Initial Rate Control Structure
  **************************************/
 typedef struct RateControlTables {
-    EbBitNumber  sadBitsArray[MAX_TEMPORAL_LAYERS][NUMBER_OF_SAD_INTERVALS];
-    EbBitNumber  intraSadBitsArray[MAX_TEMPORAL_LAYERS][NUMBER_OF_INTRA_SAD_INTERVALS];
+    EbBitNumber  sad_bits_array[MAX_TEMPORAL_LAYERS][NUMBER_OF_SAD_INTERVALS];
+    EbBitNumber  intra_sad_bits_array[MAX_TEMPORAL_LAYERS][NUMBER_OF_INTRA_SAD_INTERVALS];
 } RateControlTables;
 
 static const uint8_t ref_qp_list_table[] =
