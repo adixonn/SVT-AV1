@@ -309,7 +309,7 @@ extern "C" {
 
     //*******************************************************************************************//
 
-    MOTION_MODE motion_mode_allowed(
+    MotionMode motion_mode_allowed(
         const PictureControlSet       *picture_control_set_ptr,
         const CodingUnit              *cu_ptr,
         const block_size                 bsize,

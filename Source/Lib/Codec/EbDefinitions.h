@@ -613,8 +613,8 @@ static const uint8_t mi_size_wide[BlockSizeS_ALL] = {
 static const uint8_t mi_size_high[BlockSizeS_ALL] = {
     1, 2, 1, 2, 4, 2, 4, 8, 4, 8, 16, 8, 16, 32, 16, 32, 4, 1, 8, 2, 16, 4
 };
-
-typedef char PARTITION_CONTEXT;
+//PartContext
+typedef char PartContext;
 #define PARTITION_PLOFFSET 4  // number of probability models per block size
 #define PARTITION_BlockSizeS 5
 #define PARTITION_CONTEXTS (PARTITION_BlockSizeS * PARTITION_PLOFFSET)
@@ -668,12 +668,12 @@ static const int32_t tx_size_high[TX_SIZES_ALL] = {
 typedef int32_t tran_low_t;
 typedef uint8_t qm_val_t;
 
-typedef enum TX_CLASS {
+typedef enum TxClass {
     TX_CLASS_2D = 0,
     TX_CLASS_HORIZ = 1,
     TX_CLASS_VERT = 2,
     TX_CLASSES = 3,
-} TX_CLASS;
+} TxClass;
 
 
 static INLINE TxSize av1_get_adjusted_tx_size(TxSize tx_size) {
@@ -933,14 +933,14 @@ typedef enum ATTRIBUTE_PACKED {
     UV_CFL_PRED,       // Chroma-from-Luma
     UV_INTRA_MODES,
     UV_MODE_INVALID,  // For uv_mode in inter blocks
-} UV_PredictionMode;
+} UVPredictionMode;
 
 typedef enum ATTRIBUTE_PACKED {
     SIMPLE_TRANSLATION,
     OBMC_CAUSAL,    // 2-sided OBMC
     WARPED_CAUSAL,  // 2-sided WARPED
     MOTION_MODES
-} MOTION_MODE;
+} MotionMode;
 
 typedef enum ATTRIBUTE_PACKED {
     II_DC_PRED,
@@ -948,14 +948,14 @@ typedef enum ATTRIBUTE_PACKED {
     II_H_PRED,
     II_SMOOTH_PRED,
     INTERINTRA_MODES
-} INTERINTRA_MODE;
+} InterIntraMode;
 
 typedef enum {
     COMPOUND_AVERAGE,
     COMPOUND_WEDGE,
     COMPOUND_DIFFWTD,
     COMPOUND_TYPES,
-} COMPOUND_TYPE;
+} CompoundType;
 
 typedef enum ATTRIBUTE_PACKED {
     FILTER_DC_PRED,
@@ -964,7 +964,7 @@ typedef enum ATTRIBUTE_PACKED {
     FILTER_D157_PRED,
     FILTER_PAETH_PRED,
     FILTER_INTRA_MODES,
-} FILTER_INTRA_MODE;
+} FilterIntraMode;
 
 #define DIRECTIONAL_MODES 8
 #define MAX_ANGLE_DELTA 3
@@ -1056,7 +1056,7 @@ typedef enum ATTRIBUTE_PACKED {
     // NOTE: UNIDIR_COMP_REFS is the number of uni-directional reference pairs
     //       that are explicitly signaled.
     UNIDIR_COMP_REFS = BWDREF_ALTREF_FRAMES + 1,
-} UNIDIR_COMP_REF;
+} UniDirCompRef;
 
 #define TOTAL_COMP_REFS (FWD_REFS * BWD_REFS + TOTAL_UNIDIR_COMP_REFS)
 
@@ -1215,7 +1215,7 @@ typedef enum {
     */
     AOM_CODEC_LIST_END
 
-} aom_codec_err_t;
+} AomCodecErr;
 
 //**********************************************************************************************************************//
 // Common_data.h
@@ -1269,16 +1269,16 @@ static const TxSize txsize_sqr_up_map[TX_SIZES_ALL] = {
 // above and left partition
 typedef struct PartitionContext 
 {
-    PARTITION_CONTEXT above;
-    PARTITION_CONTEXT left;
+    PartContext above;
+    PartContext left;
 }PartitionContext;
 // Generates 5 bit field in which each bit set to 1 represents
 // a block_size partition  11111 means we split 128x128, 64x64, 32x32, 16x16
 // and 8x8.  10000 means we just split the 128x128 to 64x64
 /* clang-format off */
 static const struct {
-    PARTITION_CONTEXT above;
-    PARTITION_CONTEXT left;
+    PartContext above;
+    PartContext left;
 } partition_context_lookup[BlockSizeS_ALL] = {
     { 31, 31 },  // 4X4   - {0b11111, 0b11111}
 { 31, 30 },  // 4X8   - {0b11111, 0b11110}

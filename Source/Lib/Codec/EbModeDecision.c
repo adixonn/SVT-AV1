@@ -1870,7 +1870,7 @@ void  inject_inter_candidates(
 
 
 
-static INLINE PredictionMode get_uv_mode(UV_PredictionMode mode) {
+static INLINE PredictionMode get_uv_mode(UVPredictionMode mode) {
     assert(mode < UV_INTRA_MODES);
     static const PredictionMode uv2y[] = {
         DC_PRED,        // UV_DC_PRED
@@ -1919,7 +1919,7 @@ static INLINE TxType av1_get_tx_type(
     block_size  sb_type,
     int32_t   is_inter,
     PredictionMode pred_mode,
-    UV_PredictionMode pred_mode_uv,
+    UVPredictionMode pred_mode_uv,
     PlaneType PlaneType,
     const MacroBlockD *xd, int32_t blk_row,
     int32_t blk_col, TxSize tx_size,
@@ -2081,7 +2081,7 @@ void  inject_intra_candidates(
                                 context_ptr->blk_geom->bsize,
                                 0,
                                 (PredictionMode)candidateArray[canTotalCnt].intra_luma_mode,
-                                (UV_PredictionMode)candidateArray[canTotalCnt].intra_chroma_mode,
+                                (UVPredictionMode)candidateArray[canTotalCnt].intra_chroma_mode,
                                 PLANE_TYPE_UV,
                                 0,
                                 0,
@@ -2133,7 +2133,7 @@ void  inject_intra_candidates(
                     context_ptr->blk_geom->bsize,
                     0,
                     (PredictionMode)candidateArray[canTotalCnt].intra_luma_mode,
-                    (UV_PredictionMode)candidateArray[canTotalCnt].intra_chroma_mode,
+                    (UVPredictionMode)candidateArray[canTotalCnt].intra_chroma_mode,
                     PLANE_TYPE_UV,
                     0,
                     0,

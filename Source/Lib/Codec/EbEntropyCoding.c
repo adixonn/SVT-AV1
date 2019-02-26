@@ -292,11 +292,11 @@ static INLINE int16_t GetBrCtx(
     const int16_t row = c >> bwl;
     const int16_t col = c - (row << bwl);
     const int16_t stride = (1 << bwl) + TX_PAD_HOR;
-    const TX_CLASS tx_class = tx_type_to_class[tx_type];
+    const TxClass TxClass = tx_type_to_class[tx_type];
     const int16_t pos = row * stride + col;
     int16_t mag = levels[pos + 1];
     mag += levels[pos + stride];
-    switch (tx_class) {
+    switch (TxClass) {
     case TX_CLASS_2D:
         mag += levels[pos + stride + 1];
         mag = MIN((mag + 1) >> 1, 6);
@@ -983,9 +983,9 @@ static void EncodePartitionAv1(
 
     uint32_t contextIndex = 0;
 
-    const PARTITION_CONTEXT above_ctx = (((PartitionContext*)partition_context_neighbor_array->topArray)[partitionContextTopNeighborIndex].above == (int8_t)INVALID_NEIGHBOR_DATA) ?
+    const PartContext above_ctx = (((PartitionContext*)partition_context_neighbor_array->topArray)[partitionContextTopNeighborIndex].above == (int8_t)INVALID_NEIGHBOR_DATA) ?
         0 : ((PartitionContext*)partition_context_neighbor_array->topArray)[partitionContextTopNeighborIndex].above;
-    const PARTITION_CONTEXT left_ctx = (((PartitionContext*)partition_context_neighbor_array->leftArray)[partitionContextLeftNeighborIndex].left == (int8_t)INVALID_NEIGHBOR_DATA) ?
+    const PartContext left_ctx = (((PartitionContext*)partition_context_neighbor_array->leftArray)[partitionContextLeftNeighborIndex].left == (int8_t)INVALID_NEIGHBOR_DATA) ?
         0 : ((PartitionContext*)partition_context_neighbor_array->leftArray)[partitionContextLeftNeighborIndex].left;
 
     const int32_t bsl = mi_size_wide_log2[bsize] - mi_size_wide_log2[BLOCK_8X8];
@@ -1316,7 +1316,7 @@ static INLINE int is_global_mv_block(
 }
 
 
-MOTION_MODE motion_mode_allowed(
+MotionMode motion_mode_allowed(
     const PictureControlSet       *picture_control_set_ptr,
     const CodingUnit              *cu_ptr,
     const block_size                 bsize,
@@ -1362,14 +1362,14 @@ static void write_motion_mode(
     FRAME_CONTEXT            *frame_context,
     aom_writer               *ec_writer,
     block_size                 bsize,
-    MOTION_MODE               motion_mode,
+    MotionMode               motion_mode,
     MvReferenceFrame          rf0,
     MvReferenceFrame          rf1,
     CodingUnit             *cu_ptr,
     PictureControlSet      *picture_control_set_ptr)
 {
     const PredictionMode mode = cu_ptr->prediction_unit_array[0].inter_mode;
-    MOTION_MODE last_motion_mode_allowed =
+    MotionMode last_motion_mode_allowed =
         motion_mode_allowed(picture_control_set_ptr, cu_ptr, bsize, rf0, rf1, mode);
 
     switch (last_motion_mode_allowed) {

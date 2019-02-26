@@ -8034,7 +8034,7 @@ static void build_intra_predictors_md(
     // const uint8_t *ref,    int32_t ref_stride,
     uint8_t *dst, int32_t dst_stride,
     PredictionMode mode, int32_t angle_delta,
-    FILTER_INTRA_MODE filter_intra_mode,
+    FilterIntraMode FilterIntraMode,
     TxSize tx_size, int32_t disable_edge_filter,
     int32_t n_top_px, int32_t n_topright_px,
     int32_t n_left_px, int32_t n_bottomleft_px,
@@ -8058,7 +8058,7 @@ static void build_intra_predictors_md(
     int32_t need_above_left = extend_modes[mode] & NEED_ABOVELEFT;
     int32_t p_angle = 0;
     const int32_t is_dr_mode = av1_is_directional_mode(mode);
-    const int32_t use_filter_intra = filter_intra_mode != FILTER_INTRA_MODES;
+    const int32_t use_filter_intra = FilterIntraMode != FILTER_INTRA_MODES;
 
     if (is_dr_mode) {
         p_angle = mode_to_angle_map[mode] + angle_delta * ANGLE_STEP;
@@ -8163,7 +8163,7 @@ static void build_intra_predictors_md(
 
     //    if (use_filter_intra) {
     ////        av1_filter_intra_predictor(dst, dst_stride, tx_size, above_row, left_col,
-    ////CHKN            filter_intra_mode);
+    ////CHKN            FilterIntraMode);
     //        return;
     //    }
 
@@ -8613,7 +8613,7 @@ static void build_intra_predictors(
     // const uint8_t *ref,    int32_t ref_stride,
     uint8_t *dst, int32_t dst_stride,
     PredictionMode mode, int32_t angle_delta,
-    FILTER_INTRA_MODE filter_intra_mode,
+    FilterIntraMode FilterIntraMode,
     TxSize tx_size, int32_t disable_edge_filter,
     int32_t n_top_px, int32_t n_topright_px,
     int32_t n_left_px, int32_t n_bottomleft_px,
@@ -8654,7 +8654,7 @@ static void build_intra_predictors(
     int32_t need_above_left = extend_modes[mode] & NEED_ABOVELEFT;
     int32_t p_angle = 0;
     const int32_t is_dr_mode = av1_is_directional_mode(mode);
-    const int32_t use_filter_intra = filter_intra_mode != FILTER_INTRA_MODES;
+    const int32_t use_filter_intra = FilterIntraMode != FILTER_INTRA_MODES;
 
     if (is_dr_mode) {
         p_angle = mode_to_angle_map[mode] + angle_delta * ANGLE_STEP;
@@ -8765,7 +8765,7 @@ static void build_intra_predictors(
 #endif
     //    if (use_filter_intra) {
     ////        av1_filter_intra_predictor(dst, dst_stride, tx_size, above_row, left_col,
-    ////CHKN            filter_intra_mode);
+    ////CHKN            FilterIntraMode);
     //        return;
     //    }
 
@@ -8860,7 +8860,7 @@ static void build_intra_predictors_high(
     //const uint8_t *ref8, int32_t ref_stride,
     uint16_t *dst,//uint8_t *dst8
     int32_t dst_stride, PredictionMode mode, int32_t angle_delta,
-    FILTER_INTRA_MODE filter_intra_mode, TxSize tx_size,
+    FilterIntraMode FilterIntraMode, TxSize tx_size,
     int32_t disable_edge_filter, int32_t n_top_px, int32_t n_topright_px, int32_t n_left_px,
     int32_t n_bottomleft_px, int32_t plane, int32_t bd) {
 
@@ -8887,7 +8887,7 @@ static void build_intra_predictors_high(
     //const uint16_t *left_ref = ref - 1;
     int32_t p_angle = 0;
     const int32_t is_dr_mode = av1_is_directional_mode(mode);
-    const int32_t use_filter_intra = filter_intra_mode != FILTER_INTRA_MODES;
+    const int32_t use_filter_intra = FilterIntraMode != FILTER_INTRA_MODES;
     int32_t base = 128 << (bd - 8);
 
     // The default values if ref pixels are not available:
@@ -9002,7 +9002,7 @@ static void build_intra_predictors_high(
     // not added yet
     //if (use_filter_intra) {
     //    highbd_filter_intra_predictor(dst, dst_stride, tx_size, above_row, left_col,
-    //        filter_intra_mode, xd->bd);
+    //        FilterIntraMode, xd->bd);
     //    return;
     //}
 
@@ -9098,7 +9098,7 @@ extern void av1_predict_intra_block_md(
     PredictionMode mode,
     int32_t angle_delta,
     int32_t use_palette,
-    FILTER_INTRA_MODE filter_intra_mode,
+    FilterIntraMode FilterIntraMode,
     uint8_t* topNeighArray,
     uint8_t* leftNeighArray,
     EbPictureBufferDesc  *recon_buffer,
@@ -9258,7 +9258,7 @@ extern void av1_predict_intra_block_md(
     //if (xd->cur_buf->flags & YV12_FLAG_HIGHBITDEPTH) {
     //  build_intra_predictors_high(
     //      xd, ref, ref_stride, dst, dst_stride, mode, angle_delta,
-    //      filter_intra_mode, tx_size, disable_edge_filter,
+    //      FilterIntraMode, tx_size, disable_edge_filter,
     //      have_top ? AOMMIN(txwpx, xr + txwpx) : 0,
     //      have_top_right ? AOMMIN(txwpx, xr) : 0,
     //      have_left ? AOMMIN(txhpx, yd + txhpx) : 0,
@@ -9274,7 +9274,7 @@ extern void av1_predict_intra_block_md(
         leftNeighArray,
         // ref, ref_stride,
         dst, dst_stride, mode,
-        angle_delta, filter_intra_mode, tx_size,
+        angle_delta, FilterIntraMode, tx_size,
         disable_edge_filter,
         have_top ? AOMMIN(txwpx, xr + txwpx) : 0,
         have_top_right ? AOMMIN(txwpx, xr) : 0,
@@ -9302,7 +9302,7 @@ extern void av1_predict_intra_block(
     PredictionMode mode,
     int32_t angle_delta,
     int32_t use_palette,
-    FILTER_INTRA_MODE filter_intra_mode,
+    FilterIntraMode FilterIntraMode,
     uint8_t* topNeighArray,
     uint8_t* leftNeighArray,
     EbPictureBufferDesc  *recon_buffer,
@@ -9592,7 +9592,7 @@ extern void av1_predict_intra_block(
     //if (xd->cur_buf->flags & YV12_FLAG_HIGHBITDEPTH) {
     //  build_intra_predictors_high(
     //      xd, ref, ref_stride, dst, dst_stride, mode, angle_delta,
-    //      filter_intra_mode, tx_size, disable_edge_filter,
+    //      FilterIntraMode, tx_size, disable_edge_filter,
     //      have_top ? AOMMIN(txwpx, xr + txwpx) : 0,
     //      have_top_right ? AOMMIN(txwpx, xr) : 0,
     //      have_left ? AOMMIN(txhpx, yd + txhpx) : 0,
@@ -9616,7 +9616,7 @@ extern void av1_predict_intra_block(
         leftNeighArray,
         // ref, ref_stride,
         dst, dst_stride, mode,
-        angle_delta, filter_intra_mode, tx_size,
+        angle_delta, FilterIntraMode, tx_size,
         disable_edge_filter,
         have_top ? AOMMIN(txwpx, xr + txwpx) : 0,
         have_top_right ? AOMMIN(txwpx, xr) : 0,
@@ -9638,7 +9638,7 @@ void av1_predict_intra_block_16bit(
     PredictionMode mode,
     int32_t angle_delta,
     int32_t use_palette,
-    FILTER_INTRA_MODE filter_intra_mode,
+    FilterIntraMode FilterIntraMode,
     uint16_t* topNeighArray,
     uint16_t* leftNeighArray,
     EbPictureBufferDesc  *recon_buffer,
@@ -9827,7 +9827,7 @@ void av1_predict_intra_block_16bit(
         leftNeighArray,
         // ref, ref_stride,
         dst, dst_stride, mode,
-        angle_delta, filter_intra_mode, tx_size,
+        angle_delta, FilterIntraMode, tx_size,
         disable_edge_filter,
         have_top ? AOMMIN(txwpx, xr + txwpx) : 0,
         have_top_right ? AOMMIN(txwpx, xr) : 0,
@@ -9969,7 +9969,7 @@ EbErrorType av1_intra_prediction_cl(
             mode,                                                                           //PredictionMode mode,
             plane ? 0 : candidate_buffer_ptr->candidate_ptr->angle_delta[PLANE_TYPE_Y],         //int32_t angle_delta,
             0,                                                                              //int32_t use_palette,
-            FILTER_INTRA_MODES,                                                             //CHKN FILTER_INTRA_MODE filter_intra_mode,
+            FILTER_INTRA_MODES,                                                             //CHKN FilterIntraMode FilterIntraMode,
             topNeighArray + 1,
             leftNeighArray + 1,
             candidate_buffer_ptr->prediction_ptr,                                              //uint8_t *dst,

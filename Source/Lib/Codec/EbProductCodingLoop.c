@@ -45,7 +45,7 @@ extern void av1_predict_intra_block_md(
     PredictionMode mode,
     int32_t angle_delta,
     int32_t use_palette,
-    FILTER_INTRA_MODE filter_intra_mode,
+    FilterIntraMode FilterIntraMode,
     uint8_t* topNeighArray,
     uint8_t* leftNeighArray,
     EbPictureBufferDesc  *recon_buffer,

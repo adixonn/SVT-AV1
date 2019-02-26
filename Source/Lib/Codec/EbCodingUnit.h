@@ -161,7 +161,7 @@ extern "C" {
         //int8_t segment_id;
         //int8_t seg_id_predicted;  // valid only when temporal_update is enabled
         // Only for INTRA blocks
-        UV_PredictionMode uv_mode;
+        UVPredictionMode uv_mode;
         //PALETTE_MODE_INFO palette_mode_info;
         //uint8_t use_intrabc;
         // Only for INTER blocks
@@ -172,13 +172,13 @@ extern "C" {
         // The actual prediction angle is the base angle + (angle_delta * step).
         //int8_t angle_delta[PLANE_TYPES];
         // interintra members
-        //INTERINTRA_MODE interintra_mode;
+        //InterIntraMode InterIntraMode;
         // TODO(debargha): Consolidate these flags
         //int32_t use_wedge_interintra;
         //int32_t interintra_wedge_index;
         //int32_t interintra_wedge_sign;
         // interinter members
-        //COMPOUND_TYPE interinter_compound_type;
+        //CompoundType interinter_compound_type;
         //int32_t wedge_index;
         //int32_t wedge_sign;
         //SEG_MASK_TYPE mask_type;

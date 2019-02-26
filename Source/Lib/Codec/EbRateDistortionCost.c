@@ -368,11 +368,11 @@ static INLINE int32_t get_br_ctx(const uint8_t *const levels,
     const int32_t row = c >> bwl;
     const int32_t col = c - (row << bwl);
     const int32_t stride = (1 << bwl) + TX_PAD_HOR;
-    const TX_CLASS tx_class = tx_type_to_class[tx_type];
+    const TxClass TxClass = tx_type_to_class[tx_type];
     const int32_t pos = row * stride + col;
     int32_t mag = levels[pos + 1];
     mag += levels[pos + stride];
-    switch (tx_class) {
+    switch (TxClass) {
     case TX_CLASS_2D:
         mag += levels[pos + stride + 1];
         mag = AOMMIN((mag + 1) >> 1, 6);
@@ -427,7 +427,7 @@ uint64_t av1_cost_coeffs_txb(
 
     const TxSize txs_ctx = (TxSize)((txsize_sqr_map[transform_size] + txsize_sqr_up_map[transform_size] + 1) >> 1);
     const TxType transform_type = candidate_buffer_ptr->candidate_ptr->transform_type[PlaneType];
-    const TX_CLASS tx_class = tx_type_to_class[transform_type];
+    const TxClass TxClass = tx_type_to_class[transform_type];
     int32_t c, cost;
     const int32_t bwl = get_txb_bwl(transform_size);
     const int32_t width = get_txb_wide(transform_size);
@@ -469,7 +469,7 @@ uint64_t av1_cost_coeffs_txb(
         scan,
         eob,
         transform_size,
-        tx_class,
+        TxClass,
         coeff_contexts); // NM - Assembly version is available in AOM
 
     for (c = eob - 1; c >= 0; --c) {
@@ -1178,11 +1178,11 @@ EbErrorType av1_inter_fast_cost(
         && picture_control_set_ptr->parent_pcs_ptr->switchable_motion_mode
         && rf[1] != INTRA_FRAME)
     {
-        MOTION_MODE motion_mode_rd = candidate_buffer_ptr->candidate_ptr->motion_mode;
+        MotionMode motion_mode_rd = candidate_buffer_ptr->candidate_ptr->motion_mode;
         block_size bsize = context_ptr->blk_geom->bsize;
 
         cu_ptr->prediction_unit_array[0].num_proj_ref = candidate_buffer_ptr->candidate_ptr->num_proj_ref;
-        MOTION_MODE last_motion_mode_allowed = motion_mode_allowed(
+        MotionMode last_motion_mode_allowed = motion_mode_allowed(
             picture_control_set_ptr,
             cu_ptr,
             bsize,
@@ -2192,8 +2192,8 @@ static void partition_gather_vert_alike(int32_t *out,
 
 //static INLINE int32_t partition_plane_context(const MacroBlockD *xd, int32_t mi_row,
 //    int32_t mi_col, block_size bsize) {
-//    const PARTITION_CONTEXT *above_ctx = xd->above_seg_context + mi_col;
-//    const PARTITION_CONTEXT *left_ctx =
+//    const PartContext *above_ctx = xd->above_seg_context + mi_col;
+//    const PartContext *left_ctx =
 //        xd->left_seg_context + (mi_row & MAX_MIB_MASK);
 //    // Minimum partition point is 8x8. Offset the bsl accordingly.
 //    const int32_t bsl = mi_size_wide_log2[bsize] - mi_size_wide_log2[BLOCK_8X8];
@@ -2257,8 +2257,8 @@ EbErrorType av1_split_flag_rate(
 
         uint32_t contextIndex = 0;
 
-        const PARTITION_CONTEXT left_ctx = context_ptr->md_local_cu_unit[cu_ptr->mds_idx].left_neighbor_partition == (int8_t)(INVALID_NEIGHBOR_DATA) ? 0 : context_ptr->md_local_cu_unit[cu_ptr->mds_idx].left_neighbor_partition;
-        const PARTITION_CONTEXT above_ctx = context_ptr->md_local_cu_unit[cu_ptr->mds_idx].above_neighbor_partition == (int8_t)(INVALID_NEIGHBOR_DATA) ? 0 : context_ptr->md_local_cu_unit[cu_ptr->mds_idx].above_neighbor_partition;
+        const PartContext left_ctx = context_ptr->md_local_cu_unit[cu_ptr->mds_idx].left_neighbor_partition == (int8_t)(INVALID_NEIGHBOR_DATA) ? 0 : context_ptr->md_local_cu_unit[cu_ptr->mds_idx].left_neighbor_partition;
+        const PartContext above_ctx = context_ptr->md_local_cu_unit[cu_ptr->mds_idx].above_neighbor_partition == (int8_t)(INVALID_NEIGHBOR_DATA) ? 0 : context_ptr->md_local_cu_unit[cu_ptr->mds_idx].above_neighbor_partition;
 
         const int32_t bsl = mi_size_wide_log2[bsize] - mi_size_wide_log2[BLOCK_8X8];
 
