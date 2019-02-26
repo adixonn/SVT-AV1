@@ -280,10 +280,10 @@ extern "C" {
 
     typedef struct MiniGopStats
     {
-        uint32_t  hierarchical_levels;
-        uint32_t  start_index;
-        uint32_t  end_index;
-        uint32_t  lenght;
+        uint32_t hierarchical_levels;
+        uint32_t start_index;
+        uint32_t end_index;
+        uint32_t lenght;
 
     } MiniGopStats;
     extern const MiniGopStats* get_mini_gop_stats(const uint32_t mini_gop_index);

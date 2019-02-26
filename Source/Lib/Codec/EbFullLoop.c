@@ -978,7 +978,7 @@ void product_full_loop(
         av1_estimate_transform(
             &(((int16_t*)candidate_buffer->residual_ptr->buffer_y)[tu_origin_index]),
             candidate_buffer->residual_ptr->stride_y,
-            &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->buffer_y)[txb_1d_offset]),
+            &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->buffer_y)[txb_1d_offset]),
             NOT_USED_VALUE,
             context_ptr->blk_geom->txsize[txb_itr],
             &context_ptr->three_quad_energy,
@@ -991,7 +991,7 @@ void product_full_loop(
 
         av1_quantize_inv_quantize(
             picture_control_set_ptr,
-            &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->buffer_y)[txb_1d_offset]),
+            &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->buffer_y)[txb_1d_offset]),
             NOT_USED_VALUE,
             &(((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_y)[txb_1d_offset]),
             &(((int32_t*)candidate_buffer->reconCoeffPtr->buffer_y)[txb_1d_offset]),
@@ -1018,7 +1018,7 @@ void product_full_loop(
 
         // LUMA DISTORTION
         picture_full_distortion32_bits(
-            context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr,
+            context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr,
             txb_1d_offset,
             0,
             candidate_buffer->reconCoeffPtr,
@@ -1215,7 +1215,7 @@ void product_full_loop_tx_search(
                 &(((int16_t*)candidate_buffer->residual_ptr->buffer_y)[tu_origin_index]),
                 candidate_buffer->residual_ptr->stride_y,
 
-                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->buffer_y)[tu_origin_index]),
+                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->buffer_y)[tu_origin_index]),
                 NOT_USED_VALUE,
                 context_ptr->blk_geom->txsize[txb_itr],
                 &context_ptr->three_quad_energy,
@@ -1228,7 +1228,7 @@ void product_full_loop_tx_search(
 
             av1_quantize_inv_quantize(
                 picture_control_set_ptr,
-                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->buffer_y)[tu_origin_index]),
+                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->buffer_y)[tu_origin_index]),
                 NOT_USED_VALUE,
                 &(((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_y)[tu_origin_index]),
                 &(((int32_t*)candidate_buffer->reconCoeffPtr->buffer_y)[tu_origin_index]),
@@ -1263,7 +1263,7 @@ void product_full_loop_tx_search(
 
             // LUMA DISTORTION
             picture_full_distortion32_bits(
-                context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr,
+                context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr,
                 tu_origin_index,
                 0,
                 candidate_buffer->reconCoeffPtr,
@@ -1843,7 +1843,7 @@ void full_loop_r(
             av1_estimate_transform(
                 chromaResidualPtr,
                 candidate_buffer->residual_ptr->strideCb,
-                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->bufferCb)[txb_1d_offset]),
+                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->bufferCb)[txb_1d_offset]),
                 NOT_USED_VALUE,
                 context_ptr->blk_geom->txsize_uv[txb_itr],
                 &context_ptr->three_quad_energy,
@@ -1856,7 +1856,7 @@ void full_loop_r(
 
             av1_quantize_inv_quantize(
                 picture_control_set_ptr,
-                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->bufferCb)[txb_1d_offset]),
+                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->bufferCb)[txb_1d_offset]),
                 NOT_USED_VALUE,
                 &(((int32_t*)candidate_buffer->residualQuantCoeffPtr->bufferCb)[txb_1d_offset]),
                 &(((int32_t*)candidate_buffer->reconCoeffPtr->bufferCb)[txb_1d_offset]),
@@ -1891,7 +1891,7 @@ void full_loop_r(
             av1_estimate_transform(
                 chromaResidualPtr,
                 candidate_buffer->residual_ptr->strideCr,
-                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->bufferCr)[txb_1d_offset]),
+                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->bufferCr)[txb_1d_offset]),
                 NOT_USED_VALUE,
                 context_ptr->blk_geom->txsize_uv[txb_itr],
                 &context_ptr->three_quad_energy,
@@ -1904,7 +1904,7 @@ void full_loop_r(
 
             av1_quantize_inv_quantize(
                 picture_control_set_ptr,
-                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr->bufferCr)[txb_1d_offset]),
+                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->bufferCr)[txb_1d_offset]),
                 NOT_USED_VALUE,
                 &(((int32_t*)candidate_buffer->residualQuantCoeffPtr->bufferCr)[txb_1d_offset]),
                 &(((int32_t*)candidate_buffer->reconCoeffPtr->bufferCr)[txb_1d_offset]),
@@ -1972,7 +1972,7 @@ void cu_full_distortion_fast_tu_mode_r(
 
     tuTotalCount = context_ptr->blk_geom->txb_count;
     currentTuIndex = 0;
-    transform_buffer = context_ptr->trans_quant_buffers_ptr->tuTransCoeff2Nx2NPtr;
+    transform_buffer = context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr;
 
 
     uint32_t  txb_1d_offset = 0;
