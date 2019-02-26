@@ -19,13 +19,13 @@ extern "C" {
 #define TU_NEIGHBOR_ARRAY_GRANULARITY                   4
 #define SAMPLE_NEIGHBOR_ARRAY_GRANULARITY               1
 
-    typedef enum NEIGHBOR_ARRAY_TYPE
+    typedef enum NeighborArrayType
     {
         NEIGHBOR_ARRAY_LEFT = 0,
         NEIGHBOR_ARRAY_TOP = 1,
         NEIGHBOR_ARRAY_TOPLEFT = 2,
         NEIGHBOR_ARRAY_INVALID = ~0
-    } NEIGHBOR_ARRAY_TYPE;
+    } NeighborArrayType;
 
 #define NEIGHBOR_ARRAY_UNIT_LEFT_MASK                   (1 << NEIGHBOR_ARRAY_LEFT)
 #define NEIGHBOR_ARRAY_UNIT_TOP_MASK                    (1 << NEIGHBOR_ARRAY_TOP)

@@ -36,7 +36,8 @@
 /** The AppExitConditionType type is used to define the App main loop exit
 conditions.
 */
-typedef enum AppExitConditionType {
+typedef enum AppExitConditionType 
+{
     APP_ExitConditionNone = 0,
     APP_ExitConditionFinished,
     APP_ExitConditionError

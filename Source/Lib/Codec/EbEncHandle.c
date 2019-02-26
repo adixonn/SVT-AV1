@@ -3294,7 +3294,7 @@ static EbErrorType allocate_frame_buffer(
     // Init Picture Init data
     input_picture_buffer_desc_init_data.maxWidth = (uint16_t)sequence_control_set_ptr->max_input_luma_width;
     input_picture_buffer_desc_init_data.maxHeight = (uint16_t)sequence_control_set_ptr->max_input_luma_height;
-    input_picture_buffer_desc_init_data.bit_depth = (EB_BITDEPTH)config->encoder_bit_depth;
+    input_picture_buffer_desc_init_data.bit_depth = (EbBitDepth)config->encoder_bit_depth;
 
     if (config->compressed_ten_bit_format == 1) {
         input_picture_buffer_desc_init_data.bufferEnableMask = 0;

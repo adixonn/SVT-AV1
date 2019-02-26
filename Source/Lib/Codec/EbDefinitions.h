@@ -950,14 +950,16 @@ typedef enum ATTRIBUTE_PACKED {
     INTERINTRA_MODES
 } InterIntraMode;
 
-typedef enum {
+typedef enum CompoundType
+{
     COMPOUND_AVERAGE,
     COMPOUND_WEDGE,
     COMPOUND_DIFFWTD,
     COMPOUND_TYPES,
 } CompoundType;
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     FILTER_DC_PRED,
     FILTER_V_PRED,
     FILTER_H_PRED,
@@ -1042,7 +1044,8 @@ typedef uint8_t TXFM_CONTEXT;
 
 #define SINGLE_REFS (FWD_REFS + BWD_REFS)
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     LAST_LAST2_FRAMES,      // { LAST_FRAME, LAST2_FRAME }
     LAST_LAST3_FRAMES,      // { LAST_FRAME, LAST3_FRAME }
     LAST_GOLDEN_FRAMES,     // { LAST_FRAME, GOLDEN_FRAME }
@@ -1067,7 +1070,8 @@ typedef enum ATTRIBUTE_PACKED {
 //       possible to have a reference pair not listed for explicit signaling.
 #define MODE_CTX_REF_FRAMES (TOTAL_REFS_PER_FRAME + TOTAL_COMP_REFS)
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     RESTORE_NONE,
     RESTORE_WIENER,
     RESTORE_SGRPROJ,
@@ -1140,14 +1144,16 @@ typedef struct BitstreamLevel
 #define TXCOEFF_TIMER 0
 #define TXCOEFF_COST_TIMER 0
 
-typedef enum {
+typedef enum ReferenceMode 
+{
     SINGLE_REFERENCE = 0,
     COMPOUND_REFERENCE = 1,
     REFERENCE_MODE_SELECT = 2,
     REFERENCE_MODES = 3,
 } ReferenceMode;
 
-typedef enum {
+typedef enum RefreshFrameContextMode 
+{
     /**
     * Frame context updates are disabled
     */
@@ -1163,7 +1169,8 @@ typedef enum {
 //**********************************************************************************************************************//
 // aom_codec.h
 /*!\brief Algorithm return codes */
-typedef enum {
+typedef enum AomCodecErr 
+{
     /*!\brief Operation completed without error */
     AOM_CODEC_OK,
 
@@ -1450,7 +1457,8 @@ static const uint8_t mi_size_high_log2[BlockSizeS_ALL] = {
     0, 1, 0, 1, 2, 1, 2, 3, 2, 3, 4, 3, 4, 5, 4, 5, 2, 0, 3, 1, 4, 2
 };
 
-typedef enum AomBitDepth {
+typedef enum AomBitDepth
+{
     AOM_BITS_8 = 8,   /**<  8 bits */
     AOM_BITS_10 = 10, /**< 10 bits */
     AOM_BITS_12 = 12, /**< 12 bits */
@@ -1464,13 +1472,14 @@ typedef struct SgrParamsType
 
 //**********************************************************************************************************************//
 // blockd.h
-typedef enum {
+typedef enum FrameType 
+{
     KEY_FRAME = 0,
     INTER_FRAME = 1,
     INTRA_ONLY_FRAME = 2,  // replaces intra-only
     S_FRAME = 3,
     FRAME_TYPES,
-} FRAME_TYPE;
+} FrameType;
 
 typedef int8_t MvReferenceFrame;
 
@@ -1536,7 +1545,8 @@ static INLINE int32_t is_inter_compound_mode(PredictionMode mode) {
 
 //**********************************************************************************************************************//
 // encoder.h
-typedef enum {
+typedef enum FrameContextIndex 
+{
     // regular inter frame
     REGULAR_FRAME = 0,
     // alternate reference frame
@@ -1550,7 +1560,7 @@ typedef enum {
     // extra alternate reference frame
     EXT_ARF_FRAME = 5,
     FRAME_CONTEXT_INDEXES
-} FRAME_CONTEXT_INDEX;
+} FrameContextIndex;
 
 //**********************************************************************************************************************//
 // common.h
@@ -1691,7 +1701,8 @@ typedef struct LoopFilterInfo
 #define GM_ALPHA_MIN -GM_ALPHA_MAX
 #define GM_ROW3HOMO_MIN -GM_ROW3HOMO_MAX
 /* clang-format off */
-typedef enum {
+typedef enum TransformationType 
+{
     IDENTITY = 0,      // identity transformation, 0-parameter
     TRANSLATION = 1,   // translational motion 2-parameter
     ROTZOOM = 2,       // simplified affine with rotation + zoom only, 4-parameter
@@ -1748,13 +1759,13 @@ static const EbWarpedMotionParams default_warp_params = {
 #define EB_SRC_LINE             __FILE__ "(" $Line ") : message "
 
 
-typedef enum eb_memcpy_mode
+typedef enum EbMemCpyMode
 {
     e_nt_store = 1,
     e_nt_load = 2,
     e_nt_avx = 4
 }
-eb_memcpy_mode;
+EbMemCpyMode;
 
 // ***************************** Definitions *****************************
 #define PM_DC_TRSHLD1                       10 // The threshold for DC to disable masking for DC
@@ -1797,12 +1808,13 @@ eb_memcpy_mode;
 #define EB_NORMAL_LATENCY        0
 #define EB_LOW_LATENCY           1
 
-typedef enum EB_BITFIELD_MASKS {
+typedef enum EbBitFieldMasks 
+{
     BITMASK_0 = 1,
     BITMASK_1 = 2,
     BITMASK_2 = 4,
     BITMASK_3 = 8
-} EB_BITFIELD_MASKS;
+} EbBitFieldMasks;
 
 // CLEAN_BASIS_FUNCTIONS
 #define CLEAN_BASIS_FUNCTIONS_VAR_TRSHLD 10
@@ -1943,17 +1955,17 @@ buffers to and from the eBrisk API.  The EbByte type is a 32 bit pointer.
 The pointer is word aligned and the buffer is byte aligned.
 */
 
-/** The EB_BITDEPTH type is used to describe the bitdepth of video data.
+/** The EbBitDepth type is used to describe the bitdepth of video data.
 */
-typedef enum EB_BITDEPTH {
+typedef enum EbBitDepth 
+{
     EB_8BIT = 8,
     EB_10BIT = 10,
     EB_12BIT = 12,
     EB_14BIT = 14,
     EB_16BIT = 16,
     EB_32BIT = 32
-
-} EB_BITDEPTH;
+} EbBitDepth;
 
 /** The EB_GOP type is used to describe the hierarchical coding structure of
 Groups of Pictures (GOP) units.
@@ -2012,13 +2024,14 @@ typedef uint8_t EB_PART_MODE;
 #define SIZE_nRx2N 7
 #define SIZE_PART_MODE 8
 
-/** The EB_INTRA_REFRESH_TYPE is used to describe the intra refresh type.
+/** The EbIntraRefreshType is used to describe the intra refresh type.
 */
-typedef enum EB_INTRA_REFRESH_TYPE {
+typedef enum EbIntraRefreshType 
+{
     NO_REFRESH = 0,
     CRA_REFRESH = 1,
     IDR_REFRESH = 2
-}EB_INTRA_REFRESH_TYPE;
+}EbIntraRefreshType;
 
 #define SIZE_2Nx2N_PARTITION_MASK   (1 << SIZE_2Nx2N)
 #define SIZE_2NxN_PARTITION_MASK    (1 << SIZE_2NxN)
@@ -2046,7 +2059,8 @@ typedef enum EB_INTRA_REFRESH_TYPE {
 #define SPEED_CONTROL_INIT_MOD ENC_M4;
 /** The EB_TUID type is used to identify a TU within a CU.
 */
-typedef enum EB_TUSIZE {
+typedef enum EbTuSize 
+{
     TU_2Nx2N = 0,
     TU_NxN_0 = 1,
     TU_NxN_1 = 2,
@@ -2057,7 +2071,7 @@ typedef enum EB_TUSIZE {
     TU_N2xN2_2 = 7,
     TU_N2xN2_3 = 8,
     INVALID_TUSIZE = ~0
-}EB_TUSIZE;
+}EbTuSize;
 
 #define TU_2Nx2N_PARTITION_MASK     (1 << TU_2Nx2N)
 #define TU_NxN_0_PARTITION_MASK     (1 << TU_NxN_0)
@@ -2106,7 +2120,8 @@ static const uint8_t QP_OFFSET_WEIGHT[3][4] = { // [Slice Type][QP Offset Weight
 
 /** Assembly Types
 */
-typedef enum EbAsm {
+typedef enum EbAsm 
+{
     ASM_NON_AVX2,
     ASM_AVX2,
     ASM_TYPE_TOTAL,
@@ -2173,12 +2188,15 @@ typedef struct EbLinkedListNode
     struct EbLinkedListNode  *next;                      // pointer to next node (null when last)
 } EbLinkedListNode;
 
-typedef enum DIST_CALC_TYPE {
+typedef enum DistCalcType 
+{
     DIST_CALC_RESIDUAL = 0,    // SSE(Coefficients - ReconCoefficients)
     DIST_CALC_PREDICTION = 1,    // SSE(Coefficients) *Note - useful in modes that don't send residual coeff bits
     DIST_CALC_TOTAL = 2
-} DIST_CALC_TYPE;
-typedef enum EbPtrType {
+} DistCalcType;
+
+typedef enum EbPtrType 
+{
     EB_N_PTR = 0,                                   // malloc'd pointer
     EB_A_PTR = 1,                                   // malloc'd pointer aligned
     EB_MUTEX = 2,                                   // mutex
@@ -2984,30 +3002,34 @@ typedef enum EbChromaMode {
 } EbChromaMode;
 #endif
 
-typedef enum EbSbComplexityStatus {
+typedef enum EbSbComplexityStatus 
+{
     SB_COMPLEXITY_STATUS_0 = 0,
     SB_COMPLEXITY_STATUS_1 = 1,
     SB_COMPLEXITY_STATUS_2 = 2,
     SB_COMPLEXITY_STATUS_INVALID = (uint8_t)~0
 } EbSbComplexityStatus;
 
-typedef enum EbCleanUpMode {
+typedef enum EbCleanUpMode 
+{
     CLEAN_UP_MODE_0 = 0,
     CLEAN_UP_MODE_1 = 1
 } EbCleanUpMode;
 
-typedef enum EbSaoMode {
+typedef enum EbSaoMode 
+{
     SAO_MODE_0 = 0,
     SAO_MODE_1 = 1
 } EbSaoMode;
 
-typedef enum EbCu8x8Mode {
+typedef enum EbCu8x8Mode 
+{
     CU_8x8_MODE_0 = 0,  // Perform OIS, Full_Search, Fractional_Search & Bipred for CU_8x8
     CU_8x8_MODE_1 = 1   // Perform OIS and only Full_Search for CU_8x8
 } EbCu8x8Mode;
 
-typedef enum EbPictureDepthMode {
-
+typedef enum EbPictureDepthMode 
+{
     PIC_ALL_DEPTH_MODE          = 0, // ALL sq and nsq:  SB size -> 4x4 
     PIC_ALL_C_DEPTH_MODE        = 1, // ALL sq and nsq with control :  SB size -> 4x4 
     PIC_SQ_DEPTH_MODE           = 2, // ALL sq:  SB size -> 4x4 
@@ -3018,8 +3040,8 @@ typedef enum EbPictureDepthMode {
     PIC_OPEN_LOOP_DEPTH_MODE    = 7
 } EbPictureDepthMode;
 
-typedef enum EbLcuDepthMode {
-
+typedef enum EbLcuDepthMode 
+{
     LCU_FULL85_DEPTH_MODE = 1,
     LCU_FULL84_DEPTH_MODE = 2,
     LCU_BDP_DEPTH_MODE = 3,
@@ -3031,7 +3053,8 @@ typedef enum EbLcuDepthMode {
     LCU_PRED_OPEN_LOOP_1_NFL_DEPTH_MODE = 9
 } EbLcuDepthMode;
 
-typedef enum EbIntrA4x4SearchMethod {
+typedef enum EbIntrA4x4SearchMethod 
+{
     INTRA4x4_OFF = 0,
     INTRA4x4_INLINE_SEARCH = 1,
     INTRA4x4_REFINEMENT_SEARCH = 2,
@@ -3064,8 +3087,8 @@ static const int32_t hme_level_0_search_area_multiplier_y[MAX_HIERARCHICAL_LEVEL
     { 525, 350, 200, 100, 100, 100 }
 };
 
-typedef enum RasterScanCuIndex {
-
+typedef enum RasterScanCuIndex 
+{
     // 2Nx2N [85 partitions]
     RASTER_SCAN_CU_INDEX_64x64 = 0,
     RASTER_SCAN_CU_INDEX_32x32_0 = 1,

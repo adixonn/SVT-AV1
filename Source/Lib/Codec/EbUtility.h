@@ -288,7 +288,8 @@ extern "C" {
     } MiniGopStats;
     extern const MiniGopStats* GetMiniGopStats(const uint32_t miniGopIndex);
     
-    typedef enum MiniGopIndex {
+    typedef enum MiniGopIndex 
+    {
         L6_INDEX = 0,
         L5_0_INDEX = 1,
         L4_0_INDEX = 2,

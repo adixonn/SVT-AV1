@@ -31,7 +31,7 @@ extern "C" {
         uint64_t                                refPOCList0;
         uint64_t                                refPOCList1;
         uint64_t                                 poc;
-        FRAME_TYPE                            av1FrameType;
+        FrameType                            av1FrameType;
         Av1RpsNode                          av1RefSignal;
         EbBool                               showFrame;
         EbBool                               hasShowExisting;

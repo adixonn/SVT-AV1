@@ -14138,7 +14138,7 @@ extern "C" {
         uint8_t                               loop_filter_mode;
         uint8_t                               intra_pred_mode;
         //**********************************************************************************************************//
-        FRAME_TYPE                            av1FrameType;
+        FrameType                            av1FrameType;
         Av1RpsNode                          av1RefSignal;
         EbBool                                showFrame;
         EbBool                                hasShowExisting;
@@ -14314,7 +14314,7 @@ extern "C" {
         uint16_t                           right_padding;
         uint16_t                           top_padding;
         uint16_t                           bot_padding;
-        EB_BITDEPTH                        bit_depth;
+        EbBitDepth                        bit_depth;
         uint32_t                           sb_sz;
         uint32_t                           sb_size_pix;   //since we still have lot of code assuming 64x64 LCU, we add a new paramter supporting both128x128 and 64x64, 
                                                           //ultimately the fixed code supporting 64x64 should be upgraded to use 128x128 and the above could be removed.

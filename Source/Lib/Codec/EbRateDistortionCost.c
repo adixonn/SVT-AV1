@@ -57,16 +57,6 @@ uint8_t av1_drl_ctx(const CandidateMv *ref_mv_stack,
     return 0;
 }
 
-/* Symbols for coding which components are zero jointly */
-//#define MV_JOINTS 4
-//typedef enum {
-//    MV_JOINT_ZERO = 0,   /* Zero vector */
-//    MV_JOINT_HNZVZ = 1,  /* Vert zero, hor nonzero */
-//    MV_JOINT_HZVNZ = 2,  /* Hor zero, vert nonzero */
-//    MV_JOINT_HNZVNZ = 3, /* Both components nonzero */
-//} MvJointType;
-
-
 
 MvJointType av1_get_mv_joint(const MV *mv) {
     if (mv->row == 0) {

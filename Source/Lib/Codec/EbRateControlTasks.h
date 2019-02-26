@@ -14,7 +14,8 @@
 /**************************************
  * Tasks Types
  **************************************/
-typedef enum RateControlTaskTypes {
+typedef enum RateControlTaskTypes 
+{
     RC_PICTURE_MANAGER_RESULT,
     RC_PACKETIZATION_FEEDBACK_RESULT,
     RC_ENTROPY_CODING_ROW_FEEDBACK_RESULT,

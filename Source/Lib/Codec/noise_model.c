@@ -214,7 +214,7 @@ static void noise_strength_solver_copy(aom_noise_strength_solver_t *dest,
 
 
 // Return the number of coefficients required for the given parameters
-static int32_t num_coeffs(const aom_noise_model_params_t params) {
+static int32_t num_coeffs(const AomNoiseModelParams params) {
     const int32_t n = 2 * params.lag + 1;
     switch (params.shape) {
     case AOM_NOISE_SHAPE_DIAMOND: return params.lag * (params.lag + 1);
@@ -704,7 +704,7 @@ int32_t aom_flat_block_finder_run(const aom_flat_block_finder_t *block_finder,
 }
 
 int32_t aom_noise_model_init(aom_noise_model_t *model,
-    const aom_noise_model_params_t params) {
+    const AomNoiseModelParams params) {
     const int32_t n = num_coeffs(params);
     const int32_t lag = params.lag;
     const int32_t bit_depth = params.bit_depth;
@@ -1629,7 +1629,7 @@ static int32_t denoise_and_model_realloc_if_necessary(struct aom_denoise_and_mod
         return 0;
     }
 
-    const aom_noise_model_params_t params = { AOM_NOISE_SHAPE_SQUARE, 3,
+    const AomNoiseModelParams params = { AOM_NOISE_SHAPE_SQUARE, 3,
                                               ctx->bit_depth, use_highbd };
     //  aom_noise_model_free(&ctx->noise_model);
     if (!aom_noise_model_init(&ctx->noise_model, params)) {

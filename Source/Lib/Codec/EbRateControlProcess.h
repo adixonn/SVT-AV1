@@ -91,7 +91,8 @@ static const uint64_t two_to_power_x_over_six[] = {
 /**************************************
  * Input Port Types
  **************************************/
-typedef enum RateControlInputPortTypes {
+typedef enum RateControlInputPortTypes 
+{
     RATE_CONTROL_INPUT_PORT_PICTURE_MANAGER = 0,
     RATE_CONTROL_INPUT_PORT_PACKETIZATION = 1,
     RATE_CONTROL_INPUT_PORT_ENTROPY_CODING = 2,

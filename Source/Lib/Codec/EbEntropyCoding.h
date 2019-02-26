@@ -37,7 +37,8 @@
 extern "C" {
 #endif
     /*!\brief OBU types. */
-    typedef enum ATTRIBUTE_PACKED {
+    typedef enum ATTRIBUTE_PACKED 
+    {
         OBU_SEQUENCE_HEADER = 1,
         OBU_TEMPORAL_DELIMITER = 2,
         OBU_FRAME_HEADER = 3,
@@ -46,7 +47,7 @@ extern "C" {
         OBU_FRAME = 6,
         OBU_REDUNDANT_FRAME_HEADER = 7,
         OBU_PADDING = 15,
-    } obuType;
+    } ObuType;
 
     /**************************************
      * Extern Function Declarations
@@ -181,7 +182,7 @@ extern "C" {
     //void WriteSequenceHeader(/*AV1Comp *cpi, */struct aom_write_bit_buffer *wb);
     void WriteSequenceHeader(SequenceControlSet_t *scsPtr/*AV1Comp *cpi*/, struct aom_write_bit_buffer *wb);
 
-    uint32_t WriteObuHeader(obuType obuType, int32_t obuExtension,
+    uint32_t WriteObuHeader(ObuType ObuType, int32_t obuExtension,
         uint8_t *const dst);
 
     int32_t WriteUlebObuSize(uint32_t obuHeaderSize, uint32_t obuPayloadSize,

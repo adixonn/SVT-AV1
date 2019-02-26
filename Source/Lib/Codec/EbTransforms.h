@@ -161,7 +161,8 @@ extern "C" {
 
     // Utility function that returns the log of the ratio of the col and row
     // sizes.
-    typedef enum TxfmType {
+    typedef enum TxfmType 
+    {
         TXFM_TYPE_DCT4,
         TXFM_TYPE_DCT8,
         TXFM_TYPE_DCT16,

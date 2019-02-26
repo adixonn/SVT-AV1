@@ -37,7 +37,8 @@ typedef int32_t errno_t;
 /** The AppExitConditionType type is used to define the App main loop exit
 conditions.
 */
-typedef enum AppExitConditionType {
+typedef enum AppExitConditionType 
+{
     APP_ExitConditionNone = 0,
     APP_ExitConditionFinished,
     APP_ExitConditionError
@@ -46,18 +47,11 @@ typedef enum AppExitConditionType {
 /** The AppPortActiveType type is used to define the state of output ports in
 the App.
 */
-typedef enum AppPortActiveType {
+typedef enum AppPortActiveType 
+{
     APP_PortActive = 0,
     APP_PortInactive
 } AppPortActiveType;
-
-//typedef enum EbPtrType {
-//    EB_N_PTR = 0,                                   // malloc'd pointer
-//    EB_A_PTR = 1,                                   // malloc'd pointer aligned
-//    EB_MUTEX = 2,                                   // mutex
-//    EB_SEMAPHORE = 3,                                   // semaphore
-//    EB_THREAD = 4                                    // thread handle
-//}EbPtrType;
 
 /** The EB_PTR type is intended to be used to pass pointers to and from the svt
 API.  This is a 32 bit pointer and is aligned on a 32 bit word boundary.

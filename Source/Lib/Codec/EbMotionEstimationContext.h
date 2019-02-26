@@ -45,7 +45,6 @@ extern "C" {
 
     typedef enum EbMeTierZeroPu 
     {
-
         // 2Nx2N [85 partitions]
         ME_TIER_ZERO_PU_64x64 = 0,
         ME_TIER_ZERO_PU_32x32_0 = 1,

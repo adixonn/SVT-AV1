@@ -4234,13 +4234,13 @@ static void WriteUncompressedHeaderObu(SequenceControlSet_t *scsPtr/*AV1Comp *cp
     }
 }
 
-uint32_t WriteObuHeader(obuType obuType, int32_t obuExtension,
+uint32_t WriteObuHeader(ObuType ObuType, int32_t obuExtension,
     uint8_t *const dst) {
     struct aom_write_bit_buffer wb = { dst, 0 };
     uint32_t size = 0;
 
     aom_wb_write_literal(&wb, 0, 1);  // forbidden bit.
-    aom_wb_write_literal(&wb, (int32_t)obuType, 4);
+    aom_wb_write_literal(&wb, (int32_t)ObuType, 4);
     aom_wb_write_literal(&wb, obuExtension ? 1 : 0, 1);
     aom_wb_write_literal(&wb, 1, 1);  // obu_has_payload_length_field
     aom_wb_write_literal(&wb, 0, 1);  // reserved
@@ -4518,9 +4518,9 @@ EbErrorType write_frame_header_av1(
 
     // A new tile group begins at this tile.  Write the obu header and
     // tile group header
-    const obuType obuType = show_existing ? OBU_FRAME_HEADER : OBU_FRAME;
+    const ObuType ObuType = show_existing ? OBU_FRAME_HEADER : OBU_FRAME;
     currDataSize =
-        WriteObuHeader(obuType, obuExtensionHeader, data);
+        WriteObuHeader(ObuType, obuExtensionHeader, data);
     obuHeaderSize = currDataSize;
 
     currDataSize +=

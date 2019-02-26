@@ -183,7 +183,8 @@ extern "C" {
     typedef uint8_t *wedge_masks_type[MAX_WEDGE_TYPES];
     static wedge_masks_type wedge_masks[BlockSizeS_ALL][2];
     // Angles are with respect to horizontal anti-clockwise
-    typedef enum {
+    typedef enum WedgeDirectionType 
+    {
         WEDGE_HORIZONTAL = 0,
         WEDGE_VERTICAL = 1,
         WEDGE_OBLIQUE27 = 2,

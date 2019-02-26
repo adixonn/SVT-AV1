@@ -11,18 +11,19 @@
 /**************************************
  * Enums
  **************************************/
-typedef enum EB_PIC_TYPE {
+typedef enum EbPicType 
+{
     EB_PIC_INVALID = 0,
     EB_PIC_INPUT = 1,
     EB_PIC_REFERENCE = 2
-} EB_PIC_TYPE;
+} EbPicType;
 
 /**************************************
  * Picture Demux Results
  **************************************/
 typedef struct PictureDemuxResults
 {
-    EB_PIC_TYPE                    pictureType;
+    EbPicType                    pictureType;
 
     // Only valid for input pictures
     EbObjectWrapper             *pictureControlSetWrapperPtr;
