@@ -679,7 +679,7 @@ static uint8_t get_filter_level(
 void av1_loop_filter_init(PictureControlSet *pcsPtr) {
     //assert(MB_MODE_COUNT == n_elements(mode_lf_lut));
     LoopFilterInfo *lfi = &pcsPtr->parent_pcs_ptr->lf_info;
-    struct loopfilter *lf = &pcsPtr->parent_pcs_ptr->lf;
+    struct LoopFilter *lf = &pcsPtr->parent_pcs_ptr->lf;
     int32_t lvl;
 
     lf->combine_vert_horz_lf = 1;
@@ -704,7 +704,7 @@ void av1_loop_filter_frame_init(PictureControlSet *pcsPtr, int32_t plane_start,
     // the multiplier is 1 for when filter_lvl is between 0 and 31;
     // 2 when filter_lvl is between 32 and 63
     LoopFilterInfo *const lfi = &pcsPtr->parent_pcs_ptr->lf_info;
-    struct loopfilter *const lf = &pcsPtr->parent_pcs_ptr->lf;
+    struct LoopFilter *const lf = &pcsPtr->parent_pcs_ptr->lf;
     // const struct segmentation *const seg = &pcsPtr->parent_pcs_ptr->seg;
 
      // update sharpness limits
@@ -1891,7 +1891,7 @@ void av1_pick_filter_level(
     SequenceControlSet *scsPtr = (SequenceControlSet*)pcsPtr->parent_pcs_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     const int32_t num_planes = 3;
     (void)srcBuffer;
-    struct loopfilter *const lf = &pcsPtr->parent_pcs_ptr->lf;
+    struct LoopFilter *const lf = &pcsPtr->parent_pcs_ptr->lf;
     lf->sharpness_level = pcsPtr->parent_pcs_ptr->av1FrameType == KEY_FRAME ? 0 : LF_SHARPNESS;
 
     if (method == LPF_PICK_MINIMAL_LPF) {

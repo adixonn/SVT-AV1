@@ -73,7 +73,7 @@ extern "C" {
         uint32_t           cuQp);                         //input parameter, Qp of the CU
 
 
-    /* assorted loopfilter functions which get used elsewhere */
+    /* assorted LoopFilter functions which get used elsewhere */
     struct AV1Common;
     struct macroblockd;
     struct AV1LfSyncData;

@@ -665,9 +665,9 @@ static const int32_t tx_size_high[TX_SIZES_ALL] = {
     4, 8, 16, 32, 64, 8, 4, 16, 8, 32, 16, 64, 32, 16, 4, 32, 8, 64, 16,
 };
 
- // tran_low_t  is the datatype used for final transform coefficients.
-typedef int32_t tran_low_t;
-typedef uint8_t qm_val_t;
+ // TranLow  is the datatype used for final transform coefficients.
+typedef int32_t TranLow;
+typedef uint8_t QmVal;
 
 typedef enum TxClass 
 {
@@ -776,13 +776,13 @@ typedef enum ATTRIBUTE_PACKED
 typedef struct TxfmParam 
 {
     // for both forward and inverse transforms
-    TxType tx_type;
-    TxSize tx_size;
+    TxType  tx_type;
+    TxSize  tx_size;
     int32_t lossless;
     int32_t bd;
     // are the pixel buffers octets or shorts?  This should collapse to
     // bd==8 implies !is_hbd, but that's not certain right now.
-    int32_t is_hbd;
+    int32_t   is_hbd;
     TxSetType tx_set_type;
     // for inverse transforms only
     int32_t eob;
@@ -1613,7 +1613,8 @@ typedef enum FrameContextIndex
 #define MAX_SHARPNESS 7
 #define SIMD_WIDTH 16
 
-struct loopfilter {
+struct LoopFilter 
+{
     int32_t filter_level[2];
     int32_t filter_level_u;
     int32_t filter_level_v;
@@ -1956,11 +1957,11 @@ API.  This is a 32 bit pointer and is aligned on a 32 bit word boundary.
 */
 typedef void *EbPtr;
 
-/** The EB_STRING type is intended to be used to pass "C" type strings to and
-from the eBrisk API.  The EB_STRING type is a 32 bit pointer to a zero terminated
+/** The EbString type is intended to be used to pass "C" type strings to and
+from the eBrisk API.  The EbString type is a 32 bit pointer to a zero terminated
 string.  The pointer is word aligned and the string is byte aligned.
 */
-typedef char * EB_STRING;
+typedef char *EbString;
 
 /** The EbByte type is intended to be used to pass arrays of bytes such as
 buffers to and from the eBrisk API.  The EbByte type is a 32 bit pointer.
@@ -2015,9 +2016,9 @@ Groups of Pictures (GOP) units.
 #define BOTTOM_FIELD_PICT_STRUCT 2
 
 
-/** The EB_MODETYPE type is used to describe the PU type.
+/** The EbModeType type is used to describe the PU type.
 */
-typedef uint8_t EB_MODETYPE;
+typedef uint8_t EbModeType;
 #define INTER_MODE 1
 #define INTRA_MODE 2
 
@@ -2025,13 +2026,13 @@ typedef uint8_t EB_MODETYPE;
 
 /** INTRA_4x4 offsets
 */
-static const uint8_t INTRA_4x4_OFFSET_X[4] = { 0, 4, 0, 4 };
-static const uint8_t INTRA_4x4_OFFSET_Y[4] = { 0, 0, 4, 4 };
+static const uint8_t intra_4x4_offset_x[4] = { 0, 4, 0, 4 };
+static const uint8_t intra_4x4_offset_y[4] = { 0, 0, 4, 4 };
 
 
-/** The EB_PART_MODE type is used to describe the CU partition size.
+/** The EbPartMode type is used to describe the CU partition size.
 */
-typedef uint8_t EB_PART_MODE;
+typedef uint8_t EbPartMode;
 #define SIZE_2Nx2N 0
 #define SIZE_2NxN  1
 #define SIZE_Nx2N  2
@@ -2130,7 +2131,7 @@ typedef enum EbTuSize
 #define EB_FRAME_CARAC_3           3
 #define EB_FRAME_CARAC_4           4
 
-static const uint8_t QP_OFFSET_WEIGHT[3][4] = { // [Slice Type][QP Offset Weight Level]
+static const uint8_t qp_offset_weight[3][4] = { // [Slice Type][QP Offset Weight Level]
     { 9, 8, 7, 6 },
 { 9, 8, 7, 6 },
 { 10, 9, 8, 7 }
@@ -2155,18 +2156,18 @@ semaphores, mutexs, etc.
 */
 typedef void * EbHandle;
 
-/** The EB_CTOR type is used to define the eBrisk object constructors.
+/** The EbCtor type is used to define the eBrisk object constructors.
 object_ptr is a EbPtr to the object being constructed.
 object_init_data_ptr is a EbPtr to a data structure used to initialize the object.
 */
-typedef EbErrorType(*EB_CTOR)(
+typedef EbErrorType(*EbCtor)(
     EbPtr *object_dbl_ptr,
-    EbPtr object_init_data_ptr);
+    EbPtr  object_init_data_ptr);
 
-/** The EB_DTOR type is used to define the eBrisk object destructors.
+/** The EbDtor type is used to define the eBrisk object destructors.
 object_ptr is a EbPtr to the object being constructed.
 */
-typedef void(*EB_DTOR)(
+typedef void(*EbDtor)(
     EbPtr object_ptr);
 
 #define INVALID_MV            0xFFFFFFFF
@@ -2187,45 +2188,45 @@ typedef void(*EB_DTOR)(
 #define       EB_TYPE_HIERARCHICAL_LEVELS  100
 #define       EB_TYPE_PRED_STRUCTURE       101
 
-typedef int32_t   EB_LINKED_LIST_TYPE;
+typedef int32_t EbLinkedListType;
 
 typedef struct EbLinkedListNode
 {
-    void*                     app;                       // points to an application object this node is associated
+    void*                    app;                           // points to an application object this node is associated
                                                             // with. this is an opaque pointer to the encoder lib, but
-                                                            // releaseCbFncPtr may need to access it.
+                                                            // release_cb_fnc_ptr may need to access it.
 
-    EB_LINKED_LIST_TYPE       type;                      // type of data pointed by "data" member variable
-    uint32_t                    size;                      // size of (data)
-    EbBool                   passthrough;               // whether this is passthrough data from application
-    void(*releaseCbFncPtr)(struct EbLinkedListNode*); // callback to be executed by encoder when picture reaches end of pipeline, or
-                                                        // when aborting. However, at end of pipeline encoder shall
-                                                        // NOT invoke this callback if passthrough is TRUE (but
-                                                        // still needs to do so when aborting)
-    void                     *data;                      // pointer to application's data
-    struct EbLinkedListNode  *next;                      // pointer to next node (null when last)
+    EbLinkedListType         type;                          // type of data pointed by "data" member variable
+    uint32_t                 size;                          // size of (data)
+    EbBool                   passthrough;                   // whether this is passthrough data from application
+    void(*release_cb_fnc_ptr)(struct EbLinkedListNode*);    // callback to be executed by encoder when picture reaches end of pipeline, or
+                                                            // when aborting. However, at end of pipeline encoder shall
+                                                            // NOT invoke this callback if passthrough is TRUE (but
+                                                            // still needs to do so when aborting)
+    void                     *data;                         // pointer to application's data
+    struct EbLinkedListNode  *next;                         // pointer to next node (null when last)
 } EbLinkedListNode;
 
 typedef enum DistCalcType 
 {
     DIST_CALC_RESIDUAL = 0,    // SSE(Coefficients - ReconCoefficients)
-    DIST_CALC_PREDICTION = 1,    // SSE(Coefficients) *Note - useful in modes that don't send residual coeff bits
+    DIST_CALC_PREDICTION = 1,  // SSE(Coefficients) *Note - useful in modes that don't send residual coeff bits
     DIST_CALC_TOTAL = 2
 } DistCalcType;
 
 typedef enum EbPtrType 
 {
-    EB_N_PTR = 0,                                   // malloc'd pointer
-    EB_A_PTR = 1,                                   // malloc'd pointer aligned
-    EB_MUTEX = 2,                                   // mutex
+    EB_N_PTR = 0,                                       // malloc'd pointer
+    EB_A_PTR = 1,                                       // malloc'd pointer aligned
+    EB_MUTEX = 2,                                       // mutex
     EB_SEMAPHORE = 3,                                   // semaphore
-    EB_THREAD = 4                                    // thread handle
+    EB_THREAD = 4                                       // thread handle
 } EbPtrType;
 
 typedef struct EbMemoryMapEntry
 {
     EbPtr                    ptr;                       // points to a memory pointer
-    EbPtrType                ptrType;                   // pointer type
+    EbPtrType                ptr_type;                  // pointer type
 } EbMemoryMapEntry;
 
 // Rate Control
@@ -2243,20 +2244,20 @@ typedef struct EbMemoryMapEntry
 // Display Total Memory at the end of the memory allocations
 #define DISPLAY_MEMORY                                  0
 
-extern    EbMemoryMapEntry        *app_memory_map;            // App Memory table
-extern    uint32_t                  *app_memory_map_index;       // App Memory index
-extern    uint64_t                  *total_app_memory;          // App Memory malloc'd
-
-extern    EbMemoryMapEntry        *memory_map;               // library Memory table
-extern    uint32_t                  *memory_map_index;          // library memory index
-extern    uint64_t                  *total_lib_memory;          // library Memory malloc'd
-
-extern    uint32_t                   lib_malloc_count;
-extern    uint32_t                   lib_thread_count;
-extern    uint32_t                   lib_semaphore_count;
-extern    uint32_t                   lib_mutex_count;
-
-extern    uint32_t                   app_malloc_count;
+extern    EbMemoryMapEntry *app_memory_map;             // App Memory table
+extern    uint32_t         *app_memory_map_index;       // App Memory index
+extern    uint64_t         *total_app_memory;           // App Memory malloc'd
+                           
+extern    EbMemoryMapEntry *memory_map;                 // library Memory table
+extern    uint32_t         *memory_map_index;           // library memory index
+extern    uint64_t         *total_lib_memory;           // library Memory malloc'd
+                           
+extern    uint32_t          lib_malloc_count;
+extern    uint32_t          lib_thread_count;
+extern    uint32_t          lib_semaphore_count;
+extern    uint32_t          lib_mutex_count;
+                           
+extern    uint32_t          app_malloc_count;
 
 #define EB_APP_MALLOC(type, pointer, n_elements, pointer_class, return_type) \
 pointer = (type)malloc(n_elements); \
@@ -2264,7 +2265,7 @@ if (pointer == (type)EB_NULL){ \
     return return_type; \
     } \
     else { \
-    app_memory_map[*(app_memory_map_index)].ptrType = pointer_class; \
+    app_memory_map[*(app_memory_map_index)].ptr_type = pointer_class; \
     app_memory_map[(*(app_memory_map_index))++].ptr = pointer; \
     if (n_elements % 8 == 0) { \
         *total_app_memory += (n_elements); \
@@ -2287,7 +2288,7 @@ if (pointer == (type)EB_NULL){ \
     return; \
     } \
     else { \
-    app_memory_map[*(app_memory_map_index)].ptrType = pointer_class; \
+    app_memory_map[*(app_memory_map_index)].ptr_type = pointer_class; \
     app_memory_map[(*(app_memory_map_index))++].ptr = pointer; \
     if (n_elements % 8 == 0) { \
         *total_app_memory += (n_elements); \
@@ -2312,7 +2313,7 @@ if (pointer == (type)EB_NULL) { \
     return EB_ErrorInsufficientResources; \
     } \
     else { \
-    memory_map[*(memory_map_index)].ptrType = pointer_class; \
+    memory_map[*(memory_map_index)].ptr_type = pointer_class; \
     memory_map[(*(memory_map_index))++].ptr = pointer; \
     if (n_elements % 8 == 0) { \
         *total_lib_memory += (n_elements); \
@@ -2333,7 +2334,7 @@ if (posix_memalign((void**)(&(pointer)), ALVALUE, n_elements) != 0) { \
         } \
             else { \
     pointer = (type) pointer;  \
-    memory_map[*(memory_map_index)].ptrType = pointer_class; \
+    memory_map[*(memory_map_index)].ptr_type = pointer_class; \
     memory_map[(*(memory_map_index))++].ptr = pointer; \
     if (n_elements % 8 == 0) { \
         *total_lib_memory += (n_elements); \
@@ -2355,7 +2356,7 @@ if (pointer == (type)EB_NULL) { \
     return EB_ErrorInsufficientResources; \
     } \
     else { \
-    memory_map[*(memory_map_index)].ptrType = pointer_class; \
+    memory_map[*(memory_map_index)].ptr_type = pointer_class; \
     memory_map[(*(memory_map_index))++].ptr = pointer; \
     if (n_elements % 8 == 0) { \
         *total_lib_memory += (n_elements); \
@@ -2375,7 +2376,7 @@ if (pointer == (type)EB_NULL) { \
     return EB_ErrorInsufficientResources; \
 } \
 else { \
-    memory_map[*(memory_map_index)].ptrType = pointer_class; \
+    memory_map[*(memory_map_index)].ptr_type = pointer_class; \
     memory_map[(*(memory_map_index))++].ptr = pointer; \
     if (count % 8 == 0) { \
         *total_lib_memory += (count); \
@@ -2395,7 +2396,7 @@ if (pointer == (type)EB_NULL) { \
     return EB_ErrorInsufficientResources; \
 } \
 else { \
-    memory_map[*(memory_map_index)].ptrType = pointer_class; \
+    memory_map[*(memory_map_index)].ptr_type = pointer_class; \
     memory_map[(*(memory_map_index))++].ptr = pointer; \
     if (n_elements % 8 == 0) { \
         *total_lib_memory += (n_elements); \
@@ -2415,7 +2416,7 @@ if (pointer == (type)EB_NULL){ \
     return EB_ErrorInsufficientResources; \
 } \
 else { \
-    memory_map[*(memory_map_index)].ptrType = pointer_class; \
+    memory_map[*(memory_map_index)].ptr_type = pointer_class; \
     memory_map[(*(memory_map_index))++].ptr = pointer; \
     if (n_elements % 8 == 0) { \
         *total_lib_memory += (n_elements); \
@@ -2497,19 +2498,19 @@ printf("Total App Memory: %.2lf KB\n\n",*total_app_memory/(double)1024);
 #endif
 
 #ifndef _RSIZE_T_DEFINED
-typedef size_t rsize_t;
+typedef size_t RSize;
 #define _RSIZE_T_DEFINED
 #endif  /* _RSIZE_T_DEFINED */
 
 #ifndef _ERRNO_T_DEFINED
 #define _ERRNO_T_DEFINED
-typedef int32_t errno_t;
+typedef int32_t Errno;
 #endif  /* _ERRNO_T_DEFINED */
 
-typedef void(*constraint_handler_t) (const char * /* msg */,
+typedef void(*ConstraintHandler) (const char * /* msg */,
     void *       /* ptr */,
-    errno_t      /* error */);
-extern void ignore_handler_s(const char *msg, void *ptr, errno_t error);
+    Errno        /* error */);
+extern void ignore_handler_s(const char *msg, void *ptr, Errno error);
 
 /*
 * Function used by the libraries to invoke the registered
@@ -2517,11 +2518,11 @@ extern void ignore_handler_s(const char *msg, void *ptr, errno_t error);
 */
 extern void invoke_safe_str_constraint_handler(
     const char *msg,
-    void *ptr,
-    errno_t error);
+    void       *ptr,
+    Errno       error);
 
-static inline void handle_error(char *orig_dest, rsize_t orig_dmax,
-    char *err_msg, errno_t err_code)
+static inline void handle_error(char *orig_dest, RSize orig_dmax,
+    char *err_msg, Errno err_code)
 {
     (void)orig_dmax;
     *orig_dest = '\0';
@@ -2531,16 +2532,16 @@ static inline void handle_error(char *orig_dest, rsize_t orig_dmax,
 }
 
 /* string copy */
-extern errno_t
-    strcpy_ss(char *dest, rsize_t dmax, const char *src);
+extern Errno
+    strcpy_ss(char *dest, RSize dmax, const char *src);
 
 /* fitted string copy */
-extern errno_t
-    strncpy_ss(char *dest, rsize_t dmax, const char *src, rsize_t slen);
+extern Errno
+    strncpy_ss(char *dest, RSize dmax, const char *src, RSize slen);
 
 /* string length */
-extern rsize_t
-    strnlen_ss(const char *s, rsize_t smax);
+extern RSize
+    strnlen_ss(const char *s, RSize smax);
 
 extern void DRDmemcpy(void  *dst_ptr, void *src_ptr, uint32_t  cnt);
 #define EB_MEMCPY(dst, src, size) \

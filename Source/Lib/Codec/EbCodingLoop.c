@@ -681,7 +681,7 @@ static void Av1EncodeLoop(
         av1_estimate_transform(
             ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
             residual16bit->stride_y,
-            ((tran_low_t*)transform16bit->buffer_y) + coeff1dOffset,
+            ((TranLow*)transform16bit->buffer_y) + coeff1dOffset,
             NOT_USED_VALUE,
             context_ptr->blk_geom->txsize[context_ptr->txb_itr],
             &context_ptr->three_quad_energy,
@@ -694,7 +694,7 @@ static void Av1EncodeLoop(
 
         av1_quantize_inv_quantize(
             sb_ptr->picture_control_set_ptr,
-            ((tran_low_t*)transform16bit->buffer_y) + coeff1dOffset,
+            ((TranLow*)transform16bit->buffer_y) + coeff1dOffset,
             NOT_USED_VALUE,
             ((int32_t*)coeffSamplesTB->buffer_y) + coeff1dOffset,
             ((int32_t*)inverse_quant_buffer->buffer_y) + coeff1dOffset,
@@ -921,7 +921,7 @@ static void Av1EncodeLoop(
         av1_estimate_transform(
             ((int16_t*)residual16bit->bufferCb) + scratchCbOffset,
             residual16bit->strideCb,
-            ((tran_low_t*)transform16bit->bufferCb) + context_ptr->coded_area_sb_uv,
+            ((TranLow*)transform16bit->bufferCb) + context_ptr->coded_area_sb_uv,
             NOT_USED_VALUE,
             context_ptr->blk_geom->txsize_uv[context_ptr->txb_itr],
             &context_ptr->three_quad_energy,
@@ -936,7 +936,7 @@ static void Av1EncodeLoop(
         av1_quantize_inv_quantize(
             sb_ptr->picture_control_set_ptr,
 
-            ((tran_low_t*)transform16bit->bufferCb) + context_ptr->coded_area_sb_uv,
+            ((TranLow*)transform16bit->bufferCb) + context_ptr->coded_area_sb_uv,
             NOT_USED_VALUE,
             ((int32_t*)coeffSamplesTB->bufferCb) + context_ptr->coded_area_sb_uv,
             ((int32_t*)inverse_quant_buffer->bufferCb) + context_ptr->coded_area_sb_uv,
@@ -965,7 +965,7 @@ static void Av1EncodeLoop(
         av1_estimate_transform(
             ((int16_t*)residual16bit->bufferCr) + scratchCbOffset,
             residual16bit->strideCr,
-            ((tran_low_t*)transform16bit->bufferCr) + context_ptr->coded_area_sb_uv,
+            ((TranLow*)transform16bit->bufferCr) + context_ptr->coded_area_sb_uv,
             NOT_USED_VALUE,
             context_ptr->blk_geom->txsize_uv[context_ptr->txb_itr],
             &context_ptr->three_quad_energy,
@@ -979,10 +979,10 @@ static void Av1EncodeLoop(
 
         av1_quantize_inv_quantize(
             sb_ptr->picture_control_set_ptr,
-            ((tran_low_t*)transform16bit->bufferCr) + context_ptr->coded_area_sb_uv,
+            ((TranLow*)transform16bit->bufferCr) + context_ptr->coded_area_sb_uv,
             NOT_USED_VALUE,
             ((int32_t*)coeffSamplesTB->bufferCr) + context_ptr->coded_area_sb_uv,
-            ((tran_low_t*)inverse_quant_buffer->bufferCr) + context_ptr->coded_area_sb_uv,
+            ((TranLow*)inverse_quant_buffer->bufferCr) + context_ptr->coded_area_sb_uv,
             qp,
             context_ptr->blk_geom->tx_width_uv[context_ptr->txb_itr],
             context_ptr->blk_geom->tx_height_uv[context_ptr->txb_itr],
@@ -1171,7 +1171,7 @@ static void Av1EncodeLoop16bit(
             av1_estimate_transform(
                 ((int16_t*)residual16bit->buffer_y) + scratchLumaOffset,
                 residual16bit->stride_y,
-                ((tran_low_t*)transform16bit->buffer_y) + coeff1dOffset,
+                ((TranLow*)transform16bit->buffer_y) + coeff1dOffset,
                 NOT_USED_VALUE,
                 context_ptr->blk_geom->txsize[context_ptr->txb_itr],
                 &context_ptr->three_quad_energy,
@@ -1371,7 +1371,7 @@ static void Av1EncodeLoop16bit(
                 ((int16_t*)residual16bit->bufferCb) + scratchCbOffset,
                 residual16bit->strideCb,
 
-                ((tran_low_t*)transform16bit->bufferCb) + context_ptr->coded_area_sb_uv,
+                ((TranLow*)transform16bit->bufferCb) + context_ptr->coded_area_sb_uv,
                 NOT_USED_VALUE,
                 context_ptr->blk_geom->txsize_uv[context_ptr->txb_itr],
                 &context_ptr->three_quad_energy,
@@ -1435,7 +1435,7 @@ static void Av1EncodeLoop16bit(
 
                 residual16bit->strideCr,
 
-                ((tran_low_t*)transform16bit->bufferCr) + context_ptr->coded_area_sb_uv,
+                ((TranLow*)transform16bit->bufferCr) + context_ptr->coded_area_sb_uv,
                 NOT_USED_VALUE,
 
 

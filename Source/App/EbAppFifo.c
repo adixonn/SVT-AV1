@@ -107,10 +107,10 @@
 * runtime-constraint handler. Always needed.
 */
 
-typedef void(*constraint_handler_t) (const char * /* msg */,
+typedef void(*ConstraintHandler) (const char * /* msg */,
     void *       /* ptr */,
-    errno_t      /* error */);
-extern void ignore_handler_s(const char *msg, void *ptr, errno_t error);
+    Errno      /* error */);
+extern void ignore_handler_s(const char *msg, void *ptr, Errno error);
 
 /*
 * Function used by the libraries to invoke the registered
@@ -119,11 +119,11 @@ extern void ignore_handler_s(const char *msg, void *ptr, errno_t error);
 extern void invoke_safe_str_constraint_handler(
     const char *msg,
     void *ptr,
-    errno_t error);
+    Errno error);
 
 
-static void handle_error(char *orig_dest, rsize_t orig_dmax,
-    char *err_msg, errno_t err_code)
+static void handle_error(char *orig_dest, RSize orig_dmax,
+    char *err_msg, Errno err_code)
 {
     (void)orig_dmax;
     *orig_dest = '\0';
@@ -131,12 +131,12 @@ static void handle_error(char *orig_dest, rsize_t orig_dmax,
     invoke_safe_str_constraint_handler(err_msg, NULL, err_code);
     return;
 }
-static constraint_handler_t str_handler = NULL;
+static ConstraintHandler str_handler = NULL;
 
 void
 invoke_safe_str_constraint_handler(const char *msg,
 void *ptr,
-errno_t error)
+Errno error)
 {
     if (NULL != str_handler) {
         str_handler(msg, ptr, error);
@@ -146,7 +146,7 @@ errno_t error)
     }
 }
 
-void ignore_handler_s(const char *msg, void *ptr, errno_t error)
+void ignore_handler_s(const char *msg, void *ptr, Errno error)
 {
     (void)msg;
     (void)ptr;
@@ -157,10 +157,10 @@ void ignore_handler_s(const char *msg, void *ptr, errno_t error)
 }
 EXPORT_SYMBOL(ignore_handler_s)
 
-errno_t
-strncpy_ss(char *dest, rsize_t dmax, const char *src, rsize_t slen)
+Errno
+strncpy_ss(char *dest, RSize dmax, const char *src, RSize slen)
 {
-    rsize_t orig_dmax;
+    RSize orig_dmax;
     char *orig_dest;
     const char *overlap_bumper;
 
@@ -282,10 +282,10 @@ strncpy_ss(char *dest, rsize_t dmax, const char *src, rsize_t slen)
 }
 EXPORT_SYMBOL(strncpy_ss)
 
-errno_t
-strcpy_ss(char *dest, rsize_t dmax, const char *src)
+Errno
+strcpy_ss(char *dest, RSize dmax, const char *src)
 {
-    rsize_t orig_dmax;
+    RSize orig_dmax;
     char *orig_dest;
     const char *overlap_bumper;
 
@@ -377,10 +377,10 @@ strcpy_ss(char *dest, rsize_t dmax, const char *src)
 }
 EXPORT_SYMBOL(strcpy_ss)
 
-rsize_t
-strnlen_ss(const char *dest, rsize_t dmax)
+RSize
+strnlen_ss(const char *dest, RSize dmax)
 {
-    rsize_t count;
+    RSize count;
 
     if (dest == NULL) {
         return RCNEGATE(0);

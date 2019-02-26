@@ -245,7 +245,7 @@ EbErrorType MdcIntraCuRate(
     (void)md_rate_estimation_ptr;
     (void)cu_depth;
     //uint32_t chroma_mode = EB_INTRA_CHROMA_DM;
-    //EB_PART_MODE partitionMode = SIZE_2Nx2N;
+    //EbPartMode partitionMode = SIZE_2Nx2N;
     //int32_t prediction_index = -1;
 
     //// Number of bits for each synatax element

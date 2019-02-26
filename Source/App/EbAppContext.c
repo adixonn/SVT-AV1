@@ -688,7 +688,7 @@ EbErrorType de_init_encoder(
     // Loop through the ptr table and free all malloc'd pointers per channel
     for (ptrIndex = appMemoryMapIndexAllChannels[instance_index] - 1; ptrIndex >= 0; --ptrIndex) {
         memoryEntry = &appMemoryMapAllChannels[instance_index][ptrIndex];
-        switch (memoryEntry->ptrType) {
+        switch (memoryEntry->ptr_type) {
         case EB_N_PTR:
             free(memoryEntry->ptr);
             break;

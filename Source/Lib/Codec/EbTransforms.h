@@ -154,7 +154,7 @@ extern "C" {
         TxSize transform_size;
         //int32_t lossless;
         uint8_t bit_depth;
-        TxSetType transformSetType;
+        TxSetType transform_set_type;
         // for inverse transforms only
         int32_t eob;
     } TransfromParam;
@@ -180,19 +180,20 @@ extern "C" {
         TXFM_TYPES,
         TXFM_TYPE_INVALID,
     } TxfmType;
-    typedef struct Txfm2DFlipCfg {
-        TxSize tx_size;
-        int32_t ud_flip;  // flip upside down
-        int32_t lr_flip;  // flip left to right
+    typedef struct Txfm2DFlipCfg 
+    {
+        TxSize   tx_size;
+        int32_t  ud_flip;  // flip upside down
+        int32_t  lr_flip;  // flip left to right
         const int8_t *shift;
-        int8_t cos_bit_col;
-        int8_t cos_bit_row;
-        int8_t stage_range_col[MAX_TXFM_STAGE_NUM];
-        int8_t stage_range_row[MAX_TXFM_STAGE_NUM];
+        int8_t   cos_bit_col;
+        int8_t   cos_bit_row;
+        int8_t   stage_range_col[MAX_TXFM_STAGE_NUM];
+        int8_t   stage_range_row[MAX_TXFM_STAGE_NUM];
         TxfmType txfm_type_col;
         TxfmType txfm_type_row;
-        int32_t stage_num_col;
-        int32_t stage_num_row;
+        int32_t  stage_num_col;
+        int32_t  stage_num_row;
     } Txfm2DFlipCfg;
     static const TxfmType av1_txfm_type_ls[5][TX_TYPES_1D] = {
         { TXFM_TYPE_DCT4, TXFM_TYPE_ADST4, TXFM_TYPE_ADST4, TXFM_TYPE_IDENTITY4 },
@@ -300,11 +301,12 @@ extern "C" {
         7,  // 64x16 transform
     };
     ////////////////////// QUANTIZATION//////////////
-    typedef struct QuantParam {
+    typedef struct QuantParam 
+    {
         int32_t log_scale;
-        TxSize tx_size;
-        const qm_val_t *qmatrix;
-        const qm_val_t *iqmatrix;
+        TxSize  tx_size;
+        const QmVal *qmatrix;
+        const QmVal *iqmatrix;
     } QuantParam;
 
     static inline int32_t av1_get_tx_scale(const TxSize tx_size) {

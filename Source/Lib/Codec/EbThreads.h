@@ -85,7 +85,7 @@ extern "C" {
         return EB_ErrorInsufficientResources; \
     } \
     else { \
-        memory_map[*(memory_map_index)].ptrType = pointer_class; \
+        memory_map[*(memory_map_index)].ptr_type = pointer_class; \
         memory_map[(*(memory_map_index))++].ptr = pointer; \
         if (n_elements % 8 == 0) { \
             *total_lib_memory += (n_elements); \
@@ -112,7 +112,7 @@ extern "C" {
         return EB_ErrorInsufficientResources; \
     } \
     else { \
-        memory_map[*(memory_map_index)].ptrType = pointer_class; \
+        memory_map[*(memory_map_index)].ptr_type = pointer_class; \
         memory_map[(*(memory_map_index))++].ptr = pointer; \
         if (n_elements % 8 == 0) { \
             *total_lib_memory += (n_elements); \

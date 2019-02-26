@@ -25,13 +25,13 @@ typedef __int64 off64_t;
 #endif
 
 #ifndef _RSIZE_T_DEFINED
-typedef size_t rsize_t;
+typedef size_t RSize;
 #define _RSIZE_T_DEFINED
 #endif  /* _RSIZE_T_DEFINED */
 
 #ifndef _ERRNO_T_DEFINED
 #define _ERRNO_T_DEFINED
-typedef int32_t errno_t;
+typedef int32_t Errno;
 #endif  /* _ERRNO_T_DEFINED */
 
 /** The AppExitConditionType type is used to define the App main loop exit
@@ -77,7 +77,7 @@ typedef void * EbPtr;
 typedef struct EbMemoryMapEntry
 {
     EbPtr                     ptr;                       // points to a memory pointer
-    EbPtrType                 ptrType;                   // pointer type
+    EbPtrType                 ptr_type;                   // pointer type
 } EbMemoryMapEntry;
 
 extern    EbMemoryMapEntry        *app_memory_map;            // App Memory table
@@ -93,7 +93,7 @@ extern    uint32_t                   app_malloc_count;
         return return_type; \
             } \
                 else { \
-        app_memory_map[*(app_memory_map_index)].ptrType = pointer_class; \
+        app_memory_map[*(app_memory_map_index)].ptr_type = pointer_class; \
         app_memory_map[(*(app_memory_map_index))++].ptr = pointer; \
         if (n_elements % 8 == 0) { \
             *total_app_memory += (n_elements); \
@@ -116,7 +116,7 @@ extern    uint32_t                   app_malloc_count;
         return; \
             } \
                 else { \
-        app_memory_map[*(app_memory_map_index)].ptrType = pointer_class; \
+        app_memory_map[*(app_memory_map_index)].ptr_type = pointer_class; \
         app_memory_map[(*(app_memory_map_index))++].ptr = pointer; \
         if (n_elements % 8 == 0) { \
             *total_app_memory += (n_elements); \
@@ -133,13 +133,13 @@ extern    uint32_t                   app_malloc_count;
     app_malloc_count++;
 
 /* string copy */
-extern errno_t strcpy_ss(char *dest, rsize_t dmax, const char *src);
+extern Errno strcpy_ss(char *dest, RSize dmax, const char *src);
 
 /* fitted string copy */
-extern errno_t strncpy_ss(char *dest, rsize_t dmax, const char *src, rsize_t slen);
+extern Errno strncpy_ss(char *dest, RSize dmax, const char *src, RSize slen);
 
 /* string length */
-extern rsize_t strnlen_ss(const char *s, rsize_t smax);
+extern RSize strnlen_ss(const char *s, RSize smax);
 
 #define EB_STRNCPY(dst, src, count) \
     strncpy_ss(dst, sizeof(dst), src, count)

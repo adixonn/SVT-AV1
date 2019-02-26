@@ -2711,7 +2711,7 @@ static void encode_loopfilter(PictureParentControlSet *pcsPtr, struct aom_write_
     if (pcsPtr->allow_intrabc) return;
     const int32_t num_planes = 3;// av1_num_planes(pcsPtr);
 
-    struct loopfilter *lf = &pcsPtr->lf;
+    struct LoopFilter *lf = &pcsPtr->lf;
 
     // Encode the loop filter level and type
     aom_wb_write_literal(wb, lf->filter_level[0], 6);

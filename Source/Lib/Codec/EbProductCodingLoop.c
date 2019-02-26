@@ -763,7 +763,7 @@ void picture_addition_kernel(
         while (columnIndex < width) {
             //recon_ptr[columnIndex] = (uint8_t)CLIP3(0, maxValue, ((int32_t)residual_ptr[columnIndex]) + ((int32_t)pred_ptr[columnIndex]));
             uint16_t rec = (uint16_t)pred_ptr[columnIndex];
-            recon_ptr[columnIndex] = (uint8_t)highbd_clip_pixel_add(rec, (tran_low_t)residual_ptr[columnIndex], bd);
+            recon_ptr[columnIndex] = (uint8_t)highbd_clip_pixel_add(rec, (TranLow)residual_ptr[columnIndex], bd);
 
             //printf("%d\t", recon_ptr[columnIndex]);
             ++columnIndex;
@@ -805,7 +805,7 @@ void picture_addition_kernel16_bit(
         while (columnIndex < width) {
             //recon_ptr[columnIndex] = (uint8_t)CLIP3(0, maxValue, ((int32_t)residual_ptr[columnIndex]) + ((int32_t)pred_ptr[columnIndex]));
             uint16_t rec = (uint16_t)pred_ptr[columnIndex];
-            recon_ptr[columnIndex] = highbd_clip_pixel_add(rec, (tran_low_t)residual_ptr[columnIndex], bd);
+            recon_ptr[columnIndex] = highbd_clip_pixel_add(rec, (TranLow)residual_ptr[columnIndex], bd);
 
             //printf("%d\t", recon_ptr[columnIndex]);
             ++columnIndex;

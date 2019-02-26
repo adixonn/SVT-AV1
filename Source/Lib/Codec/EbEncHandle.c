@@ -1794,7 +1794,7 @@ EB_API EbErrorType eb_deinit_encoder(EbComponentType *svt_enc_component)
             // Loop through the ptr table and free all malloc'd pointers per channel
             for (ptrIndex = (encHandlePtr->memory_map_index) - 1; ptrIndex >= 0; --ptrIndex) {
                 memoryEntry = &encHandlePtr->memory_map[ptrIndex];
-                switch (memoryEntry->ptrType) {
+                switch (memoryEntry->ptr_type) {
                 case EB_N_PTR:
                     free(memoryEntry->ptr);
                     break;
@@ -3418,12 +3418,12 @@ EbErrorType EbOutputReconBufferHeaderCtor(
 
 /* SAFE STRING LIBRARY */
 
-static constraint_handler_t str_handler = NULL;
+static ConstraintHandler str_handler = NULL;
 
 void
 invoke_safe_str_constraint_handler(const char *msg,
     void *ptr,
-    errno_t error)
+    Errno error)
 {
     if (NULL != str_handler) {
         str_handler(msg, ptr, error);
@@ -3433,7 +3433,7 @@ invoke_safe_str_constraint_handler(const char *msg,
     }
 }
 
-void ignore_handler_s(const char *msg, void *ptr, errno_t error)
+void ignore_handler_s(const char *msg, void *ptr, Errno error)
 {
     (void)msg;
     (void)ptr;
@@ -3444,10 +3444,10 @@ void ignore_handler_s(const char *msg, void *ptr, errno_t error)
 }
 EXPORT_SYMBOL(ignore_handler_s)
 
-errno_t
-strncpy_ss(char *dest, rsize_t dmax, const char *src, rsize_t slen)
+Errno
+strncpy_ss(char *dest, RSize dmax, const char *src, RSize slen)
 {
-    rsize_t orig_dmax;
+    RSize orig_dmax;
     char *orig_dest;
     const char *overlap_bumper;
 
@@ -3569,10 +3569,10 @@ strncpy_ss(char *dest, rsize_t dmax, const char *src, rsize_t slen)
 }
 EXPORT_SYMBOL(strncpy_ss)
 
-errno_t
-strcpy_ss(char *dest, rsize_t dmax, const char *src)
+Errno
+strcpy_ss(char *dest, RSize dmax, const char *src)
 {
-    rsize_t orig_dmax;
+    RSize orig_dmax;
     char *orig_dest;
     const char *overlap_bumper;
 
@@ -3664,10 +3664,10 @@ strcpy_ss(char *dest, rsize_t dmax, const char *src)
 }
 EXPORT_SYMBOL(strcpy_ss)
 
-rsize_t
-strnlen_ss(const char *dest, rsize_t dmax)
+RSize
+strnlen_ss(const char *dest, RSize dmax)
 {
-    rsize_t count;
+    RSize count;
 
     if (dest == NULL) {
         return RCNEGATE(0);

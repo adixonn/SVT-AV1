@@ -112,7 +112,7 @@ static INLINE uint8_t *set_levels(uint8_t *const levels_buf, const int32_t width
 }
 
 void av1_txb_init_levels_c(
-    const tran_low_t *const coeff,
+    const TranLow *const coeff,
     const int32_t width,
     const int32_t height,
     uint8_t *const levels) {
@@ -400,7 +400,7 @@ static INLINE int32_t av1_cost_skip_txb(
 // Note: don't call this function when eob is 0.
 uint64_t av1_cost_coeffs_txb(
     struct ModeDecisionCandidateBuffer    *candidate_buffer_ptr,
-    const tran_low_t                        *const qcoeff,
+    const TranLow                        *const qcoeff,
     uint16_t                                   eob,
     PlaneType                               PlaneType,
     TxSize                                  transform_size,
@@ -465,7 +465,7 @@ uint64_t av1_cost_coeffs_txb(
     for (c = eob - 1; c >= 0; --c) {
 
         const int32_t pos = scan[c];
-        const tran_low_t v = qcoeff[pos];
+        const TranLow v = qcoeff[pos];
         const int32_t is_nz = (v != 0);
         const int32_t level = abs(v);
         const int32_t coeff_ctx = coeff_contexts[pos];

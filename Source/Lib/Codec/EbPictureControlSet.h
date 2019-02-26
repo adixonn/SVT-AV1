@@ -63,7 +63,7 @@ extern "C" {
         512, 2048, 2048, 64, 64, 256, 256, 1024, 1024,
     };
 
-    static const qm_val_t wt_matrix_ref[NUM_QM_LEVELS][2][QM_TOTAL_SIZE] = {
+    static const QmVal wt_matrix_ref[NUM_QM_LEVELS][2][QM_TOTAL_SIZE] = {
         {
             { /* Luma */
                 /* Size 4x4 */
@@ -6696,7 +6696,7 @@ extern "C" {
     frequency domain according to different nominal viewing
     distances.
     */
-    static const qm_val_t iwt_matrix_ref[NUM_QM_LEVELS][2][QM_TOTAL_SIZE] = {
+    static const QmVal iwt_matrix_ref[NUM_QM_LEVELS][2][QM_TOTAL_SIZE] = {
         {
             { /* Luma */
                 /* Size 4x4 */
@@ -13476,8 +13476,8 @@ extern "C" {
     {
 #if !MACRO_BLOCK_CLEANUP
         DECLARE_ALIGNED(16, int16_t, src_diff[MAX_SB_SQUARE]);
-        tran_low_t *qcoeff;
-        tran_low_t *coeff;
+        TranLow *qcoeff;
+        TranLow *coeff;
         uint16_t *eobs;
         uint8_t *txb_entropy_ctx;
         struct Buf2d src;
@@ -13545,7 +13545,7 @@ extern "C" {
 
     typedef struct MacroblockdPlane 
     {
-        //tran_low_t *dqcoeff;
+        //TranLow *dqcoeff;
         PlaneType PlaneType;
         int32_t subsampling_x;
         int32_t subsampling_y;
@@ -13561,8 +13561,8 @@ extern "C" {
         //uint8_t *color_index_map;
         // block size in pixels
         //uint8_t width, height;
-        //qm_val_t *seg_iqmatrix[MAX_SEGMENTS][TX_SIZES_ALL];
-        //qm_val_t *seg_qmatrix[MAX_SEGMENTS][TX_SIZES_ALL];
+        //QmVal *seg_iqmatrix[MAX_SEGMENTS][TX_SIZES_ALL];
+        //QmVal *seg_qmatrix[MAX_SEGMENTS][TX_SIZES_ALL];
         // the 'dequantizers' below are not literal dequantizer values.
         // They're used by encoder RDO to generate ad-hoc lambda values.
         // They use a hardwired Q3 coeff shift and do not necessarily match
@@ -14175,8 +14175,8 @@ extern "C" {
         int32_t                               separate_uv_delta_q;
 
         // Global quant matrix tables
-        const qm_val_t                       *giqmatrix[NUM_QM_LEVELS][3][TX_SIZES_ALL];
-        const qm_val_t                       *gqmatrix[NUM_QM_LEVELS][3][TX_SIZES_ALL];
+        const QmVal                       *giqmatrix[NUM_QM_LEVELS][3][TX_SIZES_ALL];
+        const QmVal                       *gqmatrix[NUM_QM_LEVELS][3][TX_SIZES_ALL];
         Quants                                quants;
         Dequants                              deq;
 #if MD_10BIT_FIX
@@ -14200,7 +14200,7 @@ extern "C" {
         // a frame decode
         RefreshFrameContextMode               refresh_frame_context;
         int32_t                               ref_frame_sign_bias[TOTAL_REFS_PER_FRAME]; /* Two state 0, 1 */
-        struct loopfilter                     lf;
+        struct LoopFilter                     lf;
         int32_t                               coded_lossless;  // frame is fully lossless at the coded resolution.
         int32_t                               all_lossless;
         int32_t                               reduced_tx_set_used;
@@ -14542,7 +14542,7 @@ extern "C" {
         //    int32_t arf_pos_in_gf[MAX_EXT_ARFS + 1];
         //    int32_t arf_pos_for_ovrly[MAX_EXT_ARFS + 1];
         //    int32_t global_motion_search_done;
-        //    tran_low_t *tcoeff_buf[MAX_MB_PLANE];
+        //    TranLow *tcoeff_buf[MAX_MB_PLANE];
         //    int32_t extra_arf_allowed;
         //    int32_t bwd_ref_allowed;
         //    // A flag to indicate if intrabc is ever used in current frame.
