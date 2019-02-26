@@ -484,7 +484,7 @@ void MeBasedGlobalMotionDetection(
 
 
 void StationaryEdgeCountLcu(
-    SequenceControlSet_t        *sequence_control_set_ptr,
+    SequenceControlSet        *sequence_control_set_ptr,
     PictureParentControlSet   *picture_control_set_ptr,
     PictureParentControlSet   *temporalPictureControlSetPtr,
     uint32_t                       totalLcuCount)
@@ -527,7 +527,7 @@ void StationaryEdgeCountLcu(
 }
 
 void StationaryEdgeOverUpdateOverTimeLcuPart1(
-    SequenceControlSet_t        *sequence_control_set_ptr,
+    SequenceControlSet        *sequence_control_set_ptr,
     PictureParentControlSet   *picture_control_set_ptr)
 {
 
@@ -584,7 +584,7 @@ void StationaryEdgeOverUpdateOverTimeLcuPart1(
     }
 }
 void StationaryEdgeOverUpdateOverTimeLcuPart2(
-    SequenceControlSet_t        *sequence_control_set_ptr,
+    SequenceControlSet        *sequence_control_set_ptr,
     PictureParentControlSet   *picture_control_set_ptr)
 {
 
@@ -629,7 +629,7 @@ void StationaryEdgeOverUpdateOverTimeLcuPart2(
 }
 
 void StationaryEdgeOverUpdateOverTimeLcu(
-    SequenceControlSet_t        *sequence_control_set_ptr,
+    SequenceControlSet        *sequence_control_set_ptr,
     uint32_t                        totalCheckedPictures,
     PictureParentControlSet   *picture_control_set_ptr,
     uint32_t                       totalLcuCount)
@@ -887,7 +887,7 @@ void StationaryEdgeOverUpdateOverTimeLcu(
 ************************************************/
 void UpdateGlobalMotionDetectionOverTime(
     EncodeContext                   *encode_context_ptr,
-    SequenceControlSet_t              *sequence_control_set_ptr,
+    SequenceControlSet              *sequence_control_set_ptr,
     PictureParentControlSet         *picture_control_set_ptr)
 {
 
@@ -964,7 +964,7 @@ void UpdateBeaInfoOverTime(
     uint32_t                                inputQueueIndex;
 
 
-    SequenceControlSet_t *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+    SequenceControlSet *sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     // Update motionIndexArray of the current picture by averaging the motionIndexArray of the N future pictures
     // Determine number of frames to check N
     updateNonMovingIndexArrayFramesToCheck = MIN(MIN(((picture_control_set_ptr->pred_struct_ptr->predStructPeriod << 1) + 1), picture_control_set_ptr->frames_in_sw), sequence_control_set_ptr->static_config.look_ahead_distance);
@@ -1037,7 +1037,7 @@ void InitZzCostInfo(
 ************************************************/
 void UpdateMotionFieldUniformityOverTime(
     EncodeContext                   *encode_context_ptr,
-    SequenceControlSet_t              *sequence_control_set_ptr,
+    SequenceControlSet              *sequence_control_set_ptr,
     PictureParentControlSet         *picture_control_set_ptr)
 {
     InitialRateControlReorderEntry   *temporaryQueueEntryPtr;
@@ -1109,7 +1109,7 @@ void UpdateHomogeneityOverTime(
     uint32_t                                framesToCheckIndex;
     uint32_t                              lcuIdx;
 
-    SequenceControlSet_t *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+    SequenceControlSet *sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
     picture_control_set_ptr->pic_homogenous_over_time_sb_percentage = 0;
 
@@ -1209,7 +1209,7 @@ InitialRateControlReorderEntry  * DeterminePictureOffsetInQueue(
 }
 
 void GetHistogramQueueData(
-    SequenceControlSet_t              *sequence_control_set_ptr,
+    SequenceControlSet              *sequence_control_set_ptr,
     EncodeContext                   *encode_context_ptr,
     PictureParentControlSet         *picture_control_set_ptr)
 {
@@ -1255,7 +1255,7 @@ void GetHistogramQueueData(
 }
 
 void UpdateHistogramQueueEntry(
-    SequenceControlSet_t              *sequence_control_set_ptr,
+    SequenceControlSet              *sequence_control_set_ptr,
     EncodeContext                   *encode_context_ptr,
     PictureParentControlSet         *picture_control_set_ptr)
 {
@@ -1336,7 +1336,7 @@ EbAuraStatus AuraDetection64x64Gold(
 );
 
 void QpmGatherStatisticsSW(
-    SequenceControlSet_t        *sequence_control_set_ptr,
+    SequenceControlSet        *sequence_control_set_ptr,
     PictureParentControlSet   *picture_control_set_ptr,
     uint32_t                       sb_index)
 {
@@ -1593,7 +1593,7 @@ EbBool IsSpatiallyComplexArea(
 
 // Derives blockinessPresentFlag
 void DeriveBlockinessPresentFlag(
-    SequenceControlSet_t        *sequence_control_set_ptr,
+    SequenceControlSet        *sequence_control_set_ptr,
     PictureParentControlSet   *picture_control_set_ptr)
 {
     uint32_t                      sb_index;
@@ -1648,7 +1648,7 @@ void* initial_rate_control_kernel(void *input_ptr)
     PictureParentControlSet         *picture_control_set_ptr;
     PictureParentControlSet         *pictureControlSetPtrTemp;
     EncodeContext                   *encode_context_ptr;
-    SequenceControlSet_t              *sequence_control_set_ptr;
+    SequenceControlSet              *sequence_control_set_ptr;
 
     EbObjectWrapper                 *inputResultsWrapperPtr;
     MotionEstimationResults         *inputResultsPtr;
@@ -1689,7 +1689,7 @@ void* initial_rate_control_kernel(void *input_ptr)
 
         // If the picture is complete, proceed
         if (SEGMENT_COMPLETION_MASK_TEST(picture_control_set_ptr->me_segments_completion_mask, picture_control_set_ptr->me_segments_total_count)) {
-            sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+            sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
             encode_context_ptr = (EncodeContext*)sequence_control_set_ptr->encode_context_ptr;
 
             // Mark picture when global motion is detected using ME results
@@ -1871,7 +1871,7 @@ void* initial_rate_control_kernel(void *input_ptr)
                     //get a new entry spot
                     queueEntryPtr = encode_context_ptr->initial_rate_control_reorder_queue[encode_context_ptr->initial_rate_control_reorder_queue_head_index];
                     picture_control_set_ptr = ((PictureParentControlSet*)(queueEntryPtr->parentPcsWrapperPtr)->object_ptr);
-                    sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+                    sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
                     picture_control_set_ptr->frames_in_sw = frames_in_sw;
                     queueEntryIndexTemp = encode_context_ptr->initial_rate_control_reorder_queue_head_index;
                     end_of_sequence_flag = EB_FALSE;

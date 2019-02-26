@@ -91,7 +91,7 @@ static INLINE int32_t does_level_match(int32_t width, int32_t height, double fps
         height <= lvl_height * lvl_dim_mult;
 }
 
-static void SetBitstreamLevelTier(SequenceControlSet_t *scsPtr) {
+static void SetBitstreamLevelTier(SequenceControlSet *scsPtr) {
     // TODO(any): This is a placeholder function that only addresses dimensions
     // and max display sample rates.
     // Need to add checks for max bit rate, max decoded luma sample rate, header
@@ -956,7 +956,7 @@ static void partition_gather_vert_alike(aom_cdf_prob *out,
     out[1] = AOM_ICDF(CDF_PROB_TOP);
 }
 static void EncodePartitionAv1(
-    SequenceControlSet_t    *sequence_control_set_ptr,
+    SequenceControlSet    *sequence_control_set_ptr,
     FRAME_CONTEXT           *frameContext,
     aom_writer              *ecWriter,
     block_size              bsize,
@@ -3163,7 +3163,7 @@ static void write_tile_info(const PictureParentControlSet *const pcs_ptr,
 static void write_frame_size(PictureParentControlSet *pcsPtr,
     int32_t frame_size_override,
     struct aom_write_bit_buffer *wb) {
-    SequenceControlSet_t *scsPtr = (SequenceControlSet_t*)pcsPtr->sequence_control_set_wrapper_ptr->object_ptr;
+    SequenceControlSet *scsPtr = (SequenceControlSet*)pcsPtr->sequence_control_set_wrapper_ptr->object_ptr;
     (void)(*pcsPtr);
     (void)frame_size_override;
     //const int32_t coded_width = cm->superres_upscaled_width - 1;
@@ -3193,7 +3193,7 @@ static void WriteProfile(BitstreamProfile profile,
 
 }
 
-static void write_bitdepth(SequenceControlSet_t *scsPtr/*Av1Common *const cm*/,
+static void write_bitdepth(SequenceControlSet *scsPtr/*Av1Common *const cm*/,
     struct aom_write_bit_buffer *wb) {
     // Profile 0/1: [0] for 8 bit, [1]  10-bit
     // Profile   2: [0] for 8 bit, [10] 10-bit, [11] - 12-bit
@@ -3205,7 +3205,7 @@ static void write_bitdepth(SequenceControlSet_t *scsPtr/*Av1Common *const cm*/,
 }
 #if AV1_UPGRADE
 static void write_color_config(
-    SequenceControlSet_t *scsPtr/*Av1Common *const cm*/, struct aom_write_bit_buffer *wb) {
+    SequenceControlSet *scsPtr/*Av1Common *const cm*/, struct aom_write_bit_buffer *wb) {
 
     //write_bitdepth(cm, wb);
     write_bitdepth(scsPtr, wb);
@@ -3284,7 +3284,7 @@ static void write_color_config(
 
 #else
 static void WriteBitdepthColorspaceSampling(
-    SequenceControlSet_t *scsPtr/*Av1Common *const cm*/, struct aom_write_bit_buffer *wb) {
+    SequenceControlSet *scsPtr/*Av1Common *const cm*/, struct aom_write_bit_buffer *wb) {
     write_bitdepth(scsPtr, wb);
 
     const int32_t is_monochrome = 0;// cm->seq_params.monochrome;
@@ -3363,7 +3363,7 @@ static void WriteBitdepthColorspaceSampling(
     //aom_wb_write_bit(wb, cm->separate_uv_delta_q);
 }
 #endif
-void WriteSequenceHeader(SequenceControlSet_t *scsPtr/*AV1Comp *cpi*/, struct aom_write_bit_buffer *wb) {
+void WriteSequenceHeader(SequenceControlSet *scsPtr/*AV1Comp *cpi*/, struct aom_write_bit_buffer *wb) {
     //    Av1Common *const cm = &cpi->common;
     //    SequenceHeader *seq_params = &cm->seq_params;
     //
@@ -3852,7 +3852,7 @@ static void write_film_grain_params(PictureParentControlSet *pcsPtr,
 }
 
 // New function based on HLS R18
-static void WriteUncompressedHeaderObu(SequenceControlSet_t *scsPtr/*AV1Comp *cpi*/,
+static void WriteUncompressedHeaderObu(SequenceControlSet *scsPtr/*AV1Comp *cpi*/,
     PictureParentControlSet *pcsPtr,
     //struct aom_write_bit_buffer *saved_wb,
     struct aom_write_bit_buffer *wb,
@@ -4295,7 +4295,7 @@ static void write_bitstream_level(BitstreamLevel bl,
     aom_wb_write_literal(wb, seq_level_idx, LEVEL_BITS);
 }
 static uint32_t WriteSequenceHeaderObu(
-    SequenceControlSet_t *scsPtr,
+    SequenceControlSet *scsPtr,
     uint8_t *const dst,
     uint8_t numberSpatialLayers)
 {
@@ -4471,7 +4471,7 @@ static uint32_t write_tile_group_header(uint8_t *const dst, int startTile,
 }
 #endif
 static uint32_t WriteFrameHeaderObu(
-    SequenceControlSet_t      *scsPtr,
+    SequenceControlSet      *scsPtr,
     PictureParentControlSet *pcsPtr,
     uint8_t                   *const dst,
     uint8_t show_existing,
@@ -4502,7 +4502,7 @@ static uint32_t WriteFrameHeaderObu(
 **************************************************/
 EbErrorType write_frame_header_av1(
     Bitstream *bitstream_ptr,
-    SequenceControlSet_t *scsPtr,
+    SequenceControlSet *scsPtr,
     PictureControlSet *pcsPtr,
     uint8_t show_existing)
 {
@@ -4572,7 +4572,7 @@ EbErrorType write_frame_header_av1(
 **************************************************/
 EbErrorType encode_sps_av1(
     Bitstream *bitstream_ptr,
-    SequenceControlSet_t *scsPtr)
+    SequenceControlSet *scsPtr)
 {
     EbErrorType            return_error = EB_ErrorNone;
     OutputBitstreamUnit  *outputBitstreamPtr = (OutputBitstreamUnit*)bitstream_ptr->outputBitstreamPtr;
@@ -4659,7 +4659,7 @@ static void Av1writeDeltaQindex(
 
 
 static void write_cdef(
-    SequenceControlSet_t     *seqCSetPtr,
+    SequenceControlSet     *seqCSetPtr,
     PictureControlSet     *p_pcs_ptr,
     //Av1Common *cm,
     MacroBlockD *const xd,
@@ -5029,7 +5029,7 @@ EbErrorType write_modes_b(
     EbErrorType return_error = EB_ErrorNone;
     FRAME_CONTEXT           *frameContext = entropy_coder_ptr->fc;
     aom_writer              *ecWriter = &entropy_coder_ptr->ecWriter;
-    SequenceControlSet_t     *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+    SequenceControlSet     *sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
     NeighborArrayUnit     *mode_type_neighbor_array = picture_control_set_ptr->mode_type_neighbor_array;
     NeighborArrayUnit     *intra_luma_mode_neighbor_array = picture_control_set_ptr->intra_luma_mode_neighbor_array;
@@ -5460,7 +5460,7 @@ EB_EXTERN EbErrorType write_sb(
     EbErrorType return_error = EB_ErrorNone;
     FRAME_CONTEXT           *frameContext = entropy_coder_ptr->fc;
     aom_writer              *ecWriter = &entropy_coder_ptr->ecWriter;
-    SequenceControlSet_t     *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+    SequenceControlSet     *sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     NeighborArrayUnit     *partition_context_neighbor_array = picture_control_set_ptr->partition_context_neighbor_array;
 
     // CU Varaiables

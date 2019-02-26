@@ -2211,7 +2211,7 @@ static void partition_gather_vert_alike(int32_t *out,
 *       md_rate_estimation_ptr is pointer to MD rate Estimation Tables
 **********************************************************************************/
 EbErrorType av1_split_flag_rate(
-    SequenceControlSet_t                  *sequence_control_set_ptr,
+    SequenceControlSet                  *sequence_control_set_ptr,
     ModeDecisionContext                  *context_ptr,
     CodingUnit                           *cu_ptr,
     uint32_t                                  leaf_index,

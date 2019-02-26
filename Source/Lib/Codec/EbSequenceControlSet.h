@@ -242,7 +242,7 @@ extern "C" {
         int32_t                                 film_grain_denoise_strength;
         int32_t                                 film_grain_params_present;  // To turn on/off film grain (on a sequence basis)
 
-    } SequenceControlSet_t;
+    } SequenceControlSet;
 
     typedef struct EbSequenceControlSetInitData
     {
@@ -253,7 +253,7 @@ extern "C" {
     typedef struct EbSequenceControlSetInstance
     {
         EncodeContext            *encode_context_ptr;
-        SequenceControlSet_t       *sequence_control_set_ptr;
+        SequenceControlSet       *sequence_control_set_ptr;
         EbHandle                    config_mutex;
 
     } EbSequenceControlSetInstance;
@@ -266,23 +266,23 @@ extern "C" {
         EbPtr  object_init_data_ptr);
 
     extern EbErrorType copy_sequence_control_set(
-        SequenceControlSet_t *dst,
-        SequenceControlSet_t *src);
+        SequenceControlSet *dst,
+        SequenceControlSet *src);
 
     extern EbErrorType eb_sequence_control_set_instance_ctor(
         EbSequenceControlSetInstance **object_dbl_ptr);
 
     extern EbErrorType sb_params_ctor(
-        SequenceControlSet_t *sequence_control_set_ptr);
+        SequenceControlSet *sequence_control_set_ptr);
 
     extern EbErrorType sb_params_init(
-        SequenceControlSet_t *sequence_control_set_ptr);
+        SequenceControlSet *sequence_control_set_ptr);
 
     extern EbErrorType derive_input_resolution(
-        SequenceControlSet_t *sequence_control_set_ptr,
+        SequenceControlSet *sequence_control_set_ptr,
         uint32_t              input_size);
 
-    EbErrorType sb_geom_init(SequenceControlSet_t *sequence_control_set_ptr);
+    EbErrorType sb_geom_init(SequenceControlSet *sequence_control_set_ptr);
 
 #ifdef __cplusplus
 }

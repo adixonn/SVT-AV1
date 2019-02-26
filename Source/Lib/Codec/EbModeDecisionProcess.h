@@ -292,14 +292,14 @@ extern "C" {
     extern void reset_mode_decision(
         ModeDecisionContext   *context_ptr,
         PictureControlSet     *picture_control_set_ptr,
-        SequenceControlSet_t    *sequence_control_set_ptr,
+        SequenceControlSet    *sequence_control_set_ptr,
         uint32_t                 segment_index);
 
     extern void mode_decision_configure_lcu(
         ModeDecisionContext   *context_ptr,
         LargestCodingUnit     *sb_ptr,
         PictureControlSet     *picture_control_set_ptr,
-        SequenceControlSet_t    *sequence_control_set_ptr,
+        SequenceControlSet    *sequence_control_set_ptr,
         uint8_t                  picture_qp,
         uint8_t                  sb_qp);
 

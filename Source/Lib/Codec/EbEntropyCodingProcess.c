@@ -177,7 +177,7 @@ void av1_build_nmv_cost_table(int32_t *mvjoint, int32_t *mvcost[2],
 static void ResetEntropyCodingPicture(
     EntropyCodingContext  *context_ptr,
     PictureControlSet     *picture_control_set_ptr,
-    SequenceControlSet_t    *sequence_control_set_ptr)
+    SequenceControlSet    *sequence_control_set_ptr)
 {
     reset_bitstream(entropy_coder_get_bitstream_ptr(picture_control_set_ptr->entropy_coder_ptr));
 
@@ -256,7 +256,7 @@ static void reset_ec_tile(
     uint32_t  is_last_tile_in_tg,
     EntropyCodingContext  *context_ptr,
     PictureControlSet     *picture_control_set_ptr,
-    SequenceControlSet_t    *sequence_control_set_ptr)
+    SequenceControlSet    *sequence_control_set_ptr)
 {
     reset_bitstream(entropy_coder_get_bitstream_ptr(picture_control_set_ptr->entropy_coder_ptr));
 
@@ -362,7 +362,7 @@ static void EntropyCodingLcu(
     EntropyCodingContext              *context_ptr,
     LargestCodingUnit               *sb_ptr,
     PictureControlSet               *picture_control_set_ptr,
-    SequenceControlSet_t              *sequence_control_set_ptr,
+    SequenceControlSet              *sequence_control_set_ptr,
     uint32_t                             sb_origin_x,
     uint32_t                             sb_origin_y,
     EbBool                            terminateSliceFlag,
@@ -509,7 +509,7 @@ void* entropy_coding_kernel(void *input_ptr)
     // Context & SCS & PCS
     EntropyCodingContext                  *context_ptr = (EntropyCodingContext*)input_ptr;
     PictureControlSet                     *picture_control_set_ptr;
-    SequenceControlSet_t                    *sequence_control_set_ptr;
+    SequenceControlSet                    *sequence_control_set_ptr;
 
     // Input
     EbObjectWrapper                       *encDecResultsWrapperPtr;
@@ -540,7 +540,7 @@ void* entropy_coding_kernel(void *input_ptr)
             &encDecResultsWrapperPtr);
         encDecResultsPtr = (EncDecResults*)encDecResultsWrapperPtr->object_ptr;
         picture_control_set_ptr = (PictureControlSet*)encDecResultsPtr->pictureControlSetWrapperPtr->object_ptr;
-        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+        sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
         lastLcuFlag = EB_FALSE;
 
         // SB Constants

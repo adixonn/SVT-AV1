@@ -282,8 +282,8 @@ EbErrorType SetMvpClipMVs(
 {
     EbErrorType  return_error = EB_ErrorNone;
 
-    uint32_t        picture_width = ((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr)->luma_width;
-    uint32_t        picture_height = ((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr)->luma_height;
+    uint32_t        picture_width = ((SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr)->luma_width;
+    uint32_t        picture_height = ((SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr)->luma_height;
 
     candidate_ptr->motion_vector_pred_idx[REF_LIST_0] = 0;
     candidate_ptr->motion_vector_pred_x[REF_LIST_0] = 0;
@@ -357,7 +357,7 @@ void LimitMvOverBound(
     int16_t *mvx,
     int16_t *mvy,
     ModeDecisionContext     *ctxtPtr,
-    const SequenceControlSet_t      *sCSet)
+    const SequenceControlSet      *sCSet)
 {
     int32_t mvxF, mvyF;
 
@@ -483,7 +483,7 @@ EbErrorType pre_mode_decision(
 void Me2Nx2NCandidatesInjectionSwResults(
     PictureControlSet            *picture_control_set_ptr,
     ModeDecisionContext          *context_ptr,
-    const SequenceControlSet_t     *sequence_control_set_ptr,
+    const SequenceControlSet     *sequence_control_set_ptr,
     LargestCodingUnit            *sb_ptr,
     const uint32_t                    me2Nx2NTableOffset,
     uint32_t                         *candidateTotalCnt,
@@ -1359,7 +1359,7 @@ void  inject_inter_candidates(
     PictureControlSet            *picture_control_set_ptr,
     ModeDecisionContext          *context_ptr,
     SsMeContext                  *ss_mecontext,
-    const SequenceControlSet_t     *sequence_control_set_ptr,
+    const SequenceControlSet     *sequence_control_set_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                       *candidateTotalCnt,
     const uint32_t                  leaf_index){
@@ -1976,7 +1976,7 @@ static INLINE TxType av1_get_tx_type(
 void  inject_intra_candidates(
     PictureControlSet            *picture_control_set_ptr,
     ModeDecisionContext          *context_ptr,
-    const SequenceControlSet_t     *sequence_control_set_ptr,
+    const SequenceControlSet     *sequence_control_set_ptr,
     LargestCodingUnit            *sb_ptr,
     uint32_t                       *candidateTotalCnt,
     const uint32_t                  leaf_index){
@@ -2187,7 +2187,7 @@ EbErrorType ProductGenerateMdCandidatesCu(
 
     (void)lcu_addr;
     (void)interPredContextPtr;
-    const SequenceControlSet_t *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+    const SequenceControlSet *sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     const EB_SLICE slice_type = picture_control_set_ptr->slice_type;
     uint32_t       canTotalCnt;
 

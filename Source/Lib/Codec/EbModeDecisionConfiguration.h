@@ -18,7 +18,7 @@ extern "C" {
  *   predicts candidates (LCU)
  *******************************************/
 extern EbErrorType early_mode_decision_lcu(
-    SequenceControlSet_t                   *sequence_control_set_ptr,
+    SequenceControlSet                   *sequence_control_set_ptr,
     PictureControlSet                    *picture_control_set_ptr,
     LargestCodingUnit                    *sb_ptr,
     uint32_t                                sb_index,
@@ -30,7 +30,7 @@ extern EbErrorType early_mode_decision_lcu(
 *   Derive Lcu For Each Leaf (LCU)
 *******************************************/
 extern EbErrorType derive_delta_qp_for_each_leaf_lcu(
-    SequenceControlSet_t                   *sequence_control_set_ptr,
+    SequenceControlSet                   *sequence_control_set_ptr,
     PictureControlSet                    *picture_control_set_ptr,
     LargestCodingUnit                    *sb_ptr,
     uint32_t                                 sb_index,

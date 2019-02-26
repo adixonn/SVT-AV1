@@ -89,7 +89,7 @@ EbErrorType picture_decision_context_ctor(
 
 EbBool SceneTransitionDetector(
     PictureDecisionContext *context_ptr,
-    SequenceControlSet_t                 *sequence_control_set_ptr,
+    SequenceControlSet                 *sequence_control_set_ptr,
     PictureParentControlSet           **ParentPcsWindow,
     uint32_t                                windowWidthFuture)
 {
@@ -420,7 +420,7 @@ EbErrorType handle_incomplete_picture_window_map(
 EbErrorType update_base_layer_reference_queue_dependent_count(
     PictureDecisionContext        *context_ptr,
     EncodeContext                 *encode_context_ptr,
-    SequenceControlSet_t            *sequence_control_set_ptr,
+    SequenceControlSet            *sequence_control_set_ptr,
     uint32_t                         mini_gop_index) {
 
     if (!context_ptr || !encode_context_ptr || !sequence_control_set_ptr)
@@ -730,8 +730,8 @@ EbErrorType signal_derivation_multi_processes_oq(
     // 1                                            4 step refinement
     // 2                                            8 step refinement
     // 3                                            16 step refinement
-    SequenceControlSet_t                    *sequence_control_set_ptr;
-    sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+    SequenceControlSet                    *sequence_control_set_ptr;
+    sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     if (sequence_control_set_ptr->enable_cdef) {
         if (picture_control_set_ptr->enc_mode >= ENC_M3)
             picture_control_set_ptr->cdef_filter_mode = 1;
@@ -1494,7 +1494,7 @@ void* picture_decision_kernel(void *input_ptr)
     PictureParentControlSet       *picture_control_set_ptr;
 
     EncodeContext                 *encode_context_ptr;
-    SequenceControlSet_t            *sequence_control_set_ptr;
+    SequenceControlSet            *sequence_control_set_ptr;
 
     EbObjectWrapper               *inputResultsWrapperPtr;
     PictureAnalysisResults        *inputResultsPtr;
@@ -1549,7 +1549,7 @@ void* picture_decision_kernel(void *input_ptr)
 
         inputResultsPtr = (PictureAnalysisResults*)inputResultsWrapperPtr->object_ptr;
         picture_control_set_ptr = (PictureParentControlSet*)inputResultsPtr->pictureControlSetWrapperPtr->object_ptr;
-        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+        sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
         encode_context_ptr = (EncodeContext*)sequence_control_set_ptr->encode_context_ptr;
 
         loopCount++;
@@ -1777,7 +1777,7 @@ void* picture_decision_kernel(void *input_ptr)
                         for (pictureIndex = context_ptr->miniGopStartIndex[miniGopIndex]; pictureIndex <= context_ptr->miniGopEndIndex[miniGopIndex]; ++pictureIndex) {
 
                             picture_control_set_ptr = (PictureParentControlSet*)encode_context_ptr->pre_assignment_buffer[pictureIndex]->object_ptr;
-                            sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+                            sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
                             // Keep track of the mini GOP size to which the input picture belongs - needed @ PictureManagerProcess()
                             picture_control_set_ptr->pre_assignment_buffer_count = context_ptr->miniGopLength[miniGopIndex];

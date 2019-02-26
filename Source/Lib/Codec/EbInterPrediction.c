@@ -4253,7 +4253,7 @@ EbErrorType inter_pu_prediction_av1(
     mv_unit.mv[1].x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
     mv_unit.mv[1].y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
 
-    SequenceControlSet_t* sequence_control_set_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr));
+    SequenceControlSet* sequence_control_set_ptr = ((SequenceControlSet*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr));
     EbBool  is16bit = (EbBool)(sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
 
     int64_t skip_sse_sb = INT64_MAX;
@@ -4476,9 +4476,9 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
     InterPredictionContext *context_ptr = (InterPredictionContext*)(md_context_ptr->inter_prediction_context);
     uint32_t                  puOriginIndex;
     uint32_t                  puChromaOriginIndex;
-    EncodeContext        *encode_context_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
+    EncodeContext        *encode_context_ptr = ((SequenceControlSet*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
 
-    SequenceControlSet_t* sequence_control_set_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr));
+    SequenceControlSet* sequence_control_set_ptr = ((SequenceControlSet*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr));
     EbBool  is16bit = (EbBool)(sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
 
     int16_t motionVector_x;
@@ -4930,9 +4930,9 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
     InterPredictionContext *context_ptr = (InterPredictionContext*)(md_context_ptr->inter_prediction_context);
     uint32_t                  puOriginIndex;
     uint32_t                  puChromaOriginIndex;
-    EncodeContext        *encode_context_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
+    EncodeContext        *encode_context_ptr = ((SequenceControlSet*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
 
-    SequenceControlSet_t* sequence_control_set_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr));
+    SequenceControlSet* sequence_control_set_ptr = ((SequenceControlSet*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr));
     EbBool  is16bit = (EbBool)(sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
 
     int16_t motionVector_x;
@@ -5451,8 +5451,8 @@ EbErrorType choose_mvp_idx_v2(
     uint8_t         mvpRef1Idx;
 
 
-    uint32_t        picture_width = ((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr)->luma_width;
-    uint32_t        picture_height = ((SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr)->luma_height;
+    uint32_t        picture_width = ((SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr)->luma_width;
+    uint32_t        picture_height = ((SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr)->luma_height;
 
     uint32_t   mvd0, mvd1;
 

@@ -256,7 +256,7 @@ EbErrorType MdcIntraCuRate(
     //uint64_t lumaRate;
     //uint64_t chromaRate;
 
-    //EncodeContext *encode_context_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
+    //EncodeContext *encode_context_ptr = ((SequenceControlSet*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
 
     //CHECK_REPORT_ERROR(
     //    (partitionMode == SIZE_2Nx2N),
@@ -268,7 +268,7 @@ EbErrorType MdcIntraCuRate(
 
     //// Estimate Partition Size Bits :
     //// *Note - Intra is implicitly 2Nx2N
-    //partSizeIntraBitsNum = ((uint8_t)cu_depth == (((SequenceControlSet_t *)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr)->max_sb_depth - 1)) ?
+    //partSizeIntraBitsNum = ((uint8_t)cu_depth == (((SequenceControlSet *)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr)->max_sb_depth - 1)) ?
     //    md_rate_estimation_ptr->intraPartSizeBits[partitionMode] :
     //    ZERO_COST;
 
@@ -393,7 +393,7 @@ uint8_t derive_contouring_class(
 {
     uint8_t contouringClass = 0;
 
-    SequenceControlSet_t *sequence_control_set_ptr = (SequenceControlSet_t*)parent_pcs_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+    SequenceControlSet *sequence_control_set_ptr = (SequenceControlSet*)parent_pcs_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
     if (parent_pcs_ptr->is_sb_homogeneous_over_time[sb_index]) {
         if (leaf_index > 0) {
@@ -428,7 +428,7 @@ uint8_t derive_contouring_class(
 
 
 void RefinementPredictionLoop(
-    SequenceControlSet_t                   *sequence_control_set_ptr,
+    SequenceControlSet                   *sequence_control_set_ptr,
     PictureControlSet                    *picture_control_set_ptr,
     LargestCodingUnit                    *sb_ptr,
     uint32_t                                  sb_index,
@@ -526,7 +526,7 @@ void RefinementPredictionLoop(
 
 
 void PrePredictionRefinement(
-    SequenceControlSet_t                   *sequence_control_set_ptr,
+    SequenceControlSet                   *sequence_control_set_ptr,
     PictureControlSet                    *picture_control_set_ptr,
     LargestCodingUnit                    *sb_ptr,
     uint32_t                                  sb_index,
@@ -586,7 +586,7 @@ void PrePredictionRefinement(
 
 
 void ForwardCuToModeDecision(
-    SequenceControlSet_t                   *sequence_control_set_ptr,
+    SequenceControlSet                   *sequence_control_set_ptr,
     PictureControlSet                    *picture_control_set_ptr,
 
     uint32_t                                  sb_index,
@@ -903,7 +903,7 @@ void MdcInterDepthDecision(
 }
 
 void PredictionPartitionLoop(
-    SequenceControlSet_t                   *sequence_control_set_ptr,
+    SequenceControlSet                   *sequence_control_set_ptr,
     PictureControlSet                    *picture_control_set_ptr,
     uint32_t                                  sb_index,
     uint32_t                                  tbOriginX,
@@ -1068,7 +1068,7 @@ void PredictionPartitionLoop(
 }
 
 EbErrorType early_mode_decision_lcu(
-    SequenceControlSet_t                   *sequence_control_set_ptr,
+    SequenceControlSet                   *sequence_control_set_ptr,
     PictureControlSet                    *picture_control_set_ptr,
     LargestCodingUnit                    *sb_ptr,
     uint32_t                                  sb_index,

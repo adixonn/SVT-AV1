@@ -44,7 +44,7 @@ void RateControlLayerReset(
     EbBool                      wasUsed)
 {
 
-    SequenceControlSet_t *sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+    SequenceControlSet *sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     uint32_t                sliceNum;
     uint32_t                temporal_layer_index;
     uint64_t                totalFrameInInterval;
@@ -338,7 +338,7 @@ EbErrorType rate_control_context_ctor(
 }
 void HighLevelRcInputPictureMode2(
     PictureParentControlSet         *picture_control_set_ptr,
-    SequenceControlSet_t              *sequence_control_set_ptr,
+    SequenceControlSet              *sequence_control_set_ptr,
     EncodeContext                   *encode_context_ptr,
     RateControlContext              *context_ptr,
     HighLevelRateControlContext     *highLevelRateControlPtr)
@@ -977,7 +977,7 @@ void* rate_control_kernel(void *input_ptr)
     PictureParentControlSet   *parentPictureControlSetPtr;
 
     // Config
-    SequenceControlSet_t        *sequence_control_set_ptr;
+    SequenceControlSet        *sequence_control_set_ptr;
 
     // Input
     EbObjectWrapper           *rateControlTasksWrapperPtr;
@@ -1013,7 +1013,7 @@ void* rate_control_kernel(void *input_ptr)
         case RC_PICTURE_MANAGER_RESULT:
 
             picture_control_set_ptr = (PictureControlSet*)rateControlTasksPtr->pictureControlSetWrapperPtr->object_ptr;
-            sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+            sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
             // High level RC
             if (picture_control_set_ptr->picture_number == 0) {
@@ -1310,7 +1310,7 @@ void* rate_control_kernel(void *input_ptr)
         case RC_PACKETIZATION_FEEDBACK_RESULT:
 
             parentPictureControlSetPtr = (PictureParentControlSet*)rateControlTasksPtr->pictureControlSetWrapperPtr->object_ptr;
-            sequence_control_set_ptr = (SequenceControlSet_t*)parentPictureControlSetPtr->sequence_control_set_wrapper_ptr->object_ptr;
+            sequence_control_set_ptr = (SequenceControlSet*)parentPictureControlSetPtr->sequence_control_set_wrapper_ptr->object_ptr;
 
             if (sequence_control_set_ptr->static_config.rate_control_mode) {
                 rate_control_update_model(rc_model_ptr, parentPictureControlSetPtr);
@@ -1508,7 +1508,7 @@ void* rate_control_kernel(void *input_ptr)
 
         default:
             picture_control_set_ptr = (PictureControlSet*)rateControlTasksPtr->pictureControlSetWrapperPtr->object_ptr;
-            sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+            sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
             //encode_context_ptr            = sequence_control_set_ptr->encode_context_ptr;
             //CHECK_REPORT_ERROR_NC(
             //             encode_context_ptr->app_callback_ptr,

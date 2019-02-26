@@ -113,7 +113,7 @@ extern "C" {
     // Returns 1 if this frame might allow mvs from some reference frame.
 
     static INLINE int32_t frame_might_allow_ref_frame_mvs(const PictureParentControlSet *pcsPtr,
-        SequenceControlSet_t    *scsPtr) {
+        SequenceControlSet    *scsPtr) {
 #if AV1_UPGRADE
         return !pcsPtr->error_resilient_mode &&
 #else
@@ -125,7 +125,7 @@ extern "C" {
 
     // Returns 1 if this frame might use warped_motion
     static INLINE int32_t frame_might_allow_warped_motion(const PictureParentControlSet *pcsPtr,
-        SequenceControlSet_t    *scsPtr) {
+        SequenceControlSet    *scsPtr) {
         return !pcsPtr->error_resilient_mode && !frame_is_intra_only(pcsPtr) &&
             scsPtr->static_config.enable_warped_motion;
     }
@@ -180,7 +180,7 @@ extern "C" {
     struct aom_write_bit_buffer;
 
     //void WriteSequenceHeader(/*AV1Comp *cpi, */struct aom_write_bit_buffer *wb);
-    void WriteSequenceHeader(SequenceControlSet_t *scsPtr/*AV1Comp *cpi*/, struct aom_write_bit_buffer *wb);
+    void WriteSequenceHeader(SequenceControlSet *scsPtr/*AV1Comp *cpi*/, struct aom_write_bit_buffer *wb);
 
     uint32_t WriteObuHeader(ObuType ObuType, int32_t obuExtension,
         uint8_t *const dst);
@@ -297,7 +297,7 @@ extern "C" {
 
     extern EbErrorType write_frame_header_av1(
         Bitstream *bitstream_ptr,
-        SequenceControlSet_t *scsPtr,
+        SequenceControlSet *scsPtr,
         PictureControlSet *pcsPtr,
         uint8_t show_existing);
 
@@ -306,7 +306,7 @@ extern "C" {
 
     extern EbErrorType encode_sps_av1(
         Bitstream *bitstream_ptr,
-        SequenceControlSet_t *scsPtr);
+        SequenceControlSet *scsPtr);
 
     //*******************************************************************************************//
 

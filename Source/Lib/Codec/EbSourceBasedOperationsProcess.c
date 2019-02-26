@@ -65,7 +65,7 @@ EbErrorType source_based_operations_context_ctor(
     SourceBasedOperationsContext **context_dbl_ptr,
     EbFifo                        *initialRateControlResultsInputFifoPtr,
     EbFifo                        *picture_demux_results_output_fifo_ptr,
-    SequenceControlSet_t            *sequence_control_set_ptr)
+    SequenceControlSet            *sequence_control_set_ptr)
 {
     SourceBasedOperationsContext *context_ptr;
 
@@ -91,7 +91,7 @@ EbErrorType source_based_operations_context_ctor(
 ****************************************/
 void InitBeaQpmInfo(
     PictureParentControlSet        *picture_control_set_ptr,
-    SequenceControlSet_t            *sequence_control_set_ptr)
+    SequenceControlSet            *sequence_control_set_ptr)
 {
     uint32_t sb_index;
     uint32_t zz_cost_average = 0, zzSum = 0;
@@ -118,7 +118,7 @@ void InitBeaQpmInfo(
 * Derives BEA statistics and set activity flags
 ***************************************************/
 void DerivePictureActivityStatistics(
-    SequenceControlSet_t            *sequence_control_set_ptr,
+    SequenceControlSet            *sequence_control_set_ptr,
     PictureParentControlSet       *picture_control_set_ptr)
 
 {
@@ -169,7 +169,7 @@ void DerivePictureActivityStatistics(
 * complexity Classification
 ***************************************************/
 void ComplexityClassifier32x32(
-    SequenceControlSet_t      *sequence_control_set_ptr,
+    SequenceControlSet      *sequence_control_set_ptr,
     PictureParentControlSet *picture_control_set_ptr) {
 
 
@@ -223,7 +223,7 @@ void ComplexityClassifier32x32(
 * Pre-MD Uncovered Area Detection
 ******************************************************/
 void FailingMotionLcu(
-    SequenceControlSet_t            *sequence_control_set_ptr,
+    SequenceControlSet            *sequence_control_set_ptr,
     PictureParentControlSet        *picture_control_set_ptr,
     uint32_t                             sb_index) {
 
@@ -282,7 +282,7 @@ void FailingMotionLcu(
 * Pre-MD Uncovered Area Detection
 ******************************************************/
 void DetectUncoveredLcu(
-    SequenceControlSet_t            *sequence_control_set_ptr,
+    SequenceControlSet            *sequence_control_set_ptr,
     PictureParentControlSet        *picture_control_set_ptr,
     uint32_t                             sb_index) {
 
@@ -356,7 +356,7 @@ void DetectUncoveredLcu(
 * Calculates AC Energy
 ******************************************************/
 void CalculateAcEnergy(
-    SequenceControlSet_t            *sequence_control_set_ptr,
+    SequenceControlSet            *sequence_control_set_ptr,
     PictureParentControlSet        *picture_control_set_ptr,
     uint32_t                             sb_index) {
 
@@ -420,7 +420,7 @@ void CalculateAcEnergy(
 
 void LumaContrastDetectorLcu(
     SourceBasedOperationsContext *context_ptr,
-    SequenceControlSet_t           *sequence_control_set_ptr,
+    SequenceControlSet           *sequence_control_set_ptr,
     PictureParentControlSet       *picture_control_set_ptr,
     uint32_t                            sb_index) {
 
@@ -483,7 +483,7 @@ void LumaContrastDetectorPicture(
 
 void GrassLcu(
     SourceBasedOperationsContext        *context_ptr,
-    SequenceControlSet_t                *sequence_control_set_ptr,
+    SequenceControlSet                *sequence_control_set_ptr,
     PictureParentControlSet            *picture_control_set_ptr,
     uint32_t                                 sb_index) {
 
@@ -569,7 +569,7 @@ void GrassSkinPicture(
 * Detect and mark SB and 32x32 CUs which belong to an isolated non-homogeneous region surrounding a homogenous and flat region
 ******************************************************/
 void DetermineIsolatedNonHomogeneousRegionInPicture(
-    SequenceControlSet_t            *sequence_control_set_ptr,
+    SequenceControlSet            *sequence_control_set_ptr,
     PictureParentControlSet       *picture_control_set_ptr)
 {
     uint32_t sb_index;
@@ -676,7 +676,7 @@ void SetDefaultDeltaQpRange(
 
 
 void DetermineMorePotentialAuraAreas(
-    SequenceControlSet_t        *sequence_control_set_ptr,
+    SequenceControlSet        *sequence_control_set_ptr,
     PictureParentControlSet    *picture_control_set_ptr)
 {
     uint16_t sb_index;
@@ -724,7 +724,7 @@ void DetermineMorePotentialAuraAreas(
 * Detects the presence of dark area
 ***************************************************/
 void DeriveHighDarkAreaDensityFlag(
-    SequenceControlSet_t                *sequence_control_set_ptr,
+    SequenceControlSet                *sequence_control_set_ptr,
     PictureParentControlSet           *picture_control_set_ptr) {
 
 
@@ -851,7 +851,7 @@ void SpatialHighContrastClassifier(
 
 void DeriveComplexityContrastPicture(
     SourceBasedOperationsContext    *context_ptr,
-    SequenceControlSet_t         *sequence_control_set_ptr,
+    SequenceControlSet         *sequence_control_set_ptr,
     PictureParentControlSet    *picture_control_set_ptr)
 
 {
@@ -905,7 +905,7 @@ void DeriveComplexityContrastPicture(
 * Detect Cu32x32 Clean Sparse Array
 ******************************************************/
 void DetectCu32x32CleanSparseLcu(
-    SequenceControlSet_t        *sequence_control_set_ptr,
+    SequenceControlSet        *sequence_control_set_ptr,
     PictureParentControlSet    *picture_control_set_ptr,
     uint32_t                         sb_index)
 {
@@ -975,7 +975,7 @@ void* source_based_operations_kernel(void *input_ptr)
 {
     SourceBasedOperationsContext    *context_ptr = (SourceBasedOperationsContext*)input_ptr;
     PictureParentControlSet       *picture_control_set_ptr;
-    SequenceControlSet_t            *sequence_control_set_ptr;
+    SequenceControlSet            *sequence_control_set_ptr;
     EbObjectWrapper               *inputResultsWrapperPtr;
     InitialRateControlResults        *inputResultsPtr;
     EbObjectWrapper               *outputResultsWrapperPtr;
@@ -990,7 +990,7 @@ void* source_based_operations_kernel(void *input_ptr)
 
         inputResultsPtr = (InitialRateControlResults*)inputResultsWrapperPtr->object_ptr;
         picture_control_set_ptr = (PictureParentControlSet*)inputResultsPtr->pictureControlSetWrapperPtr->object_ptr;
-        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+        sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
         picture_control_set_ptr->dark_back_groundlight_fore_ground = EB_FALSE;
         context_ptr->picture_num_grass_sb = 0;

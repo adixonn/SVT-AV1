@@ -2278,7 +2278,7 @@ static void EncodePassUpdateQp(
 
 
 EbErrorType QpmDeriveBeaAndSkipQpmFlagLcu(
-    SequenceControlSet_t                   *sequence_control_set_ptr,
+    SequenceControlSet                   *sequence_control_set_ptr,
     PictureControlSet                    *picture_control_set_ptr,
     LargestCodingUnit                    *sb_ptr,
     uint32_t                                 sb_index,
@@ -2348,7 +2348,7 @@ EbErrorType QpmDeriveBeaAndSkipQpmFlagLcu(
 * AV1 QPM is SB based and all sub-Lcu buffers needs to be removed
 ******************************************************************************/
 EbErrorType Av1QpModulationLcu(
-    SequenceControlSet_t                   *sequence_control_set_ptr,
+    SequenceControlSet                   *sequence_control_set_ptr,
     PictureControlSet                    *picture_control_set_ptr,
     LargestCodingUnit                    *sb_ptr,
     uint32_t                                  sb_index,
@@ -2524,7 +2524,7 @@ EbErrorType Av1QpModulationLcu(
 
 #endif
 EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
-    SequenceControlSet_t                   *sequence_control_set_ptr,
+    SequenceControlSet                   *sequence_control_set_ptr,
     PictureControlSet                    *picture_control_set_ptr,
     LargestCodingUnit                    *sb_ptr,
     uint32_t                                  sb_index,
@@ -2852,7 +2852,7 @@ void move_cu_data(
 *
 *******************************************/
 EB_EXTERN void av1_encode_pass(
-    SequenceControlSet_t      *sequence_control_set_ptr,
+    SequenceControlSet      *sequence_control_set_ptr,
     PictureControlSet       *picture_control_set_ptr,
     LargestCodingUnit       *sb_ptr,
     uint32_t                   tb_addr,
@@ -2980,7 +2980,7 @@ EB_EXTERN void av1_encode_pass(
     }
 
 
-    encode_context_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
+    encode_context_ptr = ((SequenceControlSet*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
 
     if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE) {
 
@@ -4256,7 +4256,7 @@ EB_EXTERN void av1_encode_pass(
 
 #if NO_ENCDEC
 EB_EXTERN void no_enc_dec_pass(
-    SequenceControlSet_t    *sequence_control_set_ptr,
+    SequenceControlSet    *sequence_control_set_ptr,
     PictureControlSet     *picture_control_set_ptr,
     LargestCodingUnit     *sb_ptr,
     uint32_t                   tb_addr,

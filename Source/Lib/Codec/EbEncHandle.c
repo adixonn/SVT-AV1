@@ -327,7 +327,7 @@ uint32_t SetParentPcs(EbSvtAv1EncConfiguration*   config) {
     return ((fps*5)>>2); // 1.25 sec worth of internal buffering
 }
 void LoadDefaultBufferConfigurationSettings(
-    SequenceControlSet_t       *sequence_control_set_ptr){
+    SequenceControlSet       *sequence_control_set_ptr){
 
     uint32_t encDecSegH = (sequence_control_set_ptr->static_config.super_block_size == 128) ?
         ((sequence_control_set_ptr->max_input_luma_height + 64) / 128) :
@@ -1919,7 +1919,7 @@ EB_API EbErrorType eb_deinit_handle(
 
 // Sets the default intra period the closest possible to 1 second without breaking the minigop
 static int32_t compute_default_intra_period(
-    SequenceControlSet_t       *sequence_control_set_ptr){
+    SequenceControlSet       *sequence_control_set_ptr){
 
     int32_t intra_period               = 0;
     EbSvtAv1EncConfiguration   *config = &sequence_control_set_ptr->static_config;
@@ -1940,7 +1940,7 @@ static int32_t compute_default_intra_period(
 
 // Set configurations for the hardcoded parameters
 void SetDefaultConfigurationParameters(
-    SequenceControlSet_t       *sequence_control_set_ptr)
+    SequenceControlSet       *sequence_control_set_ptr)
 {
 
     // LCU Definitions
@@ -1994,7 +1994,7 @@ static uint32_t cap_look_ahead_distance(
 }
 
 void SetParamBasedOnInput(
-    SequenceControlSet_t       *sequence_control_set_ptr){
+    SequenceControlSet       *sequence_control_set_ptr){
 
     sequence_control_set_ptr->general_frame_only_constraint_flag = 0;
     sequence_control_set_ptr->general_progressive_source_flag = 1;
@@ -2043,7 +2043,7 @@ void SetParamBasedOnInput(
 }
 
 void CopyApiFromApp(
-    SequenceControlSet_t       *sequence_control_set_ptr,
+    SequenceControlSet       *sequence_control_set_ptr,
     EbSvtAv1EncConfiguration   *pComponentParameterStructure) {
 
     uint32_t                  hmeRegionIndex = 0;
@@ -2277,7 +2277,7 @@ static int VerifyHmeDimentionL1L2(unsigned int index, uint32_t NumberHmeSearchRe
 }
 
 static EbErrorType VerifySettings(
-    SequenceControlSet_t       *sequence_control_set_ptr)
+    SequenceControlSet       *sequence_control_set_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
     EbSvtAv1EncConfiguration *config = &sequence_control_set_ptr->static_config;
@@ -2712,7 +2712,7 @@ EbErrorType eb_svt_enc_init_parameter(
     return return_error;
 }
 static void PrintLibParams(
-    SequenceControlSet_t* scs) {
+    SequenceControlSet* scs) {
 
     EbSvtAv1EncConfiguration*   config = &scs->static_config;
 
@@ -2883,7 +2883,7 @@ EB_API EbErrorType eb_svt_enc_eos_nal(
 **** sample application to the library buffers
 ************************************************/
 static EbErrorType CopyFrameBuffer(
-    SequenceControlSet_t            *sequence_control_set_ptr,
+    SequenceControlSet            *sequence_control_set_ptr,
     uint8_t                          *dst,
     uint8_t                          *src)
 {
@@ -3046,7 +3046,7 @@ static EbErrorType CopyFrameBuffer(
     return return_error;
 }
 static void CopyInputBuffer(
-    SequenceControlSet_t*    sequenceControlSet,
+    SequenceControlSet*    sequenceControlSet,
     EbBufferHeaderType*     dst,
     EbBufferHeaderType*     src
 )
@@ -3284,7 +3284,7 @@ EbErrorType init_svt_av1_encoder_handle(
     return return_error;
 }
 static EbErrorType allocate_frame_buffer(
-    SequenceControlSet_t       *sequence_control_set_ptr,
+    SequenceControlSet       *sequence_control_set_ptr,
     EbBufferHeaderType        *inputBuffer)
 {
     EbErrorType   return_error = EB_ErrorNone;
@@ -3342,7 +3342,7 @@ EbErrorType EbInputBufferHeaderCtor(
     EbPtr  objectInitDataPtr)
 {
     EbBufferHeaderType* inputBuffer;
-    SequenceControlSet_t        *sequence_control_set_ptr = (SequenceControlSet_t*)objectInitDataPtr;
+    SequenceControlSet        *sequence_control_set_ptr = (SequenceControlSet*)objectInitDataPtr;
     EB_MALLOC(EbBufferHeaderType*, inputBuffer, sizeof(EbBufferHeaderType), EB_N_PTR);
     *objectDblPtr = (EbPtr)inputBuffer;
     // Initialize Header
@@ -3392,7 +3392,7 @@ EbErrorType EbOutputReconBufferHeaderCtor(
     EbPtr  objectInitDataPtr)
 {
     EbBufferHeaderType         *recon_buffer;
-    SequenceControlSet_t        *sequence_control_set_ptr = (SequenceControlSet_t*)objectInitDataPtr;
+    SequenceControlSet        *sequence_control_set_ptr = (SequenceControlSet*)objectInitDataPtr;
     const uint32_t lumaSize =
         sequence_control_set_ptr->luma_width    *
         sequence_control_set_ptr->luma_height;

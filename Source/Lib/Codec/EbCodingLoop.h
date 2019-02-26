@@ -20,7 +20,7 @@ extern "C" {
      *******************************************/
 
     typedef EbErrorType(*EB_MODE_DECISION)(
-        SequenceControlSet_t                *sequence_control_set_ptr,
+        SequenceControlSet                *sequence_control_set_ptr,
         PictureControlSet                 *picture_control_set_ptr,
         const MdcLcuData * const           mdc_result_tb_ptr,
         LargestCodingUnit                 *sb_ptr,
@@ -41,7 +41,7 @@ extern "C" {
         SsMeContext                        *context_ptr);          // input parameter, ME Context Ptr, used to store decimated/interpolated LCU/SR
 
     extern EbErrorType mode_decision_sb(
-        SequenceControlSet_t                *sequence_control_set_ptr,
+        SequenceControlSet                *sequence_control_set_ptr,
         PictureControlSet                 *picture_control_set_ptr,
         const MdcLcuData * const           mdc_result_tb_ptr,
         LargestCodingUnit                 *sb_ptr,
@@ -64,7 +64,7 @@ extern "C" {
 #endif
 
     extern void av1_encode_pass(
-        SequenceControlSet_t    *sequence_control_set_ptr,
+        SequenceControlSet    *sequence_control_set_ptr,
         PictureControlSet     *picture_control_set_ptr,
         LargestCodingUnit     *sb_ptr,
         uint32_t                   tb_addr,
@@ -77,7 +77,7 @@ extern "C" {
 #if NO_ENCDEC
 
     void no_enc_dec_pass(
-        SequenceControlSet_t    *sequence_control_set_ptr,
+        SequenceControlSet    *sequence_control_set_ptr,
         PictureControlSet     *picture_control_set_ptr,
         LargestCodingUnit     *sb_ptr,
         uint32_t                   tb_addr,

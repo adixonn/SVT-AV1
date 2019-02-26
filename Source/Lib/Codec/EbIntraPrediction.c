@@ -3595,7 +3595,7 @@ EbErrorType intra_prediction_cl(
 
 
     IntraReferenceSamples * const context_ptr = (IntraReferenceSamples*)(md_context_ptr->intra_ref_ptr);
-    const EncodeContext * const encode_context_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
+    const EncodeContext * const encode_context_ptr = ((SequenceControlSet*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
 
     // Map the mode to the function table index
     uint32_t funcIndex =
@@ -3913,7 +3913,7 @@ EbErrorType intra4x4_intra_prediction_cl(
     uint32_t        chroma_mode;
 
     IntraReferenceSamples *context_ptr = (IntraReferenceSamples*)(((ModeDecisionContext*)prediction_context_ptr)->intra_ref_ptr);
-    EncodeContext         *encode_context_ptr = ((SequenceControlSet_t*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
+    EncodeContext         *encode_context_ptr = ((SequenceControlSet*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr))->encode_context_ptr;
 
     // Map the mode to the function table index
     uint32_t funcIndex =

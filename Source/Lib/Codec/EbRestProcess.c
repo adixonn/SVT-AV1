@@ -27,18 +27,18 @@
 
 void ReconOutput(
     PictureControlSet    *picture_control_set_ptr,
-    SequenceControlSet_t   *sequence_control_set_ptr);
+    SequenceControlSet   *sequence_control_set_ptr);
 void av1_loop_restoration_filter_frame(Yv12BufferConfig *frame,
     Av1Common *cm, int32_t optimized_lr);
 void CopyStatisticsToRefObject(
     PictureControlSet    *picture_control_set_ptr,
-    SequenceControlSet_t   *sequence_control_set_ptr);
+    SequenceControlSet   *sequence_control_set_ptr);
 void PsnrCalculations(
     PictureControlSet    *picture_control_set_ptr,
-    SequenceControlSet_t   *sequence_control_set_ptr);
+    SequenceControlSet   *sequence_control_set_ptr);
 void PadRefAndSetFlags(
     PictureControlSet    *picture_control_set_ptr,
-    SequenceControlSet_t   *sequence_control_set_ptr);
+    SequenceControlSet   *sequence_control_set_ptr);
 void generate_padding(
     EbByte              src_pic,
     uint32_t            src_stride,
@@ -143,7 +143,7 @@ EbErrorType rest_context_ctor(
 }
 #if REST_M
 void   get_own_recon(
-    SequenceControlSet_t                    *sequence_control_set_ptr,
+    SequenceControlSet                    *sequence_control_set_ptr,
     PictureControlSet                     *picture_control_set_ptr,
     RestContext                            *context_ptr,
     EbBool  is16bit)
@@ -208,7 +208,7 @@ void* rest_kernel(void *input_ptr)
     // Context & SCS & PCS
     RestContext                            *context_ptr = (RestContext*)input_ptr;
     PictureControlSet                     *picture_control_set_ptr;
-    SequenceControlSet_t                    *sequence_control_set_ptr;
+    SequenceControlSet                    *sequence_control_set_ptr;
 
     //// Input
     EbObjectWrapper                       *cdef_results_wrapper_ptr;
@@ -231,7 +231,7 @@ void* rest_kernel(void *input_ptr)
 
         cdef_results_ptr = (CdefResults*)cdef_results_wrapper_ptr->object_ptr;
         picture_control_set_ptr = (PictureControlSet*)cdef_results_ptr->picture_control_set_wrapper_ptr->object_ptr;
-        sequence_control_set_ptr = (SequenceControlSet_t*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+        sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
         uint8_t lcuSizeLog2 = (uint8_t)Log2f(sequence_control_set_ptr->sb_size_pix);
         EbBool  is16bit = (EbBool)(sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
         Av1Common* cm = picture_control_set_ptr->parent_pcs_ptr->av1_cm;
