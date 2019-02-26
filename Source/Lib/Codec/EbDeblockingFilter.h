@@ -52,7 +52,8 @@ extern "C" {
 #define TC_OFFSET_VALUE                     12//12 // range -12 to 12
 
 #if AV1_LF
-    typedef enum {
+    typedef enum LpfPickMethod 
+    {
         // Try the full image with different values.
         LPF_PICK_FROM_FULL_IMAGE,
         // Try a small portion of the image with different values.

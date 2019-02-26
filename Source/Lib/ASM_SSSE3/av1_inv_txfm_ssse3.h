@@ -66,7 +66,8 @@ extern "C" {
     }
 
     // 1D itx types
-    typedef enum ATTRIBUTE_PACKED {
+    typedef enum ATTRIBUTE_PACKED 
+    {
         IDCT_1D,
         IADST_1D,
         IFLIPADST_1D = IADST_1D,

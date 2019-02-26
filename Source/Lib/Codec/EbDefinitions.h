@@ -624,7 +624,8 @@ typedef char PartContext;
 typedef uint8_t TxSize;
 enum ATTRIBUTE_PACKED {
 #else
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
 #endif
     TX_4X4,             // 4x4 transform
     TX_8X8,             // 8x8 transform
@@ -668,7 +669,8 @@ static const int32_t tx_size_high[TX_SIZES_ALL] = {
 typedef int32_t tran_low_t;
 typedef uint8_t qm_val_t;
 
-typedef enum TxClass {
+typedef enum TxClass 
+{
     TX_CLASS_2D = 0,
     TX_CLASS_HORIZ = 1,
     TX_CLASS_VERT = 2,
@@ -713,7 +715,8 @@ static const int32_t tx_size_high_log2[TX_SIZES_ALL] = {
 
 
 // frame transform mode
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     ONLY_4X4,         // use only 4x4 transform
     TX_MODE_LARGEST,  // transform size is the largest possible for pu size
     TX_MODE_SELECT,   // transform specified for each block
@@ -721,7 +724,8 @@ typedef enum ATTRIBUTE_PACKED {
 } TxMode;
 
 // 1D tx types
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED
+{
     DCT_1D,
     ADST_1D,
     FLIPADST_1D,
@@ -731,7 +735,8 @@ typedef enum ATTRIBUTE_PACKED {
     TX_TYPES_1D,
 } TxType1D;
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     DCT_DCT,    // DCT  in both horizontal and vertical
     ADST_DCT,   // ADST in vertical, DCT in horizontal
     DCT_ADST,   // DCT  in vertical, ADST in horizontal
@@ -751,7 +756,8 @@ typedef enum ATTRIBUTE_PACKED {
     TX_TYPES,
 } TxType;
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     // DCT only
     EXT_TX_SET_DCTONLY,
     // DCT + Identity only
@@ -787,13 +793,15 @@ typedef struct TxfmParam
 #define EXT_TX_SETS_INTER 4  // Sets of transform selections for INTER
 #define EXT_TX_SETS_INTRA 3  // Sets of transform selections for INTRA
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     UNIDIR_COMP_REFERENCE,
     BIDIR_COMP_REFERENCE,
     COMP_REFERENCE_TYPES,
 } CompReferenceType;
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     PLANE_TYPE_Y,
     PLANE_TYPE_UV,
     PLANE_TYPES
@@ -805,20 +813,23 @@ typedef enum ATTRIBUTE_PACKED {
 #define CFL_IDX_U(idx) (idx >> CFL_ALPHABET_SIZE_LOG2)
 #define CFL_IDX_V(idx) (idx & (CFL_ALPHABET_SIZE - 1))
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     CFL_PRED_U,
     CFL_PRED_V,
     CFL_PRED_PLANES
 } CflPredType;
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     CFL_SIGN_ZERO,
     CFL_SIGN_NEG,
     CFL_SIGN_POS,
     CFL_SIGNS
 } CflSignType;
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     CFL_DISALLOWED,
     CFL_ALLOWED,
     CFL_ALLOWED_TYPES
@@ -839,12 +850,14 @@ typedef enum ATTRIBUTE_PACKED {
 #define CFL_CONTEXT_V(js) \
 (CFL_SIGN_V(js) * CFL_SIGNS + CFL_SIGN_U(js) - CFL_SIGNS)
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     PALETTE_MAP,
     COLOR_MAP_TYPES,
 } ColorMapType;
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED
+{
     TWO_COLORS,
     THREE_COLORS,
     FOUR_COLORS,
@@ -855,7 +868,8 @@ typedef enum ATTRIBUTE_PACKED {
     PALETTE_SIZES
 } PaletteSize;
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     PALETTE_COLOR_ONE,
     PALETTE_COLOR_TWO,
     PALETTE_COLOR_THREE,
@@ -869,7 +883,8 @@ typedef enum ATTRIBUTE_PACKED {
 
 // Note: All directional predictors must be between V_PRED and D67_PRED (both
 // inclusive).
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     DC_PRED,        // Average of above and left pixels
     V_PRED,         // Vertical
     H_PRED,         // Horizontal
@@ -916,7 +931,8 @@ typedef enum ATTRIBUTE_PACKED {
 
 // TODO(ltrudeau) Do we really want to pack this?
 // TODO(ltrudeau) Do we match with PredictionMode?
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     UV_DC_PRED,        // Average of above and left pixels
     UV_V_PRED,         // Vertical
     UV_H_PRED,         // Horizontal
@@ -935,14 +951,16 @@ typedef enum ATTRIBUTE_PACKED {
     UV_MODE_INVALID,  // For uv_mode in inter blocks
 } UVPredictionMode;
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     SIMPLE_TRANSLATION,
     OBMC_CAUSAL,    // 2-sided OBMC
     WARPED_CAUSAL,  // 2-sided WARPED
     MOTION_MODES
 } MotionMode;
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     II_DC_PRED,
     II_V_PRED,
     II_H_PRED,
@@ -2996,7 +3014,8 @@ static const uint8_t intra_area_th_class_1[MAX_HIERARCHICAL_LEVEL][MAX_TEMPORAL_
 #define CHROMA_MODE_1  1 // Chroma blind @ MD + CFL @ EP
 #define CHROMA_MODE_2  2 // Chroma blind @ MD + no CFL @ EP
 #else
-typedef enum EbChromaMode {
+typedef enum EbChromaMode 
+{
     CHROMA_MODE_FULL = 1,
     CHROMA_MODE_BEST = 2 //Chroma for best full loop candidate.
 } EbChromaMode;

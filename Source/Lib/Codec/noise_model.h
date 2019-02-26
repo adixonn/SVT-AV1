@@ -158,7 +158,7 @@ extern "C" {
         int32_t stride, uint8_t *flat_blocks);
 
     // The noise shape indicates the allowed coefficients in the AR model.
-    typedef enum 
+    typedef enum AomNoiseShape
     {
         AOM_NOISE_SHAPE_DIAMOND = 0,
         AOM_NOISE_SHAPE_SQUARE = 1
@@ -167,12 +167,12 @@ extern "C" {
     // The parameters of the noise model include the shape type, lag, the
     // bit depth of the input images provided, and whether the input images
     // will be using uint16 (or uint8) representation.
-    typedef struct 
+    typedef struct AomNoiseModelParams
     {
         AomNoiseShape shape;
-        int32_t lag;
-        int32_t bit_depth;
-        int32_t use_highbd;
+        int32_t       lag;
+        int32_t       bit_depth;
+        int32_t       use_highbd;
     } AomNoiseModelParams;
 
     /*!\brief State of a noise model estimate for a single channel.
@@ -204,7 +204,7 @@ extern "C" {
     } aom_noise_model_t;
 
     /*!\brief Result of a noise model update. */
-    typedef enum 
+    typedef enum AomNoiseStatus
     {
         AOM_NOISE_STATUS_OK = 0,
         AOM_NOISE_STATUS_INVALID_ARGUMENT,
