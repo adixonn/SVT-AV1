@@ -2215,7 +2215,7 @@ EbErrorType av1_split_flag_rate(
     ModeDecisionContext                  *context_ptr,
     CodingUnit                           *cu_ptr,
     uint32_t                                  leaf_index,
-    PartitionType                          partitionType,
+    PartitionType                          partition_type,
     uint64_t                                 *split_rate,
     uint64_t                                  lambda,
     MdRateEstimationContext              *md_rate_estimation_ptr,
@@ -2230,7 +2230,7 @@ EbErrorType av1_split_flag_rate(
     uint32_t cu_origin_x = context_ptr->sb_origin_x + blk_geom->origin_x;
     uint32_t cu_origin_y = context_ptr->sb_origin_y + blk_geom->origin_y;
 
-    PartitionType p = partitionType;
+    PartitionType p = partition_type;
 
     uint32_t cu_depth = blk_geom->depth;
     UNUSED(cu_depth);
@@ -2261,13 +2261,13 @@ EbErrorType av1_split_flag_rate(
 
         if (hasRows && hasCols) {
 
-            *split_rate = (uint64_t)md_rate_estimation_ptr->partitionFacBits[partition_cdf_length(bsize)][partitionType];
+            *split_rate = (uint64_t)md_rate_estimation_ptr->partitionFacBits[partition_cdf_length(bsize)][partition_type];
 
         }
         else if (!hasRows && hasCols) {
             int32_t cdf[2];
             partition_gather_vert_alike(cdf, bsize, md_rate_estimation_ptr->partitionFacBits[contextIndex]);
-            *split_rate = (uint64_t)md_rate_estimation_ptr->partitionFacBits[partition_cdf_length(bsize)][partitionType];
+            *split_rate = (uint64_t)md_rate_estimation_ptr->partitionFacBits[partition_cdf_length(bsize)][partition_type];
 
             *split_rate = (uint64_t)cdf[p == PARTITION_SPLIT];
         }
@@ -2278,7 +2278,7 @@ EbErrorType av1_split_flag_rate(
         }
     }
     else {
-        *split_rate = (uint64_t)md_rate_estimation_ptr->partitionFacBits[0][partitionType];
+        *split_rate = (uint64_t)md_rate_estimation_ptr->partitionFacBits[0][partition_type];
     }
 
     *split_rate = RDCOST(lambda, *split_rate, 0);

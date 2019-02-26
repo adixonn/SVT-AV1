@@ -942,9 +942,9 @@ void DetectCu32x32CleanSparsePicture(
 
     int32_t  blockIndex, blockIndexX, blockIndexY;
     int32_t  blockIndexTemp, blockIndexXTemp, blockIndexYTemp;
-    uint32_t  rowNumber = picture_control_set_ptr->cu32x32_clean_sparse_coeff_map_array_size / picture_control_set_ptr->cu32x32_clean_sparse_coeff_map_array_stride;
+    uint32_t  row_number = picture_control_set_ptr->cu32x32_clean_sparse_coeff_map_array_size / picture_control_set_ptr->cu32x32_clean_sparse_coeff_map_array_stride;
 
-    for (blockIndexY = 1; blockIndexY < (int32_t)rowNumber - 1; ++blockIndexY) {
+    for (blockIndexY = 1; blockIndexY < (int32_t)row_number - 1; ++blockIndexY) {
         for (blockIndexX = 1; blockIndexX < picture_control_set_ptr->cu32x32_clean_sparse_coeff_map_array_stride - 1; ++blockIndexX) {
             blockIndex = (blockIndexX)+(blockIndexY)* picture_control_set_ptr->cu32x32_clean_sparse_coeff_map_array_stride;
             uint8_t neighCount = 0;

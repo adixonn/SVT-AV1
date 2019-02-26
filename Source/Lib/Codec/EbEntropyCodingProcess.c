@@ -618,10 +618,10 @@ void* entropy_coding_kernel(void *input_ptr)
                         context_ptr->rate_control_output_fifo_ptr,
                         &rateControlTaskWrapperPtr);
                     rateControlTaskPtr = (RateControlTasks*)rateControlTaskWrapperPtr->object_ptr;
-                    rateControlTaskPtr->taskType = RC_ENTROPY_CODING_ROW_FEEDBACK_RESULT;
+                    rateControlTaskPtr->task_type = RC_ENTROPY_CODING_ROW_FEEDBACK_RESULT;
                     rateControlTaskPtr->picture_number = picture_control_set_ptr->picture_number;
-                    rateControlTaskPtr->rowNumber = y_lcu_index;
-                    rateControlTaskPtr->bitCount = rowTotalBits;
+                    rateControlTaskPtr->row_number = y_lcu_index;
+                    rateControlTaskPtr->bit_count = rowTotalBits;
 
                     rateControlTaskPtr->picture_control_set_wrapper_ptr = 0;
                     rateControlTaskPtr->segment_index = ~0u;

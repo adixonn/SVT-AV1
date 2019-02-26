@@ -124,7 +124,7 @@ void* PacketizationKernel(void *input_ptr)
             &rateControlTasksWrapperPtr);
         rateControlTasksPtr = (RateControlTasks*)rateControlTasksWrapperPtr->object_ptr;
         rateControlTasksPtr->picture_control_set_wrapper_ptr = picture_control_set_ptr->picture_parent_control_set_wrapper_ptr;
-        rateControlTasksPtr->taskType = RC_PACKETIZATION_FEEDBACK_RESULT;
+        rateControlTasksPtr->task_type = RC_PACKETIZATION_FEEDBACK_RESULT;
 
         // slice_type = picture_control_set_ptr->slice_type;
          // Reset the bitstream before writing to it

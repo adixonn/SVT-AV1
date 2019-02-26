@@ -830,7 +830,7 @@ void* picture_manager_kernel(void *input_ptr)
 
                         rateControlTasksPtr = (RateControlTasks*)outputWrapperPtr->object_ptr;
                         rateControlTasksPtr->picture_control_set_wrapper_ptr = ChildPictureControlSetWrapperPtr;
-                        rateControlTasksPtr->taskType = RC_PICTURE_MANAGER_RESULT;
+                        rateControlTasksPtr->task_type = RC_PICTURE_MANAGER_RESULT;
 
                         // Post the Full Results Object
                         eb_post_full_object(outputWrapperPtr);

@@ -992,7 +992,7 @@ void* rate_control_kernel(void *input_ptr)
     uint32_t                       lcuCodingOrder;
     uint64_t                       totalNumberOfFbFrames = 0;
 
-    RateControlTaskTypes       taskType;
+    RateControlTaskTypes       task_type;
     EbRateControlModel          *rc_model_ptr;
 
     rate_control_model_ctor(&rc_model_ptr);
@@ -1005,10 +1005,10 @@ void* rate_control_kernel(void *input_ptr)
             &rateControlTasksWrapperPtr);
 
         rateControlTasksPtr = (RateControlTasks*)rateControlTasksWrapperPtr->object_ptr;
-        taskType = rateControlTasksPtr->taskType;
+        task_type = rateControlTasksPtr->task_type;
 
         // Modify these for different temporal layers later
-        switch (taskType) {
+        switch (task_type) {
 
         case RC_PICTURE_MANAGER_RESULT:
 
