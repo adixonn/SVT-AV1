@@ -1200,7 +1200,7 @@ InitialRateControlReorderEntry  * DeterminePictureOffsetInQueue(
     queueEntryIndex += encode_context_ptr->initial_rate_control_reorder_queue_head_index;
     queueEntryIndex = (queueEntryIndex > INITIAL_RATE_CONTROL_REORDER_QUEUE_MAX_DEPTH - 1) ? queueEntryIndex - INITIAL_RATE_CONTROL_REORDER_QUEUE_MAX_DEPTH : queueEntryIndex;
     queueEntryPtr = encode_context_ptr->initial_rate_control_reorder_queue[queueEntryIndex];
-    queueEntryPtr->parentPcsWrapperPtr = inputResultsPtr->pictureControlSetWrapperPtr;
+    queueEntryPtr->parentPcsWrapperPtr = inputResultsPtr->picture_control_set_wrapper_ptr;
     queueEntryPtr->picture_number = picture_control_set_ptr->picture_number;
 
 
@@ -1226,7 +1226,7 @@ void GetHistogramQueueData(
     histogramQueueEntryPtr = encode_context_ptr->hl_rate_control_historgram_queue[histogramQueueEntryIndex];
 
 
-    //histogramQueueEntryPtr->parentPcsWrapperPtr  = inputResultsPtr->pictureControlSetWrapperPtr;
+    //histogramQueueEntryPtr->parentPcsWrapperPtr  = inputResultsPtr->picture_control_set_wrapper_ptr;
     histogramQueueEntryPtr->picture_number = picture_control_set_ptr->picture_number;
     histogramQueueEntryPtr->end_of_sequence_flag = picture_control_set_ptr->end_of_sequence_flag;
     histogramQueueEntryPtr->slice_type = picture_control_set_ptr->slice_type;
@@ -1680,7 +1680,7 @@ void* initial_rate_control_kernel(void *input_ptr)
             &inputResultsWrapperPtr);
 
         inputResultsPtr = (MotionEstimationResults*)inputResultsWrapperPtr->object_ptr;
-        picture_control_set_ptr = (PictureParentControlSet*)inputResultsPtr->pictureControlSetWrapperPtr->object_ptr;
+        picture_control_set_ptr = (PictureParentControlSet*)inputResultsPtr->picture_control_set_wrapper_ptr->object_ptr;
 
         segment_index = inputResultsPtr->segment_index;
 
@@ -1995,7 +1995,7 @@ void* initial_rate_control_kernel(void *input_ptr)
                         &outputResultsWrapperPtr);
 
                     outputResultsPtr = (InitialRateControlResults*)outputResultsWrapperPtr->object_ptr;
-                    outputResultsPtr->pictureControlSetWrapperPtr = queueEntryPtr->parentPcsWrapperPtr;
+                    outputResultsPtr->picture_control_set_wrapper_ptr = queueEntryPtr->parentPcsWrapperPtr;
                     /////////////////////////////
                     // Post the Full Results Object
                     eb_post_full_object(outputResultsWrapperPtr);

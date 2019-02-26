@@ -989,7 +989,7 @@ void* source_based_operations_kernel(void *input_ptr)
             &inputResultsWrapperPtr);
 
         inputResultsPtr = (InitialRateControlResults*)inputResultsWrapperPtr->object_ptr;
-        picture_control_set_ptr = (PictureParentControlSet*)inputResultsPtr->pictureControlSetWrapperPtr->object_ptr;
+        picture_control_set_ptr = (PictureParentControlSet*)inputResultsPtr->picture_control_set_wrapper_ptr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
         picture_control_set_ptr->dark_back_groundlight_fore_ground = EB_FALSE;
@@ -1172,7 +1172,7 @@ void* source_based_operations_kernel(void *input_ptr)
             &outputResultsWrapperPtr);
 
         outputResultsPtr = (PictureDemuxResults*)outputResultsWrapperPtr->object_ptr;
-        outputResultsPtr->pictureControlSetWrapperPtr = inputResultsPtr->pictureControlSetWrapperPtr;
+        outputResultsPtr->picture_control_set_wrapper_ptr = inputResultsPtr->picture_control_set_wrapper_ptr;
         outputResultsPtr->pictureType = EB_PIC_INPUT;
 
         // Release the Input Results

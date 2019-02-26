@@ -2691,7 +2691,7 @@ void* mode_decision_configuration_kernel(void *input_ptr)
             &rateControlResultsWrapperPtr);
 
         rateControlResultsPtr = (RateControlResults*)rateControlResultsWrapperPtr->object_ptr;
-        picture_control_set_ptr = (PictureControlSet*)rateControlResultsPtr->pictureControlSetWrapperPtr->object_ptr;
+        picture_control_set_ptr = (PictureControlSet*)rateControlResultsPtr->picture_control_set_wrapper_ptr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
       
         context_ptr->qp = picture_control_set_ptr->picture_qp;
@@ -2884,7 +2884,7 @@ void* mode_decision_configuration_kernel(void *input_ptr)
             &encDecTasksWrapperPtr);
 
         encDecTasksPtr = (EncDecTasks*)encDecTasksWrapperPtr->object_ptr;
-        encDecTasksPtr->pictureControlSetWrapperPtr = rateControlResultsPtr->pictureControlSetWrapperPtr;
+        encDecTasksPtr->picture_control_set_wrapper_ptr = rateControlResultsPtr->picture_control_set_wrapper_ptr;
         encDecTasksPtr->inputType = ENCDEC_TASKS_MDC_INPUT;
 
         // Post the Full Results Object

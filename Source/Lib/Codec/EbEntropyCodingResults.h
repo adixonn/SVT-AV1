@@ -15,7 +15,7 @@ extern "C" {
      * Process Results
      **************************************/
     typedef struct EntropyCodingResults {
-        EbObjectWrapper *pictureControlSetWrapperPtr;
+        EbObjectWrapper *picture_control_set_wrapper_ptr;
     } EntropyCodingResults;
 
     typedef struct EntropyCodingResultsInitData {

@@ -160,7 +160,7 @@ void* picture_manager_kernel(void *input_ptr)
 
         case EB_PIC_INPUT:
 
-            picture_control_set_ptr = (PictureParentControlSet*)inputPictureDemuxPtr->pictureControlSetWrapperPtr->object_ptr;
+            picture_control_set_ptr = (PictureParentControlSet*)inputPictureDemuxPtr->picture_control_set_wrapper_ptr->object_ptr;
             sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
             encode_context_ptr = sequence_control_set_ptr->encode_context_ptr;
 
@@ -176,7 +176,7 @@ void* picture_manager_kernel(void *input_ptr)
                     EB_ENC_PD_ERROR8);
             }
             else {
-                queueEntryPtr->parentPcsWrapperPtr = inputPictureDemuxPtr->pictureControlSetWrapperPtr;
+                queueEntryPtr->parentPcsWrapperPtr = inputPictureDemuxPtr->picture_control_set_wrapper_ptr;
                 queueEntryPtr->picture_number = picture_control_set_ptr->picture_number;
             }
             // Process the head of the Picture Manager Reorder Queue
@@ -829,7 +829,7 @@ void* picture_manager_kernel(void *input_ptr)
                             &outputWrapperPtr);
 
                         rateControlTasksPtr = (RateControlTasks*)outputWrapperPtr->object_ptr;
-                        rateControlTasksPtr->pictureControlSetWrapperPtr = ChildPictureControlSetWrapperPtr;
+                        rateControlTasksPtr->picture_control_set_wrapper_ptr = ChildPictureControlSetWrapperPtr;
                         rateControlTasksPtr->taskType = RC_PICTURE_MANAGER_RESULT;
 
                         // Post the Full Results Object

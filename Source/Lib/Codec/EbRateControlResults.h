@@ -16,7 +16,7 @@ extern "C" {
  * Process Results
  **************************************/
 typedef struct RateControlResults {
-    EbObjectWrapper *pictureControlSetWrapperPtr;
+    EbObjectWrapper *picture_control_set_wrapper_ptr;
 } RateControlResults;
 
 typedef struct RateControlResultsInitData {

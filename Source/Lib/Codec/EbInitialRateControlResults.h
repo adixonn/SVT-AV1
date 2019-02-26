@@ -13,7 +13,7 @@
  * Process Results
  **************************************/
 typedef struct InitialRateControlResults {
-    EbObjectWrapper   *pictureControlSetWrapperPtr;
+    EbObjectWrapper   *picture_control_set_wrapper_ptr;
 } InitialRateControlResults;
 
 typedef struct InitialRateControlResultInitData {

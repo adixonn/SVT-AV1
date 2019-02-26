@@ -28,7 +28,7 @@ typedef enum RateControlTaskTypes
 typedef struct RateControlTasks
 {
     RateControlTaskTypes              taskType;
-    EbObjectWrapper                  *pictureControlSetWrapperPtr;
+    EbObjectWrapper                  *picture_control_set_wrapper_ptr;
     uint32_t                              segment_index;
 
     // Following are valid for RC_ENTROPY_CODING_ROW_FEEDBACK_RESULT only
