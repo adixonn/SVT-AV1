@@ -426,7 +426,7 @@ void* picture_manager_kernel(void *input_ptr)
                 referenceEntryPtr = encode_context_ptr->reference_picture_queue[encode_context_ptr->reference_picture_queue_tail_index];
                 referenceEntryPtr->picture_number = picture_control_set_ptr->picture_number;
                 referenceEntryPtr->referenceObjectPtr = (EbObjectWrapper*)EB_NULL;
-                referenceEntryPtr->releaseEnable = EB_TRUE;
+                referenceEntryPtr->release_enable = EB_TRUE;
                 referenceEntryPtr->referenceAvailable = EB_FALSE;
                 referenceEntryPtr->is_used_as_reference_flag = picture_control_set_ptr->is_used_as_reference_flag;
                 encode_context_ptr->reference_picture_queue_tail_index =
@@ -457,7 +457,7 @@ void* picture_manager_kernel(void *input_ptr)
 
                 // Release the Reference Buffer once we know it is not a reference
                 if (picture_control_set_ptr->is_used_as_reference_flag == EB_FALSE) {
-                    // Release the nominal liveCount value
+                    // Release the nominal live_count value
                     eb_release_object(picture_control_set_ptr->reference_picture_wrapper_ptr);
                     picture_control_set_ptr->reference_picture_wrapper_ptr = (EbObjectWrapper*)EB_NULL;
                 }
@@ -759,7 +759,7 @@ void* picture_manager_kernel(void *input_ptr)
                                 ChildPictureControlSetPtr->ref_pic_qp_array[REF_LIST_0] = ((EbReferenceObject*)referenceEntryPtr->referenceObjectPtr->object_ptr)->qp;
                                 ChildPictureControlSetPtr->ref_slice_type_array[REF_LIST_0] = ((EbReferenceObject*)referenceEntryPtr->referenceObjectPtr->object_ptr)->slice_type;
 #endif
-                                // Increment the Reference's liveCount by the number of tiles in the input picture
+                                // Increment the Reference's live_count by the number of tiles in the input picture
                                 eb_object_inc_live_count(
                                     referenceEntryPtr->referenceObjectPtr,
                                     1);
@@ -793,7 +793,7 @@ void* picture_manager_kernel(void *input_ptr)
 
 
 
-                                // Increment the Reference's liveCount by the number of tiles in the input picture
+                                // Increment the Reference's live_count by the number of tiles in the input picture
                                 eb_object_inc_live_count(
                                     referenceEntryPtr->referenceObjectPtr,
                                     1);
@@ -841,7 +841,7 @@ void* picture_manager_kernel(void *input_ptr)
                     }
                 }
 
-                // Increment the HeadIndex if the head is null
+                // Increment the head_index if the head is null
                 encode_context_ptr->input_picture_queue_head_index =
                     (encode_context_ptr->input_picture_queue[encode_context_ptr->input_picture_queue_head_index]->inputObjectPtr) ? encode_context_ptr->input_picture_queue_head_index :
                     (encode_context_ptr->input_picture_queue_head_index == INPUT_QUEUE_MAX_DEPTH - 1) ? 0
@@ -861,10 +861,10 @@ void* picture_manager_kernel(void *input_ptr)
                 // Remove the entry & release the reference if there are no remaining references
                 if ((referenceEntryPtr->dependentCount == 0) &&
                     (referenceEntryPtr->referenceAvailable) &&
-                    (referenceEntryPtr->releaseEnable) &&
+                    (referenceEntryPtr->release_enable) &&
                     (referenceEntryPtr->referenceObjectPtr))
                 {
-                    // Release the nominal liveCount value
+                    // Release the nominal live_count value
                     eb_release_object(referenceEntryPtr->referenceObjectPtr);
 
                     referenceEntryPtr->referenceObjectPtr = (EbObjectWrapper*)EB_NULL;
@@ -872,9 +872,9 @@ void* picture_manager_kernel(void *input_ptr)
                     referenceEntryPtr->is_used_as_reference_flag = EB_FALSE;
                 }
 
-                // Increment the HeadIndex if the head is empty
+                // Increment the head_index if the head is empty
                 encode_context_ptr->reference_picture_queue_head_index =
-                    (encode_context_ptr->reference_picture_queue[encode_context_ptr->reference_picture_queue_head_index]->releaseEnable == EB_FALSE) ? encode_context_ptr->reference_picture_queue_head_index :
+                    (encode_context_ptr->reference_picture_queue[encode_context_ptr->reference_picture_queue_head_index]->release_enable == EB_FALSE) ? encode_context_ptr->reference_picture_queue_head_index :
                     (encode_context_ptr->reference_picture_queue[encode_context_ptr->reference_picture_queue_head_index]->referenceAvailable == EB_FALSE &&
                         encode_context_ptr->reference_picture_queue[encode_context_ptr->reference_picture_queue_head_index]->is_used_as_reference_flag == EB_TRUE) ? encode_context_ptr->reference_picture_queue_head_index :
                         (encode_context_ptr->reference_picture_queue[encode_context_ptr->reference_picture_queue_head_index]->dependentCount > 0) ? encode_context_ptr->reference_picture_queue_head_index :

@@ -42,7 +42,7 @@ extern "C" {
         uint64_t                          decode_order;
         EbObjectWrapper              *referenceObjectPtr;
         uint32_t                          dependentCount;
-        EbBool                         releaseEnable;
+        EbBool                         release_enable;
         EbBool                         referenceAvailable;
         uint32_t                          depList0Count;
         uint32_t                          depList1Count;

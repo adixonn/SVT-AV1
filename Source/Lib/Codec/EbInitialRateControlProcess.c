@@ -1977,7 +1977,7 @@ void* initial_rate_control_kernel(void *input_ptr)
                         &reference_picture_wrapper_ptr);
                     ((PictureParentControlSet*)(queueEntryPtr->parentPcsWrapperPtr->object_ptr))->reference_picture_wrapper_ptr = reference_picture_wrapper_ptr;
 
-                    // Give the new Reference a nominal liveCount of 1
+                    // Give the new Reference a nominal live_count of 1
                     eb_object_inc_live_count(
                         ((PictureParentControlSet*)(queueEntryPtr->parentPcsWrapperPtr->object_ptr))->reference_picture_wrapper_ptr,
                         1);

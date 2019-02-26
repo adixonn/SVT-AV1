@@ -760,7 +760,7 @@ void* resource_coordination_kernel(void *input_ptr)
                     previousSequenceControlSetWrapperPtr);
 
                 // Check to see if previous SequenceControlSet is already inactive, if TRUE then release the SequenceControlSet
-                if (previousSequenceControlSetWrapperPtr->liveCount == 0) {
+                if (previousSequenceControlSetWrapperPtr->live_count == 0) {
                     eb_release_object(
                         previousSequenceControlSetWrapperPtr);
                 }
@@ -948,7 +948,7 @@ void* resource_coordination_kernel(void *input_ptr)
 
         picture_control_set_ptr->pa_reference_picture_wrapper_ptr = reference_picture_wrapper_ptr;
 
-        // Give the new Reference a nominal liveCount of 1
+        // Give the new Reference a nominal live_count of 1
         eb_object_inc_live_count(
             picture_control_set_ptr->pa_reference_picture_wrapper_ptr,
             2);
