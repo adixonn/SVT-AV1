@@ -60,7 +60,7 @@ extern "C" {
         uint32_t                y_count_non_zero_coeffs,
         uint32_t                cb_count_non_zero_coeffs,
         uint32_t                cr_count_non_zero_coeffs,
-        ComponentType          ComponentType,
+        ComponentType          component_type,
         EbAsm                   asm_type);
 
     extern uint64_t compute_nx_m_satd_sad_lcu(

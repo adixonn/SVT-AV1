@@ -33,7 +33,7 @@ extern "C" {
         uint64_t                          cr_full_distortion[DIST_CALC_TOTAL],
         uint32_t                          count_non_zero_coeffs[3][MAX_NUM_OF_TU_PER_CU],
 
-        ComponentType                  ComponentType,
+        ComponentType                  component_type,
 
         uint64_t                         *cb_coeff_bits,
         uint64_t                         *cr_coeff_bits,
