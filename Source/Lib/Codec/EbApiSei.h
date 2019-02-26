@@ -119,7 +119,7 @@ extern "C" {
         EbBool                    bitstreamRestrictionFlag;
                                   
         EbBool                    motionVectorsOverPicBoundariesFlag;
-        EbBool                    restrictedRefPicListsFlag;
+        EbBool                    restricted_ref_pic_lists_flag;
 
         uint32_t                  minSpatialSegmentationIdc;
         uint32_t                  maxBytesPerPicDenom;

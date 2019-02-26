@@ -45,23 +45,23 @@ extern "C" {
 
     extern EbErrorType picture_full_distortion32_bits(
         EbPictureBufferDesc  *coeff,
-        uint32_t                coeff_luma_origin_index,
-        uint32_t                coeff_chroma_origin_index,
+        uint32_t              coeff_luma_origin_index,
+        uint32_t              coeff_chroma_origin_index,
         EbPictureBufferDesc  *recon_coeff,
-        uint32_t                recon_coeff_luma_origin_index,
-        uint32_t                recon_coeff_chroma_origin_index,
-        uint32_t                bwidth,
-        uint32_t                bheight,
-        uint32_t                bwidth_uv,
-        uint32_t                bheight_uv,
-        uint64_t                y_distortion[DIST_CALC_TOTAL],
-        uint64_t                cb_distortion[DIST_CALC_TOTAL],
-        uint64_t                cr_distortion[DIST_CALC_TOTAL],
-        uint32_t                y_count_non_zero_coeffs,
-        uint32_t                cb_count_non_zero_coeffs,
-        uint32_t                cr_count_non_zero_coeffs,
-        ComponentType          component_type,
-        EbAsm                   asm_type);
+        uint32_t              recon_coeff_luma_origin_index,
+        uint32_t              recon_coeff_chroma_origin_index,
+        uint32_t              bwidth,
+        uint32_t              bheight,
+        uint32_t              bwidth_uv,
+        uint32_t              bheight_uv,
+        uint64_t              y_distortion[DIST_CALC_TOTAL],
+        uint64_t              cb_distortion[DIST_CALC_TOTAL],
+        uint64_t              cr_distortion[DIST_CALC_TOTAL],
+        uint32_t              y_count_non_zero_coeffs,
+        uint32_t              cb_count_non_zero_coeffs,
+        uint32_t              cr_count_non_zero_coeffs,
+        ComponentType         component_type,
+        EbAsm                 asm_type);
 
     extern uint64_t compute_nx_m_satd_sad_lcu(
         uint8_t  *src,        // input parameter, source samples Ptr

@@ -37,15 +37,15 @@ extern "C" {
        ************************************************/
     typedef struct ReferenceList
     {
-        int32_t                              referenceList;
-        uint32_t                             referenceListCount;
+        int32_t  reference_list;
+        uint32_t reference_list_count;
 
     } ReferenceList;
 
     /************************************************
      * Dependent List
      *
-     *   listCount - Contains count of how
+     *   list_count - Contains count of how
      *     deep into list should be used
      *     depending on how many references are
      *     being used in the prediction structure.
@@ -58,8 +58,8 @@ extern "C" {
      ************************************************/
     typedef struct DependentList
     {
-        int32_t                             *list;
-        uint32_t                             listCount;
+        int32_t  *list;
+        uint32_t  list_count;
 
     } DependentList;
 
@@ -71,10 +71,10 @@ extern "C" {
      ************************************************/
     typedef struct PredictionStructureConfigEntry 
     {
-        uint32_t                             temporal_layer_index;
-        uint32_t                             decode_order;
-        int32_t                              refList0;
-        int32_t                              refList1;
+        uint32_t temporal_layer_index;
+        uint32_t decode_order;
+        int32_t  ref_list0;
+        int32_t  ref_list1;
     } PredictionStructureConfigEntry;
 
     /************************************************
@@ -84,8 +84,8 @@ extern "C" {
      ************************************************/
     typedef struct PredictionStructureConfig 
     {
-        uint32_t                        entryCount;
-        PredictionStructureConfigEntry *entryArray;
+        uint32_t                        entry_count;
+        PredictionStructureConfigEntry *entry_array;
     } PredictionStructureConfig;
 
     /************************************************
@@ -96,61 +96,40 @@ extern "C" {
      ************************************************/
     typedef struct PredictionStructureEntry 
     {
-        ReferenceList                     refList0;
-        ReferenceList                     refList1;
-        DependentList                     depList0;
-        DependentList                     depList1;
-        uint32_t                              temporal_layer_index;
-        uint32_t                              decode_order;
-        EbBool                             isReferenced;
+        ReferenceList                     ref_list0;
+        ReferenceList                     ref_list1;
+        DependentList                     dep_list0;
+        DependentList                     dep_list1;
+        uint32_t                          temporal_layer_index;
+        uint32_t                          decode_order;
+        EbBool                            is_referenced;
 
         // High-level RPS
-        EbBool                             shortTermRpsInSpsFlag;
-        uint32_t                              shortTermRpsInSpsIndex;
-        EbBool                             interRpsPredictionFlag;
-        EbBool                             longTermRpsPresentFlag;
-        uint32_t                              gopPositionLeastSignificantBits;
-
-        // Predicted Short-Term RPS
-        uint32_t                              deltaRpsIndexMinus1;
-        uint32_t                              absoluteDeltaRpsMinus1;
-        uint32_t                              deltaRpsSign;
-        EbBool                             usedByCurrPicFlag[MAX_NUM_OF_REF_PICS_TOTAL];
-        EbBool                             usedByFuturePicFlag[MAX_NUM_OF_REF_PICS_TOTAL];
+        EbBool                            short_term_rps_in_sps_flag;
+        uint32_t                          short_term_rps_in_sps_index;
+        EbBool                            inter_rps_prediction_flag;
+        EbBool                            long_term_rps_present_flag;
 
         // Non-Predicted Short-Term RPS
-        uint32_t                              negativeRefPicsTotalCount;
-        uint32_t                              positiveRefPicsTotalCount;
-        uint32_t                              deltaNegativeGopPosMinus1[MAX_NUM_OF_NEGATIVE_REF_PICS];
-        uint32_t                              deltaPositiveGopPosMinus1[MAX_NUM_OF_POSITIVE_REF_PICS];
-        EbBool                             usedByNegativeCurrPicFlag[MAX_NUM_OF_NEGATIVE_REF_PICS];
-        EbBool                             usedByPositiveCurrPicFlag[MAX_NUM_OF_POSITIVE_REF_PICS];
-
-        // Long-Term RPS
-        uint32_t                              longTermRefPicsTotalCount;
-        uint32_t                              deltaGopPoslsb[MAX_NUM_OF_REF_PICS_TOTAL];
-        EbBool                             deltaGopPosMsbPresentFlag[MAX_NUM_OF_REF_PICS_TOTAL];
-        uint32_t                              deltaGopPosMsbMinus1[MAX_NUM_OF_REF_PICS_TOTAL];
-        EbBool                             usedByLtCurrPicFlagArray[MAX_NUM_OF_REF_PICS_TOTAL];
+        uint32_t                          negative_ref_pics_total_count;
+        uint32_t                          positive_ref_pics_total_count;
+        uint32_t                          delta_negative_gop_pos_minus1[MAX_NUM_OF_NEGATIVE_REF_PICS];
+        uint32_t                          delta_positive_gop_pos_minus1[MAX_NUM_OF_POSITIVE_REF_PICS];
+        EbBool                            used_by_negative_curr_pic_flag[MAX_NUM_OF_NEGATIVE_REF_PICS];
+        EbBool                            used_by_positive_curr_pic_flag[MAX_NUM_OF_POSITIVE_REF_PICS];
 
         // List Construction
-        EbBool                             refPicsOverrideTotalCountFlag;
-        int32_t                              refPicsList0TotalCountMinus1;
-        int32_t                              refPicsList1TotalCountMinus1;
-        EbBool                             listsModificationPresentFlag;
-        EbBool                             restrictedRefPicListsFlag;      // Same list enable flag (if set,
+        EbBool                            ref_pics_override_total_count_flag;
+        int32_t                           ref_pics_list0_total_count_minus1;
+        int32_t                           ref_pics_list1_total_count_minus1;
+        EbBool                            restricted_ref_pic_lists_flag;    // Same list enable flag (if set,
                                                                             //   it implies all slices of the
                                                                             //   same type in the same picture
                                                                             //   have identical lists)
 
         // List Modification
         // *Note - This should probably be moved to the slice header since its a dynamic control - JMJ Jan 2, 2013
-        EbBool                             list0ModificationFlag;
-        EbBool                             list1ModificationFlag;
-        uint32_t                              list0ModIndex[MAX_NUM_OF_REF_PICS_TOTAL];
-        uint32_t                              list1ModIndex[MAX_NUM_OF_REF_PICS_TOTAL];
-
-        // Lists Combination (STUB)
+        EbBool                            list0_modification_flag;
 
     } PredictionStructureEntry;
 
@@ -162,24 +141,24 @@ extern "C" {
     typedef struct PredictionStructure 
     {
 
-        uint32_t                              predStructEntryCount;
-        PredictionStructureEntry        **predStructEntryPtrArray;
-        EbPred                             predType;
-        uint32_t                              temporalLayerCount;
-        uint32_t                              predStructPeriod;
-        uint32_t                              maximumExtent;
+        uint32_t                              pred_struct_entry_count;
+        PredictionStructureEntry        **pred_struct_entry_ptr_array;
+        EbPred                             pred_type;
+        uint32_t                              temporal_layer_count;
+        uint32_t                              pred_struct_period;
+        uint32_t                              maximum_extent;
 
         // Section Indices
-        uint32_t                              leadingPicIndex;
-        uint32_t                              initPicIndex;
-        uint32_t                              steadyStateIndex;
+        uint32_t                              leading_pic_index;
+        uint32_t                              init_pic_index;
+        uint32_t                              steady_state_index;
 
         // RPS Related Entries
-        EbBool                             restrictedRefPicListsEnableFlag;
-        EbBool                             listsModificationEnableFlag;
-        EbBool                             longTermEnableFlag;
-        uint32_t                              defaultRefPicsList0TotalCountMinus1;
-        uint32_t                              defaultRefPicsList1TotalCountMinus1;
+        EbBool                             restricted_ref_pic_lists_enable_flag;
+        EbBool                             lists_modification_enable_flag;
+        EbBool                             long_term_enable_flag;
+        uint32_t                              default_ref_pics_list0_total_count_minus1;
+        uint32_t                              default_ref_pics_list1_total_count_minus1;
 
     } PredictionStructure;
 
