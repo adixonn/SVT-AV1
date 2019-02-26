@@ -4262,13 +4262,13 @@ EbErrorType inter_pu_prediction_av1(
     int64_t rd = INT64_MAX;
 
     if (is16bit) {
-        ref_pic_list0 = ((EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr)->referencePicture16bit;
+        ref_pic_list0 = ((EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr)->reference_picture16bit;
         if (picture_control_set_ptr->slice_type == B_SLICE)
-            ref_pic_list1 = ((EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr)->referencePicture16bit;
+            ref_pic_list1 = ((EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr)->reference_picture16bit;
     } else {
-        ref_pic_list0 = ((EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr)->referencePicture;
+        ref_pic_list0 = ((EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr)->reference_picture;
         if (picture_control_set_ptr->slice_type == B_SLICE)
-            ref_pic_list1 = ((EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr)->referencePicture;
+            ref_pic_list1 = ((EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr)->reference_picture;
     }
 
     if (picture_control_set_ptr->parent_pcs_ptr->allow_warped_motion
@@ -4499,7 +4499,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
             puOriginIndex = ((pu_origin_y  & (63)) * 64) + (pu_origin_x & (63));
             puChromaOriginIndex = (((pu_origin_y  & (63)) * 32) + (pu_origin_x & (63))) >> 1;
             referenceObject = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
-            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
+            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->reference_picture16bit;
 
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
@@ -4550,12 +4550,12 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
             puOriginIndex = ((pu_origin_y  & (63)) * 64) + (pu_origin_x & (63));
             puChromaOriginIndex = (((pu_origin_y  & (63)) * 32) + (pu_origin_x & (63))) >> 1;
             referenceObject = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
-            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture;
+            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->reference_picture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
-                ref_pic_list0 = referenceObject->refDenSrcPicture;
+                ref_pic_list0 = referenceObject->ref_den_src_picture;
             else
-                ref_pic_list0 = referenceObject->referencePicture;
+                ref_pic_list0 = referenceObject->reference_picture;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
@@ -4606,7 +4606,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 
         if (is16bit) {
 
-            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
+            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->reference_picture16bit;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
@@ -4648,12 +4648,12 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 
         }
         else {
-            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture;
+            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->reference_picture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
-                ref_pic_list1 = referenceObject->refDenSrcPicture;
+                ref_pic_list1 = referenceObject->ref_den_src_picture;
             else
-                ref_pic_list1 = referenceObject->referencePicture;
+                ref_pic_list1 = referenceObject->reference_picture;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
@@ -4705,7 +4705,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 
         if (is16bit) {
 
-            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
+            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->reference_picture16bit;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
@@ -4726,7 +4726,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 
             // List1
             referenceObject = (EbReferenceObject *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
-            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
+            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->reference_picture16bit;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
@@ -4775,12 +4775,12 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 
         }
         else {
-            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture;
+            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->reference_picture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
-                ref_pic_list0 = referenceObject->refDenSrcPicture;
+                ref_pic_list0 = referenceObject->ref_den_src_picture;
             else
-                ref_pic_list0 = referenceObject->referencePicture;
+                ref_pic_list0 = referenceObject->reference_picture;
 
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
@@ -4806,12 +4806,12 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 
             // List1
             referenceObject = (EbReferenceObject *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
-            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture;
+            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->reference_picture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
-                ref_pic_list1 = referenceObject->refDenSrcPicture;
+                ref_pic_list1 = referenceObject->ref_den_src_picture;
             else
-                ref_pic_list1 = referenceObject->referencePicture;
+                ref_pic_list1 = referenceObject->reference_picture;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
@@ -4955,7 +4955,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
             puOriginIndex = ((pu_origin_y  & (63)) * 64) + (pu_origin_x & (63));
             puChromaOriginIndex = (((pu_origin_y  & (63)) * 32) + (pu_origin_x & (63))) >> 1;
             referenceObject = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
-            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
+            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->reference_picture16bit;
 
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
@@ -5033,12 +5033,12 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
             puOriginIndex = ((pu_origin_y  & (63)) * 64) + (pu_origin_x & (63));
             puChromaOriginIndex = (((pu_origin_y  & (63)) * 32) + (pu_origin_x & (63))) >> 1;
             referenceObject = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
-            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture;
+            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->reference_picture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
-                ref_pic_list0 = referenceObject->refDenSrcPicture;
+                ref_pic_list0 = referenceObject->ref_den_src_picture;
             else
-                ref_pic_list0 = referenceObject->referencePicture;
+                ref_pic_list0 = referenceObject->reference_picture;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
@@ -5088,7 +5088,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
         if (is16bit) {
 
-            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
+            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->reference_picture16bit;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
@@ -5158,12 +5158,12 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
         }
         else {
-            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture;
+            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->reference_picture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
-                ref_pic_list1 = referenceObject->refDenSrcPicture;
+                ref_pic_list1 = referenceObject->ref_den_src_picture;
             else
-                ref_pic_list1 = referenceObject->referencePicture;
+                ref_pic_list1 = referenceObject->reference_picture;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
@@ -5214,7 +5214,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
         if (is16bit) {
 
-            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
+            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->reference_picture16bit;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
@@ -5239,7 +5239,7 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
             // List1
             referenceObject = (EbReferenceObject *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
-            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture16bit;
+            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->reference_picture16bit;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
@@ -5327,12 +5327,12 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
         }
         else {
-            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->referencePicture;
+            ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->reference_picture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
-                ref_pic_list0 = referenceObject->refDenSrcPicture;
+                ref_pic_list0 = referenceObject->ref_den_src_picture;
             else
-                ref_pic_list0 = referenceObject->referencePicture;
+                ref_pic_list0 = referenceObject->reference_picture;
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
             motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
@@ -5358,12 +5358,12 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
             // List1
             referenceObject = (EbReferenceObject *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
-            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->referencePicture;
+            ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->reference_picture;
 
             if (md_context_ptr->cu_use_ref_src_flag)
-                ref_pic_list1 = referenceObject->refDenSrcPicture;
+                ref_pic_list1 = referenceObject->ref_den_src_picture;
             else
-                ref_pic_list1 = referenceObject->referencePicture;
+                ref_pic_list1 = referenceObject->reference_picture;
 
 
             motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;

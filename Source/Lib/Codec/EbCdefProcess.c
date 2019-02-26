@@ -273,7 +273,7 @@ void cdef_seg_search16bit(
     EbPictureBufferDesc *input_pic_ptr = picture_control_set_ptr->input_frame16bit;
     EbPictureBufferDesc *recon_pic_ptr =
         (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE) ?
-        ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit :
+        ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->reference_picture16bit :
          picture_control_set_ptr->recon_picture16bit_ptr;
 
     struct PictureParentControlSet     *pPcs = picture_control_set_ptr->parent_pcs_ptr;
@@ -515,13 +515,13 @@ void* cdef_kernel(void *input_ptr)
         EbPictureBufferDesc  * recon_picture_ptr;
         if (is16bit) {
             if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE)
-                recon_picture_ptr = ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;
+                recon_picture_ptr = ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->reference_picture16bit;
             else
                 recon_picture_ptr = picture_control_set_ptr->recon_picture16bit_ptr;
         }
         else {
             if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag == EB_TRUE)
-                recon_picture_ptr = ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture;
+                recon_picture_ptr = ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->reference_picture;
             else
                 recon_picture_ptr = picture_control_set_ptr->recon_picture_ptr;
         }

@@ -127,7 +127,7 @@ void* picture_manager_kernel(void *input_ptr)
     uint64_t                         current_input_poc;
     ReferenceQueueEntry_t           *referenceEntryPtr;
     uint32_t                         referenceQueueIndex;
-    uint64_t                         refPoc;
+    uint64_t                         ref_poc;
     uint32_t                         depIdx;
     uint64_t                         depPoc;
     uint32_t                         depListCount;
@@ -566,20 +566,20 @@ void* picture_manager_kernel(void *input_ptr)
                             encode_context_ptr->app_callback_ptr,
                             EB_ENC_PM_ERROR10);
 
-                        refPoc = POC_CIRCULAR_ADD(
+                        ref_poc = POC_CIRCULAR_ADD(
                             entryPictureControlSetPtr->picture_number,
                             -inputEntryPtr->list0Ptr->referenceList/*,
                             entrySequenceControlSetPtr->bits_for_picture_order_count*/);
 
                             // Increment the current_input_poc is the case of POC rollover
                         current_input_poc = encode_context_ptr->current_input_poc;
-                        //current_input_poc += ((current_input_poc < refPoc) && (inputEntryPtr->list0Ptr->referenceList[refIdx] > 0)) ?
+                        //current_input_poc += ((current_input_poc < ref_poc) && (inputEntryPtr->list0Ptr->referenceList[refIdx] > 0)) ?
                         //    (1 << entrySequenceControlSetPtr->bits_for_picture_order_count) :
                         //    0;
 
                         availabilityFlag =
                             (availabilityFlag == EB_FALSE) ? EB_FALSE :   // Don't update if already False
-                            (refPoc > current_input_poc) ? EB_FALSE :   // The Reference has not been received as an Input Picture yet, then its availability is false
+                            (ref_poc > current_input_poc) ? EB_FALSE :   // The Reference has not been received as an Input Picture yet, then its availability is false
                             (referenceEntryPtr->referenceAvailable) ? EB_TRUE :   // The Reference has been completed
                             EB_FALSE;     // The Reference has not been completed
                     }
@@ -602,20 +602,20 @@ void* picture_manager_kernel(void *input_ptr)
                                     encode_context_ptr->app_callback_ptr,
                                     EB_ENC_PM_ERROR10);
 
-                                refPoc = POC_CIRCULAR_ADD(
+                                ref_poc = POC_CIRCULAR_ADD(
                                     entryPictureControlSetPtr->picture_number,
                                     -inputEntryPtr->list1Ptr->referenceList/*,
                                     entrySequenceControlSetPtr->bits_for_picture_order_count*/);
 
                                     // Increment the current_input_poc is the case of POC rollover
                                 current_input_poc = encode_context_ptr->current_input_poc;
-                                //current_input_poc += ((current_input_poc < refPoc && inputEntryPtr->list1Ptr->referenceList[refIdx] > 0)) ?
+                                //current_input_poc += ((current_input_poc < ref_poc && inputEntryPtr->list1Ptr->referenceList[refIdx] > 0)) ?
                                 //    (1 << entrySequenceControlSetPtr->bits_for_picture_order_count) :
                                 //    0;
 
                                 availabilityFlag =
                                     (availabilityFlag == EB_FALSE) ? EB_FALSE :   // Don't update if already False
-                                    (refPoc > current_input_poc) ? EB_FALSE :   // The Reference has not been received as an Input Picture yet, then its availability is false
+                                    (ref_poc > current_input_poc) ? EB_FALSE :   // The Reference has not been received as an Input Picture yet, then its availability is false
                                     (referenceEntryPtr->referenceAvailable) ? EB_TRUE :   // The Reference has been completed
                                     EB_FALSE;     // The Reference has not been completed
                             }

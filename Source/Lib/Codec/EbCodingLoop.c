@@ -98,7 +98,7 @@ void av1_predict_intra_block_16bit(
 /*******************************************
 * set Penalize Skip Flag
 *
-* Summary: Set the PenalizeSkipFlag to true
+* Summary: Set the penalize_skipflag to true
 * When there is luminance/chrominance change
 * or in noisy clip with low motion at meduim
 * varince area
@@ -2435,7 +2435,7 @@ EbErrorType Av1QpModulationLcu(
             // Use the 8x8 background enhancement only for the Intra slice, otherwise, use the existing SB based BEA results
             bea64x64DeltaQp = non_moving_delta_qp;
 
-            if ((picture_control_set_ptr->parent_pcs_ptr->yMean[sb_index][0] > ANTI_CONTOURING_LUMA_T2) || (picture_control_set_ptr->parent_pcs_ptr->yMean[sb_index][0] < ANTI_CONTOURING_LUMA_T1)) {
+            if ((picture_control_set_ptr->parent_pcs_ptr->y_mean[sb_index][0] > ANTI_CONTOURING_LUMA_T2) || (picture_control_set_ptr->parent_pcs_ptr->y_mean[sb_index][0] < ANTI_CONTOURING_LUMA_T1)) {
 
                 if (bea64x64DeltaQp < 0) {
                     bea64x64DeltaQp = 0;
@@ -2695,8 +2695,8 @@ EbErrorType EncQpmDeriveDeltaQPForEachLeafLcu(
             // Use the 8x8 background enhancement only for the Intra slice, otherwise, use the existing SB based BEA results
             bea64x64DeltaQp = non_moving_delta_qp;
 
-            if (((cu_index > 0) && ((picture_control_set_ptr->parent_pcs_ptr->yMean[sb_index][parent32x32Index]) > ANTI_CONTOURING_LUMA_T2 || (picture_control_set_ptr->parent_pcs_ptr->yMean[sb_index][parent32x32Index]) < ANTI_CONTOURING_LUMA_T1)) ||
-                ((cu_index == 0) && ((picture_control_set_ptr->parent_pcs_ptr->yMean[sb_index][0]) > ANTI_CONTOURING_LUMA_T2 || (picture_control_set_ptr->parent_pcs_ptr->yMean[sb_index][0]) < ANTI_CONTOURING_LUMA_T1))) {
+            if (((cu_index > 0) && ((picture_control_set_ptr->parent_pcs_ptr->y_mean[sb_index][parent32x32Index]) > ANTI_CONTOURING_LUMA_T2 || (picture_control_set_ptr->parent_pcs_ptr->y_mean[sb_index][parent32x32Index]) < ANTI_CONTOURING_LUMA_T1)) ||
+                ((cu_index == 0) && ((picture_control_set_ptr->parent_pcs_ptr->y_mean[sb_index][0]) > ANTI_CONTOURING_LUMA_T2 || (picture_control_set_ptr->parent_pcs_ptr->y_mean[sb_index][0]) < ANTI_CONTOURING_LUMA_T1))) {
 
                 if (bea64x64DeltaQp < 0) {
                     bea64x64DeltaQp = 0;
@@ -2987,12 +2987,12 @@ EB_EXTERN void av1_encode_pass(
         //get the 16bit form of the input LCU
         if (is16bit) {
 
-            recon_buffer = ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture16bit;
+            recon_buffer = ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->reference_picture16bit;
 
         }
 
         else {
-            recon_buffer = ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->referencePicture;
+            recon_buffer = ((EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr)->reference_picture;
         }
     }
     else { // non ref pictures
@@ -3117,7 +3117,7 @@ EB_EXTERN void av1_encode_pass(
                 EbReferenceObject  *refObjL1 = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
                 uint32_t const TH = (sequence_control_set_ptr->static_config.frame_rate >> 16) < 50 ? 25 : 30;
 
-                if ((refObjL0->tmpLayerIdx == 2 && refObjL0->intra_coded_area > TH) || (refObjL1->tmpLayerIdx == 2 && refObjL1->intra_coded_area > TH))
+                if ((refObjL0->tmp_layer_idx == 2 && refObjL0->intra_coded_area > TH) || (refObjL1->tmp_layer_idx == 2 && refObjL1->intra_coded_area > TH))
                     highIntraRef = EB_TRUE;
 
             }
@@ -3763,7 +3763,7 @@ EB_EXTERN void av1_encode_pass(
                                 context_ptr->cu_origin_y,
                                 cu_ptr,
                                 blk_geom,
-                                is16bit ? refObj0->referencePicture16bit : refObj0->referencePicture,
+                                is16bit ? refObj0->reference_picture16bit : refObj0->reference_picture,
                                 recon_buffer,
                                 context_ptr->cu_origin_x,
                                 context_ptr->cu_origin_y,
@@ -3788,8 +3788,8 @@ EB_EXTERN void av1_encode_pass(
                                     context_ptr->cu_origin_y,
                                     blk_geom->bwidth,
                                     blk_geom->bheight,
-                                    refObj0->referencePicture16bit,
-                                    picture_control_set_ptr->slice_type == B_SLICE ? refObj1->referencePicture16bit : 0,
+                                    refObj0->reference_picture16bit,
+                                    picture_control_set_ptr->slice_type == B_SLICE ? refObj1->reference_picture16bit : 0,
                                     recon_buffer,
                                     context_ptr->cu_origin_x,
                                     context_ptr->cu_origin_y,
@@ -3806,8 +3806,8 @@ EB_EXTERN void av1_encode_pass(
                                     context_ptr->cu_origin_y,
                                     blk_geom->bwidth,
                                     blk_geom->bheight,
-                                    refObj0->referencePicture,
-                                    picture_control_set_ptr->slice_type == B_SLICE ? refObj1->referencePicture : 0,
+                                    refObj0->reference_picture,
+                                    picture_control_set_ptr->slice_type == B_SLICE ? refObj1->reference_picture : 0,
                                     recon_buffer,
                                     context_ptr->cu_origin_x,
                                     context_ptr->cu_origin_y,
@@ -4378,7 +4378,7 @@ EB_EXTERN void no_enc_dec_pass(
                     if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag)
                     {
                         EbReferenceObject* refObj = (EbReferenceObject*)picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr->object_ptr;
-                        ref_pic = refObj->referencePicture;
+                        ref_pic = refObj->reference_picture;
                     }
                     else
                     {

@@ -218,7 +218,7 @@ EbErrorType ComputeDecimatedZzSad(
     MotionEstimationContext   *context_ptr,
     SequenceControlSet        *sequence_control_set_ptr,
     PictureParentControlSet   *picture_control_set_ptr,
-    EbPictureBufferDesc       *sixteenthDecimatedPicturePtr,
+    EbPictureBufferDesc       *sixteenth_decimated_picture_ptr,
     uint32_t                         xLcuStartIndex,
     uint32_t                         xLcuEndIndex,
     uint32_t                         yLcuStartIndex,
@@ -274,7 +274,7 @@ EbErrorType ComputeDecimatedZzSad(
             if (sb_params->is_complete_sb)
             {
 
-                blkDisplacementDecimated = (sixteenthDecimatedPicturePtr->origin_y + (sb_origin_y >> 2)) * sixteenthDecimatedPicturePtr->stride_y + sixteenthDecimatedPicturePtr->origin_x + (sb_origin_x >> 2);
+                blkDisplacementDecimated = (sixteenth_decimated_picture_ptr->origin_y + (sb_origin_y >> 2)) * sixteenth_decimated_picture_ptr->stride_y + sixteenth_decimated_picture_ptr->origin_x + (sb_origin_x >> 2);
                 blkDisplacementFull = (previousInputPictureFull->origin_y + sb_origin_y)* previousInputPictureFull->stride_y + (previousInputPictureFull->origin_x + sb_origin_x);
 
 
@@ -291,8 +291,8 @@ EbErrorType ComputeDecimatedZzSad(
                 if (asm_type >= ASM_NON_AVX2 && asm_type < ASM_TYPE_TOTAL)
                     // ZZ SAD between 1/16 current & 1/16 collocated
                     decimatedLcuCollocatedSad = nx_m_sad_kernel_func_ptr_array[asm_type][2](
-                        &(sixteenthDecimatedPicturePtr->buffer_y[blkDisplacementDecimated]),
-                        sixteenthDecimatedPicturePtr->stride_y,
+                        &(sixteenth_decimated_picture_ptr->buffer_y[blkDisplacementDecimated]),
+                        sixteenth_decimated_picture_ptr->stride_y,
                         context_ptr->me_context_ptr->sixteenth_sb_buffer,
                         context_ptr->me_context_ptr->sixteenth_sb_buffer_stride,
                         16, 16);
@@ -371,7 +371,7 @@ void* motion_estimation_kernel(void *input_ptr)
 
     EbPictureBufferDesc       *input_picture_ptr;
 
-    EbPictureBufferDesc       *inputPaddedPicturePtr;
+    EbPictureBufferDesc       *input_padded_picture_ptr;
 
     uint32_t                       bufferIndex;
 
@@ -389,8 +389,8 @@ void* motion_estimation_kernel(void *input_ptr)
 
 
     EbPaReferenceObject       *paReferenceObject;
-    EbPictureBufferDesc       *quarterDecimatedPicturePtr;
-    EbPictureBufferDesc       *sixteenthDecimatedPicturePtr;
+    EbPictureBufferDesc       *quarter_decimated_picture_ptr;
+    EbPictureBufferDesc       *sixteenth_decimated_picture_ptr;
 
     // Segments
     uint32_t                      segment_index;
@@ -419,10 +419,10 @@ void* motion_estimation_kernel(void *input_ptr)
         picture_control_set_ptr = (PictureParentControlSet*)inputResultsPtr->picture_control_set_wrapper_ptr->object_ptr;
         sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
         paReferenceObject = (EbPaReferenceObject*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->object_ptr;
-        quarterDecimatedPicturePtr = (EbPictureBufferDesc*)paReferenceObject->quarterDecimatedPicturePtr;
-        sixteenthDecimatedPicturePtr = (EbPictureBufferDesc*)paReferenceObject->sixteenthDecimatedPicturePtr;
+        quarter_decimated_picture_ptr = (EbPictureBufferDesc*)paReferenceObject->quarter_decimated_picture_ptr;
+        sixteenth_decimated_picture_ptr = (EbPictureBufferDesc*)paReferenceObject->sixteenth_decimated_picture_ptr;
 
-        inputPaddedPicturePtr = (EbPictureBufferDesc*)paReferenceObject->inputPaddedPicturePtr;
+        input_padded_picture_ptr = (EbPictureBufferDesc*)paReferenceObject->input_padded_picture_ptr;
 
         input_picture_ptr = picture_control_set_ptr->enhanced_picture_ptr;
 
@@ -497,29 +497,29 @@ void* motion_estimation_kernel(void *input_ptr)
                     }
 
                     {
-                        uint8_t * src_ptr = &inputPaddedPicturePtr->buffer_y[bufferIndex];
+                        uint8_t * src_ptr = &input_padded_picture_ptr->buffer_y[bufferIndex];
 
                         //_MM_HINT_T0     //_MM_HINT_T1    //_MM_HINT_T2//_MM_HINT_NTA
                         uint32_t i;
                         for (i = 0; i < sb_height; i++)
                         {
-                            char const* p = (char const*)(src_ptr + i * inputPaddedPicturePtr->stride_y);
+                            char const* p = (char const*)(src_ptr + i * input_padded_picture_ptr->stride_y);
                             _mm_prefetch(p, _MM_HINT_T2);
                         }
                     }
 
 
-                    context_ptr->me_context_ptr->sb_src_ptr = &inputPaddedPicturePtr->buffer_y[bufferIndex];
-                    context_ptr->me_context_ptr->sb_src_stride = inputPaddedPicturePtr->stride_y;
+                    context_ptr->me_context_ptr->sb_src_ptr = &input_padded_picture_ptr->buffer_y[bufferIndex];
+                    context_ptr->me_context_ptr->sb_src_stride = input_padded_picture_ptr->stride_y;
 
 
                     // Load the 1/4 decimated SB from the 1/4 decimated input to the 1/4 intermediate SB buffer
                     if (picture_control_set_ptr->enable_hme_level1_flag) {
 
-                        bufferIndex = (quarterDecimatedPicturePtr->origin_y + (sb_origin_y >> 1)) * quarterDecimatedPicturePtr->stride_y + quarterDecimatedPicturePtr->origin_x + (sb_origin_x >> 1);
+                        bufferIndex = (quarter_decimated_picture_ptr->origin_y + (sb_origin_y >> 1)) * quarter_decimated_picture_ptr->stride_y + quarter_decimated_picture_ptr->origin_x + (sb_origin_x >> 1);
 
                         for (lcuRow = 0; lcuRow < (sb_height >> 1); lcuRow++) {
-                            EB_MEMCPY((&(context_ptr->me_context_ptr->quarter_sb_buffer[lcuRow * context_ptr->me_context_ptr->quarter_sb_buffer_stride])), (&(quarterDecimatedPicturePtr->buffer_y[bufferIndex + lcuRow * quarterDecimatedPicturePtr->stride_y])), (sb_width >> 1) * sizeof(uint8_t));
+                            EB_MEMCPY((&(context_ptr->me_context_ptr->quarter_sb_buffer[lcuRow * context_ptr->me_context_ptr->quarter_sb_buffer_stride])), (&(quarter_decimated_picture_ptr->buffer_y[bufferIndex + lcuRow * quarter_decimated_picture_ptr->stride_y])), (sb_width >> 1) * sizeof(uint8_t));
 
                         }
                     }
@@ -527,16 +527,16 @@ void* motion_estimation_kernel(void *input_ptr)
                     // Load the 1/16 decimated SB from the 1/16 decimated input to the 1/16 intermediate SB buffer
                     if (picture_control_set_ptr->enable_hme_level0_flag) {
 
-                        bufferIndex = (sixteenthDecimatedPicturePtr->origin_y + (sb_origin_y >> 2)) * sixteenthDecimatedPicturePtr->stride_y + sixteenthDecimatedPicturePtr->origin_x + (sb_origin_x >> 2);
+                        bufferIndex = (sixteenth_decimated_picture_ptr->origin_y + (sb_origin_y >> 2)) * sixteenth_decimated_picture_ptr->stride_y + sixteenth_decimated_picture_ptr->origin_x + (sb_origin_x >> 2);
 
                         {
-                            uint8_t  *framePtr = &sixteenthDecimatedPicturePtr->buffer_y[bufferIndex];
+                            uint8_t  *framePtr = &sixteenth_decimated_picture_ptr->buffer_y[bufferIndex];
                             uint8_t  *localPtr = context_ptr->me_context_ptr->sixteenth_sb_buffer;
 
                             for (lcuRow = 0; lcuRow < (sb_height >> 2); lcuRow += 2) {
                                 EB_MEMCPY(localPtr, framePtr, (sb_width >> 2) * sizeof(uint8_t));
                                 localPtr += 16;
-                                framePtr += sixteenthDecimatedPicturePtr->stride_y << 1;
+                                framePtr += sixteenth_decimated_picture_ptr->stride_y << 1;
                             }
                         }
                     }
@@ -591,7 +591,7 @@ void* motion_estimation_kernel(void *input_ptr)
                         context_ptr,
                         sequence_control_set_ptr,
                         picture_control_set_ptr,
-                        sixteenthDecimatedPicturePtr,
+                        sixteenth_decimated_picture_ptr,
                         xLcuStartIndex,
                         xLcuEndIndex,
                         yLcuStartIndex,

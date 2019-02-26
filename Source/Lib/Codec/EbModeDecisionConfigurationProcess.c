@@ -682,7 +682,7 @@ void AdaptiveDlfParameterComputation(
         refObjL0 = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
         refObjL1 = (EbReferenceObject*)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
 
-        if ((refObjL0->intra_coded_area > intra_area_th_class_1[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][refObjL0->tmpLayerIdx]) && (refObjL1->intra_coded_area > intra_area_th_class_1[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][refObjL1->tmpLayerIdx]))
+        if ((refObjL0->intra_coded_area > intra_area_th_class_1[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][refObjL0->tmp_layer_idx]) && (refObjL1->intra_coded_area > intra_area_th_class_1[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][refObjL1->tmp_layer_idx]))
 
             highIntra = 1;
         else
@@ -699,7 +699,7 @@ void AdaptiveDlfParameterComputation(
                 highIntra = (picture_control_set_ptr->parent_pcs_ptr->intra_coded_block_probability > intra_area_th_class_1[picture_control_set_ptr->parent_pcs_ptr->hierarchical_levels][picture_control_set_ptr->temporal_layer_index]) ? 1 : 0;
             }
             else {
-                highIntra = (refObjL0->penalizeSkipflag || refObjL1->penalizeSkipflag) ? 1 : 0;
+                highIntra = (refObjL0->penalize_skipflag || refObjL1->penalize_skipflag) ? 1 : 0;
             }
         }
     }
@@ -2369,7 +2369,7 @@ void DeriveLcuScore(
                 if (picture_control_set_ptr->parent_pcs_ptr->non_moving_index_array[sb_index] == ADP_NON_MOVING_INDEX_TH_1 && picture_control_set_ptr->parent_pcs_ptr->variance[sb_index][RASTER_SCAN_CU_INDEX_64x64] > IS_COMPLEX_LCU_VARIANCE_TH)
                     lcuScore -= (((lcuScore - picture_control_set_ptr->parent_pcs_ptr->inter_complexity_min_pre) * ADP_CLASS_SHIFT_DIST_0) / 100);
                 // Use SB luminosity
-                if (picture_control_set_ptr->parent_pcs_ptr->yMean[sb_index][RASTER_SCAN_CU_INDEX_64x64] < ADP_DARK_LCU_TH || picture_control_set_ptr->parent_pcs_ptr->yMean[sb_index][RASTER_SCAN_CU_INDEX_64x64] > ADP_LIGHT_LCU_TH)
+                if (picture_control_set_ptr->parent_pcs_ptr->y_mean[sb_index][RASTER_SCAN_CU_INDEX_64x64] < ADP_DARK_LCU_TH || picture_control_set_ptr->parent_pcs_ptr->y_mean[sb_index][RASTER_SCAN_CU_INDEX_64x64] > ADP_LIGHT_LCU_TH)
                     lcuScore -= (((lcuScore - picture_control_set_ptr->parent_pcs_ptr->inter_complexity_min_pre) * ADP_CLASS_SHIFT_DIST_0) / 100);
                 else
                     lcuScore += (((picture_control_set_ptr->parent_pcs_ptr->inter_complexity_max_pre - lcuScore) * ADP_CLASS_SHIFT_DIST_0) / 100);

@@ -6290,9 +6290,9 @@ EbErrorType motion_estimate_lcu(
         {
 
             referenceObject = (EbPaReferenceObject*)picture_control_set_ptr->ref_pa_pic_ptr_array[listIndex]->object_ptr;
-            refPicPtr = (EbPictureBufferDesc*)referenceObject->inputPaddedPicturePtr;
-            quarterRefPicPtr = (EbPictureBufferDesc*)referenceObject->quarterDecimatedPicturePtr;
-            sixteenthRefPicPtr = (EbPictureBufferDesc*)referenceObject->sixteenthDecimatedPicturePtr;
+            refPicPtr = (EbPictureBufferDesc*)referenceObject->input_padded_picture_ptr;
+            quarterRefPicPtr = (EbPictureBufferDesc*)referenceObject->quarter_decimated_picture_ptr;
+            sixteenthRefPicPtr = (EbPictureBufferDesc*)referenceObject->sixteenth_decimated_picture_ptr;
 
             if (picture_control_set_ptr->temporal_layer_index > 0 || listIndex == 0) {
                 // A - The MV center for Tier0 search could be either (0,0), or HME

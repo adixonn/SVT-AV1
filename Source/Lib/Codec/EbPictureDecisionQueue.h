@@ -28,7 +28,7 @@ typedef struct PaReferenceQueueEntry
     DependentList                 list0;
     DependentList                 list1;
 
-    PictureParentControlSet       *pPcsPtr;
+    PictureParentControlSet       *p_pcs_ptr;
 } PaReferenceQueueEntry;
 
 extern EbErrorType pa_reference_queue_entry_ctor(
