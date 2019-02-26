@@ -651,19 +651,19 @@ static const PredictionStructureConfig PredictionStructureConfigArray[] = {
 PredictionStructure* get_prediction_structure(
     PredictionStructureGroup     *prediction_structure_group_ptr,
     EbPred                         pred_structure,
-    uint32_t                          numberOfReferences,
-    uint32_t                          levelsOfHierarchy)
+    uint32_t                          number_of_references,
+    uint32_t                          levels_of_hierarchy)
 {
     PredictionStructure *pred_struct_ptr;
     uint32_t pred_struct_index;
 
-    // Convert numberOfReferences to an index
-    --numberOfReferences;
+    // Convert number_of_references to an index
+    --number_of_references;
 
     // Determine the Index value
-    pred_struct_index = PRED_STRUCT_INDEX(levelsOfHierarchy, (uint32_t)pred_structure, numberOfReferences);
+    pred_struct_index = PRED_STRUCT_INDEX(levels_of_hierarchy, (uint32_t)pred_structure, number_of_references);
 
-    pred_struct_ptr = prediction_structure_group_ptr->predictionStructurePtrArray[pred_struct_index];
+    pred_struct_ptr = prediction_structure_group_ptr->prediction_structure_ptr_array[pred_struct_index];
 
     return pred_struct_ptr;
 }
@@ -676,7 +676,7 @@ PredictionStructure* get_prediction_structure(
  *   Fow Low Delay B, copy Ref List 0 into Ref List 1
  *   For Random Access, leave config as is
  *
- * numberOfReferences:
+ * number_of_references:
  *   Clip the Ref Lists
  *
  *  Summary:
@@ -848,7 +848,7 @@ static EbErrorType PredictionStructureCtor(
     PredictionStructure       **predictionStructureDblPtr,
     const PredictionStructureConfig  *predictionStructureConfigPtr,
     EbPred                       pred_type,
-    uint32_t                        numberOfReferences)
+    uint32_t                        number_of_references)
 {
     uint32_t                  entryIndex;
     uint32_t                  configEntryIndex;
@@ -889,7 +889,7 @@ static EbErrorType PredictionStructureCtor(
 
             // Increment through Reference List 0
             refIndex = 0;
-            while (refIndex < numberOfReferences && predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list0 != 0) {
+            while (refIndex < number_of_references && predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list0 != 0) {
                 //maxRef = MAX(predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list0[refIndex], maxRef);
                 maxRef = MAX((int32_t)(predictionStructureConfigPtr->entry_count - entryIndex - 1) + predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list0, maxRef);
                 ++refIndex;
@@ -898,7 +898,7 @@ static EbErrorType PredictionStructureCtor(
             // Increment through Reference List 1 (Random Access only)
             if (pred_type == EB_PRED_RANDOM_ACCESS) {
                 refIndex = 0;
-                while (refIndex < numberOfReferences && predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list1 != 0) {
+                while (refIndex < number_of_references && predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list1 != 0) {
                     //maxRef = MAX(predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list1[refIndex], maxRef);
                     maxRef = MAX((int32_t)(predictionStructureConfigPtr->entry_count - entryIndex - 1) + predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list1, maxRef);
                     ++refIndex;
@@ -961,7 +961,7 @@ static EbErrorType PredictionStructureCtor(
 
             // Find the Size of the Config's Reference List 1
             refIndex = 0;
-            while (refIndex < numberOfReferences && predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list1 != 0) {
+            while (refIndex < number_of_references && predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list1 != 0) {
                 ++refIndex;
             }
 
@@ -1007,7 +1007,7 @@ static EbErrorType PredictionStructureCtor(
             // Find the Size of the Config's Reference List 0
             refIndex = 0;
             while (
-                refIndex < numberOfReferences &&
+                refIndex < number_of_references &&
                 predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list0 != 0 &&
                 pocValue - predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list0 >= 0)  // Stop when we violate the CRA (i.e. reference past it)
             {
@@ -1059,7 +1059,7 @@ static EbErrorType PredictionStructureCtor(
                 // Find the Size of the Config's Reference List 1
                 refIndex = 0;
                 while (
-                    refIndex < numberOfReferences &&
+                    refIndex < number_of_references &&
                     predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list1 != 0 &&
                     pocValue - predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list1 >= 0) // Stop when we violate the CRA (i.e. reference past it)
                 {
@@ -1111,7 +1111,7 @@ static EbErrorType PredictionStructureCtor(
 
             // Find the Size of Reference List 0
             refIndex = 0;
-            while (refIndex < numberOfReferences && predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list0 != 0) {
+            while (refIndex < number_of_references && predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list0 != 0) {
                 ++refIndex;
             }
 
@@ -1158,7 +1158,7 @@ static EbErrorType PredictionStructureCtor(
 
                 // Find the Size of the Config's Reference List 1
                 refIndex = 0;
-                while (refIndex < numberOfReferences && predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list1 != 0) {
+                while (refIndex < number_of_references && predictionStructureConfigPtr->entry_array[configEntryIndex].ref_list1 != 0) {
                     ++refIndex;
                 }
 
@@ -1771,7 +1771,7 @@ EbErrorType prediction_structure_group_ctor(
     uint32_t          refIdx = 0;
     uint32_t          hierarchicalLevelIdx;
     uint32_t          predTypeIdx;
-    uint32_t          numberOfReferences;
+    uint32_t          number_of_references;
     EbErrorType    return_error = EB_ErrorNone;
 
     PredictionStructureGroup *prediction_structure_group_ptr;
@@ -1787,18 +1787,18 @@ EbErrorType prediction_structure_group_ctor(
         ++pred_struct_index;
     }
 
-    prediction_structure_group_ptr->predictionStructureCount = MAX_TEMPORAL_LAYERS * EB_PRED_TOTAL_COUNT;
-    EB_MALLOC(PredictionStructure**, prediction_structure_group_ptr->predictionStructurePtrArray, sizeof(PredictionStructure*) * prediction_structure_group_ptr->predictionStructureCount, EB_N_PTR);
+    prediction_structure_group_ptr->prediction_structure_count = MAX_TEMPORAL_LAYERS * EB_PRED_TOTAL_COUNT;
+    EB_MALLOC(PredictionStructure**, prediction_structure_group_ptr->prediction_structure_ptr_array, sizeof(PredictionStructure*) * prediction_structure_group_ptr->prediction_structure_count, EB_N_PTR);
     for (hierarchicalLevelIdx = 0; hierarchicalLevelIdx < MAX_TEMPORAL_LAYERS; ++hierarchicalLevelIdx) {
         for (predTypeIdx = 0; predTypeIdx < EB_PRED_TOTAL_COUNT; ++predTypeIdx) {
             pred_struct_index = PRED_STRUCT_INDEX(hierarchicalLevelIdx, predTypeIdx, refIdx);
-            numberOfReferences = refIdx + 1;
+            number_of_references = refIdx + 1;
 
             return_error = PredictionStructureCtor(
-                &(prediction_structure_group_ptr->predictionStructurePtrArray[pred_struct_index]),
+                &(prediction_structure_group_ptr->prediction_structure_ptr_array[pred_struct_index]),
                 &(PredictionStructureConfigArray[hierarchicalLevelIdx]),
                 (EbPred)predTypeIdx,
-                numberOfReferences);
+                number_of_references);
             if (return_error == EB_ErrorInsufficientResources) {
                 return EB_ErrorInsufficientResources;
             }

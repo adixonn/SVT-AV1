@@ -141,24 +141,24 @@ extern "C" {
     typedef struct PredictionStructure 
     {
 
-        uint32_t                              pred_struct_entry_count;
-        PredictionStructureEntry        **pred_struct_entry_ptr_array;
-        EbPred                             pred_type;
-        uint32_t                              temporal_layer_count;
-        uint32_t                              pred_struct_period;
-        uint32_t                              maximum_extent;
-
-        // Section Indices
-        uint32_t                              leading_pic_index;
-        uint32_t                              init_pic_index;
-        uint32_t                              steady_state_index;
-
-        // RPS Related Entries
-        EbBool                             restricted_ref_pic_lists_enable_flag;
-        EbBool                             lists_modification_enable_flag;
-        EbBool                             long_term_enable_flag;
-        uint32_t                              default_ref_pics_list0_total_count_minus1;
-        uint32_t                              default_ref_pics_list1_total_count_minus1;
+        uint32_t                   pred_struct_entry_count;
+        PredictionStructureEntry **pred_struct_entry_ptr_array;
+        EbPred                     pred_type;
+        uint32_t                   temporal_layer_count;
+        uint32_t                   pred_struct_period;
+        uint32_t                   maximum_extent;
+                                 
+        // Section Indices       
+        uint32_t                   leading_pic_index;
+        uint32_t                   init_pic_index;
+        uint32_t                   steady_state_index;
+                                 
+        // RPS Related Entries   
+        EbBool                     restricted_ref_pic_lists_enable_flag;
+        EbBool                     lists_modification_enable_flag;
+        EbBool                     long_term_enable_flag;
+        uint32_t                   default_ref_pics_list0_total_count_minus1;
+        uint32_t                   default_ref_pics_list1_total_count_minus1;
 
     } PredictionStructure;
 
@@ -169,8 +169,8 @@ extern "C" {
      ************************************************/
     typedef struct PredictionStructureGroup 
     {
-        PredictionStructure **predictionStructurePtrArray;
-        uint32_t              predictionStructureCount;
+        PredictionStructure **prediction_structure_ptr_array;
+        uint32_t              prediction_structure_count;
     } PredictionStructureGroup;
 
     /************************************************
@@ -178,13 +178,13 @@ extern "C" {
      ************************************************/
     extern EbErrorType prediction_structure_group_ctor(
         PredictionStructureGroup   **predictionStructureGroupDblPtr,
-        uint32_t                        base_layer_switch_mode);
+        uint32_t                     base_layer_switch_mode);
 
     extern PredictionStructure* get_prediction_structure(
         PredictionStructureGroup    *prediction_structure_group_ptr,
-        EbPred                        pred_structure,
-        uint32_t                         numberOfReferences,
-        uint32_t                         levelsOfHierarchy);
+        EbPred                       pred_structure,
+        uint32_t                     number_of_references,
+        uint32_t                     levels_of_hierarchy);
 
 
 
