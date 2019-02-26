@@ -208,7 +208,7 @@ static void ResetEntropyCodingPicture(
     picture_control_set_ptr->prev_coded_qp = picture_control_set_ptr->picture_qp;
     picture_control_set_ptr->prev_quant_group_coded_qp = picture_control_set_ptr->picture_qp;
 
-#if ADD_DELTA_QP_SUPPORT //PART 0
+#if ADD_DELTA_QP_SUPPORT //Part 0
     picture_control_set_ptr->parent_pcs_ptr->prev_qindex = picture_control_set_ptr->parent_pcs_ptr->base_qindex;
     if (picture_control_set_ptr->parent_pcs_ptr->allow_intrabc)
         assert(picture_control_set_ptr->parent_pcs_ptr->delta_lf_present_flag == 0);
@@ -286,7 +286,7 @@ static void reset_ec_tile(
     picture_control_set_ptr->prev_coded_qp = picture_control_set_ptr->picture_qp;
     picture_control_set_ptr->prev_quant_group_coded_qp = picture_control_set_ptr->picture_qp;
 
-#if ADD_DELTA_QP_SUPPORT //PART 0
+#if ADD_DELTA_QP_SUPPORT //Part 0
     picture_control_set_ptr->parent_pcs_ptr->prev_qindex = picture_control_set_ptr->parent_pcs_ptr->base_qindex;
     if (picture_control_set_ptr->parent_pcs_ptr->allow_intrabc)
         assert(picture_control_set_ptr->parent_pcs_ptr->delta_lf_present_flag == 0);

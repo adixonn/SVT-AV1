@@ -786,7 +786,7 @@ extern "C" {
     //#define get_subtract_average_fn get_subtract_average_fn_c
 
     // Can we use CfL for the current block?
-    //static INLINE CFL_ALLOWED_TYPE is_cfl_allowed(const MacroBlockD *xd) {
+    //static INLINE CflAllowedType is_cfl_allowed(const MacroBlockD *xd) {
     //    const MbModeInfo *mbmi = xd->mi[0];
     //    const block_size bsize = mbmi->sb_type;
     //    assert(bsize < BlockSizeS_ALL);
@@ -795,10 +795,10 @@ extern "C" {
     //    //    // transform size.
     //    //    const int32_t plane_bsize =
     //    //        get_plane_block_size(bsize, &xd->plane[AOM_PLANE_U]);
-    //    //    return (CFL_ALLOWED_TYPE)(plane_bsize == BLOCK_4X4);
+    //    //    return (CflAllowedType)(plane_bsize == BLOCK_4X4);
     //    //}
     //    // Spec: CfL is available to luma partitions lesser than or equal to 32x32
-    //    return (CFL_ALLOWED_TYPE)(block_size_wide[bsize] <= 32 &&
+    //    return (CflAllowedType)(block_size_wide[bsize] <= 32 &&
     //        block_size_high[bsize] <= 32);
     //}
     /* Shift down with rounding for signed integers, for use when n >= 0 */
@@ -840,7 +840,7 @@ extern "C" {
 
 
     static INLINE int32_t cfl_idx_to_alpha(int32_t alpha_idx, int32_t joint_sign,
-        CFL_PRED_TYPE pred_type) {
+        CflPredType pred_type) {
         const int32_t alpha_sign = (pred_type == CFL_PRED_U) ? CFL_SIGN_U(joint_sign)
             : CFL_SIGN_V(joint_sign);
         if (alpha_sign == CFL_SIGN_ZERO) return 0;

@@ -308,8 +308,8 @@ extern "C" {
         int32_t                     quantized_dc[3];
         uint32_t                    is_inter_ctx;
         uint32_t                    interp_filters;
-        PartitionType               part;
-        PART                        shape;
+        PartitionType               Part;
+        Part                        shape;
         uint16_t                    mds_idx;     //equivalent of leaf_index in the nscu context. we will keep both for now and use the right one on a case by case basis.
         uint8_t                    *neigh_left_recon[3];  //only for MD
         uint8_t                    *neigh_top_recon[3];

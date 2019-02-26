@@ -8497,7 +8497,7 @@ void generate_intra_reference_samples(
             (yd > 0) &&
             (mi_row + ((row_off + txh) << pd->subsampling_y) < xd->tile.mi_row_end);
 
-        const PartitionType partition = from_shape_to_part[md_context_ptr->blk_geom->shape]; //cu_ptr->part;// PARTITION_NONE;//CHKN this is good enough as the avail functions need to know if VERT part is used or not mbmi->partition;
+        const PartitionType partition = from_shape_to_part[md_context_ptr->blk_geom->shape]; //cu_ptr->Part;// PARTITION_NONE;//CHKN this is good enough as the avail functions need to know if VERT Part is used or not mbmi->partition;
 
                                                                                              // force 4x4 chroma component block size.
         bsize = md_context_ptr->scaled_chroma_bsize = scale_chroma_bsize(bsize, pd->subsampling_x, pd->subsampling_y);
@@ -9237,7 +9237,7 @@ extern void av1_predict_intra_block_md(
         (yd > 0) &&
         (mi_row + ((row_off + txh) << pd->subsampling_y) < xd->tile.mi_row_end);
 
-    const PartitionType partition = from_shape_to_part[cu_ptr->blk_geom->shape]; //cu_ptr->part;// PARTITION_NONE;//CHKN this is good enough as the avail functions need to know if VERT part is used or not mbmi->partition;
+    const PartitionType partition = from_shape_to_part[cu_ptr->blk_geom->shape]; //cu_ptr->Part;// PARTITION_NONE;//CHKN this is good enough as the avail functions need to know if VERT Part is used or not mbmi->partition;
 
     // force 4x4 chroma component block size.
     bsize = scale_chroma_bsize(bsize, pd->subsampling_x, pd->subsampling_y);
@@ -9505,7 +9505,7 @@ extern void av1_predict_intra_block(
         (yd > 0) &&
         (mi_row + ((row_off + txh) << pd->subsampling_y) < xd->tile.mi_row_end);
 
-    const PartitionType partition = from_shape_to_part[blk_geom->shape]; //cu_ptr->part;// PARTITION_NONE;//CHKN this is good enough as the avail functions need to know if VERT part is used or not mbmi->partition;
+    const PartitionType partition = from_shape_to_part[blk_geom->shape]; //cu_ptr->Part;// PARTITION_NONE;//CHKN this is good enough as the avail functions need to know if VERT Part is used or not mbmi->partition;
 
     // force 4x4 chroma component block size.
     bsize = scale_chroma_bsize(bsize, pd->subsampling_x, pd->subsampling_y);
@@ -9546,7 +9546,7 @@ extern void av1_predict_intra_block(
         (hpx - y - txhpx) - yd_chr_offset;
 
 
-    const PartitionType partition = from_shape_to_part[blk_geom->shape]; //cu_ptr->part;// PARTITION_NONE;//CHKN this is good enough as the avail functions need to know if VERT part is used or not mbmi->partition;
+    const PartitionType partition = from_shape_to_part[blk_geom->shape]; //cu_ptr->Part;// PARTITION_NONE;//CHKN this is good enough as the avail functions need to know if VERT Part is used or not mbmi->partition;
 
     int32_t have_top_right;
     int32_t have_bottom_left;
@@ -9801,7 +9801,7 @@ void av1_predict_intra_block_16bit(
         (yd > 0) &&
         (mi_row + ((row_off + txh) << pd->subsampling_y) < xd->tile.mi_row_end);
 
-    const PartitionType partition = from_shape_to_part[context_ptr->blk_geom->shape]; //cu_ptr->part;// PARTITION_NONE;//CHKN this is good enough as the avail functions need to know if VERT part is used or not mbmi->partition;
+    const PartitionType partition = from_shape_to_part[context_ptr->blk_geom->shape]; //cu_ptr->Part;// PARTITION_NONE;//CHKN this is good enough as the avail functions need to know if VERT Part is used or not mbmi->partition;
 
     // force 4x4 chroma component block size.
     bsize = scale_chroma_bsize(bsize, pd->subsampling_x, pd->subsampling_y);

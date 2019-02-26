@@ -428,7 +428,7 @@ static void scan_row_mbmi(const Av1Common *cm, const MacroBlockD *xd,
     int32_t i;
     int32_t col_offset = 0;
     const int32_t shift = 0;
-    // TODO(jingning): Revisit this part after cb4x4 is stable.
+    // TODO(jingning): Revisit this Part after cb4x4 is stable.
     if (abs(row_offset) > 1) {
         col_offset = 1;
         if (mi_col & 0x01 && xd->n8_w < n8_w_8) --col_offset;
@@ -1419,7 +1419,7 @@ void update_av1_mi_map(
                     miPtr[miX + miY * mi_stride].mbmi.mv[1].as_mv.row = cu_ptr->prediction_unit_array->mv[1].y;
                 }
 
-                miPtr[miX + miY * mi_stride].mbmi.partition = from_shape_to_part[blk_geom->shape];// cu_ptr->part;
+                miPtr[miX + miY * mi_stride].mbmi.partition = from_shape_to_part[blk_geom->shape];// cu_ptr->Part;
             }
 
 
@@ -1491,7 +1491,7 @@ void update_mi_map(
                     miPtr[miX + miY * mi_stride].mbmi.mv[1].as_mv.row = cu_ptr->prediction_unit_array->mv[1].y;
                 }
 
-                miPtr[miX + miY * mi_stride].mbmi.partition = from_shape_to_part[blk_geom->shape];// cu_ptr->part;
+                miPtr[miX + miY * mi_stride].mbmi.partition = from_shape_to_part[blk_geom->shape];// cu_ptr->Part;
             }
 #if CHROMA_BLIND
             if (blk_geom->has_uv && context_ptr->chroma_level == CHROMA_MODE_0)

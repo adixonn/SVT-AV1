@@ -3852,8 +3852,8 @@ void Av1TransformConfig(
     assert(cfg != NULL);
     cfg->tx_size = tx_size;
     set_flip_cfg(tx_type, cfg);
-    const TX_TYPE_1D tx_type_1d_col = vtx_tab[tx_type];
-    const TX_TYPE_1D tx_type_1d_row = htx_tab[tx_type];
+    const TxType1D tx_type_1d_col = vtx_tab[tx_type];
+    const TxType1D tx_type_1d_row = htx_tab[tx_type];
     const int32_t txw_idx = tx_size_wide_log2[tx_size] - tx_size_wide_log2[0];
     const int32_t txh_idx = tx_size_high_log2[tx_size] - tx_size_high_log2[0];
     cfg->shift = fwd_txfm_shift_ls[tx_size];
@@ -4418,7 +4418,7 @@ EbErrorType av1_estimate_transform(
     uint32_t              bit_increment,
     TxType                transform_type,
     EbAsm                 asm_type,
-    PLANE_TYPE            ComponentType,
+    PlaneType            ComponentType,
     EB_TRANS_COEFF_SHAPE  trans_coeff_shape)
 
 {
@@ -4819,8 +4819,8 @@ void Av1InverseTransformConfig(
     av1_zero(cfg->stage_range_col);
     av1_zero(cfg->stage_range_row);
     set_flip_cfg(tx_type, cfg);
-    const TX_TYPE_1D tx_type_1d_col = vtx_tab[tx_type];
-    const TX_TYPE_1D tx_type_1d_row = htx_tab[tx_type];
+    const TxType1D tx_type_1d_col = vtx_tab[tx_type];
+    const TxType1D tx_type_1d_row = htx_tab[tx_type];
     cfg->shift = inv_txfm_shift_ls[tx_size];
     const int32_t txw_idx = get_txw_idx(tx_size);
     const int32_t txh_idx = get_txh_idx(tx_size);
@@ -7596,8 +7596,8 @@ void av1_get_inv_txfm_cfg(TxType tx_type, TxSize tx_size,
     av1_zero(cfg->stage_range_col);
     av1_zero(cfg->stage_range_row);
     set_flip_cfg(tx_type, cfg);
-    const TX_TYPE_1D tx_type_1d_col = vtx_tab[tx_type];
-    const TX_TYPE_1D tx_type_1d_row = htx_tab[tx_type];
+    const TxType1D tx_type_1d_col = vtx_tab[tx_type];
+    const TxType1D tx_type_1d_row = htx_tab[tx_type];
     cfg->shift = inv_txfm_shift_ls[tx_size];
     const int32_t txw_idx = get_txw_idx(tx_size);
     const int32_t txh_idx = get_txh_idx(tx_size);
@@ -8348,7 +8348,7 @@ EbErrorType av1_inv_transform_recon(
     TxSize        txsize,
     uint32_t      bit_increment,
     TxType        transform_type,
-    PLANE_TYPE   ComponentType,
+    PlaneType   ComponentType,
     uint32_t       eob)
 {
     UNUSED(ComponentType);
@@ -8377,7 +8377,7 @@ EbErrorType av1_inv_transform_recon8bit(
     uint32_t       recon_stride,
     TxSize         txsize,
     TxType         transform_type,
-    PLANE_TYPE     ComponentType,
+    PlaneType     ComponentType,
     uint32_t       eob
 )
 {

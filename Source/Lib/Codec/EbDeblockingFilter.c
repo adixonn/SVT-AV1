@@ -1283,15 +1283,15 @@ void loop_filter_sb(
 
     pd[0].subsampling_x = 0;
     pd[0].subsampling_y = 0;
-    pd[0].plane_type = PLANE_TYPE_Y;
+    pd[0].PlaneType = PLANE_TYPE_Y;
     pd[0].is16Bit = frame_buffer->bit_depth > 8;
     pd[1].subsampling_x = 1;
     pd[1].subsampling_y = 1;
-    pd[1].plane_type = PLANE_TYPE_UV;
+    pd[1].PlaneType = PLANE_TYPE_UV;
     pd[1].is16Bit = frame_buffer->bit_depth > 8;
     pd[2].subsampling_x = 1;
     pd[2].subsampling_y = 1;
-    pd[2].plane_type = PLANE_TYPE_UV;
+    pd[2].PlaneType = PLANE_TYPE_UV;
     pd[2].is16Bit = frame_buffer->bit_depth > 8;
 
     for (plane = plane_start; plane < plane_end; plane++) {
@@ -1781,7 +1781,7 @@ static int32_t search_filter_level(
         //    bias = (bias * cpi->twopass.section_intra_rating) / 20;
 
         // yx, bias less for large block size
-        if (pcsPtr->parent_pcs_ptr->tx_mode != ONLY_4X4) bias >>= 1;
+        if (pcsPtr->parent_pcs_ptr->TxMode != ONLY_4X4) bias >>= 1;
 
         if (filt_direction <= 0 && filt_low != filt_mid) {
             // Get Low filter error score
@@ -1827,7 +1827,7 @@ static int32_t search_filter_level(
             //    bias = (bias * cpi->twopass.section_intra_rating) / 20;
 
             // yx, bias less for large block size
-            if (pcsPtr->parent_pcs_ptr->tx_mode != ONLY_4X4) bias >>= 1;
+            if (pcsPtr->parent_pcs_ptr->TxMode != ONLY_4X4) bias >>= 1;
 
             if (filt_direction <= 0 && filt_low != filt_mid) {
                 // Get Low filter error score

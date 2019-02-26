@@ -203,10 +203,10 @@ void generate_padding(
     tempSrcPic3 = tempSrcPic1;
     while (verticalIdx)
     {
-        // top part data copy
+        // top Part data copy
         tempSrcPic2 -= src_stride;
         EB_MEMCPY(tempSrcPic2, tempSrcPic0, sizeof(uint8_t)*src_stride);        // uint8_t to be modified
-        // bottom part data copy
+        // bottom Part data copy
         tempSrcPic3 += src_stride;
         EB_MEMCPY(tempSrcPic3, tempSrcPic1, sizeof(uint8_t)*src_stride);        // uint8_t to be modified
         --verticalIdx;
@@ -251,10 +251,10 @@ void generate_padding16_bit(
     tempSrcPic3 = tempSrcPic1;
     while (verticalIdx)
     {
-        // top part data copy
+        // top Part data copy
         tempSrcPic2 -= src_stride;
         EB_MEMCPY(tempSrcPic2, tempSrcPic0, sizeof(uint8_t)*src_stride);        // uint8_t to be modified
-        // bottom part data copy
+        // bottom Part data copy
         tempSrcPic3 += src_stride;
         EB_MEMCPY(tempSrcPic3, tempSrcPic1, sizeof(uint8_t)*src_stride);        // uint8_t to be modified
         --verticalIdx;

@@ -921,7 +921,7 @@ static void add_noise_std_observations(
                     data, denoised, stride, w >> sub_log2[0], h >> sub_log2[1], x_o,
                     y_o, block_size >> sub_log2[0], block_size >> sub_log2[1],
                     noise_model->params.use_highbd);
-                // We want to remove the part of the noise that came from being
+                // We want to remove the Part of the noise that came from being
                 // correlated with luma. Note that the noise solver for luma must
                 // have already been run.
                 const double luma_strength =

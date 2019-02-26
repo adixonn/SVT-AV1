@@ -701,7 +701,7 @@ void Initialize_cu_data_structure(
                                                                      //splitFalg=1 : to be tested CU.
                                                                      //split_flag=0 : to be tested CU + the CU could a final depth(smallest CU) or an invalid CU(out of pic bound)
 
-            context_ptr->md_cu_arr_nsq[blk_idx].part = PARTITION_SPLIT;
+            context_ptr->md_cu_arr_nsq[blk_idx].Part = PARTITION_SPLIT;
 
             context_ptr->md_local_cu_unit[blk_idx].tested_cu_flag = EB_FALSE;
 #if FIX_47
@@ -2516,7 +2516,7 @@ void move_cu_data(
     dst_cu->is_inter_ctx = src_cu->is_inter_ctx;
     dst_cu->interp_filters = src_cu->interp_filters;
 
-    dst_cu->part = src_cu->part;
+    dst_cu->Part = src_cu->Part;
     dst_cu->shape = src_cu->shape;
     dst_cu->mds_idx = src_cu->mds_idx;
 }

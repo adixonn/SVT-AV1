@@ -1893,7 +1893,7 @@ static INLINE PredictionMode get_uv_mode(UV_PredictionMode mode) {
     return uv2y[mode];
 }
 static TxType intra_mode_to_tx_type(const MbModeInfo *mbmi,
-    PLANE_TYPE plane_type) {
+    PlaneType PlaneType) {
     static const TxType _intra_mode_to_tx_type[INTRA_MODES] = {
         DCT_DCT,    // DC
         ADST_DCT,   // V
@@ -1910,7 +1910,7 @@ static TxType intra_mode_to_tx_type(const MbModeInfo *mbmi,
         ADST_ADST,  // PAETH
     };
     const PredictionMode mode =
-        (plane_type == PLANE_TYPE_Y) ? mbmi->mode : get_uv_mode(mbmi->uv_mode);
+        (PlaneType == PLANE_TYPE_Y) ? mbmi->mode : get_uv_mode(mbmi->uv_mode);
     assert(mode < INTRA_MODES);
     return _intra_mode_to_tx_type[mode];
 }
@@ -1920,7 +1920,7 @@ static INLINE TxType av1_get_tx_type(
     int32_t   is_inter,
     PredictionMode pred_mode,
     UV_PredictionMode pred_mode_uv,
-    PLANE_TYPE plane_type,
+    PlaneType PlaneType,
     const MacroBlockD *xd, int32_t blk_row,
     int32_t blk_col, TxSize tx_size,
     int32_t reduced_tx_set)
@@ -1938,7 +1938,7 @@ static INLINE TxType av1_get_tx_type(
 
 
     // const MbModeInfo *const mbmi = xd->mi[0];
-    // const struct MacroblockdPlane *const pd = &xd->plane[plane_type];
+    // const struct MacroblockdPlane *const pd = &xd->plane[PlaneType];
     const TxSetType tx_set_type =
         /*av1_*/get_ext_tx_set_type(tx_size, is_inter, reduced_tx_set);
 
@@ -1947,7 +1947,7 @@ static INLINE TxType av1_get_tx_type(
         tx_type = DCT_DCT;
     }
     else {
-        if (plane_type == PLANE_TYPE_Y) {
+        if (PlaneType == PLANE_TYPE_Y) {
             //const int32_t txk_type_idx =
             //    av1_get_txk_type_index(/*mbmi->*/sb_type, blk_row, blk_col);
             //tx_type = mbmi->txk_type[txk_type_idx];

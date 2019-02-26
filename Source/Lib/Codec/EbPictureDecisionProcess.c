@@ -961,11 +961,11 @@ EbChromaMode PictureLevelChromaSettings(
 or non-complete (less than 8 pictures).
 * We get to this function if the picture is:
 * 1) first Key frame
-* 2) part of a complete RA MiniGop where the last frame could be a regular I for open GOP
-* 3) part of complete LDP MiniGop where the last frame could be Key frame for closed GOP
-* 4) part of non-complete LDP MiniGop where the last frame is a regularI+SceneChange.
+* 2) Part of a complete RA MiniGop where the last frame could be a regular I for open GOP
+* 3) Part of complete LDP MiniGop where the last frame could be Key frame for closed GOP
+* 4) Part of non-complete LDP MiniGop where the last frame is a regularI+SceneChange.
 This miniGOP has P frames with predStruct=LDP, and the last frame=I with pred struct=RA.
-* 5) part of non-complete LDP MiniGop at the end of the stream.This miniGOP has P frames with
+* 5) Part of non-complete LDP MiniGop at the end of the stream.This miniGOP has P frames with
 predStruct=LDP, and the last frame=I with pred struct=RA.
 *
 *Note: the  SceneChange I has predType = EB_PRED_RANDOM_ACCESS. if SChange is aligned on the miniGop,

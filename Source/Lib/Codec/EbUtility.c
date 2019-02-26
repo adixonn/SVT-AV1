@@ -553,7 +553,7 @@ void eb_compute_overall_elapsed_time_ms(uint64_t start_seconds, uint64_t start_u
 }
 
 
-uint32_t ns_quarter_off_mult[9/*Up to 9 part*/][2/*x+y*/][4/*Up to 4 ns blocks per part*/] =
+uint32_t ns_quarter_off_mult[9/*Up to 9 Part*/][2/*x+y*/][4/*Up to 4 ns blocks per Part*/] =
 {
     //9 means not used.
 
@@ -571,7 +571,7 @@ uint32_t ns_quarter_off_mult[9/*Up to 9 part*/][2/*x+y*/][4/*Up to 4 ns blocks p
 
 };
 
-uint32_t ns_quarter_size_mult[9/*Up to 9 part*/][2/*h+v*/][4/*Up to 4 ns blocks per part*/] =
+uint32_t ns_quarter_size_mult[9/*Up to 9 Part*/][2/*h+v*/][4/*Up to 4 ns blocks per Part*/] =
 {
     //9 means not used.
 
@@ -615,7 +615,7 @@ BlockGeom blk_geom_mds[MAX_NUM_BLOCKS_ALLOC];  //to access geom info of a partic
 
 uint32_t search_matching_from_dps(
     uint32_t depth,
-    uint32_t part,
+    uint32_t Part,
     uint32_t x,
     uint32_t y)
 {
@@ -624,7 +624,7 @@ uint32_t search_matching_from_dps(
     uint32_t matched = 0xFFFF;
     for (it = 0; it < max_num_active_blocks; it++)
     {
-        if (blk_geom_dps[it].depth == depth && blk_geom_dps[it].shape == part && blk_geom_dps[it].origin_x == x && blk_geom_dps[it].origin_y == y)
+        if (blk_geom_dps[it].depth == depth && blk_geom_dps[it].shape == Part && blk_geom_dps[it].origin_x == x && blk_geom_dps[it].origin_y == y)
         {
             if (found == 0)
             {
@@ -647,7 +647,7 @@ uint32_t search_matching_from_dps(
 }
 uint32_t search_matching_from_mds(
     uint32_t depth,
-    uint32_t part,
+    uint32_t Part,
     uint32_t x,
     uint32_t y)
 {
@@ -656,7 +656,7 @@ uint32_t search_matching_from_mds(
     uint32_t matched = 0xFFFF;
     for (it = 0; it < max_num_active_blocks; it++)
     {
-        if (blk_geom_mds[it].depth == depth && blk_geom_mds[it].shape == part && blk_geom_mds[it].origin_x == x && blk_geom_mds[it].origin_y == y)
+        if (blk_geom_mds[it].depth == depth && blk_geom_mds[it].shape == Part && blk_geom_mds[it].origin_x == x && blk_geom_mds[it].origin_y == y)
         {
             if (found == 0)
             {
@@ -734,7 +734,7 @@ void md_scan_all_blks(uint32_t *idx_mds, uint32_t sq_size, uint32_t x, uint32_t 
             blk_geom_mds[*idx_mds].sq_size = sq_size;
             blk_geom_mds[*idx_mds].is_last_quadrant = is_last_quadrant;
 
-            blk_geom_mds[*idx_mds].shape = (PART)part_it;
+            blk_geom_mds[*idx_mds].shape = (Part)part_it;
             blk_geom_mds[*idx_mds].origin_x = x + quartsize * ns_quarter_off_mult[part_it][0][nsq_it];
             blk_geom_mds[*idx_mds].origin_y = y + quartsize * ns_quarter_off_mult[part_it][1][nsq_it];
 
@@ -874,7 +874,7 @@ void depth_scan_all_blks()
                     {
                         blk_geom_dps[depth_scan_idx].blkidx_dps = depth_scan_idx;
                         blk_geom_dps[depth_scan_idx].depth = depth_it;
-                        blk_geom_dps[depth_scan_idx].shape = (PART)part_it;
+                        blk_geom_dps[depth_scan_idx].shape = (Part)part_it;
                         blk_geom_dps[depth_scan_idx].origin_x = sq_orgx + (sq_size / 4) *ns_quarter_off_mult[part_it][0][nsq_it];
                         blk_geom_dps[depth_scan_idx].origin_y = sq_orgy + (sq_size / 4) *ns_quarter_off_mult[part_it][1][nsq_it];
 

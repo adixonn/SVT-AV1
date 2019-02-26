@@ -152,7 +152,7 @@ void av1_wiener_convolve_add_src_avx2(const uint8_t *src, ptrdiff_t src_stride,
         _mm256_set1_epi16((1 << (conv_params->round_0 - 1)));
     const __m128i round_shift_h = _mm_cvtsi32_si128(conv_params->round_0);
 
-    // Add an offset to account for the "add_src" part of the convolve function.
+    // Add an offset to account for the "add_src" Part of the convolve function.
     const __m128i zero_128 = _mm_setzero_si128();
     const __m128i offset_0 = _mm_insert_epi16(zero_128, 1 << FILTER_BITS, 3);
     const __m128i coeffs_y = _mm_add_epi16(xx_loadu_128(filter_y), offset_0);
@@ -322,7 +322,7 @@ void av1_highbd_wiener_convolve_add_src_avx2(
     const __m128i zero_128 = _mm_setzero_si128();
     const __m256i zero_256 = _mm256_setzero_si256();
 
-    // Add an offset to account for the "add_src" part of the convolve function.
+    // Add an offset to account for the "add_src" Part of the convolve function.
     const __m128i offset = _mm_insert_epi16(zero_128, 1 << FILTER_BITS, 3);
 
     const __m256i clamp_low = zero_256;

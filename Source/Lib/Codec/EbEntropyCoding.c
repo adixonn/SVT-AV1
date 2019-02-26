@@ -2482,7 +2482,7 @@ static void WriteRefFrames(
 
         int32_t context = 0;
         if (is_compound) {
-            const COMP_REFERENCE_TYPE comp_ref_type = /*has_uni_comp_refs(mbmi)
+            const CompReferenceType comp_ref_type = /*has_uni_comp_refs(mbmi)
                                                       ? UNIDIR_COMP_REFERENCE
                                                       : */BIDIR_COMP_REFERENCE;
             MvReferenceFrame refType[2];
@@ -4149,7 +4149,7 @@ static void WriteUncompressedHeaderObu(SequenceControlSet_t *scsPtr/*AV1Comp *cp
         aom_wb_write_bit(wb, pcsPtr->delta_q_present_flag);
         if (pcsPtr->delta_q_present_flag) {
 
-#if ADD_DELTA_QP_SUPPORT //PART 0
+#if ADD_DELTA_QP_SUPPORT //Part 0
             aom_wb_write_literal(wb, OD_ILOG_NZ(pcsPtr->delta_q_res) - 1, 2);
             pcsPtr->prev_qindex = pcsPtr->base_qindex;
             if (pcsPtr->allow_intrabc)
@@ -4202,8 +4202,8 @@ static void WriteUncompressedHeaderObu(SequenceControlSet_t *scsPtr/*AV1Comp *cp
         }
     }
 
-    aom_wb_write_bit(wb, pcsPtr->tx_mode == TX_MODE_SELECT);
-    //write_tx_mode(cm, &pcsPtr->tx_mode, wb);
+    aom_wb_write_bit(wb, pcsPtr->TxMode == TX_MODE_SELECT);
+    //write_tx_mode(cm, &pcsPtr->TxMode, wb);
 
 
     if (pcsPtr->allow_comp_inter_inter) {
@@ -4685,7 +4685,7 @@ static void write_cdef(
         p_pcs_ptr->mi_grid_base[(mi_row & m) * cm->mi_stride + (mi_col & m)];
     //cm->mi_grid_visible[(mi_row & m) * cm->mi_stride + (mi_col & m)];
 
-// Initialise when at top left part of the superblock
+// Initialise when at top left Part of the superblock
     if (!(mi_row & (seqCSetPtr->mib_size - 1)) &&
         !(mi_col & (seqCSetPtr->mib_size - 1))) {  // Top left?
         p_pcs_ptr->cdef_preset[0] = p_pcs_ptr->cdef_preset[1] = p_pcs_ptr->cdef_preset[2] =
@@ -5068,7 +5068,7 @@ EbErrorType write_modes_b(
             blkOriginX >> MI_SIZE_LOG2,
             blkOriginY >> MI_SIZE_LOG2);
 
-#if ADD_DELTA_QP_SUPPORT //PART 1
+#if ADD_DELTA_QP_SUPPORT //Part 1
         if (picture_control_set_ptr->parent_pcs_ptr->delta_q_present_flag) {
 
             int32_t current_q_index = cu_ptr->qp;
@@ -5187,7 +5187,7 @@ EbErrorType write_modes_b(
             cu_ptr->skip_flag ? 1 : skipCoeff,
             blkOriginX >> MI_SIZE_LOG2,
             blkOriginY >> MI_SIZE_LOG2);
-#if ADD_DELTA_QP_SUPPORT//PART 2
+#if ADD_DELTA_QP_SUPPORT//Part 2
         if (picture_control_set_ptr->parent_pcs_ptr->delta_q_present_flag) {
             int32_t current_q_index = cu_ptr->qp;
 

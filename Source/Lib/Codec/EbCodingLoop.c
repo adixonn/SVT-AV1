@@ -3179,19 +3179,19 @@ EB_EXTERN void av1_encode_pass(
     while (blk_it < sequence_control_set_ptr->max_block_cnt) {
 
         CodingUnit  *cu_ptr = context_ptr->cu_ptr = &context_ptr->md_context->md_cu_arr_nsq[blk_it];
-        PartitionType part = cu_ptr->part;
+        PartitionType Part = cu_ptr->Part;
 
         const BlockGeom * blk_geom = context_ptr->blk_geom = get_blk_geom_mds(blk_it);
         UNUSED(blk_geom);
 
-        sb_ptr->cu_partition_array[blk_it] = context_ptr->md_context->md_cu_arr_nsq[blk_it].part;
+        sb_ptr->cu_partition_array[blk_it] = context_ptr->md_context->md_cu_arr_nsq[blk_it].Part;
 
 
-        if (part != PARTITION_SPLIT) {
+        if (Part != PARTITION_SPLIT) {
 
 
-            int32_t offset_d1 = ns_blk_offset[(int32_t)part]; //cu_ptr->best_d1_blk; // TOCKECK
-            int32_t num_d1_block = ns_blk_num[(int32_t)part]; // context_ptr->blk_geom->totns; // TOCKECK
+            int32_t offset_d1 = ns_blk_offset[(int32_t)Part]; //cu_ptr->best_d1_blk; // TOCKECK
+            int32_t num_d1_block = ns_blk_num[(int32_t)Part]; // context_ptr->blk_geom->totns; // TOCKECK
 
            // for (int32_t d1_itr = blk_it; d1_itr < blk_it + num_d1_block; d1_itr++) {
             for (int32_t d1_itr = (int32_t)blk_it + offset_d1; d1_itr < (int32_t)blk_it + offset_d1 + num_d1_block; d1_itr++) {
@@ -4278,18 +4278,18 @@ EB_EXTERN void no_enc_dec_pass(
 
 
         CodingUnit  *cu_ptr = context_ptr->cu_ptr = &context_ptr->md_context->md_cu_arr_nsq[blk_it];
-        PartitionType part = cu_ptr->part;
+        PartitionType Part = cu_ptr->Part;
         const BlockGeom * blk_geom = context_ptr->blk_geom = get_blk_geom_mds(blk_it);
 
 
-        sb_ptr->cu_partition_array[blk_it] = context_ptr->md_context->md_cu_arr_nsq[blk_it].part;
+        sb_ptr->cu_partition_array[blk_it] = context_ptr->md_context->md_cu_arr_nsq[blk_it].Part;
 
-        if (part != PARTITION_SPLIT) {
+        if (Part != PARTITION_SPLIT) {
 
 
 
-            int32_t offset_d1 = ns_blk_offset[(int32_t)part]; //cu_ptr->best_d1_blk; // TOCKECK
-            int32_t num_d1_block = ns_blk_num[(int32_t)part]; // context_ptr->blk_geom->totns; // TOCKECK
+            int32_t offset_d1 = ns_blk_offset[(int32_t)Part]; //cu_ptr->best_d1_blk; // TOCKECK
+            int32_t num_d1_block = ns_blk_num[(int32_t)Part]; // context_ptr->blk_geom->totns; // TOCKECK
 
             for (int32_t d1_itr = blk_it + offset_d1; d1_itr < blk_it + offset_d1 + num_d1_block; d1_itr++) {
 

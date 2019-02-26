@@ -468,10 +468,10 @@ static void setup_processing_stripe_boundary(
 // setup_processing_stripe_boundary.
 //
 // Note: We need to be careful when handling the corners of the processing
-// unit, because (eg.) the top-left corner is considered to be part of
+// unit, because (eg.) the top-left corner is considered to be Part of
 // both the left and top borders. This means that, depending on the
 // loop_filter_across_tiles_enabled flag, the corner pixels might get
-// overwritten twice, once as part of the "top" border and once as part
+// overwritten twice, once as Part of the "top" border and once as Part
 // of the "left" border (or similar for other corners).
 //
 // Everything works out fine as long as we make sure to reverse the order

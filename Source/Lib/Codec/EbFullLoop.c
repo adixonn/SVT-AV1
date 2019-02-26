@@ -2117,7 +2117,7 @@ void  d1_non_square_block_decision(
     {
         //store best partition cost in parent square
         context_ptr->md_local_cu_unit[context_ptr->blk_geom->sqi_mds].cost = tot_cost;
-        context_ptr->md_cu_arr_nsq[context_ptr->blk_geom->sqi_mds].part = from_shape_to_part[context_ptr->blk_geom->shape];
+        context_ptr->md_cu_arr_nsq[context_ptr->blk_geom->sqi_mds].Part = from_shape_to_part[context_ptr->blk_geom->shape];
         context_ptr->md_cu_arr_nsq[context_ptr->blk_geom->sqi_mds].best_d1_blk = first_blk_idx;
     }
 
@@ -2440,7 +2440,7 @@ uint32_t d2_inter_depth_block_decision(
             }
             else {
                 context_ptr->md_local_cu_unit[parent_depth_idx_mds].cost = current_depth_cost;
-                context_ptr->md_cu_arr_nsq[parent_depth_idx_mds].part = PARTITION_SPLIT;
+                context_ptr->md_cu_arr_nsq[parent_depth_idx_mds].Part = PARTITION_SPLIT;
             }
 
             //setup next parent inter depth

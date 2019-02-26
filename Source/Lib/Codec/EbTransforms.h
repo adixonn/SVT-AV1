@@ -83,12 +83,12 @@ extern "C" {
     // tran_high_t is the datatype used for intermediate transform stages.
     typedef int64_t tran_high_t;
 
-    static const TX_TYPE_1D vtx_tab[TX_TYPES] = {
+    static const TxType1D vtx_tab[TX_TYPES] = {
         DCT_1D, ADST_1D, DCT_1D, ADST_1D,
         FLIPADST_1D, DCT_1D, FLIPADST_1D, ADST_1D, FLIPADST_1D, IDTX_1D,
         DCT_1D, IDTX_1D, ADST_1D, IDTX_1D, FLIPADST_1D, IDTX_1D,
     };
-    static const TX_TYPE_1D htx_tab[TX_TYPES] = {
+    static const TxType1D htx_tab[TX_TYPES] = {
         DCT_1D, DCT_1D, ADST_1D, ADST_1D,
         DCT_1D, FLIPADST_1D, FLIPADST_1D, FLIPADST_1D, ADST_1D, IDTX_1D,
         IDTX_1D, DCT_1D, IDTX_1D, ADST_1D, IDTX_1D, FLIPADST_1D,
@@ -3888,7 +3888,7 @@ extern "C" {
         uint32_t             bit_increment,
         TxType               transform_type,
         EbAsm                asm_type,
-        PLANE_TYPE           ComponentType,
+        PlaneType           ComponentType,
         EB_TRANS_COEFF_SHAPE trans_coeff_shape);
 
     extern void av1_quantize_inv_quantize(
@@ -3957,7 +3957,7 @@ extern "C" {
         TxSize      txsize,
         uint32_t    bit_increment,
         TxType      transform_type,
-        PLANE_TYPE  ComponentType,
+        PlaneType  ComponentType,
         uint32_t    eob);
 
     EbErrorType av1_inv_transform_recon8bit(
@@ -3966,7 +3966,7 @@ extern "C" {
         uint32_t    recon_stride,
         TxSize      txsize,
         TxType      transform_type,
-        PLANE_TYPE  ComponentType,
+        PlaneType  ComponentType,
         uint32_t    eob);
 
     extern EbErrorType encode_inv_transform(

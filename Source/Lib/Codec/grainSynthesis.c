@@ -1028,7 +1028,7 @@ void av1_add_film_grain_run(aom_film_grain_t *params, uint8_t *luma,
 
     // Initial padding is only needed for generation of
     // film grain templates (to stabilize the AR process)
-    // Only a 64x64 luma and 32x32 chroma part of a template
+    // Only a 64x64 luma and 32x32 chroma Part of a template
     // is used later for adding grain, padding can be discarded
 
     int32_t luma_block_size_y =

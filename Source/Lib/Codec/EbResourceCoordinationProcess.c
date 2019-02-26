@@ -573,7 +573,7 @@ void ResetPcsAv1(
     picture_control_set_ptr->allow_warped_motion = 0;
 
     /* profile settings */
-    picture_control_set_ptr->tx_mode = TX_MODE_LARGEST;
+    picture_control_set_ptr->TxMode = TX_MODE_LARGEST;
 
 #if CONFIG_ENTROPY_STATS
     int32_t coef_cdf_category;

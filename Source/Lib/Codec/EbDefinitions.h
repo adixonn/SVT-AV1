@@ -603,7 +603,7 @@ typedef enum ATTRIBUTE_PACKED
     PART_H4,
     PART_V4,
     PART_S
-} PART;
+} Part;
 
 
 
@@ -718,7 +718,7 @@ typedef enum ATTRIBUTE_PACKED {
     TX_MODE_LARGEST,  // transform size is the largest possible for pu size
     TX_MODE_SELECT,   // transform specified for each block
     TX_MODES,
-} TX_MODE;
+} TxMode;
 
 // 1D tx types
 typedef enum ATTRIBUTE_PACKED {
@@ -729,7 +729,7 @@ typedef enum ATTRIBUTE_PACKED {
     // TODO(sarahparker) need to eventually put something here for the
     // mrc experiment to make this work with the ext-tx pruning functions
     TX_TYPES_1D,
-} TX_TYPE_1D;
+} TxType1D;
 
 typedef enum ATTRIBUTE_PACKED {
     DCT_DCT,    // DCT  in both horizontal and vertical
@@ -791,13 +791,13 @@ typedef enum ATTRIBUTE_PACKED {
     UNIDIR_COMP_REFERENCE,
     BIDIR_COMP_REFERENCE,
     COMP_REFERENCE_TYPES,
-} COMP_REFERENCE_TYPE;
+} CompReferenceType;
 
 typedef enum ATTRIBUTE_PACKED {
     PLANE_TYPE_Y,
     PLANE_TYPE_UV,
     PLANE_TYPES
-} PLANE_TYPE;
+} PlaneType;
 
 #define CFL_ALPHABET_SIZE_LOG2 4
 #define CFL_ALPHABET_SIZE (1 << CFL_ALPHABET_SIZE_LOG2)
@@ -809,20 +809,20 @@ typedef enum ATTRIBUTE_PACKED {
     CFL_PRED_U,
     CFL_PRED_V,
     CFL_PRED_PLANES
-} CFL_PRED_TYPE;
+} CflPredType;
 
 typedef enum ATTRIBUTE_PACKED {
     CFL_SIGN_ZERO,
     CFL_SIGN_NEG,
     CFL_SIGN_POS,
     CFL_SIGNS
-} CFL_SIGN_TYPE;
+} CflSignType;
 
 typedef enum ATTRIBUTE_PACKED {
     CFL_DISALLOWED,
     CFL_ALLOWED,
     CFL_ALLOWED_TYPES
-} CFL_ALLOWED_TYPE;
+} CflAllowedType;
 
 // CFL_SIGN_ZERO,CFL_SIGN_ZERO is invalid
 #define CFL_JOINT_SIGNS (CFL_SIGNS * CFL_SIGNS - 1)
@@ -842,7 +842,7 @@ typedef enum ATTRIBUTE_PACKED {
 typedef enum ATTRIBUTE_PACKED {
     PALETTE_MAP,
     COLOR_MAP_TYPES,
-} COLOR_MAP_TYPE;
+} ColorMapType;
 
 typedef enum ATTRIBUTE_PACKED {
     TWO_COLORS,
@@ -853,7 +853,7 @@ typedef enum ATTRIBUTE_PACKED {
     SEVEN_COLORS,
     EIGHT_COLORS,
     PALETTE_SIZES
-} PALETTE_SIZE;
+} PaletteSize;
 
 typedef enum ATTRIBUTE_PACKED {
     PALETTE_COLOR_ONE,
@@ -865,7 +865,7 @@ typedef enum ATTRIBUTE_PACKED {
     PALETTE_COLOR_SEVEN,
     PALETTE_COLOR_EIGHT,
     PALETTE_COLORS
-} PALETTE_COLOR;
+} PaletteColor;
 
 // Note: All directional predictors must be between V_PRED and D67_PRED (both
 // inclusive).

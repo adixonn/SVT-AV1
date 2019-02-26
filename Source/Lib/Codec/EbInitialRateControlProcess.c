@@ -1930,7 +1930,7 @@ void* initial_rate_control_kernel(void *input_ptr)
                         }
                     }
 
-                    // BACKGROUND ENHANCEMENT PART II
+                    // BACKGROUND ENHANCEMENT Part II
                     if (!picture_control_set_ptr->end_of_sequence_flag && sequence_control_set_ptr->static_config.look_ahead_distance != 0) {
                         // Update BEA information based on Lookahead information
                         UpdateBeaInfoOverTime(

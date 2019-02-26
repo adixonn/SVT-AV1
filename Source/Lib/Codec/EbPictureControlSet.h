@@ -13546,7 +13546,7 @@ extern "C" {
     typedef struct MacroblockdPlane 
     {
         //tran_low_t *dqcoeff;
-        PLANE_TYPE plane_type;
+        PlaneType PlaneType;
         int32_t subsampling_x;
         int32_t subsampling_y;
         struct Buf2d dst;
@@ -14162,7 +14162,7 @@ extern "C" {
         int32_t                               allow_warped_motion;
 
         /* profile settings */
-        TX_MODE                               tx_mode;
+        TxMode                               TxMode;
 #if CONFIG_ENTROPY_STATS
         int32_t                               coef_cdf_category;
 #endif

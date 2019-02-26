@@ -19,7 +19,7 @@ extern "C" {
     typedef struct BlockGeom
     {
         uint8_t    depth;                       // depth of the block
-        PART       shape;                       // P_N..P_V4 . P_S is not used.
+        Part       shape;                       // P_N..P_V4 . P_S is not used.
         uint8_t    origin_x;                    // orgin x from topleft of sb
         uint8_t    origin_y;                    // orgin x from topleft of sb
                    
