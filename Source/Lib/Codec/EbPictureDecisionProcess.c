@@ -509,10 +509,10 @@ EbErrorType update_base_layer_reference_queue_dependent_count(
                 }
 
                 // 3rd step: update the dependant count
-                dependant_list_removed_entries = input_entry_ptr->depList0Count + input_entry_ptr->depList1Count - input_entry_ptr->dependentCount;
-                input_entry_ptr->depList0Count = input_entry_ptr->list0.list_count;
-                input_entry_ptr->depList1Count = input_entry_ptr->list1.list_count;
-                input_entry_ptr->dependentCount = input_entry_ptr->depList0Count + input_entry_ptr->depList1Count - dependant_list_removed_entries;
+                dependant_list_removed_entries = input_entry_ptr->dep_list0_count + input_entry_ptr->dep_list1_count - input_entry_ptr->dependent_count;
+                input_entry_ptr->dep_list0_count = input_entry_ptr->list0.list_count;
+                input_entry_ptr->dep_list1_count = input_entry_ptr->list1.list_count;
+                input_entry_ptr->dependent_count = input_entry_ptr->dep_list0_count + input_entry_ptr->dep_list1_count - dependant_list_removed_entries;
 
             }
             else {
@@ -531,9 +531,9 @@ EbErrorType update_base_layer_reference_queue_dependent_count(
                         input_entry_ptr->list0.list[dep_idx] = 0;
 
                         // Decrement the Reference's reference_count
-                        --input_entry_ptr->dependentCount;
+                        --input_entry_ptr->dependent_count;
                         CHECK_REPORT_ERROR(
-                            (input_entry_ptr->dependentCount != ~0u),
+                            (input_entry_ptr->dependent_count != ~0u),
                             encode_context_ptr->app_callback_ptr,
                             EB_ENC_PD_ERROR3);
                     }
@@ -552,10 +552,10 @@ EbErrorType update_base_layer_reference_queue_dependent_count(
                     if ((dep_poc >= picture_control_set_ptr->picture_number) && input_entry_ptr->list1.list[dep_idx]) {
                         input_entry_ptr->list1.list[dep_idx] = 0;
                         // Decrement the Reference's reference_count
-                        --input_entry_ptr->dependentCount;
+                        --input_entry_ptr->dependent_count;
 
                         CHECK_REPORT_ERROR(
-                            (input_entry_ptr->dependentCount != ~0u),
+                            (input_entry_ptr->dependent_count != ~0u),
                             encode_context_ptr->app_callback_ptr,
                             EB_ENC_PD_ERROR3);
                     }
@@ -2108,10 +2108,10 @@ void* picture_decision_kernel(void *input_ptr)
                                             inputEntryPtr->list0.list[depIdx] = 0;
 
                                             // Decrement the Reference's referenceCount
-                                            --inputEntryPtr->dependentCount;
+                                            --inputEntryPtr->dependent_count;
 
                                             CHECK_REPORT_ERROR(
-                                                (inputEntryPtr->dependentCount != ~0u),
+                                                (inputEntryPtr->dependent_count != ~0u),
                                                 encode_context_ptr->app_callback_ptr,
                                                 EB_ENC_PD_ERROR3);
                                         }
@@ -2134,10 +2134,10 @@ void* picture_decision_kernel(void *input_ptr)
                                             inputEntryPtr->list1.list[depIdx] = 0;
 
                                             // Decrement the Reference's referenceCount
-                                            --inputEntryPtr->dependentCount;
+                                            --inputEntryPtr->dependent_count;
 
                                             CHECK_REPORT_ERROR(
-                                                (inputEntryPtr->dependentCount != ~0u),
+                                                (inputEntryPtr->dependent_count != ~0u),
                                                 encode_context_ptr->app_callback_ptr,
                                                 EB_ENC_PD_ERROR3);
                                         }
@@ -2157,9 +2157,9 @@ void* picture_decision_kernel(void *input_ptr)
 
                             // Place Picture in Picture Decision PA Reference Queue
                             inputEntryPtr = encode_context_ptr->picture_decision_pa_reference_queue[encode_context_ptr->picture_decision_pa_reference_queue_tail_index];
-                            inputEntryPtr->inputObjectPtr = picture_control_set_ptr->pa_reference_picture_wrapper_ptr;
+                            inputEntryPtr->input_object_ptr = picture_control_set_ptr->pa_reference_picture_wrapper_ptr;
                             inputEntryPtr->picture_number = picture_control_set_ptr->picture_number;
-                            inputEntryPtr->referenceEntryIndex = encode_context_ptr->picture_decision_pa_reference_queue_tail_index;
+                            inputEntryPtr->reference_entry_index = encode_context_ptr->picture_decision_pa_reference_queue_tail_index;
                             inputEntryPtr->p_pcs_ptr = picture_control_set_ptr;
                             encode_context_ptr->picture_decision_pa_reference_queue_tail_index =
                                 (encode_context_ptr->picture_decision_pa_reference_queue_tail_index == PICTURE_DECISION_PA_REFERENCE_QUEUE_MAX_DEPTH - 1) ? 0 : encode_context_ptr->picture_decision_pa_reference_queue_tail_index + 1;
@@ -2167,7 +2167,7 @@ void* picture_decision_kernel(void *input_ptr)
                             // Check if the Picture Decision PA Reference is full
                             CHECK_REPORT_ERROR(
                                 (((encode_context_ptr->picture_decision_pa_reference_queue_head_index != encode_context_ptr->picture_decision_pa_reference_queue_tail_index) ||
-                                (encode_context_ptr->picture_decision_pa_reference_queue[encode_context_ptr->picture_decision_pa_reference_queue_head_index]->inputObjectPtr == EB_NULL))),
+                                (encode_context_ptr->picture_decision_pa_reference_queue[encode_context_ptr->picture_decision_pa_reference_queue_head_index]->input_object_ptr == EB_NULL))),
                                 encode_context_ptr->app_callback_ptr,
                                 EB_ENC_PD_ERROR4);
 
@@ -2176,8 +2176,8 @@ void* picture_decision_kernel(void *input_ptr)
                             picture_control_set_ptr->ref_list0_count = (pictureType == I_SLICE) ? 0 : (uint8_t)predPositionPtr->ref_list0.reference_list_count;
                             picture_control_set_ptr->ref_list1_count = (pictureType == I_SLICE) ? 0 : (uint8_t)predPositionPtr->ref_list1.reference_list_count;
 
-                            inputEntryPtr->list0Ptr = &predPositionPtr->ref_list0;
-                            inputEntryPtr->list1Ptr = &predPositionPtr->ref_list1;
+                            inputEntryPtr->list0_ptr = &predPositionPtr->ref_list0;
+                            inputEntryPtr->list1_ptr = &predPositionPtr->ref_list1;
 
                             {
 
@@ -2195,27 +2195,27 @@ void* picture_decision_kernel(void *input_ptr)
                                     inputEntryPtr->list1.list[depIdx] = predPositionPtr->dep_list1.list[depIdx];
                                 }
 
-                                inputEntryPtr->depList0Count = inputEntryPtr->list0.list_count;
-                                inputEntryPtr->depList1Count = inputEntryPtr->list1.list_count;
-                                inputEntryPtr->dependentCount = inputEntryPtr->depList0Count + inputEntryPtr->depList1Count;
+                                inputEntryPtr->dep_list0_count = inputEntryPtr->list0.list_count;
+                                inputEntryPtr->dep_list1_count = inputEntryPtr->list1.list_count;
+                                inputEntryPtr->dependent_count = inputEntryPtr->dep_list0_count + inputEntryPtr->dep_list1_count;
 
                             }
 
-                            ((EbPaReferenceObject*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->object_ptr)->dependent_pictures_count = inputEntryPtr->dependentCount;
+                            ((EbPaReferenceObject*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->object_ptr)->dependent_pictures_count = inputEntryPtr->dependent_count;
 
                             /* uint32_t depCnt = ((EbPaReferenceObject*)picture_control_set_ptr->pa_reference_picture_wrapper_ptr->object_ptr)->dependent_pictures_count;
                             if (picture_control_set_ptr->picture_number>0 && picture_control_set_ptr->slice_type==I_SLICE && depCnt!=8 )
-                            printf("depCnt Error1  POC:%i  TL:%i   is needed:%i\n",picture_control_set_ptr->picture_number,picture_control_set_ptr->temporal_layer_index,inputEntryPtr->dependentCount);
+                            printf("depCnt Error1  POC:%i  TL:%i   is needed:%i\n",picture_control_set_ptr->picture_number,picture_control_set_ptr->temporal_layer_index,inputEntryPtr->dependent_count);
                             else if (picture_control_set_ptr->slice_type==B_SLICE && picture_control_set_ptr->temporal_layer_index == 0 && depCnt!=8)
-                            printf("depCnt Error2  POC:%i  TL:%i   is needed:%i\n",picture_control_set_ptr->picture_number,picture_control_set_ptr->temporal_layer_index,inputEntryPtr->dependentCount);
+                            printf("depCnt Error2  POC:%i  TL:%i   is needed:%i\n",picture_control_set_ptr->picture_number,picture_control_set_ptr->temporal_layer_index,inputEntryPtr->dependent_count);
                             else if (picture_control_set_ptr->slice_type==B_SLICE && picture_control_set_ptr->temporal_layer_index == 1 && depCnt!=4)
-                            printf("depCnt Error3  POC:%i  TL:%i   is needed:%i\n",picture_control_set_ptr->picture_number,picture_control_set_ptr->temporal_layer_index,inputEntryPtr->dependentCount);
+                            printf("depCnt Error3  POC:%i  TL:%i   is needed:%i\n",picture_control_set_ptr->picture_number,picture_control_set_ptr->temporal_layer_index,inputEntryPtr->dependent_count);
                             else if (picture_control_set_ptr->slice_type==B_SLICE && picture_control_set_ptr->temporal_layer_index == 2 && depCnt!=2)
-                            printf("depCnt Error4  POC:%i  TL:%i   is needed:%i\n",picture_control_set_ptr->picture_number,picture_control_set_ptr->temporal_layer_index,inputEntryPtr->dependentCount);
+                            printf("depCnt Error4  POC:%i  TL:%i   is needed:%i\n",picture_control_set_ptr->picture_number,picture_control_set_ptr->temporal_layer_index,inputEntryPtr->dependent_count);
                             else if (picture_control_set_ptr->slice_type==B_SLICE && picture_control_set_ptr->temporal_layer_index == 3 && depCnt!=0)
-                            printf("depCnt Error5  POC:%i  TL:%i   is needed:%i\n",picture_control_set_ptr->picture_number,picture_control_set_ptr->temporal_layer_index,inputEntryPtr->dependentCount);*/
+                            printf("depCnt Error5  POC:%i  TL:%i   is needed:%i\n",picture_control_set_ptr->picture_number,picture_control_set_ptr->temporal_layer_index,inputEntryPtr->dependent_count);*/
                             //if (picture_control_set_ptr->slice_type==P_SLICE )
-                            //     printf("POC:%i  TL:%i   is needed:%i\n",picture_control_set_ptr->picture_number,picture_control_set_ptr->temporal_layer_index,inputEntryPtr->dependentCount);
+                            //     printf("POC:%i  TL:%i   is needed:%i\n",picture_control_set_ptr->picture_number,picture_control_set_ptr->temporal_layer_index,inputEntryPtr->dependent_count);
 
                             CHECK_REPORT_ERROR(
                                 (picture_control_set_ptr->pred_struct_ptr->pred_struct_period < MAX_ELAPSED_IDR_COUNT),
@@ -2263,7 +2263,7 @@ void* picture_decision_kernel(void *input_ptr)
 
                                 if (picture_control_set_ptr->ref_list0_count) {
                                     paReferenceQueueIndex = (uint32_t)CIRCULAR_ADD(
-                                        ((int32_t)inputEntryPtr->referenceEntryIndex) - inputEntryPtr->list0Ptr->reference_list,
+                                        ((int32_t)inputEntryPtr->reference_entry_index) - inputEntryPtr->list0_ptr->reference_list,
                                         PICTURE_DECISION_PA_REFERENCE_QUEUE_MAX_DEPTH);                                                                                             // Max
 
                                     paReferenceEntryPtr = encode_context_ptr->picture_decision_pa_reference_queue[paReferenceQueueIndex];
@@ -2271,17 +2271,17 @@ void* picture_decision_kernel(void *input_ptr)
                                     // Calculate the Ref POC
                                     ref_poc = POC_CIRCULAR_ADD(
                                         picture_control_set_ptr->picture_number,
-                                        -inputEntryPtr->list0Ptr->reference_list/*,
+                                        -inputEntryPtr->list0_ptr->reference_list/*,
                                         sequence_control_set_ptr->bits_for_picture_order_count*/);
 
                                         // Set the Reference Object
-                                    picture_control_set_ptr->ref_pa_pic_ptr_array[REF_LIST_0] = paReferenceEntryPtr->inputObjectPtr;
+                                    picture_control_set_ptr->ref_pa_pic_ptr_array[REF_LIST_0] = paReferenceEntryPtr->input_object_ptr;
                                     picture_control_set_ptr->ref_pic_poc_array[REF_LIST_0] = ref_poc;
                                     picture_control_set_ptr->ref_pa_pcs_array[REF_LIST_0] = paReferenceEntryPtr->p_pcs_ptr;
 
                                     // Increment the PA Reference's live_count by the number of tiles in the input picture
                                     eb_object_inc_live_count(
-                                        paReferenceEntryPtr->inputObjectPtr,
+                                        paReferenceEntryPtr->input_object_ptr,
                                         1);
 
                                     ((EbPaReferenceObject*)picture_control_set_ptr->ref_pa_pic_ptr_array[REF_LIST_0]->object_ptr)->p_pcs_ptr = paReferenceEntryPtr->p_pcs_ptr;
@@ -2290,7 +2290,7 @@ void* picture_decision_kernel(void *input_ptr)
                                         paReferenceEntryPtr->p_pcs_ptr->p_pcs_wrapper_ptr,
                                         1);
 
-                                    --paReferenceEntryPtr->dependentCount;
+                                    --paReferenceEntryPtr->dependent_count;
                                 }
                             }
 
@@ -2299,7 +2299,7 @@ void* picture_decision_kernel(void *input_ptr)
 
                                 if (picture_control_set_ptr->ref_list1_count) {
                                     paReferenceQueueIndex = (uint32_t)CIRCULAR_ADD(
-                                        ((int32_t)inputEntryPtr->referenceEntryIndex) - inputEntryPtr->list1Ptr->reference_list,
+                                        ((int32_t)inputEntryPtr->reference_entry_index) - inputEntryPtr->list1_ptr->reference_list,
                                         PICTURE_DECISION_PA_REFERENCE_QUEUE_MAX_DEPTH);                                                                                             // Max
 
                                     paReferenceEntryPtr = encode_context_ptr->picture_decision_pa_reference_queue[paReferenceQueueIndex];
@@ -2307,16 +2307,16 @@ void* picture_decision_kernel(void *input_ptr)
                                     // Calculate the Ref POC
                                     ref_poc = POC_CIRCULAR_ADD(
                                         picture_control_set_ptr->picture_number,
-                                        -inputEntryPtr->list1Ptr->reference_list/*,
+                                        -inputEntryPtr->list1_ptr->reference_list/*,
                                         sequence_control_set_ptr->bits_for_picture_order_count*/);
                                     picture_control_set_ptr->ref_pa_pcs_array[REF_LIST_1] = paReferenceEntryPtr->p_pcs_ptr;
                                     // Set the Reference Object
-                                    picture_control_set_ptr->ref_pa_pic_ptr_array[REF_LIST_1] = paReferenceEntryPtr->inputObjectPtr;
+                                    picture_control_set_ptr->ref_pa_pic_ptr_array[REF_LIST_1] = paReferenceEntryPtr->input_object_ptr;
                                     picture_control_set_ptr->ref_pic_poc_array[REF_LIST_1] = ref_poc;
 
                                     // Increment the PA Reference's live_count by the number of tiles in the input picture
                                     eb_object_inc_live_count(
-                                        paReferenceEntryPtr->inputObjectPtr,
+                                        paReferenceEntryPtr->input_object_ptr,
                                         1);
 
                                     ((EbPaReferenceObject*)picture_control_set_ptr->ref_pa_pic_ptr_array[REF_LIST_1]->object_ptr)->p_pcs_ptr = paReferenceEntryPtr->p_pcs_ptr;
@@ -2325,7 +2325,7 @@ void* picture_decision_kernel(void *input_ptr)
                                         paReferenceEntryPtr->p_pcs_ptr->p_pcs_wrapper_ptr,
                                         1);
 
-                                    --paReferenceEntryPtr->dependentCount;
+                                    --paReferenceEntryPtr->dependent_count;
                                 }
                             }
 
@@ -2423,23 +2423,23 @@ void* picture_decision_kernel(void *input_ptr)
                     inputEntryPtr = encode_context_ptr->picture_decision_pa_reference_queue[inputQueueIndex];
 
                     // Remove the entry
-                    if ((inputEntryPtr->dependentCount == 0) &&
-                        (inputEntryPtr->inputObjectPtr)) {
+                    if ((inputEntryPtr->dependent_count == 0) &&
+                        (inputEntryPtr->input_object_ptr)) {
                         eb_release_object(inputEntryPtr->p_pcs_ptr->p_pcs_wrapper_ptr);
                         // Release the nominal live_count value
-                        eb_release_object(inputEntryPtr->inputObjectPtr);
-                        inputEntryPtr->inputObjectPtr = (EbObjectWrapper*)EB_NULL;
+                        eb_release_object(inputEntryPtr->input_object_ptr);
+                        inputEntryPtr->input_object_ptr = (EbObjectWrapper*)EB_NULL;
                     }
 
                     // Increment the head_index if the head is null
                     encode_context_ptr->picture_decision_pa_reference_queue_head_index =
-                        (encode_context_ptr->picture_decision_pa_reference_queue[encode_context_ptr->picture_decision_pa_reference_queue_head_index]->inputObjectPtr) ? encode_context_ptr->picture_decision_pa_reference_queue_head_index :
+                        (encode_context_ptr->picture_decision_pa_reference_queue[encode_context_ptr->picture_decision_pa_reference_queue_head_index]->input_object_ptr) ? encode_context_ptr->picture_decision_pa_reference_queue_head_index :
                         (encode_context_ptr->picture_decision_pa_reference_queue_head_index == PICTURE_DECISION_PA_REFERENCE_QUEUE_MAX_DEPTH - 1) ? 0
                         : encode_context_ptr->picture_decision_pa_reference_queue_head_index + 1;
 
                     CHECK_REPORT_ERROR(
                         (((encode_context_ptr->picture_decision_pa_reference_queue_head_index != encode_context_ptr->picture_decision_pa_reference_queue_tail_index) ||
-                        (encode_context_ptr->picture_decision_pa_reference_queue[encode_context_ptr->picture_decision_pa_reference_queue_head_index]->inputObjectPtr == EB_NULL))),
+                        (encode_context_ptr->picture_decision_pa_reference_queue[encode_context_ptr->picture_decision_pa_reference_queue_head_index]->input_object_ptr == EB_NULL))),
                         encode_context_ptr->app_callback_ptr,
                         EB_ENC_PD_ERROR4);
 

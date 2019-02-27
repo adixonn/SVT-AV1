@@ -14,7 +14,7 @@
  ************************************************/
 typedef struct PictureManagerReorderEntry 
 {
-    uint64_t           picture_number;
+    uint64_t         picture_number;
     EbObjectWrapper *parentPcsWrapperPtr;
 } PictureManagerReorderEntry;
 

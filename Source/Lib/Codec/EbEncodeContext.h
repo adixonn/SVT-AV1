@@ -85,7 +85,7 @@ typedef struct EncodeContext
     InputQueueEntry                              **input_picture_queue;
     uint32_t                                         input_picture_queue_head_index;
     uint32_t                                         input_picture_queue_tail_index;
-    ReferenceQueueEntry_t                          **reference_picture_queue;
+    ReferenceQueueEntry                          **reference_picture_queue;
     uint32_t                                         reference_picture_queue_head_index;
     uint32_t                                         reference_picture_queue_tail_index;
 

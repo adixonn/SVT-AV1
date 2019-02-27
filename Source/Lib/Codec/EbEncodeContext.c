@@ -102,7 +102,7 @@ EbErrorType encode_context_ctor(
     // Picture Manager Reference Queue
     encode_context_ptr->reference_picture_queue_head_index = 0;
     encode_context_ptr->reference_picture_queue_tail_index = 0;
-    EB_MALLOC(ReferenceQueueEntry_t**, encode_context_ptr->reference_picture_queue, sizeof(ReferenceQueueEntry_t*) * REFERENCE_QUEUE_MAX_DEPTH, EB_N_PTR);
+    EB_MALLOC(ReferenceQueueEntry**, encode_context_ptr->reference_picture_queue, sizeof(ReferenceQueueEntry*) * REFERENCE_QUEUE_MAX_DEPTH, EB_N_PTR);
 
     for (pictureIndex = 0; pictureIndex < REFERENCE_QUEUE_MAX_DEPTH; ++pictureIndex) {
         return_error = reference_queue_entry_ctor(
