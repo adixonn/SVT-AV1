@@ -15,7 +15,7 @@
 typedef struct PictureManagerReorderEntry 
 {
     uint64_t         picture_number;
-    EbObjectWrapper *parent_pcs_wrapper_ptr;
+    EbObjectWrapper *parentPcsWrapperPtr;
 } PictureManagerReorderEntry;
 
 extern EbErrorType picture_manager_reorder_entry_ctor(

@@ -1173,7 +1173,7 @@ void* source_based_operations_kernel(void *input_ptr)
 
         outputResultsPtr = (PictureDemuxResults*)outputResultsWrapperPtr->object_ptr;
         outputResultsPtr->picture_control_set_wrapper_ptr = inputResultsPtr->picture_control_set_wrapper_ptr;
-        outputResultsPtr->picture_type = EB_PIC_INPUT;
+        outputResultsPtr->pictureType = EB_PIC_INPUT;
 
         // Release the Input Results
         eb_release_object(inputResultsWrapperPtr);

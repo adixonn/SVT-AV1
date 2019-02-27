@@ -63,7 +63,7 @@ static void ConfigurePictureEdges(
 EbErrorType picture_manager_context_ctor(
     PictureManagerContext **context_dbl_ptr,
     EbFifo                 *picture_input_fifo_ptr,
-    EbFifo                 *picture_manager_output_fifo_ptr,
+    EbFifo                 *pictureManagerOutputFifoPtr,
     EbFifo                **picture_control_set_fifo_ptr_array)
 {
     PictureManagerContext *context_ptr;
@@ -72,7 +72,7 @@ EbErrorType picture_manager_context_ctor(
     *context_dbl_ptr = context_ptr;
 
     context_ptr->picture_input_fifo_ptr = picture_input_fifo_ptr;
-    context_ptr->picture_manager_output_fifo_ptr = picture_manager_output_fifo_ptr;
+    context_ptr->pictureManagerOutputFifoPtr = pictureManagerOutputFifoPtr;
     context_ptr->picture_control_set_fifo_ptr_array = picture_control_set_fifo_ptr_array;
 
     return EB_ErrorNone;
@@ -156,7 +156,7 @@ void* picture_manager_kernel(void *input_ptr)
         //   need hierarchical support.
         loopCount++;
 
-        switch (inputPictureDemuxPtr->picture_type) {
+        switch (inputPictureDemuxPtr->pictureType) {
 
         case EB_PIC_INPUT:
 
@@ -170,21 +170,21 @@ void* picture_manager_kernel(void *input_ptr)
             queueEntryIndex += encode_context_ptr->picture_manager_reorder_queue_head_index;
             queueEntryIndex = (queueEntryIndex > PICTURE_MANAGER_REORDER_QUEUE_MAX_DEPTH - 1) ? queueEntryIndex - PICTURE_MANAGER_REORDER_QUEUE_MAX_DEPTH : queueEntryIndex;
             queueEntryPtr = encode_context_ptr->picture_manager_reorder_queue[queueEntryIndex];
-            if (queueEntryPtr->parent_pcs_wrapper_ptr != NULL) {
+            if (queueEntryPtr->parentPcsWrapperPtr != NULL) {
                 CHECK_REPORT_ERROR_NC(
                     encode_context_ptr->app_callback_ptr,
                     EB_ENC_PD_ERROR8);
             }
             else {
-                queueEntryPtr->parent_pcs_wrapper_ptr = inputPictureDemuxPtr->picture_control_set_wrapper_ptr;
+                queueEntryPtr->parentPcsWrapperPtr = inputPictureDemuxPtr->picture_control_set_wrapper_ptr;
                 queueEntryPtr->picture_number = picture_control_set_ptr->picture_number;
             }
             // Process the head of the Picture Manager Reorder Queue
             queueEntryPtr = encode_context_ptr->picture_manager_reorder_queue[encode_context_ptr->picture_manager_reorder_queue_head_index];
 
-            while (queueEntryPtr->parent_pcs_wrapper_ptr != EB_NULL) {
+            while (queueEntryPtr->parentPcsWrapperPtr != EB_NULL) {
 
-                picture_control_set_ptr = (PictureParentControlSet*)queueEntryPtr->parent_pcs_wrapper_ptr->object_ptr;
+                picture_control_set_ptr = (PictureParentControlSet*)queueEntryPtr->parentPcsWrapperPtr->object_ptr;
 
                 predPositionPtr = picture_control_set_ptr->pred_struct_ptr->pred_struct_entry_ptr_array[picture_control_set_ptr->pred_struct_index];
 #if NEW_PRED_STRUCT
@@ -404,7 +404,7 @@ void* picture_manager_kernel(void *input_ptr)
 
                 // Place Picture in input queue
                 inputEntryPtr = encode_context_ptr->input_picture_queue[encode_context_ptr->input_picture_queue_tail_index];
-                inputEntryPtr->input_object_ptr = queueEntryPtr->parent_pcs_wrapper_ptr;
+                inputEntryPtr->input_object_ptr = queueEntryPtr->parentPcsWrapperPtr;
                 inputEntryPtr->reference_entry_index = encode_context_ptr->reference_picture_queue_tail_index;
                 encode_context_ptr->input_picture_queue_tail_index =
                     (encode_context_ptr->input_picture_queue_tail_index == INPUT_QUEUE_MAX_DEPTH - 1) ? 0 : encode_context_ptr->input_picture_queue_tail_index + 1;
@@ -463,7 +463,7 @@ void* picture_manager_kernel(void *input_ptr)
                 }
 
                 // Release the Picture Manager Reorder Queue
-                queueEntryPtr->parent_pcs_wrapper_ptr = (EbObjectWrapper*)EB_NULL;
+                queueEntryPtr->parentPcsWrapperPtr = (EbObjectWrapper*)EB_NULL;
                 queueEntryPtr->picture_number += PICTURE_MANAGER_REORDER_QUEUE_MAX_DEPTH;
 
                 // Increment the Picture Manager Reorder Queue
@@ -825,7 +825,7 @@ void* picture_manager_kernel(void *input_ptr)
 
                         // Get Empty Results Object
                         eb_get_empty_object(
-                            context_ptr->picture_manager_output_fifo_ptr,
+                            context_ptr->pictureManagerOutputFifoPtr,
                             &outputWrapperPtr);
 
                         rateControlTasksPtr = (RateControlTasks*)outputWrapperPtr->object_ptr;

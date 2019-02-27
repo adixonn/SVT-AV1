@@ -16,7 +16,7 @@
  ************************************************/
 typedef struct InitialRateControlReorderEntry {
     uint64_t                          picture_number;
-    EbObjectWrapper              *parent_pcs_wrapper_ptr;
+    EbObjectWrapper              *parentPcsWrapperPtr;
 } InitialRateControlReorderEntry;
 
 extern EbErrorType initial_rate_control_reorder_entry_ctor(
@@ -34,7 +34,7 @@ typedef struct HlRateControlHistogramEntry
     EbBool                         passedToHlrc;
     EbBool                         isCoded;
     uint64_t                          totalNumBitsCoded;
-    EbObjectWrapper              *parent_pcs_wrapper_ptr;
+    EbObjectWrapper              *parentPcsWrapperPtr;
     EbBool                         end_of_sequence_flag;
     uint64_t                          pred_bits_ref_qp[MAX_REF_QP_NUM];
     EB_SLICE                        slice_type;

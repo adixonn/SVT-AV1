@@ -20,9 +20,9 @@ extern "C" {
     {
         uint64_t                          picture_number;
         EbObjectWrapper              *output_stream_wrapper_ptr;
-        EbObjectWrapper              *output_statistics_wrapper_ptr;
+        EbObjectWrapper              *outputStatisticsWrapperPtr;
 
-        EbLinkedListNode               *out_meta_data;
+        EbLinkedListNode               *outMetaData;
 
         uint64_t                          start_time_seconds;
         uint64_t                          start_time_u_seconds;
