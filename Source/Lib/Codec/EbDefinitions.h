@@ -41,18 +41,14 @@ extern "C" {
 #define SHUT_FILTERING                                  0 // CDEF RESTORATION DLF
     ////
 #define MEM_RED4                                        1 //  Reduce mem allocation when DISABLE_128X128_SB is ON
-
-#define FILT_PROC      1    // New Filtering processes.
-#define CDEF_M        1 // multi-threaded cdef
-#define REST_M        1 // multi-threaded restoration
-#define REST_NEED_B   1 // use boundary update in restoration
+#define FILT_PROC                                       1    // New Filtering processes.
+#define CDEF_M                                          1 // multi-threaded cdef
+#define REST_M                                          1 // multi-threaded restoration
+#define REST_NEED_B                                     1 // use boundary update in restoration
 #define NEW_PRED_STRUCT                                 1 // Ability to run 5-layer prediction structure. By Default 5L is used
-#define  TILES     1
-
+#define TILES                                           1
 #define INTRA_CORE_OPT                                  1
-
 #define ENCODER_MODE_CLEANUP                            1                                          
-
 #define ENABLE_INTRA_4x4                                1 //
 #define DISABLE_NSQ                                     1 //
 #define DISABLE_128X128_SB                              0
@@ -147,8 +143,9 @@ extern "C" {
 #define NSQ_SEARCH_LEVELS                               1
 
 #define CHROMA_BLIND                                    1 // Added the ability to switch between three chroma modes: 1. chroma @ MD, 2. chroma blind @ MD + CFL @ EP. 3. chroma blind @ MD + no CFL @ EP
-
 #define TUNED_SETTINGS_FOR_M0                           1
+#define TUNED_SETTINGS_FOR_M1                           1
+#define CONTENT_BASED_QPS                               1 // Adaptive QP Scaling (active for I only)
 
 /********************************************************/
 /****************** Pre-defined Values ******************/
@@ -2509,9 +2506,9 @@ strcmp(target,token)
 #define EB_STRLEN(target, max_size) \
 strnlen_ss(target, max_size)
 
-#ifdef __cplusplus
-}
-#endif // __cplusplus
+//#ifdef __cplusplus
+//}
+//#endif // __cplusplus
 
 
 

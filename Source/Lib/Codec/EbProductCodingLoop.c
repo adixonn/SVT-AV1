@@ -658,7 +658,11 @@ void set_nfl(
     if (context_ptr->nfl_level == 0)
         context_ptr->full_recon_search_count = MAX_NFL;
     else if (context_ptr->nfl_level == 1)
+#if TUNED_SETTINGS_FOR_M1
+        context_ptr->full_recon_search_count = 10;
+#else
         context_ptr->full_recon_search_count = 8;
+#endif
     else if (context_ptr->nfl_level == 2)
         context_ptr->full_recon_search_count = 6;
     else if (context_ptr->nfl_level == 3)
@@ -2577,7 +2581,6 @@ void inter_depth_tx_search(
         ref_fast_cost,
         *candidateBuffer->fast_cost_ptr,
         picture_control_set_ptr->parent_pcs_ptr->tx_weight) : 1;
-
     if (!tx_search_skip_fag) {
 
         uint64_t      y_full_distortion[DIST_CALC_TOTAL] = { 0 };
