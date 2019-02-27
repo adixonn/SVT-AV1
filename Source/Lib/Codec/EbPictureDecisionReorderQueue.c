@@ -13,7 +13,7 @@ EbErrorType picture_manager_reorder_entry_ctor(
     EB_MALLOC(PictureManagerReorderEntry*, *entry_dbl_ptr, sizeof(PictureManagerReorderEntry), EB_N_PTR);
 
     (*entry_dbl_ptr)->picture_number = picture_number;
-    (*entry_dbl_ptr)->parentPcsWrapperPtr = (EbObjectWrapper *)EB_NULL;
+    (*entry_dbl_ptr)->parent_pcs_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
 
     return EB_ErrorNone;
 }

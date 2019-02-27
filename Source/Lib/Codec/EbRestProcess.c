@@ -439,7 +439,7 @@ void* rest_kernel(void *input_ptr)
                 picture_demux_results_rtr->reference_picture_wrapper_ptr = picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr;
                 picture_demux_results_rtr->sequence_control_set_wrapper_ptr = picture_control_set_ptr->sequence_control_set_wrapper_ptr;
                 picture_demux_results_rtr->picture_number = picture_control_set_ptr->picture_number;
-                picture_demux_results_rtr->pictureType = EB_PIC_REFERENCE;
+                picture_demux_results_rtr->picture_type = EB_PIC_REFERENCE;
 
                 // Post Reference Picture
                 eb_post_full_object(picture_demux_results_wrapper_ptr);

@@ -1964,7 +1964,7 @@ void* enc_dec_kernel(void *input_ptr)
                 pictureDemuxResultsPtr->reference_picture_wrapper_ptr = picture_control_set_ptr->parent_pcs_ptr->reference_picture_wrapper_ptr;
                 pictureDemuxResultsPtr->sequence_control_set_wrapper_ptr = picture_control_set_ptr->sequence_control_set_wrapper_ptr;
                 pictureDemuxResultsPtr->picture_number = picture_control_set_ptr->picture_number;
-                pictureDemuxResultsPtr->pictureType = EB_PIC_REFERENCE;
+                pictureDemuxResultsPtr->picture_type = EB_PIC_REFERENCE;
 
                 // Post Reference Picture
                 eb_post_full_object(pictureDemuxResultsWrapperPtr);
