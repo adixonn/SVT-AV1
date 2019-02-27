@@ -308,6 +308,7 @@ extern "C" {
         Bitstream *bitstream_ptr,
         SequenceControlSet *scsPtr);
 
+
     //*******************************************************************************************//
 
     MotionMode motion_mode_allowed(
