@@ -641,10 +641,10 @@ void* picture_manager_kernel(void *input_ptr)
                         ChildPictureControlSetPtr->parent_pcs_ptr = entryPictureControlSetPtr;
 
 
-                        ChildPictureControlSetPtr->parent_pcs_ptr->childPcs = ChildPictureControlSetPtr;
+                        ChildPictureControlSetPtr->parent_pcs_ptr->child_pcs = ChildPictureControlSetPtr;
 
 
-                        //2. Have some common information between  ChildPCS and ParentPCS.
+                        //2. Have some common information between  child_pcs and ParentPCS.
                         ChildPictureControlSetPtr->sequence_control_set_wrapper_ptr = entryPictureControlSetPtr->sequence_control_set_wrapper_ptr;
                         ChildPictureControlSetPtr->picture_qp = entryPictureControlSetPtr->picture_qp;
                         ChildPictureControlSetPtr->picture_number = entryPictureControlSetPtr->picture_number;
@@ -657,7 +657,7 @@ void* picture_manager_kernel(void *input_ptr)
                         ChildPictureControlSetPtr->parent_pcs_ptr->quantized_coeff_num_bits = 0;
                         ChildPictureControlSetPtr->enc_mode = entryPictureControlSetPtr->enc_mode;
 
-                        //3.make all  init for ChildPCS
+                        //3.make all  init for child_pcs
                         picture_width_in_sb = (uint8_t)((entrySequenceControlSetPtr->luma_width + entrySequenceControlSetPtr->sb_size_pix - 1) / entrySequenceControlSetPtr->sb_size_pix);
                         picture_height_in_sb = (uint8_t)((entrySequenceControlSetPtr->luma_height + entrySequenceControlSetPtr->sb_size_pix - 1) / entrySequenceControlSetPtr->sb_size_pix);
 

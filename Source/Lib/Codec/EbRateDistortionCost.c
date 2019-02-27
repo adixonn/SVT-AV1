@@ -390,11 +390,11 @@ static INLINE int32_t get_br_ctx(const uint8_t *const levels,
 static INLINE int32_t av1_cost_skip_txb(
     struct ModeDecisionCandidateBuffer    *candidate_buffer_ptr,
     TxSize                                  transform_size,
-    PlaneType                               PlaneType,
+    PlaneType                               plane_type,
     int16_t                                   txb_skip_ctx)
 {
     const TxSize txs_ctx = (TxSize)((txsize_sqr_map[transform_size] + txsize_sqr_up_map[transform_size] + 1) >> 1);
-    const LvMapCoeffCost *const coeff_costs = &candidate_buffer_ptr->candidate_ptr->md_rate_estimation_ptr->coeffFacBits[txs_ctx][PlaneType];
+    const LvMapCoeffCost *const coeff_costs = &candidate_buffer_ptr->candidate_ptr->md_rate_estimation_ptr->coeffFacBits[txs_ctx][plane_type];
     return coeff_costs->txb_skip_cost[txb_skip_ctx][1];
 }
 // Note: don't call this function when eob is 0.
@@ -402,7 +402,7 @@ uint64_t av1_cost_coeffs_txb(
     struct ModeDecisionCandidateBuffer    *candidate_buffer_ptr,
     const TranLow                        *const qcoeff,
     uint16_t                                   eob,
-    PlaneType                               PlaneType,
+    PlaneType                               plane_type,
     TxSize                                  transform_size,
     /*const uint32_t                             area_size,
     const uint32_t                             stride,*/
@@ -416,7 +416,7 @@ uint64_t av1_cost_coeffs_txb(
     //warehouse_efficients_txb
 
     const TxSize txs_ctx = (TxSize)((txsize_sqr_map[transform_size] + txsize_sqr_up_map[transform_size] + 1) >> 1);
-    const TxType transform_type = candidate_buffer_ptr->candidate_ptr->transform_type[PlaneType];
+    const TxType transform_type = candidate_buffer_ptr->candidate_ptr->transform_type[plane_type];
     const TxClass TxClass = tx_type_to_class[transform_type];
     int32_t c, cost;
     const int32_t bwl = get_txb_bwl(transform_size);
@@ -427,10 +427,10 @@ uint64_t av1_cost_coeffs_txb(
     uint8_t levels_buf[TX_PAD_2D];
     uint8_t *const levels = set_levels(levels_buf, width);
     DECLARE_ALIGNED(16, int8_t, coeff_contexts[MAX_TX_SQUARE]);
-    const LvMapCoeffCost *const coeff_costs = &candidate_buffer_ptr->candidate_ptr->md_rate_estimation_ptr->coeffFacBits[txs_ctx][PlaneType];
+    const LvMapCoeffCost *const coeff_costs = &candidate_buffer_ptr->candidate_ptr->md_rate_estimation_ptr->coeffFacBits[txs_ctx][plane_type];
 
     const int32_t eob_multi_size = txsize_log2_minus4[transform_size];
-    const LvMapEobCost *const eobBits = &candidate_buffer_ptr->candidate_ptr->md_rate_estimation_ptr->eobFracBits[eob_multi_size][PlaneType];
+    const LvMapEobCost *const eobBits = &candidate_buffer_ptr->candidate_ptr->md_rate_estimation_ptr->eobFracBits[eob_multi_size][plane_type];
     // eob must be greater than 0 here.
     assert(eob > 0);
     cost = coeff_costs->txb_skip_cost[txb_skip_ctx][0];
@@ -440,7 +440,7 @@ uint64_t av1_cost_coeffs_txb(
 
 
     // Transform type bit estimation
-    cost += PlaneType > PLANE_TYPE_Y ? 0 :
+    cost += plane_type > PLANE_TYPE_Y ? 0 :
         Av1TransformTypeRateEstimation(
             candidate_buffer_ptr,
             candidate_buffer_ptr->candidate_ptr->type == INTER_MODE ? EB_TRUE : EB_FALSE,

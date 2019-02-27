@@ -381,26 +381,26 @@ void DetectGlobalMotion(
     picture_control_set_ptr->is_pan = EB_FALSE;
     picture_control_set_ptr->is_tilt = EB_FALSE;
 
-    picture_control_set_ptr->panMvx = 0;
-    picture_control_set_ptr->panMvy = 0;
-    picture_control_set_ptr->tiltMvx = 0;
-    picture_control_set_ptr->tiltMvy = 0;
+    picture_control_set_ptr->pan_mvx = 0;
+    picture_control_set_ptr->pan_mvy = 0;
+    picture_control_set_ptr->tilt_mvx = 0;
+    picture_control_set_ptr->tilt_mvy = 0;
 
 
     // If more than PAN_LCU_PERCENTAGE % of LCUs are PAN
     if ((totalPanLcus * 100 / totalCheckedLcus) > PAN_LCU_PERCENTAGE) {
         picture_control_set_ptr->is_pan = EB_TRUE;
 
-        picture_control_set_ptr->panMvx = (int16_t)(xPanMvSum / totalPanLcus);
-        picture_control_set_ptr->panMvy = (int16_t)(yPanMvSum / totalPanLcus);
+        picture_control_set_ptr->pan_mvx = (int16_t)(xPanMvSum / totalPanLcus);
+        picture_control_set_ptr->pan_mvy = (int16_t)(yPanMvSum / totalPanLcus);
 
     }
 
     if ((totalTiltLcus * 100 / totalCheckedLcus) > PAN_LCU_PERCENTAGE) {
         picture_control_set_ptr->is_tilt = EB_TRUE;
 
-        picture_control_set_ptr->tiltMvx = (int16_t)(xTiltMvSum / totalTiltLcus);
-        picture_control_set_ptr->tiltMvy = (int16_t)(yTiltMvSum / totalTiltLcus);
+        picture_control_set_ptr->tilt_mvx = (int16_t)(xTiltMvSum / totalTiltLcus);
+        picture_control_set_ptr->tilt_mvy = (int16_t)(yTiltMvSum / totalTiltLcus);
 
     }
 }

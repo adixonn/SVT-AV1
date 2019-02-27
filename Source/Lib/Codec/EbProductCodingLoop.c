@@ -1203,7 +1203,7 @@ void ProductMdFastPuPrediction(
 #endif
     // Prediction
 #if INTERPOLATION_SEARCH_LEVELS
-    context_ptr->skip_interpolation_search = picture_control_set_ptr->parent_pcs_ptr->InterpolationSearchLevel == IT_SEARCH_FAST_LOOP ? 0 : 1;
+    context_ptr->skip_interpolation_search = picture_control_set_ptr->parent_pcs_ptr->interpolation_search_level == IT_SEARCH_FAST_LOOP ? 0 : 1;
 #endif
     candidate_buffer->candidate_ptr->prediction_is_ready_luma = EB_TRUE;
     candidate_buffer->candidate_ptr->interp_filters = 0;
@@ -2126,7 +2126,7 @@ void AV1PerformFullLoop(
         // Set Skip Flag
         candidate_ptr->skip_flag = EB_FALSE;
 #if INTERPOLATION_SEARCH_LEVELS
-        if (picture_control_set_ptr->parent_pcs_ptr->InterpolationSearchLevel == IT_SEARCH_FULL_LOOP) {
+        if (picture_control_set_ptr->parent_pcs_ptr->interpolation_search_level == IT_SEARCH_FULL_LOOP) {
             context_ptr->skip_interpolation_search = 0;
 
             if (candidate_ptr->type != INTRA_MODE) {
@@ -2202,7 +2202,7 @@ void AV1PerformFullLoop(
 
 #if TX_SEARCH_LEVELS
 
-        uint8_t  tx_search_skip_fag = picture_control_set_ptr->parent_pcs_ptr->TxSearchLevel == TX_SEARCH_FULL_LOOP ? get_skip_tx_search_flag(
+        uint8_t  tx_search_skip_fag = picture_control_set_ptr->parent_pcs_ptr->tx_search_level == TX_SEARCH_FULL_LOOP ? get_skip_tx_search_flag(
             context_ptr->blk_geom->sq_size,
             ref_fast_cost,
             *candidate_buffer->fast_cost_ptr,
@@ -2572,7 +2572,7 @@ void inter_depth_tx_search(
     EbAsm                                     asm_type)
 {
 
-    uint8_t  tx_search_skip_fag = picture_control_set_ptr->parent_pcs_ptr->TxSearchLevel == TX_SEARCH_INTER_DEPTH ? get_skip_tx_search_flag(
+    uint8_t  tx_search_skip_fag = picture_control_set_ptr->parent_pcs_ptr->tx_search_level == TX_SEARCH_INTER_DEPTH ? get_skip_tx_search_flag(
         context_ptr->blk_geom->sq_size,
         ref_fast_cost,
         *candidate_buffer->fast_cost_ptr,
@@ -3015,7 +3015,7 @@ void md_encode_block(
         bestCandidateBuffers[0] = candidate_buffer;
 
 #if INTERPOLATION_SEARCH_LEVELS
-        if (picture_control_set_ptr->parent_pcs_ptr->InterpolationSearchLevel == IT_SEARCH_INTER_DEPTH) {
+        if (picture_control_set_ptr->parent_pcs_ptr->interpolation_search_level == IT_SEARCH_INTER_DEPTH) {
 
             if (candidate_buffer->candidate_ptr->type != INTRA_MODE && candidate_buffer->candidate_ptr->motion_mode == SIMPLE_TRANSLATION) {
 

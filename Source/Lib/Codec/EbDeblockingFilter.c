@@ -1283,15 +1283,15 @@ void loop_filter_sb(
 
     pd[0].subsampling_x = 0;
     pd[0].subsampling_y = 0;
-    pd[0].PlaneType = PLANE_TYPE_Y;
+    pd[0].plane_type = PLANE_TYPE_Y;
     pd[0].is16Bit = frame_buffer->bit_depth > 8;
     pd[1].subsampling_x = 1;
     pd[1].subsampling_y = 1;
-    pd[1].PlaneType = PLANE_TYPE_UV;
+    pd[1].plane_type = PLANE_TYPE_UV;
     pd[1].is16Bit = frame_buffer->bit_depth > 8;
     pd[2].subsampling_x = 1;
     pd[2].subsampling_y = 1;
-    pd[2].PlaneType = PLANE_TYPE_UV;
+    pd[2].plane_type = PLANE_TYPE_UV;
     pd[2].is16Bit = frame_buffer->bit_depth > 8;
 
     for (plane = plane_start; plane < plane_end; plane++) {
@@ -1781,7 +1781,7 @@ static int32_t search_filter_level(
         //    bias = (bias * cpi->twopass.section_intra_rating) / 20;
 
         // yx, bias less for large block size
-        if (pcsPtr->parent_pcs_ptr->TxMode != ONLY_4X4) bias >>= 1;
+        if (pcsPtr->parent_pcs_ptr->tx_mode != ONLY_4X4) bias >>= 1;
 
         if (filt_direction <= 0 && filt_low != filt_mid) {
             // Get Low filter error score
@@ -1827,7 +1827,7 @@ static int32_t search_filter_level(
             //    bias = (bias * cpi->twopass.section_intra_rating) / 20;
 
             // yx, bias less for large block size
-            if (pcsPtr->parent_pcs_ptr->TxMode != ONLY_4X4) bias >>= 1;
+            if (pcsPtr->parent_pcs_ptr->tx_mode != ONLY_4X4) bias >>= 1;
 
             if (filt_direction <= 0 && filt_low != filt_mid) {
                 // Get Low filter error score
@@ -1892,7 +1892,7 @@ void av1_pick_filter_level(
     const int32_t num_planes = 3;
     (void)srcBuffer;
     struct LoopFilter *const lf = &pcsPtr->parent_pcs_ptr->lf;
-    lf->sharpness_level = pcsPtr->parent_pcs_ptr->av1FrameType == KEY_FRAME ? 0 : LF_SHARPNESS;
+    lf->sharpness_level = pcsPtr->parent_pcs_ptr->av1_frame_type == KEY_FRAME ? 0 : LF_SHARPNESS;
 
     if (method == LPF_PICK_MINIMAL_LPF) {
         lf->filter_level[0] = 0;
@@ -1912,7 +1912,7 @@ void av1_pick_filter_level(
         int32_t filt_guess;
         switch (scsPtr->static_config.encoder_bit_depth) {
         case EB_8BIT:
-            filt_guess = (pcsPtr->parent_pcs_ptr->av1FrameType == KEY_FRAME)
+            filt_guess = (pcsPtr->parent_pcs_ptr->av1_frame_type == KEY_FRAME)
                 ? ROUND_POWER_OF_TWO(q * 17563 - 421574, 18)
                 : ROUND_POWER_OF_TWO(q * 6017 + 650707, 18);
             break;
@@ -1928,7 +1928,7 @@ void av1_pick_filter_level(
                 "or AOM_BITS_12");
             return;
         }
-        if (scsPtr->static_config.encoder_bit_depth != EB_8BIT && pcsPtr->parent_pcs_ptr->av1FrameType == KEY_FRAME)
+        if (scsPtr->static_config.encoder_bit_depth != EB_8BIT && pcsPtr->parent_pcs_ptr->av1_frame_type == KEY_FRAME)
             filt_guess -= 4;
 
    

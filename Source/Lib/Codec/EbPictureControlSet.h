@@ -13464,7 +13464,8 @@ extern "C" {
     },
     };
 
-    struct Buf2d {
+    struct Buf2d 
+    {
         uint8_t *buf;
         uint8_t *buf0;
         int32_t  width;
@@ -13545,29 +13546,12 @@ extern "C" {
 
     typedef struct MacroblockdPlane 
     {
-        //TranLow *dqcoeff;
-        PlaneType PlaneType;
-        int32_t subsampling_x;
-        int32_t subsampling_y;
+        PlaneType    plane_type;
+        int32_t      subsampling_x;
+        int32_t      subsampling_y;
         struct Buf2d dst;
-        int32_t is16Bit;
-        //struct Buf2d pre[2];
-        //ENTROPY_CONTEXT *above_context;
-        //ENTROPY_CONTEXT *left_context;
-        // The dequantizers below are true dequntizers used only in the
-        // dequantization process.  They have the same coefficient
-        // shift/scale as TX.
-        //int16_t seg_dequant_QTX[MAX_SEGMENTS][2];
-        //uint8_t *color_index_map;
-        // block size in pixels
-        //uint8_t width, height;
-        //QmVal *seg_iqmatrix[MAX_SEGMENTS][TX_SIZES_ALL];
-        //QmVal *seg_qmatrix[MAX_SEGMENTS][TX_SIZES_ALL];
-        // the 'dequantizers' below are not literal dequantizer values.
-        // They're used by encoder RDO to generate ad-hoc lambda values.
-        // They use a hardwired Q3 coeff shift and do not necessarily match
-        // the TX scale in use.
-        //const int16_t *dequant_Q3;
+        int32_t      is16Bit;
+
     } MacroblockdPlane;
 
     struct PredictionUnit;
@@ -13575,25 +13559,25 @@ extern "C" {
     typedef struct Av1Common 
     {
 
-        int32_t  mi_rows;
-        int32_t  mi_cols;
-        int32_t ref_frame_sign_bias[REF_FRAMES]; /* Two state 0, 1 */
-        InterpFilter interp_filter;
-        int32_t mi_stride;
+        int32_t         mi_rows;
+        int32_t         mi_cols;
+        int32_t         ref_frame_sign_bias[REF_FRAMES]; /* Two state 0, 1 */
+        InterpFilter    interp_filter;
+        int32_t         mi_stride;
 
         // Marks if we need to use 16bit frame buffers (1: yes, 0: no).
-        int32_t use_highbitdepth;
-        int32_t bit_depth;
-        int32_t subsampling_x;
-        int32_t subsampling_y;
-        int32_t width;
-        int32_t height;
-        int32_t superres_upscaled_width;
-        int32_t superres_upscaled_height;
+        int32_t         use_highbitdepth;
+        int32_t         bit_depth;
+        int32_t         subsampling_x;
+        int32_t         subsampling_y;
+        int32_t         width;
+        int32_t         height;
+        int32_t         superres_upscaled_width;
+        int32_t         superres_upscaled_height;
         RestorationInfo rst_info[MAX_MB_PLANE];
         // rst_end_stripe[i] is one more than the index of the bottom stripe
         // for tile row i.
-        int32_t rst_end_stripe[MAX_TILE_ROWS];
+        int32_t         rst_end_stripe[MAX_TILE_ROWS];
         // Output of loop restoration
         Yv12BufferConfig rst_frame;
         // pointer to a scratch buffer used by self-guided restoration
@@ -13615,7 +13599,7 @@ extern "C" {
         int32_t tile_col_start_sb[MAX_TILE_COLS + 1];  // valid for 0 <= i <= tile_cols
         int32_t tile_row_start_sb[MAX_TILE_ROWS + 1];  // valid for 0 <= i <= tile_rows
         int32_t tile_width, tile_height;               // In MI units
-        struct PictureParentControlSet               *p_pcs_ptr;
+        struct PictureParentControlSet *p_pcs_ptr;
 #if FAST_SG
         int8_t  sg_filter_mode;
         int32_t sg_frame_ep_cnt[SGRPROJ_PARAMS];
@@ -13633,21 +13617,21 @@ extern "C" {
 
     typedef struct EbMdcLeafData
     {
-        uint32_t          mds_idx;
-        uint32_t          tot_d1_blocks; //how many d1 bloks every parent square would have
-        uint8_t           leaf_index;
-        EbBool            split_flag;
+        uint32_t mds_idx;
+        uint32_t tot_d1_blocks; //how many d1 bloks every parent square would have
+        uint8_t  leaf_index;
+        EbBool   split_flag;
     } EbMdcLeafData;
 
 
     typedef struct MdcLcuData
     {
         // Rate Control
-        uint8_t           qp;
+        uint8_t         qp;
 
         // ME Results
-        uint64_t          treeblock_variance;
-        uint32_t          leaf_count;
+        uint64_t        treeblock_variance;
+        uint32_t        leaf_count;
         EbMdcLeafData   leaf_data_array[BLOCK_MAX_COUNT_SB_128];
 
     } MdcLcuData;
@@ -13693,81 +13677,81 @@ extern "C" {
 
         // Reference Lists
         EbObjectWrapper                    *ref_pic_ptr_array[MAX_NUM_OF_REF_PIC_LIST];
-        uint8_t                               ref_pic_qp_array[MAX_NUM_OF_REF_PIC_LIST];
-        EB_SLICE                              ref_slice_type_array[MAX_NUM_OF_REF_PIC_LIST];
+        uint8_t                             ref_pic_qp_array[MAX_NUM_OF_REF_PIC_LIST];
+        EB_SLICE                            ref_slice_type_array[MAX_NUM_OF_REF_PIC_LIST];
 
         // GOP
-        uint64_t                              picture_number;
-        uint8_t                               temporal_layer_index;
+        uint64_t                            picture_number;
+        uint8_t                             temporal_layer_index;
         
         
         EncDecSegments                     *enc_dec_segment_ctrl;
 
         // Entropy Process Rows
-        int8_t                                entropy_coding_current_available_row;
-        EbBool                                entropy_coding_row_array[MAX_LCU_ROWS];
-        int8_t                                entropy_coding_current_row;
-        int8_t                                entropy_coding_row_count;
-        EbHandle                              entropy_coding_mutex;
-        EbBool                                entropy_coding_in_progress;
-        EbBool                                entropy_coding_pic_done;
-        EbHandle                              intra_mutex;
-        uint32_t                              intra_coded_area;
-#if CDEF_M
-        uint32_t                              tot_seg_searched_cdef;
-        EbHandle                              cdef_search_mutex;
-
-        uint16_t                              cdef_segments_total_count;
-        uint8_t                               cdef_segments_column_count;
-        uint8_t                               cdef_segments_row_count;
+        int8_t                              entropy_coding_current_available_row;
+        EbBool                              entropy_coding_row_array[MAX_LCU_ROWS];
+        int8_t                              entropy_coding_current_row;
+        int8_t                              entropy_coding_row_count;
+        EbHandle                            entropy_coding_mutex;
+        EbBool                              entropy_coding_in_progress;
+        EbBool                              entropy_coding_pic_done;
+        EbHandle                            intra_mutex;
+        uint32_t                            intra_coded_area;
+#if CDEF_M                                  
+        uint32_t                            tot_seg_searched_cdef;
+        EbHandle                            cdef_search_mutex;
+                                            
+        uint16_t                            cdef_segments_total_count;
+        uint8_t                             cdef_segments_column_count;
+        uint8_t                             cdef_segments_row_count;
 
         uint64_t(*mse_seg[2])[TOTAL_STRENGTHS];
 
-        uint16_t *src[3];        //dlfed recon in 16bit form
-        uint16_t *ref_coeff[3];  //input video in 16bit form
+        uint16_t                           *src[3];        //dlfed recon in 16bit form
+        uint16_t                           *ref_coeff[3];  //input video in 16bit form
 
 #endif
 #if REST_M
-        uint32_t                              tot_seg_searched_rest;
-        EbHandle                              rest_search_mutex;
-        uint16_t                              rest_segments_total_count;
-        uint8_t                               rest_segments_column_count;
-        uint8_t                               rest_segments_row_count;            
+        uint32_t                            tot_seg_searched_rest;
+        EbHandle                            rest_search_mutex;
+        uint16_t                            rest_segments_total_count;
+        uint8_t                             rest_segments_column_count;
+        uint8_t                             rest_segments_row_count;            
 #endif
         // Mode Decision Config
         MdcLcuData                         *mdc_sb_array;
 
         // Error Resilience
-        EbBool                                constrained_intra_flag;
-
-        // Slice Type
-        EB_SLICE                              slice_type;
-
-        // Rate Control
-        uint8_t                               picture_qp;
-        uint8_t                               dif_cu_delta_qp_depth;
-        uint8_t                               use_delta_qp;
-
-        // SB Array
-        uint8_t                               sb_max_depth;
-        uint16_t                              sb_total_count;
+        EbBool                              constrained_intra_flag;
+                                            
+        // Slice Type                       
+        EB_SLICE                            slice_type;
+                                            
+        // Rate Control                     
+        uint8_t                             picture_qp;
+        uint8_t                             dif_cu_delta_qp_depth;
+        uint8_t                             use_delta_qp;
+                                            
+        // SB Array                         
+        uint8_t                             sb_max_depth;
+        uint16_t                            sb_total_count;
         LargestCodingUnit                 **sb_ptr_array;
         LargestCodingUnit                 **sb_ptr_array_copy;
 
         // DLF
-        uint8_t                              *qp_array;
-        uint8_t                              *entropy_qp_array;
-        uint16_t                              qp_array_stride;
-        uint32_t                              qp_array_size;
-        uint8_t                              *cbf_map_array;
+        uint8_t                            *qp_array;
+        uint8_t                            *entropy_qp_array;
+        uint16_t                            qp_array_stride;
+        uint32_t                            qp_array_size;
+        uint8_t                            *cbf_map_array;
 
         // QP Assignment
-        uint8_t                               prev_coded_qp;
-        uint8_t                               prev_quant_group_coded_qp;
-
-        // Enc/DecQP Assignment
-        uint8_t                               enc_prev_coded_qp[50];
-        uint8_t                               enc_prev_quant_group_coded_qp[50];
+        uint8_t                             prev_coded_qp;
+        uint8_t                             prev_quant_group_coded_qp;
+                                            
+        // Enc/DecQP Assignment             
+        uint8_t                             enc_prev_coded_qp[50];
+        uint8_t                             enc_prev_quant_group_coded_qp[50];
 
         // EncDec Entropy Coder (for rate estimation)
         EntropyCoder                       *coeff_est_entropy_coder_ptr;
@@ -13830,37 +13814,38 @@ extern "C" {
         NeighborArrayUnit                  *ref_frame_type_neighbor_array;
         NeighborArrayUnit32                *interpolation_type_neighbor_array;
 
-        ModeInfo                            **mi_grid_base; //2 SB Rows of mi Data are enough
-        ModeInfo                             *mip;
-
-        int32_t                               mi_stride;
-        EbReflist                             colocated_pu_ref_list;
-        EbBool                                is_low_delay;
+        ModeInfo                          **mi_grid_base; //2 SB Rows of mi Data are enough
+        ModeInfo                           *mip;
+                                          
+        int32_t                             mi_stride;
+        EbReflist                           colocated_pu_ref_list;
+        EbBool                              is_low_delay;
                                               
         // slice level chroma QP offsets   
-        EbBool                                slice_level_chroma_qp_flag;
-        int8_t                                slice_cb_qp_offset;
-        int8_t                                slice_cr_qp_offset;
-        int8_t                                cb_qp_offset;
-        int8_t                                cr_qp_offset;
-        int8_t                               *cu32x32_quant_coeff_num_map_array; //32x32 cu array for the number of quantized coeffs
-        uint16_t                              cu32x32_quant_coeff_num_map_array_stride;
-        EbBool                                adjust_min_qp_flag;
-
-        EbEncMode                             enc_mode;
-        EbBool                                intra_md_open_loop_flag;
-        uint8_t                               high_intra_slection;
-        EB_FRAME_CARACTERICTICS               scene_caracteristic_id;
-        EbBool                                limit_intra;
-        int32_t                               cdef_preset[4];
-        WienerInfo                            wiener_info[MAX_MB_PLANE];
-        SgrprojInfo                           sgrproj_info[MAX_MB_PLANE];
+        EbBool                              slice_level_chroma_qp_flag;
+        int8_t                              slice_cb_qp_offset;
+        int8_t                              slice_cr_qp_offset;
+        int8_t                              cb_qp_offset;
+        int8_t                              cr_qp_offset;
+        int8_t                             *cu32x32_quant_coeff_num_map_array; //32x32 cu array for the number of quantized coeffs
+        uint16_t                            cu32x32_quant_coeff_num_map_array_stride;
+        EbBool                              adjust_min_qp_flag;
+                                           
+        EbEncMode                           enc_mode;
+        EbBool                              intra_md_open_loop_flag;
+        uint8_t                             high_intra_slection;
+        EB_FRAME_CARACTERICTICS             scene_caracteristic_id;
+        EbBool                              limit_intra;
+        int32_t                             cdef_preset[4];
+        WienerInfo                          wiener_info[MAX_MB_PLANE];
+        SgrprojInfo                         sgrproj_info[MAX_MB_PLANE];
 
     } PictureControlSet;
 
     // To optimize based on the max input size
     // To study speed-memory trade-offs
-    typedef struct SbParams {
+    typedef struct SbParams 
+    {
         uint8_t   horizontal_index;
         uint8_t   vertical_index;
         uint16_t  origin_x;
@@ -13875,7 +13860,8 @@ extern "C" {
     } SbParams;
 
 
-    typedef struct SbGeom {
+    typedef struct SbGeom 
+    {
         uint16_t   horizontal_index;
         uint16_t   vertical_index;
         uint16_t   origin_x;
@@ -13886,7 +13872,8 @@ extern "C" {
         EbBool     block_is_inside_md_scan[BLOCK_MAX_COUNT_SB_128];
     } SbGeom;
 
-    typedef struct CuStat {
+    typedef struct CuStat 
+    {
         EbBool            grass_area;
         EbBool            skin_area;
         uint16_t          edge_cu;
@@ -13895,15 +13882,15 @@ extern "C" {
         uint32_t          grad;
     } CuStat;
 
-    typedef struct SbStat {
-
+    typedef struct SbStat 
+    {
         CuStat          cu_stat_array[CU_MAX_COUNT];
-        uint8_t           stationary_edge_over_time_flag;
-        uint8_t           pm_stationary_edge_over_time_flag;
-        uint8_t           pm_check1_for_logo_stationary_edge_over_time_flag;
-        uint8_t           check1_for_logo_stationary_edge_over_time_flag;
-        uint8_t           check2_for_logo_stationary_edge_over_time_flag;
-        uint8_t           low_dist_logo;
+        uint8_t         stationary_edge_over_time_flag;
+        uint8_t         pm_stationary_edge_over_time_flag;
+        uint8_t         pm_check1_for_logo_stationary_edge_over_time_flag;
+        uint8_t         check1_for_logo_stationary_edge_over_time_flag;
+        uint8_t         check2_for_logo_stationary_edge_over_time_flag;
+        uint8_t         low_dist_logo;
 
     } SbStat;
 
@@ -13925,321 +13912,321 @@ extern "C" {
         EbObjectWrapper                    *p_pcs_wrapper_ptr;
         EbObjectWrapper                    *previous_picture_control_set_wrapper_ptr;
         EbObjectWrapper                    *output_stream_wrapper_ptr;
-        Av1Common                            *av1_cm;
+        Av1Common                          *av1_cm;
         
         // Data attached to the picture. This includes data passed from the application, or other data the encoder attaches
         // to the picture.
-        EbLinkedListNode                     *data_ll_head_ptr;
+        EbLinkedListNode                   *data_ll_head_ptr;
         // pointer to data to be passed back to the application when picture encoding is done
-        EbLinkedListNode                     *app_out_data_ll_head_ptr;
-
-        EbBufferHeaderType                   *input_ptr;            // input picture buffer 
-
-        EbBool                                idr_flag;
-        EbBool                                cra_flag;
-        EbBool                                open_gop_cra_flag;
-        EbBool                                scene_change_flag;
-        EbBool                                end_of_sequence_flag;
-        EbBool                                eos_coming;
-        uint8_t                               picture_qp;
-        uint64_t                              picture_number;
-        EbPicnoiseClass                       pic_noise_class;
-        EB_SLICE                              slice_type;
-        uint8_t                               pred_struct_index;
-        EbBool                                use_rps_in_sps;
-        uint8_t                               reference_struct_index;
-        uint8_t                               temporal_layer_index;
-        uint64_t                              decode_order;
-        EbBool                                is_used_as_reference_flag;
-        uint8_t                               ref_list0_count;
-        uint8_t                               ref_list1_count;
+        EbLinkedListNode                   *app_out_data_ll_head_ptr;
+                                           
+        EbBufferHeaderType                 *input_ptr;            // input picture buffer 
+                                           
+        EbBool                              idr_flag;
+        EbBool                              cra_flag;
+        EbBool                              open_gop_cra_flag;
+        EbBool                              scene_change_flag;
+        EbBool                              end_of_sequence_flag;
+        EbBool                              eos_coming;
+        uint8_t                             picture_qp;
+        uint64_t                            picture_number;
+        EbPicnoiseClass                     pic_noise_class;
+        EB_SLICE                            slice_type;
+        uint8_t                             pred_struct_index;
+        EbBool                              use_rps_in_sps;
+        uint8_t                             reference_struct_index;
+        uint8_t                             temporal_layer_index;
+        uint64_t                            decode_order;
+        EbBool                              is_used_as_reference_flag;
+        uint8_t                             ref_list0_count;
+        uint8_t                             ref_list1_count;
 
         // Rate Control
-        uint64_t                              pred_bits_ref_qp[MAX_REF_QP_NUM];
-        uint64_t                              target_bits_best_pred_qp;
-        uint64_t                              target_bits_rc;
-        uint8_t                               best_pred_qp;
-        uint64_t                              total_num_bits;
-        uint8_t                               first_frame_in_temporal_layer;
-        uint8_t                               first_non_intra_frame_in_temporal_layer;
-        uint64_t                              frames_in_interval[EB_MAX_TEMPORAL_LAYERS];
-        uint64_t                              bits_per_sw_per_layer[EB_MAX_TEMPORAL_LAYERS];
-        uint64_t                              total_bits_per_gop;
-        EbBool                                tables_updated;
-        EbBool                                percentage_updated;
-        uint32_t                              target_bit_rate;
-        EbBool                                min_target_rate_assigned;
-        uint32_t                              frame_rate;
-        uint16_t                              sb_total_count;
-        EbBool                                end_of_sequence_region;
-        EbBool                                scene_change_in_gop;
-        uint8_t                               frames_in_sw;             // used for Look ahead
-        int8_t                                historgram_life_count;
-        EbBool                                qp_on_the_fly;
-        uint8_t                               calculated_qp;
-        uint8_t                               intra_selected_org_qp;
-        uint64_t                              sad_me;
-        uint64_t                              quantized_coeff_num_bits;
-        uint64_t                              average_qp;
-        uint64_t                              last_idr_picture;
-        uint64_t                              start_time_seconds;
-        uint64_t                              start_time_u_seconds;
-        uint32_t                              luma_sse;
-        uint32_t                              cr_sse;
-        uint32_t                              cb_sse;
+        uint64_t                            pred_bits_ref_qp[MAX_REF_QP_NUM];
+        uint64_t                            target_bits_best_pred_qp;
+        uint64_t                            target_bits_rc;
+        uint8_t                             best_pred_qp;
+        uint64_t                            total_num_bits;
+        uint8_t                             first_frame_in_temporal_layer;
+        uint8_t                             first_non_intra_frame_in_temporal_layer;
+        uint64_t                            frames_in_interval[EB_MAX_TEMPORAL_LAYERS];
+        uint64_t                            bits_per_sw_per_layer[EB_MAX_TEMPORAL_LAYERS];
+        uint64_t                            total_bits_per_gop;
+        EbBool                              tables_updated;
+        EbBool                              percentage_updated;
+        uint32_t                            target_bit_rate;
+        EbBool                              min_target_rate_assigned;
+        uint32_t                            frame_rate;
+        uint16_t                            sb_total_count;
+        EbBool                              end_of_sequence_region;
+        EbBool                              scene_change_in_gop;
+        uint8_t                             frames_in_sw;             // used for Look ahead
+        int8_t                              historgram_life_count;
+        EbBool                              qp_on_the_fly;
+        uint8_t                             calculated_qp;
+        uint8_t                             intra_selected_org_qp;
+        uint64_t                            sad_me;
+        uint64_t                            quantized_coeff_num_bits;
+        uint64_t                            average_qp;
+        uint64_t                            last_idr_picture;
+        uint64_t                            start_time_seconds;
+        uint64_t                            start_time_u_seconds;
+        uint32_t                            luma_sse;
+        uint32_t                            cr_sse;
+        uint32_t                            cb_sse;
 
         // Pre Analysis
         EbObjectWrapper                    *ref_pa_pic_ptr_array[MAX_NUM_OF_REF_PIC_LIST];
-        uint64_t                              ref_pic_poc_array[MAX_NUM_OF_REF_PIC_LIST];
-        uint16_t                            **variance;
-        uint8_t                             **y_mean;
-        uint8_t                             **cbMean;
-        uint8_t                             **crMean;
-        uint32_t                              pre_assignment_buffer_count;
-        uint16_t                              pic_avg_variance;
-        EbBool                                scene_transition_flag[MAX_NUM_OF_REF_PIC_LIST];
-        EbBool                                intensity_transition_flag;
-        uint8_t                               average_intensity[3];
+        uint64_t                            ref_pic_poc_array[MAX_NUM_OF_REF_PIC_LIST];
+        uint16_t                          **variance;
+        uint8_t                           **y_mean;
+        uint8_t                           **cbMean;
+        uint8_t                           **crMean;
+        uint32_t                            pre_assignment_buffer_count;
+        uint16_t                            pic_avg_variance;
+        EbBool                              scene_transition_flag[MAX_NUM_OF_REF_PIC_LIST];
+        EbBool                              intensity_transition_flag;
+        uint8_t                             average_intensity[3];
         // zz cost array
-        uint8_t                              *zz_cost_array;
-        // Non moving index array
-        uint8_t                              *non_moving_index_array;
-#if NEW_PRED_STRUCT
-        int                                   kf_zeromotion_pct; // percent of zero motion blocks
-#endif
-        uint8_t                               fade_out_from_black;
-        uint8_t                               fade_in_to_black;
-        EbBool                                is_pan;
-        EbBool                                is_tilt;
-        EbBool                               *similar_colocated_sb_array;
-        EbBool                               *similar_colocated_sb_array_ii; // ON for all layers
-        uint8_t                              *sb_flat_noise_array;
-        uint64_t                             *sb_variance_of_variance_over_time;
-        EbBool                               *is_sb_homogeneous_over_time;
-        uint8_t                               pic_homogenous_over_time_sb_percentage;
-        EbBool                               *sb_homogeneous_area_array;        // used by EncDecProcess()
+        uint8_t                            *zz_cost_array;
+        // Non moving index array        
+        uint8_t                            *non_moving_index_array;
+#if NEW_PRED_STRUCT                      
+        int                                 kf_zeromotion_pct; // percent of zero motion blocks
+#endif                                   
+        uint8_t                             fade_out_from_black;
+        uint8_t                             fade_in_to_black;
+        EbBool                              is_pan;
+        EbBool                              is_tilt;
+        EbBool                             *similar_colocated_sb_array;
+        EbBool                             *similar_colocated_sb_array_ii; // ON for all layers
+        uint8_t                            *sb_flat_noise_array;
+        uint64_t                           *sb_variance_of_variance_over_time;
+        EbBool                             *is_sb_homogeneous_over_time;
+        uint8_t                             pic_homogenous_over_time_sb_percentage;
+        EbBool                             *sb_homogeneous_area_array;        // used by EncDecProcess()
         EdgeLcuResults                     *edge_results_ptr;                // used by EncDecProcess()
-        uint8_t                              *sharp_edge_sb_flag;
-        uint8_t                              *failing_motion_sb_flag;        // used by EncDecProcess()  and ModeDecisionConfigurationProcess // USED for L2 to replace the uncovered detectors for L6 and L7
-        EbBool                               *uncovered_area_sb_flag;            // used by EncDecProcess()
-        EbBool                                logo_pic_flag;                    // used by EncDecProcess()
-        uint64_t                            **var_of_var32x32_based_sb_array;    // used by ModeDecisionConfigurationProcess()- the variance of 8x8 block variances for each 32x32 block
-        uint8_t                              *sb_cmplx_contrast_array;            // used by EncDecProcess()
-        uint8_t                              *sb_high_contrast_array_dialated;
-        uint64_t                            **sb_y_src_energy_cu_array;            // used by ModeDecisionConfigurationProcess()     0- 64x64, 1-4 32x32
-        uint64_t                            **sb_y_src_mean_cu_array;            // used by ModeDecisionConfigurationProcess()     0- 64x64, 1-4 32x32
-        uint8_t                               intra_coded_block_probability;    // used by EncDecProcess()
-        EbBool                                low_motion_content_flag;            // used by EncDecProcess()
-        uint32_t                              zz_cost_average;                    // used by ModeDecisionConfigurationProcess()
-        uint16_t                              non_moving_index_average;            // used by ModeDecisionConfigurationProcess()
-        EbBool                               *sb_isolated_non_homogeneous_area_array;            // used by ModeDecisionConfigurationProcess()
-        uint8_t                              *cu32x32_clean_sparse_coeff_map_array; //32x32 cu array for clean sparse coeff
-        uint16_t                              cu32x32_clean_sparse_coeff_map_array_size;
-        uint16_t                              cu32x32_clean_sparse_coeff_map_array_stride;
-        uint8_t                               grass_percentage_in_picture;
-        uint8_t                               percentage_of_edgein_light_background;
-        EbBool                                dark_back_groundlight_fore_ground;
-        SbStat                            *sb_stat_array;
-        uint8_t                               very_low_var_pic_flag;
-        EbBool                                high_dark_area_density_flag;        // computed @ PictureAnalysisProcess() and used @ SourceBasedOperationsProcess()
-        EbBool                                high_dark_low_light_area_density_flag;        // computed @ PictureAnalysisProcess() and used @ SourceBasedOperationsProcess()
-        uint32_t                              intra_complexity_min[4];
-        uint32_t                              intra_complexity_max[4];
-        uint32_t                              intra_complexity_accum[4];
-        uint32_t                              intra_complexity_avg[4];
-        uint32_t                              inter_complexity_min[4];
-        uint32_t                              inter_complexity_max[4];
-        uint32_t                              inter_complexity_accum[4];
-        uint32_t                              inter_complexity_avg[4];
-        uint32_t                              processed_leaf_count[4];
-        uint32_t                              intra_complexity_min_pre;
-        uint32_t                              intra_complexity_max_pre;
-        uint32_t                              inter_complexity_min_pre;
-        uint32_t                              inter_complexity_max_pre;
-        int32_t                               intra_min_distance[4];
-        int32_t                               intra_max_distance[4];
-        int32_t                               inter_min_distance[4];
-        int32_t                               inter_max_distance[4];
-        uint8_t                              *cmplx_status_sb;            // used by EncDecProcess()
+        uint8_t                            *sharp_edge_sb_flag;
+        uint8_t                            *failing_motion_sb_flag;        // used by EncDecProcess()  and ModeDecisionConfigurationProcess // USED for L2 to replace the uncovered detectors for L6 and L7
+        EbBool                             *uncovered_area_sb_flag;            // used by EncDecProcess()
+        EbBool                              logo_pic_flag;                    // used by EncDecProcess()
+        uint64_t                          **var_of_var32x32_based_sb_array;    // used by ModeDecisionConfigurationProcess()- the variance of 8x8 block variances for each 32x32 block
+        uint8_t                            *sb_cmplx_contrast_array;            // used by EncDecProcess()
+        uint8_t                            *sb_high_contrast_array_dialated;
+        uint64_t                          **sb_y_src_energy_cu_array;            // used by ModeDecisionConfigurationProcess()     0- 64x64, 1-4 32x32
+        uint64_t                          **sb_y_src_mean_cu_array;            // used by ModeDecisionConfigurationProcess()     0- 64x64, 1-4 32x32
+        uint8_t                             intra_coded_block_probability;    // used by EncDecProcess()
+        EbBool                              low_motion_content_flag;            // used by EncDecProcess()
+        uint32_t                            zz_cost_average;                    // used by ModeDecisionConfigurationProcess()
+        uint16_t                            non_moving_index_average;            // used by ModeDecisionConfigurationProcess()
+        EbBool                             *sb_isolated_non_homogeneous_area_array;            // used by ModeDecisionConfigurationProcess()
+        uint8_t                            *cu32x32_clean_sparse_coeff_map_array; //32x32 cu array for clean sparse coeff
+        uint16_t                            cu32x32_clean_sparse_coeff_map_array_size;
+        uint16_t                            cu32x32_clean_sparse_coeff_map_array_stride;
+        uint8_t                             grass_percentage_in_picture;
+        uint8_t                             percentage_of_edgein_light_background;
+        EbBool                              dark_back_groundlight_fore_ground;
+        SbStat                             *sb_stat_array;
+        uint8_t                             very_low_var_pic_flag;
+        EbBool                              high_dark_area_density_flag;        // computed @ PictureAnalysisProcess() and used @ SourceBasedOperationsProcess()
+        EbBool                              high_dark_low_light_area_density_flag;        // computed @ PictureAnalysisProcess() and used @ SourceBasedOperationsProcess()
+        uint32_t                            intra_complexity_min[4];
+        uint32_t                            intra_complexity_max[4];
+        uint32_t                            intra_complexity_accum[4];
+        uint32_t                            intra_complexity_avg[4];
+        uint32_t                            inter_complexity_min[4];
+        uint32_t                            inter_complexity_max[4];
+        uint32_t                            inter_complexity_accum[4];
+        uint32_t                            inter_complexity_avg[4];
+        uint32_t                            processed_leaf_count[4];
+        uint32_t                            intra_complexity_min_pre;
+        uint32_t                            intra_complexity_max_pre;
+        uint32_t                            inter_complexity_min_pre;
+        uint32_t                            inter_complexity_max_pre;
+        int32_t                             intra_min_distance[4];
+        int32_t                             intra_max_distance[4];
+        int32_t                             inter_min_distance[4];
+        int32_t                             inter_max_distance[4];
+        uint8_t                            *cmplx_status_sb;            // used by EncDecProcess()
 
         // Histograms
-        uint32_t                          ****picture_histogram;
-        uint64_t                              average_intensity_per_region[MAX_NUMBER_OF_REGIONS_IN_WIDTH][MAX_NUMBER_OF_REGIONS_IN_HEIGHT][3];
+        uint32_t                        ****picture_histogram;
+        uint64_t                            average_intensity_per_region[MAX_NUMBER_OF_REGIONS_IN_WIDTH][MAX_NUMBER_OF_REGIONS_IN_HEIGHT][3];
 
         // Segments
-        uint16_t                              me_segments_total_count;
-        uint8_t                               me_segments_column_count;
-        uint8_t                               me_segments_row_count;
-        uint64_t                              me_segments_completion_mask;
+        uint16_t                            me_segments_total_count;
+        uint8_t                             me_segments_column_count;
+        uint8_t                             me_segments_row_count;
+        uint64_t                            me_segments_completion_mask;
 
         // Motion Estimation Results
-        uint8_t                               max_number_of_pus_per_sb;
+        uint8_t                             max_number_of_pus_per_sb;
         MeCuResults                       **me_results;
-        uint32_t                             *rc_me_distortion;
+        uint32_t                           *rc_me_distortion;
 
         // Motion Estimation Distortion and OIS Historgram
-        uint16_t                             *me_distortion_histogram;
-        uint16_t                             *ois_distortion_histogram;
-        uint32_t                             *intra_sad_interval_index;
-        uint32_t                             *inter_sad_interval_index;
-        EbHandle                              rc_distortion_histogram_mutex;
+        uint16_t                           *me_distortion_histogram;
+        uint16_t                           *ois_distortion_histogram;
+        uint32_t                           *intra_sad_interval_index;
+        uint32_t                           *inter_sad_interval_index;
+        EbHandle                            rc_distortion_histogram_mutex;
         
         // Open loop Intra candidate Search Results
         OisCu32Cu16Results                **ois_cu32_cu16_results;
         OisCu8Results                     **ois_cu8_results;
 
         // Dynamic GOP
-        EbPred                                pred_structure;
-        uint8_t                               hierarchical_levels;
-        uint16_t                              full_sb_count;
-#if NEW_PRED_STRUCT
-        EbBool                                init_pred_struct_position_flag;
-        int8_t                                hierarchical_layers_diff;
-#endif        
-        // ME Tools
-        EbBool                                use_subpel_flag;
-        EbBool                                enable_hme_flag;
-        EbBool                                enable_hme_level0_flag;
-        EbBool                                enable_hme_level1_flag;
-        EbBool                                enable_hme_level2_flag;
+        EbPred                              pred_structure;
+        uint8_t                             hierarchical_levels;
+        uint16_t                            full_sb_count;
+#if NEW_PRED_STRUCT                         
+        EbBool                              init_pred_struct_position_flag;
+        int8_t                              hierarchical_layers_diff;
+#endif                                      
+        // ME Tools                         
+        EbBool                              use_subpel_flag;
+        EbBool                              enable_hme_flag;
+        EbBool                              enable_hme_level0_flag;
+        EbBool                              enable_hme_level1_flag;
+        EbBool                              enable_hme_level2_flag;
 #if !ME_HME_OQ
         // ME Parameters
-        uint8_t                               search_area_width;
-        uint8_t                               search_area_height;
-        // HME Parameters
-        uint16_t                              number_hme_search_region_in_width;
-        uint16_t                              number_hme_search_region_in_height;
-        uint16_t                              hme_level0_total_search_area_width;
-        uint16_t                              hme_level0_total_search_area_height;
-        uint16_t                              hme_level0_search_area_in_width_array[EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT];
-        uint16_t                              hme_level0_search_area_in_height_array[EB_HME_SEARCH_AREA_ROW_MAX_COUNT];
-        uint16_t                              hme_level1_search_area_in_width_array[EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT];
-        uint16_t                              hme_level1_search_area_in_height_array[EB_HME_SEARCH_AREA_ROW_MAX_COUNT];
-        uint16_t                              hme_level2_search_area_in_width_array[EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT];
-        uint16_t                              hme_level2_search_area_in_height_array[EB_HME_SEARCH_AREA_ROW_MAX_COUNT];
+        uint8_t                             search_area_width;
+        uint8_t                             search_area_height;
+        // HME Parameters                   
+        uint16_t                            number_hme_search_region_in_width;
+        uint16_t                            number_hme_search_region_in_height;
+        uint16_t                            hme_level0_total_search_area_width;
+        uint16_t                            hme_level0_total_search_area_height;
+        uint16_t                            hme_level0_search_area_in_width_array[EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT];
+        uint16_t                            hme_level0_search_area_in_height_array[EB_HME_SEARCH_AREA_ROW_MAX_COUNT];
+        uint16_t                            hme_level1_search_area_in_width_array[EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT];
+        uint16_t                            hme_level1_search_area_in_height_array[EB_HME_SEARCH_AREA_ROW_MAX_COUNT];
+        uint16_t                            hme_level2_search_area_in_width_array[EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT];
+        uint16_t                            hme_level2_search_area_in_height_array[EB_HME_SEARCH_AREA_ROW_MAX_COUNT];
 #endif
         // MD
-        EbEncMode                             enc_mode;
-
-        EbLcuDepthMode                       *sb_md_mode_array;
-#if !CHROMA_BLIND
-        EbChromaMode                          chroma_mode;
-#endif
-        EbSbComplexityStatus                 *complex_sb_array;
-        EbCu8x8Mode                           cu8x8_mode;
-        EbBool                                use_src_ref;
-        EbBool                                limit_ois_to_dc_mode_flag;
-
-        // Multi-modes signal(s) 
-        EbPictureDepthMode                    pic_depth_mode;
-#if !INTERPOLATION_SEARCH_LEVELS
-        uint8_t                               interpolation_filter_search_mode;
-#endif
-        uint8_t                               loop_filter_mode;
-        uint8_t                               intra_pred_mode;
+        EbEncMode                           enc_mode;
+                                           
+        EbLcuDepthMode                     *sb_md_mode_array;
+#if !CHROMA_BLIND                          
+        EbChromaMode                        chroma_mode;
+#endif                                     
+        EbSbComplexityStatus               *complex_sb_array;
+        EbCu8x8Mode                         cu8x8_mode;
+        EbBool                              use_src_ref;
+        EbBool                              limit_ois_to_dc_mode_flag;
+                                           
+        // Multi-modes signal(s)           
+        EbPictureDepthMode                  pic_depth_mode;
+#if !INTERPOLATION_SEARCH_LEVELS           
+        uint8_t                             interpolation_filter_search_mode;
+#endif                                     
+        uint8_t                             loop_filter_mode;
+        uint8_t                             intra_pred_mode;
         //**********************************************************************************************************//
-        FrameType                            av1FrameType;
-        Av1RpsNode                          av1RefSignal;
-        EbBool                                showFrame;
-        EbBool                                hasShowExisting;
-        uint8_t                               showExistingLoc;
-
-        int32_t                               ref_frame_map[REF_FRAMES]; /* maps fb_idx to reference slot */
-        int32_t                               is_skip_mode_allowed;
-        int32_t                               skip_mode_flag;
-
-        int32_t                               showable_frame;  // frame can be used as show existing frame in future
+        FrameType                           av1_frame_type;
+        Av1RpsNode                          av1_ref_signal;
+        EbBool                              show_frame;
+        EbBool                              has_show_existing;
+        uint8_t                             show_existing_loc;
+                                           
+        int32_t                             ref_frame_map[REF_FRAMES]; /* maps fb_idx to reference slot */
+        int32_t                             is_skip_mode_allowed;
+        int32_t                             skip_mode_flag;
+                                           
+        int32_t                             showable_frame;  // frame can be used as show existing frame in future
         // Flag for a frame used as a reference - not written to the bitstream
-        int32_t                               is_reference_frame;
+        int32_t                             is_reference_frame;
 
         // Flag signaling that the frame is encoded using only INTRA modes.
-        uint8_t                               intra_only;
-        uint8_t                               disable_cdf_update;
-        int32_t                               allow_high_precision_mv;
-        int32_t                               cur_frame_force_integer_mv;  // 0 the default in AOM, 1 only integer
-        int32_t                               allow_screen_content_tools;
-        int32_t                               allow_intrabc;
-        int32_t                               allow_warped_motion;
+        uint8_t                             intra_only;
+        uint8_t                             disable_cdf_update;
+        int32_t                             allow_high_precision_mv;
+        int32_t                             cur_frame_force_integer_mv;  // 0 the default in AOM, 1 only integer
+        int32_t                             allow_screen_content_tools;
+        int32_t                             allow_intrabc;
+        int32_t                             allow_warped_motion;
 
         /* profile settings */
-        TxMode                               TxMode;
+        TxMode                              tx_mode;
 #if CONFIG_ENTROPY_STATS
-        int32_t                               coef_cdf_category;
-#endif
-        uint16_t                              base_qindex;
-        int32_t                               y_dc_delta_q;
-        int32_t                               u_dc_delta_q;
-        int32_t                               v_dc_delta_q;
-        int32_t                               u_ac_delta_q;
-        int32_t                               v_ac_delta_q;
-        int32_t                               separate_uv_delta_q;
+        int32_t                             coef_cdf_category;
+#endif                                      
+        uint16_t                            base_qindex;
+        int32_t                             y_dc_delta_q;
+        int32_t                             u_dc_delta_q;
+        int32_t                             v_dc_delta_q;
+        int32_t                             u_ac_delta_q;
+        int32_t                             v_ac_delta_q;
+        int32_t                             separate_uv_delta_q;
 
         // Global quant matrix tables
         const QmVal                       *giqmatrix[NUM_QM_LEVELS][3][TX_SIZES_ALL];
         const QmVal                       *gqmatrix[NUM_QM_LEVELS][3][TX_SIZES_ALL];
-        Quants                                quants;
-        Dequants                              deq;
-#if MD_10BIT_FIX
-        Quants                                quantsMd;
-        Dequants                              deqMd;
-#endif
-        int32_t                               min_qmlevel;
-        int32_t                               max_qmlevel;
-        // Encoder
-        int32_t                               using_qmatrix;
-        int32_t                               qm_y;
-        int32_t                               qm_u;
-        int32_t                               qm_v;
+        Quants                             quants;
+        Dequants                           deq;
+#if MD_10BIT_FIX                           
+        Quants                             quants_md;
+        Dequants                           deq_md;
+#endif                                     
+        int32_t                            min_qmlevel;
+        int32_t                            max_qmlevel;
+        // Encoder                         
+        int32_t                            using_qmatrix;
+        int32_t                            qm_y;
+        int32_t                            qm_u;
+        int32_t                            qm_v;
 
         // Whether to use previous frame's motion vectors for prediction.
-        int32_t                               allow_ref_frame_mvs;
-        int32_t                               switchable_motion_mode;
-        LoopFilterInfo                    lf_info;
+        int32_t                            allow_ref_frame_mvs;
+        int32_t                            switchable_motion_mode;
+        LoopFilterInfo                     lf_info;
 
         // Flag signaling how frame contexts should be updated at the end of
         // a frame decode
-        RefreshFrameContextMode               refresh_frame_context;
-        int32_t                               ref_frame_sign_bias[TOTAL_REFS_PER_FRAME]; /* Two state 0, 1 */
-        struct LoopFilter                     lf;
-        int32_t                               coded_lossless;  // frame is fully lossless at the coded resolution.
-        int32_t                               all_lossless;
-        int32_t                               reduced_tx_set_used;
-        ReferenceMode                         reference_mode;
-        uint32_t                              frame_context_idx; /* Context to use/update */
-        int32_t                               fb_of_context_type[REF_FRAMES];
-        int32_t                               primary_ref_frame;
-        uint64_t                              frame_offset;
-        int32_t                               error_resilient_mode;
-        int32_t                               uniform_tile_spacing_flag;
-        uint32_t                              large_scale_tile;
-        int32_t                               cdef_pri_damping;
-        int32_t                               cdef_sec_damping;
-        int32_t                               nb_cdef_strengths;
-        int32_t                               cdef_strengths[CDEF_MAX_STRENGTHS];
-        int32_t                               cdef_uv_strengths[CDEF_MAX_STRENGTHS];
-        int32_t                               cdef_bits;
-        int32_t                               delta_q_present_flag;
+        RefreshFrameContextMode            refresh_frame_context;
+        int32_t                            ref_frame_sign_bias[TOTAL_REFS_PER_FRAME]; /* Two state 0, 1 */
+        struct LoopFilter                  lf;
+        int32_t                            coded_lossless;  // frame is fully lossless at the coded resolution.
+        int32_t                            all_lossless;
+        int32_t                            reduced_tx_set_used;
+        ReferenceMode                      reference_mode;
+        uint32_t                           frame_context_idx; /* Context to use/update */
+        int32_t                            fb_of_context_type[REF_FRAMES];
+        int32_t                            primary_ref_frame;
+        uint64_t                           frame_offset;
+        int32_t                            error_resilient_mode;
+        int32_t                            uniform_tile_spacing_flag;
+        uint32_t                           large_scale_tile;
+        int32_t                            cdef_pri_damping;
+        int32_t                            cdef_sec_damping;
+        int32_t                            nb_cdef_strengths;
+        int32_t                            cdef_strengths[CDEF_MAX_STRENGTHS];
+        int32_t                            cdef_uv_strengths[CDEF_MAX_STRENGTHS];
+        int32_t                            cdef_bits;
+        int32_t                            delta_q_present_flag;
 #if ADD_DELTA_QP_SUPPORT
         // Resolution of delta quant
-        uint8_t                               delta_q_res;
-        int32_t                               delta_lf_present_flag;
+        uint8_t                            delta_q_res;
+        int32_t                            delta_lf_present_flag;
         // Resolution of delta lf level
-        int32_t                               delta_lf_res;
+        int32_t                            delta_lf_res;
         // This is a flag for number of deltas of loop filter level
         // 0: use 1 delta, for y_vertical, y_horizontal, u, and v
         // 1: use separate deltas for each filter level
-        int32_t                               delta_lf_multi;
-        int32_t                               num_tg;
-        int32_t                               monochrome = 0; //NM - hadcoded to zero. to be set to one to support the coding of monochrome contents.
-        int32_t                               prev_qindex;
+        int32_t                            delta_lf_multi;
+        int32_t                            num_tg;
+        int32_t                            monochrome = 0; //NM - hadcoded to zero. to be set to one to support the coding of monochrome contents.
+        int32_t                            prev_qindex;
         // Since actual frame level loop filtering level value is not available
         // at the beginning of the tile (only available during actual filtering)
         // at encoder side.we record the delta_lf (against the frame level loop
         // filtering level) and code the delta between previous superblock's delta
         // lf and current delta lf. It is equivalent to the delta between previous
         // superblock's actual lf and current lf.
-        int32_t                               prev_delta_lf_from_base;
-        int32_t                               current_delta_lf_from_base;
+        int32_t                            prev_delta_lf_from_base;
+        int32_t                            current_delta_lf_from_base;
         // For this experiment, we have four frame filter levels for different plane
         // and direction. So, to support the per superblock update, we need to add
         // a few more params as below.
@@ -14253,83 +14240,82 @@ extern "C" {
         // SEG_LVL_ALT_LF_Y_H = 2;
         // SEG_LVL_ALT_LF_U   = 3;
         // SEG_LVL_ALT_LF_V   = 4;
-        int32_t                               prev_delta_lf[FRAME_LF_COUNT];
-        int32_t                               curr_delta_lf[FRAME_LF_COUNT];
+        int32_t                            prev_delta_lf[FRAME_LF_COUNT];
+        int32_t                            curr_delta_lf[FRAME_LF_COUNT];
 #endif
         // Resolution of delta quant
         // int32_t delta_q_res;
 #if AV1_LF && !ADD_DELTA_QP_SUPPORT
-        int32_t                               delta_lf_present_flag;
-
-        // Resolution of delta lf level
-        int32_t                               delta_lf_res;
+        int32_t                           delta_lf_present_flag;
+                                          
+        // Resolution of delta lf level   
+        int32_t                           delta_lf_res;
         // This is a flag for number of deltas of loop filter level
         // 0: use 1 delta, for y_vertical, y_horizontal, u, and v
         // 1: use separate deltas for each filter level
-        int32_t                               delta_lf_multi;
-#endif
-        int32_t                               current_frame_id;
-        int32_t                               frame_refs_short_signaling;
-        int32_t                               allow_comp_inter_inter;
-        int16_t                               panMvx;
-        int16_t                               panMvy;
-        int16_t                               tiltMvx;
-        int16_t                               tiltMvy;
-        EbWarpedMotionParams                  global_motion[TOTAL_REFS_PER_FRAME];
-        PictureControlSet                  *childPcs;
-        Macroblock                           *av1x;
-        int32_t                               film_grain_params_present; //todo (AN): Do we need this flag at picture level?
-        aom_film_grain_t                      film_grain_params;
-        struct aom_denoise_and_model_t       *denoise_and_model;
-        EbBool                                enable_in_loop_motion_estimation_flag;
+        int32_t                           delta_lf_multi;
+#endif                                  
+        int32_t                           current_frame_id;
+        int32_t                           frame_refs_short_signaling;
+        int32_t                           allow_comp_inter_inter;
+        int16_t                           pan_mvx;
+        int16_t                           pan_mvy;
+        int16_t                           tilt_mvx;
+        int16_t                           tilt_mvy;
+        EbWarpedMotionParams              global_motion[TOTAL_REFS_PER_FRAME];
+        PictureControlSet                *child_pcs;
+        Macroblock                       *av1x;
+        int32_t                           film_grain_params_present; //todo (AN): Do we need this flag at picture level?
+        aom_film_grain_t                  film_grain_params;
+        struct aom_denoise_and_model_t   *denoise_and_model;
+        EbBool                            enable_in_loop_motion_estimation_flag;
 #if REST_M       
-        RestUnitSearchInfo                   *rusi_picture[3];//for 3 planes
+        RestUnitSearchInfo               *rusi_picture[3];//for 3 planes
+#endif                                   
+#if FAST_CDEF                            
+        int8_t                            cdef_filter_mode;
+        int32_t                           cdef_frame_strength;
+        int32_t                           cdf_ref_frame_strenght;
+        int32_t                           use_ref_frame_cdef_strength;
+#endif                                   
+#if TX_SEARCH_LEVELS                     
+        uint8_t                           tx_search_level;
+        uint64_t                          tx_weight;
+        uint8_t                           tx_search_reduced_set;
+#endif                                   
+#if INTERPOLATION_SEARCH_LEVELS          
+        uint8_t                           interpolation_search_level;
+#endif                                   
+#if NSQ_SEARCH_LEVELS                    
+        uint8_t                           nsq_search_level;
 #endif
-#if FAST_CDEF
-        int8_t                                cdef_filter_mode;
-        int32_t                               cdef_frame_strength;
-        int32_t                               cdf_ref_frame_strenght;
-        int32_t                               use_ref_frame_cdef_strength;
-#endif
-#if TX_SEARCH_LEVELS
-        uint8_t                               TxSearchLevel;
-        uint64_t                              tx_weight;
-        uint8_t                               tx_search_reduced_set;
-#endif
-#if INTERPOLATION_SEARCH_LEVELS
-        uint8_t                               InterpolationSearchLevel;
-#endif
-#if NSQ_SEARCH_LEVELS
-        uint8_t                               NsqSearchLevel;
-#endif
-
     } PictureParentControlSet;
 
 
     typedef struct PictureControlSetInitData
     {
-        uint16_t                           picture_width;
-        uint16_t                           picture_height;
-        uint16_t                           left_padding;
-        uint16_t                           right_padding;
-        uint16_t                           top_padding;
-        uint16_t                           bot_padding;
-        EbBitDepth                        bit_depth;
-        uint32_t                           sb_sz;
-        uint32_t                           sb_size_pix;   //since we still have lot of code assuming 64x64 LCU, we add a new paramter supporting both128x128 and 64x64, 
-                                                          //ultimately the fixed code supporting 64x64 should be upgraded to use 128x128 and the above could be removed.
-        uint32_t                           max_depth;
-        EbBool                             is16bit;
-        uint32_t                           ten_bit_format;
-        uint32_t                           compressed_ten_bit_format;
-        uint16_t                           enc_dec_segment_col;
-        uint16_t                           enc_dec_segment_row;
-        EbEncMode                          enc_mode;
-        uint8_t                            speed_control;
-        uint16_t                           film_grain_noise_level;
-        uint32_t                           encoder_bit_depth;
-        EbBool                             ext_block_flag;
-        EbBool                             in_loop_me_flag;
+        uint16_t        picture_width;
+        uint16_t        picture_height;
+        uint16_t        left_padding;
+        uint16_t        right_padding;
+        uint16_t        top_padding;
+        uint16_t        bot_padding;
+        EbBitDepth      bit_depth;
+        uint32_t        sb_sz;
+        uint32_t        sb_size_pix;   //since we still have lot of code assuming 64x64 LCU, we add a new paramter supporting both128x128 and 64x64, 
+                                       //ultimately the fixed code supporting 64x64 should be upgraded to use 128x128 and the above could be removed.
+        uint32_t        max_depth;
+        EbBool          is16bit;
+        uint32_t        ten_bit_format;
+        uint32_t        compressed_ten_bit_format;
+        uint16_t        enc_dec_segment_col;
+        uint16_t        enc_dec_segment_row;
+        EbEncMode       enc_mode;
+        uint8_t         speed_control;
+        uint16_t        film_grain_noise_level;
+        uint32_t        encoder_bit_depth;
+        EbBool          ext_block_flag;
+        EbBool          in_loop_me_flag;
 
     } PictureControlSetInitData;
 

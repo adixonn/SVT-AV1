@@ -670,17 +670,17 @@ EbErrorType signal_derivation_multi_processes_oq(
     // 5                                              Allow NSQ Intra-FULL and Inter-FULL
 #if TUNED_SETTINGS_FOR_M0
     if (!MR_MODE)
-    picture_control_set_ptr->NsqSearchLevel        = NSQ_SEARCH_BASE_ON_SQ_COEFF;
+    picture_control_set_ptr->nsq_search_level        = NSQ_SEARCH_BASE_ON_SQ_COEFF;
     else
 #endif
-    picture_control_set_ptr->NsqSearchLevel        = NSQ_SEARCH_FULL;
+    picture_control_set_ptr->nsq_search_level        = NSQ_SEARCH_FULL;
 
 
-    if (picture_control_set_ptr->NsqSearchLevel == NSQ_SEARCH_OFF) {
+    if (picture_control_set_ptr->nsq_search_level == NSQ_SEARCH_OFF) {
         if (picture_control_set_ptr->pic_depth_mode <= PIC_ALL_C_DEPTH_MODE) picture_control_set_ptr->pic_depth_mode = PIC_SQ_DEPTH_MODE;
     }
     if (picture_control_set_ptr->pic_depth_mode > PIC_SQ_DEPTH_MODE) {
-        assert(picture_control_set_ptr->NsqSearchLevel != NSQ_SEARCH_OFF);
+        assert(picture_control_set_ptr->nsq_search_level != NSQ_SEARCH_OFF);
     }
 #endif
 #if INTERPOLATION_SEARCH_LEVELS
@@ -690,10 +690,10 @@ EbErrorType signal_derivation_multi_processes_oq(
     // 2                                              Interpolation search at full loop
     // 3                                              Interpolation search at fast loop
     if (picture_control_set_ptr->enc_mode == ENC_M0) {
-        picture_control_set_ptr->InterpolationSearchLevel = IT_SEARCH_FAST_LOOP;
+        picture_control_set_ptr->interpolation_search_level = IT_SEARCH_FAST_LOOP;
     }
     else {
-        picture_control_set_ptr->InterpolationSearchLevel = IT_SEARCH_OFF;
+        picture_control_set_ptr->interpolation_search_level = IT_SEARCH_OFF;
     }
 #else
     // Interpolation filter search Level MD         Settings
@@ -789,10 +789,10 @@ EbErrorType signal_derivation_multi_processes_oq(
     // 3                                              Tx search at full loop
 
     if (picture_control_set_ptr->enc_mode > ENC_M1) {
-        picture_control_set_ptr->TxSearchLevel = TX_SEARCH_ENC_DEC;
+        picture_control_set_ptr->tx_search_level = TX_SEARCH_ENC_DEC;
     }
     else {
-        picture_control_set_ptr->TxSearchLevel = TX_SEARCH_FULL_LOOP;
+        picture_control_set_ptr->tx_search_level = TX_SEARCH_FULL_LOOP;
     }
 
     // Set tx search skip weights (MAX_MODE_COST: no skipping; 0: always skipping)
@@ -979,13 +979,13 @@ void  Av1GenerateRpsInfo(
 )
 {
     (void)encode_context_ptr;
-    Av1RpsNode *av1Rps = &picture_control_set_ptr->av1RefSignal;
+    Av1RpsNode *av1Rps = &picture_control_set_ptr->av1_ref_signal;
 
     //set Frame Type
     if (picture_control_set_ptr->slice_type == I_SLICE)
-        picture_control_set_ptr->av1FrameType = picture_control_set_ptr->idr_flag ? KEY_FRAME : INTRA_ONLY_FRAME;
+        picture_control_set_ptr->av1_frame_type = picture_control_set_ptr->idr_flag ? KEY_FRAME : INTRA_ONLY_FRAME;
     else
-        picture_control_set_ptr->av1FrameType = INTER_FRAME;
+        picture_control_set_ptr->av1_frame_type = INTER_FRAME;
 
 
     picture_control_set_ptr->intra_only = picture_control_set_ptr->slice_type == I_SLICE ? 1 : 0;
@@ -996,19 +996,19 @@ void  Av1GenerateRpsInfo(
 
         memset(av1Rps->refDpbIndex, 0, 7);
         av1Rps->refreshFrameMask = 1;
-        picture_control_set_ptr->showFrame = EB_TRUE;
-        picture_control_set_ptr->hasShowExisting = EB_FALSE;
+        picture_control_set_ptr->show_frame = EB_TRUE;
+        picture_control_set_ptr->has_show_existing = EB_FALSE;
 
     }
     else if (picture_control_set_ptr->hierarchical_levels == 3)//RPS for 4L GOP
     {
 
         //Reset miniGop Toggling. The first miniGop after a KEY frame has toggle=0
-        if (picture_control_set_ptr->av1FrameType == KEY_FRAME)
+        if (picture_control_set_ptr->av1_frame_type == KEY_FRAME)
         {
             context_ptr->mini_gop_toggle = 0;
-            picture_control_set_ptr->showFrame = EB_TRUE;
-            picture_control_set_ptr->hasShowExisting = EB_FALSE;
+            picture_control_set_ptr->show_frame = EB_TRUE;
+            picture_control_set_ptr->has_show_existing = EB_FALSE;
             return;
         }
 
@@ -1095,8 +1095,8 @@ void  Av1GenerateRpsInfo(
             //P frames.
             av1Rps->refDpbIndex[1] = av1Rps->refDpbIndex[2] = av1Rps->refDpbIndex[3] = av1Rps->refDpbIndex[0];
             av1Rps->refDpbIndex[4] = av1Rps->refDpbIndex[5] = av1Rps->refDpbIndex[6] = av1Rps->refDpbIndex[0];
-            picture_control_set_ptr->showFrame = EB_TRUE;
-            picture_control_set_ptr->hasShowExisting = EB_FALSE;
+            picture_control_set_ptr->show_frame = EB_TRUE;
+            picture_control_set_ptr->has_show_existing = EB_FALSE;
         }
         else if (picture_control_set_ptr->pred_struct_ptr->pred_type == EB_PRED_RANDOM_ACCESS)
         {
@@ -1110,13 +1110,13 @@ void  Av1GenerateRpsInfo(
                 if (context_ptr->mini_gop_length[0] < picture_control_set_ptr->pred_struct_ptr->pred_struct_period)
                 {
                     //Scene Change that breaks the mini gop and switch to LDP (if I scene change happens to be aligned with a complete miniGop, then we do not break the pred structure)
-                    picture_control_set_ptr->showFrame = EB_TRUE;
-                    picture_control_set_ptr->hasShowExisting = EB_FALSE;
+                    picture_control_set_ptr->show_frame = EB_TRUE;
+                    picture_control_set_ptr->has_show_existing = EB_FALSE;
                 }
                 else
                 {
-                    picture_control_set_ptr->showFrame = EB_FALSE;
-                    picture_control_set_ptr->hasShowExisting = EB_FALSE;
+                    picture_control_set_ptr->show_frame = EB_FALSE;
+                    picture_control_set_ptr->has_show_existing = EB_FALSE;
                 }
             }
             else//B pic
@@ -1126,25 +1126,25 @@ void  Av1GenerateRpsInfo(
 
                 if (picture_control_set_ptr->is_used_as_reference_flag)
                 {
-                    picture_control_set_ptr->showFrame = EB_FALSE;
-                    picture_control_set_ptr->hasShowExisting = EB_FALSE;
+                    picture_control_set_ptr->show_frame = EB_FALSE;
+                    picture_control_set_ptr->has_show_existing = EB_FALSE;
                 }
                 else
                 {
-                    picture_control_set_ptr->showFrame = EB_TRUE;
-                    picture_control_set_ptr->hasShowExisting = EB_TRUE;
+                    picture_control_set_ptr->show_frame = EB_TRUE;
+                    picture_control_set_ptr->has_show_existing = EB_TRUE;
 
                     if (pictureIndex == 0) {
-                        picture_control_set_ptr->showExistingLoc = layer2_idx;
+                        picture_control_set_ptr->show_existing_loc = layer2_idx;
                     }
                     else if (pictureIndex == 2) {
-                        picture_control_set_ptr->showExistingLoc = layer1_idx;
+                        picture_control_set_ptr->show_existing_loc = layer1_idx;
                     }
                     else if (pictureIndex == 4) {
-                        picture_control_set_ptr->showExistingLoc = layer2_idx;
+                        picture_control_set_ptr->show_existing_loc = layer2_idx;
                     }
                     else if (pictureIndex == 6) {
-                        picture_control_set_ptr->showExistingLoc = base1_idx;
+                        picture_control_set_ptr->show_existing_loc = base1_idx;
                     }
                     else {
                         printf("Error in GOp indexing2\n");
@@ -1171,11 +1171,11 @@ void  Av1GenerateRpsInfo(
     {
 
     //Reset miniGop Toggling. The first miniGop after a KEY frame has toggle=0
-    if (picture_control_set_ptr->av1FrameType == KEY_FRAME)
+    if (picture_control_set_ptr->av1_frame_type == KEY_FRAME)
     {
         context_ptr->mini_gop_toggle = 0;
-        picture_control_set_ptr->showFrame = EB_TRUE;
-        picture_control_set_ptr->hasShowExisting = EB_FALSE;
+        picture_control_set_ptr->show_frame = EB_TRUE;
+        picture_control_set_ptr->has_show_existing = EB_FALSE;
         return;
     }
 
@@ -1302,8 +1302,8 @@ void  Av1GenerateRpsInfo(
         //P frames.
         av1Rps->refDpbIndex[1] = av1Rps->refDpbIndex[2] = av1Rps->refDpbIndex[3] = av1Rps->refDpbIndex[0];
         av1Rps->refDpbIndex[4] = av1Rps->refDpbIndex[5] = av1Rps->refDpbIndex[6] = av1Rps->refDpbIndex[0];
-        picture_control_set_ptr->showFrame = EB_TRUE;
-        picture_control_set_ptr->hasShowExisting = EB_FALSE;
+        picture_control_set_ptr->show_frame = EB_TRUE;
+        picture_control_set_ptr->has_show_existing = EB_FALSE;
     }
     else if (picture_control_set_ptr->pred_struct_ptr->pred_type == EB_PRED_RANDOM_ACCESS)
     {
@@ -1317,13 +1317,13 @@ void  Av1GenerateRpsInfo(
             if (context_ptr->mini_gop_length[0] < picture_control_set_ptr->pred_struct_ptr->pred_struct_period)
             {
                 //Scene Change that breaks the mini gop and switch to LDP (if I scene change happens to be aligned with a complete miniGop, then we do not break the pred structure)
-                picture_control_set_ptr->showFrame = EB_TRUE;
-                picture_control_set_ptr->hasShowExisting = EB_FALSE;
+                picture_control_set_ptr->show_frame = EB_TRUE;
+                picture_control_set_ptr->has_show_existing = EB_FALSE;
             }
     else
     {
-                picture_control_set_ptr->showFrame = EB_FALSE;
-                picture_control_set_ptr->hasShowExisting = EB_FALSE;
+                picture_control_set_ptr->show_frame = EB_FALSE;
+                picture_control_set_ptr->has_show_existing = EB_FALSE;
             }
         }
         else//B pic
@@ -1333,37 +1333,37 @@ void  Av1GenerateRpsInfo(
 
             if (picture_control_set_ptr->is_used_as_reference_flag)
             {
-                picture_control_set_ptr->showFrame = EB_FALSE;
-                picture_control_set_ptr->hasShowExisting = EB_FALSE;
+                picture_control_set_ptr->show_frame = EB_FALSE;
+                picture_control_set_ptr->has_show_existing = EB_FALSE;
             }
             else
             {
-                picture_control_set_ptr->showFrame = EB_TRUE;
-                picture_control_set_ptr->hasShowExisting = EB_TRUE;
+                picture_control_set_ptr->show_frame = EB_TRUE;
+                picture_control_set_ptr->has_show_existing = EB_TRUE;
 
                 if (pictureIndex == 0) {
-                    picture_control_set_ptr->showExistingLoc = layer3_idx1;
+                    picture_control_set_ptr->show_existing_loc = layer3_idx1;
                 }
                 else if (pictureIndex == 2) {
-                    picture_control_set_ptr->showExistingLoc = layer2_idx;
+                    picture_control_set_ptr->show_existing_loc = layer2_idx;
                 }
                 else if (pictureIndex == 4) {
-                    picture_control_set_ptr->showExistingLoc = layer3_idx2;
+                    picture_control_set_ptr->show_existing_loc = layer3_idx2;
                 }
                 else if (pictureIndex == 6) {
-                    picture_control_set_ptr->showExistingLoc = layer1_idx;
+                    picture_control_set_ptr->show_existing_loc = layer1_idx;
                 }
                 else if (pictureIndex == 8) {
-                    picture_control_set_ptr->showExistingLoc = layer3_idx1;
+                    picture_control_set_ptr->show_existing_loc = layer3_idx1;
                 }
                 else if (pictureIndex == 10) {
-                    picture_control_set_ptr->showExistingLoc = layer2_idx;
+                    picture_control_set_ptr->show_existing_loc = layer2_idx;
                 }
                 else if (pictureIndex == 12) {
-                    picture_control_set_ptr->showExistingLoc = layer3_idx2;
+                    picture_control_set_ptr->show_existing_loc = layer3_idx2;
                 }
                 else if (pictureIndex == 14) {
-                    picture_control_set_ptr->showExistingLoc = base1_idx;
+                    picture_control_set_ptr->show_existing_loc = base1_idx;
                 }
                 else {
                     printf("Error in GOp indexing2\n");

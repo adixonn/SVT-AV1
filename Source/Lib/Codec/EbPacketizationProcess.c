@@ -132,12 +132,12 @@ void* PacketizationKernel(void *input_ptr)
             picture_control_set_ptr->bitstream_ptr->outputBitstreamPtr);
 
 
-        if (picture_control_set_ptr->parent_pcs_ptr->showFrame && picture_control_set_ptr->parent_pcs_ptr->temporal_layer_index == 0) {
+        if (picture_control_set_ptr->parent_pcs_ptr->show_frame && picture_control_set_ptr->parent_pcs_ptr->temporal_layer_index == 0) {
             encode_td_av1(
                 picture_control_set_ptr->bitstream_ptr);
         }
         // Code the SPS
-        if (picture_control_set_ptr->parent_pcs_ptr->av1FrameType == KEY_FRAME) {
+        if (picture_control_set_ptr->parent_pcs_ptr->av1_frame_type == KEY_FRAME) {
             encode_sps_av1(
                 picture_control_set_ptr->bitstream_ptr,
                 sequence_control_set_ptr);
@@ -156,7 +156,7 @@ void* PacketizationKernel(void *input_ptr)
             (uint32_t*) &(output_stream_ptr->n_filled_len),
             (uint32_t*) &(output_stream_ptr->n_alloc_len),
             encode_context_ptr);
-        if (picture_control_set_ptr->parent_pcs_ptr->hasShowExisting) {
+        if (picture_control_set_ptr->parent_pcs_ptr->has_show_existing) {
             // Reset the bitstream before writing to it
             reset_bitstream(
                 picture_control_set_ptr->bitstream_ptr->outputBitstreamPtr);
@@ -184,17 +184,17 @@ void* PacketizationKernel(void *input_ptr)
 
         // Send the number of bytes per frame to RC
         picture_control_set_ptr->parent_pcs_ptr->total_num_bits = output_stream_ptr->n_filled_len << 3;
-        queueEntryPtr->av1FrameType = picture_control_set_ptr->parent_pcs_ptr->av1FrameType;
+        queueEntryPtr->av1_frame_type = picture_control_set_ptr->parent_pcs_ptr->av1_frame_type;
         queueEntryPtr->poc = picture_control_set_ptr->picture_number;
-        memcpy(&queueEntryPtr->av1RefSignal, &picture_control_set_ptr->parent_pcs_ptr->av1RefSignal, sizeof(Av1RpsNode));
+        memcpy(&queueEntryPtr->av1_ref_signal, &picture_control_set_ptr->parent_pcs_ptr->av1_ref_signal, sizeof(Av1RpsNode));
 
         queueEntryPtr->slice_type = picture_control_set_ptr->slice_type;
         queueEntryPtr->refPOCList0 = picture_control_set_ptr->parent_pcs_ptr->ref_pic_poc_array[REF_LIST_0];
         queueEntryPtr->refPOCList1 = picture_control_set_ptr->parent_pcs_ptr->ref_pic_poc_array[REF_LIST_1];
 
-        queueEntryPtr->showFrame = picture_control_set_ptr->parent_pcs_ptr->showFrame;
-        queueEntryPtr->hasShowExisting = picture_control_set_ptr->parent_pcs_ptr->hasShowExisting;
-        queueEntryPtr->showExistingLoc = picture_control_set_ptr->parent_pcs_ptr->showExistingLoc;
+        queueEntryPtr->show_frame = picture_control_set_ptr->parent_pcs_ptr->show_frame;
+        queueEntryPtr->has_show_existing = picture_control_set_ptr->parent_pcs_ptr->has_show_existing;
+        queueEntryPtr->show_existing_loc = picture_control_set_ptr->parent_pcs_ptr->show_existing_loc;
 
         //Store the output buffer in the Queue
         queueEntryPtr->output_stream_wrapper_ptr = output_stream_wrapper_ptr;
@@ -250,7 +250,7 @@ void* PacketizationKernel(void *input_ptr)
                 uint8_t  showTab[] = { 'H', 'V' };
 
                 //Countinuity count check of visible frames
-                if (queueEntryPtr->showFrame) {
+                if (queueEntryPtr->show_frame) {
                     if (context_ptr->dispOrderContinuityCount == queueEntryPtr->poc)
                         context_ptr->dispOrderContinuityCount++;
                     else
@@ -260,8 +260,8 @@ void* PacketizationKernel(void *input_ptr)
                     }
                 }
 
-                if (queueEntryPtr->hasShowExisting) {
-                    if (context_ptr->dispOrderContinuityCount == context_ptr->dpbDispOrder[queueEntryPtr->showExistingLoc])
+                if (queueEntryPtr->has_show_existing) {
+                    if (context_ptr->dispOrderContinuityCount == context_ptr->dpbDispOrder[queueEntryPtr->show_existing_loc])
                         context_ptr->dispOrderContinuityCount++;
                     else
                     {
@@ -271,13 +271,13 @@ void* PacketizationKernel(void *input_ptr)
                 }
 
                 //update total number of shown frames
-                if (queueEntryPtr->showFrame)
+                if (queueEntryPtr->show_frame)
                     context_ptr->totShownFrames++;
-                if (queueEntryPtr->hasShowExisting)
+                if (queueEntryPtr->has_show_existing)
                     context_ptr->totShownFrames++;
 
                 //implement the GOP here - Serial dec order
-                if (queueEntryPtr->av1FrameType == KEY_FRAME)
+                if (queueEntryPtr->av1_frame_type == KEY_FRAME)
                 {
                     //reset the DPB on a Key frame
                     for (i = 0; i < 8; i++)
@@ -285,26 +285,26 @@ void* PacketizationKernel(void *input_ptr)
                         context_ptr->dpbDecOrder[i] = queueEntryPtr->picture_number;
                         context_ptr->dpbDispOrder[i] = queueEntryPtr->poc;
                     }
-                    SVT_LOG("%i  %i  %c ****KEY***** %i frames\n", (int32_t)queueEntryPtr->picture_number, (int32_t)queueEntryPtr->poc, showTab[queueEntryPtr->showFrame], (int32_t)context_ptr->totShownFrames);
+                    SVT_LOG("%i  %i  %c ****KEY***** %i frames\n", (int32_t)queueEntryPtr->picture_number, (int32_t)queueEntryPtr->poc, showTab[queueEntryPtr->show_frame], (int32_t)context_ptr->totShownFrames);
 
                 }
                 else
                 {
-                    int32_t LASTrefIdx = queueEntryPtr->av1RefSignal.refDpbIndex[0];
-                    int32_t BWDrefIdx = queueEntryPtr->av1RefSignal.refDpbIndex[4];
+                    int32_t LASTrefIdx = queueEntryPtr->av1_ref_signal.refDpbIndex[0];
+                    int32_t BWDrefIdx = queueEntryPtr->av1_ref_signal.refDpbIndex[4];
 
-                    if (queueEntryPtr->av1FrameType == INTER_FRAME)
+                    if (queueEntryPtr->av1_frame_type == INTER_FRAME)
                     {
-                        if (queueEntryPtr->hasShowExisting)
+                        if (queueEntryPtr->has_show_existing)
                             SVT_LOG("%i (%i  %i)    %i  (%i  %i)   %c  showEx: %i   %i frames\n",
                             (int32_t)queueEntryPtr->picture_number, (int32_t)context_ptr->dpbDecOrder[LASTrefIdx], (int32_t)context_ptr->dpbDecOrder[BWDrefIdx],
                                 (int32_t)queueEntryPtr->poc, (int32_t)context_ptr->dpbDispOrder[LASTrefIdx], (int32_t)context_ptr->dpbDispOrder[BWDrefIdx],
-                                showTab[queueEntryPtr->showFrame], (int32_t)context_ptr->dpbDispOrder[queueEntryPtr->showExistingLoc], (int32_t)context_ptr->totShownFrames);
+                                showTab[queueEntryPtr->show_frame], (int32_t)context_ptr->dpbDispOrder[queueEntryPtr->show_existing_loc], (int32_t)context_ptr->totShownFrames);
                         else
                             SVT_LOG("%i (%i  %i)    %i  (%i  %i)   %c  %i frames\n",
                             (int32_t)queueEntryPtr->picture_number, (int32_t)context_ptr->dpbDecOrder[LASTrefIdx], (int32_t)context_ptr->dpbDecOrder[BWDrefIdx],
                                 (int32_t)queueEntryPtr->poc, (int32_t)context_ptr->dpbDispOrder[LASTrefIdx], (int32_t)context_ptr->dpbDispOrder[BWDrefIdx],
-                                showTab[queueEntryPtr->showFrame], (int32_t)context_ptr->totShownFrames);
+                                showTab[queueEntryPtr->show_frame], (int32_t)context_ptr->totShownFrames);
 
                         if (queueEntryPtr->refPOCList0 != context_ptr->dpbDispOrder[LASTrefIdx])
                         {
@@ -319,19 +319,19 @@ void* PacketizationKernel(void *input_ptr)
                     }
                     else
                     {
-                        if (queueEntryPtr->hasShowExisting)
+                        if (queueEntryPtr->has_show_existing)
                             SVT_LOG("%i  %i  %c   showEx: %i ----INTRA---- %i frames \n", (int32_t)queueEntryPtr->picture_number, (int32_t)queueEntryPtr->poc,
-                                showTab[queueEntryPtr->showFrame], (int32_t)context_ptr->dpbDispOrder[queueEntryPtr->showExistingLoc], (int32_t)context_ptr->totShownFrames);
+                                showTab[queueEntryPtr->show_frame], (int32_t)context_ptr->dpbDispOrder[queueEntryPtr->show_existing_loc], (int32_t)context_ptr->totShownFrames);
                         else
                             printf("%i  %i  %c   ----INTRA---- %i frames\n", (int32_t)queueEntryPtr->picture_number, (int32_t)queueEntryPtr->poc,
-                            (int32_t)showTab[queueEntryPtr->showFrame], (int32_t)context_ptr->totShownFrames);
+                            (int32_t)showTab[queueEntryPtr->show_frame], (int32_t)context_ptr->totShownFrames);
                     }
 
 
                     //Update the DPB
                     for (i = 0; i < 8; i++)
                     {
-                        if ((queueEntryPtr->av1RefSignal.refreshFrameMask >> i) & 1)
+                        if ((queueEntryPtr->av1_ref_signal.refreshFrameMask >> i) & 1)
                         {
                             context_ptr->dpbDecOrder[i] = queueEntryPtr->picture_number;
                             context_ptr->dpbDispOrder[i] = queueEntryPtr->poc;

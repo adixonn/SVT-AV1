@@ -340,21 +340,21 @@ void SetGlobalMotionField(
     //Update MV
     if (picture_control_set_ptr->parent_pcs_ptr->is_pan && picture_control_set_ptr->parent_pcs_ptr->is_tilt) {
         picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmtype = TRANSLATION;
-        picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[1] = ((picture_control_set_ptr->parent_pcs_ptr->panMvx + picture_control_set_ptr->parent_pcs_ptr->tiltMvx) / 2) << 1 << GM_TRANS_ONLY_PREC_DIFF;
-        picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[0] = ((picture_control_set_ptr->parent_pcs_ptr->panMvy + picture_control_set_ptr->parent_pcs_ptr->tiltMvy) / 2) << 1 << GM_TRANS_ONLY_PREC_DIFF;
+        picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[1] = ((picture_control_set_ptr->parent_pcs_ptr->pan_mvx + picture_control_set_ptr->parent_pcs_ptr->tilt_mvx) / 2) << 1 << GM_TRANS_ONLY_PREC_DIFF;
+        picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[0] = ((picture_control_set_ptr->parent_pcs_ptr->pan_mvy + picture_control_set_ptr->parent_pcs_ptr->tilt_mvy) / 2) << 1 << GM_TRANS_ONLY_PREC_DIFF;
     }
     else if (picture_control_set_ptr->parent_pcs_ptr->is_pan) {
 
         picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmtype = TRANSLATION;
-        picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[1] = picture_control_set_ptr->parent_pcs_ptr->panMvx << 1 << GM_TRANS_ONLY_PREC_DIFF;
-        picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[0] = picture_control_set_ptr->parent_pcs_ptr->panMvy << 1 << GM_TRANS_ONLY_PREC_DIFF;
+        picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[1] = picture_control_set_ptr->parent_pcs_ptr->pan_mvx << 1 << GM_TRANS_ONLY_PREC_DIFF;
+        picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[0] = picture_control_set_ptr->parent_pcs_ptr->pan_mvy << 1 << GM_TRANS_ONLY_PREC_DIFF;
 
     }
     else if (picture_control_set_ptr->parent_pcs_ptr->is_tilt) {
 
         picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmtype = TRANSLATION;
-        picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[1] = picture_control_set_ptr->parent_pcs_ptr->tiltMvx << 1 << GM_TRANS_ONLY_PREC_DIFF;
-        picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[0] = picture_control_set_ptr->parent_pcs_ptr->tiltMvy << 1 << GM_TRANS_ONLY_PREC_DIFF;
+        picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[1] = picture_control_set_ptr->parent_pcs_ptr->tilt_mvx << 1 << GM_TRANS_ONLY_PREC_DIFF;
+        picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[0] = picture_control_set_ptr->parent_pcs_ptr->tilt_mvy << 1 << GM_TRANS_ONLY_PREC_DIFF;
 
     }
 
@@ -2780,8 +2780,8 @@ void* mode_decision_configuration_kernel(void *input_ptr)
             dequants);
 
 #if MD_10BIT_FIX
-        Quants *const quantsMd = &picture_control_set_ptr->parent_pcs_ptr->quantsMd;
-        Dequants *const dequantsMd = &picture_control_set_ptr->parent_pcs_ptr->deqMd;
+        Quants *const quants_md = &picture_control_set_ptr->parent_pcs_ptr->quants_md;
+        Dequants *const dequantsMd = &picture_control_set_ptr->parent_pcs_ptr->deq_md;
         av1_build_quantizer(
             (AomBitDepth)8,
             picture_control_set_ptr->parent_pcs_ptr->y_dc_delta_q,
@@ -2789,7 +2789,7 @@ void* mode_decision_configuration_kernel(void *input_ptr)
             picture_control_set_ptr->parent_pcs_ptr->u_ac_delta_q,
             picture_control_set_ptr->parent_pcs_ptr->v_dc_delta_q,
             picture_control_set_ptr->parent_pcs_ptr->v_ac_delta_q,
-            quantsMd,
+            quants_md,
             dequantsMd);
 #endif
 

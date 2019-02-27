@@ -1437,12 +1437,12 @@ void  inject_inter_candidates(
 #if NSQ_SEARCH_LEVELS
     uint8_t sq_index = LOG2F(context_ptr->blk_geom->sq_size) - 2;
     uint8_t inject_newmv_candidate = 1;
-    if (picture_control_set_ptr->parent_pcs_ptr->NsqSearchLevel == NSQ_INTER_SEARCH_BASE_ON_SQ_MVMODE) {
+    if (picture_control_set_ptr->parent_pcs_ptr->nsq_search_level == NSQ_INTER_SEARCH_BASE_ON_SQ_MVMODE) {
         inject_newmv_candidate = context_ptr->blk_geom->shape == PART_N ? 1 :
             context_ptr->parent_sq_pred_mode[sq_index] == NEWMV || context_ptr->parent_sq_pred_mode[sq_index] == NEW_NEWMV ? inject_newmv_candidate : 0;
     }
 
-    if (picture_control_set_ptr->parent_pcs_ptr->NsqSearchLevel == NSQ_SEARCH_BASE_ON_SQ_COEFF) {
+    if (picture_control_set_ptr->parent_pcs_ptr->nsq_search_level == NSQ_SEARCH_BASE_ON_SQ_COEFF) {
         inject_newmv_candidate = context_ptr->blk_geom->shape == PART_N ? 1 :
             context_ptr->parent_sq_has_coeff[sq_index] != 0 ? inject_newmv_candidate : 0;
     }
@@ -1893,7 +1893,7 @@ static INLINE PredictionMode get_uv_mode(UVPredictionMode mode) {
     return uv2y[mode];
 }
 static TxType intra_mode_to_tx_type(const MbModeInfo *mbmi,
-    PlaneType PlaneType) {
+    PlaneType plane_type) {
     static const TxType _intra_mode_to_tx_type[INTRA_MODES] = {
         DCT_DCT,    // DC
         ADST_DCT,   // V
@@ -1910,7 +1910,7 @@ static TxType intra_mode_to_tx_type(const MbModeInfo *mbmi,
         ADST_ADST,  // PAETH
     };
     const PredictionMode mode =
-        (PlaneType == PLANE_TYPE_Y) ? mbmi->mode : get_uv_mode(mbmi->uv_mode);
+        (plane_type == PLANE_TYPE_Y) ? mbmi->mode : get_uv_mode(mbmi->uv_mode);
     assert(mode < INTRA_MODES);
     return _intra_mode_to_tx_type[mode];
 }
@@ -1920,7 +1920,7 @@ static INLINE TxType av1_get_tx_type(
     int32_t   is_inter,
     PredictionMode pred_mode,
     UVPredictionMode pred_mode_uv,
-    PlaneType PlaneType,
+    PlaneType plane_type,
     const MacroBlockD *xd, int32_t blk_row,
     int32_t blk_col, TxSize tx_size,
     int32_t reduced_tx_set)
@@ -1947,7 +1947,7 @@ static INLINE TxType av1_get_tx_type(
         tx_type = DCT_DCT;
     }
     else {
-        if (PlaneType == PLANE_TYPE_Y) {
+        if (plane_type == PLANE_TYPE_Y) {
             //const int32_t txk_type_idx =
             //    av1_get_txk_type_index(/*mbmi->*/sb_type, blk_row, blk_col);
             //tx_type = mbmi->txk_type[txk_type_idx];
@@ -2037,7 +2037,7 @@ void  inject_intra_candidates(
     angleDeltaCandidateCount = disable_angle_refinement ? 1: angleDeltaCandidateCount;
 #if NSQ_SEARCH_LEVELS
     uint8_t sq_index = LOG2F(context_ptr->blk_geom->sq_size) - 2;
-    if (picture_control_set_ptr->parent_pcs_ptr->NsqSearchLevel == NSQ_INTER_SEARCH_BASE_ON_SQ_INTRAMODE) {
+    if (picture_control_set_ptr->parent_pcs_ptr->nsq_search_level == NSQ_INTER_SEARCH_BASE_ON_SQ_INTRAMODE) {
         disable_z2_prediction = context_ptr->blk_geom->shape == PART_N ? disable_z2_prediction :
             context_ptr->parent_sq_type[sq_index] == INTRA_MODE ? disable_z2_prediction : 0;
     }
@@ -2201,13 +2201,13 @@ EbErrorType ProductGenerateMdCandidatesCu(
     uint8_t inject_inter_candidate = 1;
 
     if (slice_type != I_SLICE) {
-        if (picture_control_set_ptr->parent_pcs_ptr->NsqSearchLevel == NSQ_SEARCH_BASE_ON_SQ_TYPE) {
+        if (picture_control_set_ptr->parent_pcs_ptr->nsq_search_level == NSQ_SEARCH_BASE_ON_SQ_TYPE) {
             inject_intra_candidate = context_ptr->blk_geom->shape == PART_N ? 1 :
                 context_ptr->parent_sq_type[sq_index] == INTRA_MODE ? inject_intra_candidate : 0;
             inject_inter_candidate = context_ptr->blk_geom->shape == PART_N ? 1 :
                 context_ptr->parent_sq_type[sq_index] == INTER_MODE ? inject_inter_candidate : 0;
         }
-        if (picture_control_set_ptr->parent_pcs_ptr->NsqSearchLevel == NSQ_SEARCH_BASE_ON_SQ_COEFF) {
+        if (picture_control_set_ptr->parent_pcs_ptr->nsq_search_level == NSQ_SEARCH_BASE_ON_SQ_COEFF) {
             inject_intra_candidate = context_ptr->blk_geom->shape == PART_N ? 1 :
                 context_ptr->parent_sq_has_coeff[sq_index] != 0 ? inject_intra_candidate : 0;
         }

@@ -556,8 +556,8 @@ void ResetPcsAv1(
     PictureParentControlSet       *picture_control_set_ptr) {
     picture_control_set_ptr->is_skip_mode_allowed = 0;
     picture_control_set_ptr->skip_mode_flag = 0;
-    picture_control_set_ptr->av1FrameType = KEY_FRAME;
-    picture_control_set_ptr->showFrame = 1;
+    picture_control_set_ptr->av1_frame_type = KEY_FRAME;
+    picture_control_set_ptr->show_frame = 1;
     picture_control_set_ptr->showable_frame = 1;  // frame can be used as show existing frame in future
     // Flag for a frame used as a reference - not written to the bitstream
     picture_control_set_ptr->is_reference_frame = 0;
@@ -573,7 +573,7 @@ void ResetPcsAv1(
     picture_control_set_ptr->allow_warped_motion = 0;
 
     /* profile settings */
-    picture_control_set_ptr->TxMode = TX_MODE_LARGEST;
+    picture_control_set_ptr->tx_mode = TX_MODE_LARGEST;
 
 #if CONFIG_ENTROPY_STATS
     int32_t coef_cdf_category;
