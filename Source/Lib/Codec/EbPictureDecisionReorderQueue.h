@@ -14,8 +14,8 @@
  ************************************************/
 typedef struct PictureDecisionReorderEntry 
 {
-    uint64_t                              picture_number;
-    EbObjectWrapper                    *parentPcsWrapperPtr;
+    uint64_t          picture_number;
+    EbObjectWrapper  *parent_pcs_wrapper_ptr;
 } PictureDecisionReorderEntry;
 
 extern EbErrorType picture_decision_reorder_entry_ctor(

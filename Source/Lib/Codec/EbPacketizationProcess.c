@@ -202,7 +202,7 @@ void* PacketizationKernel(void *input_ptr)
         // Note: last chance here to add more output meta data for an encoded picture -->
 
         // collect output meta data
-        queueEntryPtr->outMetaData = concat_eb_linked_list(ExtractPassthroughData(&(picture_control_set_ptr->parent_pcs_ptr->data_ll_head_ptr)),
+        queueEntryPtr->out_meta_data = concat_eb_linked_list(ExtractPassthroughData(&(picture_control_set_ptr->parent_pcs_ptr->data_ll_head_ptr)),
             picture_control_set_ptr->parent_pcs_ptr->app_out_data_ll_head_ptr);
         picture_control_set_ptr->parent_pcs_ptr->app_out_data_ll_head_ptr = (EbLinkedListNode *)EB_NULL;
 
@@ -355,16 +355,16 @@ void* PacketizationKernel(void *input_ptr)
                 &latency);
 
             output_stream_ptr->n_tick_count = (uint32_t)latency;
-            output_stream_ptr->p_app_private = queueEntryPtr->outMetaData;
+            output_stream_ptr->p_app_private = queueEntryPtr->out_meta_data;
             eb_post_full_object(output_stream_wrapper_ptr);
-            queueEntryPtr->outMetaData = (EbLinkedListNode *)EB_NULL;
+            queueEntryPtr->out_meta_data = (EbLinkedListNode *)EB_NULL;
 
             // Reset the Reorder Queue Entry
             queueEntryPtr->picture_number += PACKETIZATION_REORDER_QUEUE_MAX_DEPTH;
             queueEntryPtr->output_stream_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
 
             if (encode_context_ptr->statistics_port_active) {
-                queueEntryPtr->outputStatisticsWrapperPtr = (EbObjectWrapper *)EB_NULL;
+                queueEntryPtr->output_statistics_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
             }
             // Increment the Reorder Queue head Ptr
             encode_context_ptr->packetization_reorder_queue_head_index =

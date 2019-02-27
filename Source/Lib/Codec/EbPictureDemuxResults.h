@@ -23,7 +23,7 @@ typedef enum EbPicType
  **************************************/
 typedef struct PictureDemuxResults
 {
-    EbPicType                    pictureType;
+    EbPicType                    picture_type;
 
     // Only valid for input pictures
     EbObjectWrapper             *picture_control_set_wrapper_ptr;
@@ -31,7 +31,7 @@ typedef struct PictureDemuxResults
     // Only valid for reference pictures
     EbObjectWrapper             *reference_picture_wrapper_ptr;
     EbObjectWrapper             *sequence_control_set_wrapper_ptr;
-    uint64_t                         picture_number;
+    uint64_t                     picture_number;
 
 } PictureDemuxResults;
 

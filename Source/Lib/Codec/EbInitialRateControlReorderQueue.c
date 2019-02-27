@@ -13,7 +13,7 @@ EbErrorType initial_rate_control_reorder_entry_ctor(
     EB_MALLOC(InitialRateControlReorderEntry*, *entry_dbl_ptr, sizeof(InitialRateControlReorderEntry), EB_N_PTR);
 
     (*entry_dbl_ptr)->picture_number = picture_number;
-    (*entry_dbl_ptr)->parentPcsWrapperPtr = (EbObjectWrapper *)EB_NULL;
+    (*entry_dbl_ptr)->parent_pcs_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
 
     return EB_ErrorNone;
 }
@@ -28,7 +28,7 @@ EbErrorType hl_rate_control_histogram_entry_ctor(
     (*entry_dbl_ptr)->picture_number = picture_number;
     (*entry_dbl_ptr)->lifeCount = 0;
 
-    (*entry_dbl_ptr)->parentPcsWrapperPtr = (EbObjectWrapper *)EB_NULL;
+    (*entry_dbl_ptr)->parent_pcs_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
 
     // ME and OIS Distortion Histograms
     EB_MALLOC(uint16_t*, (*entry_dbl_ptr)->me_distortion_histogram, sizeof(uint16_t) * NUMBER_OF_SAD_INTERVALS, EB_N_PTR);
