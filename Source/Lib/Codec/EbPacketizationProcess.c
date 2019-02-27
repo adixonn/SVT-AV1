@@ -277,7 +277,7 @@ void* PacketizationKernel(void *input_ptr)
             output_stream_wrapper_ptr = queueEntryPtr->output_stream_wrapper_ptr;
             output_stream_ptr = (EbBufferHeaderType*)output_stream_wrapper_ptr->object_ptr;
 
-            if (queueEntryPtr->hasShowExisting) {
+            if (queueEntryPtr->has_show_existing) {
                 write_td(output_stream_ptr, EB_TRUE, has_tiles);
                 output_stream_ptr->n_filled_len += TD_SIZE;
             }
@@ -289,7 +289,7 @@ void* PacketizationKernel(void *input_ptr)
                 output_stream_ptr->n_filled_len += TD_SIZE;
             }
 
-            if (queueEntryPtr->hasShowExisting || queueEntryPtr->showFrame)
+            if (queueEntryPtr->has_show_existing || queueEntryPtr->show_frame)
                 encode_context_ptr->td_needed = EB_TRUE;
 
 #if DETAILED_FRAME_OUTPUT

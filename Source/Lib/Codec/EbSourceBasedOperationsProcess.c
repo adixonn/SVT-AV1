@@ -136,7 +136,7 @@ void DerivePictureActivityStatistics(
     uint32_t               sb_index;
     for (sb_index = 0; sb_index < sb_total_count; ++sb_index) {
 #if CONTENT_BASED_QPS
-        SbParams_t *sb_params = &sequence_control_set_ptr->sb_params_array[sb_index];
+        SbParams *sb_params = &sequence_control_set_ptr->sb_params_array[sb_index];
         if (sb_params->is_complete_sb) 
 #endif
         { 

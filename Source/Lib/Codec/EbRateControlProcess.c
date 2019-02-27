@@ -1133,7 +1133,7 @@ static int kf_low = 400;
 // The formulae were derived from computing a 3rd order polynomial best
 // fit to the original data (after plotting real maxq vs minq (not q index))
 static int get_minq_index(double maxq, double x3, double x2, double x1,
-    aom_bit_depth_t bit_depth) {
+    AomBitDepth bit_depth) {
     int i;
     const double minqtarget = AOMMIN(((x3 * maxq + x2) * maxq + x1) * maxq, maxq);
 
@@ -1150,7 +1150,7 @@ static int get_minq_index(double maxq, double x3, double x2, double x1,
 
 static void init_minq_luts(int *kf_low_m, int *kf_high_m, int *arfgf_low,
     int *arfgf_high, int *inter, int *rtc,
-    aom_bit_depth_t bit_depth) {
+    AomBitDepth bit_depth) {
     int i;
     for (i = 0; i < QINDEX_RANGE; i++) {
         const double maxq = av1_convert_qindex_to_q(i, bit_depth);
@@ -1193,7 +1193,7 @@ static int get_active_quality(int q, int gfu_boost, int low, int high,
 }
 
 static int get_kf_active_quality(const RATE_CONTROL *const rc, int q,
-    aom_bit_depth_t bit_depth) {
+    AomBitDepth bit_depth) {
     int *kf_low_motion_minq;
     int *kf_high_motion_minq;
     ASSIGN_MINQ_TABLE(bit_depth, kf_low_motion_minq);
@@ -1203,7 +1203,7 @@ static int get_kf_active_quality(const RATE_CONTROL *const rc, int q,
 }
 
 static int get_gf_active_quality(const RATE_CONTROL *const rc, int q,
-    aom_bit_depth_t bit_depth) {
+    AomBitDepth bit_depth) {
     int *arfgf_low_motion_minq;
     int *arfgf_high_motion_minq;
     ASSIGN_MINQ_TABLE(bit_depth, arfgf_low_motion_minq);
@@ -1212,18 +1212,18 @@ static int get_gf_active_quality(const RATE_CONTROL *const rc, int q,
         arfgf_low_motion_minq, arfgf_high_motion_minq);
 }
 
-static int get_gf_high_motion_quality(int q, aom_bit_depth_t bit_depth) {
+static int get_gf_high_motion_quality(int q, AomBitDepth bit_depth) {
     int *arfgf_high_motion_minq;
     ASSIGN_MINQ_TABLE(bit_depth, arfgf_high_motion_minq);
     return arfgf_high_motion_minq[q];
 }
 
 static int adaptive_qindex_calc(
-    PictureControlSet_t         *picture_control_set_ptr,
+    PictureControlSet         *picture_control_set_ptr,
     RATE_CONTROL                *rc,
     int                          qindex) {
 
-    SequenceControlSet_t        *sequence_control_set_ptr = picture_control_set_ptr->parent_pcs_ptr->sequence_control_set_ptr;
+    SequenceControlSet        *sequence_control_set_ptr = picture_control_set_ptr->parent_pcs_ptr->sequence_control_set_ptr;
     const Av1Common  *const cm = picture_control_set_ptr->parent_pcs_ptr->av1_cm;
 
     const int cq_level = qindex;

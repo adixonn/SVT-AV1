@@ -816,7 +816,7 @@ void ReadInputFrames(
 
                 /* if input is a y4m file, read next line which contains "FRAME" */
                 if(config->y4mInput==EB_TRUE) {
-                    readY4mFrameDelimiter(config);
+                    read_y4m_frame_delimiter(config);
                 }
 
                 uint64_t lumaReadSize = (uint64_t)inputPaddedWidth*inputPaddedHeight << is16bit;
@@ -1307,7 +1307,7 @@ static void write_ivf_stream_header(EbConfig *config)
 
     return;
 }
-static void update_prev_ivf_header(EbConfig_t *config){
+static void update_prev_ivf_header(EbConfig *config){
 
     char header[4]; // only for the number of bytes
     if (config && config->bitstreamFile && config->byte_count_since_ivf != 0){
@@ -1339,9 +1339,9 @@ static void write_ivf_frame_header(EbConfig *config, uint32_t byte_count){
         fwrite(header, 1, IVF_FRAME_HEADER_SIZE, config->bitstreamFile);
 }
 
-APPEXITCONDITIONTYPE ProcessOutputStreamBuffer(
-    EbConfig_t             *config,
-    EbAppContext_t         *appCallBack,
+AppExitConditionType ProcessOutputStreamBuffer(
+    EbConfig             *config,
+    EbAppContext         *appCallBack,
 
     uint8_t                 pic_send_done)
 {

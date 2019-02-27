@@ -302,7 +302,7 @@ extern "C" {
         uint8_t show_existing);
 
     extern EbErrorType encode_td_av1(
-        Bitstream *bitstream_ptr);
+        uint8_t *output_bitstream_ptr);
 
     extern EbErrorType encode_sps_av1(
         Bitstream *bitstream_ptr,
