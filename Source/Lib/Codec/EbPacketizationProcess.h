@@ -13,27 +13,15 @@ extern "C" {
 #endif
 
     /**************************************
-     * Type Declarations
-     **************************************/
-    typedef struct EbPPSConfig
-    {
-        uint8_t ppsId;
-        uint8_t constrainedFlag;
-
-    } EbPPSConfig;
-
-    /**************************************
      * Context
      **************************************/
     typedef struct PacketizationContext
     {
-        EbFifo      *entropy_coding_input_fifo_ptr;
-        EbFifo      *rate_control_tasks_output_fifo_ptr;
-        EbPPSConfig *ppsConfig;
-
-        uint64_t   dpbDispOrder[8], dpbDecOrder[8];
-        uint64_t   totShownFrames;
-        uint64_t   dispOrderContinuityCount;
+        EbFifo    *entropy_coding_input_fifo_ptr;
+        EbFifo    *rate_control_tasks_output_fifo_ptr;
+        uint64_t   dpb_disp_order[8], dpb_dec_order[8];
+        uint64_t   tot_shown_frames;
+        uint64_t   disp_order_continuity_count;
 
     } PacketizationContext;
 
@@ -45,9 +33,7 @@ extern "C" {
         EbFifo                *entropy_coding_input_fifo_ptr,
         EbFifo                *rate_control_tasks_output_fifo_ptr);
 
-
-
-    extern void* PacketizationKernel(void *input_ptr);
+    extern void* packetization_kernel(void *input_ptr);
 #ifdef __cplusplus
 }
 #endif

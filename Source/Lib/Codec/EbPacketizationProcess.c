@@ -43,7 +43,6 @@ EbErrorType packetization_context_ctor(
     context_ptr->entropy_coding_input_fifo_ptr = entropy_coding_input_fifo_ptr;
     context_ptr->rate_control_tasks_output_fifo_ptr = rate_control_tasks_output_fifo_ptr;
 
-    EB_MALLOC(EbPPSConfig*, context_ptr->ppsConfig, sizeof(EbPPSConfig), EB_N_PTR);
 
     return EB_ErrorNone;
 }
@@ -218,8 +217,8 @@ void* PacketizationKernel(void *input_ptr)
         memcpy(&queueEntryPtr->av1_ref_signal, &picture_control_set_ptr->parent_pcs_ptr->av1_ref_signal, sizeof(Av1RpsNode));
 
         queueEntryPtr->slice_type = picture_control_set_ptr->slice_type;
-        queueEntryPtr->refPOCList0 = picture_control_set_ptr->parent_pcs_ptr->ref_pic_poc_array[REF_LIST_0];
-        queueEntryPtr->refPOCList1 = picture_control_set_ptr->parent_pcs_ptr->ref_pic_poc_array[REF_LIST_1];
+        queueEntryPtr->ref_poc_list0 = picture_control_set_ptr->parent_pcs_ptr->ref_pic_poc_array[REF_LIST_0];
+        queueEntryPtr->ref_poc_list1 = picture_control_set_ptr->parent_pcs_ptr->ref_pic_poc_array[REF_LIST_1];
 
         queueEntryPtr->show_frame = picture_control_set_ptr->parent_pcs_ptr->show_frame;
         queueEntryPtr->has_show_existing = picture_control_set_ptr->parent_pcs_ptr->has_show_existing;
@@ -231,7 +230,7 @@ void* PacketizationKernel(void *input_ptr)
         // Note: last chance here to add more output meta data for an encoded picture -->
 
         // collect output meta data
-        queueEntryPtr->outMetaData = concat_eb_linked_list(ExtractPassthroughData(&(picture_control_set_ptr->parent_pcs_ptr->data_ll_head_ptr)),
+        queueEntryPtr->out_meta_data = concat_eb_linked_list(ExtractPassthroughData(&(picture_control_set_ptr->parent_pcs_ptr->data_ll_head_ptr)),
             picture_control_set_ptr->parent_pcs_ptr->app_out_data_ll_head_ptr);
         picture_control_set_ptr->parent_pcs_ptr->app_out_data_ll_head_ptr = (EbLinkedListNode *)EB_NULL;
 
@@ -354,12 +353,12 @@ void* PacketizationKernel(void *input_ptr)
                                 (int32_t)queueEntryPtr->poc, (int32_t)context_ptr->dpbDispOrder[LASTrefIdx], (int32_t)context_ptr->dpbDispOrder[BWDrefIdx],
                                 showTab[queueEntryPtr->show_frame], (int32_t)context_ptr->totShownFrames);
 
-                        if (queueEntryPtr->refPOCList0 != context_ptr->dpbDispOrder[LASTrefIdx])
+                        if (queueEntryPtr->ref_poc_list0 != context_ptr->dpbDispOrder[LASTrefIdx])
                         {
                             SVT_LOG("L0 MISMATCH POC:%i\n", (int32_t)queueEntryPtr->poc);
                             exit(0);
                         }
-                        if (sequence_control_set_ptr->static_config.hierarchical_levels == 3 && queueEntryPtr->slice_type == B_SLICE && queueEntryPtr->refPOCList1 != context_ptr->dpbDispOrder[BWDrefIdx])
+                        if (sequence_control_set_ptr->static_config.hierarchical_levels == 3 && queueEntryPtr->slice_type == B_SLICE && queueEntryPtr->ref_poc_list1 != context_ptr->dpbDispOrder[BWDrefIdx])
                         {
                             SVT_LOG("L1 MISMATCH POC:%i\n", (int32_t)queueEntryPtr->poc);
                             exit(0);
@@ -403,16 +402,16 @@ void* PacketizationKernel(void *input_ptr)
                 &latency);
 
             output_stream_ptr->n_tick_count = (uint32_t)latency;
-            output_stream_ptr->p_app_private = queueEntryPtr->outMetaData;
+            output_stream_ptr->p_app_private = queueEntryPtr->out_meta_data;
             eb_post_full_object(output_stream_wrapper_ptr);
-            queueEntryPtr->outMetaData = (EbLinkedListNode *)EB_NULL;
+            queueEntryPtr->out_meta_data = (EbLinkedListNode *)EB_NULL;
 
             // Reset the Reorder Queue Entry
             queueEntryPtr->picture_number += PACKETIZATION_REORDER_QUEUE_MAX_DEPTH;
             queueEntryPtr->output_stream_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
 
             if (encode_context_ptr->statistics_port_active) {
-                queueEntryPtr->outputStatisticsWrapperPtr = (EbObjectWrapper *)EB_NULL;
+                queueEntryPtr->output_statistics_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
             }
             // Increment the Reorder Queue head Ptr
             encode_context_ptr->packetization_reorder_queue_head_index =
