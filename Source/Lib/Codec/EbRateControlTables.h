@@ -30,7 +30,7 @@
 #define TOTAL_NUMBER_OF_INITIAL_RC_TABLES_ENTRY             (TOTAL_NUMBER_OF_REF_QP_VALUES * TOTAL_NUMBER_OF_INTERVALS)
 
  /**************************************
-  * The EB_BitFraction is used to define the bit fraction numbers
+  * The EbBitFraction is used to define the bit fraction numbers
   **************************************/
 typedef uint16_t EbBitNumber;
 

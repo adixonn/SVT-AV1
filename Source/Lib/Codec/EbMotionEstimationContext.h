@@ -302,7 +302,7 @@ extern "C" {
         uint32_t                      interpolated_stride;
         uint32_t                      interpolated_full_stride[MAX_NUM_OF_REF_PIC_LIST][MAX_REF_IDX];
 
-        MotionEstimationTierZero    me_candidate[MAX_ME_CANDIDATE_PER_PU];
+        MotionEstimationTierZero      me_candidate[MAX_ME_CANDIDATE_PER_PU];
 
         // Intermediate LCU-sized buffer to retain the input samples
         uint8_t                      *sb_buffer;
@@ -395,15 +395,15 @@ extern "C" {
 #endif
 
         uint16_t                     *p_eight_pos_sad16x16;
-        EB_BitFraction               *mvd_bits_array;
+        EbBitFraction                *mvd_bits_array;
         uint64_t                      lambda;
         uint8_t                       hme_search_type;
 
 #if M0_SAD_HALF_QUARTER_PEL_BIPRED_SEARCH || M0_SSD_HALF_QUARTER_PEL_BIPRED_SEARCH
 #if M0_SSD_HALF_QUARTER_PEL_BIPRED_SEARCH
-        uint8_t   fractionalSearchMethod;
+        uint8_t fractional_search_method;
 #else
-        EbBool useSubSadFracBipredSearch;
+        EbBool  use_sub_sad_frac_bipred_search;
 #endif
 #endif
 
@@ -435,7 +435,7 @@ extern "C" {
         // Search region stride
         uint32_t                      interpolated_stride;
         uint32_t                      interpolated_full_stride[MAX_NUM_OF_REF_PIC_LIST][MAX_REF_IDX];
-        MotionEstimationTierZero    me_candidate[MAX_ME_CANDIDATE_PER_PU];
+        MotionEstimationTierZero      me_candidate[MAX_ME_CANDIDATE_PER_PU];
 
         // Intermediate LCU-sized buffer to retain the input samples
         uint8_t                      *sb_buffer;
@@ -568,30 +568,30 @@ extern "C" {
         int16_t                       inloop_me_sad[MAX_NUM_OF_REF_PIC_LIST][MAX_REF_IDX][MAX_SS_ME_PU_COUNT];
         int16_t                       inloop_me_mv[MAX_NUM_OF_REF_PIC_LIST][MAX_REF_IDX][MAX_SS_ME_PU_COUNT][2];
 
-        EB_BitFraction               *mvd_bits_array;
+        EbBitFraction                *mvd_bits_array;
         uint64_t                      lambda;
         uint8_t                       hme_search_type;
-        uint8_t                       fractionalSearchMethod;
+        uint8_t                       fractional_search_method;
 
         // ME
         uint8_t                       search_area_width;
         uint8_t                       search_area_height;
                                       
-        block_size                     sb_size;
+        block_size                    sb_size;
         uint32_t                      sb_side;
 
     } SsMeContext;
 
-    typedef uint64_t(*EB_ME_DISTORTION_FUNC)(
-        uint8_t                     *src,
-        uint32_t                     src_stride,
-        uint8_t                     *ref,
-        uint32_t                     ref_stride,
-        uint32_t                     width,
-        uint32_t                     height);
+    typedef uint64_t(*EbMeDistortionFunc)(
+        uint8_t  *src,
+        uint32_t  src_stride,
+        uint8_t  *ref,
+        uint32_t  ref_stride,
+        uint32_t  width,
+        uint32_t  height);
 
     extern EbErrorType me_context_ctor(
-        MeContext     **object_dbl_ptr);
+        MeContext **object_dbl_ptr);
 
 #ifdef __cplusplus
 }

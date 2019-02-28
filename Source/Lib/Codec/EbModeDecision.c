@@ -2420,8 +2420,8 @@ uint8_t product_full_mode_decision(
         }
 
         // The MV prediction indicies are recalcated by the EncDec.
-        pu_ptr->mvd[REF_LIST_0].predIdx = 0;
-        pu_ptr->mvd[REF_LIST_1].predIdx = 0;
+        pu_ptr->mvd[REF_LIST_0].pred_idx = 0;
+        pu_ptr->mvd[REF_LIST_1].pred_idx = 0;
 
         pu_ptr->overlappable_neighbors[0] = context_ptr->cu_ptr->prediction_unit_array[0].overlappable_neighbors[0];
         pu_ptr->overlappable_neighbors[1] = context_ptr->cu_ptr->prediction_unit_array[0].overlappable_neighbors[1];

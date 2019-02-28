@@ -211,7 +211,7 @@ void ComplexityClassifier32x32(
                 for (blkIt = 0; blkIt < 4; blkIt++) {
 
 
-                    uint32_t distortion = picture_control_set_ptr->me_results[sb_index][1 + blkIt].distortionDirection[0].distortion;
+                    uint32_t distortion = picture_control_set_ptr->me_results[sb_index][1 + blkIt].distortion_direction[0].distortion;
 
                     if ((((uint32_t)(distortion)) >> NORM_FACTOR) > THRESHOLD_NOISE[picture_control_set_ptr->temporal_layer_index])
 
@@ -257,7 +257,7 @@ void FailingMotionLcu(
 
             // Get ME SAD
 
-            cuMeSAD = picture_control_set_ptr->me_results[sb_index][rasterScanCuIndex].distortionDirection[0].distortion;
+            cuMeSAD = picture_control_set_ptr->me_results[sb_index][rasterScanCuIndex].distortion_direction[0].distortion;
 
 
 
@@ -321,7 +321,7 @@ void DetectUncoveredLcu(
 
                 // Get ME SAD
 
-                cuMeSAD = picture_control_set_ptr->me_results[sb_index][rasterScanCuIndex].distortionDirection[0].distortion;
+                cuMeSAD = picture_control_set_ptr->me_results[sb_index][rasterScanCuIndex].distortion_direction[0].distortion;
 
 
 
@@ -455,7 +455,7 @@ void LumaContrastDetectorLcu(
 
 
 
-            cuMeSAD = picture_control_set_ptr->me_results[sb_index][0].distortionDirection[0].distortion;
+            cuMeSAD = picture_control_set_ptr->me_results[sb_index][0].distortion_direction[0].distortion;
 
 
             context_ptr->to_be_intra_coded_probability += cuOisSAD < cuMeSAD ? 1 : 0;
@@ -807,7 +807,7 @@ void TemporalHighContrastClassifier(
 
         for (blkIt = 0; blkIt < 4; blkIt++) {
 
-            nsad = ((uint32_t)picture_control_set_ptr->me_results[sb_index][1 + blkIt].distortionDirection[0].distortion) >> NORM_FACTOR;
+            nsad = ((uint32_t)picture_control_set_ptr->me_results[sb_index][1 + blkIt].distortion_direction[0].distortion) >> NORM_FACTOR;
 
             if (nsad >= nsadTable[picture_control_set_ptr->temporal_layer_index] + thRes)
                 meDist++;

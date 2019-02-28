@@ -40,16 +40,16 @@ extern "C" {
 
 
     /**************************************
-     * The EB_BitFraction is used to define the bit fraction numbers
+     * The EbBitFraction is used to define the bit fraction numbers
      **************************************/
-    typedef uint32_t EB_BitFraction;
+    typedef uint32_t EbBitFraction;
 
     /**************************************
      * MD Rate Estimation Structure
      **************************************/
     typedef struct MdRateEstimationContext {
-        EB_BitFraction  splitFlagBits[NUMBER_OF_SPLIT_FLAG_CASES];
-        EB_BitFraction  mvdBits[NUMBER_OF_MVD_CASES];
+        EbBitFraction  splitFlagBits[NUMBER_OF_SPLIT_FLAG_CASES];
+        EbBitFraction  mvdBits[NUMBER_OF_MVD_CASES];
         // Partition
         int32_t partitionFacBits[PARTITION_CONTEXTS][CDF_SIZE(EXT_PARTITION_TYPES)];
 

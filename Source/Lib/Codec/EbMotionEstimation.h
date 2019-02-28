@@ -19,12 +19,12 @@
 extern "C" {
 #endif
     extern EbErrorType motion_estimate_lcu(
-        PictureParentControlSet   *picture_control_set_ptr,
-        uint32_t                       sb_index,
-        uint32_t                       sb_origin_x,
-        uint32_t                       sb_origin_y,
-        MeContext                 *context_ptr,
-        EbPictureBufferDesc       *input_ptr);
+        PictureParentControlSet *picture_control_set_ptr,
+        uint32_t                 sb_index,
+        uint32_t                 sb_origin_x,
+        uint32_t                 sb_origin_y,
+        MeContext               *context_ptr,
+        EbPictureBufferDesc     *input_ptr);
 
     extern void decimation_2d(
         uint8_t  *input_samples,
@@ -37,10 +37,10 @@ extern "C" {
 
     extern EbErrorType open_loop_intra_search_lcu(
         PictureParentControlSet   *picture_control_set_ptr,
-        uint32_t                     sb_index,
+        uint32_t                   sb_index,
         MotionEstimationContext   *context_ptr,
         EbPictureBufferDesc       *input_ptr,
-        EbAsm                       asm_type);
+        EbAsm                      asm_type);
 
 
     int8_t sort_3_elements(uint32_t a, uint32_t b, uint32_t c);
@@ -1509,9 +1509,9 @@ extern "C" {
     *   md candidate
     *******************************************/
     extern uint32_t get_in_loop_me_info_index(
-        uint32_t                  max_me_block,
-        uint8_t                is_128_sb,
-        const BlockGeom        *blk_geom
+        uint32_t         max_me_block,
+        uint8_t          is_128_sb,
+        const BlockGeom *blk_geom
     );
 
 
@@ -1531,11 +1531,10 @@ extern "C" {
     *   md candidate
     *******************************************/
     extern uint32_t get_me_info_index(
-        uint32_t                  max_me_block,
-        const BlockGeom        *blk_geom, 
-        uint32_t               geom_offset_x,
-        uint32_t                 geom_offset_y
-    );
+        uint32_t         max_me_block,
+        const BlockGeom *blk_geom, 
+        uint32_t         geom_offset_x,
+        uint32_t         geom_offset_y);
 
 
 #ifdef __cplusplus
