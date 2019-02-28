@@ -986,7 +986,7 @@ EbErrorType av1_inter_prediction(
 {
     (void)asm_type;
     EbErrorType  return_error = EB_ErrorNone;
-    uint8_t         is_compound = (mv_unit->predDirection == BI_PRED) ? 1 : 0;
+    uint8_t         is_compound = (mv_unit->pred_direction == BI_PRED) ? 1 : 0;
     DECLARE_ALIGNED(32, uint16_t, tmp_dstY[128 * 128]);//move this to context if stack does not hold.
     DECLARE_ALIGNED(32, uint16_t, tmp_dstCb[64 * 64]);
     DECLARE_ALIGNED(32, uint16_t, tmp_dstCr[64 * 64]);
@@ -1043,11 +1043,11 @@ EbErrorType av1_inter_prediction(
             for (miY = 0; miY < (blk_geom->bheight >> MI_SIZE_LOG2); miY++) {
                 for (miX = 0; miX < (blk_geom->bwidth >> MI_SIZE_LOG2); miX++) {
                     miPtr[miX + miY * xd->mi_stride].mbmi.ref_frame[0] = rf[0];
-                    if (mv_unit->predDirection == UNI_PRED_LIST_0) {
+                    if (mv_unit->pred_direction == UNI_PRED_LIST_0) {
                         miPtr[miX + miY * xd->mi_stride].mbmi.mv[0].as_mv.col = mv_unit->mv[REF_LIST_0].x;
                         miPtr[miX + miY * xd->mi_stride].mbmi.mv[0].as_mv.row = mv_unit->mv[REF_LIST_0].y;
                     }
-                    else if (mv_unit->predDirection == UNI_PRED_LIST_1) {
+                    else if (mv_unit->pred_direction == UNI_PRED_LIST_1) {
                         miPtr[miX + miY * xd->mi_stride].mbmi.mv[0].as_mv.col = mv_unit->mv[REF_LIST_1].x;
                         miPtr[miX + miY * xd->mi_stride].mbmi.mv[0].as_mv.row = mv_unit->mv[REF_LIST_1].y;
                     }
@@ -1221,7 +1221,7 @@ EbErrorType av1_inter_prediction(
     }
 
 
-    if (mv_unit->predDirection == UNI_PRED_LIST_0 || mv_unit->predDirection == BI_PRED) {
+    if (mv_unit->pred_direction == UNI_PRED_LIST_0 || mv_unit->pred_direction == BI_PRED) {
 
         //List0-Y
         mv.col = mv_unit->mv[REF_LIST_0].x;
@@ -1313,7 +1313,7 @@ EbErrorType av1_inter_prediction(
         }
     }
 
-    if ((mv_unit->predDirection == UNI_PRED_LIST_1 || mv_unit->predDirection == BI_PRED) ) {
+    if ((mv_unit->pred_direction == UNI_PRED_LIST_1 || mv_unit->pred_direction == BI_PRED) ) {
 
         //List0-Y
         mv.col = mv_unit->mv[REF_LIST_1].x;
@@ -1329,7 +1329,7 @@ EbErrorType av1_inter_prediction(
         subpel_y = mv_q4.row & SUBPEL_MASK;
 
         src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
-        conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstY, 128, is_compound, EB_8BIT);
+        conv_params = get_conv_params_no_round(0, (mv_unit->pred_direction == BI_PRED) ? 1 : 0, 0, tmp_dstY, 128, is_compound, EB_8BIT);
         av1_get_convolve_filter_params(interp_filters, &filter_params_x,
             &filter_params_y, bwidth, bheight);
 
@@ -1361,7 +1361,7 @@ EbErrorType av1_inter_prediction(
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
             src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
-            conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstCb, 64, is_compound, EB_8BIT);
+            conv_params = get_conv_params_no_round(0, (mv_unit->pred_direction == BI_PRED) ? 1 : 0, 0, tmp_dstCb, 64, is_compound, EB_8BIT);
 
             av1_get_convolve_filter_params(interp_filters, &filter_params_x,
                 &filter_params_y, blk_geom->bwidth_uv, blk_geom->bheight_uv);
@@ -1390,7 +1390,7 @@ EbErrorType av1_inter_prediction(
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
             src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
-            conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstCr, 64, is_compound, EB_8BIT);
+            conv_params = get_conv_params_no_round(0, (mv_unit->pred_direction == BI_PRED) ? 1 : 0, 0, tmp_dstCr, 64, is_compound, EB_8BIT);
             convolve[subpel_x != 0][subpel_y != 0][is_compound](
                 src_ptr,
                 src_stride,
@@ -1472,7 +1472,7 @@ EbErrorType AV1MDInterPrediction(
 {
     EbErrorType  return_error = EB_ErrorNone;
     InterPredictionContext *context_ptr = (InterPredictionContext*)(md_context_ptr->inter_prediction_context);
-    uint8_t         is_compound = (mv_unit->predDirection == BI_PRED) ? 1 : 0;
+    uint8_t         is_compound = (mv_unit->pred_direction == BI_PRED) ? 1 : 0;
     DECLARE_ALIGNED(32, uint16_t, tmp_dstY[128 * 128]);//move this to context if stack does not hold.
     DECLARE_ALIGNED(32, uint16_t, tmp_dstCb[64 * 64]);
     DECLARE_ALIGNED(32, uint16_t, tmp_dstCr[64 * 64]);
@@ -1531,11 +1531,11 @@ EbErrorType AV1MDInterPrediction(
             for (miY = 0; miY < (blk_geom->bheight >> MI_SIZE_LOG2); miY++) {
                 for (miX = 0; miX < (blk_geom->bwidth >> MI_SIZE_LOG2); miX++) {
                     miPtr[miX + miY * xd->mi_stride].mbmi.ref_frame[0] = rf[0];
-                    if (mv_unit->predDirection == UNI_PRED_LIST_0) {
+                    if (mv_unit->pred_direction == UNI_PRED_LIST_0) {
                         miPtr[miX + miY * xd->mi_stride].mbmi.mv[0].as_mv.col = mv_unit->mv[REF_LIST_0].x;
                         miPtr[miX + miY * xd->mi_stride].mbmi.mv[0].as_mv.row = mv_unit->mv[REF_LIST_0].y;
                     }
-                    else if (mv_unit->predDirection == UNI_PRED_LIST_1) {
+                    else if (mv_unit->pred_direction == UNI_PRED_LIST_1) {
                         miPtr[miX + miY * xd->mi_stride].mbmi.mv[0].as_mv.col = mv_unit->mv[REF_LIST_1].x;
                         miPtr[miX + miY * xd->mi_stride].mbmi.mv[0].as_mv.row = mv_unit->mv[REF_LIST_1].y;
                     }
@@ -1734,7 +1734,7 @@ EbErrorType AV1MDInterPrediction(
 
 
 
-    if (mv_unit->predDirection == UNI_PRED_LIST_0 || mv_unit->predDirection == BI_PRED) {
+    if (mv_unit->pred_direction == UNI_PRED_LIST_0 || mv_unit->pred_direction == BI_PRED) {
 
         //List0-Y
         mv.col = mv_unit->mv[REF_LIST_0].x;
@@ -1883,7 +1883,7 @@ EbErrorType AV1MDInterPrediction(
     }
 
 
-    if (mv_unit->predDirection == UNI_PRED_LIST_1 || mv_unit->predDirection == BI_PRED) {
+    if (mv_unit->pred_direction == UNI_PRED_LIST_1 || mv_unit->pred_direction == BI_PRED) {
 
         //List1-Y
         mv.col = mv_unit->mv[REF_LIST_1].x;
@@ -1900,7 +1900,7 @@ EbErrorType AV1MDInterPrediction(
         subpel_y = mv_q4.row & SUBPEL_MASK;
 
         src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
-        conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstY, 128, is_compound, EB_8BIT);
+        conv_params = get_conv_params_no_round(0, (mv_unit->pred_direction == BI_PRED) ? 1 : 0, 0, tmp_dstY, 128, is_compound, EB_8BIT);
 
 #if INTERPOL_FILTER_SEARCH_10BIT_SUPPORT
         av1_get_convolve_filter_params(interp_filters, &filter_params_x,
@@ -1951,7 +1951,7 @@ EbErrorType AV1MDInterPrediction(
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
             src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
-            conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstCb, 64, is_compound, EB_8BIT);
+            conv_params = get_conv_params_no_round(0, (mv_unit->pred_direction == BI_PRED) ? 1 : 0, 0, tmp_dstCb, 64, is_compound, EB_8BIT);
 
 
 #if INTERPOL_FILTER_SEARCH_10BIT_SUPPORT
@@ -1997,7 +1997,7 @@ EbErrorType AV1MDInterPrediction(
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
             src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
-            conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstCr, 64, is_compound, EB_8BIT);
+            conv_params = get_conv_params_no_round(0, (mv_unit->pred_direction == BI_PRED) ? 1 : 0, 0, tmp_dstCr, 64, is_compound, EB_8BIT);
             Av1UnPackReferenceBlock(
                 src_ptr,
                 ref_pic_list1->stride_cr,
@@ -2054,7 +2054,7 @@ EbErrorType av1_inter_prediction_hbd(
 {
     (void)asm_type;
     EbErrorType  return_error = EB_ErrorNone;
-    uint8_t         is_compound = (mv_unit->predDirection == BI_PRED) ? 1 : 0;
+    uint8_t         is_compound = (mv_unit->pred_direction == BI_PRED) ? 1 : 0;
     DECLARE_ALIGNED(32, uint16_t, tmp_dstY[128 * 128]);//move this to context if stack does not hold.
     DECLARE_ALIGNED(32, uint16_t, tmp_dstCb[64 * 64]);
     DECLARE_ALIGNED(32, uint16_t, tmp_dstCr[64 * 64]);
@@ -2107,11 +2107,11 @@ EbErrorType av1_inter_prediction_hbd(
             for (miY = 0; miY < (blk_geom->bheight >> MI_SIZE_LOG2); miY++) {
                 for (miX = 0; miX < (blk_geom->bwidth >> MI_SIZE_LOG2); miX++) {
                     miPtr[miX + miY * xd->mi_stride].mbmi.ref_frame[0] = rf[0];
-                    if (mv_unit->predDirection == UNI_PRED_LIST_0) {
+                    if (mv_unit->pred_direction == UNI_PRED_LIST_0) {
                         miPtr[miX + miY * xd->mi_stride].mbmi.mv[0].as_mv.col = mv_unit->mv[REF_LIST_0].x;
                         miPtr[miX + miY * xd->mi_stride].mbmi.mv[0].as_mv.row = mv_unit->mv[REF_LIST_0].y;
                     }
-                    else if (mv_unit->predDirection == UNI_PRED_LIST_1) {
+                    else if (mv_unit->pred_direction == UNI_PRED_LIST_1) {
                         miPtr[miX + miY * xd->mi_stride].mbmi.mv[0].as_mv.col = mv_unit->mv[REF_LIST_1].x;
                         miPtr[miX + miY * xd->mi_stride].mbmi.mv[0].as_mv.row = mv_unit->mv[REF_LIST_1].y;
                     }
@@ -2284,7 +2284,7 @@ EbErrorType av1_inter_prediction_hbd(
 
 
 
-    if (mv_unit->predDirection == UNI_PRED_LIST_0 || mv_unit->predDirection == BI_PRED) {
+    if (mv_unit->pred_direction == UNI_PRED_LIST_0 || mv_unit->pred_direction == BI_PRED) {
 
         //List0-Y
         mv.col = mv_unit->mv[REF_LIST_0].x;
@@ -2395,7 +2395,7 @@ EbErrorType av1_inter_prediction_hbd(
     }
 
 
-    if (mv_unit->predDirection == UNI_PRED_LIST_1 || mv_unit->predDirection == BI_PRED) {
+    if (mv_unit->pred_direction == UNI_PRED_LIST_1 || mv_unit->pred_direction == BI_PRED) {
 
         //List0-Y
         mv.col = mv_unit->mv[REF_LIST_1].x;
@@ -2411,7 +2411,7 @@ EbErrorType av1_inter_prediction_hbd(
         subpel_y = mv_q4.row & SUBPEL_MASK;
 
         src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
-        conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstY, 128, is_compound, bit_depth);
+        conv_params = get_conv_params_no_round(0, (mv_unit->pred_direction == BI_PRED) ? 1 : 0, 0, tmp_dstY, 128, is_compound, bit_depth);
 #if INTERPOL_FILTER_SEARCH_10BIT_SUPPORT
         av1_get_convolve_filter_params(cu_ptr->interp_filters, &filter_params_x,
             &filter_params_y, bwidth, bheight);
@@ -2448,7 +2448,7 @@ EbErrorType av1_inter_prediction_hbd(
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
             src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
-            conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstCb, 64, is_compound, bit_depth);
+            conv_params = get_conv_params_no_round(0, (mv_unit->pred_direction == BI_PRED) ? 1 : 0, 0, tmp_dstCb, 64, is_compound, bit_depth);
 #if INTERPOL_FILTER_SEARCH_10BIT_SUPPORT
             av1_get_convolve_filter_params(cu_ptr->interp_filters, &filter_params_x,
                 &filter_params_y, blk_geom->bwidth_uv, blk_geom->bheight_uv);
@@ -2483,7 +2483,7 @@ EbErrorType av1_inter_prediction_hbd(
             subpel_x = mv_q4.col & SUBPEL_MASK;
             subpel_y = mv_q4.row & SUBPEL_MASK;
             src_ptr = src_ptr + (mv_q4.row >> SUBPEL_BITS) * src_stride + (mv_q4.col >> SUBPEL_BITS);
-            conv_params = get_conv_params_no_round(0, (mv_unit->predDirection == BI_PRED) ? 1 : 0, 0, tmp_dstCr, 64, is_compound, bit_depth);
+            conv_params = get_conv_params_no_round(0, (mv_unit->pred_direction == BI_PRED) ? 1 : 0, 0, tmp_dstCr, 64, is_compound, bit_depth);
             convolveHbd[subpel_x != 0][subpel_y != 0][is_compound](
                 src_ptr,
                 src_stride,
@@ -2532,7 +2532,7 @@ EbErrorType warped_motion_prediction(
     (void)asm_type;
 
     EbErrorType  return_error = EB_ErrorNone;
-    uint8_t is_compound = (mv_unit->predDirection == BI_PRED) ? 1 : 0;
+    uint8_t is_compound = (mv_unit->pred_direction == BI_PRED) ? 1 : 0;
     assert(!is_compound);
     EbBool  is16bit = (EbBool)(bit_depth > EB_8BIT);
 
@@ -2880,7 +2880,7 @@ EbErrorType warped_motion_prediction_md(
 {
     EbErrorType  return_error = EB_ErrorNone;
     InterPredictionContext *context_ptr = (InterPredictionContext*)(md_context_ptr->inter_prediction_context);
-    uint8_t is_compound = (mv_unit->predDirection == BI_PRED) ? 1 : 0;
+    uint8_t is_compound = (mv_unit->pred_direction == BI_PRED) ? 1 : 0;
     assert(!is_compound);
 
     int32_t src_stride;
@@ -4247,7 +4247,7 @@ EbErrorType inter_pu_prediction_av1(
     ModeDecisionCandidate *const candidate_ptr = candidate_buffer_ptr->candidate_ptr;
 
     MvUnit mv_unit;
-    mv_unit.predDirection = candidate_buffer_ptr->candidate_ptr->prediction_direction[md_context_ptr->pu_itr];
+    mv_unit.pred_direction = candidate_buffer_ptr->candidate_ptr->prediction_direction[md_context_ptr->pu_itr];
     mv_unit.mv[0].x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
     mv_unit.mv[0].y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
     mv_unit.mv[1].x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;

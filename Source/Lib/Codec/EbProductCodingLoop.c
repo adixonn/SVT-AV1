@@ -154,7 +154,7 @@ void mode_decision_update_neighbor_arrays(
     uint8_t skipCoeff = !availableCoeff;
 
 
-    context_ptr->mv_unit.predDirection = (uint8_t)(context_ptr->md_cu_arr_nsq[index_mds].prediction_unit_array[0].inter_pred_direction_index);
+    context_ptr->mv_unit.pred_direction = (uint8_t)(context_ptr->md_cu_arr_nsq[index_mds].prediction_unit_array[0].inter_pred_direction_index);
     context_ptr->mv_unit.mv[REF_LIST_0].mv_union = context_ptr->md_cu_arr_nsq[index_mds].prediction_unit_array[0].mv[REF_LIST_0].mv_union;
     context_ptr->mv_unit.mv[REF_LIST_1].mv_union = context_ptr->md_cu_arr_nsq[index_mds].prediction_unit_array[0].mv[REF_LIST_1].mv_union;
     MvUnit                *mv_unit = &context_ptr->mv_unit;
@@ -1431,9 +1431,9 @@ void ProductPerformFastLoop(
 
                 if (bsize == BLOCK_64X64 && candidate_ptr->type == INTER_MODE) { // Nader - to be reviewed for 128x128 sb
 
-                    uint32_t  predDirection = (uint32_t)candidate_ptr->prediction_direction[0];
-                    EbBool list0ZZ = (predDirection & 1) ? EB_TRUE : (EbBool)(candidate_ptr->motionVector_x_L0 == 0 && candidate_ptr->motionVector_y_L0 == 0);
-                    EbBool list1ZZ = (predDirection > 0) ? (EbBool)(candidate_ptr->motionVector_x_L1 == 0 && candidate_ptr->motionVector_y_L1 == 0) : EB_TRUE;
+                    uint32_t  pred_direction = (uint32_t)candidate_ptr->prediction_direction[0];
+                    EbBool list0ZZ = (pred_direction & 1) ? EB_TRUE : (EbBool)(candidate_ptr->motionVector_x_L0 == 0 && candidate_ptr->motionVector_y_L0 == 0);
+                    EbBool list1ZZ = (pred_direction > 0) ? (EbBool)(candidate_ptr->motionVector_x_L1 == 0 && candidate_ptr->motionVector_y_L1 == 0) : EB_TRUE;
 
                     isCandzz = (list0ZZ && list1ZZ) ? 1 : 0;
                     chromaFastDistortion = isCandzz ? chromaFastDistortion >> 2 : chromaFastDistortion;

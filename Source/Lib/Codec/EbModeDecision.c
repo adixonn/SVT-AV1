@@ -500,14 +500,14 @@ void Me2Nx2NCandidatesInjectionSwResults(
 
     MeCuResults * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[lcu_addr][me2Nx2NTableOffset];
     ModeDecisionCandidate    *candidateArray = context_ptr->fast_candidate_array;
-    const uint32_t             meTotalCnt = mePuResult->totalMeCandidateIndex;
+    const uint32_t             meTotalCnt = mePuResult->total_me_candidate_index;
 
     for (meCandidateIndex = 0; meCandidateIndex < meTotalCnt; ++meCandidateIndex)
     {
 
 
 
-        const uint32_t interDirection = mePuResult->distortionDirection[meCandidateIndex].direction;
+        const uint32_t interDirection = mePuResult->distortion_direction[meCandidateIndex].direction;
         if (interDirection == BI_PRED && picture_control_set_ptr->parent_pcs_ptr->pic_depth_mode == PIC_SB_SWITCH_DEPTH_MODE && picture_control_set_ptr->parent_pcs_ptr->sb_md_mode_array[sb_ptr->index] == LCU_PRED_OPEN_LOOP_1_NFL_DEPTH_MODE)
             continue;
         candidateArray[canTotalCnt].motionVector_x_L0 = mePuResult->x_mv_l0;
@@ -555,7 +555,7 @@ void Me2Nx2NCandidatesInjectionSwResults(
         }
 
 
-        candidateArray[canTotalCnt].me_distortion = mePuResult->distortionDirection[meCandidateIndex].distortion;
+        candidateArray[canTotalCnt].me_distortion = mePuResult->distortion_direction[meCandidateIndex].distortion;
 
         candidateArray[canTotalCnt].distortion_ready = 1;
 

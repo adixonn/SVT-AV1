@@ -5264,7 +5264,7 @@ EbErrorType  BiPredictionSearch(
     uint8_t                        candidateIndex,
     uint32_t                        activeRefPicFirstLisNum,
     uint32_t                        activeRefPicSecondLisNum,
-    uint8_t                        *totalMeCandidateIndex,
+    uint8_t                        *total_me_candidate_index,
     EbAsm                        asm_type,
     PictureParentControlSet   *picture_control_set_ptr)
 {
@@ -5336,7 +5336,7 @@ EbErrorType  BiPredictionSearch(
         }
     }
 
-    *totalMeCandidateIndex = candidateIndex;
+    *total_me_candidate_index = candidateIndex;
 
     return return_error;
 }
@@ -5427,8 +5427,8 @@ uint32_t get_in_loop_me_info_index(
 }
 
 #define NSET_CAND(mePuResult, num, dist, dir) \
-     (mePuResult)->distortionDirection[(num)].distortion = (dist); \
-     (mePuResult)->distortionDirection[(num)].direction = (dir)  ;
+     (mePuResult)->distortion_direction[(num)].distortion = (dist); \
+     (mePuResult)->distortion_direction[(num)].direction = (dir)  ;
 
 
 int8_t sort_3_elements(uint32_t a, uint32_t b, uint32_t c) {
@@ -6205,7 +6205,7 @@ EbErrorType motion_estimate_lcu(
     uint32_t                  numOfListToSearch;
     uint32_t                  listIndex;
     uint8_t                   candidateIndex = 0;
-    uint8_t                   totalMeCandidateIndex = 0;
+    uint8_t                   total_me_candidate_index = 0;
     EbPaReferenceObject  *referenceObject;  // input parameter, reference Object Ptr
 
     EbPictureBufferDesc  *refPicPtr;
@@ -7016,7 +7016,7 @@ EbErrorType motion_estimate_lcu(
         }
 
 
-        totalMeCandidateIndex = candidateIndex;
+        total_me_candidate_index = candidateIndex;
 
         if (numOfListToSearch) {
 #if DISABLE_NSQ_FOR_NON_REF || DISABLE_NSQ
@@ -7034,16 +7034,16 @@ EbErrorType motion_estimate_lcu(
                     candidateIndex,
                     1,
                     1,
-                    &totalMeCandidateIndex,
+                    &total_me_candidate_index,
                     asm_type,
                     picture_control_set_ptr);
             }
         }
 
         MeCuResults * mePuResult = &picture_control_set_ptr->me_results[sb_index][pu_index];
-        mePuResult->totalMeCandidateIndex = totalMeCandidateIndex;
+        mePuResult->total_me_candidate_index = total_me_candidate_index;
 
-        if (totalMeCandidateIndex == 3) {
+        if (total_me_candidate_index == 3) {
 
             uint32_t L0Sad = context_ptr->p_sb_best_sad[0][0][nIdx];
             uint32_t L1Sad = context_ptr->p_sb_best_sad[1][0][nIdx];
@@ -7109,7 +7109,7 @@ EbErrorType motion_estimate_lcu(
             }
 
         }
-        else if (totalMeCandidateIndex == 2) {
+        else if (total_me_candidate_index == 2) {
 
             uint32_t L0Sad = context_ptr->p_sb_best_sad[0][0][nIdx];
             uint32_t L1Sad = context_ptr->p_sb_best_sad[1][0][nIdx];
@@ -7148,7 +7148,7 @@ EbErrorType motion_estimate_lcu(
         // Compute the sum of the distortion of all 16 16x16 (best) blocks in the LCU
         picture_control_set_ptr->rc_me_distortion[sb_index] = 0;
         for (i = 0; i < 16; i++) {
-            picture_control_set_ptr->rc_me_distortion[sb_index] += picture_control_set_ptr->me_results[sb_index][5 + i].distortionDirection[0].distortion;
+            picture_control_set_ptr->rc_me_distortion[sb_index] += picture_control_set_ptr->me_results[sb_index][5 + i].distortion_direction[0].distortion;
         }
 
     }
@@ -8284,7 +8284,7 @@ EbErrorType open_loop_intra_search_lcu(
                     else {
                         // Set ME distortion
 
-                        meSad = picture_control_set_ptr->me_results[sb_index][rasterScanCuIndex].distortionDirection[0].distortion;
+                        meSad = picture_control_set_ptr->me_results[sb_index][rasterScanCuIndex].distortion_direction[0].distortion;
 
                         interIntraSadDistance = GetInterIntraSadDistance(
                             context_ptr,

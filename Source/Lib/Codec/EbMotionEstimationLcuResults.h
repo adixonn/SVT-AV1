@@ -20,40 +20,25 @@ extern "C" {
 #define SQUARE_PU_COUNT          85
 #define MAX_ME_CANDIDATE_PER_PU   3
 
-    typedef struct MeCandidate {
-
+    typedef struct MeCandidate 
+    {
         union {
             struct {
-                signed short     x_mv_l0;  //Note: Do not change the order of these fields
-                signed short     y_mv_l0;
-                signed short     x_mv_l1;
-                signed short     y_mv_l1;
+                signed short x_mv_l0;  //Note: Do not change the order of these fields
+                signed short y_mv_l0;
+                signed short x_mv_l1;
+                signed short y_mv_l1;
             };
             uint64_t MVs;
         };
 
-        unsigned    distortion : 32;     // 20-bits holds maximum SAD of 64x64 PU
-
+        unsigned    distortion : 32;    // 20-bits holds maximum SAD of 64x64 PU
         unsigned    direction : 8;      // 0: uni-pred L0, 1: uni-pred L1, 2: bi-pred
 
     } MeCandidate;
 
-    // move this to a new file with ctor & dtor
-    typedef struct MeLcuResults 
-    {
-        uint32_t          lcuDistortion;
-        uint8_t          *totalMeCandidateIndex;
-        int16_t          xMvHmeSearchCenter[MAX_NUM_OF_REF_PIC_LIST][MAX_REF_IDX];
-        int16_t          yMvHmeSearchCenter[MAX_NUM_OF_REF_PIC_LIST][MAX_REF_IDX];
-        MeCandidate **me_candidate;
-        MeCandidate  *meCandidateArray;
 
-    } MeLcuResults;
-
-
-
-
-    typedef struct  DistDir 
+    typedef struct DistDir 
     {
         unsigned    distortion : 32; //20bits are enough
         unsigned    direction : 2;
@@ -71,10 +56,9 @@ extern "C" {
             };
             uint64_t MVs;
         };
+        DistDir distortion_direction[3];
+        uint8_t total_me_candidate_index;
 
-        DistDir    distortionDirection[3];
-
-        uint8_t        totalMeCandidateIndex;
     } MeCuResults;
 
 #ifdef __cplusplus

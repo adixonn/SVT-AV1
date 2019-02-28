@@ -1016,12 +1016,12 @@ void PredictionPartitionLoop(
 
                     MeCuResults * mePuResult = &picture_control_set_ptr->parent_pcs_ptr->me_results[sb_index][cuIndexInRaterScan];
                     cuInterRate = MdcInterCuRate(
-                        mePuResult->distortionDirection[0].direction,
+                        mePuResult->distortion_direction[0].direction,
                         mePuResult->x_mv_l0,
                         mePuResult->y_mv_l0,
                         mePuResult->x_mv_l1,
                         mePuResult->y_mv_l1);
-                    cuInterSad = mePuResult->distortionDirection[0].distortion;
+                    cuInterSad = mePuResult->distortion_direction[0].distortion;
 
 
                     cuInterCost = (cuInterSad << COST_PRECISION) + ((context_ptr->lambda * cuInterRate + MD_OFFSET) >> MD_SHIFT);

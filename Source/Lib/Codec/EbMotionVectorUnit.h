@@ -28,20 +28,20 @@ extern "C" {
 #pragma pack(push, 1)
     typedef struct Mvd
     {
-        signed   mvdX : 16;
-        signed   mvdY : 16;
-        unsigned refIdx : 1;
-        unsigned : 7;
-        unsigned predIdx : 1;
-        unsigned : 7;
+        signed   mvd_x    : 16;
+        signed   mvd_y    : 16;
+        unsigned ref_idx  : 1;
+        unsigned          : 7;
+        unsigned pred_idx : 1;
+        unsigned          : 7;
 
     } Mvd;
 #pragma pack(pop)
 
     typedef struct MvUnit
     {
-        Mv            mv[MAX_NUM_OF_REF_PIC_LIST];
-        uint8_t         predDirection;
+        Mv      mv[MAX_NUM_OF_REF_PIC_LIST];
+        uint8_t pred_direction;
     } MvUnit;
 
 #ifdef __cplusplus
