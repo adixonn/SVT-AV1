@@ -13,7 +13,7 @@ extern "C" {
 #include "EbPackUnPack_SSE2.h"
 #include "EbPictureOperators.h"
 
-    typedef void(*EB_ENC_Pack2D_TYPE)(
+    typedef void(*EbEncPack2DType)(
         uint8_t     *in8_bit_buffer,
         uint32_t     in8_stride,
         uint8_t     *inn_bit_buffer,
@@ -23,7 +23,7 @@ extern "C" {
         uint32_t     width,
         uint32_t     height);
 
-    EB_ENC_Pack2D_TYPE pack2d_func_ptr_array_16_bit_src[2][ASM_TYPE_TOTAL] =
+    EbEncPack2DType pack2d_func_ptr_array_16_bit_src[2][ASM_TYPE_TOTAL] =
     {
         {
             // NON_AVX2
@@ -40,7 +40,7 @@ extern "C" {
     };
 
 
-    EB_ENC_Pack2D_TYPE compressed_pack_func_ptr_array[ASM_TYPE_TOTAL] =
+    EbEncPack2DType compressed_pack_func_ptr_array[ASM_TYPE_TOTAL] =
     {
         // NON_AVX2
         compressed_packmsb,
@@ -49,16 +49,16 @@ extern "C" {
 
     };
 
-    typedef void(*COMPPack_TYPE)(
+    typedef void(*CompPackType)(
         const uint8_t *inn_bit_buffer,
-        uint32_t  inn_stride,
-        uint8_t  *in_compn_bit_buffer,
-        uint32_t  out_stride,
-        uint8_t  *local_cache,
-        uint32_t  width,
-        uint32_t  height);
+        uint32_t       inn_stride,
+        uint8_t       *in_compn_bit_buffer,
+        uint32_t       out_stride,
+        uint8_t       *local_cache,
+        uint32_t       width,
+        uint32_t       height);
 
-    COMPPack_TYPE  convert_unpack_c_pack_func_ptr_array[ASM_TYPE_TOTAL] =
+    CompPackType  convert_unpack_c_pack_func_ptr_array[ASM_TYPE_TOTAL] =
     {
         // NON_AVX2
         c_pack_c,
@@ -67,7 +67,7 @@ extern "C" {
 
     };
 
-    typedef void(*EB_ENC_UnPack2D_TYPE)(
+    typedef void(*EbEncUnPack2DType)(
         uint16_t *in16_bit_buffer,
         uint32_t  in_stride,
         uint8_t  *out8_bit_buffer,
@@ -77,7 +77,7 @@ extern "C" {
         uint32_t  width,
         uint32_t  height);
 
-    EB_ENC_UnPack2D_TYPE un_pack2d_func_ptr_array_16_bit[2][ASM_TYPE_TOTAL] =
+    EbEncUnPack2DType un_pack2d_func_ptr_array_16_bit[2][ASM_TYPE_TOTAL] =
     {
         {
             // NON_AVX2
@@ -93,7 +93,7 @@ extern "C" {
         }
     };
 
-    typedef void(*EB_ENC_UnpackAvg_TYPE)(
+    typedef void(*EbEncUnPackAvgType)(
         uint16_t *ref16_l0,
         uint32_t  ref_l0_stride,
         uint16_t *ref16_l1,
@@ -103,7 +103,7 @@ extern "C" {
         uint32_t  width,
         uint32_t  height);
 
-    EB_ENC_UnpackAvg_TYPE un_pack_avg_func_ptr_array[ASM_TYPE_TOTAL] =
+    EbEncUnPackAvgType un_pack_avg_func_ptr_array[ASM_TYPE_TOTAL] =
     {
         // NON_AVX2
         unpack_avg,
@@ -112,7 +112,7 @@ extern "C" {
 
     };
 
-    typedef void(*EB_ENC_UnpackAvgSub_TYPE)(
+    typedef void(*EbEncUnPackAvgSubType)(
         uint16_t *ref16_l0,
         uint32_t  ref_l0_stride,
         uint16_t *ref16_l1,
@@ -123,7 +123,7 @@ extern "C" {
         uint32_t  width,
         uint32_t  height);
 
-    EB_ENC_UnpackAvgSub_TYPE unpack_avg_safe_sub_func_ptr_array[ASM_TYPE_TOTAL] =
+    EbEncUnPackAvgSubType unpack_avg_safe_sub_func_ptr_array[ASM_TYPE_TOTAL] =
     {
         // NON_AVX2
         unpack_avg_safe_sub,
@@ -132,7 +132,7 @@ extern "C" {
 
     };
 
-    typedef void(*EB_ENC_UnPack8BitData_TYPE)(
+    typedef void(*EbEncUnPack8BitDataType)(
         uint16_t *in16_bit_buffer,
         uint32_t  in_stride,
         uint8_t  *out8_bit_buffer,
@@ -140,7 +140,7 @@ extern "C" {
         uint32_t  width,
         uint32_t  height);
 
-    EB_ENC_UnPack8BitData_TYPE unpack8_bit_func_ptr_array_16_bit[2][ASM_TYPE_TOTAL] =
+    EbEncUnPack8BitDataType unpack8_bit_func_ptr_array_16_bit[2][ASM_TYPE_TOTAL] =
     {
         {
            un_pack8_bit_data,
@@ -154,7 +154,7 @@ extern "C" {
         }
     };
 
-    typedef void(*EB_ENC_UnPack8BitDataSUB_TYPE)(
+    typedef void(*EbEncUnPack8BitDataSubType)(
         uint16_t *in16_bit_buffer,
         uint32_t  in_stride,
         uint8_t  *out8_bit_buffer,
@@ -163,7 +163,7 @@ extern "C" {
         uint32_t  height,
         EbBool    sub_pred);
 
-    EB_ENC_UnPack8BitDataSUB_TYPE unpack8_bit_safe_sub_func_ptr_array_16_bit[ASM_TYPE_TOTAL] =
+    EbEncUnPack8BitDataSubType unpack8_bit_safe_sub_func_ptr_array_16_bit[ASM_TYPE_TOTAL] =
     {
         // NON_AVX2
         eb_enc_un_pack8_bit_data_safe_sub_sse2_intrin,
