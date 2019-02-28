@@ -3750,8 +3750,8 @@ EB_EXTERN void av1_encode_pass(
 
                         // Set MvUnit
                         context_ptr->mv_unit.predDirection = (uint8_t)pu_ptr->inter_pred_direction_index;
-                        context_ptr->mv_unit.mv[REF_LIST_0].mvUnion = pu_ptr->mv[REF_LIST_0].mvUnion;
-                        context_ptr->mv_unit.mv[REF_LIST_1].mvUnion = pu_ptr->mv[REF_LIST_1].mvUnion;
+                        context_ptr->mv_unit.mv[REF_LIST_0].mv_union = pu_ptr->mv[REF_LIST_0].mv_union;
+                        context_ptr->mv_unit.mv[REF_LIST_1].mv_union = pu_ptr->mv[REF_LIST_1].mv_union;
 
                         // Inter Prediction
                         if (doMC &&
@@ -4118,8 +4118,8 @@ EB_EXTERN void av1_encode_pass(
 
                         // Set MvUnit
                         context_ptr->mv_unit.predDirection = (uint8_t)pu_ptr->inter_pred_direction_index;
-                        context_ptr->mv_unit.mv[REF_LIST_0].mvUnion = pu_ptr->mv[REF_LIST_0].mvUnion;
-                        context_ptr->mv_unit.mv[REF_LIST_1].mvUnion = pu_ptr->mv[REF_LIST_1].mvUnion;
+                        context_ptr->mv_unit.mv[REF_LIST_0].mv_union = pu_ptr->mv[REF_LIST_0].mv_union;
+                        context_ptr->mv_unit.mv[REF_LIST_1].mv_union = pu_ptr->mv[REF_LIST_1].mv_union;
 
                         // Update Neighbor Arrays (Mode Type, MVs, SKIP)
                         {
@@ -4205,8 +4205,8 @@ EB_EXTERN void av1_encode_pass(
                         pu_ptr = cu_ptr->prediction_unit_array;
                         // Set MvUnit
                         context_ptr->mv_unit.predDirection = (uint8_t)pu_ptr->inter_pred_direction_index;
-                        context_ptr->mv_unit.mv[REF_LIST_0].mvUnion = pu_ptr->mv[REF_LIST_0].mvUnion;
-                        context_ptr->mv_unit.mv[REF_LIST_1].mvUnion = pu_ptr->mv[REF_LIST_1].mvUnion;
+                        context_ptr->mv_unit.mv[REF_LIST_0].mv_union = pu_ptr->mv[REF_LIST_0].mv_union;
+                        context_ptr->mv_unit.mv[REF_LIST_1].mv_union = pu_ptr->mv[REF_LIST_1].mv_union;
                     }
 
                 }

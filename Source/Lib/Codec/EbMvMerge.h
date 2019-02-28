@@ -29,8 +29,8 @@ extern "C" {
 
     typedef struct MvMergeCandidate
     {
-        Mv    mv[MAX_NUM_OF_REF_PIC_LIST];
-        uint8_t   prediction_direction;
+        Mv      mv[MAX_NUM_OF_REF_PIC_LIST];
+        uint8_t prediction_direction;
     } MvMergeCandidate;
 
 

@@ -81,7 +81,7 @@ static void write_td (
     }
 }
 
-void* PacketizationKernel(void *input_ptr)
+void* packetization_kernel(void *input_ptr)
 {
     // Context
     PacketizationContext         *context_ptr = (PacketizationContext*)input_ptr;
@@ -109,8 +109,8 @@ void* PacketizationKernel(void *input_ptr)
     PacketizationReorderEntry    *queueEntryPtr;
     EbLinkedListNode               *appDataLLHeadTempPtr;
 
-    context_ptr->totShownFrames = 0;
-    context_ptr->dispOrderContinuityCount = 0;
+    context_ptr->tot_shown_frames = 0;
+    context_ptr->disp_order_continuity_count = 0;
 
     for (;;) {
 
@@ -298,30 +298,30 @@ void* PacketizationKernel(void *input_ptr)
 
                 //Countinuity count check of visible frames
                 if (queueEntryPtr->show_frame) {
-                    if (context_ptr->dispOrderContinuityCount == queueEntryPtr->poc)
-                        context_ptr->dispOrderContinuityCount++;
+                    if (context_ptr->disp_order_continuity_count == queueEntryPtr->poc)
+                        context_ptr->disp_order_continuity_count++;
                     else
                     {
-                        SVT_LOG("SVT [ERROR]: dispOrderContinuityCount Error1 POC:%i\n", (int32_t)queueEntryPtr->poc);
+                        SVT_LOG("SVT [ERROR]: disp_order_continuity_count Error1 POC:%i\n", (int32_t)queueEntryPtr->poc);
                         exit(0);
                     }
                 }
 
                 if (queueEntryPtr->has_show_existing) {
-                    if (context_ptr->dispOrderContinuityCount == context_ptr->dpbDispOrder[queueEntryPtr->show_existing_loc])
-                        context_ptr->dispOrderContinuityCount++;
+                    if (context_ptr->disp_order_continuity_count == context_ptr->dpb_disp_order[queueEntryPtr->show_existing_loc])
+                        context_ptr->disp_order_continuity_count++;
                     else
                     {
-                        SVT_LOG("SVT [ERROR]: dispOrderContinuityCount Error2 POC:%i\n", (int32_t)queueEntryPtr->poc);
+                        SVT_LOG("SVT [ERROR]: disp_order_continuity_count Error2 POC:%i\n", (int32_t)queueEntryPtr->poc);
                         exit(0);
                     }
                 }
 
                 //update total number of shown frames
                 if (queueEntryPtr->show_frame)
-                    context_ptr->totShownFrames++;
+                    context_ptr->tot_shown_frames++;
                 if (queueEntryPtr->has_show_existing)
-                    context_ptr->totShownFrames++;
+                    context_ptr->tot_shown_frames++;
 
                 //implement the GOP here - Serial dec order
                 if (queueEntryPtr->av1_frame_type == KEY_FRAME)
@@ -329,10 +329,10 @@ void* PacketizationKernel(void *input_ptr)
                     //reset the DPB on a Key frame
                     for (i = 0; i < 8; i++)
                     {
-                        context_ptr->dpbDecOrder[i] = queueEntryPtr->picture_number;
-                        context_ptr->dpbDispOrder[i] = queueEntryPtr->poc;
+                        context_ptr->dpb_dec_order[i] = queueEntryPtr->picture_number;
+                        context_ptr->dpb_disp_order[i] = queueEntryPtr->poc;
                     }
-                    SVT_LOG("%i  %i  %c ****KEY***** %i frames\n", (int32_t)queueEntryPtr->picture_number, (int32_t)queueEntryPtr->poc, showTab[queueEntryPtr->show_frame], (int32_t)context_ptr->totShownFrames);
+                    SVT_LOG("%i  %i  %c ****KEY***** %i frames\n", (int32_t)queueEntryPtr->picture_number, (int32_t)queueEntryPtr->poc, showTab[queueEntryPtr->show_frame], (int32_t)context_ptr->tot_shown_frames);
 
                 }
                 else
@@ -344,21 +344,21 @@ void* PacketizationKernel(void *input_ptr)
                     {
                         if (queueEntryPtr->has_show_existing)
                             SVT_LOG("%i (%i  %i)    %i  (%i  %i)   %c  showEx: %i   %i frames\n",
-                            (int32_t)queueEntryPtr->picture_number, (int32_t)context_ptr->dpbDecOrder[LASTrefIdx], (int32_t)context_ptr->dpbDecOrder[BWDrefIdx],
-                                (int32_t)queueEntryPtr->poc, (int32_t)context_ptr->dpbDispOrder[LASTrefIdx], (int32_t)context_ptr->dpbDispOrder[BWDrefIdx],
-                                showTab[queueEntryPtr->show_frame], (int32_t)context_ptr->dpbDispOrder[queueEntryPtr->show_existing_loc], (int32_t)context_ptr->totShownFrames);
+                            (int32_t)queueEntryPtr->picture_number, (int32_t)context_ptr->dpb_dec_order[LASTrefIdx], (int32_t)context_ptr->dpb_dec_order[BWDrefIdx],
+                                (int32_t)queueEntryPtr->poc, (int32_t)context_ptr->dpb_disp_order[LASTrefIdx], (int32_t)context_ptr->dpb_disp_order[BWDrefIdx],
+                                showTab[queueEntryPtr->show_frame], (int32_t)context_ptr->dpb_disp_order[queueEntryPtr->show_existing_loc], (int32_t)context_ptr->tot_shown_frames);
                         else
                             SVT_LOG("%i (%i  %i)    %i  (%i  %i)   %c  %i frames\n",
-                            (int32_t)queueEntryPtr->picture_number, (int32_t)context_ptr->dpbDecOrder[LASTrefIdx], (int32_t)context_ptr->dpbDecOrder[BWDrefIdx],
-                                (int32_t)queueEntryPtr->poc, (int32_t)context_ptr->dpbDispOrder[LASTrefIdx], (int32_t)context_ptr->dpbDispOrder[BWDrefIdx],
-                                showTab[queueEntryPtr->show_frame], (int32_t)context_ptr->totShownFrames);
+                            (int32_t)queueEntryPtr->picture_number, (int32_t)context_ptr->dpb_dec_order[LASTrefIdx], (int32_t)context_ptr->dpb_dec_order[BWDrefIdx],
+                                (int32_t)queueEntryPtr->poc, (int32_t)context_ptr->dpb_disp_order[LASTrefIdx], (int32_t)context_ptr->dpb_disp_order[BWDrefIdx],
+                                showTab[queueEntryPtr->show_frame], (int32_t)context_ptr->tot_shown_frames);
 
-                        if (queueEntryPtr->ref_poc_list0 != context_ptr->dpbDispOrder[LASTrefIdx])
+                        if (queueEntryPtr->ref_poc_list0 != context_ptr->dpb_disp_order[LASTrefIdx])
                         {
                             SVT_LOG("L0 MISMATCH POC:%i\n", (int32_t)queueEntryPtr->poc);
                             exit(0);
                         }
-                        if (sequence_control_set_ptr->static_config.hierarchical_levels == 3 && queueEntryPtr->slice_type == B_SLICE && queueEntryPtr->ref_poc_list1 != context_ptr->dpbDispOrder[BWDrefIdx])
+                        if (sequence_control_set_ptr->static_config.hierarchical_levels == 3 && queueEntryPtr->slice_type == B_SLICE && queueEntryPtr->ref_poc_list1 != context_ptr->dpb_disp_order[BWDrefIdx])
                         {
                             SVT_LOG("L1 MISMATCH POC:%i\n", (int32_t)queueEntryPtr->poc);
                             exit(0);
@@ -368,10 +368,10 @@ void* PacketizationKernel(void *input_ptr)
                     {
                         if (queueEntryPtr->has_show_existing)
                             SVT_LOG("%i  %i  %c   showEx: %i ----INTRA---- %i frames \n", (int32_t)queueEntryPtr->picture_number, (int32_t)queueEntryPtr->poc,
-                                showTab[queueEntryPtr->show_frame], (int32_t)context_ptr->dpbDispOrder[queueEntryPtr->show_existing_loc], (int32_t)context_ptr->totShownFrames);
+                                showTab[queueEntryPtr->show_frame], (int32_t)context_ptr->dpb_disp_order[queueEntryPtr->show_existing_loc], (int32_t)context_ptr->tot_shown_frames);
                         else
                             printf("%i  %i  %c   ----INTRA---- %i frames\n", (int32_t)queueEntryPtr->picture_number, (int32_t)queueEntryPtr->poc,
-                            (int32_t)showTab[queueEntryPtr->show_frame], (int32_t)context_ptr->totShownFrames);
+                            (int32_t)showTab[queueEntryPtr->show_frame], (int32_t)context_ptr->tot_shown_frames);
                     }
 
 
@@ -380,8 +380,8 @@ void* PacketizationKernel(void *input_ptr)
                     {
                         if ((queueEntryPtr->av1_ref_signal.refreshFrameMask >> i) & 1)
                         {
-                            context_ptr->dpbDecOrder[i] = queueEntryPtr->picture_number;
-                            context_ptr->dpbDispOrder[i] = queueEntryPtr->poc;
+                            context_ptr->dpb_dec_order[i] = queueEntryPtr->picture_number;
+                            context_ptr->dpb_disp_order[i] = queueEntryPtr->poc;
                         }
                     }
                 }

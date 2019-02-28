@@ -20,7 +20,7 @@ extern "C" {
             signed short x;
             signed short y;
         };
-        uint32_t mvUnion;
+        uint32_t mv_union;
     } Mv;
 
 #pragma pack(pop)
