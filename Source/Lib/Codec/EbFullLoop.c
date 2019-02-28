@@ -993,8 +993,8 @@ void product_full_loop(
             picture_control_set_ptr,
             &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->buffer_y)[txb_1d_offset]),
             NOT_USED_VALUE,
-            &(((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_y)[txb_1d_offset]),
-            &(((int32_t*)candidate_buffer->reconCoeffPtr->buffer_y)[txb_1d_offset]),
+            &(((int32_t*)candidate_buffer->residual_quant_coeff_ptr->buffer_y)[txb_1d_offset]),
+            &(((int32_t*)candidate_buffer->recon_coeff_ptr->buffer_y)[txb_1d_offset]),
             qp,
             context_ptr->blk_geom->tx_width[txb_itr],
             context_ptr->blk_geom->tx_height[txb_itr],
@@ -1012,7 +1012,7 @@ void product_full_loop(
             candidate_buffer->candidate_ptr->transform_type[PLANE_TYPE_Y],
             clean_sparse_coeff_flag);
 
-        candidate_buffer->candidate_ptr->quantized_dc[0] = (((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_y)[txb_1d_offset]);
+        candidate_buffer->candidate_ptr->quantized_dc[0] = (((int32_t*)candidate_buffer->residual_quant_coeff_ptr->buffer_y)[txb_1d_offset]);
 
 
 
@@ -1021,7 +1021,7 @@ void product_full_loop(
             context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr,
             txb_1d_offset,
             0,
-            candidate_buffer->reconCoeffPtr,
+            candidate_buffer->recon_coeff_ptr,
             txb_1d_offset,
             0,
             context_ptr->blk_geom->tx_width[txb_itr],
@@ -1055,7 +1055,7 @@ void product_full_loop(
             txb_1d_offset,
             0,
             context_ptr->coeff_est_entropy_coder_ptr,
-            candidate_buffer->residualQuantCoeffPtr,
+            candidate_buffer->residual_quant_coeff_ptr,
             y_count_non_zero_coeffs[txb_itr],
             0,
             0,
@@ -1230,8 +1230,8 @@ void product_full_loop_tx_search(
                 picture_control_set_ptr,
                 &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->buffer_y)[tu_origin_index]),
                 NOT_USED_VALUE,
-                &(((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_y)[tu_origin_index]),
-                &(((int32_t*)candidate_buffer->reconCoeffPtr->buffer_y)[tu_origin_index]),
+                &(((int32_t*)candidate_buffer->residual_quant_coeff_ptr->buffer_y)[tu_origin_index]),
+                &(((int32_t*)candidate_buffer->recon_coeff_ptr->buffer_y)[tu_origin_index]),
                 context_ptr->cu_ptr->qp,
                 context_ptr->blk_geom->bwidth,
                 context_ptr->blk_geom->bheight,
@@ -1249,7 +1249,7 @@ void product_full_loop_tx_search(
                 tx_type,
                 clean_sparse_coeff_flag);
 
-            candidate_buffer->candidate_ptr->quantized_dc[0] = (((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_y)[tu_origin_index]);
+            candidate_buffer->candidate_ptr->quantized_dc[0] = (((int32_t*)candidate_buffer->residual_quant_coeff_ptr->buffer_y)[tu_origin_index]);
 
 
 #if TX_TYPE_FIX
@@ -1266,7 +1266,7 @@ void product_full_loop_tx_search(
                 context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr,
                 tu_origin_index,
                 0,
-                candidate_buffer->reconCoeffPtr,
+                candidate_buffer->recon_coeff_ptr,
                 tu_origin_index,
                 0,
                 context_ptr->blk_geom->bwidth,
@@ -1299,7 +1299,7 @@ void product_full_loop_tx_search(
                 tu_origin_index,
                 0,
                 context_ptr->coeff_est_entropy_coder_ptr,
-                candidate_buffer->residualQuantCoeffPtr,
+                candidate_buffer->residual_quant_coeff_ptr,
                 yCountNonZeroCoeffsTemp,
                 0,
                 0,
@@ -1822,9 +1822,9 @@ void full_loop_r(
 
 
         // NADER - TU
-        tu_origin_index = txb_origin_x + txb_origin_y * candidate_buffer->residualQuantCoeffPtr->stride_y;
-        tuCbOriginIndex = (((txb_origin_x >> 3) << 3) + (((txb_origin_y >> 3) << 3) * candidate_buffer->residualQuantCoeffPtr->stride_cb)) >> 1;
-        tuCrOriginIndex = (((txb_origin_x >> 3) << 3) + (((txb_origin_y >> 3) << 3) * candidate_buffer->residualQuantCoeffPtr->stride_cr)) >> 1;
+        tu_origin_index = txb_origin_x + txb_origin_y * candidate_buffer->residual_quant_coeff_ptr->stride_y;
+        tuCbOriginIndex = (((txb_origin_x >> 3) << 3) + (((txb_origin_y >> 3) << 3) * candidate_buffer->residual_quant_coeff_ptr->stride_cb)) >> 1;
+        tuCrOriginIndex = (((txb_origin_x >> 3) << 3) + (((txb_origin_y >> 3) << 3) * candidate_buffer->residual_quant_coeff_ptr->stride_cr)) >> 1;
 
         //    This function replaces the previous Intra Chroma mode if the LM fast
             //    cost is better.
@@ -1858,8 +1858,8 @@ void full_loop_r(
                 picture_control_set_ptr,
                 &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->buffer_cb)[txb_1d_offset]),
                 NOT_USED_VALUE,
-                &(((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_cb)[txb_1d_offset]),
-                &(((int32_t*)candidate_buffer->reconCoeffPtr->buffer_cb)[txb_1d_offset]),
+                &(((int32_t*)candidate_buffer->residual_quant_coeff_ptr->buffer_cb)[txb_1d_offset]),
+                &(((int32_t*)candidate_buffer->recon_coeff_ptr->buffer_cb)[txb_1d_offset]),
                 cb_qp,
                 context_ptr->blk_geom->tx_width_uv[txb_itr],
                 context_ptr->blk_geom->tx_height_uv[txb_itr],
@@ -1876,7 +1876,7 @@ void full_loop_r(
 #endif
                 candidate_buffer->candidate_ptr->transform_type[PLANE_TYPE_UV],
                 clean_sparse_coeff_flag);
-            candidate_buffer->candidate_ptr->quantized_dc[1] = (((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_cb)[txb_1d_offset]);
+            candidate_buffer->candidate_ptr->quantized_dc[1] = (((int32_t*)candidate_buffer->residual_quant_coeff_ptr->buffer_cb)[txb_1d_offset]);
         }
 
 
@@ -1906,8 +1906,8 @@ void full_loop_r(
                 picture_control_set_ptr,
                 &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->buffer_cr)[txb_1d_offset]),
                 NOT_USED_VALUE,
-                &(((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_cr)[txb_1d_offset]),
-                &(((int32_t*)candidate_buffer->reconCoeffPtr->buffer_cr)[txb_1d_offset]),
+                &(((int32_t*)candidate_buffer->residual_quant_coeff_ptr->buffer_cr)[txb_1d_offset]),
+                &(((int32_t*)candidate_buffer->recon_coeff_ptr->buffer_cr)[txb_1d_offset]),
                 cb_qp,
                 context_ptr->blk_geom->tx_width_uv[txb_itr],
                 context_ptr->blk_geom->tx_height_uv[txb_itr],
@@ -1924,7 +1924,7 @@ void full_loop_r(
 #endif
                 candidate_buffer->candidate_ptr->transform_type[PLANE_TYPE_UV],
                 clean_sparse_coeff_flag);
-            candidate_buffer->candidate_ptr->quantized_dc[2] = (((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_cr)[txb_1d_offset]);
+            candidate_buffer->candidate_ptr->quantized_dc[2] = (((int32_t*)candidate_buffer->residual_quant_coeff_ptr->buffer_cr)[txb_1d_offset]);
         }
 
         txb_1d_offset += context_ptr->blk_geom->tx_width_uv[txb_itr] * context_ptr->blk_geom->tx_height_uv[txb_itr];
@@ -1986,7 +1986,7 @@ void cu_full_distortion_fast_tu_mode_r(
 
 
 
-        tu_origin_index = txb_origin_x + txb_origin_y * candidate_buffer->residualQuantCoeffPtr->stride_y;
+        tu_origin_index = txb_origin_x + txb_origin_y * candidate_buffer->residual_quant_coeff_ptr->stride_y;
         tuChromaOriginIndex = txb_1d_offset;
         // Reset the Bit Costs
         y_tu_coeff_bits = 0;
@@ -2010,7 +2010,7 @@ void cu_full_distortion_fast_tu_mode_r(
                 transform_buffer,
                 NOT_USED_VALUE,
                 tuChromaOriginIndex,
-                candidate_buffer->reconCoeffPtr,
+                candidate_buffer->recon_coeff_ptr,
                 NOT_USED_VALUE,
                 tuChromaOriginIndex,
                 NOT_USED_VALUE,
@@ -2045,7 +2045,7 @@ void cu_full_distortion_fast_tu_mode_r(
                 tu_origin_index,
                 tuChromaOriginIndex,
                 context_ptr->coeff_est_entropy_coder_ptr,
-                candidate_buffer->residualQuantCoeffPtr,
+                candidate_buffer->residual_quant_coeff_ptr,
                 count_non_zero_coeffs[0][currentTuIndex],
                 count_non_zero_coeffs[1][currentTuIndex],
                 count_non_zero_coeffs[2][currentTuIndex],

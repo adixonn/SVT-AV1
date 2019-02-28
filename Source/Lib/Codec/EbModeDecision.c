@@ -194,7 +194,7 @@ EbErrorType mode_decision_candidate_buffer_ctor(
 
     // Video Buffers
     return_error = eb_picture_buffer_desc_ctor(
-        (EbPtr*)&(bufferPtr->predictionPtrTemp),
+        (EbPtr*)&(bufferPtr->prediction_ptr_temp),
         (EbPtr)&pictureBufferDescInitData);
 
     if (return_error == EB_ErrorInsufficientResources) {
@@ -202,7 +202,7 @@ EbErrorType mode_decision_candidate_buffer_ctor(
     }
 
     return_error = eb_picture_buffer_desc_ctor(
-        (EbPtr*)&(bufferPtr->cflTempPredictionPtr),
+        (EbPtr*)&(bufferPtr->cfl_temp_prediction_ptr),
         (EbPtr)&pictureBufferDescInitData);
 
     if (return_error == EB_ErrorInsufficientResources) {
@@ -219,7 +219,7 @@ EbErrorType mode_decision_candidate_buffer_ctor(
     }
 
     return_error = eb_picture_buffer_desc_ctor(
-        (EbPtr*)&(bufferPtr->residualQuantCoeffPtr),
+        (EbPtr*)&(bufferPtr->residual_quant_coeff_ptr),
         (EbPtr)&ThirtyTwoWidthPictureBufferDescInitData);
 
     if (return_error == EB_ErrorInsufficientResources) {
@@ -227,7 +227,7 @@ EbErrorType mode_decision_candidate_buffer_ctor(
     }
 
     return_error = eb_picture_buffer_desc_ctor(
-        (EbPtr*)&(bufferPtr->reconCoeffPtr),
+        (EbPtr*)&(bufferPtr->recon_coeff_ptr),
         (EbPtr)&ThirtyTwoWidthPictureBufferDescInitData);
 
     if (return_error == EB_ErrorInsufficientResources) {
@@ -262,11 +262,11 @@ void RoundMv(
     uint32_t                   canTotalCnt)
 {
 
-    candidateArray[canTotalCnt].motionVector_x_L0 = (candidateArray[canTotalCnt].motionVector_x_L0 + 2)&~0x03;
-    candidateArray[canTotalCnt].motionVector_y_L0 = (candidateArray[canTotalCnt].motionVector_y_L0 + 2)&~0x03;
+    candidateArray[canTotalCnt].motion_vector_xl0 = (candidateArray[canTotalCnt].motion_vector_xl0 + 2)&~0x03;
+    candidateArray[canTotalCnt].motion_vector_yl0 = (candidateArray[canTotalCnt].motion_vector_yl0 + 2)&~0x03;
 
-    candidateArray[canTotalCnt].motionVector_x_L1 = (candidateArray[canTotalCnt].motionVector_x_L1 + 2)&~0x03;
-    candidateArray[canTotalCnt].motionVector_y_L1 = (candidateArray[canTotalCnt].motionVector_y_L1 + 2)&~0x03;
+    candidateArray[canTotalCnt].motion_vector_xl1 = (candidateArray[canTotalCnt].motion_vector_xl1 + 2)&~0x03;
+    candidateArray[canTotalCnt].motion_vector_yl1 = (candidateArray[canTotalCnt].motion_vector_yl1 + 2)&~0x03;
 
     return;
 
@@ -298,8 +298,8 @@ EbErrorType SetMvpClipMVs(
         clip_mv(
             cu_origin_x,
             cu_origin_y,
-            &candidate_ptr->motionVector_x_L0,
-            &candidate_ptr->motionVector_y_L0,
+            &candidate_ptr->motion_vector_xl0,
+            &candidate_ptr->motion_vector_yl0,
             picture_width,
             picture_height,
             tbSize);
@@ -312,8 +312,8 @@ EbErrorType SetMvpClipMVs(
         clip_mv(
             cu_origin_x,
             cu_origin_y,
-            &candidate_ptr->motionVector_x_L1,
-            &candidate_ptr->motionVector_y_L1,
+            &candidate_ptr->motion_vector_xl1,
+            &candidate_ptr->motion_vector_yl1,
             picture_width,
             picture_height,
             tbSize);
@@ -327,8 +327,8 @@ EbErrorType SetMvpClipMVs(
         clip_mv(
             cu_origin_x,
             cu_origin_y,
-            &candidate_ptr->motionVector_x_L0,
-            &candidate_ptr->motionVector_y_L0,
+            &candidate_ptr->motion_vector_xl0,
+            &candidate_ptr->motion_vector_yl0,
             picture_width,
             picture_height,
             tbSize);
@@ -338,8 +338,8 @@ EbErrorType SetMvpClipMVs(
         clip_mv(
             cu_origin_x,
             cu_origin_y,
-            &candidate_ptr->motionVector_x_L1,
-            &candidate_ptr->motionVector_y_L1,
+            &candidate_ptr->motion_vector_xl1,
+            &candidate_ptr->motion_vector_yl1,
             picture_width,
             picture_height,
             tbSize);
@@ -510,10 +510,10 @@ void Me2Nx2NCandidatesInjectionSwResults(
         const uint32_t interDirection = mePuResult->distortion_direction[meCandidateIndex].direction;
         if (interDirection == BI_PRED && picture_control_set_ptr->parent_pcs_ptr->pic_depth_mode == PIC_SB_SWITCH_DEPTH_MODE && picture_control_set_ptr->parent_pcs_ptr->sb_md_mode_array[sb_ptr->index] == LCU_PRED_OPEN_LOOP_1_NFL_DEPTH_MODE)
             continue;
-        candidateArray[canTotalCnt].motionVector_x_L0 = mePuResult->x_mv_l0;
-        candidateArray[canTotalCnt].motionVector_y_L0 = mePuResult->y_mv_l0;
-        candidateArray[canTotalCnt].motionVector_x_L1 = mePuResult->x_mv_l1;
-        candidateArray[canTotalCnt].motionVector_y_L1 = mePuResult->y_mv_l1;
+        candidateArray[canTotalCnt].motion_vector_xl0 = mePuResult->x_mv_l0;
+        candidateArray[canTotalCnt].motion_vector_yl0 = mePuResult->y_mv_l0;
+        candidateArray[canTotalCnt].motion_vector_xl1 = mePuResult->x_mv_l1;
+        candidateArray[canTotalCnt].motion_vector_yl1 = mePuResult->y_mv_l1;
 #if !CHROMA_BLIND
         if (picture_control_set_ptr->parent_pcs_ptr->use_subpel_flag == 0) {
             RoundMv(candidateArray,
@@ -524,31 +524,31 @@ void Me2Nx2NCandidatesInjectionSwResults(
         if (interDirection == UNI_PRED_LIST_0) {
 
             LimitMvOverBound(
-                &candidateArray[canTotalCnt].motionVector_x_L0,
-                &candidateArray[canTotalCnt].motionVector_y_L0,
+                &candidateArray[canTotalCnt].motion_vector_xl0,
+                &candidateArray[canTotalCnt].motion_vector_yl0,
                 context_ptr,
                 sequence_control_set_ptr);
 
         }
         else if (interDirection == UNI_PRED_LIST_1) {
             LimitMvOverBound(
-                &candidateArray[canTotalCnt].motionVector_x_L1,
-                &candidateArray[canTotalCnt].motionVector_y_L1,
+                &candidateArray[canTotalCnt].motion_vector_xl1,
+                &candidateArray[canTotalCnt].motion_vector_yl1,
                 context_ptr,
                 sequence_control_set_ptr);
 
         }
         else {
             LimitMvOverBound(
-                &candidateArray[canTotalCnt].motionVector_x_L0,
-                &candidateArray[canTotalCnt].motionVector_y_L0,
+                &candidateArray[canTotalCnt].motion_vector_xl0,
+                &candidateArray[canTotalCnt].motion_vector_yl0,
                 context_ptr,
                 sequence_control_set_ptr);
 
 
             LimitMvOverBound(
-                &candidateArray[canTotalCnt].motionVector_x_L1,
-                &candidateArray[canTotalCnt].motionVector_y_L1,
+                &candidateArray[canTotalCnt].motion_vector_xl1,
+                &candidateArray[canTotalCnt].motion_vector_yl1,
                 context_ptr,
                 sequence_control_set_ptr);
 
@@ -655,8 +655,8 @@ void Unipred3x3CandidatesInjection(
         candidateArray[canTotalCnt].drl_index = 0;
 
         // Set the MV to ME result
-        candidateArray[canTotalCnt].motionVector_x_L0 = use_close_loop_me ? (inloop_me_context->inloop_me_mv[0][0][close_loop_me_index][0] + BIPRED_3x3_X_POS[bipredIndex]) << 1 : (mePuResult->x_mv_l0 + BIPRED_3x3_X_POS[bipredIndex]) << 1;
-        candidateArray[canTotalCnt].motionVector_y_L0 = use_close_loop_me ? (inloop_me_context->inloop_me_mv[0][0][close_loop_me_index][1] + BIPRED_3x3_Y_POS[bipredIndex]) << 1 : (mePuResult->y_mv_l0 + BIPRED_3x3_Y_POS[bipredIndex]) << 1;
+        candidateArray[canTotalCnt].motion_vector_xl0 = use_close_loop_me ? (inloop_me_context->inloop_me_mv[0][0][close_loop_me_index][0] + BIPRED_3x3_X_POS[bipredIndex]) << 1 : (mePuResult->x_mv_l0 + BIPRED_3x3_X_POS[bipredIndex]) << 1;
+        candidateArray[canTotalCnt].motion_vector_yl0 = use_close_loop_me ? (inloop_me_context->inloop_me_mv[0][0][close_loop_me_index][1] + BIPRED_3x3_Y_POS[bipredIndex]) << 1 : (mePuResult->y_mv_l0 + BIPRED_3x3_Y_POS[bipredIndex]) << 1;
 
         // will be needed later by the rate estimation
         candidateArray[canTotalCnt].ref_mv_index = 0;
@@ -674,8 +674,8 @@ void Unipred3x3CandidatesInjection(
             candidateArray[canTotalCnt].ref_frame_type,
             candidateArray[canTotalCnt].is_compound,
             candidateArray[canTotalCnt].pred_mode,
-            candidateArray[canTotalCnt].motionVector_x_L0,
-            candidateArray[canTotalCnt].motionVector_y_L0,
+            candidateArray[canTotalCnt].motion_vector_xl0,
+            candidateArray[canTotalCnt].motion_vector_yl0,
             0, 0,
             &candidateArray[canTotalCnt].drl_index,
             bestPredmv);
@@ -711,8 +711,8 @@ void Unipred3x3CandidatesInjection(
             candidateArray[canTotalCnt].drl_index = 0;
 
             // Set the MV to ME result
-            candidateArray[canTotalCnt].motionVector_x_L1 = use_close_loop_me ? (inloop_me_context->inloop_me_mv[1][0][close_loop_me_index][0] + BIPRED_3x3_X_POS[bipredIndex]) << 1 : (mePuResult->x_mv_l1 + BIPRED_3x3_X_POS[bipredIndex]) << 1;
-            candidateArray[canTotalCnt].motionVector_y_L1 = use_close_loop_me ? (inloop_me_context->inloop_me_mv[1][0][close_loop_me_index][1] + BIPRED_3x3_Y_POS[bipredIndex]) << 1 : (mePuResult->y_mv_l1 + BIPRED_3x3_Y_POS[bipredIndex]) << 1;
+            candidateArray[canTotalCnt].motion_vector_xl1 = use_close_loop_me ? (inloop_me_context->inloop_me_mv[1][0][close_loop_me_index][0] + BIPRED_3x3_X_POS[bipredIndex]) << 1 : (mePuResult->x_mv_l1 + BIPRED_3x3_X_POS[bipredIndex]) << 1;
+            candidateArray[canTotalCnt].motion_vector_yl1 = use_close_loop_me ? (inloop_me_context->inloop_me_mv[1][0][close_loop_me_index][1] + BIPRED_3x3_Y_POS[bipredIndex]) << 1 : (mePuResult->y_mv_l1 + BIPRED_3x3_Y_POS[bipredIndex]) << 1;
 
             // will be needed later by the rate estimation
             candidateArray[canTotalCnt].ref_mv_index = 0;
@@ -730,8 +730,8 @@ void Unipred3x3CandidatesInjection(
                 candidateArray[canTotalCnt].ref_frame_type,
                 candidateArray[canTotalCnt].is_compound,
                 candidateArray[canTotalCnt].pred_mode,
-                candidateArray[canTotalCnt].motionVector_x_L1,
-                candidateArray[canTotalCnt].motionVector_y_L1,
+                candidateArray[canTotalCnt].motion_vector_xl1,
+                candidateArray[canTotalCnt].motion_vector_yl1,
                 0, 0,
                 &candidateArray[canTotalCnt].drl_index,
                 bestPredmv);
@@ -790,11 +790,11 @@ void Bipred3x3CandidatesInjection(
             candidateArray[canTotalCnt].drl_index = 0;
 
             // Set the MV to ME result
-            candidateArray[canTotalCnt].motionVector_x_L0 = use_close_loop_me ? inloop_me_context->inloop_me_mv[0][0][close_loop_me_index][0] << 1 : mePuResult->x_mv_l0 << 1;
-            candidateArray[canTotalCnt].motionVector_y_L0 = use_close_loop_me ? inloop_me_context->inloop_me_mv[0][0][close_loop_me_index][1] << 1 : mePuResult->y_mv_l0 << 1;
+            candidateArray[canTotalCnt].motion_vector_xl0 = use_close_loop_me ? inloop_me_context->inloop_me_mv[0][0][close_loop_me_index][0] << 1 : mePuResult->x_mv_l0 << 1;
+            candidateArray[canTotalCnt].motion_vector_yl0 = use_close_loop_me ? inloop_me_context->inloop_me_mv[0][0][close_loop_me_index][1] << 1 : mePuResult->y_mv_l0 << 1;
 
-            candidateArray[canTotalCnt].motionVector_x_L1 = use_close_loop_me ? ((inloop_me_context->inloop_me_mv[1][0][close_loop_me_index][0] + BIPRED_3x3_X_POS[bipredIndex]) << 1) : (mePuResult->x_mv_l1 + BIPRED_3x3_X_POS[bipredIndex]) << 1;
-            candidateArray[canTotalCnt].motionVector_y_L1 = use_close_loop_me ? ((inloop_me_context->inloop_me_mv[1][0][close_loop_me_index][1] + BIPRED_3x3_Y_POS[bipredIndex]) << 1) : (mePuResult->y_mv_l1 + BIPRED_3x3_Y_POS[bipredIndex]) << 1;
+            candidateArray[canTotalCnt].motion_vector_xl1 = use_close_loop_me ? ((inloop_me_context->inloop_me_mv[1][0][close_loop_me_index][0] + BIPRED_3x3_X_POS[bipredIndex]) << 1) : (mePuResult->x_mv_l1 + BIPRED_3x3_X_POS[bipredIndex]) << 1;
+            candidateArray[canTotalCnt].motion_vector_yl1 = use_close_loop_me ? ((inloop_me_context->inloop_me_mv[1][0][close_loop_me_index][1] + BIPRED_3x3_Y_POS[bipredIndex]) << 1) : (mePuResult->y_mv_l1 + BIPRED_3x3_Y_POS[bipredIndex]) << 1;
 
             // will be needed later by the rate estimation
             candidateArray[canTotalCnt].ref_mv_index = 0;
@@ -817,10 +817,10 @@ void Bipred3x3CandidatesInjection(
                 candidateArray[canTotalCnt].ref_frame_type,
                 candidateArray[canTotalCnt].is_compound,
                 candidateArray[canTotalCnt].pred_mode,
-                candidateArray[canTotalCnt].motionVector_x_L0,
-                candidateArray[canTotalCnt].motionVector_y_L0,
-                candidateArray[canTotalCnt].motionVector_x_L1,
-                candidateArray[canTotalCnt].motionVector_y_L1,
+                candidateArray[canTotalCnt].motion_vector_xl0,
+                candidateArray[canTotalCnt].motion_vector_yl0,
+                candidateArray[canTotalCnt].motion_vector_xl1,
+                candidateArray[canTotalCnt].motion_vector_yl1,
                 &candidateArray[canTotalCnt].drl_index,
                 bestPredmv);
 
@@ -850,11 +850,11 @@ void Bipred3x3CandidatesInjection(
             candidateArray[canTotalCnt].drl_index = 0;
 
             // Set the MV to ME result
-            candidateArray[canTotalCnt].motionVector_x_L0 = use_close_loop_me ? (inloop_me_context->inloop_me_mv[0][0][close_loop_me_index][0] + BIPRED_3x3_X_POS[bipredIndex]) << 1 : (mePuResult->x_mv_l0 + BIPRED_3x3_X_POS[bipredIndex]) << 1;
-            candidateArray[canTotalCnt].motionVector_y_L0 = use_close_loop_me ? (inloop_me_context->inloop_me_mv[0][0][close_loop_me_index][1] + BIPRED_3x3_Y_POS[bipredIndex]) << 1 : (mePuResult->y_mv_l0 + BIPRED_3x3_Y_POS[bipredIndex]) << 1;
+            candidateArray[canTotalCnt].motion_vector_xl0 = use_close_loop_me ? (inloop_me_context->inloop_me_mv[0][0][close_loop_me_index][0] + BIPRED_3x3_X_POS[bipredIndex]) << 1 : (mePuResult->x_mv_l0 + BIPRED_3x3_X_POS[bipredIndex]) << 1;
+            candidateArray[canTotalCnt].motion_vector_yl0 = use_close_loop_me ? (inloop_me_context->inloop_me_mv[0][0][close_loop_me_index][1] + BIPRED_3x3_Y_POS[bipredIndex]) << 1 : (mePuResult->y_mv_l0 + BIPRED_3x3_Y_POS[bipredIndex]) << 1;
 
-            candidateArray[canTotalCnt].motionVector_x_L1 = use_close_loop_me ? inloop_me_context->inloop_me_mv[1][0][close_loop_me_index][0] << 1 : mePuResult->x_mv_l1 << 1;
-            candidateArray[canTotalCnt].motionVector_y_L1 = use_close_loop_me ? inloop_me_context->inloop_me_mv[1][0][close_loop_me_index][1] << 1 : mePuResult->y_mv_l1 << 1;
+            candidateArray[canTotalCnt].motion_vector_xl1 = use_close_loop_me ? inloop_me_context->inloop_me_mv[1][0][close_loop_me_index][0] << 1 : mePuResult->x_mv_l1 << 1;
+            candidateArray[canTotalCnt].motion_vector_yl1 = use_close_loop_me ? inloop_me_context->inloop_me_mv[1][0][close_loop_me_index][1] << 1 : mePuResult->y_mv_l1 << 1;
 
             // will be needed later by the rate estimation
             candidateArray[canTotalCnt].ref_mv_index = 0;
@@ -877,10 +877,10 @@ void Bipred3x3CandidatesInjection(
                 candidateArray[canTotalCnt].ref_frame_type,
                 candidateArray[canTotalCnt].is_compound,
                 candidateArray[canTotalCnt].pred_mode,
-                candidateArray[canTotalCnt].motionVector_x_L0,
-                candidateArray[canTotalCnt].motionVector_y_L0,
-                candidateArray[canTotalCnt].motionVector_x_L1,
-                candidateArray[canTotalCnt].motionVector_y_L1,
+                candidateArray[canTotalCnt].motion_vector_xl0,
+                candidateArray[canTotalCnt].motion_vector_yl0,
+                candidateArray[canTotalCnt].motion_vector_xl1,
+                candidateArray[canTotalCnt].motion_vector_yl1,
                 &candidateArray[canTotalCnt].drl_index,
                 bestPredmv);
 
@@ -972,8 +972,8 @@ void InjectAv1MvpCandidates(
     candidateArray[canIdx].is_skip_mode_flag = 0;
     candidateArray[canIdx].is_new_mv = 0;
     candidateArray[canIdx].is_zero_mv = 0;
-    candidateArray[canIdx].motionVector_x_L0 = context_ptr->cu_ptr->ref_mvs[LAST_FRAME][0].as_mv.col;
-    candidateArray[canIdx].motionVector_y_L0 = context_ptr->cu_ptr->ref_mvs[LAST_FRAME][0].as_mv.row;
+    candidateArray[canIdx].motion_vector_xl0 = context_ptr->cu_ptr->ref_mvs[LAST_FRAME][0].as_mv.col;
+    candidateArray[canIdx].motion_vector_yl0 = context_ptr->cu_ptr->ref_mvs[LAST_FRAME][0].as_mv.row;
     candidateArray[canIdx].drl_index = 0;
     candidateArray[canIdx].ref_mv_index = 0;
     candidateArray[canIdx].pred_mv_weight = 0;
@@ -1011,8 +1011,8 @@ void InjectAv1MvpCandidates(
         candidateArray[canIdx].is_skip_mode_flag = 0;
         candidateArray[canIdx].is_new_mv = 0;
         candidateArray[canIdx].is_zero_mv = 0;
-        candidateArray[canIdx].motionVector_x_L0 = nearmv[0].as_mv.col;
-        candidateArray[canIdx].motionVector_y_L0 = nearmv[0].as_mv.row;
+        candidateArray[canIdx].motion_vector_xl0 = nearmv[0].as_mv.col;
+        candidateArray[canIdx].motion_vector_yl0 = nearmv[0].as_mv.row;
         candidateArray[canIdx].drl_index = drli;
         candidateArray[canIdx].ref_mv_index = 0;
         candidateArray[canIdx].pred_mv_weight = 0;
@@ -1040,8 +1040,8 @@ void InjectAv1MvpCandidates(
         candidateArray[canIdx].is_skip_mode_flag = 0;
         candidateArray[canIdx].is_new_mv = 0;
         candidateArray[canIdx].is_zero_mv = 0;
-        candidateArray[canIdx].motionVector_x_L1 = context_ptr->cu_ptr->ref_mvs[BWDREF_FRAME][0].as_mv.col;
-        candidateArray[canIdx].motionVector_y_L1 = context_ptr->cu_ptr->ref_mvs[BWDREF_FRAME][0].as_mv.row;
+        candidateArray[canIdx].motion_vector_xl1 = context_ptr->cu_ptr->ref_mvs[BWDREF_FRAME][0].as_mv.col;
+        candidateArray[canIdx].motion_vector_yl1 = context_ptr->cu_ptr->ref_mvs[BWDREF_FRAME][0].as_mv.row;
         candidateArray[canIdx].drl_index = 0;
         candidateArray[canIdx].ref_mv_index = 0;
         candidateArray[canIdx].pred_mv_weight = 0;
@@ -1079,8 +1079,8 @@ void InjectAv1MvpCandidates(
             candidateArray[canIdx].is_skip_mode_flag = 0;
             candidateArray[canIdx].is_new_mv = 0;
             candidateArray[canIdx].is_zero_mv = 0;
-            candidateArray[canIdx].motionVector_x_L1 = nearmv[0].as_mv.col;
-            candidateArray[canIdx].motionVector_y_L1 = nearmv[0].as_mv.row;
+            candidateArray[canIdx].motion_vector_xl1 = nearmv[0].as_mv.col;
+            candidateArray[canIdx].motion_vector_yl1 = nearmv[0].as_mv.row;
             candidateArray[canIdx].drl_index = drli;
             candidateArray[canIdx].ref_mv_index = 0;
             candidateArray[canIdx].pred_mv_weight = 0;
@@ -1104,10 +1104,10 @@ void InjectAv1MvpCandidates(
         candidateArray[canIdx].is_skip_mode_flag = 0;
         candidateArray[canIdx].is_new_mv = 0;
         candidateArray[canIdx].is_zero_mv = 0;
-        candidateArray[canIdx].motionVector_x_L0 = context_ptr->md_local_cu_unit[context_ptr->blk_geom->blkidx_mds].ed_ref_mv_stack[LAST_BWD_FRAME][0].this_mv.as_mv.col;
-        candidateArray[canIdx].motionVector_y_L0 = context_ptr->md_local_cu_unit[context_ptr->blk_geom->blkidx_mds].ed_ref_mv_stack[LAST_BWD_FRAME][0].this_mv.as_mv.row;
-        candidateArray[canIdx].motionVector_x_L1 = context_ptr->md_local_cu_unit[context_ptr->blk_geom->blkidx_mds].ed_ref_mv_stack[LAST_BWD_FRAME][0].comp_mv.as_mv.col;
-        candidateArray[canIdx].motionVector_y_L1 = context_ptr->md_local_cu_unit[context_ptr->blk_geom->blkidx_mds].ed_ref_mv_stack[LAST_BWD_FRAME][0].comp_mv.as_mv.row;
+        candidateArray[canIdx].motion_vector_xl0 = context_ptr->md_local_cu_unit[context_ptr->blk_geom->blkidx_mds].ed_ref_mv_stack[LAST_BWD_FRAME][0].this_mv.as_mv.col;
+        candidateArray[canIdx].motion_vector_yl0 = context_ptr->md_local_cu_unit[context_ptr->blk_geom->blkidx_mds].ed_ref_mv_stack[LAST_BWD_FRAME][0].this_mv.as_mv.row;
+        candidateArray[canIdx].motion_vector_xl1 = context_ptr->md_local_cu_unit[context_ptr->blk_geom->blkidx_mds].ed_ref_mv_stack[LAST_BWD_FRAME][0].comp_mv.as_mv.col;
+        candidateArray[canIdx].motion_vector_yl1 = context_ptr->md_local_cu_unit[context_ptr->blk_geom->blkidx_mds].ed_ref_mv_stack[LAST_BWD_FRAME][0].comp_mv.as_mv.row;
         candidateArray[canIdx].drl_index = 0;
         candidateArray[canIdx].ref_mv_index = 0;
         candidateArray[canIdx].pred_mv_weight = 0;
@@ -1146,10 +1146,10 @@ void InjectAv1MvpCandidates(
                 candidateArray[canIdx].is_skip_mode_flag = 0;
                 candidateArray[canIdx].is_new_mv = 0;
                 candidateArray[canIdx].is_zero_mv = 0;
-                candidateArray[canIdx].motionVector_x_L0 = nearmv[0].as_mv.col;
-                candidateArray[canIdx].motionVector_y_L0 = nearmv[0].as_mv.row;
-                candidateArray[canIdx].motionVector_x_L1 = nearmv[1].as_mv.col;
-                candidateArray[canIdx].motionVector_y_L1 = nearmv[1].as_mv.row;
+                candidateArray[canIdx].motion_vector_xl0 = nearmv[0].as_mv.col;
+                candidateArray[canIdx].motion_vector_yl0 = nearmv[0].as_mv.row;
+                candidateArray[canIdx].motion_vector_xl1 = nearmv[1].as_mv.col;
+                candidateArray[canIdx].motion_vector_yl1 = nearmv[1].as_mv.row;
                 candidateArray[canIdx].drl_index = drli;
                 candidateArray[canIdx].ref_mv_index = 0;
                 candidateArray[canIdx].pred_mv_weight = 0;
@@ -1195,8 +1195,8 @@ void inject_warped_motion_candidates(
     candidateArray[canIdx].is_skip_mode_flag = 0;
     candidateArray[canIdx].is_new_mv = 0;
     candidateArray[canIdx].is_zero_mv = 0;
-    candidateArray[canIdx].motionVector_x_L0 = context_ptr->cu_ptr->ref_mvs[LAST_FRAME][0].as_mv.col;
-    candidateArray[canIdx].motionVector_y_L0 = context_ptr->cu_ptr->ref_mvs[LAST_FRAME][0].as_mv.row;
+    candidateArray[canIdx].motion_vector_xl0 = context_ptr->cu_ptr->ref_mvs[LAST_FRAME][0].as_mv.col;
+    candidateArray[canIdx].motion_vector_yl0 = context_ptr->cu_ptr->ref_mvs[LAST_FRAME][0].as_mv.row;
     candidateArray[canIdx].drl_index = 0;
     candidateArray[canIdx].ref_mv_index = 0;
     candidateArray[canIdx].pred_mv_weight = 0;
@@ -1205,8 +1205,8 @@ void inject_warped_motion_candidates(
     candidateArray[canIdx].transform_type[PLANE_TYPE_UV] = DCT_DCT;
 
     MvUnit mv_unit;
-    mv_unit.mv[0].x = candidateArray[canIdx].motionVector_x_L0;
-    mv_unit.mv[0].y = candidateArray[canIdx].motionVector_y_L0;
+    mv_unit.mv[0].x = candidateArray[canIdx].motion_vector_xl0;
+    mv_unit.mv[0].y = candidateArray[canIdx].motion_vector_yl0;
     candidateArray[canIdx].local_warp_valid = warped_motion_parameters(
         picture_control_set_ptr,
         context_ptr->cu_ptr,
@@ -1250,8 +1250,8 @@ void inject_warped_motion_candidates(
         candidateArray[canIdx].is_skip_mode_flag = 0;
         candidateArray[canIdx].is_new_mv = 0;
         candidateArray[canIdx].is_zero_mv = 0;
-        candidateArray[canIdx].motionVector_x_L0 = nearmv[0].as_mv.col;
-        candidateArray[canIdx].motionVector_y_L0 = nearmv[0].as_mv.row;
+        candidateArray[canIdx].motion_vector_xl0 = nearmv[0].as_mv.col;
+        candidateArray[canIdx].motion_vector_yl0 = nearmv[0].as_mv.row;
         candidateArray[canIdx].drl_index = drli;
         candidateArray[canIdx].ref_mv_index = 0;
         candidateArray[canIdx].pred_mv_weight = 0;
@@ -1260,8 +1260,8 @@ void inject_warped_motion_candidates(
         candidateArray[canIdx].transform_type[PLANE_TYPE_UV] = DCT_DCT;
 
         MvUnit mv_unit;
-        mv_unit.mv[0].x = candidateArray[canIdx].motionVector_x_L0;
-        mv_unit.mv[0].y = candidateArray[canIdx].motionVector_y_L0;
+        mv_unit.mv[0].x = candidateArray[canIdx].motion_vector_xl0;
+        mv_unit.mv[0].y = candidateArray[canIdx].motion_vector_yl0;
         candidateArray[canIdx].local_warp_valid = warped_motion_parameters(
             picture_control_set_ptr,
             context_ptr->cu_ptr,
@@ -1304,10 +1304,10 @@ void inject_warped_motion_candidates(
         candidateArray[canIdx].drl_index = 0;
 
         // Set the MV to ME result
-        candidateArray[canIdx].motionVector_x_L0 = use_close_loop_me ? ss_mecontext->inloop_me_mv[0][0][close_loop_me_index][0] << 1 : mePuResult->x_mv_l0 << 1; // context_ptr->cu_ptr->ref_mvs[LAST_FRAME][0].as_mv.col;
-        candidateArray[canIdx].motionVector_y_L0 = use_close_loop_me ? ss_mecontext->inloop_me_mv[0][0][close_loop_me_index][1] << 1 : mePuResult->y_mv_l0 << 1; // context_ptr->cu_ptr->ref_mvs[LAST_FRAME][0].as_mv.row;
-        candidateArray[canIdx].motionVector_x_L0 += neighbors[i].col;
-        candidateArray[canIdx].motionVector_y_L0 += neighbors[i].row;
+        candidateArray[canIdx].motion_vector_xl0 = use_close_loop_me ? ss_mecontext->inloop_me_mv[0][0][close_loop_me_index][0] << 1 : mePuResult->x_mv_l0 << 1; // context_ptr->cu_ptr->ref_mvs[LAST_FRAME][0].as_mv.col;
+        candidateArray[canIdx].motion_vector_yl0 = use_close_loop_me ? ss_mecontext->inloop_me_mv[0][0][close_loop_me_index][1] << 1 : mePuResult->y_mv_l0 << 1; // context_ptr->cu_ptr->ref_mvs[LAST_FRAME][0].as_mv.row;
+        candidateArray[canIdx].motion_vector_xl0 += neighbors[i].col;
+        candidateArray[canIdx].motion_vector_yl0 += neighbors[i].row;
 
         candidateArray[canIdx].ref_mv_index = 0;
         candidateArray[canIdx].pred_mv_weight = 0;
@@ -1323,8 +1323,8 @@ void inject_warped_motion_candidates(
             candidateArray[canIdx].ref_frame_type,
             candidateArray[canIdx].is_compound,
             candidateArray[canIdx].pred_mode,
-            candidateArray[canIdx].motionVector_x_L0,
-            candidateArray[canIdx].motionVector_y_L0,
+            candidateArray[canIdx].motion_vector_xl0,
+            candidateArray[canIdx].motion_vector_yl0,
             0, 0,
             &candidateArray[canIdx].drl_index,
             bestPredmv);
@@ -1333,8 +1333,8 @@ void inject_warped_motion_candidates(
         candidateArray[canIdx].motion_vector_pred_y[REF_LIST_0] = bestPredmv[0].as_mv.row;
 
         MvUnit mv_unit;
-        mv_unit.mv[0].x = candidateArray[canIdx].motionVector_x_L0;
-        mv_unit.mv[0].y = candidateArray[canIdx].motionVector_y_L0;
+        mv_unit.mv[0].x = candidateArray[canIdx].motion_vector_xl0;
+        mv_unit.mv[0].y = candidateArray[canIdx].motion_vector_yl0;
         candidateArray[canIdx].local_warp_valid = warped_motion_parameters(
             picture_control_set_ptr,
             context_ptr->cu_ptr,
@@ -1508,8 +1508,8 @@ void  inject_inter_candidates(
         candidateArray[canTotalCnt].drl_index = 0;
 
         // Set the MV to ME result
-        candidateArray[canTotalCnt].motionVector_x_L0 = use_close_loop_me ? ss_mecontext->inloop_me_mv[0][0][close_loop_me_index][0] << 1 : mePuResult->x_mv_l0 << 1;
-        candidateArray[canTotalCnt].motionVector_y_L0 = use_close_loop_me ? ss_mecontext->inloop_me_mv[0][0][close_loop_me_index][1] << 1 : mePuResult->y_mv_l0 << 1;
+        candidateArray[canTotalCnt].motion_vector_xl0 = use_close_loop_me ? ss_mecontext->inloop_me_mv[0][0][close_loop_me_index][0] << 1 : mePuResult->x_mv_l0 << 1;
+        candidateArray[canTotalCnt].motion_vector_yl0 = use_close_loop_me ? ss_mecontext->inloop_me_mv[0][0][close_loop_me_index][1] << 1 : mePuResult->y_mv_l0 << 1;
 
         // will be needed later by the rate estimation
         candidateArray[canTotalCnt].ref_mv_index = 0;
@@ -1527,8 +1527,8 @@ void  inject_inter_candidates(
             candidateArray[canTotalCnt].ref_frame_type,
             candidateArray[canTotalCnt].is_compound,
             candidateArray[canTotalCnt].pred_mode,
-            candidateArray[canTotalCnt].motionVector_x_L0,
-            candidateArray[canTotalCnt].motionVector_y_L0,
+            candidateArray[canTotalCnt].motion_vector_xl0,
+            candidateArray[canTotalCnt].motion_vector_yl0,
             0, 0,
             &candidateArray[canTotalCnt].drl_index,
             bestPredmv);
@@ -1561,8 +1561,8 @@ void  inject_inter_candidates(
             candidateArray[canTotalCnt].drl_index = 0;
 
             // Set the MV to ME result
-            candidateArray[canTotalCnt].motionVector_x_L1 = use_close_loop_me ? ss_mecontext->inloop_me_mv[1][0][close_loop_me_index][0] << 1 : mePuResult->x_mv_l1 << 1;
-            candidateArray[canTotalCnt].motionVector_y_L1 = use_close_loop_me ? ss_mecontext->inloop_me_mv[1][0][close_loop_me_index][1] << 1 : mePuResult->y_mv_l1 << 1;
+            candidateArray[canTotalCnt].motion_vector_xl1 = use_close_loop_me ? ss_mecontext->inloop_me_mv[1][0][close_loop_me_index][0] << 1 : mePuResult->x_mv_l1 << 1;
+            candidateArray[canTotalCnt].motion_vector_yl1 = use_close_loop_me ? ss_mecontext->inloop_me_mv[1][0][close_loop_me_index][1] << 1 : mePuResult->y_mv_l1 << 1;
             // will be needed later by the rate estimation
             candidateArray[canTotalCnt].ref_mv_index = 0;
             candidateArray[canTotalCnt].pred_mv_weight = 0;
@@ -1579,8 +1579,8 @@ void  inject_inter_candidates(
                 candidateArray[canTotalCnt].ref_frame_type,
                 candidateArray[canTotalCnt].is_compound,
                 candidateArray[canTotalCnt].pred_mode,
-                candidateArray[canTotalCnt].motionVector_x_L1,
-                candidateArray[canTotalCnt].motionVector_y_L1,
+                candidateArray[canTotalCnt].motion_vector_xl1,
+                candidateArray[canTotalCnt].motion_vector_yl1,
                 0, 0,
                 &candidateArray[canTotalCnt].drl_index,
                 bestPredmv);
@@ -1609,10 +1609,10 @@ void  inject_inter_candidates(
                 candidateArray[canTotalCnt].drl_index = 0;
 
                 // Set the MV to ME result
-                candidateArray[canTotalCnt].motionVector_x_L0 = use_close_loop_me ? ss_mecontext->inloop_me_mv[0][0][close_loop_me_index][0] << 1 : mePuResult->x_mv_l0 << 1;
-                candidateArray[canTotalCnt].motionVector_y_L0 = use_close_loop_me ? ss_mecontext->inloop_me_mv[0][0][close_loop_me_index][1] << 1 : mePuResult->y_mv_l0 << 1;
-                candidateArray[canTotalCnt].motionVector_x_L1 = use_close_loop_me ? ss_mecontext->inloop_me_mv[1][0][close_loop_me_index][0] << 1 : mePuResult->x_mv_l1 << 1;
-                candidateArray[canTotalCnt].motionVector_y_L1 = use_close_loop_me ? ss_mecontext->inloop_me_mv[1][0][close_loop_me_index][1] << 1 : mePuResult->y_mv_l1 << 1;
+                candidateArray[canTotalCnt].motion_vector_xl0 = use_close_loop_me ? ss_mecontext->inloop_me_mv[0][0][close_loop_me_index][0] << 1 : mePuResult->x_mv_l0 << 1;
+                candidateArray[canTotalCnt].motion_vector_yl0 = use_close_loop_me ? ss_mecontext->inloop_me_mv[0][0][close_loop_me_index][1] << 1 : mePuResult->y_mv_l0 << 1;
+                candidateArray[canTotalCnt].motion_vector_xl1 = use_close_loop_me ? ss_mecontext->inloop_me_mv[1][0][close_loop_me_index][0] << 1 : mePuResult->x_mv_l1 << 1;
+                candidateArray[canTotalCnt].motion_vector_yl1 = use_close_loop_me ? ss_mecontext->inloop_me_mv[1][0][close_loop_me_index][1] << 1 : mePuResult->y_mv_l1 << 1;
 
                 // will be needed later by the rate estimation
                 candidateArray[canTotalCnt].ref_mv_index = 0;
@@ -1635,10 +1635,10 @@ void  inject_inter_candidates(
                     candidateArray[canTotalCnt].ref_frame_type,
                     candidateArray[canTotalCnt].is_compound,
                     candidateArray[canTotalCnt].pred_mode,
-                    candidateArray[canTotalCnt].motionVector_x_L0,
-                    candidateArray[canTotalCnt].motionVector_y_L0,
-                    candidateArray[canTotalCnt].motionVector_x_L1,
-                    candidateArray[canTotalCnt].motionVector_y_L1,
+                    candidateArray[canTotalCnt].motion_vector_xl0,
+                    candidateArray[canTotalCnt].motion_vector_yl0,
+                    candidateArray[canTotalCnt].motion_vector_xl1,
+                    candidateArray[canTotalCnt].motion_vector_yl1,
                     &candidateArray[canTotalCnt].drl_index,
                     bestPredmv);
 
@@ -1676,8 +1676,8 @@ void  inject_inter_candidates(
             candidateArray[canTotalCnt].drl_index = 0;
 
             // Set the MV to ME result
-            candidateArray[canTotalCnt].motionVector_x_L0 = use_close_loop_me ? ss_mecontext->inloop_me_mv[1][0][close_loop_me_index][0] << 1 : mePuResult->x_mv_l1 << 1;
-            candidateArray[canTotalCnt].motionVector_y_L0 = use_close_loop_me ? ss_mecontext->inloop_me_mv[1][0][close_loop_me_index][1] << 1 : mePuResult->y_mv_l1 << 1;
+            candidateArray[canTotalCnt].motion_vector_xl0 = use_close_loop_me ? ss_mecontext->inloop_me_mv[1][0][close_loop_me_index][0] << 1 : mePuResult->x_mv_l1 << 1;
+            candidateArray[canTotalCnt].motion_vector_yl0 = use_close_loop_me ? ss_mecontext->inloop_me_mv[1][0][close_loop_me_index][1] << 1 : mePuResult->y_mv_l1 << 1;
 
             // will be needed later by the rate estimation
             candidateArray[canTotalCnt].ref_mv_index = 0;
@@ -1695,8 +1695,8 @@ void  inject_inter_candidates(
                 candidateArray[canTotalCnt].ref_frame_type,
                 candidateArray[canTotalCnt].is_compound,
                 candidateArray[canTotalCnt].pred_mode,
-                candidateArray[canTotalCnt].motionVector_x_L0,
-                candidateArray[canTotalCnt].motionVector_y_L0,
+                candidateArray[canTotalCnt].motion_vector_xl0,
+                candidateArray[canTotalCnt].motion_vector_yl0,
                 0, 0,
                 &candidateArray[canTotalCnt].drl_index,
                 bestPredmv);
@@ -1739,8 +1739,8 @@ void  inject_inter_candidates(
         candidateArray[canTotalCnt].transform_type[PLANE_TYPE_UV] = DCT_DCT;
 
         // Set the MV to frame MV
-        candidateArray[canTotalCnt].motionVector_y_L0 = (int16_t)(picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[0] >> GM_TRANS_ONLY_PREC_DIFF);
-        candidateArray[canTotalCnt].motionVector_x_L0 = (int16_t)(picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[1] >> GM_TRANS_ONLY_PREC_DIFF);
+        candidateArray[canTotalCnt].motion_vector_yl0 = (int16_t)(picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[0] >> GM_TRANS_ONLY_PREC_DIFF);
+        candidateArray[canTotalCnt].motion_vector_xl0 = (int16_t)(picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[1] >> GM_TRANS_ONLY_PREC_DIFF);
 
 
         ++canTotalCnt;
@@ -1775,13 +1775,13 @@ void  inject_inter_candidates(
         candidateArray[canTotalCnt].transform_type[PLANE_TYPE_UV] = DCT_DCT;
 
         // Set the MV to frame MV
-        candidateArray[canTotalCnt].motionVector_y_L0 = (int16_t)(picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[0] >> GM_TRANS_ONLY_PREC_DIFF);
-        candidateArray[canTotalCnt].motionVector_x_L0 = (int16_t)(picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[1] >> GM_TRANS_ONLY_PREC_DIFF);
+        candidateArray[canTotalCnt].motion_vector_yl0 = (int16_t)(picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[0] >> GM_TRANS_ONLY_PREC_DIFF);
+        candidateArray[canTotalCnt].motion_vector_xl0 = (int16_t)(picture_control_set_ptr->parent_pcs_ptr->global_motion[LAST_FRAME].wmmat[1] >> GM_TRANS_ONLY_PREC_DIFF);
 
 
         // Set the MV to frame MV
-        candidateArray[canTotalCnt].motionVector_y_L1 = (int16_t)(picture_control_set_ptr->parent_pcs_ptr->global_motion[BWDREF_FRAME].wmmat[0] >> GM_TRANS_ONLY_PREC_DIFF);
-        candidateArray[canTotalCnt].motionVector_x_L1 = (int16_t)(picture_control_set_ptr->parent_pcs_ptr->global_motion[BWDREF_FRAME].wmmat[1] >> GM_TRANS_ONLY_PREC_DIFF);
+        candidateArray[canTotalCnt].motion_vector_yl1 = (int16_t)(picture_control_set_ptr->parent_pcs_ptr->global_motion[BWDREF_FRAME].wmmat[0] >> GM_TRANS_ONLY_PREC_DIFF);
+        candidateArray[canTotalCnt].motion_vector_xl1 = (int16_t)(picture_control_set_ptr->parent_pcs_ptr->global_motion[BWDREF_FRAME].wmmat[1] >> GM_TRANS_ONLY_PREC_DIFF);
 
 
         ++canTotalCnt;
@@ -2398,25 +2398,25 @@ uint8_t product_full_mode_decision(
 
         if (pu_ptr->inter_pred_direction_index == UNI_PRED_LIST_0)
         {
-            //EB_MEMCPY(&pu_ptr->mv[REF_LIST_0].x,&candidate_ptr->MVsL0,4);
-            pu_ptr->mv[REF_LIST_0].x = candidate_ptr->motionVector_x_L0;
-            pu_ptr->mv[REF_LIST_0].y = candidate_ptr->motionVector_y_L0;
+            //EB_MEMCPY(&pu_ptr->mv[REF_LIST_0].x,&candidate_ptr->mvs_l0,4);
+            pu_ptr->mv[REF_LIST_0].x = candidate_ptr->motion_vector_xl0;
+            pu_ptr->mv[REF_LIST_0].y = candidate_ptr->motion_vector_yl0;
         }
 
         if (pu_ptr->inter_pred_direction_index == UNI_PRED_LIST_1)
         {
-            //EB_MEMCPY(&pu_ptr->mv[REF_LIST_1].x,&candidate_ptr->MVsL1,4);
-            pu_ptr->mv[REF_LIST_1].x = candidate_ptr->motionVector_x_L1;
-            pu_ptr->mv[REF_LIST_1].y = candidate_ptr->motionVector_y_L1;
+            //EB_MEMCPY(&pu_ptr->mv[REF_LIST_1].x,&candidate_ptr->mvs_l1,4);
+            pu_ptr->mv[REF_LIST_1].x = candidate_ptr->motion_vector_xl1;
+            pu_ptr->mv[REF_LIST_1].y = candidate_ptr->motion_vector_yl1;
         }
 
         if (pu_ptr->inter_pred_direction_index == BI_PRED)
         {
             //EB_MEMCPY(&pu_ptr->mv[REF_LIST_0].x,&candidate_ptr->MVs,8);
-            pu_ptr->mv[REF_LIST_0].x = candidate_ptr->motionVector_x_L0;
-            pu_ptr->mv[REF_LIST_0].y = candidate_ptr->motionVector_y_L0;
-            pu_ptr->mv[REF_LIST_1].x = candidate_ptr->motionVector_x_L1;
-            pu_ptr->mv[REF_LIST_1].y = candidate_ptr->motionVector_y_L1;
+            pu_ptr->mv[REF_LIST_0].x = candidate_ptr->motion_vector_xl0;
+            pu_ptr->mv[REF_LIST_0].y = candidate_ptr->motion_vector_yl0;
+            pu_ptr->mv[REF_LIST_1].x = candidate_ptr->motion_vector_xl1;
+            pu_ptr->mv[REF_LIST_1].y = candidate_ptr->motion_vector_yl1;
         }
 
         // The MV prediction indicies are recalcated by the EncDec.
@@ -2505,7 +2505,7 @@ uint8_t product_full_mode_decision(
             uint32_t  bwidth = context_ptr->blk_geom->tx_width[txb_itr] < 64 ? context_ptr->blk_geom->tx_width[txb_itr] : 32;
             uint32_t  bheight = context_ptr->blk_geom->tx_height[txb_itr] < 64 ? context_ptr->blk_geom->tx_height[txb_itr] : 32;
 
-            int32_t* src_ptr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->buffer_y)[txb_1d_offset]);
+            int32_t* src_ptr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residual_quant_coeff_ptr->buffer_y)[txb_1d_offset]);
             int32_t* dst_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->buffer_y)[txb_1d_offset]);
 
             uint32_t j;
@@ -2521,7 +2521,7 @@ uint8_t product_full_mode_decision(
                 bwidth = context_ptr->blk_geom->tx_width_uv[txb_itr];
                 bheight = context_ptr->blk_geom->tx_height_uv[txb_itr];
 
-                src_ptr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->buffer_cb)[txb_1d_offset_uv]);
+                src_ptr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residual_quant_coeff_ptr->buffer_cb)[txb_1d_offset_uv]);
                 dst_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->buffer_cb)[txb_1d_offset_uv]);
 
                 for (j = 0; j < bheight; j++)
@@ -2529,7 +2529,7 @@ uint8_t product_full_mode_decision(
                     memcpy(dst_ptr + j * bwidth, src_ptr + j * bwidth, bwidth * sizeof(int32_t));
                 }
 
-                src_ptr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->buffer_cr)[txb_1d_offset_uv]);
+                src_ptr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residual_quant_coeff_ptr->buffer_cr)[txb_1d_offset_uv]);
                 dst_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->buffer_cr)[txb_1d_offset_uv]);
 
                 for (j = 0; j < bheight; j++)

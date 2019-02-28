@@ -91,16 +91,16 @@ void PfZeroOutUselessQuadrants(
 *******************************************/
 
 #if CHROMA_BLIND
-const EB_PREDICTION_FUNC  ProductPredictionFunTable[3] = { NULL, inter_pu_prediction_av1, av1_intra_prediction_cl};
+const EbPredictionFunc  ProductPredictionFunTable[3] = { NULL, inter_pu_prediction_av1, av1_intra_prediction_cl};
 #else
-const EB_PREDICTION_FUNC  ProductPredictionFunTableCL[3][3] = {
+const EbPredictionFunc  ProductPredictionFunTableCL[3][3] = {
     { NULL, inter2_nx2_n_pu_prediction_avc, av1_intra_prediction_cl },
     { NULL, inter2_nx2_n_pu_prediction_avc_style, av1_intra_prediction_cl },
     { NULL, inter_pu_prediction_av1, av1_intra_prediction_cl }
 };
 #endif
 
-const EB_FAST_COST_FUNC   Av1ProductFastCostFuncTable[3] =
+const EbFastCostFunc   Av1ProductFastCostFuncTable[3] =
 {
     NULL,
 
@@ -108,7 +108,7 @@ const EB_FAST_COST_FUNC   Av1ProductFastCostFuncTable[3] =
     av1_intra_fast_cost /*INTRA */
 };
 
-const EB_AV1_FULL_COST_FUNC   Av1ProductFullCostFuncTable[3] =
+const EbAv1FullCostFunc   Av1ProductFullCostFuncTable[3] =
 {
     NULL,
     av1_inter_full_cost, /*INTER */
@@ -872,7 +872,7 @@ void AV1PerformInverseTransformReconLuma(
 
                 av1_inv_transform_recon8bit(
 
-                    &(((int32_t*)candidate_buffer->reconCoeffPtr->buffer_y)[txb_1d_offset]),
+                    &(((int32_t*)candidate_buffer->recon_coeff_ptr->buffer_y)[txb_1d_offset]),
                     recBuffer,
                     candidate_buffer->recon_ptr->stride_y,
                     context_ptr->blk_geom->txsize[txb_itr],
@@ -950,7 +950,7 @@ void AV1PerformInverseTransformRecon(
                     memcpy(recBuffer + j * candidate_buffer->recon_ptr->stride_y, predBuffer + j * candidate_buffer->prediction_ptr->stride_y, tu_width);
 
                 av1_inv_transform_recon8bit(
-                    &(((int32_t*)candidate_buffer->reconCoeffPtr->buffer_y)[txb_1d_offset]),
+                    &(((int32_t*)candidate_buffer->recon_coeff_ptr->buffer_y)[txb_1d_offset]),
                     recBuffer,
                     candidate_buffer->recon_ptr->stride_y,
                     context_ptr->blk_geom->txsize[txb_itr],
@@ -981,8 +981,8 @@ void AV1PerformInverseTransformRecon(
             //CHROMA
             uint32_t chroma_tu_width = tx_size_wide[context_ptr->blk_geom->txsize_uv[txb_itr]];
             uint32_t chroma_tu_height = tx_size_high[context_ptr->blk_geom->txsize_uv[txb_itr]];
-            uint32_t cbTuChromaOriginIndex = ((((txb_origin_x >> 3) << 3) + ((txb_origin_y >> 3) << 3) * candidate_buffer->reconCoeffPtr->stride_cb) >> 1);
-            uint32_t crTuChromaOriginIndex = ((((txb_origin_x >> 3) << 3) + ((txb_origin_y >> 3) << 3) * candidate_buffer->reconCoeffPtr->stride_cr) >> 1);
+            uint32_t cbTuChromaOriginIndex = ((((txb_origin_x >> 3) << 3) + ((txb_origin_y >> 3) << 3) * candidate_buffer->recon_coeff_ptr->stride_cb) >> 1);
+            uint32_t crTuChromaOriginIndex = ((((txb_origin_x >> 3) << 3) + ((txb_origin_y >> 3) << 3) * candidate_buffer->recon_coeff_ptr->stride_cr) >> 1);
 
             if (context_ptr->blk_geom->has_uv && txb_ptr->u_has_coeff) {
                 
@@ -993,7 +993,7 @@ void AV1PerformInverseTransformRecon(
                     memcpy(recBuffer + j * candidate_buffer->recon_ptr->stride_cb, predBuffer + j * candidate_buffer->prediction_ptr->stride_cb, chroma_tu_width);
 
                 av1_inv_transform_recon8bit(
-                    &(((int32_t*)candidate_buffer->reconCoeffPtr->buffer_cb)[txb_1d_offset_uv]),
+                    &(((int32_t*)candidate_buffer->recon_coeff_ptr->buffer_cb)[txb_1d_offset_uv]),
                     recBuffer,
                     candidate_buffer->recon_ptr->stride_cb,
                     context_ptr->blk_geom->txsize_uv[txb_itr],
@@ -1026,7 +1026,7 @@ void AV1PerformInverseTransformRecon(
                         memcpy(recBuffer + j * candidate_buffer->recon_ptr->stride_cr, predBuffer + j * candidate_buffer->prediction_ptr->stride_cr, chroma_tu_width);
 
                 av1_inv_transform_recon8bit(
-                    &(((int32_t*)candidate_buffer->reconCoeffPtr->buffer_cr)[txb_1d_offset_uv]),
+                    &(((int32_t*)candidate_buffer->recon_coeff_ptr->buffer_cr)[txb_1d_offset_uv]),
                     recBuffer,
                     candidate_buffer->recon_ptr->stride_cr,
                     context_ptr->blk_geom->txsize_uv[txb_itr],
@@ -1432,8 +1432,8 @@ void ProductPerformFastLoop(
                 if (bsize == BLOCK_64X64 && candidate_ptr->type == INTER_MODE) { // Nader - to be reviewed for 128x128 sb
 
                     uint32_t  pred_direction = (uint32_t)candidate_ptr->prediction_direction[0];
-                    EbBool list0ZZ = (pred_direction & 1) ? EB_TRUE : (EbBool)(candidate_ptr->motionVector_x_L0 == 0 && candidate_ptr->motionVector_y_L0 == 0);
-                    EbBool list1ZZ = (pred_direction > 0) ? (EbBool)(candidate_ptr->motionVector_x_L1 == 0 && candidate_ptr->motionVector_y_L1 == 0) : EB_TRUE;
+                    EbBool list0ZZ = (pred_direction & 1) ? EB_TRUE : (EbBool)(candidate_ptr->motion_vector_xl0 == 0 && candidate_ptr->motion_vector_yl0 == 0);
+                    EbBool list1ZZ = (pred_direction > 0) ? (EbBool)(candidate_ptr->motion_vector_xl1 == 0 && candidate_ptr->motion_vector_yl1 == 0) : EB_TRUE;
 
                     isCandzz = (list0ZZ && list1ZZ) ? 1 : 0;
                     chromaFastDistortion = isCandzz ? chromaFastDistortion >> 2 : chromaFastDistortion;
@@ -1614,8 +1614,8 @@ void AV1CostCalcCfl(
             &(candidate_buffer->prediction_ptr->buffer_cb[cu_chroma_origin_index]),
             candidate_buffer->prediction_ptr->stride_cb,
             //dst_16,
-            &(candidate_buffer->cflTempPredictionPtr->buffer_cb[cu_chroma_origin_index]),
-            candidate_buffer->cflTempPredictionPtr->stride_cb,
+            &(candidate_buffer->cfl_temp_prediction_ptr->buffer_cb[cu_chroma_origin_index]),
+            candidate_buffer->cfl_temp_prediction_ptr->stride_cb,
             alpha_q3,
             8,
             chroma_width,
@@ -1625,8 +1625,8 @@ void AV1CostCalcCfl(
         ResidualKernel(
             &(input_picture_ptr->buffer_cb[input_cb_origin_index]),
             input_picture_ptr->stride_cb,
-            &(candidate_buffer->cflTempPredictionPtr->buffer_cb[cu_chroma_origin_index]),
-            candidate_buffer->cflTempPredictionPtr->stride_cb,
+            &(candidate_buffer->cfl_temp_prediction_ptr->buffer_cb[cu_chroma_origin_index]),
+            candidate_buffer->cfl_temp_prediction_ptr->stride_cb,
             &(((int16_t*)candidate_buffer->residual_ptr->buffer_cb)[cu_chroma_origin_index]),
             candidate_buffer->residual_ptr->stride_cb,
             chroma_width,
@@ -1689,8 +1689,8 @@ void AV1CostCalcCfl(
             &(candidate_buffer->prediction_ptr->buffer_cr[cu_chroma_origin_index]),
             candidate_buffer->prediction_ptr->stride_cr,
             //dst_16,
-            &(candidate_buffer->cflTempPredictionPtr->buffer_cr[cu_chroma_origin_index]),
-            candidate_buffer->cflTempPredictionPtr->stride_cr,
+            &(candidate_buffer->cfl_temp_prediction_ptr->buffer_cr[cu_chroma_origin_index]),
+            candidate_buffer->cfl_temp_prediction_ptr->stride_cr,
             alpha_q3,
             8,
             chroma_width,
@@ -1700,8 +1700,8 @@ void AV1CostCalcCfl(
         ResidualKernel(
             &(input_picture_ptr->buffer_cr[input_cb_origin_index]),
             input_picture_ptr->stride_cr,
-            &(candidate_buffer->cflTempPredictionPtr->buffer_cr[cu_chroma_origin_index]),
-            candidate_buffer->cflTempPredictionPtr->stride_cr,
+            &(candidate_buffer->cfl_temp_prediction_ptr->buffer_cr[cu_chroma_origin_index]),
+            candidate_buffer->cfl_temp_prediction_ptr->stride_cr,
             &(((int16_t*)candidate_buffer->residual_ptr->buffer_cr)[cu_chroma_origin_index]),
             candidate_buffer->residual_ptr->stride_cr,
             chroma_width,
@@ -2812,7 +2812,7 @@ void inter_depth_tx_search(
                 uint32_t  bwidth = context_ptr->blk_geom->tx_width[txb_itr] < 64 ? context_ptr->blk_geom->tx_width[txb_itr] : 32;
                 uint32_t  bheight = context_ptr->blk_geom->tx_height[txb_itr] < 64 ? context_ptr->blk_geom->tx_height[txb_itr] : 32;
 
-                int32_t* src_ptr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->buffer_y)[txb_1d_offset]);
+                int32_t* src_ptr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residual_quant_coeff_ptr->buffer_y)[txb_1d_offset]);
                 int32_t* dst_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->buffer_y)[txb_1d_offset]);
 
                 uint32_t j;
@@ -2828,7 +2828,7 @@ void inter_depth_tx_search(
                     bwidth = context_ptr->blk_geom->tx_width_uv[txb_itr];
                     bheight = context_ptr->blk_geom->tx_height_uv[txb_itr];
 
-                    src_ptr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->buffer_cb)[txb_1d_offset_uv]);
+                    src_ptr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residual_quant_coeff_ptr->buffer_cb)[txb_1d_offset_uv]);
                     dst_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->buffer_cb)[txb_1d_offset_uv]);
 
                     for (j = 0; j < bheight; j++)
@@ -2836,7 +2836,7 @@ void inter_depth_tx_search(
                         memcpy(dst_ptr + j * bwidth, src_ptr + j * bwidth, bwidth * sizeof(int32_t));
                     }
 
-                    src_ptr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residualQuantCoeffPtr->buffer_cr)[txb_1d_offset_uv]);
+                    src_ptr = &(((int32_t*)buffer_ptr_array[lowestCostIndex]->residual_quant_coeff_ptr->buffer_cr)[txb_1d_offset_uv]);
                     dst_ptr = &(((int32_t*)context_ptr->cu_ptr->coeff_tmp->buffer_cr)[txb_1d_offset_uv]);
 
                     for (j = 0; j < bheight; j++)

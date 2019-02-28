@@ -1062,8 +1062,8 @@ EbErrorType av1_inter_fast_cost(
 
                     predRefX = candidate_ptr->motion_vector_pred_x[refListIdx];
                     predRefY = candidate_ptr->motion_vector_pred_y[refListIdx];
-                    mvRefX = refListIdx == REF_LIST_1 ? candidate_ptr->motionVector_x_L1 : candidate_ptr->motionVector_x_L0;
-                    mvRefY = refListIdx == REF_LIST_1 ? candidate_ptr->motionVector_y_L1 : candidate_ptr->motionVector_y_L0;
+                    mvRefX = refListIdx == REF_LIST_1 ? candidate_ptr->motion_vector_xl1 : candidate_ptr->motion_vector_xl0;
+                    mvRefY = refListIdx == REF_LIST_1 ? candidate_ptr->motion_vector_yl1 : candidate_ptr->motion_vector_yl0;
 
 
                     MV mv;
@@ -1087,8 +1087,8 @@ EbErrorType av1_inter_fast_cost(
 
                 predRefX = candidate_ptr->motion_vector_pred_x[REF_LIST_1];
                 predRefY = candidate_ptr->motion_vector_pred_y[REF_LIST_1];
-                mvRefX = candidate_ptr->motionVector_x_L1;
-                mvRefY = candidate_ptr->motionVector_y_L1;
+                mvRefX = candidate_ptr->motion_vector_xl1;
+                mvRefY = candidate_ptr->motion_vector_yl1;
 
 
                 MV mv;
@@ -1112,8 +1112,8 @@ EbErrorType av1_inter_fast_cost(
 
                 predRefX = candidate_ptr->motion_vector_pred_x[REF_LIST_0];
                 predRefY = candidate_ptr->motion_vector_pred_y[REF_LIST_0];
-                mvRefX = candidate_ptr->motionVector_x_L0;
-                mvRefY = candidate_ptr->motionVector_y_L0;
+                mvRefX = candidate_ptr->motion_vector_xl0;
+                mvRefY = candidate_ptr->motion_vector_yl0;
 
                 MV mv;
                 mv.row = mvRefY;
@@ -1140,8 +1140,8 @@ EbErrorType av1_inter_fast_cost(
             predRefX = candidate_ptr->motion_vector_pred_x[refListIdx];
             predRefY = candidate_ptr->motion_vector_pred_y[refListIdx];
 
-            mvRefX = refListIdx == 0 ? candidate_ptr->motionVector_x_L0 : candidate_ptr->motionVector_x_L1;
-            mvRefY = refListIdx == 0 ? candidate_ptr->motionVector_y_L0 : candidate_ptr->motionVector_y_L1;
+            mvRefX = refListIdx == 0 ? candidate_ptr->motion_vector_xl0 : candidate_ptr->motion_vector_xl1;
+            mvRefY = refListIdx == 0 ? candidate_ptr->motion_vector_yl0 : candidate_ptr->motion_vector_yl1;
 
             MV mv;
             mv.row = mvRefY;
