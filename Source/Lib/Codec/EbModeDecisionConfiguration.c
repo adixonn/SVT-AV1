@@ -1052,8 +1052,8 @@ void PredictionPartitionLoop(
                     cuStatsPtr->origin_x,
                     cuStatsPtr->origin_y,
                     endDepth,
-                    md_rate_estimation_ptr->splitFlagBits[0],
-                    md_rate_estimation_ptr->splitFlagBits[3],
+                    md_rate_estimation_ptr->split_flag_bits[0],
+                    md_rate_estimation_ptr->split_flag_bits[3],
                     context_ptr->lambda,
                     cu_index);
             }

@@ -1764,7 +1764,7 @@ static void cfl_rd_pick_alpha(
 
     const int64_t mode_rd =
         RDCOST(context_ptr->full_lambda,
-        (uint64_t)candidate_buffer->candidate_ptr->md_rate_estimation_ptr->intraUVmodeFacBits[CFL_ALLOWED][candidate_buffer->candidate_ptr->intra_luma_mode][UV_CFL_PRED], 0);
+        (uint64_t)candidate_buffer->candidate_ptr->md_rate_estimation_ptr->intra_uv_mode_fac_bits[CFL_ALLOWED][candidate_buffer->candidate_ptr->intra_luma_mode][UV_CFL_PRED], 0);
 
     int64_t best_rd_uv[CFL_JOINT_SIGNS][CFL_PRED_PLANES];
     int32_t best_c[CFL_JOINT_SIGNS][CFL_PRED_PLANES];
@@ -1800,7 +1800,7 @@ static void cfl_rd_pick_alpha(
                 if (coeffBits == INT64_MAX) break;
             }
 
-            const int32_t alpha_rate = candidate_buffer->candidate_ptr->md_rate_estimation_ptr->cflAlphaFacBits[joint_sign][plane][0];
+            const int32_t alpha_rate = candidate_buffer->candidate_ptr->md_rate_estimation_ptr->cfl_alpha_fac_bits[joint_sign][plane][0];
 
             best_rd_uv[joint_sign][plane] =
                 RDCOST(context_ptr->full_lambda, coeffBits + alpha_rate, full_distortion[DIST_CALC_RESIDUAL]);
@@ -1839,7 +1839,7 @@ static void cfl_rd_pick_alpha(
                         if (coeffBits == INT64_MAX) break;
                     }
 
-                    const int32_t alpha_rate = candidate_buffer->candidate_ptr->md_rate_estimation_ptr->cflAlphaFacBits[joint_sign][plane][c];
+                    const int32_t alpha_rate = candidate_buffer->candidate_ptr->md_rate_estimation_ptr->cfl_alpha_fac_bits[joint_sign][plane][c];
 
                     int64_t this_rd =
                         RDCOST(context_ptr->full_lambda, coeffBits + alpha_rate, full_distortion[DIST_CALC_RESIDUAL]);
@@ -1868,7 +1868,7 @@ static void cfl_rd_pick_alpha(
 
     const int64_t dc_mode_rd =
         RDCOST(context_ptr->full_lambda,
-            candidate_buffer->candidate_ptr->md_rate_estimation_ptr->intraUVmodeFacBits[CFL_ALLOWED][candidate_buffer->candidate_ptr->intra_luma_mode][UV_DC_PRED], 0);
+            candidate_buffer->candidate_ptr->md_rate_estimation_ptr->intra_uv_mode_fac_bits[CFL_ALLOWED][candidate_buffer->candidate_ptr->intra_luma_mode][UV_DC_PRED], 0);
 
     AV1CostCalcCfl(
         picture_control_set_ptr,

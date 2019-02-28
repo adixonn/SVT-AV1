@@ -804,7 +804,7 @@ void PerformEarlyLcuPartitionning(
     mdConfRateEstimationArray += slice_type * TOTAL_NUMBER_OF_QP_VALUES + context_ptr->qp;
 
     // Reset MD rate Estimation table to initial values by copying from md_rate_estimation_array
-    EB_MEMCPY(&(context_ptr->md_rate_estimation_ptr->splitFlagBits[0]), &(mdConfRateEstimationArray->splitFlagBits[0]), sizeof(MdRateEstimationContext));
+    EB_MEMCPY(&(context_ptr->md_rate_estimation_ptr->split_flag_bits[0]), &(mdConfRateEstimationArray->split_flag_bits[0]), sizeof(MdRateEstimationContext));
 
     picture_control_set_ptr->parent_pcs_ptr->average_qp = (uint8_t)picture_control_set_ptr->parent_pcs_ptr->picture_qp;
 
@@ -1331,7 +1331,7 @@ void PartitioningInitialization(
     mdConfRateEstimationArray += slice_type * TOTAL_NUMBER_OF_QP_VALUES + context_ptr->qp;
 
     // Reset MD rate Estimation table to initial values by copying from md_rate_estimation_array
-    EB_MEMCPY(&(context_ptr->md_rate_estimation_ptr->splitFlagBits[0]), &(mdConfRateEstimationArray->splitFlagBits[0]), sizeof(MdRateEstimationContext)/*sizeof(EbBitFraction)* MAX_SIZE_OF_MD_RATE_ESTIMATION_CASES*/);
+    EB_MEMCPY(&(context_ptr->md_rate_estimation_ptr->split_flag_bits[0]), &(mdConfRateEstimationArray->split_flag_bits[0]), sizeof(MdRateEstimationContext)/*sizeof(EbBitFraction)* MAX_SIZE_OF_MD_RATE_ESTIMATION_CASES*/);
 
     picture_control_set_ptr->parent_pcs_ptr->average_qp = (uint8_t)picture_control_set_ptr->parent_pcs_ptr->picture_qp;
 }

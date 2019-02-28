@@ -922,13 +922,13 @@ static INLINE int32_t partition_cdf_length(block_size bsize) {
     else
         return EXT_PARTITION_TYPES;
 }
-static int32_t cdf_element_prob(const aom_cdf_prob *const cdf,
+static int32_t cdf_element_prob(const AomCdfProb *const cdf,
     size_t element) {
     assert(cdf != NULL);
     return (element > 0 ? cdf[element - 1] : CDF_PROB_TOP) - cdf[element];
 }
-static void partition_gather_horz_alike(aom_cdf_prob *out,
-    const aom_cdf_prob *const in,
+static void partition_gather_horz_alike(AomCdfProb *out,
+    const AomCdfProb *const in,
     block_size bsize) {
 
 
@@ -942,8 +942,8 @@ static void partition_gather_horz_alike(aom_cdf_prob *out,
     out[0] = AOM_ICDF(out[0]);
     out[1] = AOM_ICDF(CDF_PROB_TOP);
 }
-static void partition_gather_vert_alike(aom_cdf_prob *out,
-    const aom_cdf_prob *const in,
+static void partition_gather_vert_alike(AomCdfProb *out,
+    const AomCdfProb *const in,
     block_size bsize) {
     out[0] = CDF_PROB_TOP;
     out[0] -= cdf_element_prob(in, PARTITION_VERT);
@@ -1011,7 +1011,7 @@ static void EncodePartitionAv1(
 
     }
     else if (!hasRows && hasCols) {
-        aom_cdf_prob cdf[2];
+        AomCdfProb cdf[2];
         partition_gather_vert_alike(cdf, frameContext->partition_cdf[contextIndex], bsize);
         aom_write_symbol(
             ecWriter,
@@ -1020,7 +1020,7 @@ static void EncodePartitionAv1(
             2);
     }
     else {
-        aom_cdf_prob cdf[2];
+        AomCdfProb cdf[2];
         partition_gather_horz_alike(cdf, frameContext->partition_cdf[contextIndex], bsize);
         aom_write_symbol(
             ecWriter,
@@ -1166,11 +1166,11 @@ static void write_cfl_alphas(FRAME_CONTEXT *const ec_ctx, int32_t idx,
     aom_write_symbol(w, joint_sign, ec_ctx->cfl_sign_cdf, CFL_JOINT_SIGNS);
     // Magnitudes are only signaled for nonzero codes.
     if (CFL_SIGN_U(joint_sign) != CFL_SIGN_ZERO) {
-        aom_cdf_prob *cdf_u = ec_ctx->cfl_alpha_cdf[CFL_CONTEXT_U(joint_sign)];
+        AomCdfProb *cdf_u = ec_ctx->cfl_alpha_cdf[CFL_CONTEXT_U(joint_sign)];
         aom_write_symbol(w, CFL_IDX_U(idx), cdf_u, CFL_ALPHABET_SIZE);
     }
     if (CFL_SIGN_V(joint_sign) != CFL_SIGN_ZERO) {
-        aom_cdf_prob *cdf_v = ec_ctx->cfl_alpha_cdf[CFL_CONTEXT_V(joint_sign)];
+        AomCdfProb *cdf_v = ec_ctx->cfl_alpha_cdf[CFL_CONTEXT_V(joint_sign)];
         aom_write_symbol(w, CFL_IDX_V(idx), cdf_v, CFL_ALPHABET_SIZE);
     }
 }

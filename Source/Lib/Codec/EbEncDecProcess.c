@@ -1802,9 +1802,9 @@ void* enc_dec_kernel(void *input_ptr)
 
 
 #if FILT_PROC
-            EB_MEMCPY(picture_control_set_ptr->parent_pcs_ptr->av1x->sgrproj_restore_cost, context_ptr->md_rate_estimation_ptr->sgrprojRestoreFacBits, 2 * sizeof(int32_t));
-            EB_MEMCPY(picture_control_set_ptr->parent_pcs_ptr->av1x->switchable_restore_cost, context_ptr->md_rate_estimation_ptr->switchableRestoreFacBits, 3 * sizeof(int32_t));
-            EB_MEMCPY(picture_control_set_ptr->parent_pcs_ptr->av1x->wiener_restore_cost, context_ptr->md_rate_estimation_ptr->wienerRestoreFacBits, 2 * sizeof(int32_t));
+            EB_MEMCPY(picture_control_set_ptr->parent_pcs_ptr->av1x->sgrproj_restore_cost, context_ptr->md_rate_estimation_ptr->sgrproj_restore_fac_bits, 2 * sizeof(int32_t));
+            EB_MEMCPY(picture_control_set_ptr->parent_pcs_ptr->av1x->switchable_restore_cost, context_ptr->md_rate_estimation_ptr->switchable_restore_fac_bits, 3 * sizeof(int32_t));
+            EB_MEMCPY(picture_control_set_ptr->parent_pcs_ptr->av1x->wiener_restore_cost, context_ptr->md_rate_estimation_ptr->wiener_restore_fac_bits, 2 * sizeof(int32_t));
             picture_control_set_ptr->parent_pcs_ptr->av1x->rdmult = context_ptr->full_lambda;
 
 #else
@@ -1829,9 +1829,9 @@ void* enc_dec_kernel(void *input_ptr)
                     context_ptr->trial_frame_rst,
                     &trial_frame_rst);
 
-                memcpy(&picture_control_set_ptr->parent_pcs_ptr->av1x->sgrproj_restore_cost, &context_ptr->md_rate_estimation_ptr->sgrprojRestoreFacBits, 2 * sizeof(int32_t));
-                memcpy(&picture_control_set_ptr->parent_pcs_ptr->av1x->switchable_restore_cost, &context_ptr->md_rate_estimation_ptr->switchableRestoreFacBits, 3 * sizeof(int32_t));
-                memcpy(&picture_control_set_ptr->parent_pcs_ptr->av1x->wiener_restore_cost, &context_ptr->md_rate_estimation_ptr->wienerRestoreFacBits, 2 * sizeof(int32_t));
+                memcpy(&picture_control_set_ptr->parent_pcs_ptr->av1x->sgrproj_restore_cost, &context_ptr->md_rate_estimation_ptr->sgrproj_restore_fac_bits, 2 * sizeof(int32_t));
+                memcpy(&picture_control_set_ptr->parent_pcs_ptr->av1x->switchable_restore_cost, &context_ptr->md_rate_estimation_ptr->switchable_restore_fac_bits, 3 * sizeof(int32_t));
+                memcpy(&picture_control_set_ptr->parent_pcs_ptr->av1x->wiener_restore_cost, &context_ptr->md_rate_estimation_ptr->wiener_restore_fac_bits, 2 * sizeof(int32_t));
                 picture_control_set_ptr->parent_pcs_ptr->av1x->rdmult = context_ptr->full_lambda;
 
                 av1_pick_filter_restoration(
