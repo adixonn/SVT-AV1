@@ -14,8 +14,8 @@ EbErrorType packetization_reorder_entry_ctor(
 
     (*entry_dbl_ptr)->picture_number = picture_number;
     (*entry_dbl_ptr)->output_stream_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
-    (*entry_dbl_ptr)->outputStatisticsWrapperPtr = (EbObjectWrapper *)EB_NULL;
-    (*entry_dbl_ptr)->outMetaData = (EbLinkedListNode*)EB_NULL;
+    (*entry_dbl_ptr)->output_statistics_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
+    (*entry_dbl_ptr)->out_meta_data = (EbLinkedListNode*)EB_NULL;
 
     return EB_ErrorNone;
 }
