@@ -466,12 +466,12 @@ void GeneratePuIntraLumaNeighborModes(
         puOriginX_round >> 1);
 
     (&cu_ptr->prediction_unit_array[0])->intra_luma_left_mode = (uint32_t)(
-        (mode_type_neighbor_array->leftArray[modeTypeLeftNeighborIndex] != INTRA_MODE) ? DC_PRED/*EB_INTRA_DC*/ :
-        (uint32_t)intraLumaNeighborArray->leftArray[intraLumaModeLeftNeighborIndex]);
+        (mode_type_neighbor_array->left_array[modeTypeLeftNeighborIndex] != INTRA_MODE) ? DC_PRED/*EB_INTRA_DC*/ :
+        (uint32_t)intraLumaNeighborArray->left_array[intraLumaModeLeftNeighborIndex]);
 
     (&cu_ptr->prediction_unit_array[0])->intra_luma_top_mode = (uint32_t)(
-        (mode_type_neighbor_array->topArray[modeTypeTopNeighborIndex] != INTRA_MODE) ? DC_PRED/*EB_INTRA_DC*/ :
-        (uint32_t)intraLumaNeighborArray->topArray[intraLumaModeTopNeighborIndex]);       //   use DC. This seems like we could use a LCU-width
+        (mode_type_neighbor_array->top_array[modeTypeTopNeighborIndex] != INTRA_MODE) ? DC_PRED/*EB_INTRA_DC*/ :
+        (uint32_t)intraLumaNeighborArray->top_array[intraLumaModeTopNeighborIndex]);       //   use DC. This seems like we could use a LCU-width
 
     uint32_t modeTypeLeftNeighborIndex_round = get_neighbor_array_unit_left_index(
         mode_type_neighbor_array,
@@ -481,12 +481,12 @@ void GeneratePuIntraLumaNeighborModes(
         puOriginX_round);
 
     (&cu_ptr->prediction_unit_array[0])->intra_chroma_left_mode = (uint32_t)(
-        (mode_type_neighbor_array->leftArray[modeTypeLeftNeighborIndex_round] != INTRA_MODE) ? UV_DC_PRED :
-        (uint32_t)intraChromaNeighborArray->leftArray[intraChromaModeLeftNeighborIndex]);
+        (mode_type_neighbor_array->left_array[modeTypeLeftNeighborIndex_round] != INTRA_MODE) ? UV_DC_PRED :
+        (uint32_t)intraChromaNeighborArray->left_array[intraChromaModeLeftNeighborIndex]);
 
     (&cu_ptr->prediction_unit_array[0])->intra_chroma_top_mode = (uint32_t)(
-        (mode_type_neighbor_array->topArray[modeTypeTopNeighborIndex_round] != INTRA_MODE) ? UV_DC_PRED :
-        (uint32_t)intraChromaNeighborArray->topArray[intraChromaModeTopNeighborIndex]);       //   use DC. This seems like we could use a LCU-width
+        (mode_type_neighbor_array->top_array[modeTypeTopNeighborIndex_round] != INTRA_MODE) ? UV_DC_PRED :
+        (uint32_t)intraChromaNeighborArray->top_array[intraChromaModeTopNeighborIndex]);       //   use DC. This seems like we could use a LCU-width
 
 
     return;
@@ -3318,28 +3318,28 @@ EB_EXTERN void av1_encode_pass(
                                     TxSize  tx_size = plane ? blk_geom->txsize_uv[context_ptr->txb_itr] : blk_geom->txsize[context_ptr->txb_itr];
                                     if (plane == 0) {
                                         if (context_ptr->cu_origin_y != 0)
-                                            memcpy(topNeighArray + 1, (uint16_t*)(ep_luma_recon_neighbor_array->topArray) + context_ptr->cu_origin_x, blk_geom->bwidth * 2 * sizeof(uint16_t));
+                                            memcpy(topNeighArray + 1, (uint16_t*)(ep_luma_recon_neighbor_array->top_array) + context_ptr->cu_origin_x, blk_geom->bwidth * 2 * sizeof(uint16_t));
                                         if (context_ptr->cu_origin_x != 0)
-                                            memcpy(leftNeighArray + 1, (uint16_t*)(ep_luma_recon_neighbor_array->leftArray) + context_ptr->cu_origin_y, blk_geom->bheight * 2 * sizeof(uint16_t));
+                                            memcpy(leftNeighArray + 1, (uint16_t*)(ep_luma_recon_neighbor_array->left_array) + context_ptr->cu_origin_y, blk_geom->bheight * 2 * sizeof(uint16_t));
                                         if (context_ptr->cu_origin_y != 0 && context_ptr->cu_origin_x != 0)
-                                            topNeighArray[0] = leftNeighArray[0] = ((uint16_t*)(ep_luma_recon_neighbor_array->topLeftArray) + MAX_PICTURE_HEIGHT_SIZE + context_ptr->cu_origin_x - context_ptr->cu_origin_y)[0];
+                                            topNeighArray[0] = leftNeighArray[0] = ((uint16_t*)(ep_luma_recon_neighbor_array->top_left_array) + MAX_PICTURE_HEIGHT_SIZE + context_ptr->cu_origin_x - context_ptr->cu_origin_y)[0];
                                     }
 
                                     else if (plane == 1) {
                                         if (cu_originy_uv != 0)
-                                            memcpy(topNeighArray + 1, (uint16_t*)(ep_cb_recon_neighbor_array->topArray) + cu_originx_uv, blk_geom->bwidth_uv * 2 * sizeof(uint16_t));
+                                            memcpy(topNeighArray + 1, (uint16_t*)(ep_cb_recon_neighbor_array->top_array) + cu_originx_uv, blk_geom->bwidth_uv * 2 * sizeof(uint16_t));
                                         if (cu_originx_uv != 0)
-                                            memcpy(leftNeighArray + 1, (uint16_t*)(ep_cb_recon_neighbor_array->leftArray) + cu_originy_uv, blk_geom->bheight_uv * 2 * sizeof(uint16_t));
+                                            memcpy(leftNeighArray + 1, (uint16_t*)(ep_cb_recon_neighbor_array->left_array) + cu_originy_uv, blk_geom->bheight_uv * 2 * sizeof(uint16_t));
                                         if (cu_originy_uv != 0 && cu_originx_uv != 0)
-                                            topNeighArray[0] = leftNeighArray[0] = ((uint16_t*)(ep_cb_recon_neighbor_array->topLeftArray) + MAX_PICTURE_HEIGHT_SIZE / 2 + cu_originx_uv - cu_originy_uv)[0];
+                                            topNeighArray[0] = leftNeighArray[0] = ((uint16_t*)(ep_cb_recon_neighbor_array->top_left_array) + MAX_PICTURE_HEIGHT_SIZE / 2 + cu_originx_uv - cu_originy_uv)[0];
                                     }
                                     else {
                                         if (cu_originy_uv != 0)
-                                            memcpy(topNeighArray + 1, (uint16_t*)(ep_cr_recon_neighbor_array->topArray) + cu_originx_uv, blk_geom->bwidth_uv * 2 * sizeof(uint16_t));
+                                            memcpy(topNeighArray + 1, (uint16_t*)(ep_cr_recon_neighbor_array->top_array) + cu_originx_uv, blk_geom->bwidth_uv * 2 * sizeof(uint16_t));
                                         if (cu_originx_uv != 0)
-                                            memcpy(leftNeighArray + 1, (uint16_t*)(ep_cr_recon_neighbor_array->leftArray) + cu_originy_uv, blk_geom->bheight_uv * 2 * sizeof(uint16_t));
+                                            memcpy(leftNeighArray + 1, (uint16_t*)(ep_cr_recon_neighbor_array->left_array) + cu_originy_uv, blk_geom->bheight_uv * 2 * sizeof(uint16_t));
                                         if (cu_originy_uv != 0 && cu_originx_uv != 0)
-                                            topNeighArray[0] = leftNeighArray[0] = ((uint16_t*)(ep_cr_recon_neighbor_array->topLeftArray) + MAX_PICTURE_HEIGHT_SIZE / 2 + cu_originx_uv - cu_originy_uv)[0];
+                                            topNeighArray[0] = leftNeighArray[0] = ((uint16_t*)(ep_cr_recon_neighbor_array->top_left_array) + MAX_PICTURE_HEIGHT_SIZE / 2 + cu_originx_uv - cu_originy_uv)[0];
 
                                     }
 
@@ -3389,34 +3389,34 @@ EB_EXTERN void av1_encode_pass(
 
                                     if (plane == 0) {
                                         if (context_ptr->cu_origin_y != 0)
-                                            memcpy(topNeighArray + 1, ep_luma_recon_neighbor_array->topArray + context_ptr->cu_origin_x, blk_geom->bwidth * 2);
+                                            memcpy(topNeighArray + 1, ep_luma_recon_neighbor_array->top_array + context_ptr->cu_origin_x, blk_geom->bwidth * 2);
 
                                         if (context_ptr->cu_origin_x != 0)
-                                            memcpy(leftNeighArray + 1, ep_luma_recon_neighbor_array->leftArray + context_ptr->cu_origin_y, blk_geom->bheight * 2);
+                                            memcpy(leftNeighArray + 1, ep_luma_recon_neighbor_array->left_array + context_ptr->cu_origin_y, blk_geom->bheight * 2);
 
                                         if (context_ptr->cu_origin_y != 0 && context_ptr->cu_origin_x != 0)
-                                            topNeighArray[0] = leftNeighArray[0] = ep_luma_recon_neighbor_array->topLeftArray[MAX_PICTURE_HEIGHT_SIZE + context_ptr->cu_origin_x - context_ptr->cu_origin_y];
+                                            topNeighArray[0] = leftNeighArray[0] = ep_luma_recon_neighbor_array->top_left_array[MAX_PICTURE_HEIGHT_SIZE + context_ptr->cu_origin_x - context_ptr->cu_origin_y];
                                     }
 
                                     else if (plane == 1) {
                                         if (cu_originy_uv != 0)
-                                            memcpy(topNeighArray + 1, ep_cb_recon_neighbor_array->topArray + cu_originx_uv, blk_geom->bwidth_uv * 2);
+                                            memcpy(topNeighArray + 1, ep_cb_recon_neighbor_array->top_array + cu_originx_uv, blk_geom->bwidth_uv * 2);
 
                                         if (cu_originx_uv != 0)
-                                            memcpy(leftNeighArray + 1, ep_cb_recon_neighbor_array->leftArray + cu_originy_uv, blk_geom->bheight_uv * 2);
+                                            memcpy(leftNeighArray + 1, ep_cb_recon_neighbor_array->left_array + cu_originy_uv, blk_geom->bheight_uv * 2);
 
                                         if (cu_originy_uv != 0 && cu_originx_uv != 0)
-                                            topNeighArray[0] = leftNeighArray[0] = ep_cb_recon_neighbor_array->topLeftArray[MAX_PICTURE_HEIGHT_SIZE / 2 + cu_originx_uv - cu_originy_uv];
+                                            topNeighArray[0] = leftNeighArray[0] = ep_cb_recon_neighbor_array->top_left_array[MAX_PICTURE_HEIGHT_SIZE / 2 + cu_originx_uv - cu_originy_uv];
                                     }
                                     else {
                                         if (cu_originy_uv != 0)
-                                            memcpy(topNeighArray + 1, ep_cr_recon_neighbor_array->topArray + cu_originx_uv, blk_geom->bwidth_uv * 2);
+                                            memcpy(topNeighArray + 1, ep_cr_recon_neighbor_array->top_array + cu_originx_uv, blk_geom->bwidth_uv * 2);
 
                                         if (cu_originx_uv != 0)
-                                            memcpy(leftNeighArray + 1, ep_cr_recon_neighbor_array->leftArray + cu_originy_uv, blk_geom->bheight_uv * 2);
+                                            memcpy(leftNeighArray + 1, ep_cr_recon_neighbor_array->left_array + cu_originy_uv, blk_geom->bheight_uv * 2);
 
                                         if (cu_originy_uv != 0 && cu_originx_uv != 0)
-                                            topNeighArray[0] = leftNeighArray[0] = ep_cr_recon_neighbor_array->topLeftArray[MAX_PICTURE_HEIGHT_SIZE / 2 + cu_originx_uv - cu_originy_uv];
+                                            topNeighArray[0] = leftNeighArray[0] = ep_cr_recon_neighbor_array->top_left_array[MAX_PICTURE_HEIGHT_SIZE / 2 + cu_originx_uv - cu_originy_uv];
                                     }
 
                                     if (plane)
@@ -3483,27 +3483,27 @@ EB_EXTERN void av1_encode_pass(
                                 if (plane == 0) {
 
                                     if (context_ptr->cu_origin_y != 0)
-                                        memcpy(topNeighArray + 1, ep_luma_recon_neighbor_array->topArray + context_ptr->cu_origin_x, size);
+                                        memcpy(topNeighArray + 1, ep_luma_recon_neighbor_array->top_array + context_ptr->cu_origin_x, size);
                                     if (context_ptr->cu_origin_x != 0)
-                                        memcpy(leftNeighArray + 1, ep_luma_recon_neighbor_array->leftArray + context_ptr->cu_origin_y, size);
+                                        memcpy(leftNeighArray + 1, ep_luma_recon_neighbor_array->left_array + context_ptr->cu_origin_y, size);
                                     if (context_ptr->cu_origin_y != 0 && context_ptr->cu_origin_x != 0)
-                                        topNeighArray[0] = leftNeighArray[0] = ep_luma_recon_neighbor_array->topLeftArray[MAX_PICTURE_HEIGHT_SIZE + context_ptr->cu_origin_x - context_ptr->cu_origin_y];
+                                        topNeighArray[0] = leftNeighArray[0] = ep_luma_recon_neighbor_array->top_left_array[MAX_PICTURE_HEIGHT_SIZE + context_ptr->cu_origin_x - context_ptr->cu_origin_y];
                                 }
                                 else if (plane == 1) {
                                     if (context_ptr->cu_origin_y != 0)
-                                        memcpy(topNeighArray + 1, ep_cb_recon_neighbor_array->topArray + context_ptr->cu_origin_x / 2, size / 2);
+                                        memcpy(topNeighArray + 1, ep_cb_recon_neighbor_array->top_array + context_ptr->cu_origin_x / 2, size / 2);
                                     if (context_ptr->cu_origin_x != 0)
-                                        memcpy(leftNeighArray + 1, ep_cb_recon_neighbor_array->leftArray + context_ptr->cu_origin_y / 2, size / 2);
+                                        memcpy(leftNeighArray + 1, ep_cb_recon_neighbor_array->left_array + context_ptr->cu_origin_y / 2, size / 2);
                                     if (context_ptr->cu_origin_y != 0 && context_ptr->cu_origin_x != 0)
-                                        topNeighArray[0] = leftNeighArray[0] = ep_cb_recon_neighbor_array->topLeftArray[MAX_PICTURE_HEIGHT_SIZE / 2 + context_ptr->cu_origin_x / 2 - context_ptr->cu_origin_y / 2];
+                                        topNeighArray[0] = leftNeighArray[0] = ep_cb_recon_neighbor_array->top_left_array[MAX_PICTURE_HEIGHT_SIZE / 2 + context_ptr->cu_origin_x / 2 - context_ptr->cu_origin_y / 2];
                                 }
                                 else {
                                     if (context_ptr->cu_origin_y != 0)
-                                        memcpy(topNeighArray + 1, ep_cr_recon_neighbor_array->topArray + context_ptr->cu_origin_x / 2, size / 2);
+                                        memcpy(topNeighArray + 1, ep_cr_recon_neighbor_array->top_array + context_ptr->cu_origin_x / 2, size / 2);
                                     if (context_ptr->cu_origin_x != 0)
-                                        memcpy(leftNeighArray + 1, ep_cr_recon_neighbor_array->leftArray + context_ptr->cu_origin_y / 2, size / 2);
+                                        memcpy(leftNeighArray + 1, ep_cr_recon_neighbor_array->left_array + context_ptr->cu_origin_y / 2, size / 2);
                                     if (context_ptr->cu_origin_y != 0 && context_ptr->cu_origin_x != 0)
-                                        topNeighArray[0] = leftNeighArray[0] = ep_cr_recon_neighbor_array->topLeftArray[MAX_PICTURE_HEIGHT_SIZE / 2 + context_ptr->cu_origin_x / 2 - context_ptr->cu_origin_y / 2];
+                                        topNeighArray[0] = leftNeighArray[0] = ep_cr_recon_neighbor_array->top_left_array[MAX_PICTURE_HEIGHT_SIZE / 2 + context_ptr->cu_origin_x / 2 - context_ptr->cu_origin_y / 2];
 
                                 }
                                 if (plane)

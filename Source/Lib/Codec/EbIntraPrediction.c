@@ -595,20 +595,20 @@ EbErrorType generate_intra_reference_samples_encode_pass(
     uint32_t                writeCountChroma;
 
     // Neighbor Arrays
-    uint32_t                topModeNeighborArraySize = mode_type_neighbor_array->topArraySize;
-    uint8_t                *topModeNeighborArray = mode_type_neighbor_array->topArray;
-    uint32_t                leftModeNeighborArraySize = mode_type_neighbor_array->leftArraySize;
-    uint8_t                *leftModeNeighborArray = mode_type_neighbor_array->leftArray;
-    uint8_t                *topLeftModeNeighborArray = mode_type_neighbor_array->topLeftArray;
-    uint8_t                *topLumaReconNeighborArray = luma_recon_neighbor_array->topArray;
-    uint8_t                *leftLumaReconNeighborArray = luma_recon_neighbor_array->leftArray;
-    uint8_t                *topLeftLumaReconNeighborArray = luma_recon_neighbor_array->topLeftArray;
-    uint8_t                *topCbReconNeighborArray = cb_recon_neighbor_array->topArray;
-    uint8_t                *leftCbReconNeighborArray = cb_recon_neighbor_array->leftArray;
-    uint8_t                *topLeftCbReconNeighborArray = cb_recon_neighbor_array->topLeftArray;
-    uint8_t                *topCrReconNeighborArray = cr_recon_neighbor_array->topArray;
-    uint8_t                *leftCrReconNeighborArray = cr_recon_neighbor_array->leftArray;
-    uint8_t                *topLeftCrReconNeighborArray = cr_recon_neighbor_array->topLeftArray;
+    uint32_t                topModeNeighborArraySize = mode_type_neighbor_array->top_array_size;
+    uint8_t                *topModeNeighborArray = mode_type_neighbor_array->top_array;
+    uint32_t                leftModeNeighborArraySize = mode_type_neighbor_array->left_array_size;
+    uint8_t                *leftModeNeighborArray = mode_type_neighbor_array->left_array;
+    uint8_t                *topLeftModeNeighborArray = mode_type_neighbor_array->top_left_array;
+    uint8_t                *topLumaReconNeighborArray = luma_recon_neighbor_array->top_array;
+    uint8_t                *leftLumaReconNeighborArray = luma_recon_neighbor_array->left_array;
+    uint8_t                *topLeftLumaReconNeighborArray = luma_recon_neighbor_array->top_left_array;
+    uint8_t                *topCbReconNeighborArray = cb_recon_neighbor_array->top_array;
+    uint8_t                *leftCbReconNeighborArray = cb_recon_neighbor_array->left_array;
+    uint8_t                *topLeftCbReconNeighborArray = cb_recon_neighbor_array->top_left_array;
+    uint8_t                *topCrReconNeighborArray = cr_recon_neighbor_array->top_array;
+    uint8_t                *leftCrReconNeighborArray = cr_recon_neighbor_array->left_array;
+    uint8_t                *topLeftCrReconNeighborArray = cr_recon_neighbor_array->top_left_array;
 
     // The Generate Intra Reference sample process is a single pass algorithm
     //   that runs through the neighbor arrays from the bottom left to top right
@@ -1113,21 +1113,21 @@ EbErrorType generate_intra_reference16bit_samples_encode_pass(
     uint32_t                writeCountChroma;
 
     // Neighbor Arrays
-    uint32_t                topModeNeighborArraySize = mode_type_neighbor_array->topArraySize;
-    uint8_t                *topModeNeighborArray = mode_type_neighbor_array->topArray;
-    uint32_t                leftModeNeighborArraySize = mode_type_neighbor_array->leftArraySize;
-    uint8_t                *leftModeNeighborArray = mode_type_neighbor_array->leftArray;
-    uint8_t                *topLeftModeNeighborArray = mode_type_neighbor_array->topLeftArray;
+    uint32_t                topModeNeighborArraySize = mode_type_neighbor_array->top_array_size;
+    uint8_t                *topModeNeighborArray = mode_type_neighbor_array->top_array;
+    uint32_t                leftModeNeighborArraySize = mode_type_neighbor_array->left_array_size;
+    uint8_t                *leftModeNeighborArray = mode_type_neighbor_array->left_array;
+    uint8_t                *topLeftModeNeighborArray = mode_type_neighbor_array->top_left_array;
 
-    uint16_t                *topLumaReconNeighborArray = (uint16_t*)luma_recon_neighbor_array->topArray;
-    uint16_t                *leftLumaReconNeighborArray = (uint16_t*)luma_recon_neighbor_array->leftArray;
-    uint16_t                *topLeftLumaReconNeighborArray = (uint16_t*)luma_recon_neighbor_array->topLeftArray;
-    uint16_t                *topCbReconNeighborArray = (uint16_t*)cb_recon_neighbor_array->topArray;
-    uint16_t                *leftCbReconNeighborArray = (uint16_t*)cb_recon_neighbor_array->leftArray;
-    uint16_t                *topLeftCbReconNeighborArray = (uint16_t*)cb_recon_neighbor_array->topLeftArray;
-    uint16_t                *topCrReconNeighborArray = (uint16_t*)cr_recon_neighbor_array->topArray;
-    uint16_t                *leftCrReconNeighborArray = (uint16_t*)cr_recon_neighbor_array->leftArray;
-    uint16_t                *topLeftCrReconNeighborArray = (uint16_t*)cr_recon_neighbor_array->topLeftArray;
+    uint16_t                *topLumaReconNeighborArray = (uint16_t*)luma_recon_neighbor_array->top_array;
+    uint16_t                *leftLumaReconNeighborArray = (uint16_t*)luma_recon_neighbor_array->left_array;
+    uint16_t                *topLeftLumaReconNeighborArray = (uint16_t*)luma_recon_neighbor_array->top_left_array;
+    uint16_t                *topCbReconNeighborArray = (uint16_t*)cb_recon_neighbor_array->top_array;
+    uint16_t                *leftCbReconNeighborArray = (uint16_t*)cb_recon_neighbor_array->left_array;
+    uint16_t                *topLeftCbReconNeighborArray = (uint16_t*)cb_recon_neighbor_array->top_left_array;
+    uint16_t                *topCrReconNeighborArray = (uint16_t*)cr_recon_neighbor_array->top_array;
+    uint16_t                *leftCrReconNeighborArray = (uint16_t*)cr_recon_neighbor_array->left_array;
+    uint16_t                *topLeftCrReconNeighborArray = (uint16_t*)cr_recon_neighbor_array->top_left_array;
 
     // The Generate Intra Reference sample process is a single pass algorithm
     //   that runs through the neighbor arrays from the bottom left to top right
@@ -1621,14 +1621,14 @@ EbErrorType generate_luma_intra_reference16bit_samples_encode_pass(
     uint32_t                writeCountLuma;
 
     // Neighbor Arrays
-    uint32_t                topModeNeighborArraySize = mode_type_neighbor_array->topArraySize;
-    uint8_t                *topModeNeighborArray = mode_type_neighbor_array->topArray;
-    uint32_t                leftModeNeighborArraySize = mode_type_neighbor_array->leftArraySize;
-    uint8_t                *leftModeNeighborArray = mode_type_neighbor_array->leftArray;
-    uint8_t                *topLeftModeNeighborArray = mode_type_neighbor_array->topLeftArray;
-    uint16_t                *topLumaReconNeighborArray = (uint16_t*)luma_recon_neighbor_array->topArray;
-    uint16_t                *leftLumaReconNeighborArray = (uint16_t*)luma_recon_neighbor_array->leftArray;
-    uint16_t                *topLeftLumaReconNeighborArray = (uint16_t*)luma_recon_neighbor_array->topLeftArray;
+    uint32_t                topModeNeighborArraySize = mode_type_neighbor_array->top_array_size;
+    uint8_t                *topModeNeighborArray = mode_type_neighbor_array->top_array;
+    uint32_t                leftModeNeighborArraySize = mode_type_neighbor_array->left_array_size;
+    uint8_t                *leftModeNeighborArray = mode_type_neighbor_array->left_array;
+    uint8_t                *topLeftModeNeighborArray = mode_type_neighbor_array->top_left_array;
+    uint16_t                *topLumaReconNeighborArray = (uint16_t*)luma_recon_neighbor_array->top_array;
+    uint16_t                *leftLumaReconNeighborArray = (uint16_t*)luma_recon_neighbor_array->left_array;
+    uint16_t                *topLeftLumaReconNeighborArray = (uint16_t*)luma_recon_neighbor_array->top_left_array;
 
     (void)cb_recon_neighbor_array;
     (void)cr_recon_neighbor_array;
@@ -2039,17 +2039,17 @@ EbErrorType generate_chroma_intra_reference16bit_samples_encode_pass(
     uint32_t                writeCountChroma;
 
     // Neighbor Arrays
-    uint32_t                topModeNeighborArraySize = mode_type_neighbor_array->topArraySize;
-    uint8_t                *topModeNeighborArray = mode_type_neighbor_array->topArray;
-    uint32_t                leftModeNeighborArraySize = mode_type_neighbor_array->leftArraySize;
-    uint8_t                *leftModeNeighborArray = mode_type_neighbor_array->leftArray;
-    uint8_t                *topLeftModeNeighborArray = mode_type_neighbor_array->topLeftArray;
-    uint16_t                *topCbReconNeighborArray = (uint16_t*)cb_recon_neighbor_array->topArray;
-    uint16_t                *leftCbReconNeighborArray = (uint16_t*)cb_recon_neighbor_array->leftArray;
-    uint16_t                *topLeftCbReconNeighborArray = (uint16_t*)cb_recon_neighbor_array->topLeftArray;
-    uint16_t                *topCrReconNeighborArray = (uint16_t*)cr_recon_neighbor_array->topArray;
-    uint16_t                *leftCrReconNeighborArray = (uint16_t*)cr_recon_neighbor_array->leftArray;
-    uint16_t                *topLeftCrReconNeighborArray = (uint16_t*)cr_recon_neighbor_array->topLeftArray;
+    uint32_t                topModeNeighborArraySize = mode_type_neighbor_array->top_array_size;
+    uint8_t                *topModeNeighborArray = mode_type_neighbor_array->top_array;
+    uint32_t                leftModeNeighborArraySize = mode_type_neighbor_array->left_array_size;
+    uint8_t                *leftModeNeighborArray = mode_type_neighbor_array->left_array;
+    uint8_t                *topLeftModeNeighborArray = mode_type_neighbor_array->top_left_array;
+    uint16_t                *topCbReconNeighborArray = (uint16_t*)cb_recon_neighbor_array->top_array;
+    uint16_t                *leftCbReconNeighborArray = (uint16_t*)cb_recon_neighbor_array->left_array;
+    uint16_t                *topLeftCbReconNeighborArray = (uint16_t*)cb_recon_neighbor_array->top_left_array;
+    uint16_t                *topCrReconNeighborArray = (uint16_t*)cr_recon_neighbor_array->top_array;
+    uint16_t                *leftCrReconNeighborArray = (uint16_t*)cr_recon_neighbor_array->left_array;
+    uint16_t                *topLeftCrReconNeighborArray = (uint16_t*)cr_recon_neighbor_array->top_left_array;
 
     (void)strong_intra_smoothing_flag;
     (void)luma_recon_neighbor_array;
@@ -8341,23 +8341,23 @@ void generate_intra_reference_samples(
         md_context_ptr->round_origin_x >> 1);
 
     md_context_ptr->intra_luma_left_mode = (uint32_t)(
-        (md_context_ptr->mode_type_neighbor_array->leftArray[modeTypeLeftNeighborIndex] != INTRA_MODE) ? DC_PRED/*EB_INTRA_DC*/ :
-        (uint32_t)md_context_ptr->intra_luma_mode_neighbor_array->leftArray[intraLumaModeLeftNeighborIndex]);
+        (md_context_ptr->mode_type_neighbor_array->left_array[modeTypeLeftNeighborIndex] != INTRA_MODE) ? DC_PRED/*EB_INTRA_DC*/ :
+        (uint32_t)md_context_ptr->intra_luma_mode_neighbor_array->left_array[intraLumaModeLeftNeighborIndex]);
 
     md_context_ptr->intra_luma_top_mode = (uint32_t)(
-        (md_context_ptr->mode_type_neighbor_array->topArray[modeTypeTopNeighborIndex] != INTRA_MODE) ? DC_PRED/*EB_INTRA_DC*/ :
-        (uint32_t)md_context_ptr->intra_luma_mode_neighbor_array->topArray[intraLumaModeTopNeighborIndex]);       //   use DC. This seems like we could use a LCU-width
+        (md_context_ptr->mode_type_neighbor_array->top_array[modeTypeTopNeighborIndex] != INTRA_MODE) ? DC_PRED/*EB_INTRA_DC*/ :
+        (uint32_t)md_context_ptr->intra_luma_mode_neighbor_array->top_array[intraLumaModeTopNeighborIndex]);       //   use DC. This seems like we could use a LCU-width
 
     md_context_ptr->intra_chroma_left_mode = md_context_ptr->intra_luma_left_mode;
     md_context_ptr->intra_chroma_top_mode = md_context_ptr->intra_luma_top_mode;
 
     md_context_ptr->intra_chroma_left_mode = (uint32_t)(
-        (md_context_ptr->mode_type_neighbor_array->leftArray[modeTypeLeftNeighborIndex] != INTRA_MODE) ? UV_DC_PRED :
-        (uint32_t)md_context_ptr->intra_chroma_mode_neighbor_array->leftArray[intraChromaModeLeftNeighborIndex]);
+        (md_context_ptr->mode_type_neighbor_array->left_array[modeTypeLeftNeighborIndex] != INTRA_MODE) ? UV_DC_PRED :
+        (uint32_t)md_context_ptr->intra_chroma_mode_neighbor_array->left_array[intraChromaModeLeftNeighborIndex]);
 
     md_context_ptr->intra_chroma_top_mode = (uint32_t)(
-        (md_context_ptr->mode_type_neighbor_array->topArray[modeTypeTopNeighborIndex] != INTRA_MODE) ? UV_DC_PRED :
-        (uint32_t)md_context_ptr->intra_chroma_mode_neighbor_array->topArray[intraChromaModeTopNeighborIndex]);       //   use DC. This seems like we could use a LCU-width
+        (md_context_ptr->mode_type_neighbor_array->top_array[modeTypeTopNeighborIndex] != INTRA_MODE) ? UV_DC_PRED :
+        (uint32_t)md_context_ptr->intra_chroma_mode_neighbor_array->top_array[intraChromaModeTopNeighborIndex]);       //   use DC. This seems like we could use a LCU-width
 #endif
 
     block_size bsize;
@@ -8375,35 +8375,35 @@ void generate_intra_reference_samples(
 
         if (plane == 0) {
             if (md_context_ptr->cu_origin_y != 0)
-                memcpy(topNeighArray + 1, md_context_ptr->luma_recon_neighbor_array->topArray + md_context_ptr->cu_origin_x, md_context_ptr->blk_geom->bwidth * 2);
+                memcpy(topNeighArray + 1, md_context_ptr->luma_recon_neighbor_array->top_array + md_context_ptr->cu_origin_x, md_context_ptr->blk_geom->bwidth * 2);
             if (md_context_ptr->cu_origin_x != 0)
-                memcpy(leftNeighArray + 1, md_context_ptr->luma_recon_neighbor_array->leftArray + md_context_ptr->cu_origin_y, md_context_ptr->blk_geom->bheight * 2);
+                memcpy(leftNeighArray + 1, md_context_ptr->luma_recon_neighbor_array->left_array + md_context_ptr->cu_origin_y, md_context_ptr->blk_geom->bheight * 2);
             if (md_context_ptr->cu_origin_y != 0 && md_context_ptr->cu_origin_x != 0)
-                topNeighArray[0] = leftNeighArray[0] = md_context_ptr->luma_recon_neighbor_array->topLeftArray[MAX_PICTURE_HEIGHT_SIZE + md_context_ptr->cu_origin_x - md_context_ptr->cu_origin_y];
+                topNeighArray[0] = leftNeighArray[0] = md_context_ptr->luma_recon_neighbor_array->top_left_array[MAX_PICTURE_HEIGHT_SIZE + md_context_ptr->cu_origin_x - md_context_ptr->cu_origin_y];
         }
 
         else if (plane == 1) {
             if (md_context_ptr->round_origin_y != 0)
-                memcpy(topNeighArray + 1, md_context_ptr->cb_recon_neighbor_array->topArray + md_context_ptr->round_origin_x / 2, md_context_ptr->blk_geom->bwidth_uv * 2);
+                memcpy(topNeighArray + 1, md_context_ptr->cb_recon_neighbor_array->top_array + md_context_ptr->round_origin_x / 2, md_context_ptr->blk_geom->bwidth_uv * 2);
 
             if (md_context_ptr->round_origin_x != 0)
 
-                memcpy(leftNeighArray + 1, md_context_ptr->cb_recon_neighbor_array->leftArray + md_context_ptr->round_origin_y / 2, md_context_ptr->blk_geom->bheight_uv * 2);
+                memcpy(leftNeighArray + 1, md_context_ptr->cb_recon_neighbor_array->left_array + md_context_ptr->round_origin_y / 2, md_context_ptr->blk_geom->bheight_uv * 2);
 
             if (md_context_ptr->round_origin_y != 0 && md_context_ptr->round_origin_x != 0)
-                topNeighArray[0] = leftNeighArray[0] = md_context_ptr->cb_recon_neighbor_array->topLeftArray[MAX_PICTURE_HEIGHT_SIZE / 2 + md_context_ptr->round_origin_x / 2 - md_context_ptr->round_origin_y / 2];
+                topNeighArray[0] = leftNeighArray[0] = md_context_ptr->cb_recon_neighbor_array->top_left_array[MAX_PICTURE_HEIGHT_SIZE / 2 + md_context_ptr->round_origin_x / 2 - md_context_ptr->round_origin_y / 2];
         }
         else {
             if (md_context_ptr->round_origin_y != 0)
 
-                memcpy(topNeighArray + 1, md_context_ptr->cr_recon_neighbor_array->topArray + md_context_ptr->round_origin_x / 2, md_context_ptr->blk_geom->bwidth_uv * 2);
+                memcpy(topNeighArray + 1, md_context_ptr->cr_recon_neighbor_array->top_array + md_context_ptr->round_origin_x / 2, md_context_ptr->blk_geom->bwidth_uv * 2);
 
             if (md_context_ptr->round_origin_x != 0)
 
-                memcpy(leftNeighArray + 1, md_context_ptr->cr_recon_neighbor_array->leftArray + md_context_ptr->round_origin_y / 2, md_context_ptr->blk_geom->bheight_uv * 2);
+                memcpy(leftNeighArray + 1, md_context_ptr->cr_recon_neighbor_array->left_array + md_context_ptr->round_origin_y / 2, md_context_ptr->blk_geom->bheight_uv * 2);
 
             if (md_context_ptr->round_origin_y != 0 && md_context_ptr->round_origin_x != 0)
-                topNeighArray[0] = leftNeighArray[0] = md_context_ptr->cr_recon_neighbor_array->topLeftArray[MAX_PICTURE_HEIGHT_SIZE / 2 + md_context_ptr->round_origin_x / 2 - md_context_ptr->round_origin_y / 2];
+                topNeighArray[0] = leftNeighArray[0] = md_context_ptr->cr_recon_neighbor_array->top_left_array[MAX_PICTURE_HEIGHT_SIZE / 2 + md_context_ptr->round_origin_x / 2 - md_context_ptr->round_origin_y / 2];
 
 
         }
@@ -9878,23 +9878,23 @@ EbErrorType av1_intra_prediction_cl(
         md_context_ptr->round_origin_x >> 1);
 
     md_context_ptr->intra_luma_left_mode = (uint32_t)(
-        (md_context_ptr->mode_type_neighbor_array->leftArray[modeTypeLeftNeighborIndex] != INTRA_MODE) ? DC_PRED/*EB_INTRA_DC*/ :
-        (uint32_t)md_context_ptr->intra_luma_mode_neighbor_array->leftArray[intraLumaModeLeftNeighborIndex]);
+        (md_context_ptr->mode_type_neighbor_array->left_array[modeTypeLeftNeighborIndex] != INTRA_MODE) ? DC_PRED/*EB_INTRA_DC*/ :
+        (uint32_t)md_context_ptr->intra_luma_mode_neighbor_array->left_array[intraLumaModeLeftNeighborIndex]);
 
     md_context_ptr->intra_luma_top_mode = (uint32_t)(
-        (md_context_ptr->mode_type_neighbor_array->topArray[modeTypeTopNeighborIndex] != INTRA_MODE) ? DC_PRED/*EB_INTRA_DC*/ :
-        (uint32_t)md_context_ptr->intra_luma_mode_neighbor_array->topArray[intraLumaModeTopNeighborIndex]);       //   use DC. This seems like we could use a LCU-width
+        (md_context_ptr->mode_type_neighbor_array->top_array[modeTypeTopNeighborIndex] != INTRA_MODE) ? DC_PRED/*EB_INTRA_DC*/ :
+        (uint32_t)md_context_ptr->intra_luma_mode_neighbor_array->top_array[intraLumaModeTopNeighborIndex]);       //   use DC. This seems like we could use a LCU-width
 
     md_context_ptr->intra_chroma_left_mode = md_context_ptr->intra_luma_left_mode;
     md_context_ptr->intra_chroma_top_mode = md_context_ptr->intra_luma_top_mode;
 
     md_context_ptr->intra_chroma_left_mode = (uint32_t)(
-        (md_context_ptr->mode_type_neighbor_array->leftArray[modeTypeLeftNeighborIndex] != INTRA_MODE) ? UV_DC_PRED :
-        (uint32_t)md_context_ptr->intra_chroma_mode_neighbor_array->leftArray[intraChromaModeLeftNeighborIndex]);
+        (md_context_ptr->mode_type_neighbor_array->left_array[modeTypeLeftNeighborIndex] != INTRA_MODE) ? UV_DC_PRED :
+        (uint32_t)md_context_ptr->intra_chroma_mode_neighbor_array->left_array[intraChromaModeLeftNeighborIndex]);
 
     md_context_ptr->intra_chroma_top_mode = (uint32_t)(
-        (md_context_ptr->mode_type_neighbor_array->topArray[modeTypeTopNeighborIndex] != INTRA_MODE) ? UV_DC_PRED :
-        (uint32_t)md_context_ptr->intra_chroma_mode_neighbor_array->topArray[intraChromaModeTopNeighborIndex]);       //   use DC. This seems like we could use a LCU-width
+        (md_context_ptr->mode_type_neighbor_array->top_array[modeTypeTopNeighborIndex] != INTRA_MODE) ? UV_DC_PRED :
+        (uint32_t)md_context_ptr->intra_chroma_mode_neighbor_array->top_array[intraChromaModeTopNeighborIndex]);       //   use DC. This seems like we could use a LCU-width
 #endif
     TxSize  tx_size = md_context_ptr->blk_geom->txsize[0]; // Nader - Intra 128x128 not supported
     TxSize  tx_size_Chroma = md_context_ptr->blk_geom->txsize_uv[0]; //Nader - Intra 128x128 not supported
@@ -9911,35 +9911,35 @@ EbErrorType av1_intra_prediction_cl(
 #if !INTRA_CORE_OPT
         if (plane == 0) {
             if (md_context_ptr->cu_origin_y != 0)
-                memcpy(topNeighArray + 1, md_context_ptr->luma_recon_neighbor_array->topArray + md_context_ptr->cu_origin_x, md_context_ptr->blk_geom->bwidth * 2);
+                memcpy(topNeighArray + 1, md_context_ptr->luma_recon_neighbor_array->top_array + md_context_ptr->cu_origin_x, md_context_ptr->blk_geom->bwidth * 2);
             if (md_context_ptr->cu_origin_x != 0)
-                memcpy(leftNeighArray + 1, md_context_ptr->luma_recon_neighbor_array->leftArray + md_context_ptr->cu_origin_y, md_context_ptr->blk_geom->bheight * 2);
+                memcpy(leftNeighArray + 1, md_context_ptr->luma_recon_neighbor_array->left_array + md_context_ptr->cu_origin_y, md_context_ptr->blk_geom->bheight * 2);
             if (md_context_ptr->cu_origin_y != 0 && md_context_ptr->cu_origin_x != 0)
-                topNeighArray[0] = leftNeighArray[0] = md_context_ptr->luma_recon_neighbor_array->topLeftArray[MAX_PICTURE_HEIGHT_SIZE + md_context_ptr->cu_origin_x - md_context_ptr->cu_origin_y];
+                topNeighArray[0] = leftNeighArray[0] = md_context_ptr->luma_recon_neighbor_array->top_left_array[MAX_PICTURE_HEIGHT_SIZE + md_context_ptr->cu_origin_x - md_context_ptr->cu_origin_y];
         }
 
         else if (plane == 1) {
             if (md_context_ptr->round_origin_y != 0)
-                memcpy(topNeighArray + 1, md_context_ptr->cb_recon_neighbor_array->topArray + md_context_ptr->round_origin_x / 2, md_context_ptr->blk_geom->bwidth_uv * 2);
+                memcpy(topNeighArray + 1, md_context_ptr->cb_recon_neighbor_array->top_array + md_context_ptr->round_origin_x / 2, md_context_ptr->blk_geom->bwidth_uv * 2);
 
             if (md_context_ptr->round_origin_x != 0)
 
-                memcpy(leftNeighArray + 1, md_context_ptr->cb_recon_neighbor_array->leftArray + md_context_ptr->round_origin_y / 2, md_context_ptr->blk_geom->bheight_uv * 2);
+                memcpy(leftNeighArray + 1, md_context_ptr->cb_recon_neighbor_array->left_array + md_context_ptr->round_origin_y / 2, md_context_ptr->blk_geom->bheight_uv * 2);
 
             if (md_context_ptr->round_origin_y != 0 && md_context_ptr->round_origin_x != 0)
-                topNeighArray[0] = leftNeighArray[0] = md_context_ptr->cb_recon_neighbor_array->topLeftArray[MAX_PICTURE_HEIGHT_SIZE / 2 + md_context_ptr->round_origin_x / 2 - md_context_ptr->round_origin_y / 2];
+                topNeighArray[0] = leftNeighArray[0] = md_context_ptr->cb_recon_neighbor_array->top_left_array[MAX_PICTURE_HEIGHT_SIZE / 2 + md_context_ptr->round_origin_x / 2 - md_context_ptr->round_origin_y / 2];
         }
         else {
             if (md_context_ptr->round_origin_y != 0)
 
-                memcpy(topNeighArray + 1, md_context_ptr->cr_recon_neighbor_array->topArray + md_context_ptr->round_origin_x / 2, md_context_ptr->blk_geom->bwidth_uv * 2);
+                memcpy(topNeighArray + 1, md_context_ptr->cr_recon_neighbor_array->top_array + md_context_ptr->round_origin_x / 2, md_context_ptr->blk_geom->bwidth_uv * 2);
 
             if (md_context_ptr->round_origin_x != 0)
 
-                memcpy(leftNeighArray + 1, md_context_ptr->cr_recon_neighbor_array->leftArray + md_context_ptr->round_origin_y / 2, md_context_ptr->blk_geom->bheight_uv * 2);
+                memcpy(leftNeighArray + 1, md_context_ptr->cr_recon_neighbor_array->left_array + md_context_ptr->round_origin_y / 2, md_context_ptr->blk_geom->bheight_uv * 2);
 
             if (md_context_ptr->round_origin_y != 0 && md_context_ptr->round_origin_x != 0)
-                topNeighArray[0] = leftNeighArray[0] = md_context_ptr->cr_recon_neighbor_array->topLeftArray[MAX_PICTURE_HEIGHT_SIZE / 2 + md_context_ptr->round_origin_x / 2 - md_context_ptr->round_origin_y / 2];
+                topNeighArray[0] = leftNeighArray[0] = md_context_ptr->cr_recon_neighbor_array->top_left_array[MAX_PICTURE_HEIGHT_SIZE / 2 + md_context_ptr->round_origin_x / 2 - md_context_ptr->round_origin_y / 2];
 
 
         }
