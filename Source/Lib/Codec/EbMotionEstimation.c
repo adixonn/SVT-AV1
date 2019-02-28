@@ -126,25 +126,25 @@ static EB_COMPUTE8X4SAD_TYPE FUNC_TABLE compute8x4SAD_funcPtrArray[ASM_TYPE_TOTA
 /***************************************
 * Function Tables
 ***************************************/
-static EB_EXTSADCALCULATION8X8AND16X16_TYPE ExtSadCalculation_8x8_16x16_funcPtrArray[ASM_TYPE_TOTAL] = {
+static EbExtSadCalculation8x8And16x16Type ExtSadCalculation_8x8_16x16_funcPtrArray[ASM_TYPE_TOTAL] = {
     // NON_AVX2
     ext_sad_calculation_8x8_16x16,
     // AVX2
     ext_sad_calculation_8x8_16x16_sse4_intrin
 };
-static EB_EXTSADCALCULATION32X32AND64X64_TYPE ExtSadCalculation_32x32_64x64_funcPtrArray[ASM_TYPE_TOTAL] = {
+static EbExtSadCalculation32x32And64x64Type ExtSadCalculation_32x32_64x64_funcPtrArray[ASM_TYPE_TOTAL] = {
     // NON_AVX2
     ext_sad_calculation_32x32_64x64,
     // AVX2
     ext_sad_calculation_32x32_64x64_sse4_intrin
 };
-static EB_SADCALCULATION8X8AND16X16_TYPE SadCalculation_8x8_16x16_funcPtrArray[ASM_TYPE_TOTAL] = {
+static EbSadCalculation8x8And16x16Type SadCalculation_8x8_16x16_funcPtrArray[ASM_TYPE_TOTAL] = {
     // NON_AVX2
     sad_calculation_8x8_16x16_sse2_intrin,
     // AVX2
     sad_calculation_8x8_16x16_sse2_intrin,
 };
-static EB_SADCALCULATION32X32AND64X64_TYPE SadCalculation_32x32_64x64_funcPtrArray[ASM_TYPE_TOTAL] = {
+static EbSadCalculation32x32And64x64Type SadCalculation_32x32_64x64_funcPtrArray[ASM_TYPE_TOTAL] = {
     // NON_AVX2
     sad_calculation_32x32_64x64_sse2_intrin,
     // AVX2
@@ -1051,7 +1051,7 @@ void ExtSadCalculation(
     }
 
 }
-static EB_EXTSADCALCULATION_TYPE ExtSadCalculation_funcPtrArray[ASM_TYPE_TOTAL] = {
+static EbExtSadCalculationType ExtSadCalculation_funcPtrArray[ASM_TYPE_TOTAL] = {
     // Should be written in Assembly
     // C_DEFAULT
     ExtSadCalculation,
