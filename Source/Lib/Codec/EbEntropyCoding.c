@@ -780,7 +780,7 @@ static EbErrorType Av1EncodeCoeff1D(
         if (blk_geom->has_uv) {
 
             // cb
-            coeff_buffer = (int32_t*)coeff_ptr->bufferCb + context_ptr->coded_area_sb_uv;
+            coeff_buffer = (int32_t*)coeff_ptr->buffer_cb + context_ptr->coded_area_sb_uv;
             {
                 int16_t txb_skip_ctx = 0;
                 int16_t dcSignCtx = 0;
@@ -807,7 +807,7 @@ static EbErrorType Av1EncodeCoeff1D(
                         txb_itr,
                         intraLumaDir,
                         coeff_buffer,
-                        coeff_ptr->strideCb,
+                        coeff_ptr->stride_cb,
                         COMPONENT_CHROMA,
                         txb_skip_ctx,
                         dcSignCtx,
@@ -816,7 +816,7 @@ static EbErrorType Av1EncodeCoeff1D(
             }
 
             // cr
-            coeff_buffer = (int32_t*)coeff_ptr->bufferCr + context_ptr->coded_area_sb_uv;
+            coeff_buffer = (int32_t*)coeff_ptr->buffer_cr + context_ptr->coded_area_sb_uv;
             {
 
                 int16_t txb_skip_ctx = 0;
@@ -844,7 +844,7 @@ static EbErrorType Av1EncodeCoeff1D(
                         txb_itr,
                         intraLumaDir,
                         coeff_buffer,
-                        coeff_ptr->strideCr,
+                        coeff_ptr->stride_cr,
                         COMPONENT_CHROMA,
                         txb_skip_ctx,
                         dcSignCtx,

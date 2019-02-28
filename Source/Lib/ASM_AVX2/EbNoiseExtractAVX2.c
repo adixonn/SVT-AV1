@@ -751,22 +751,22 @@ void noise_extract_chroma_strong_avx2_intrin(
 
         sb_height = ((sb_origin_y + BLOCK_SIZE_64 / 2 >= picHeight) || (sb_origin_y == 0)) ? sb_height - 1 : sb_height;
 
-        stride_in = input_picture_ptr->strideCb;
-        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)  * input_picture_ptr->strideCb;
-        ptrIn = &(input_picture_ptr->bufferCb[inputOriginIndex]);
+        stride_in = input_picture_ptr->stride_cb;
+        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)  * input_picture_ptr->stride_cb;
+        ptrIn = &(input_picture_ptr->buffer_cb[inputOriginIndex]);
 
-        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)  * denoised_picture_ptr->strideCb;
-        strideOut = denoised_picture_ptr->strideCb;
-        ptr_denoised = &(denoised_picture_ptr->bufferCb[inputOriginIndexPad]);
+        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)  * denoised_picture_ptr->stride_cb;
+        strideOut = denoised_picture_ptr->stride_cb;
+        ptr_denoised = &(denoised_picture_ptr->buffer_cb[inputOriginIndexPad]);
         ptrDenoisedInterm = ptr_denoised;
 
-        strideInCr = input_picture_ptr->strideCr;
-        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)  * input_picture_ptr->strideCr;
-        ptrInCr = &(input_picture_ptr->bufferCr[inputOriginIndex]);
+        strideInCr = input_picture_ptr->stride_cr;
+        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)  * input_picture_ptr->stride_cr;
+        ptrInCr = &(input_picture_ptr->buffer_cr[inputOriginIndex]);
 
-        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)  * denoised_picture_ptr->strideCr;
-        strideOutCr = denoised_picture_ptr->strideCr;
-        ptrDenoisedCr = &(denoised_picture_ptr->bufferCr[inputOriginIndexPad]);
+        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)  * denoised_picture_ptr->stride_cr;
+        strideOutCr = denoised_picture_ptr->stride_cr;
+        ptrDenoisedCr = &(denoised_picture_ptr->buffer_cr[inputOriginIndexPad]);
         ptrDenoisedIntermCr = ptrDenoisedCr;
         ////Chroma
         //a = (4 * p[0] + 4 * p[1] + 4 * p[2] +
@@ -934,23 +934,23 @@ void noise_extract_chroma_weak_avx2_intrin(
         sb_height = MIN(BLOCK_SIZE_64 / 2, picHeight - sb_origin_y);
 
         sb_height = ((sb_origin_y + BLOCK_SIZE_64 / 2 >= picHeight) || (sb_origin_y == 0)) ? sb_height - 1 : sb_height;
-        stride_in = input_picture_ptr->strideCb;
-        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)* input_picture_ptr->strideCb;
-        ptrIn = &(input_picture_ptr->bufferCb[inputOriginIndex]);
+        stride_in = input_picture_ptr->stride_cb;
+        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)* input_picture_ptr->stride_cb;
+        ptrIn = &(input_picture_ptr->buffer_cb[inputOriginIndex]);
 
-        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)* denoised_picture_ptr->strideCb;
-        strideOut = denoised_picture_ptr->strideCb;
-        ptr_denoised = &(denoised_picture_ptr->bufferCb[inputOriginIndexPad]);
+        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)* denoised_picture_ptr->stride_cb;
+        strideOut = denoised_picture_ptr->stride_cb;
+        ptr_denoised = &(denoised_picture_ptr->buffer_cb[inputOriginIndexPad]);
         ptrDenoisedInterm = ptr_denoised;
 
 
-        strideInCr = input_picture_ptr->strideCr;
-        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)  * input_picture_ptr->strideCr;
-        ptrInCr = &(input_picture_ptr->bufferCr[inputOriginIndex]);
+        strideInCr = input_picture_ptr->stride_cr;
+        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)  * input_picture_ptr->stride_cr;
+        ptrInCr = &(input_picture_ptr->buffer_cr[inputOriginIndex]);
 
-        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)  * denoised_picture_ptr->strideCr;
-        strideOutCr = denoised_picture_ptr->strideCr;
-        ptrDenoisedCr = &(denoised_picture_ptr->bufferCr[inputOriginIndexPad]);
+        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)  * denoised_picture_ptr->stride_cr;
+        strideOutCr = denoised_picture_ptr->stride_cr;
+        ptrDenoisedCr = &(denoised_picture_ptr->buffer_cr[inputOriginIndexPad]);
         ptrDenoisedIntermCr = ptrDenoisedCr;
 
         top = curr = top_next = top_prev = curr_next = curr_prev = topCr = currCr = topNextCr = topPrevCr = currNextCr = currPrevCr = _mm256_setzero_si256();

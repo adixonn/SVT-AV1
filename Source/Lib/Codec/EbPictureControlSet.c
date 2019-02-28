@@ -74,8 +74,8 @@ EbErrorType picture_control_set_ctor(
     EB_MALLOC(PictureControlSet*, object_ptr, sizeof(PictureControlSet), EB_N_PTR);
 
     // Init Picture Init data
-    input_picture_buffer_desc_init_data.maxWidth = initDataPtr->picture_width;
-    input_picture_buffer_desc_init_data.maxHeight = initDataPtr->picture_height;
+    input_picture_buffer_desc_init_data.max_width = initDataPtr->picture_width;
+    input_picture_buffer_desc_init_data.max_height = initDataPtr->picture_height;
     input_picture_buffer_desc_init_data.bit_depth = initDataPtr->bit_depth;
     input_picture_buffer_desc_init_data.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
 
@@ -84,10 +84,10 @@ EbErrorType picture_control_set_ctor(
     input_picture_buffer_desc_init_data.top_padding = PAD_VALUE;
     input_picture_buffer_desc_init_data.bot_padding = PAD_VALUE;
 
-    input_picture_buffer_desc_init_data.splitMode = EB_FALSE;
+    input_picture_buffer_desc_init_data.split_mode = EB_FALSE;
 
-    coeffBufferDescInitData.maxWidth = initDataPtr->picture_width;
-    coeffBufferDescInitData.maxHeight = initDataPtr->picture_height;
+    coeffBufferDescInitData.max_width = initDataPtr->picture_width;
+    coeffBufferDescInitData.max_height = initDataPtr->picture_height;
     coeffBufferDescInitData.bit_depth = EB_16BIT;
     coeffBufferDescInitData.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
 
@@ -96,7 +96,7 @@ EbErrorType picture_control_set_ctor(
     coeffBufferDescInitData.top_padding = PAD_VALUE;
     coeffBufferDescInitData.bot_padding = PAD_VALUE;
 
-    coeffBufferDescInitData.splitMode = EB_FALSE;
+    coeffBufferDescInitData.split_mode = EB_FALSE;
 
 
     *object_dbl_ptr = (EbPtr)object_ptr;
@@ -107,15 +107,15 @@ EbErrorType picture_control_set_ctor(
     object_ptr->recon_picture_ptr = (EbPictureBufferDesc *)EB_NULL;
 
     EbPictureBufferDescInitData coeffBufferDes32bitInitData;
-    coeffBufferDes32bitInitData.maxWidth = initDataPtr->picture_width;
-    coeffBufferDes32bitInitData.maxHeight = initDataPtr->picture_height;
+    coeffBufferDes32bitInitData.max_width = initDataPtr->picture_width;
+    coeffBufferDes32bitInitData.max_height = initDataPtr->picture_height;
     coeffBufferDes32bitInitData.bit_depth = EB_32BIT;
     coeffBufferDes32bitInitData.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
     coeffBufferDes32bitInitData.left_padding = 0;
     coeffBufferDes32bitInitData.right_padding = 0;
     coeffBufferDes32bitInitData.top_padding = 0;
     coeffBufferDes32bitInitData.bot_padding = 0;
-    coeffBufferDes32bitInitData.splitMode = EB_FALSE;
+    coeffBufferDes32bitInitData.split_mode = EB_FALSE;
 
     object_ptr->recon_picture32bit_ptr = (EbPictureBufferDesc *)EB_NULL;
     return_error = eb_recon_picture_buffer_desc_ctor(

@@ -196,10 +196,10 @@ EbErrorType picture_copy8_bit(
     if (component_mask & PICTURE_BUFFER_DESC_Cb_FLAG) {
 
         pic_copy_kernel(
-            &(src->bufferCb[src_chroma_origin_index]),
-            src->strideCb,
-            &(dst->bufferCb[dst_chroma_origin_index]),
-            dst->strideCb,
+            &(src->buffer_cb[src_chroma_origin_index]),
+            src->stride_cb,
+            &(dst->buffer_cb[dst_chroma_origin_index]),
+            dst->stride_cb,
             chroma_area_width,
             chroma_area_height);
     }
@@ -207,10 +207,10 @@ EbErrorType picture_copy8_bit(
     if (component_mask & PICTURE_BUFFER_DESC_Cr_FLAG) {
 
         pic_copy_kernel(
-            &(src->bufferCr[src_chroma_origin_index]),
-            src->strideCr,
-            &(dst->bufferCr[dst_chroma_origin_index]),
-            dst->strideCr,
+            &(src->buffer_cr[src_chroma_origin_index]),
+            src->stride_cr,
+            &(dst->buffer_cr[dst_chroma_origin_index]),
+            dst->stride_cr,
             chroma_area_width,
             chroma_area_height);
     }
@@ -499,9 +499,9 @@ EbErrorType picture_full_distortion32_bits(
         // CB
         if (cb_count_non_zero_coeffs) {
             full_distortion_kernel32_bits_func_ptr_array[asm_type](
-                &(((int32_t*)coeff->bufferCb)[coeff_chroma_origin_index]),
+                &(((int32_t*)coeff->buffer_cb)[coeff_chroma_origin_index]),
                 bwidth_uv,
-                &(((int32_t*)recon_coeff->bufferCb)[recon_coeff_chroma_origin_index]),
+                &(((int32_t*)recon_coeff->buffer_cb)[recon_coeff_chroma_origin_index]),
                 bwidth_uv,
                 cb_distortion,
                 bwidth_uv,
@@ -509,9 +509,9 @@ EbErrorType picture_full_distortion32_bits(
         }
         else {
             full_distortion_kernel_cbf_zero32_bits_func_ptr_array[asm_type](
-                &(((int32_t*)coeff->bufferCb)[coeff_chroma_origin_index]),
+                &(((int32_t*)coeff->buffer_cb)[coeff_chroma_origin_index]),
                 bwidth_uv,
-                &(((int32_t*)recon_coeff->bufferCb)[recon_coeff_chroma_origin_index]),
+                &(((int32_t*)recon_coeff->buffer_cb)[recon_coeff_chroma_origin_index]),
                 bwidth_uv,
                 cb_distortion,
                 bwidth_uv,
@@ -524,9 +524,9 @@ EbErrorType picture_full_distortion32_bits(
         // CR
         if (cr_count_non_zero_coeffs) {
             full_distortion_kernel32_bits_func_ptr_array[asm_type](
-                &(((int32_t*)coeff->bufferCr)[coeff_chroma_origin_index]),
+                &(((int32_t*)coeff->buffer_cr)[coeff_chroma_origin_index]),
                 bwidth_uv,
-                &(((int32_t*)recon_coeff->bufferCr)[recon_coeff_chroma_origin_index]),
+                &(((int32_t*)recon_coeff->buffer_cr)[recon_coeff_chroma_origin_index]),
                 bwidth_uv,
                 cr_distortion,
                 bwidth_uv,
@@ -534,9 +534,9 @@ EbErrorType picture_full_distortion32_bits(
         }
         else {
             full_distortion_kernel_cbf_zero32_bits_func_ptr_array[asm_type](
-                &(((int32_t*)coeff->bufferCr)[coeff_chroma_origin_index]),
+                &(((int32_t*)coeff->buffer_cr)[coeff_chroma_origin_index]),
                 bwidth_uv,
-                &(((int32_t*)recon_coeff->bufferCr)[recon_coeff_chroma_origin_index]),
+                &(((int32_t*)recon_coeff->buffer_cr)[recon_coeff_chroma_origin_index]),
                 bwidth_uv,
                 cr_distortion,
                 bwidth_uv,

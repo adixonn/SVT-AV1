@@ -113,13 +113,13 @@ EbErrorType EbAppContextCtor(
     if (config->reconFile) {
         contextPtr->recon_buffer = (EbBufferHeaderType*)malloc(sizeof(EbBufferHeaderType));
         if (!contextPtr->recon_buffer) return return_error;
-        const size_t lumaSize =
+        const size_t luma_size =
             config->inputPaddedWidth    *
             config->inputPaddedHeight;
         // both u and v
-        const size_t chromaSize = lumaSize >> 1;
+        const size_t chroma_size = luma_size >> 1;
         const size_t tenBit = (config->encoderBitDepth > 8);
-        const size_t frameSize = (lumaSize + chromaSize) << tenBit;
+        const size_t frameSize = (luma_size + chroma_size) << tenBit;
 
         // Initialize Header
         contextPtr->recon_buffer->size = sizeof(EbBufferHeaderType);

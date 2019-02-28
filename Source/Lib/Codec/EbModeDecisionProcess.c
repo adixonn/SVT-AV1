@@ -121,14 +121,14 @@ EbErrorType mode_decision_context_ctor(
             EbPictureBufferDescInitData initData;
 
             initData.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
-            initData.maxWidth = SB_STRIDE_Y;
-            initData.maxHeight = SB_STRIDE_Y;
+            initData.max_width = SB_STRIDE_Y;
+            initData.max_height = SB_STRIDE_Y;
             initData.bit_depth = EB_32BIT;
             initData.left_padding = 0;
             initData.right_padding = 0;
             initData.top_padding = 0;
             initData.bot_padding = 0;
-            initData.splitMode = EB_FALSE;
+            initData.split_mode = EB_FALSE;
 
             return_error = eb_picture_buffer_desc_ctor(
                 (EbPtr*)&context_ptr->md_cu_arr_nsq[codedLeafIndex].coeff_tmp,
@@ -139,14 +139,14 @@ EbErrorType mode_decision_context_ctor(
             }
 
             initData.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
-            initData.maxWidth = SB_STRIDE_Y;
-            initData.maxHeight = SB_STRIDE_Y;
+            initData.max_width = SB_STRIDE_Y;
+            initData.max_height = SB_STRIDE_Y;
             initData.bit_depth = EB_8BIT;
             initData.left_padding = 0;
             initData.right_padding = 0;
             initData.top_padding = 0;
             initData.bot_padding = 0;
-            initData.splitMode = EB_FALSE;
+            initData.split_mode = EB_FALSE;
 
             return_error = eb_picture_buffer_desc_ctor(
                 (EbPtr*)&context_ptr->md_cu_arr_nsq[codedLeafIndex].recon_tmp,

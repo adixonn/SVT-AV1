@@ -339,8 +339,8 @@ void cdef_seg_search16bit(
 
         src[pli] = picture_control_set_ptr->src[pli];
         ref_coeff[pli] = picture_control_set_ptr->ref_coeff[pli];
-        stride_src[pli] = pli == 0 ? recon_pic_ptr->stride_y : (pli == 1 ? recon_pic_ptr->strideCb : recon_pic_ptr->strideCr);
-        stride_ref[pli] = pli == 0 ? input_pic_ptr->stride_y : (pli == 1 ? input_pic_ptr->strideCb : input_pic_ptr->strideCr);
+        stride_src[pli] = pli == 0 ? recon_pic_ptr->stride_y : (pli == 1 ? recon_pic_ptr->stride_cb : recon_pic_ptr->stride_cr);
+        stride_ref[pli] = pli == 0 ? input_pic_ptr->stride_y : (pli == 1 ? input_pic_ptr->stride_cb : input_pic_ptr->stride_cr);
 
     }
 
@@ -526,7 +526,7 @@ void* cdef_kernel(void *input_ptr)
                 recon_picture_ptr = picture_control_set_ptr->recon_picture_ptr;
         }
 
-        LinkEbToAomBufferDesc(
+        link_eb_to_aom_buffer_desc(
             recon_picture_ptr,
             cm->frame_to_show);
 

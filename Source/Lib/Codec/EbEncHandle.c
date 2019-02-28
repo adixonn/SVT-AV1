@@ -966,8 +966,8 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
         EbPictureBufferDescInitData       sixteenthDecimPictureBufferDescInitData;
 
         // Initialize the various Picture types
-        referencePictureBufferDescInitData.maxWidth = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->max_input_luma_width;
-        referencePictureBufferDescInitData.maxHeight = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->max_input_luma_height;
+        referencePictureBufferDescInitData.max_width = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->max_input_luma_width;
+        referencePictureBufferDescInitData.max_height = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->max_input_luma_height;
         referencePictureBufferDescInitData.bit_depth = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->input_bitdepth;
         referencePictureBufferDescInitData.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
 
@@ -976,7 +976,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
         referencePictureBufferDescInitData.top_padding = PAD_VALUE;
         referencePictureBufferDescInitData.bot_padding = PAD_VALUE;
 
-        referencePictureBufferDescInitData.splitMode = EB_FALSE;
+        referencePictureBufferDescInitData.split_mode = EB_FALSE;
 
         if (is16bit) {
             referencePictureBufferDescInitData.bit_depth = EB_10BIT;
@@ -1002,8 +1002,8 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
 
         // PA Reference Picture Buffers
         // Currently, only Luma samples are needed in the PA
-        referencePictureBufferDescInitData.maxWidth = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->max_input_luma_width;
-        referencePictureBufferDescInitData.maxHeight = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->max_input_luma_height;
+        referencePictureBufferDescInitData.max_width = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->max_input_luma_width;
+        referencePictureBufferDescInitData.max_height = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->max_input_luma_height;
         referencePictureBufferDescInitData.bit_depth = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->input_bitdepth;
 
         referencePictureBufferDescInitData.bufferEnableMask = 0;
@@ -1012,27 +1012,27 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
         referencePictureBufferDescInitData.right_padding = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->sb_sz + ME_FILTER_TAP;
         referencePictureBufferDescInitData.top_padding = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->sb_sz + ME_FILTER_TAP;
         referencePictureBufferDescInitData.bot_padding = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->sb_sz + ME_FILTER_TAP;
-        referencePictureBufferDescInitData.splitMode = EB_FALSE;
+        referencePictureBufferDescInitData.split_mode = EB_FALSE;
 
-        quarterDecimPictureBufferDescInitData.maxWidth = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->max_input_luma_width >> 1;
-        quarterDecimPictureBufferDescInitData.maxHeight = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->max_input_luma_height >> 1;
+        quarterDecimPictureBufferDescInitData.max_width = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->max_input_luma_width >> 1;
+        quarterDecimPictureBufferDescInitData.max_height = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->max_input_luma_height >> 1;
         quarterDecimPictureBufferDescInitData.bit_depth = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->input_bitdepth;
         quarterDecimPictureBufferDescInitData.bufferEnableMask = PICTURE_BUFFER_DESC_LUMA_MASK;
         quarterDecimPictureBufferDescInitData.left_padding = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->sb_sz >> 1;
         quarterDecimPictureBufferDescInitData.right_padding = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->sb_sz >> 1;
         quarterDecimPictureBufferDescInitData.top_padding = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->sb_sz >> 1;
         quarterDecimPictureBufferDescInitData.bot_padding = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->sb_sz >> 1;
-        quarterDecimPictureBufferDescInitData.splitMode = EB_FALSE;
+        quarterDecimPictureBufferDescInitData.split_mode = EB_FALSE;
 
-        sixteenthDecimPictureBufferDescInitData.maxWidth = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->max_input_luma_width >> 2;
-        sixteenthDecimPictureBufferDescInitData.maxHeight = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->max_input_luma_height >> 2;
+        sixteenthDecimPictureBufferDescInitData.max_width = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->max_input_luma_width >> 2;
+        sixteenthDecimPictureBufferDescInitData.max_height = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->max_input_luma_height >> 2;
         sixteenthDecimPictureBufferDescInitData.bit_depth = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->input_bitdepth;
         sixteenthDecimPictureBufferDescInitData.bufferEnableMask = PICTURE_BUFFER_DESC_LUMA_MASK;
         sixteenthDecimPictureBufferDescInitData.left_padding = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->sb_sz >> 2;
         sixteenthDecimPictureBufferDescInitData.right_padding = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->sb_sz >> 2;
         sixteenthDecimPictureBufferDescInitData.top_padding = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->sb_sz >> 2;
         sixteenthDecimPictureBufferDescInitData.bot_padding = encHandlePtr->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr->sb_sz >> 2;
-        sixteenthDecimPictureBufferDescInitData.splitMode = EB_FALSE;
+        sixteenthDecimPictureBufferDescInitData.split_mode = EB_FALSE;
 
         EbPaReferenceObjectDescInitDataStructure.reference_picture_desc_init_data = referencePictureBufferDescInitData;
         EbPaReferenceObjectDescInitDataStructure.quarter_picture_desc_init_data = quarterDecimPictureBufferDescInitData;
@@ -1445,15 +1445,15 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
     for (processIndex = 0; processIndex < encHandlePtr->sequence_control_set_instance_array[0]->sequence_control_set_ptr->picture_analysis_process_init_count; ++processIndex) {
 
         EbPictureBufferDescInitData  pictureBufferDescConf;
-        pictureBufferDescConf.maxWidth = encHandlePtr->sequence_control_set_instance_array[0]->sequence_control_set_ptr->max_input_luma_width;
-        pictureBufferDescConf.maxHeight = encHandlePtr->sequence_control_set_instance_array[0]->sequence_control_set_ptr->max_input_luma_height;
+        pictureBufferDescConf.max_width = encHandlePtr->sequence_control_set_instance_array[0]->sequence_control_set_ptr->max_input_luma_width;
+        pictureBufferDescConf.max_height = encHandlePtr->sequence_control_set_instance_array[0]->sequence_control_set_ptr->max_input_luma_height;
         pictureBufferDescConf.bit_depth = EB_8BIT;
         pictureBufferDescConf.bufferEnableMask = PICTURE_BUFFER_DESC_Y_FLAG;
         pictureBufferDescConf.left_padding = 0;
         pictureBufferDescConf.right_padding = 0;
         pictureBufferDescConf.top_padding = 0;
         pictureBufferDescConf.bot_padding = 0;
-        pictureBufferDescConf.splitMode = EB_FALSE;
+        pictureBufferDescConf.split_mode = EB_FALSE;
 
         return_error = picture_analysis_context_ctor(
             &pictureBufferDescConf,
@@ -2902,9 +2902,9 @@ static EbErrorType CopyFrameBuffer(
     if (!is16BitInput) {
 
         uint32_t     lumaBufferOffset = (input_picture_ptr->stride_y*sequence_control_set_ptr->top_padding + sequence_control_set_ptr->left_padding) << is16BitInput;
-        uint32_t     chromaBufferOffset = (input_picture_ptr->strideCr*(sequence_control_set_ptr->top_padding >> 1) + (sequence_control_set_ptr->left_padding >> 1)) << is16BitInput;
+        uint32_t     chromaBufferOffset = (input_picture_ptr->stride_cr*(sequence_control_set_ptr->top_padding >> 1) + (sequence_control_set_ptr->left_padding >> 1)) << is16BitInput;
         uint16_t     lumaStride = input_picture_ptr->stride_y << is16BitInput;
-        uint16_t     chromaStride = input_picture_ptr->strideCb << is16BitInput;
+        uint16_t     chromaStride = input_picture_ptr->stride_cb << is16BitInput;
         uint16_t     lumaWidth = (uint16_t)(input_picture_ptr->width - sequence_control_set_ptr->max_input_pad_right) << is16BitInput;
         uint16_t     chromaWidth = (lumaWidth >> 1) << is16BitInput;
         uint16_t     lumaHeight = (uint16_t)(input_picture_ptr->height - sequence_control_set_ptr->max_input_pad_bottom);
@@ -2913,7 +2913,7 @@ static EbErrorType CopyFrameBuffer(
         uint16_t     sourceCrStride = (uint16_t)(inputPtr->crStride);
         uint16_t     sourceCbStride = (uint16_t)(inputPtr->cbStride);
 
-        //uint16_t     lumaHeight  = input_picture_ptr->maxHeight;
+        //uint16_t     lumaHeight  = input_picture_ptr->max_height;
         // Y
         for (inputRowIndex = 0; inputRowIndex < lumaHeight; inputRowIndex++) {
 
@@ -2924,14 +2924,14 @@ static EbErrorType CopyFrameBuffer(
 
         // U
         for (inputRowIndex = 0; inputRowIndex < lumaHeight >> 1; inputRowIndex++) {
-            EB_MEMCPY((input_picture_ptr->bufferCb + chromaBufferOffset + chromaStride * inputRowIndex),
+            EB_MEMCPY((input_picture_ptr->buffer_cb + chromaBufferOffset + chromaStride * inputRowIndex),
                 (inputPtr->cb + (sourceCbStride*inputRowIndex)),
                 chromaWidth);
         }
 
         // V
         for (inputRowIndex = 0; inputRowIndex < lumaHeight >> 1; inputRowIndex++) {
-            EB_MEMCPY((input_picture_ptr->bufferCr + chromaBufferOffset + chromaStride * inputRowIndex),
+            EB_MEMCPY((input_picture_ptr->buffer_cr + chromaBufferOffset + chromaStride * inputRowIndex),
                 (inputPtr->cr + (sourceCrStride*inputRowIndex)),
                 chromaWidth);
         }
@@ -2941,9 +2941,9 @@ static EbErrorType CopyFrameBuffer(
     {
         {
             uint32_t  lumaBufferOffset = (input_picture_ptr->stride_y*sequence_control_set_ptr->top_padding + sequence_control_set_ptr->left_padding);
-            uint32_t  chromaBufferOffset = (input_picture_ptr->strideCr*(sequence_control_set_ptr->top_padding >> 1) + (sequence_control_set_ptr->left_padding >> 1));
+            uint32_t  chromaBufferOffset = (input_picture_ptr->stride_cr*(sequence_control_set_ptr->top_padding >> 1) + (sequence_control_set_ptr->left_padding >> 1));
             uint16_t  lumaStride = input_picture_ptr->stride_y;
-            uint16_t  chromaStride = input_picture_ptr->strideCb;
+            uint16_t  chromaStride = input_picture_ptr->stride_cb;
             uint16_t  lumaWidth = (uint16_t)(input_picture_ptr->width - sequence_control_set_ptr->max_input_pad_right);
             uint16_t  chromaWidth = (lumaWidth >> 1);
             uint16_t  lumaHeight = (uint16_t)(input_picture_ptr->height - sequence_control_set_ptr->max_input_pad_bottom);
@@ -2963,7 +2963,7 @@ static EbErrorType CopyFrameBuffer(
             // U 8bit
             for (inputRowIndex = 0; inputRowIndex < lumaHeight >> 1; inputRowIndex++) {
 
-                EB_MEMCPY((input_picture_ptr->bufferCb + chromaBufferOffset + chromaStride * inputRowIndex),
+                EB_MEMCPY((input_picture_ptr->buffer_cb + chromaBufferOffset + chromaStride * inputRowIndex),
                     (inputPtr->cb + (sourceCbStride*inputRowIndex)),
                     chromaWidth);
             }
@@ -2971,7 +2971,7 @@ static EbErrorType CopyFrameBuffer(
             // V 8bit
             for (inputRowIndex = 0; inputRowIndex < lumaHeight >> 1; inputRowIndex++) {
 
-                EB_MEMCPY((input_picture_ptr->bufferCr + chromaBufferOffset + chromaStride * inputRowIndex),
+                EB_MEMCPY((input_picture_ptr->buffer_cr + chromaBufferOffset + chromaStride * inputRowIndex),
                     (inputPtr->cr + (sourceCrStride*inputRowIndex)),
                     chromaWidth);
             }
@@ -2986,13 +2986,13 @@ static EbErrorType CopyFrameBuffer(
                 uint16_t sourceChroma2BitStride = sourceLuma2BitStride >> 1;
 
                 for (inputRowIndex = 0; inputRowIndex < lumaHeight; inputRowIndex++) {
-                    EB_MEMCPY(input_picture_ptr->bufferBitIncY + luma2BitWidth * inputRowIndex, inputPtr->lumaExt + sourceLuma2BitStride * inputRowIndex, luma2BitWidth);
+                    EB_MEMCPY(input_picture_ptr->buffer_bit_inc_y + luma2BitWidth * inputRowIndex, inputPtr->lumaExt + sourceLuma2BitStride * inputRowIndex, luma2BitWidth);
                 }
                 for (inputRowIndex = 0; inputRowIndex < lumaHeight >> 1; inputRowIndex++) {
-                    EB_MEMCPY(input_picture_ptr->bufferBitIncCb + (luma2BitWidth >> 1)*inputRowIndex, inputPtr->cbExt + sourceChroma2BitStride * inputRowIndex, luma2BitWidth >> 1);
+                    EB_MEMCPY(input_picture_ptr->buffer_bit_inc_cb + (luma2BitWidth >> 1)*inputRowIndex, inputPtr->cbExt + sourceChroma2BitStride * inputRowIndex, luma2BitWidth >> 1);
                 }
                 for (inputRowIndex = 0; inputRowIndex < lumaHeight >> 1; inputRowIndex++) {
-                    EB_MEMCPY(input_picture_ptr->bufferBitIncCr + (luma2BitWidth >> 1)*inputRowIndex, inputPtr->crExt + sourceChroma2BitStride * inputRowIndex, luma2BitWidth >> 1);
+                    EB_MEMCPY(input_picture_ptr->buffer_bit_inc_cr + (luma2BitWidth >> 1)*inputRowIndex, inputPtr->crExt + sourceChroma2BitStride * inputRowIndex, luma2BitWidth >> 1);
                 }
             }
 
@@ -3003,7 +3003,7 @@ static EbErrorType CopyFrameBuffer(
 
         uint32_t lumaOffset = 0, chromaOffset = 0;
         uint32_t lumaBufferOffset = (input_picture_ptr->stride_y*sequence_control_set_ptr->top_padding + sequence_control_set_ptr->left_padding);
-        uint32_t chromaBufferOffset = (input_picture_ptr->strideCr*(sequence_control_set_ptr->top_padding >> 1) + (sequence_control_set_ptr->left_padding >> 1));
+        uint32_t chromaBufferOffset = (input_picture_ptr->stride_cr*(sequence_control_set_ptr->top_padding >> 1) + (sequence_control_set_ptr->left_padding >> 1));
         uint16_t lumaWidth = (uint16_t)(input_picture_ptr->width - sequence_control_set_ptr->max_input_pad_right);
         uint16_t chromaWidth = (lumaWidth >> 1);
         uint16_t lumaHeight = (uint16_t)(input_picture_ptr->height - sequence_control_set_ptr->max_input_pad_bottom);
@@ -3017,8 +3017,8 @@ static EbErrorType CopyFrameBuffer(
             sourceLumaStride,
             input_picture_ptr->buffer_y + lumaBufferOffset,
             input_picture_ptr->stride_y,
-            input_picture_ptr->bufferBitIncY + lumaBufferOffset,
-            input_picture_ptr->strideBitIncY,
+            input_picture_ptr->buffer_bit_inc_y + lumaBufferOffset,
+            input_picture_ptr->stride_bit_inc_y,
             lumaWidth,
             lumaHeight,
             config->asm_type);
@@ -3026,10 +3026,10 @@ static EbErrorType CopyFrameBuffer(
         un_pack2d(
             (uint16_t*)(inputPtr->cb + chromaOffset),
             sourceCbStride,
-            input_picture_ptr->bufferCb + chromaBufferOffset,
-            input_picture_ptr->strideCb,
-            input_picture_ptr->bufferBitIncCb + chromaBufferOffset,
-            input_picture_ptr->strideBitIncCb,
+            input_picture_ptr->buffer_cb + chromaBufferOffset,
+            input_picture_ptr->stride_cb,
+            input_picture_ptr->buffer_bit_inc_cb + chromaBufferOffset,
+            input_picture_ptr->stride_bit_inc_cb,
             chromaWidth,
             (lumaHeight >> 1),
             config->asm_type);
@@ -3037,10 +3037,10 @@ static EbErrorType CopyFrameBuffer(
         un_pack2d(
             (uint16_t*)(inputPtr->cr + chromaOffset),
             sourceCrStride,
-            input_picture_ptr->bufferCr + chromaBufferOffset,
-            input_picture_ptr->strideCr,
-            input_picture_ptr->bufferBitIncCr + chromaBufferOffset,
-            input_picture_ptr->strideBitIncCr,
+            input_picture_ptr->buffer_cr + chromaBufferOffset,
+            input_picture_ptr->stride_cr,
+            input_picture_ptr->buffer_bit_inc_cr + chromaBufferOffset,
+            input_picture_ptr->stride_bit_inc_cr,
             chromaWidth,
             (lumaHeight >> 1),
             config->asm_type);
@@ -3293,8 +3293,8 @@ static EbErrorType allocate_frame_buffer(
     EbSvtAv1EncConfiguration   * config = &sequence_control_set_ptr->static_config;
     uint8_t is16bit = config->encoder_bit_depth > 8 ? 1 : 0;
     // Init Picture Init data
-    input_picture_buffer_desc_init_data.maxWidth = (uint16_t)sequence_control_set_ptr->max_input_luma_width;
-    input_picture_buffer_desc_init_data.maxHeight = (uint16_t)sequence_control_set_ptr->max_input_luma_height;
+    input_picture_buffer_desc_init_data.max_width = (uint16_t)sequence_control_set_ptr->max_input_luma_width;
+    input_picture_buffer_desc_init_data.max_height = (uint16_t)sequence_control_set_ptr->max_input_luma_height;
     input_picture_buffer_desc_init_data.bit_depth = (EbBitDepth)config->encoder_bit_depth;
 
     if (config->compressed_ten_bit_format == 1) {
@@ -3309,12 +3309,12 @@ static EbErrorType allocate_frame_buffer(
     input_picture_buffer_desc_init_data.top_padding = sequence_control_set_ptr->top_padding;
     input_picture_buffer_desc_init_data.bot_padding = sequence_control_set_ptr->bot_padding;
 
-    input_picture_buffer_desc_init_data.splitMode = is16bit ? EB_TRUE : EB_FALSE;
+    input_picture_buffer_desc_init_data.split_mode = is16bit ? EB_TRUE : EB_FALSE;
 
     input_picture_buffer_desc_init_data.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
 
     if (is16bit && config->compressed_ten_bit_format == 1) {
-        input_picture_buffer_desc_init_data.splitMode = EB_FALSE;  //do special allocation for 2bit data down below.        
+        input_picture_buffer_desc_init_data.split_mode = EB_FALSE;  //do special allocation for 2bit data down below.        
     }
 
     // Enhanced Picture Buffer
@@ -3328,9 +3328,9 @@ static EbErrorType allocate_frame_buffer(
 
     if (is16bit && config->compressed_ten_bit_format == 1) {
         //pack 4 2bit pixels into 1Byte
-        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc*)(inputBuffer->p_buffer))->bufferBitIncY, sizeof(uint8_t) * (input_picture_buffer_desc_init_data.maxWidth / 4)*(input_picture_buffer_desc_init_data.maxHeight), EB_A_PTR);
-        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc*)(inputBuffer->p_buffer))->bufferBitIncCb, sizeof(uint8_t) * (input_picture_buffer_desc_init_data.maxWidth / 8)*(input_picture_buffer_desc_init_data.maxHeight / 2), EB_A_PTR);
-        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc*)(inputBuffer->p_buffer))->bufferBitIncCr, sizeof(uint8_t) * (input_picture_buffer_desc_init_data.maxWidth / 8)*(input_picture_buffer_desc_init_data.maxHeight / 2), EB_A_PTR);
+        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc*)(inputBuffer->p_buffer))->buffer_bit_inc_y, sizeof(uint8_t) * (input_picture_buffer_desc_init_data.max_width / 4)*(input_picture_buffer_desc_init_data.max_height), EB_A_PTR);
+        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc*)(inputBuffer->p_buffer))->buffer_bit_inc_cb, sizeof(uint8_t) * (input_picture_buffer_desc_init_data.max_width / 8)*(input_picture_buffer_desc_init_data.max_height / 2), EB_A_PTR);
+        EB_ALLIGN_MALLOC(uint8_t*, ((EbPictureBufferDesc*)(inputBuffer->p_buffer))->buffer_bit_inc_cr, sizeof(uint8_t) * (input_picture_buffer_desc_init_data.max_width / 8)*(input_picture_buffer_desc_init_data.max_height / 2), EB_A_PTR);
     }
 
     return return_error;
@@ -3394,13 +3394,13 @@ EbErrorType EbOutputReconBufferHeaderCtor(
 {
     EbBufferHeaderType         *recon_buffer;
     SequenceControlSet        *sequence_control_set_ptr = (SequenceControlSet*)objectInitDataPtr;
-    const uint32_t lumaSize =
+    const uint32_t luma_size =
         sequence_control_set_ptr->luma_width    *
         sequence_control_set_ptr->luma_height;
     // both u and v
-    const uint32_t chromaSize = lumaSize >> 1;
+    const uint32_t chroma_size = luma_size >> 1;
     const uint32_t tenBit = (sequence_control_set_ptr->static_config.encoder_bit_depth > 8);
-    const uint32_t frameSize = (lumaSize + chromaSize) << tenBit;
+    const uint32_t frameSize = (luma_size + chroma_size) << tenBit;
 
     EB_MALLOC(EbBufferHeaderType*, recon_buffer, sizeof(EbBufferHeaderType), EB_N_PTR);
     *objectDblPtr = (EbPtr)recon_buffer;

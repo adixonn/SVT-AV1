@@ -69,11 +69,11 @@ EbErrorType picture_analysis_context_ctor(
         }
 
         //luma buffer could re-used to process chroma
-        context_ptr->denoised_picture_ptr->bufferCb = context_ptr->denoised_picture_ptr->buffer_y;
-        context_ptr->denoised_picture_ptr->bufferCr = context_ptr->denoised_picture_ptr->buffer_y + context_ptr->denoised_picture_ptr->chromaSize;
+        context_ptr->denoised_picture_ptr->buffer_cb = context_ptr->denoised_picture_ptr->buffer_y;
+        context_ptr->denoised_picture_ptr->buffer_cr = context_ptr->denoised_picture_ptr->buffer_y + context_ptr->denoised_picture_ptr->chroma_size;
 
         // noise
-        input_picture_buffer_desc_init_data->maxHeight = BLOCK_SIZE_64;
+        input_picture_buffer_desc_init_data->max_height = BLOCK_SIZE_64;
         input_picture_buffer_desc_init_data->bufferEnableMask = PICTURE_BUFFER_DESC_Y_FLAG;
 
         return_error = eb_picture_buffer_desc_ctor(
@@ -1352,13 +1352,13 @@ void noise_extract_chroma_strong(
         picWidth = input_picture_ptr->width / 2;
         sb_height = MIN(BLOCK_SIZE_64 / 2, picHeight - sb_origin_y);
 
-        stride_in = input_picture_ptr->strideCb;
-        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)  * input_picture_ptr->strideCb;
-        ptrIn = &(input_picture_ptr->bufferCb[inputOriginIndex]);
+        stride_in = input_picture_ptr->stride_cb;
+        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)  * input_picture_ptr->stride_cb;
+        ptrIn = &(input_picture_ptr->buffer_cb[inputOriginIndex]);
 
-        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)  * denoised_picture_ptr->strideCb;
-        strideOut = denoised_picture_ptr->strideCb;
-        ptr_denoised = &(denoised_picture_ptr->bufferCb[inputOriginIndexPad]);
+        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)  * denoised_picture_ptr->stride_cb;
+        strideOut = denoised_picture_ptr->stride_cb;
+        ptr_denoised = &(denoised_picture_ptr->buffer_cb[inputOriginIndexPad]);
 
 
         for (jj = 0; jj < sb_height; jj++) {
@@ -1382,13 +1382,13 @@ void noise_extract_chroma_strong(
         picWidth = input_picture_ptr->width / 2;
         sb_height = MIN(BLOCK_SIZE_64 / 2, picHeight - sb_origin_y);
 
-        stride_in = input_picture_ptr->strideCr;
-        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)  * input_picture_ptr->strideCr;
-        ptrIn = &(input_picture_ptr->bufferCr[inputOriginIndex]);
+        stride_in = input_picture_ptr->stride_cr;
+        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)  * input_picture_ptr->stride_cr;
+        ptrIn = &(input_picture_ptr->buffer_cr[inputOriginIndex]);
 
-        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)  * denoised_picture_ptr->strideCr;
-        strideOut = denoised_picture_ptr->strideCr;
-        ptr_denoised = &(denoised_picture_ptr->bufferCr[inputOriginIndexPad]);
+        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)  * denoised_picture_ptr->stride_cr;
+        strideOut = denoised_picture_ptr->stride_cr;
+        ptr_denoised = &(denoised_picture_ptr->buffer_cr[inputOriginIndexPad]);
 
 
         for (jj = 0; jj < sb_height; jj++) {
@@ -1439,13 +1439,13 @@ void noise_extract_chroma_weak(
 
         sb_height = MIN(BLOCK_SIZE_64 / 2, picHeight - sb_origin_y);
 
-        stride_in = input_picture_ptr->strideCb;
-        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)* input_picture_ptr->strideCb;
-        ptrIn = &(input_picture_ptr->bufferCb[inputOriginIndex]);
+        stride_in = input_picture_ptr->stride_cb;
+        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)* input_picture_ptr->stride_cb;
+        ptrIn = &(input_picture_ptr->buffer_cb[inputOriginIndex]);
 
-        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)* denoised_picture_ptr->strideCb;
-        strideOut = denoised_picture_ptr->strideCb;
-        ptr_denoised = &(denoised_picture_ptr->bufferCb[inputOriginIndexPad]);
+        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)* denoised_picture_ptr->stride_cb;
+        strideOut = denoised_picture_ptr->stride_cb;
+        ptr_denoised = &(denoised_picture_ptr->buffer_cb[inputOriginIndexPad]);
 
 
         for (jj = 0; jj < sb_height; jj++) {
@@ -1469,13 +1469,13 @@ void noise_extract_chroma_weak(
         picWidth = input_picture_ptr->width / 2;
         sb_height = MIN(BLOCK_SIZE_64 / 2, picHeight - sb_origin_y);
 
-        stride_in = input_picture_ptr->strideCr;
-        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)* input_picture_ptr->strideCr;
-        ptrIn = &(input_picture_ptr->bufferCr[inputOriginIndex]);
+        stride_in = input_picture_ptr->stride_cr;
+        inputOriginIndex = input_picture_ptr->origin_x / 2 + (input_picture_ptr->origin_y / 2 + sb_origin_y)* input_picture_ptr->stride_cr;
+        ptrIn = &(input_picture_ptr->buffer_cr[inputOriginIndex]);
 
-        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)* denoised_picture_ptr->strideCr;
-        strideOut = denoised_picture_ptr->strideCr;
-        ptr_denoised = &(denoised_picture_ptr->bufferCr[inputOriginIndexPad]);
+        inputOriginIndexPad = denoised_picture_ptr->origin_x / 2 + (denoised_picture_ptr->origin_y / 2 + sb_origin_y)* denoised_picture_ptr->stride_cr;
+        strideOut = denoised_picture_ptr->stride_cr;
+        ptr_denoised = &(denoised_picture_ptr->buffer_cr[inputOriginIndexPad]);
 
 
         for (jj = 0; jj < sb_height; jj++) {
@@ -1715,197 +1715,197 @@ EbErrorType ComputeChromaBlockMean(
     cbBlockIndex = input_cb_origin_index;
     crBlockIndex = inputCrOriginIndex;
     if (sequence_control_set_ptr->block_mean_calc_prec == BLOCK_MEAN_PREC_FULL) {
-        cbMeanOf16x16Blocks[0] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), input_padded_picture_ptr->strideCb, 8, 8);
-        crMeanOf16x16Blocks[0] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCr[crBlockIndex]), input_padded_picture_ptr->strideCr, 8, 8);
+        cbMeanOf16x16Blocks[0] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), input_padded_picture_ptr->stride_cb, 8, 8);
+        crMeanOf16x16Blocks[0] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), input_padded_picture_ptr->stride_cr, 8, 8);
 
         // (0,1)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[1] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), input_padded_picture_ptr->strideCb, 8, 8);
-        crMeanOf16x16Blocks[1] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCr[crBlockIndex]), input_padded_picture_ptr->strideCr, 8, 8);
+        cbMeanOf16x16Blocks[1] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), input_padded_picture_ptr->stride_cb, 8, 8);
+        crMeanOf16x16Blocks[1] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), input_padded_picture_ptr->stride_cr, 8, 8);
 
         // (0,2)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[2] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), input_padded_picture_ptr->strideCb, 8, 8);
-        crMeanOf16x16Blocks[2] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCr[crBlockIndex]), input_padded_picture_ptr->strideCr, 8, 8);
+        cbMeanOf16x16Blocks[2] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), input_padded_picture_ptr->stride_cb, 8, 8);
+        crMeanOf16x16Blocks[2] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), input_padded_picture_ptr->stride_cr, 8, 8);
 
         // (0,3)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[3] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), input_padded_picture_ptr->strideCb, 8, 8);
-        crMeanOf16x16Blocks[3] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCr[crBlockIndex]), input_padded_picture_ptr->strideCr, 8, 8);
+        cbMeanOf16x16Blocks[3] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), input_padded_picture_ptr->stride_cb, 8, 8);
+        crMeanOf16x16Blocks[3] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), input_padded_picture_ptr->stride_cr, 8, 8);
 
         // (1,0)
-        cbBlockIndex = input_cb_origin_index + (input_padded_picture_ptr->strideCb << 3);
-        crBlockIndex = inputCrOriginIndex + (input_padded_picture_ptr->strideCr << 3);
-        cbMeanOf16x16Blocks[4] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), input_padded_picture_ptr->strideCb, 8, 8);
-        crMeanOf16x16Blocks[4] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCr[crBlockIndex]), input_padded_picture_ptr->strideCr, 8, 8);
+        cbBlockIndex = input_cb_origin_index + (input_padded_picture_ptr->stride_cb << 3);
+        crBlockIndex = inputCrOriginIndex + (input_padded_picture_ptr->stride_cr << 3);
+        cbMeanOf16x16Blocks[4] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), input_padded_picture_ptr->stride_cb, 8, 8);
+        crMeanOf16x16Blocks[4] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), input_padded_picture_ptr->stride_cr, 8, 8);
 
         // (1,1)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[5] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), input_padded_picture_ptr->strideCb, 8, 8);
-        crMeanOf16x16Blocks[5] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCr[crBlockIndex]), input_padded_picture_ptr->strideCr, 8, 8);
+        cbMeanOf16x16Blocks[5] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), input_padded_picture_ptr->stride_cb, 8, 8);
+        crMeanOf16x16Blocks[5] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), input_padded_picture_ptr->stride_cr, 8, 8);
 
         // (1,2)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[6] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), input_padded_picture_ptr->strideCb, 8, 8);
-        crMeanOf16x16Blocks[6] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCr[crBlockIndex]), input_padded_picture_ptr->strideCr, 8, 8);
+        cbMeanOf16x16Blocks[6] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), input_padded_picture_ptr->stride_cb, 8, 8);
+        crMeanOf16x16Blocks[6] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), input_padded_picture_ptr->stride_cr, 8, 8);
 
         // (1,3)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[7] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), input_padded_picture_ptr->strideCb, 8, 8);
-        crMeanOf16x16Blocks[7] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCr[crBlockIndex]), input_padded_picture_ptr->strideCr, 8, 8);
+        cbMeanOf16x16Blocks[7] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), input_padded_picture_ptr->stride_cb, 8, 8);
+        crMeanOf16x16Blocks[7] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), input_padded_picture_ptr->stride_cr, 8, 8);
 
         // (2,0)
-        cbBlockIndex = input_cb_origin_index + (input_padded_picture_ptr->strideCb << 4);
-        crBlockIndex = inputCrOriginIndex + (input_padded_picture_ptr->strideCr << 4);
-        cbMeanOf16x16Blocks[8] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), input_padded_picture_ptr->strideCb, 8, 8);
-        crMeanOf16x16Blocks[8] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCr[crBlockIndex]), input_padded_picture_ptr->strideCr, 8, 8);
+        cbBlockIndex = input_cb_origin_index + (input_padded_picture_ptr->stride_cb << 4);
+        crBlockIndex = inputCrOriginIndex + (input_padded_picture_ptr->stride_cr << 4);
+        cbMeanOf16x16Blocks[8] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), input_padded_picture_ptr->stride_cb, 8, 8);
+        crMeanOf16x16Blocks[8] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), input_padded_picture_ptr->stride_cr, 8, 8);
 
         // (2,1)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[9] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), input_padded_picture_ptr->strideCb, 8, 8);
-        crMeanOf16x16Blocks[9] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCr[crBlockIndex]), input_padded_picture_ptr->strideCr, 8, 8);
+        cbMeanOf16x16Blocks[9] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), input_padded_picture_ptr->stride_cb, 8, 8);
+        crMeanOf16x16Blocks[9] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), input_padded_picture_ptr->stride_cr, 8, 8);
 
         // (2,2)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[10] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), input_padded_picture_ptr->strideCb, 8, 8);
-        crMeanOf16x16Blocks[10] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCr[crBlockIndex]), input_padded_picture_ptr->strideCr, 8, 8);
+        cbMeanOf16x16Blocks[10] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), input_padded_picture_ptr->stride_cb, 8, 8);
+        crMeanOf16x16Blocks[10] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), input_padded_picture_ptr->stride_cr, 8, 8);
 
         // (2,3)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[11] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), input_padded_picture_ptr->strideCb, 8, 8);
-        crMeanOf16x16Blocks[11] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCr[crBlockIndex]), input_padded_picture_ptr->strideCr, 8, 8);
+        cbMeanOf16x16Blocks[11] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), input_padded_picture_ptr->stride_cb, 8, 8);
+        crMeanOf16x16Blocks[11] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), input_padded_picture_ptr->stride_cr, 8, 8);
 
         // (3,0)
-        cbBlockIndex = input_cb_origin_index + (input_padded_picture_ptr->strideCb * 24);
-        crBlockIndex = inputCrOriginIndex + (input_padded_picture_ptr->strideCr * 24);
-        cbMeanOf16x16Blocks[12] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), input_padded_picture_ptr->strideCb, 8, 8);
-        crMeanOf16x16Blocks[12] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCr[crBlockIndex]), input_padded_picture_ptr->strideCr, 8, 8);
+        cbBlockIndex = input_cb_origin_index + (input_padded_picture_ptr->stride_cb * 24);
+        crBlockIndex = inputCrOriginIndex + (input_padded_picture_ptr->stride_cr * 24);
+        cbMeanOf16x16Blocks[12] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), input_padded_picture_ptr->stride_cb, 8, 8);
+        crMeanOf16x16Blocks[12] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), input_padded_picture_ptr->stride_cr, 8, 8);
 
         // (3,1)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[13] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), input_padded_picture_ptr->strideCb, 8, 8);
-        crMeanOf16x16Blocks[13] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCr[crBlockIndex]), input_padded_picture_ptr->strideCr, 8, 8);
+        cbMeanOf16x16Blocks[13] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), input_padded_picture_ptr->stride_cb, 8, 8);
+        crMeanOf16x16Blocks[13] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), input_padded_picture_ptr->stride_cr, 8, 8);
 
         // (3,2)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[14] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), input_padded_picture_ptr->strideCb, 8, 8);
-        crMeanOf16x16Blocks[14] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCr[crBlockIndex]), input_padded_picture_ptr->strideCr, 8, 8);
+        cbMeanOf16x16Blocks[14] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), input_padded_picture_ptr->stride_cb, 8, 8);
+        crMeanOf16x16Blocks[14] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), input_padded_picture_ptr->stride_cr, 8, 8);
 
         // (3,3)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[15] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), input_padded_picture_ptr->strideCb, 8, 8);
-        crMeanOf16x16Blocks[15] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->bufferCr[crBlockIndex]), input_padded_picture_ptr->strideCr, 8, 8);
+        cbMeanOf16x16Blocks[15] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), input_padded_picture_ptr->stride_cb, 8, 8);
+        crMeanOf16x16Blocks[15] = compute_mean_func[0][asm_type](&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), input_padded_picture_ptr->stride_cr, 8, 8);
 
     }
     else {
         (void)(asm_type);
-        const uint16_t strideCb = input_padded_picture_ptr->strideCb;
-        const uint16_t strideCr = input_padded_picture_ptr->strideCr;
+        const uint16_t stride_cb = input_padded_picture_ptr->stride_cb;
+        const uint16_t stride_cr = input_padded_picture_ptr->stride_cr;
 
-        cbMeanOf16x16Blocks[0] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), strideCb);
-        crMeanOf16x16Blocks[0] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCr[crBlockIndex]), strideCr);
+        cbMeanOf16x16Blocks[0] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), stride_cb);
+        crMeanOf16x16Blocks[0] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), stride_cr);
 
         // (0,1)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[1] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), strideCb);
-        crMeanOf16x16Blocks[1] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCr[crBlockIndex]), strideCr);
+        cbMeanOf16x16Blocks[1] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), stride_cb);
+        crMeanOf16x16Blocks[1] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), stride_cr);
 
         // (0,2)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[2] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), strideCb);
-        crMeanOf16x16Blocks[2] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCr[crBlockIndex]), strideCr);
+        cbMeanOf16x16Blocks[2] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), stride_cb);
+        crMeanOf16x16Blocks[2] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), stride_cr);
 
         // (0,3)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[3] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), strideCb);
-        crMeanOf16x16Blocks[3] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCr[crBlockIndex]), strideCr);
+        cbMeanOf16x16Blocks[3] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), stride_cb);
+        crMeanOf16x16Blocks[3] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), stride_cr);
 
         // (1,0)
-        cbBlockIndex = input_cb_origin_index + (strideCb << 3);
-        crBlockIndex = inputCrOriginIndex + (strideCr << 3);
-        cbMeanOf16x16Blocks[4] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), strideCb);
-        crMeanOf16x16Blocks[4] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCr[crBlockIndex]), strideCr);
+        cbBlockIndex = input_cb_origin_index + (stride_cb << 3);
+        crBlockIndex = inputCrOriginIndex + (stride_cr << 3);
+        cbMeanOf16x16Blocks[4] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), stride_cb);
+        crMeanOf16x16Blocks[4] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), stride_cr);
 
         // (1,1)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[5] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), strideCb);
-        crMeanOf16x16Blocks[5] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCr[crBlockIndex]), strideCr);
+        cbMeanOf16x16Blocks[5] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), stride_cb);
+        crMeanOf16x16Blocks[5] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), stride_cr);
 
         // (1,2)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[6] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), strideCb);
-        crMeanOf16x16Blocks[6] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCr[crBlockIndex]), strideCr);
+        cbMeanOf16x16Blocks[6] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), stride_cb);
+        crMeanOf16x16Blocks[6] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), stride_cr);
 
         // (1,3)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[7] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), strideCb);
-        crMeanOf16x16Blocks[7] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCr[crBlockIndex]), strideCr);
+        cbMeanOf16x16Blocks[7] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), stride_cb);
+        crMeanOf16x16Blocks[7] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), stride_cr);
 
         // (2,0)
-        cbBlockIndex = input_cb_origin_index + (strideCb << 4);
-        crBlockIndex = inputCrOriginIndex + (strideCr << 4);
-        cbMeanOf16x16Blocks[8] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), strideCb);
-        crMeanOf16x16Blocks[8] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCr[crBlockIndex]), strideCr);
+        cbBlockIndex = input_cb_origin_index + (stride_cb << 4);
+        crBlockIndex = inputCrOriginIndex + (stride_cr << 4);
+        cbMeanOf16x16Blocks[8] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), stride_cb);
+        crMeanOf16x16Blocks[8] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), stride_cr);
 
         // (2,1)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[9] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), strideCb);
-        crMeanOf16x16Blocks[9] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCr[crBlockIndex]), strideCr);
+        cbMeanOf16x16Blocks[9] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), stride_cb);
+        crMeanOf16x16Blocks[9] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), stride_cr);
 
         // (2,2)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[10] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), strideCb);
-        crMeanOf16x16Blocks[10] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCr[crBlockIndex]), strideCr);
+        cbMeanOf16x16Blocks[10] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), stride_cb);
+        crMeanOf16x16Blocks[10] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), stride_cr);
 
         // (2,3)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[11] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), strideCb);
-        crMeanOf16x16Blocks[11] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCr[crBlockIndex]), strideCr);
+        cbMeanOf16x16Blocks[11] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), stride_cb);
+        crMeanOf16x16Blocks[11] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), stride_cr);
 
         // (3,0)
-        cbBlockIndex = input_cb_origin_index + (strideCb * 24);
-        crBlockIndex = inputCrOriginIndex + (strideCr * 24);
-        cbMeanOf16x16Blocks[12] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), strideCb);
-        crMeanOf16x16Blocks[12] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCr[crBlockIndex]), strideCr);
+        cbBlockIndex = input_cb_origin_index + (stride_cb * 24);
+        crBlockIndex = inputCrOriginIndex + (stride_cr * 24);
+        cbMeanOf16x16Blocks[12] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), stride_cb);
+        crMeanOf16x16Blocks[12] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), stride_cr);
 
         // (3,1)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[13] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), strideCb);
-        crMeanOf16x16Blocks[13] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCr[crBlockIndex]), strideCr);
+        cbMeanOf16x16Blocks[13] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), stride_cb);
+        crMeanOf16x16Blocks[13] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), stride_cr);
 
         // (3,2)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[14] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), strideCb);
-        crMeanOf16x16Blocks[14] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCr[crBlockIndex]), strideCr);
+        cbMeanOf16x16Blocks[14] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), stride_cb);
+        crMeanOf16x16Blocks[14] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), stride_cr);
 
         // (3,3)
         cbBlockIndex = cbBlockIndex + 8;
         crBlockIndex = crBlockIndex + 8;
-        cbMeanOf16x16Blocks[15] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCb[cbBlockIndex]), strideCb);
-        crMeanOf16x16Blocks[15] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->bufferCr[crBlockIndex]), strideCr);
+        cbMeanOf16x16Blocks[15] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cb[cbBlockIndex]), stride_cb);
+        crMeanOf16x16Blocks[15] = compute_sub_mean8x8_sse2_intrin(&(input_padded_picture_ptr->buffer_cr[crBlockIndex]), stride_cr);
     }
 
     // 32x32
@@ -3024,9 +3024,9 @@ EbErrorType DenoiseInputPicture(
     if (picture_control_set_ptr->pic_noise_class >= PIC_NOISE_CLASS_4) {
 
         uint32_t inLumaOffSet = input_picture_ptr->origin_x + input_picture_ptr->origin_y      * input_picture_ptr->stride_y;
-        uint32_t inChromaOffSet = input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb;
+        uint32_t inChromaOffSet = input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->stride_cb;
         uint32_t denLumaOffSet = denoised_picture_ptr->origin_x + denoised_picture_ptr->origin_y   * denoised_picture_ptr->stride_y;
-        uint32_t denChromaOffSet = denoised_picture_ptr->origin_x / 2 + denoised_picture_ptr->origin_y / 2 * denoised_picture_ptr->strideCb;
+        uint32_t denChromaOffSet = denoised_picture_ptr->origin_x / 2 + denoised_picture_ptr->origin_y / 2 * denoised_picture_ptr->stride_cb;
 
         //filter Luma
         for (lcuCodingOrder = 0; lcuCodingOrder < sb_total_count; ++lcuCodingOrder) {
@@ -3086,12 +3086,12 @@ EbErrorType DenoiseInputPicture(
         //copy chroma
         for (verticalIdx = 0; verticalIdx < input_picture_ptr->height / 2; ++verticalIdx) {
 
-            EB_MEMCPY(input_picture_ptr->bufferCb + inChromaOffSet + verticalIdx * input_picture_ptr->strideCb,
-                denoised_picture_ptr->bufferCb + denChromaOffSet + verticalIdx * denoised_picture_ptr->strideCb,
+            EB_MEMCPY(input_picture_ptr->buffer_cb + inChromaOffSet + verticalIdx * input_picture_ptr->stride_cb,
+                denoised_picture_ptr->buffer_cb + denChromaOffSet + verticalIdx * denoised_picture_ptr->stride_cb,
                 sizeof(uint8_t) * input_picture_ptr->width / 2);
 
-            EB_MEMCPY(input_picture_ptr->bufferCr + inChromaOffSet + verticalIdx * input_picture_ptr->strideCr,
-                denoised_picture_ptr->bufferCr + denChromaOffSet + verticalIdx * denoised_picture_ptr->strideCr,
+            EB_MEMCPY(input_picture_ptr->buffer_cr + inChromaOffSet + verticalIdx * input_picture_ptr->stride_cr,
+                denoised_picture_ptr->buffer_cr + denChromaOffSet + verticalIdx * denoised_picture_ptr->stride_cr,
                 sizeof(uint8_t) * input_picture_ptr->width / 2);
         }
 
@@ -3099,9 +3099,9 @@ EbErrorType DenoiseInputPicture(
     else if (picture_control_set_ptr->pic_noise_class >= PIC_NOISE_CLASS_3_1) {
 
         uint32_t inLumaOffSet = input_picture_ptr->origin_x + input_picture_ptr->origin_y      * input_picture_ptr->stride_y;
-        uint32_t inChromaOffSet = input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb;
+        uint32_t inChromaOffSet = input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->stride_cb;
         uint32_t denLumaOffSet = denoised_picture_ptr->origin_x + denoised_picture_ptr->origin_y   * denoised_picture_ptr->stride_y;
-        uint32_t denChromaOffSet = denoised_picture_ptr->origin_x / 2 + denoised_picture_ptr->origin_y / 2 * denoised_picture_ptr->strideCb;
+        uint32_t denChromaOffSet = denoised_picture_ptr->origin_x / 2 + denoised_picture_ptr->origin_y / 2 * denoised_picture_ptr->stride_cb;
 
 
         for (verticalIdx = 0; verticalIdx < input_picture_ptr->height; ++verticalIdx) {
@@ -3138,12 +3138,12 @@ EbErrorType DenoiseInputPicture(
 
         for (verticalIdx = 0; verticalIdx < input_picture_ptr->height / 2; ++verticalIdx) {
 
-            EB_MEMCPY(input_picture_ptr->bufferCb + inChromaOffSet + verticalIdx * input_picture_ptr->strideCb,
-                denoised_picture_ptr->bufferCb + denChromaOffSet + verticalIdx * denoised_picture_ptr->strideCb,
+            EB_MEMCPY(input_picture_ptr->buffer_cb + inChromaOffSet + verticalIdx * input_picture_ptr->stride_cb,
+                denoised_picture_ptr->buffer_cb + denChromaOffSet + verticalIdx * denoised_picture_ptr->stride_cb,
                 sizeof(uint8_t) * input_picture_ptr->width / 2);
 
-            EB_MEMCPY(input_picture_ptr->bufferCr + inChromaOffSet + verticalIdx * input_picture_ptr->strideCr,
-                denoised_picture_ptr->bufferCr + denChromaOffSet + verticalIdx * denoised_picture_ptr->strideCr,
+            EB_MEMCPY(input_picture_ptr->buffer_cr + inChromaOffSet + verticalIdx * input_picture_ptr->stride_cr,
+                denoised_picture_ptr->buffer_cr + denChromaOffSet + verticalIdx * denoised_picture_ptr->stride_cr,
                 sizeof(uint8_t) * input_picture_ptr->width / 2);
         }
 
@@ -3425,9 +3425,9 @@ EbErrorType SubSampleFilterNoise(
     if (picture_control_set_ptr->pic_noise_class == PIC_NOISE_CLASS_3_1) {
 
         uint32_t inLumaOffSet = input_picture_ptr->origin_x + input_picture_ptr->origin_y      * input_picture_ptr->stride_y;
-        uint32_t inChromaOffSet = input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb;
+        uint32_t inChromaOffSet = input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->stride_cb;
         uint32_t denLumaOffSet = denoised_picture_ptr->origin_x + denoised_picture_ptr->origin_y   * denoised_picture_ptr->stride_y;
-        uint32_t denChromaOffSet = denoised_picture_ptr->origin_x / 2 + denoised_picture_ptr->origin_y / 2 * denoised_picture_ptr->strideCb;
+        uint32_t denChromaOffSet = denoised_picture_ptr->origin_x / 2 + denoised_picture_ptr->origin_y / 2 * denoised_picture_ptr->stride_cb;
 
 
         //filter Luma
@@ -3489,12 +3489,12 @@ EbErrorType SubSampleFilterNoise(
         //copy chroma
         for (verticalIdx = 0; verticalIdx < input_picture_ptr->height / 2; ++verticalIdx) {
 
-            EB_MEMCPY(input_picture_ptr->bufferCb + inChromaOffSet + verticalIdx * input_picture_ptr->strideCb,
-                denoised_picture_ptr->bufferCb + denChromaOffSet + verticalIdx * denoised_picture_ptr->strideCb,
+            EB_MEMCPY(input_picture_ptr->buffer_cb + inChromaOffSet + verticalIdx * input_picture_ptr->stride_cb,
+                denoised_picture_ptr->buffer_cb + denChromaOffSet + verticalIdx * denoised_picture_ptr->stride_cb,
                 sizeof(uint8_t) * input_picture_ptr->width / 2);
 
-            EB_MEMCPY(input_picture_ptr->bufferCr + inChromaOffSet + verticalIdx * input_picture_ptr->strideCr,
-                denoised_picture_ptr->bufferCr + denChromaOffSet + verticalIdx * denoised_picture_ptr->strideCr,
+            EB_MEMCPY(input_picture_ptr->buffer_cr + inChromaOffSet + verticalIdx * input_picture_ptr->stride_cr,
+                denoised_picture_ptr->buffer_cr + denChromaOffSet + verticalIdx * denoised_picture_ptr->stride_cr,
                 sizeof(uint8_t) * input_picture_ptr->width / 2);
         }
 
@@ -4225,10 +4225,10 @@ void SubSampleChromaGeneratePixelIntensityHistogramBins(
 
             // U Histogram
             CalculateHistogram(
-                &input_picture_ptr->bufferCb[((input_picture_ptr->origin_x + regionInPictureWidthIndex * regionWidth) >> 1) + (((input_picture_ptr->origin_y + regionInPictureHeightIndex * regionHeight) >> 1) * input_picture_ptr->strideCb)],
+                &input_picture_ptr->buffer_cb[((input_picture_ptr->origin_x + regionInPictureWidthIndex * regionWidth) >> 1) + (((input_picture_ptr->origin_y + regionInPictureHeightIndex * regionHeight) >> 1) * input_picture_ptr->stride_cb)],
                 (regionWidth + regionWidthOffset) >> 1,
                 (regionHeight + regionHeightOffset) >> 1,
-                input_picture_ptr->strideCb,
+                input_picture_ptr->stride_cb,
                 decim_step,
                 picture_control_set_ptr->picture_histogram[regionInPictureWidthIndex][regionInPictureHeightIndex][1],
                 &sum);
@@ -4244,10 +4244,10 @@ void SubSampleChromaGeneratePixelIntensityHistogramBins(
 
             // V Histogram
             CalculateHistogram(
-                &input_picture_ptr->bufferCr[((input_picture_ptr->origin_x + regionInPictureWidthIndex * regionWidth) >> 1) + (((input_picture_ptr->origin_y + regionInPictureHeightIndex * regionHeight) >> 1) * input_picture_ptr->strideCr)],
+                &input_picture_ptr->buffer_cr[((input_picture_ptr->origin_x + regionInPictureWidthIndex * regionWidth) >> 1) + (((input_picture_ptr->origin_y + regionInPictureHeightIndex * regionHeight) >> 1) * input_picture_ptr->stride_cr)],
                 (regionWidth + regionWidthOffset) >> 1,
                 (regionHeight + regionHeightOffset) >> 1,
-                input_picture_ptr->strideCr,
+                input_picture_ptr->stride_cr,
                 decim_step,
                 picture_control_set_ptr->picture_histogram[regionInPictureWidthIndex][regionInPictureHeightIndex][2],
                 &sum);
@@ -4638,8 +4638,8 @@ void ComputePictureSpatialStatistics(
         inputLumaOriginIndex = (input_padded_picture_ptr->origin_y + sb_origin_y) * input_padded_picture_ptr->stride_y +
             input_padded_picture_ptr->origin_x + sb_origin_x;
 
-        input_cb_origin_index = ((input_picture_ptr->origin_y + sb_origin_y) >> 1) * input_picture_ptr->strideCb + ((input_picture_ptr->origin_x + sb_origin_x) >> 1);
-        inputCrOriginIndex = ((input_picture_ptr->origin_y + sb_origin_y) >> 1) * input_picture_ptr->strideCr + ((input_picture_ptr->origin_x + sb_origin_x) >> 1);
+        input_cb_origin_index = ((input_picture_ptr->origin_y + sb_origin_y) >> 1) * input_picture_ptr->stride_cb + ((input_picture_ptr->origin_x + sb_origin_x) >> 1);
+        inputCrOriginIndex = ((input_picture_ptr->origin_y + sb_origin_y) >> 1) * input_picture_ptr->stride_cr + ((input_picture_ptr->origin_x + sb_origin_x) >> 1);
 
         ComputeBlockMeanComputeVariance(
             sequence_control_set_ptr,
@@ -4813,16 +4813,16 @@ void PadPictureToMultipleOfMinCuSizeDimensions(
         sequence_control_set_ptr->pad_bottom);
 
     pad_input_picture(
-        &input_picture_ptr->bufferCb[(input_picture_ptr->origin_x >> 1) + ((input_picture_ptr->origin_y >> 1) * input_picture_ptr->strideCb)],
-        input_picture_ptr->strideCb,
+        &input_picture_ptr->buffer_cb[(input_picture_ptr->origin_x >> 1) + ((input_picture_ptr->origin_y >> 1) * input_picture_ptr->stride_cb)],
+        input_picture_ptr->stride_cb,
         (input_picture_ptr->width - sequence_control_set_ptr->pad_right) >> 1,
         (input_picture_ptr->height - sequence_control_set_ptr->pad_bottom) >> 1,
         sequence_control_set_ptr->pad_right >> 1,
         sequence_control_set_ptr->pad_bottom >> 1);
 
     pad_input_picture(
-        &input_picture_ptr->bufferCr[(input_picture_ptr->origin_x >> 1) + ((input_picture_ptr->origin_y >> 1) * input_picture_ptr->strideCr)],
-        input_picture_ptr->strideCr,
+        &input_picture_ptr->buffer_cr[(input_picture_ptr->origin_x >> 1) + ((input_picture_ptr->origin_y >> 1) * input_picture_ptr->stride_cr)],
+        input_picture_ptr->stride_cr,
         (input_picture_ptr->width - sequence_control_set_ptr->pad_right) >> 1,
         (input_picture_ptr->height - sequence_control_set_ptr->pad_bottom) >> 1,
         sequence_control_set_ptr->pad_right >> 1,
@@ -4831,24 +4831,24 @@ void PadPictureToMultipleOfMinCuSizeDimensions(
     if (is16BitInput)
     {
         pad_input_picture(
-            &input_picture_ptr->bufferBitIncY[input_picture_ptr->origin_x + (input_picture_ptr->origin_y * input_picture_ptr->strideBitIncY)],
-            input_picture_ptr->strideBitIncY,
+            &input_picture_ptr->buffer_bit_inc_y[input_picture_ptr->origin_x + (input_picture_ptr->origin_y * input_picture_ptr->stride_bit_inc_y)],
+            input_picture_ptr->stride_bit_inc_y,
             (input_picture_ptr->width - sequence_control_set_ptr->pad_right),
             (input_picture_ptr->height - sequence_control_set_ptr->pad_bottom),
             sequence_control_set_ptr->pad_right,
             sequence_control_set_ptr->pad_bottom);
 
         pad_input_picture(
-            &input_picture_ptr->bufferBitIncCb[(input_picture_ptr->origin_x >> 1) + ((input_picture_ptr->origin_y >> 1) * input_picture_ptr->strideBitIncCb)],
-            input_picture_ptr->strideBitIncCb,
+            &input_picture_ptr->buffer_bit_inc_cb[(input_picture_ptr->origin_x >> 1) + ((input_picture_ptr->origin_y >> 1) * input_picture_ptr->stride_bit_inc_cb)],
+            input_picture_ptr->stride_bit_inc_cb,
             (input_picture_ptr->width - sequence_control_set_ptr->pad_right) >> 1,
             (input_picture_ptr->height - sequence_control_set_ptr->pad_bottom) >> 1,
             sequence_control_set_ptr->pad_right >> 1,
             sequence_control_set_ptr->pad_bottom >> 1);
 
         pad_input_picture(
-            &input_picture_ptr->bufferBitIncCr[(input_picture_ptr->origin_x >> 1) + ((input_picture_ptr->origin_y >> 1) * input_picture_ptr->strideBitIncCr)],
-            input_picture_ptr->strideBitIncCr,
+            &input_picture_ptr->buffer_bit_inc_cr[(input_picture_ptr->origin_x >> 1) + ((input_picture_ptr->origin_y >> 1) * input_picture_ptr->stride_bit_inc_cr)],
+            input_picture_ptr->stride_bit_inc_cr,
             (input_picture_ptr->width - sequence_control_set_ptr->pad_right) >> 1,
             (input_picture_ptr->height - sequence_control_set_ptr->pad_bottom) >> 1,
             sequence_control_set_ptr->pad_right >> 1,

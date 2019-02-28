@@ -1823,8 +1823,8 @@ void full_loop_r(
 
         // NADER - TU
         tu_origin_index = txb_origin_x + txb_origin_y * candidate_buffer->residualQuantCoeffPtr->stride_y;
-        tuCbOriginIndex = (((txb_origin_x >> 3) << 3) + (((txb_origin_y >> 3) << 3) * candidate_buffer->residualQuantCoeffPtr->strideCb)) >> 1;
-        tuCrOriginIndex = (((txb_origin_x >> 3) << 3) + (((txb_origin_y >> 3) << 3) * candidate_buffer->residualQuantCoeffPtr->strideCr)) >> 1;
+        tuCbOriginIndex = (((txb_origin_x >> 3) << 3) + (((txb_origin_y >> 3) << 3) * candidate_buffer->residualQuantCoeffPtr->stride_cb)) >> 1;
+        tuCrOriginIndex = (((txb_origin_x >> 3) << 3) + (((txb_origin_y >> 3) << 3) * candidate_buffer->residualQuantCoeffPtr->stride_cr)) >> 1;
 
         //    This function replaces the previous Intra Chroma mode if the LM fast
             //    cost is better.
@@ -1835,15 +1835,15 @@ void full_loop_r(
             // Configure the Chroma Residual Ptr
 
             chromaResidualPtr = //(candidate_buffer->candidate_ptr->type  == INTRA_MODE )?
-                  //&(((int16_t*) candidate_buffer->intraChromaResidualPtr->bufferCb)[tuChromaOriginIndex]):
-                &(((int16_t*)candidate_buffer->residual_ptr->bufferCb)[tuCbOriginIndex]);
+                  //&(((int16_t*) candidate_buffer->intraChromaResidualPtr->buffer_cb)[tuChromaOriginIndex]):
+                &(((int16_t*)candidate_buffer->residual_ptr->buffer_cb)[tuCbOriginIndex]);
 
 
             // Cb Transform
             av1_estimate_transform(
                 chromaResidualPtr,
-                candidate_buffer->residual_ptr->strideCb,
-                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->bufferCb)[txb_1d_offset]),
+                candidate_buffer->residual_ptr->stride_cb,
+                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->buffer_cb)[txb_1d_offset]),
                 NOT_USED_VALUE,
                 context_ptr->blk_geom->txsize_uv[txb_itr],
                 &context_ptr->three_quad_energy,
@@ -1856,10 +1856,10 @@ void full_loop_r(
 
             av1_quantize_inv_quantize(
                 picture_control_set_ptr,
-                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->bufferCb)[txb_1d_offset]),
+                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->buffer_cb)[txb_1d_offset]),
                 NOT_USED_VALUE,
-                &(((int32_t*)candidate_buffer->residualQuantCoeffPtr->bufferCb)[txb_1d_offset]),
-                &(((int32_t*)candidate_buffer->reconCoeffPtr->bufferCb)[txb_1d_offset]),
+                &(((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_cb)[txb_1d_offset]),
+                &(((int32_t*)candidate_buffer->reconCoeffPtr->buffer_cb)[txb_1d_offset]),
                 cb_qp,
                 context_ptr->blk_geom->tx_width_uv[txb_itr],
                 context_ptr->blk_geom->tx_height_uv[txb_itr],
@@ -1876,7 +1876,7 @@ void full_loop_r(
 #endif
                 candidate_buffer->candidate_ptr->transform_type[PLANE_TYPE_UV],
                 clean_sparse_coeff_flag);
-            candidate_buffer->candidate_ptr->quantized_dc[1] = (((int32_t*)candidate_buffer->residualQuantCoeffPtr->bufferCb)[txb_1d_offset]);
+            candidate_buffer->candidate_ptr->quantized_dc[1] = (((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_cb)[txb_1d_offset]);
         }
 
 
@@ -1884,14 +1884,14 @@ void full_loop_r(
             // Configure the Chroma Residual Ptr
 
             chromaResidualPtr = //(candidate_buffer->candidate_ptr->type  == INTRA_MODE )?
-                //&(((int16_t*) candidate_buffer->intraChromaResidualPtr->bufferCr)[tuChromaOriginIndex]):
-                &(((int16_t*)candidate_buffer->residual_ptr->bufferCr)[tuCrOriginIndex]);
+                //&(((int16_t*) candidate_buffer->intraChromaResidualPtr->buffer_cr)[tuChromaOriginIndex]):
+                &(((int16_t*)candidate_buffer->residual_ptr->buffer_cr)[tuCrOriginIndex]);
 
             // Cr Transform
             av1_estimate_transform(
                 chromaResidualPtr,
-                candidate_buffer->residual_ptr->strideCr,
-                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->bufferCr)[txb_1d_offset]),
+                candidate_buffer->residual_ptr->stride_cr,
+                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->buffer_cr)[txb_1d_offset]),
                 NOT_USED_VALUE,
                 context_ptr->blk_geom->txsize_uv[txb_itr],
                 &context_ptr->three_quad_energy,
@@ -1904,10 +1904,10 @@ void full_loop_r(
 
             av1_quantize_inv_quantize(
                 picture_control_set_ptr,
-                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->bufferCr)[txb_1d_offset]),
+                &(((int32_t*)context_ptr->trans_quant_buffers_ptr->tu_trans_coeff2_nx2_n_ptr->buffer_cr)[txb_1d_offset]),
                 NOT_USED_VALUE,
-                &(((int32_t*)candidate_buffer->residualQuantCoeffPtr->bufferCr)[txb_1d_offset]),
-                &(((int32_t*)candidate_buffer->reconCoeffPtr->bufferCr)[txb_1d_offset]),
+                &(((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_cr)[txb_1d_offset]),
+                &(((int32_t*)candidate_buffer->reconCoeffPtr->buffer_cr)[txb_1d_offset]),
                 cb_qp,
                 context_ptr->blk_geom->tx_width_uv[txb_itr],
                 context_ptr->blk_geom->tx_height_uv[txb_itr],
@@ -1924,7 +1924,7 @@ void full_loop_r(
 #endif
                 candidate_buffer->candidate_ptr->transform_type[PLANE_TYPE_UV],
                 clean_sparse_coeff_flag);
-            candidate_buffer->candidate_ptr->quantized_dc[2] = (((int32_t*)candidate_buffer->residualQuantCoeffPtr->bufferCr)[txb_1d_offset]);
+            candidate_buffer->candidate_ptr->quantized_dc[2] = (((int32_t*)candidate_buffer->residualQuantCoeffPtr->buffer_cr)[txb_1d_offset]);
         }
 
         txb_1d_offset += context_ptr->blk_geom->tx_width_uv[txb_itr] * context_ptr->blk_geom->tx_height_uv[txb_itr];

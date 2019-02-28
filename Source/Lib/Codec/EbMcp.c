@@ -52,8 +52,8 @@ EbErrorType motion_compensation_prediction_context_ctor(
 
         initData.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
 
-        initData.maxWidth = max_cu_width + 16;//4 pixel on each side used for interpolation
-        initData.maxHeight = max_cu_height + 16;
+        initData.max_width = max_cu_width + 16;//4 pixel on each side used for interpolation
+        initData.max_height = max_cu_height + 16;
 
         initData.bit_depth = EB_16BIT;
         initData.left_padding = 0;
@@ -61,7 +61,7 @@ EbErrorType motion_compensation_prediction_context_ctor(
         initData.top_padding = 0;
         initData.bot_padding = 0;
 
-        initData.splitMode = EB_FALSE;
+        initData.split_mode = EB_FALSE;
 #if !EXTRA_ALLOCATION
         return_error = eb_picture_buffer_desc_ctor(
             (EbPtr*)&context_ptr->local_reference_block_l0,
@@ -78,8 +78,8 @@ EbErrorType motion_compensation_prediction_context_ctor(
 #endif
 
         initData.bit_depth = EB_8BIT;
-        initData.maxWidth = max_cu_width + 32;
-        initData.maxHeight = max_cu_height + 32;
+        initData.max_width = max_cu_width + 32;
+        initData.max_height = max_cu_height + 32;
 
         return_error = eb_picture_buffer_desc_ctor((EbPtr*)&context_ptr->local_reference_block8_bitl0, (EbPtr)&initData);
         if (return_error == EB_ErrorInsufficientResources) {
@@ -143,10 +143,10 @@ void encode_uni_pred_interpolation(
 
 
     uni_pred_chroma_if_function_ptr_array_new[asm_type][frac_pos_x + (frac_pos_y << 3)](
-        ref_pic->bufferCb + integPosx + integPosy * ref_pic->strideCb,
-        ref_pic->strideCb,
-        dst->bufferCb + dst_chroma_index,
-        dst->strideCb,
+        ref_pic->buffer_cb + integPosx + integPosy * ref_pic->stride_cb,
+        ref_pic->stride_cb,
+        dst->buffer_cb + dst_chroma_index,
+        dst->stride_cb,
         chromaPuWidth,
         chromaPuHeight,
         tempBuf0,
@@ -155,10 +155,10 @@ void encode_uni_pred_interpolation(
 
     //doing the chroma Cr interpolation
     uni_pred_chroma_if_function_ptr_array_new[asm_type][frac_pos_x + (frac_pos_y << 3)](
-        ref_pic->bufferCr + integPosx + integPosy * ref_pic->strideCr,
-        ref_pic->strideCr,
-        dst->bufferCr + dst_chroma_index,
-        dst->strideCr,
+        ref_pic->buffer_cr + integPosx + integPosy * ref_pic->stride_cr,
+        ref_pic->stride_cr,
+        dst->buffer_cr + dst_chroma_index,
+        dst->stride_cr,
         chromaPuWidth,
         chromaPuHeight,
         tempBuf0,

@@ -1318,7 +1318,7 @@ EbErrorType av1_tu_estimate_coeff_bits(
 
         if (cb_eob) {
 
-            coeff_buffer = (int32_t*)&coeff_buffer_sb->bufferCb[tuChromaOriginIndex * sizeof(int32_t)];
+            coeff_buffer = (int32_t*)&coeff_buffer_sb->buffer_cb[tuChromaOriginIndex * sizeof(int32_t)];
 
 
             *cb_tu_coeff_bits = av1_cost_coeffs_txb(
@@ -1346,7 +1346,7 @@ EbErrorType av1_tu_estimate_coeff_bits(
         //Estimate the rate of the transform type and coefficient for chroma Cr
         if (cr_eob) {
 
-            coeff_buffer = (int32_t*)&coeff_buffer_sb->bufferCr[tuChromaOriginIndex * sizeof(int32_t)];
+            coeff_buffer = (int32_t*)&coeff_buffer_sb->buffer_cr[tuChromaOriginIndex * sizeof(int32_t)];
 
             *cr_tu_coeff_bits = av1_cost_coeffs_txb(
                 candidate_buffer_ptr,

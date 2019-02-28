@@ -53,8 +53,8 @@ EbErrorType dlf_context_ctor(
     context_ptr->temp_lf_recon_picture16bit_ptr = (EbPictureBufferDesc *)EB_NULL;
     context_ptr->temp_lf_recon_picture_ptr = (EbPictureBufferDesc *)EB_NULL;
     EbPictureBufferDescInitData temp_lf_recon_desc_init_data;
-    temp_lf_recon_desc_init_data.maxWidth = (uint16_t)max_input_luma_width;
-    temp_lf_recon_desc_init_data.maxHeight = (uint16_t)max_input_luma_height;
+    temp_lf_recon_desc_init_data.max_width = (uint16_t)max_input_luma_width;
+    temp_lf_recon_desc_init_data.max_height = (uint16_t)max_input_luma_height;
     temp_lf_recon_desc_init_data.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
 
     temp_lf_recon_desc_init_data.left_padding = PAD_VALUE;
@@ -62,7 +62,7 @@ EbErrorType dlf_context_ctor(
     temp_lf_recon_desc_init_data.top_padding = PAD_VALUE;
     temp_lf_recon_desc_init_data.bot_padding = PAD_VALUE;
 
-    temp_lf_recon_desc_init_data.splitMode = EB_FALSE;
+    temp_lf_recon_desc_init_data.split_mode = EB_FALSE;
 
     if (is16bit) {
         temp_lf_recon_desc_init_data.bit_depth = EB_16BIT;
@@ -188,7 +188,7 @@ void* dlf_kernel(void *input_ptr)
                     recon_picture_ptr = picture_control_set_ptr->recon_picture_ptr;
             }
 
-            LinkEbToAomBufferDesc(
+            link_eb_to_aom_buffer_desc(
                 recon_picture_ptr,
                 cm->frame_to_show);
 
@@ -203,26 +203,26 @@ void* dlf_kernel(void *input_ptr)
                 if (is16bit)
                 {
                     picture_control_set_ptr->src[0] = (uint16_t*)recon_picture_ptr->buffer_y + (recon_picture_ptr->origin_x + recon_picture_ptr->origin_y     * recon_picture_ptr->stride_y);
-                    picture_control_set_ptr->src[1] = (uint16_t*)recon_picture_ptr->bufferCb + (recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->strideCb);
-                    picture_control_set_ptr->src[2] = (uint16_t*)recon_picture_ptr->bufferCr + (recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->strideCr);
+                    picture_control_set_ptr->src[1] = (uint16_t*)recon_picture_ptr->buffer_cb + (recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->stride_cb);
+                    picture_control_set_ptr->src[2] = (uint16_t*)recon_picture_ptr->buffer_cr + (recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->stride_cr);
 
                     EbPictureBufferDesc *input_picture_ptr = picture_control_set_ptr->input_frame16bit;
                     picture_control_set_ptr->ref_coeff[0] = (uint16_t*)input_picture_ptr->buffer_y + (input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->stride_y);
-                    picture_control_set_ptr->ref_coeff[1] = (uint16_t*)input_picture_ptr->bufferCb + (input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb);
-                    picture_control_set_ptr->ref_coeff[2] = (uint16_t*)input_picture_ptr->bufferCr + (input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCr);
+                    picture_control_set_ptr->ref_coeff[1] = (uint16_t*)input_picture_ptr->buffer_cb + (input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->stride_cb);
+                    picture_control_set_ptr->ref_coeff[2] = (uint16_t*)input_picture_ptr->buffer_cr + (input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->stride_cr);
 
                 }
                 else
                 {
                     //these copies should go!
                 EbByte  rec_ptr = &((recon_picture_ptr->buffer_y)[recon_picture_ptr->origin_x + recon_picture_ptr->origin_y * recon_picture_ptr->stride_y]);
-                    EbByte  rec_ptr_cb = &((recon_picture_ptr->bufferCb)[recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->strideCb]);
-                    EbByte  rec_ptr_cr = &((recon_picture_ptr->bufferCr)[recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->strideCr]);
+                    EbByte  rec_ptr_cb = &((recon_picture_ptr->buffer_cb)[recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->stride_cb]);
+                    EbByte  rec_ptr_cr = &((recon_picture_ptr->buffer_cr)[recon_picture_ptr->origin_x / 2 + recon_picture_ptr->origin_y / 2 * recon_picture_ptr->stride_cr]);
 
                     EbPictureBufferDesc *input_picture_ptr = (EbPictureBufferDesc*)picture_control_set_ptr->parent_pcs_ptr->enhanced_picture_ptr;
                     EbByte  enh_ptr = &((input_picture_ptr->buffer_y)[input_picture_ptr->origin_x + input_picture_ptr->origin_y * input_picture_ptr->stride_y]);
-                    EbByte  enh_ptr_cb = &((input_picture_ptr->bufferCb)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCb]);
-                    EbByte  enh_ptr_cr = &((input_picture_ptr->bufferCr)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->strideCr]);
+                    EbByte  enh_ptr_cb = &((input_picture_ptr->buffer_cb)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->stride_cb]);
+                    EbByte  enh_ptr_cr = &((input_picture_ptr->buffer_cr)[input_picture_ptr->origin_x / 2 + input_picture_ptr->origin_y / 2 * input_picture_ptr->stride_cr]);
 
                     for (int r = 0; r < sequence_control_set_ptr->luma_height; ++r) {
                         for (int c = 0; c < sequence_control_set_ptr->luma_width; ++c) {
@@ -233,10 +233,10 @@ void* dlf_kernel(void *input_ptr)
 
                 for (int r = 0; r < sequence_control_set_ptr->luma_height/2; ++r) {
                     for (int c = 0; c < sequence_control_set_ptr->luma_width/2; ++c) {
-                        picture_control_set_ptr->src[1][r * sequence_control_set_ptr->luma_width/2 + c] = rec_ptr_cb[r * recon_picture_ptr->strideCb + c];
-                        picture_control_set_ptr->ref_coeff[1][r * sequence_control_set_ptr->luma_width/2 + c] = enh_ptr_cb[r * input_picture_ptr->strideCb + c];
-                            picture_control_set_ptr->src[2][r * sequence_control_set_ptr->luma_width / 2 + c] = rec_ptr_cr[r * recon_picture_ptr->strideCr + c];
-                            picture_control_set_ptr->ref_coeff[2][r * sequence_control_set_ptr->luma_width / 2 + c] = enh_ptr_cr[r * input_picture_ptr->strideCr + c];
+                        picture_control_set_ptr->src[1][r * sequence_control_set_ptr->luma_width/2 + c] = rec_ptr_cb[r * recon_picture_ptr->stride_cb + c];
+                        picture_control_set_ptr->ref_coeff[1][r * sequence_control_set_ptr->luma_width/2 + c] = enh_ptr_cb[r * input_picture_ptr->stride_cb + c];
+                            picture_control_set_ptr->src[2][r * sequence_control_set_ptr->luma_width / 2 + c] = rec_ptr_cr[r * recon_picture_ptr->stride_cr + c];
+                            picture_control_set_ptr->ref_coeff[2][r * sequence_control_set_ptr->luma_width / 2 + c] = enh_ptr_cr[r * input_picture_ptr->stride_cr + c];
                         }
                     }
 

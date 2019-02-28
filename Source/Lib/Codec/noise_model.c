@@ -1655,17 +1655,17 @@ static void pack_2d_pic(EbPictureBufferDesc *inputPicture,
     EbAsm asm_type) {
 
     const uint32_t inputLumaOffset = ((inputPicture->origin_y)      * inputPicture->stride_y) + (inputPicture->origin_x);
-    const uint32_t inputBitIncLumaOffset = ((inputPicture->origin_y)      * inputPicture->strideBitIncY) + (inputPicture->origin_x);
-    const uint32_t inputCbOffset = (((inputPicture->origin_y) >> 1) * inputPicture->strideCb) + ((inputPicture->origin_x) >> 1);
-    const uint32_t inputBitIncCbOffset = (((inputPicture->origin_y) >> 1) * inputPicture->strideBitIncCb) + ((inputPicture->origin_x) >> 1);
-    const uint32_t inputCrOffset = (((inputPicture->origin_y) >> 1) * inputPicture->strideCr) + ((inputPicture->origin_x) >> 1);
-    const uint32_t inputBitIncCrOffset = (((inputPicture->origin_y) >> 1) * inputPicture->strideBitIncCr) + ((inputPicture->origin_x) >> 1);
+    const uint32_t inputBitIncLumaOffset = ((inputPicture->origin_y)      * inputPicture->stride_bit_inc_y) + (inputPicture->origin_x);
+    const uint32_t inputCbOffset = (((inputPicture->origin_y) >> 1) * inputPicture->stride_cb) + ((inputPicture->origin_x) >> 1);
+    const uint32_t inputBitIncCbOffset = (((inputPicture->origin_y) >> 1) * inputPicture->stride_bit_inc_cb) + ((inputPicture->origin_x) >> 1);
+    const uint32_t inputCrOffset = (((inputPicture->origin_y) >> 1) * inputPicture->stride_cr) + ((inputPicture->origin_x) >> 1);
+    const uint32_t inputBitIncCrOffset = (((inputPicture->origin_y) >> 1) * inputPicture->stride_bit_inc_cr) + ((inputPicture->origin_x) >> 1);
 
     pack2d_src(
         inputPicture->buffer_y + inputLumaOffset,
         inputPicture->stride_y,
-        inputPicture->bufferBitIncY + inputBitIncLumaOffset,
-        inputPicture->strideBitIncY,
+        inputPicture->buffer_bit_inc_y + inputBitIncLumaOffset,
+        inputPicture->stride_bit_inc_y,
         (uint16_t *)packed[0],
         inputPicture->stride_y,
         inputPicture->width,
@@ -1673,23 +1673,23 @@ static void pack_2d_pic(EbPictureBufferDesc *inputPicture,
         asm_type);
 
     pack2d_src(
-        inputPicture->bufferCb + inputCbOffset,
-        inputPicture->strideCr,
-        inputPicture->bufferBitIncCb + inputBitIncCbOffset,
-        inputPicture->strideBitIncCr,
+        inputPicture->buffer_cb + inputCbOffset,
+        inputPicture->stride_cr,
+        inputPicture->buffer_bit_inc_cb + inputBitIncCbOffset,
+        inputPicture->stride_bit_inc_cr,
         (uint16_t *)packed[1],
-        inputPicture->strideCr,
+        inputPicture->stride_cr,
         inputPicture->width >> 1,
         inputPicture->height >> 1,
         asm_type);
 
     pack2d_src(
-        inputPicture->bufferCr + inputCrOffset,
-        inputPicture->strideCr,
-        inputPicture->bufferBitIncCr + inputBitIncCrOffset,
-        inputPicture->strideBitIncCr,
+        inputPicture->buffer_cr + inputCrOffset,
+        inputPicture->stride_cr,
+        inputPicture->buffer_bit_inc_cr + inputBitIncCrOffset,
+        inputPicture->stride_bit_inc_cr,
         (uint16_t *)packed[2],
-        inputPicture->strideCr,
+        inputPicture->stride_cr,
         inputPicture->width >> 1,
         inputPicture->height >> 1,
         asm_type);
@@ -1701,7 +1701,7 @@ static void unpack_2d_pic(uint8_t *packed[3],
     EbAsm asm_type) {
 
     uint32_t lumaBufferOffset = ((outputPicturePtr->origin_y)      * outputPicturePtr->stride_y) + (outputPicturePtr->origin_x);
-    uint32_t chromaBufferOffset = (((outputPicturePtr->origin_y) >> 1) * outputPicturePtr->strideCb) + ((outputPicturePtr->origin_x) >> 1);
+    uint32_t chromaBufferOffset = (((outputPicturePtr->origin_y) >> 1) * outputPicturePtr->stride_cb) + ((outputPicturePtr->origin_x) >> 1);
     uint16_t luma_width = (uint16_t)(outputPicturePtr->width);
     uint16_t chroma_width = luma_width >> 1;
     uint16_t luma_height = (uint16_t)(outputPicturePtr->height);
@@ -1712,30 +1712,30 @@ static void unpack_2d_pic(uint8_t *packed[3],
         outputPicturePtr->stride_y,
         outputPicturePtr->buffer_y + lumaBufferOffset,
         outputPicturePtr->stride_y,
-        outputPicturePtr->bufferBitIncY + lumaBufferOffset,
-        outputPicturePtr->strideBitIncY,
+        outputPicturePtr->buffer_bit_inc_y + lumaBufferOffset,
+        outputPicturePtr->stride_bit_inc_y,
         luma_width,
         luma_height,
         asm_type);
 
     un_pack2d(
         (uint16_t*)(packed[1]),
-        outputPicturePtr->strideCb,
-        outputPicturePtr->bufferCb + chromaBufferOffset,
-        outputPicturePtr->strideCb,
-        outputPicturePtr->bufferBitIncCb + chromaBufferOffset,
-        outputPicturePtr->strideBitIncCb,
+        outputPicturePtr->stride_cb,
+        outputPicturePtr->buffer_cb + chromaBufferOffset,
+        outputPicturePtr->stride_cb,
+        outputPicturePtr->buffer_bit_inc_cb + chromaBufferOffset,
+        outputPicturePtr->stride_bit_inc_cb,
         chroma_width,
         chroma_height,
         asm_type);
 
     un_pack2d(
         (uint16_t*)(packed[2]),
-        outputPicturePtr->strideCr,
-        outputPicturePtr->bufferCr + chromaBufferOffset,
-        outputPicturePtr->strideCr,
-        outputPicturePtr->bufferBitIncCr + chromaBufferOffset,
-        outputPicturePtr->strideBitIncCr,
+        outputPicturePtr->stride_cr,
+        outputPicturePtr->buffer_cr + chromaBufferOffset,
+        outputPicturePtr->stride_cr,
+        outputPicturePtr->buffer_bit_inc_cr + chromaBufferOffset,
+        outputPicturePtr->stride_bit_inc_cr,
         chroma_width,
         chroma_height,
         asm_type);
@@ -1751,7 +1751,7 @@ int32_t aom_denoise_and_model_run(struct aom_denoise_and_model_t *ctx,
     const int32_t block_size = ctx->block_size;
     uint8_t *raw_data[3];
     int32_t chroma_sub_log2[2] = { 1, 1 };  //todo: send chroma subsampling
-    int32_t strides[3] = { sd->stride_y, sd->strideCb, sd->strideCr };
+    int32_t strides[3] = { sd->stride_y, sd->stride_cb, sd->stride_cr };
 
     if (!denoise_and_model_realloc_if_necessary(ctx, sd, use_highbd)) {
         fprintf(stderr, "Unable to realloc buffers\n");
@@ -1760,9 +1760,9 @@ int32_t aom_denoise_and_model_run(struct aom_denoise_and_model_t *ctx,
 
     if (!use_highbd) {  // 8 bits input
         raw_data[0] = sd->buffer_y + sd->origin_y * sd->stride_y + sd->origin_x;
-        raw_data[1] = sd->bufferCb + sd->strideCb * (sd->origin_y >> chroma_sub_log2[0])
+        raw_data[1] = sd->buffer_cb + sd->stride_cb * (sd->origin_y >> chroma_sub_log2[0])
             + (sd->origin_x >> chroma_sub_log2[1]);
-        raw_data[2] = sd->bufferCr + sd->strideCr * (sd->origin_y >> chroma_sub_log2[0])
+        raw_data[2] = sd->buffer_cr + sd->stride_cr * (sd->origin_y >> chroma_sub_log2[0])
             + (sd->origin_x >> chroma_sub_log2[1]);
     }
     else {          // 10 bits input

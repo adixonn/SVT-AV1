@@ -14137,29 +14137,29 @@ extern "C" {
                                            
         int32_t                             showable_frame;  // frame can be used as show existing frame in future
         // Flag for a frame used as a reference - not written to the bitstream
-        int32_t                             is_reference_frame;
+        int32_t                            is_reference_frame;
 
         // Flag signaling that the frame is encoded using only INTRA modes.
-        uint8_t                             intra_only;
-        uint8_t                             disable_cdf_update;
-        int32_t                             allow_high_precision_mv;
-        int32_t                             cur_frame_force_integer_mv;  // 0 the default in AOM, 1 only integer
-        int32_t                             allow_screen_content_tools;
-        int32_t                             allow_intrabc;
-        int32_t                             allow_warped_motion;
+        uint8_t                            intra_only;
+        uint8_t                            disable_cdf_update;
+        int32_t                            allow_high_precision_mv;
+        int32_t                            cur_frame_force_integer_mv;  // 0 the default in AOM, 1 only integer
+        int32_t                            allow_screen_content_tools;
+        int32_t                            allow_intrabc;
+        int32_t                            allow_warped_motion;
 
         /* profile settings */
-        TxMode                              tx_mode;
+        TxMode                             tx_mode;
 #if CONFIG_ENTROPY_STATS
-        int32_t                             coef_cdf_category;
-#endif                                      
-        uint16_t                            base_qindex;
-        int32_t                             y_dc_delta_q;
-        int32_t                             u_dc_delta_q;
-        int32_t                             v_dc_delta_q;
-        int32_t                             u_ac_delta_q;
-        int32_t                             v_ac_delta_q;
-        int32_t                             separate_uv_delta_q;
+        int32_t                            coef_cdf_category;
+#endif                                     
+        uint16_t                           base_qindex;
+        int32_t                            y_dc_delta_q;
+        int32_t                            u_dc_delta_q;
+        int32_t                            v_dc_delta_q;
+        int32_t                            u_ac_delta_q;
+        int32_t                            v_ac_delta_q;
+        int32_t                            separate_uv_delta_q;
 
         // Global quant matrix tables
         const QmVal                       *giqmatrix[NUM_QM_LEVELS][3][TX_SIZES_ALL];
