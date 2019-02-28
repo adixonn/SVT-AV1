@@ -18,11 +18,11 @@ extern "C" {
  *   predicts candidates (LCU)
  *******************************************/
 extern EbErrorType early_mode_decision_lcu(
-    SequenceControlSet                   *sequence_control_set_ptr,
-    PictureControlSet                    *picture_control_set_ptr,
-    LargestCodingUnit                    *sb_ptr,
-    uint32_t                                sb_index,
-    ModeDecisionConfigurationContext     *context_ptr);
+    SequenceControlSet               *sequence_control_set_ptr,
+    PictureControlSet                *picture_control_set_ptr,
+    LargestCodingUnit                *sb_ptr,
+    uint32_t                          sb_index,
+    ModeDecisionConfigurationContext *context_ptr);
 
 
 /*******************************************
@@ -30,32 +30,32 @@ extern EbErrorType early_mode_decision_lcu(
 *   Derive Lcu For Each Leaf (LCU)
 *******************************************/
 extern EbErrorType derive_delta_qp_for_each_leaf_lcu(
-    SequenceControlSet                   *sequence_control_set_ptr,
-    PictureControlSet                    *picture_control_set_ptr,
-    LargestCodingUnit                    *sb_ptr,
-    uint32_t                                 sb_index,
-    int32_t                                  intra_min_distance,
-    int32_t                                  intra_max_distance,
-    int32_t                                  inter_min_distance,
-    int32_t                                  inter_max_distance,
-    ModeDecisionConfigurationContext     *context_ptr);
+    SequenceControlSet               *sequence_control_set_ptr,
+    PictureControlSet                *picture_control_set_ptr,
+    LargestCodingUnit                *sb_ptr,
+    uint32_t                          sb_index,
+    int32_t                           intra_min_distance,
+    int32_t                           intra_max_distance,
+    int32_t                           inter_min_distance,
+    int32_t                           inter_max_distance,
+    ModeDecisionConfigurationContext *context_ptr);
 
 void qpm_derive_delta_qp_map_weights(
-    ModeDecisionConfigurationContext    *context_ptr,
-    PictureControlSet                  *picture_control_set_ptr);
+    ModeDecisionConfigurationContext *context_ptr,
+    PictureControlSet                *picture_control_set_ptr);
 
 extern uint8_t derive_contouring_class(
-    PictureParentControlSet   *parent_pcs_ptr,
-    uint16_t                       sb_index,
-    uint8_t                        leaf_index);  
+    PictureParentControlSet *parent_pcs_ptr,
+    uint16_t                 sb_index,
+    uint8_t                  leaf_index);  
 /**************************************
 * Function Ptrs Definitions
 **************************************/
-typedef EbErrorType(*EB_MDC_FUNC)(
-    MdcpLocalCodingUnit                   *local_cu_array,
-    uint32_t                                   cu_index,
-    uint32_t                                   depth,
-    EbBool                                 *mdc_prediction64);
+typedef EbErrorType(*EbMdcFunc)(
+    MdcpLocalCodingUnit *local_cu_array,
+    uint32_t             cu_index,
+    uint32_t             depth,
+    EbBool              *mdc_prediction64);
 
 #define Pred        0x01
 #define Predp1      0x02

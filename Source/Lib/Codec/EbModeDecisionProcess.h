@@ -53,36 +53,34 @@ extern "C" {
        **************************************/
     typedef struct MdEncPassCuData
     {
-        uint64_t                    skip_cost;
-        uint64_t                    merge_cost;
-        uint64_t                    chroma_distortion;
-        uint64_t                    y_full_distortion[DIST_CALC_TOTAL];
-        uint64_t                    y_coeff_bits;
-        uint32_t                    y_has_coeff;
-        uint64_t                    fast_luma_rate;
-        uint16_t                    y_count_non_zero_coeffs[4];// Store nonzero CoeffNum, per TU. If one TU, stored in 0, otherwise 4 tus stored in 0 to 3
-
+        uint64_t skip_cost;
+        uint64_t merge_cost;
+        uint64_t chroma_distortion;
+        uint64_t y_full_distortion[DIST_CALC_TOTAL];
+        uint64_t y_coeff_bits;
+        uint32_t y_has_coeff;
+        uint64_t fast_luma_rate;
+        uint16_t y_count_non_zero_coeffs[4];// Store nonzero CoeffNum, per TU. If one TU, stored in 0, otherwise 4 tus stored in 0 to 3
     } MdEncPassCuData;
 
 
     typedef struct MdCodingUnit
     {
-        unsigned                    tested_cu_flag                  : 1;   //tells whether this CU is tested in MD.
-        unsigned                    mdc_array_index                 : 7;
-        unsigned                    count_non_zero_coeffs           : 11;
-        unsigned                    top_neighbor_depth              : 3;
-        unsigned                    left_neighbor_depth             : 3;
-        unsigned                    top_neighbor_mode               : 2;
-        unsigned                    left_neighbor_mode              : 2;
-        unsigned                    full_distortion                 : 32;
-        unsigned                    chroma_distortion               : 32;
-        unsigned                    chroma_distortion_inter_depth   : 32;
-        PartContext           left_neighbor_partition;
-        PartContext           above_neighbor_partition;
-        uint64_t                    cost;
-        uint64_t                    cost_luma;
+        unsigned    tested_cu_flag                  : 1;   //tells whether this CU is tested in MD.
+        unsigned    mdc_array_index                 : 7;
+        unsigned    count_non_zero_coeffs           : 11;
+        unsigned    top_neighbor_depth              : 3;
+        unsigned    left_neighbor_depth             : 3;
+        unsigned    top_neighbor_mode               : 2;
+        unsigned    left_neighbor_mode              : 2;
+        unsigned    full_distortion                 : 32;
+        unsigned    chroma_distortion               : 32;
+        unsigned    chroma_distortion_inter_depth   : 32;
+        PartContext left_neighbor_partition;
+        PartContext above_neighbor_partition;
+        uint64_t    cost;
+        uint64_t    cost_luma;
         CandidateMv ed_ref_mv_stack[MODE_CTX_REF_FRAMES][MAX_REF_MV_STACK_SIZE];//to be used in MD and EncDec
-
     } MdCodingUnit;
 
 
@@ -90,7 +88,7 @@ extern "C" {
     {
         EbFifo                       *mode_decision_configuration_input_fifo_ptr;
         EbFifo                       *mode_decision_output_fifo_ptr;
-        int16_t                        *transform_inner_array_ptr;
+        int16_t                      *transform_inner_array_ptr;
 
         ModeDecisionCandidate       **fast_candidate_ptr_array;
         ModeDecisionCandidate        *fast_candidate_array;
@@ -128,33 +126,33 @@ extern "C" {
         EbTransQuantBuffers          *trans_quant_buffers_ptr;
         struct EncDecContext         *enc_dec_context_ptr;
 
-        uint64_t                       *fast_cost_array;
-        uint64_t                       *full_cost_array;
-        uint64_t                       *full_cost_skip_ptr;
-        uint64_t                       *full_cost_merge_ptr;
+        uint64_t                     *fast_cost_array;
+        uint64_t                     *full_cost_array;
+        uint64_t                     *full_cost_skip_ptr;
+        uint64_t                     *full_cost_merge_ptr;
 
         // Fast loop buffers
-        uint8_t                         buffer_depth_index_start[MAX_LEVEL_COUNT];
-        uint8_t                         buffer_depth_index_width[MAX_LEVEL_COUNT];
+        uint8_t                       buffer_depth_index_start[MAX_LEVEL_COUNT];
+        uint8_t                       buffer_depth_index_width[MAX_LEVEL_COUNT];
 
         // Lambda
 #if ADD_DELTA_QP_SUPPORT
-        uint16_t                        qp;
+        uint16_t                      qp;
 #else
-        uint8_t                         qp;
+        uint8_t                       qp;
 #endif
-        uint8_t                         chroma_qp;
-        uint32_t                        fast_lambda;
-        uint32_t                        full_lambda;
-        uint32_t                        fast_chroma_lambda;
-        uint32_t                        full_chroma_lambda;
-        uint32_t                        full_chroma_lambda_sao;
+        uint8_t                       chroma_qp;
+        uint32_t                      fast_lambda;
+        uint32_t                      full_lambda;
+        uint32_t                      fast_chroma_lambda;
+        uint32_t                      full_chroma_lambda;
+        uint32_t                      full_chroma_lambda_sao;
 
         //  Context Variables---------------------------------
         LargestCodingUnit            *sb_ptr;
         TransformUnit                *txb_ptr;
         CodingUnit                   *cu_ptr;
-        const BlockGeom                *blk_geom;
+        const BlockGeom              *blk_geom;
         PredictionUnit               *pu_ptr;
         const PredictionUnitStats    *pu_stats;
         MvUnit                        mv_unit;
@@ -163,47 +161,47 @@ extern "C" {
         EntropyCoder                 *coeff_est_entropy_coder_ptr;
         MdEncPassCuData               md_ep_pipe_sb[BLOCK_MAX_COUNT_SB_128];
 
-        uint8_t                         group_of8x8_blocks_count;
-        uint8_t                         group_of16x16_blocks_count;
-        uint8_t                         pu_itr;
-        uint8_t                         cu_size_log2;
-        uint8_t                         best_candidate_index_array[MAX_NFL];
-        uint16_t                        cu_origin_x;
-        uint16_t                        cu_origin_y;
-        uint64_t                        chroma_weight;
+        uint8_t                       group_of8x8_blocks_count;
+        uint8_t                       group_of16x16_blocks_count;
+        uint8_t                       pu_itr;
+        uint8_t                       cu_size_log2;
+        uint8_t                       best_candidate_index_array[MAX_NFL];
+        uint16_t                      cu_origin_x;
+        uint16_t                      cu_origin_y;
+        uint64_t                      chroma_weight;
 #if !CHROMA_BLIND
-        uint32_t                        use_chroma_information_in_fast_loop;
+        uint32_t                      use_chroma_information_in_fast_loop;
 #endif
-        uint8_t                         sb_sz;
-        uint32_t                        sb_origin_x;
-        uint32_t                        sb_origin_y;
-        uint32_t                        round_origin_x;
-        uint32_t                        round_origin_y;
-        uint16_t                        pu_origin_x;
-        uint16_t                        pu_origin_y;
-        uint16_t                        pu_width;
-        uint16_t                        pu_height;
-        EbPfMode                        pf_md_mode;
-        unsigned                        luma_intra_ref_samples_gen_done      : 2; // only 1 bit is needed, but used two for rounding
-        unsigned                        chroma_intra_ref_samples_gen_done    : 2; // only 1 bit is needed, but used two for rounding
-        unsigned                        generate_mvp                         : 2; // only 1 bit is needed, but used two for rounding
+        uint8_t                       sb_sz;
+        uint32_t                      sb_origin_x;
+        uint32_t                      sb_origin_y;
+        uint32_t                      round_origin_x;
+        uint32_t                      round_origin_y;
+        uint16_t                      pu_origin_x;
+        uint16_t                      pu_origin_y;
+        uint16_t                      pu_width;
+        uint16_t                      pu_height;
+        EbPfMode                      pf_md_mode;
+        unsigned                      luma_intra_ref_samples_gen_done      : 2; // only 1 bit is needed, but used two for rounding
+        unsigned                      chroma_intra_ref_samples_gen_done    : 2; // only 1 bit is needed, but used two for rounding
+        unsigned                      generate_mvp                         : 2; // only 1 bit is needed, but used two for rounding
 #if !CHROMA_BLIND
-        unsigned                        round_mv_to_integer                  : 2; // only 1 bit is needed, but used two for rounding
+        unsigned                      round_mv_to_integer                  : 2; // only 1 bit is needed, but used two for rounding
 #endif
-        uint32_t                        full_recon_search_count;
-        EbBool                          cu_use_ref_src_flag;
-        uint16_t                        qp_index;
-        uint64_t                        three_quad_energy;
+        uint32_t                      full_recon_search_count;
+        EbBool                        cu_use_ref_src_flag;
+        uint16_t                      qp_index;
+        uint64_t                      three_quad_energy;
 
         // Needed for DC prediction
-        EbBool                          is_left_availble;
-        EbBool                          is_above_availble;
-        int32_t                         is_inter_ctx;
-        uint8_t                         intra_luma_left_mode;
-        uint8_t                         intra_luma_top_mode;
-        uint8_t                         intra_chroma_left_mode;
-        uint8_t                         intra_chroma_top_mode;
-        int16_t                         pred_buf_q3[CFL_BUF_SQUARE]; // Hsan: both MD and EP to use pred_buf_q3 (kept 1, and removed the 2nd)
+        EbBool                        is_left_availble;
+        EbBool                        is_above_availble;
+        int32_t                       is_inter_ctx;
+        uint8_t                       intra_luma_left_mode;
+        uint8_t                       intra_luma_top_mode;
+        uint8_t                       intra_chroma_left_mode;
+        uint8_t                       intra_chroma_top_mode;
+        int16_t                       pred_buf_q3[CFL_BUF_SQUARE]; // Hsan: both MD and EP to use pred_buf_q3 (kept 1, and removed the 2nd)
 #if INTRA_CORE_OPT
         DECLARE_ALIGNED(16, uint8_t, left_data[MAX_MB_PLANE][MAX_TX_SIZE * 2 + 32]);
         DECLARE_ALIGNED(16, uint8_t, above_data[MAX_MB_PLANE][MAX_TX_SIZE * 2 + 32]);
@@ -228,57 +226,57 @@ extern "C" {
 
     } ModeDecisionContext;
 
-    typedef void(*EB_AV1_LAMBDA_ASSIGN_FUNC)(
-        uint32_t                    *fast_lambda,
-        uint32_t                    *full_lambda,
-        uint32_t                    *fast_chroma_lambda,
-        uint32_t                    *full_chroma_lambda,
-        uint8_t                      bit_depth,
-        uint16_t                     qp_index);
+    typedef void(*EbAv1LambdaAssignFunc)(
+        uint32_t *fast_lambda,
+        uint32_t *full_lambda,
+        uint32_t *fast_chroma_lambda,
+        uint32_t *full_chroma_lambda,
+        uint8_t   bit_depth,
+        uint16_t  qp_index);
 
-    typedef void(*EB_LAMBDA_ASSIGN_FUNC)(
-        uint32_t                    *fast_lambda,
-        uint32_t                    *full_lambda,
-        uint32_t                    *fast_chroma_lambda,
-        uint32_t                    *full_chroma_lambda,
-        uint32_t                    *full_chroma_lambda_sao,
-        uint8_t                      qp_hierarchical_position,
-        uint8_t                      qp,
-        uint8_t                      chroma_qp);
+    typedef void(*EbLambdaAssignFunc)(
+        uint32_t  *fast_lambda,
+        uint32_t  *full_lambda,
+        uint32_t  *fast_chroma_lambda,
+        uint32_t  *full_chroma_lambda,
+        uint32_t  *full_chroma_lambda_sao,
+        uint8_t    qp_hierarchical_position,
+        uint8_t    qp,
+        uint8_t    chroma_qp);
 
     /**************************************
      * Extern Function Declarations
      **************************************/
     extern EbErrorType mode_decision_context_ctor(
-        ModeDecisionContext      **context_dbl_ptr,
-        EbFifo                    *mode_decision_configuration_input_fifo_ptr,
-        EbFifo                    *mode_decision_output_fifo_ptr);
+        ModeDecisionContext **context_dbl_ptr,
+        EbFifo               *mode_decision_configuration_input_fifo_ptr,
+        EbFifo               *mode_decision_output_fifo_ptr);
 
     extern void reset_mode_decision_neighbor_arrays(
         PictureControlSet *picture_control_set_ptr);
 
     extern void lambda_assign_low_delay(
-        uint32_t                    *fast_lambda,
-        uint32_t                    *full_lambda,
-        uint32_t                    *fast_chroma_lambda,
-        uint32_t                    *full_chroma_lambda,
-        uint32_t                    *full_chroma_lambda_sao,
-        uint8_t                      qp_hierarchical_position,
-        uint8_t                      qp,
-        uint8_t                      chroma_qp);
+        uint32_t *fast_lambda,
+        uint32_t *full_lambda,
+        uint32_t *fast_chroma_lambda,
+        uint32_t *full_chroma_lambda,
+        uint32_t *full_chroma_lambda_sao,
+        uint8_t   qp_hierarchical_position,
+        uint8_t   qp,
+        uint8_t   chroma_qp);
 
     extern void lambda_assign_random_access(
-        uint32_t                    *fast_lambda,
-        uint32_t                    *full_lambda,
-        uint32_t                    *fast_chroma_lambda,
-        uint32_t                    *full_chroma_lambda,
-        uint32_t                    *full_chroma_lambda_sao,
-        uint8_t                      qp_hierarchical_position,
-        uint8_t                      qp,
-        uint8_t                      chroma_qp);
+        uint32_t *fast_lambda,
+        uint32_t *full_lambda,
+        uint32_t *fast_chroma_lambda,
+        uint32_t *full_chroma_lambda,
+        uint32_t *full_chroma_lambda_sao,
+        uint8_t   qp_hierarchical_position,
+        uint8_t   qp,
+        uint8_t   chroma_qp);
 
-    extern const EB_LAMBDA_ASSIGN_FUNC     lambda_assignment_function_table[4];
-    extern const EB_AV1_LAMBDA_ASSIGN_FUNC av1_lambda_assignment_function_table[4];
+    extern const EbLambdaAssignFunc    lambda_assignment_function_table[4];
+    extern const EbAv1LambdaAssignFunc av1_lambda_assignment_function_table[4];
 
     // Table that converts 0-63 Q-range values passed in outside to the Qindex
     // range used internally.
@@ -290,30 +288,30 @@ extern "C" {
         208, 212, 216, 220, 224, 228, 232, 236, 240, 244, 249, 255};
 
     extern void reset_mode_decision(
-        ModeDecisionContext   *context_ptr,
-        PictureControlSet     *picture_control_set_ptr,
-        SequenceControlSet    *sequence_control_set_ptr,
-        uint32_t                 segment_index);
+        ModeDecisionContext *context_ptr,
+        PictureControlSet   *picture_control_set_ptr,
+        SequenceControlSet  *sequence_control_set_ptr,
+        uint32_t             segment_index);
 
     extern void mode_decision_configure_lcu(
-        ModeDecisionContext   *context_ptr,
-        LargestCodingUnit     *sb_ptr,
-        PictureControlSet     *picture_control_set_ptr,
-        SequenceControlSet    *sequence_control_set_ptr,
-        uint8_t                  picture_qp,
-        uint8_t                  sb_qp);
+        ModeDecisionContext *context_ptr,
+        LargestCodingUnit   *sb_ptr,
+        PictureControlSet   *picture_control_set_ptr,
+        SequenceControlSet  *sequence_control_set_ptr,
+        uint8_t              picture_qp,
+        uint8_t              sb_qp);
 
 
 #if CHROMA_BLIND 
     extern void cfl_rd_pick_alpha(
-        PictureControlSet             *picture_control_set_ptr,
-        ModeDecisionCandidateBuffer   *candidate_buffer,
-        LargestCodingUnit             *sb_ptr,
-        ModeDecisionContext           *context_ptr,
-        EbPictureBufferDesc           *input_picture_ptr,
-        uint32_t                         input_cb_origin_index,
-        uint32_t                         cu_chroma_origin_index,
-        EbAsm                            asm_type);
+        PictureControlSet           *picture_control_set_ptr,
+        ModeDecisionCandidateBuffer *candidate_buffer,
+        LargestCodingUnit           *sb_ptr,
+        ModeDecisionContext         *context_ptr,
+        EbPictureBufferDesc         *input_picture_ptr,
+        uint32_t                     input_cb_origin_index,
+        uint32_t                     cu_chroma_origin_index,
+        EbAsm                        asm_type);
 #endif
 
 #ifdef __cplusplus

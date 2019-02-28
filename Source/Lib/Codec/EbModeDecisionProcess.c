@@ -298,7 +298,7 @@ void lambdaAssignISlice(
     }
 
 }
-const EB_LAMBDA_ASSIGN_FUNC lambda_assignment_function_table[4] = {
+const EbLambdaAssignFunc lambda_assignment_function_table[4] = {
     lambda_assign_low_delay, // low delay P
     lambda_assign_low_delay, // low delay B
     lambda_assign_random_access, // Random Access
@@ -344,7 +344,7 @@ void Av1lambdaAssign(
     // NM: To be done: tune lambda based on the picture type and layer.
 
 }
-const EB_AV1_LAMBDA_ASSIGN_FUNC av1_lambda_assignment_function_table[4] = {
+const EbAv1LambdaAssignFunc av1_lambda_assignment_function_table[4] = {
     Av1lambdaAssign,
     Av1lambdaAssign,
     Av1lambdaAssign,

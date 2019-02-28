@@ -733,8 +733,8 @@ EbErrorType mode_decision_configuration_context_ctor(
 
 
     // Budgeting
-    EB_MALLOC(uint32_t*, context_ptr->lcuScoreArray, sizeof(uint32_t) * sb_total_count, EB_N_PTR);
-    EB_MALLOC(uint8_t *, context_ptr->lcuCostArray, sizeof(uint8_t) * sb_total_count, EB_N_PTR);
+    EB_MALLOC(uint32_t*, context_ptr->lcu_score_array, sizeof(uint32_t) * sb_total_count, EB_N_PTR);
+    EB_MALLOC(uint8_t *, context_ptr->lcu_cost_array, sizeof(uint8_t) * sb_total_count, EB_N_PTR);
 
 
     return EB_ErrorNone;
@@ -1602,57 +1602,57 @@ EbErrorType DeriveDefaultSegments(
     // @ BASE MDC is not considered as similar to BDP_L in term of speed
     if (picture_control_set_ptr->temporal_layer_index == 0) {
 
-        if (context_ptr->depthSensitivePictureFlag && context_ptr->budget >= (uint32_t)(picture_control_set_ptr->parent_pcs_ptr->sb_total_count * LIGHT_BDP_COST)) {
+        if (context_ptr->depth_sensitive_picture_flag && context_ptr->budget >= (uint32_t)(picture_control_set_ptr->parent_pcs_ptr->sb_total_count * LIGHT_BDP_COST)) {
 
             if (context_ptr->budget > (uint32_t)(picture_control_set_ptr->parent_pcs_ptr->sb_total_count * BDP_COST)) {
-                context_ptr->numberOfSegments = 2;
-                context_ptr->scoreTh[0] = (int8_t)((1 * 100) / context_ptr->numberOfSegments);
-                context_ptr->intervalCost[0] = context_ptr->costDepthMode[LCU_BDP_DEPTH_MODE - 1];
-                context_ptr->intervalCost[1] = context_ptr->costDepthMode[LCU_FULL84_DEPTH_MODE - 1];
+                context_ptr->number_of_segments = 2;
+                context_ptr->score_th[0] = (int8_t)((1 * 100) / context_ptr->number_of_segments);
+                context_ptr->interval_cost[0] = context_ptr->cost_depth_mode[LCU_BDP_DEPTH_MODE - 1];
+                context_ptr->interval_cost[1] = context_ptr->cost_depth_mode[LCU_FULL84_DEPTH_MODE - 1];
             }
             else {
-                context_ptr->numberOfSegments = 2;
-                context_ptr->scoreTh[0] = (int8_t)((1 * 100) / context_ptr->numberOfSegments);
-                context_ptr->intervalCost[0] = context_ptr->costDepthMode[LCU_LIGHT_BDP_DEPTH_MODE - 1];
-                context_ptr->intervalCost[1] = context_ptr->costDepthMode[LCU_BDP_DEPTH_MODE - 1];
+                context_ptr->number_of_segments = 2;
+                context_ptr->score_th[0] = (int8_t)((1 * 100) / context_ptr->number_of_segments);
+                context_ptr->interval_cost[0] = context_ptr->cost_depth_mode[LCU_LIGHT_BDP_DEPTH_MODE - 1];
+                context_ptr->interval_cost[1] = context_ptr->cost_depth_mode[LCU_BDP_DEPTH_MODE - 1];
             }
 
         }
         else {
             if (context_ptr->budget > (uint32_t)(picture_control_set_ptr->parent_pcs_ptr->sb_total_count * BDP_COST)) {
 
-                context_ptr->numberOfSegments = 2;
+                context_ptr->number_of_segments = 2;
 
-                context_ptr->scoreTh[0] = (int8_t)((1 * 100) / context_ptr->numberOfSegments);
+                context_ptr->score_th[0] = (int8_t)((1 * 100) / context_ptr->number_of_segments);
 
-                context_ptr->intervalCost[0] = context_ptr->costDepthMode[LCU_BDP_DEPTH_MODE - 1];
-                context_ptr->intervalCost[1] = context_ptr->costDepthMode[LCU_FULL84_DEPTH_MODE - 1];
+                context_ptr->interval_cost[0] = context_ptr->cost_depth_mode[LCU_BDP_DEPTH_MODE - 1];
+                context_ptr->interval_cost[1] = context_ptr->cost_depth_mode[LCU_FULL84_DEPTH_MODE - 1];
             }
             else if (context_ptr->budget > (uint32_t)(picture_control_set_ptr->parent_pcs_ptr->sb_total_count * U_120)) {
-                context_ptr->numberOfSegments = 4;
+                context_ptr->number_of_segments = 4;
 
-                context_ptr->scoreTh[0] = (int8_t)((1 * 100) / context_ptr->numberOfSegments);
-                context_ptr->scoreTh[1] = (int8_t)((2 * 100) / context_ptr->numberOfSegments);
-                context_ptr->scoreTh[2] = (int8_t)((3 * 100) / context_ptr->numberOfSegments);
+                context_ptr->score_th[0] = (int8_t)((1 * 100) / context_ptr->number_of_segments);
+                context_ptr->score_th[1] = (int8_t)((2 * 100) / context_ptr->number_of_segments);
+                context_ptr->score_th[2] = (int8_t)((3 * 100) / context_ptr->number_of_segments);
 
-                context_ptr->intervalCost[0] = context_ptr->costDepthMode[LCU_PRED_OPEN_LOOP_DEPTH_MODE - 1];
-                context_ptr->intervalCost[1] = context_ptr->costDepthMode[LCU_LIGHT_OPEN_LOOP_DEPTH_MODE - 1];
-                context_ptr->intervalCost[2] = context_ptr->costDepthMode[LCU_LIGHT_BDP_DEPTH_MODE - 1];
-                context_ptr->intervalCost[3] = context_ptr->costDepthMode[LCU_BDP_DEPTH_MODE - 1];
+                context_ptr->interval_cost[0] = context_ptr->cost_depth_mode[LCU_PRED_OPEN_LOOP_DEPTH_MODE - 1];
+                context_ptr->interval_cost[1] = context_ptr->cost_depth_mode[LCU_LIGHT_OPEN_LOOP_DEPTH_MODE - 1];
+                context_ptr->interval_cost[2] = context_ptr->cost_depth_mode[LCU_LIGHT_BDP_DEPTH_MODE - 1];
+                context_ptr->interval_cost[3] = context_ptr->cost_depth_mode[LCU_BDP_DEPTH_MODE - 1];
             }
             else {
-                context_ptr->numberOfSegments = 5;
+                context_ptr->number_of_segments = 5;
 
-                context_ptr->scoreTh[0] = (int8_t)((1 * 100) / context_ptr->numberOfSegments);
-                context_ptr->scoreTh[1] = (int8_t)((2 * 100) / context_ptr->numberOfSegments);
-                context_ptr->scoreTh[2] = (int8_t)((3 * 100) / context_ptr->numberOfSegments);
-                context_ptr->scoreTh[3] = (int8_t)((4 * 100) / context_ptr->numberOfSegments);
+                context_ptr->score_th[0] = (int8_t)((1 * 100) / context_ptr->number_of_segments);
+                context_ptr->score_th[1] = (int8_t)((2 * 100) / context_ptr->number_of_segments);
+                context_ptr->score_th[2] = (int8_t)((3 * 100) / context_ptr->number_of_segments);
+                context_ptr->score_th[3] = (int8_t)((4 * 100) / context_ptr->number_of_segments);
 
-                context_ptr->intervalCost[0] = context_ptr->costDepthMode[LCU_PRED_OPEN_LOOP_1_NFL_DEPTH_MODE - 1];
-                context_ptr->intervalCost[1] = context_ptr->costDepthMode[LCU_PRED_OPEN_LOOP_DEPTH_MODE - 1];
-                context_ptr->intervalCost[2] = context_ptr->costDepthMode[LCU_LIGHT_OPEN_LOOP_DEPTH_MODE - 1];
-                context_ptr->intervalCost[3] = context_ptr->costDepthMode[LCU_LIGHT_BDP_DEPTH_MODE - 1];
-                context_ptr->intervalCost[4] = context_ptr->costDepthMode[LCU_BDP_DEPTH_MODE - 1];
+                context_ptr->interval_cost[0] = context_ptr->cost_depth_mode[LCU_PRED_OPEN_LOOP_1_NFL_DEPTH_MODE - 1];
+                context_ptr->interval_cost[1] = context_ptr->cost_depth_mode[LCU_PRED_OPEN_LOOP_DEPTH_MODE - 1];
+                context_ptr->interval_cost[2] = context_ptr->cost_depth_mode[LCU_LIGHT_OPEN_LOOP_DEPTH_MODE - 1];
+                context_ptr->interval_cost[3] = context_ptr->cost_depth_mode[LCU_LIGHT_BDP_DEPTH_MODE - 1];
+                context_ptr->interval_cost[4] = context_ptr->cost_depth_mode[LCU_BDP_DEPTH_MODE - 1];
             }
 
         }
@@ -1661,63 +1661,63 @@ EbErrorType DeriveDefaultSegments(
 
         if (context_ptr->budget > (uint32_t)(picture_control_set_ptr->parent_pcs_ptr->sb_total_count * U_120)) {
 
-            context_ptr->numberOfSegments = 6;
+            context_ptr->number_of_segments = 6;
 
-            context_ptr->scoreTh[0] = (int8_t)((1 * 100) / context_ptr->numberOfSegments);
-            context_ptr->scoreTh[1] = (int8_t)((2 * 100) / context_ptr->numberOfSegments);
-            context_ptr->scoreTh[2] = (int8_t)((3 * 100) / context_ptr->numberOfSegments);
-            context_ptr->scoreTh[3] = (int8_t)((4 * 100) / context_ptr->numberOfSegments);
-            context_ptr->scoreTh[4] = (int8_t)((5 * 100) / context_ptr->numberOfSegments);
+            context_ptr->score_th[0] = (int8_t)((1 * 100) / context_ptr->number_of_segments);
+            context_ptr->score_th[1] = (int8_t)((2 * 100) / context_ptr->number_of_segments);
+            context_ptr->score_th[2] = (int8_t)((3 * 100) / context_ptr->number_of_segments);
+            context_ptr->score_th[3] = (int8_t)((4 * 100) / context_ptr->number_of_segments);
+            context_ptr->score_th[4] = (int8_t)((5 * 100) / context_ptr->number_of_segments);
 
-            context_ptr->intervalCost[0] = context_ptr->costDepthMode[LCU_PRED_OPEN_LOOP_DEPTH_MODE - 1];
-            context_ptr->intervalCost[1] = context_ptr->costDepthMode[LCU_LIGHT_OPEN_LOOP_DEPTH_MODE - 1];
-            context_ptr->intervalCost[2] = context_ptr->costDepthMode[LCU_OPEN_LOOP_DEPTH_MODE - 1];
-            context_ptr->intervalCost[3] = context_ptr->costDepthMode[LCU_LIGHT_BDP_DEPTH_MODE - 1];
-            context_ptr->intervalCost[4] = context_ptr->costDepthMode[LCU_BDP_DEPTH_MODE - 1];
-            context_ptr->intervalCost[5] = context_ptr->costDepthMode[LCU_FULL85_DEPTH_MODE - 1];
+            context_ptr->interval_cost[0] = context_ptr->cost_depth_mode[LCU_PRED_OPEN_LOOP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[1] = context_ptr->cost_depth_mode[LCU_LIGHT_OPEN_LOOP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[2] = context_ptr->cost_depth_mode[LCU_OPEN_LOOP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[3] = context_ptr->cost_depth_mode[LCU_LIGHT_BDP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[4] = context_ptr->cost_depth_mode[LCU_BDP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[5] = context_ptr->cost_depth_mode[LCU_FULL85_DEPTH_MODE - 1];
         }
         else if (context_ptr->budget > (uint32_t)(picture_control_set_ptr->parent_pcs_ptr->sb_total_count * U_115)) {
 
-            context_ptr->numberOfSegments = 5;
+            context_ptr->number_of_segments = 5;
 
-            context_ptr->scoreTh[0] = (int8_t)((1 * 100) / context_ptr->numberOfSegments);
-            context_ptr->scoreTh[1] = (int8_t)((2 * 100) / context_ptr->numberOfSegments);
-            context_ptr->scoreTh[2] = (int8_t)((3 * 100) / context_ptr->numberOfSegments);
-            context_ptr->scoreTh[3] = (int8_t)((4 * 100) / context_ptr->numberOfSegments);
+            context_ptr->score_th[0] = (int8_t)((1 * 100) / context_ptr->number_of_segments);
+            context_ptr->score_th[1] = (int8_t)((2 * 100) / context_ptr->number_of_segments);
+            context_ptr->score_th[2] = (int8_t)((3 * 100) / context_ptr->number_of_segments);
+            context_ptr->score_th[3] = (int8_t)((4 * 100) / context_ptr->number_of_segments);
 
-            context_ptr->intervalCost[0] = context_ptr->costDepthMode[LCU_PRED_OPEN_LOOP_DEPTH_MODE - 1];
-            context_ptr->intervalCost[1] = context_ptr->costDepthMode[LCU_LIGHT_OPEN_LOOP_DEPTH_MODE - 1];
-            context_ptr->intervalCost[2] = context_ptr->costDepthMode[LCU_OPEN_LOOP_DEPTH_MODE - 1];
-            context_ptr->intervalCost[3] = context_ptr->costDepthMode[LCU_LIGHT_BDP_DEPTH_MODE - 1];
-            context_ptr->intervalCost[4] = context_ptr->costDepthMode[LCU_BDP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[0] = context_ptr->cost_depth_mode[LCU_PRED_OPEN_LOOP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[1] = context_ptr->cost_depth_mode[LCU_LIGHT_OPEN_LOOP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[2] = context_ptr->cost_depth_mode[LCU_OPEN_LOOP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[3] = context_ptr->cost_depth_mode[LCU_LIGHT_BDP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[4] = context_ptr->cost_depth_mode[LCU_BDP_DEPTH_MODE - 1];
 
         }
         else if (context_ptr->budget > (uint32_t)(picture_control_set_ptr->parent_pcs_ptr->sb_total_count * OPEN_LOOP_COST)) {
 
-            context_ptr->numberOfSegments = 4;
+            context_ptr->number_of_segments = 4;
 
-            context_ptr->scoreTh[0] = (int8_t)((1 * 100) / context_ptr->numberOfSegments);
-            context_ptr->scoreTh[1] = (int8_t)((2 * 100) / context_ptr->numberOfSegments);
-            context_ptr->scoreTh[2] = (int8_t)((3 * 100) / context_ptr->numberOfSegments);
+            context_ptr->score_th[0] = (int8_t)((1 * 100) / context_ptr->number_of_segments);
+            context_ptr->score_th[1] = (int8_t)((2 * 100) / context_ptr->number_of_segments);
+            context_ptr->score_th[2] = (int8_t)((3 * 100) / context_ptr->number_of_segments);
 
-            context_ptr->intervalCost[0] = context_ptr->costDepthMode[LCU_PRED_OPEN_LOOP_DEPTH_MODE - 1];
-            context_ptr->intervalCost[1] = context_ptr->costDepthMode[LCU_LIGHT_OPEN_LOOP_DEPTH_MODE - 1];
-            context_ptr->intervalCost[2] = context_ptr->costDepthMode[LCU_OPEN_LOOP_DEPTH_MODE - 1];
-            context_ptr->intervalCost[3] = context_ptr->costDepthMode[LCU_LIGHT_BDP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[0] = context_ptr->cost_depth_mode[LCU_PRED_OPEN_LOOP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[1] = context_ptr->cost_depth_mode[LCU_LIGHT_OPEN_LOOP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[2] = context_ptr->cost_depth_mode[LCU_OPEN_LOOP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[3] = context_ptr->cost_depth_mode[LCU_LIGHT_BDP_DEPTH_MODE - 1];
 
         }
         else {
 
-            context_ptr->numberOfSegments = 4;
+            context_ptr->number_of_segments = 4;
 
-            context_ptr->scoreTh[0] = (int8_t)((1 * 100) / context_ptr->numberOfSegments);
-            context_ptr->scoreTh[1] = (int8_t)((2 * 100) / context_ptr->numberOfSegments);
-            context_ptr->scoreTh[2] = (int8_t)((3 * 100) / context_ptr->numberOfSegments);
+            context_ptr->score_th[0] = (int8_t)((1 * 100) / context_ptr->number_of_segments);
+            context_ptr->score_th[1] = (int8_t)((2 * 100) / context_ptr->number_of_segments);
+            context_ptr->score_th[2] = (int8_t)((3 * 100) / context_ptr->number_of_segments);
 
-            context_ptr->intervalCost[0] = context_ptr->costDepthMode[LCU_PRED_OPEN_LOOP_1_NFL_DEPTH_MODE - 1];
-            context_ptr->intervalCost[1] = context_ptr->costDepthMode[LCU_PRED_OPEN_LOOP_DEPTH_MODE - 1];
-            context_ptr->intervalCost[2] = context_ptr->costDepthMode[LCU_LIGHT_OPEN_LOOP_DEPTH_MODE - 1];
-            context_ptr->intervalCost[3] = context_ptr->costDepthMode[LCU_OPEN_LOOP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[0] = context_ptr->cost_depth_mode[LCU_PRED_OPEN_LOOP_1_NFL_DEPTH_MODE - 1];
+            context_ptr->interval_cost[1] = context_ptr->cost_depth_mode[LCU_PRED_OPEN_LOOP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[2] = context_ptr->cost_depth_mode[LCU_LIGHT_OPEN_LOOP_DEPTH_MODE - 1];
+            context_ptr->interval_cost[3] = context_ptr->cost_depth_mode[LCU_OPEN_LOOP_DEPTH_MODE - 1];
         }
     }
 
@@ -1896,7 +1896,7 @@ void SetTargetBudget(
             }
             else {
                 if (picture_control_set_ptr->parent_pcs_ptr->temporal_layer_index == 0)
-                    budget = (context_ptr->depthSensitivePictureFlag) ?
+                    budget = (context_ptr->depth_sensitive_picture_flag) ?
                     picture_control_set_ptr->parent_pcs_ptr->sb_total_count * U_127 :
                     picture_control_set_ptr->parent_pcs_ptr->sb_total_count * U_125;
                 else if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag)
@@ -1930,11 +1930,11 @@ void SetTargetBudget(
             }
             else {
                 if (picture_control_set_ptr->parent_pcs_ptr->temporal_layer_index == 0)
-                    budget = (context_ptr->depthSensitivePictureFlag) ?
+                    budget = (context_ptr->depth_sensitive_picture_flag) ?
                     picture_control_set_ptr->parent_pcs_ptr->sb_total_count * U_127 :
                     picture_control_set_ptr->parent_pcs_ptr->sb_total_count * U_125;
                 else if (picture_control_set_ptr->parent_pcs_ptr->is_used_as_reference_flag)
-                    budget = (context_ptr->depthSensitivePictureFlag) ?
+                    budget = (context_ptr->depth_sensitive_picture_flag) ?
                     picture_control_set_ptr->parent_pcs_ptr->sb_total_count * OPEN_LOOP_COST :
                     picture_control_set_ptr->parent_pcs_ptr->sb_total_count * U_108;
                 else
@@ -2016,41 +2016,41 @@ EbBool IsAvcPartitioningMode(
 /******************************************************
 * Load the cost of the different partitioning method into a local array and derive sensitive picture flag
     Input   : the offline derived cost per search method, detection signals
-    Output  : valid costDepthMode and valid sensitivePicture
+    Output  : valid cost_depth_mode and valid sensitivePicture
 ******************************************************/
 void ConfigureAdp(
     PictureControlSet                 *picture_control_set_ptr,
     ModeDecisionConfigurationContext  *context_ptr)
 {
 
-    context_ptr->costDepthMode[LCU_FULL85_DEPTH_MODE - 1] = FULL_SEARCH_COST;
-    context_ptr->costDepthMode[LCU_FULL84_DEPTH_MODE - 1] = FULL_SEARCH_COST;
-    context_ptr->costDepthMode[LCU_BDP_DEPTH_MODE - 1] = BDP_COST;
-    context_ptr->costDepthMode[LCU_LIGHT_BDP_DEPTH_MODE - 1] = LIGHT_BDP_COST;
-    context_ptr->costDepthMode[LCU_OPEN_LOOP_DEPTH_MODE - 1] = OPEN_LOOP_COST;
-    context_ptr->costDepthMode[LCU_LIGHT_OPEN_LOOP_DEPTH_MODE - 1] = LIGHT_OPEN_LOOP_COST;
-    context_ptr->costDepthMode[LCU_AVC_DEPTH_MODE - 1] = AVC_COST;
-    context_ptr->costDepthMode[LCU_PRED_OPEN_LOOP_DEPTH_MODE - 1] = PRED_OPEN_LOOP_COST;
-    context_ptr->costDepthMode[LCU_PRED_OPEN_LOOP_1_NFL_DEPTH_MODE - 1] = PRED_OPEN_LOOP_1_NFL_COST;
+    context_ptr->cost_depth_mode[LCU_FULL85_DEPTH_MODE - 1] = FULL_SEARCH_COST;
+    context_ptr->cost_depth_mode[LCU_FULL84_DEPTH_MODE - 1] = FULL_SEARCH_COST;
+    context_ptr->cost_depth_mode[LCU_BDP_DEPTH_MODE - 1] = BDP_COST;
+    context_ptr->cost_depth_mode[LCU_LIGHT_BDP_DEPTH_MODE - 1] = LIGHT_BDP_COST;
+    context_ptr->cost_depth_mode[LCU_OPEN_LOOP_DEPTH_MODE - 1] = OPEN_LOOP_COST;
+    context_ptr->cost_depth_mode[LCU_LIGHT_OPEN_LOOP_DEPTH_MODE - 1] = LIGHT_OPEN_LOOP_COST;
+    context_ptr->cost_depth_mode[LCU_AVC_DEPTH_MODE - 1] = AVC_COST;
+    context_ptr->cost_depth_mode[LCU_PRED_OPEN_LOOP_DEPTH_MODE - 1] = PRED_OPEN_LOOP_COST;
+    context_ptr->cost_depth_mode[LCU_PRED_OPEN_LOOP_1_NFL_DEPTH_MODE - 1] = PRED_OPEN_LOOP_1_NFL_COST;
 
 
     // Initialize the score based TH
-    context_ptr->scoreTh[0] = ~0;
-    context_ptr->scoreTh[1] = ~0;
-    context_ptr->scoreTh[2] = ~0;
-    context_ptr->scoreTh[3] = ~0;
-    context_ptr->scoreTh[4] = ~0;
-    context_ptr->scoreTh[5] = ~0;
-    context_ptr->scoreTh[6] = ~0;
+    context_ptr->score_th[0] = ~0;
+    context_ptr->score_th[1] = ~0;
+    context_ptr->score_th[2] = ~0;
+    context_ptr->score_th[3] = ~0;
+    context_ptr->score_th[4] = ~0;
+    context_ptr->score_th[5] = ~0;
+    context_ptr->score_th[6] = ~0;
 
     // Initialize the predicted budget
-    context_ptr->predictedCost = (uint32_t)~0;
+    context_ptr->predicted_cost = (uint32_t)~0;
 
     // Initialize the predicted budget
-    context_ptr->predictedCost = (uint32_t)~0;
+    context_ptr->predicted_cost = (uint32_t)~0;
 
     // Derive the sensitive picture flag
-    context_ptr->depthSensitivePictureFlag = EB_FALSE;
+    context_ptr->depth_sensitive_picture_flag = EB_FALSE;
     EbBool luminosityChange = EB_FALSE;
     // Derived for REF P & B & kept false otherwise (for temporal distance equal to 1 luminosity changes are easier to handle)
     if (picture_control_set_ptr->slice_type != I_SLICE) {
@@ -2061,7 +2061,7 @@ void ConfigureAdp(
             luminosityChange = ((ABS(picture_control_set_ptr->parent_pcs_ptr->average_intensity[0] - refObjL0->average_intensity) >= LUMINOSITY_CHANGE_TH) || (refObjL1 != EB_NULL && ABS(picture_control_set_ptr->parent_pcs_ptr->average_intensity[0] - refObjL1->average_intensity) >= LUMINOSITY_CHANGE_TH));
         }
     }
-    context_ptr->depthSensitivePictureFlag = (picture_control_set_ptr->parent_pcs_ptr->non_moving_index_average != INVALID_ZZ_COST &&
+    context_ptr->depth_sensitive_picture_flag = (picture_control_set_ptr->parent_pcs_ptr->non_moving_index_average != INVALID_ZZ_COST &&
         picture_control_set_ptr->parent_pcs_ptr->non_moving_index_average < ADP_NON_MOVING_INDEX_TH_1 && // could not seen by the eye if very active
         ((picture_control_set_ptr->parent_pcs_ptr->non_moving_index_average >= ADP_NON_MOVING_INDEX_TH_0 && picture_control_set_ptr->parent_pcs_ptr->pic_noise_class >= PIC_NOISE_CLASS_3) || // potential complex picture: moderate activity and high variance (noise or a lot of edge)
             picture_control_set_ptr->parent_pcs_ptr->high_dark_low_light_area_density_flag || // potential complex picture: light foreground and dark background (e.g. flash, light..)
@@ -2088,26 +2088,26 @@ void DeriveSearchMethod(
 
     for (sb_index = 0; sb_index < picture_control_set_ptr->parent_pcs_ptr->sb_total_count; sb_index++) {
 
-        if (context_ptr->lcuCostArray[sb_index] == context_ptr->costDepthMode[LCU_PRED_OPEN_LOOP_1_NFL_DEPTH_MODE - 1]) {
+        if (context_ptr->lcu_cost_array[sb_index] == context_ptr->cost_depth_mode[LCU_PRED_OPEN_LOOP_1_NFL_DEPTH_MODE - 1]) {
             picture_control_set_ptr->parent_pcs_ptr->sb_md_mode_array[sb_index] = LCU_PRED_OPEN_LOOP_1_NFL_DEPTH_MODE;
         }
         else
-            if (context_ptr->lcuCostArray[sb_index] == context_ptr->costDepthMode[LCU_PRED_OPEN_LOOP_DEPTH_MODE - 1]) {
+            if (context_ptr->lcu_cost_array[sb_index] == context_ptr->cost_depth_mode[LCU_PRED_OPEN_LOOP_DEPTH_MODE - 1]) {
                 picture_control_set_ptr->parent_pcs_ptr->sb_md_mode_array[sb_index] = LCU_PRED_OPEN_LOOP_DEPTH_MODE;
             }
-            else if (context_ptr->lcuCostArray[sb_index] == context_ptr->costDepthMode[LCU_LIGHT_OPEN_LOOP_DEPTH_MODE - 1]) {
+            else if (context_ptr->lcu_cost_array[sb_index] == context_ptr->cost_depth_mode[LCU_LIGHT_OPEN_LOOP_DEPTH_MODE - 1]) {
                 picture_control_set_ptr->parent_pcs_ptr->sb_md_mode_array[sb_index] = LCU_LIGHT_OPEN_LOOP_DEPTH_MODE;
             }
-            else if (context_ptr->lcuCostArray[sb_index] == context_ptr->costDepthMode[LCU_OPEN_LOOP_DEPTH_MODE - 1]) {
+            else if (context_ptr->lcu_cost_array[sb_index] == context_ptr->cost_depth_mode[LCU_OPEN_LOOP_DEPTH_MODE - 1]) {
                 picture_control_set_ptr->parent_pcs_ptr->sb_md_mode_array[sb_index] = LCU_OPEN_LOOP_DEPTH_MODE;
             }
-            else if (context_ptr->lcuCostArray[sb_index] == context_ptr->costDepthMode[LCU_LIGHT_BDP_DEPTH_MODE - 1]) {
+            else if (context_ptr->lcu_cost_array[sb_index] == context_ptr->cost_depth_mode[LCU_LIGHT_BDP_DEPTH_MODE - 1]) {
                 picture_control_set_ptr->parent_pcs_ptr->sb_md_mode_array[sb_index] = LCU_LIGHT_BDP_DEPTH_MODE;
             }
-            else if (context_ptr->lcuCostArray[sb_index] == context_ptr->costDepthMode[LCU_BDP_DEPTH_MODE - 1]) {
+            else if (context_ptr->lcu_cost_array[sb_index] == context_ptr->cost_depth_mode[LCU_BDP_DEPTH_MODE - 1]) {
                 picture_control_set_ptr->parent_pcs_ptr->sb_md_mode_array[sb_index] = LCU_BDP_DEPTH_MODE;
             }
-            else if (context_ptr->lcuCostArray[sb_index] == context_ptr->costDepthMode[LCU_AVC_DEPTH_MODE - 1]) {
+            else if (context_ptr->lcu_cost_array[sb_index] == context_ptr->cost_depth_mode[LCU_AVC_DEPTH_MODE - 1]) {
                 picture_control_set_ptr->parent_pcs_ptr->sb_md_mode_array[sb_index] = LCU_AVC_DEPTH_MODE;
             }
             else if (picture_control_set_ptr->temporal_layer_index == 0) {
@@ -2134,49 +2134,49 @@ void SetLcuBudget(
     uint32_t      sb_index = sb_ptr->index;
     uint32_t      maxToMinScore, scoreToMin;
 
-    if (context_ptr->performRefinement && IsAvcPartitioningMode(sequence_control_set_ptr, picture_control_set_ptr, sb_ptr)) {
+    if (context_ptr->perform_refinement && IsAvcPartitioningMode(sequence_control_set_ptr, picture_control_set_ptr, sb_ptr)) {
 
-        context_ptr->lcuCostArray[sb_index] = context_ptr->costDepthMode[LCU_AVC_DEPTH_MODE - 1];
-        context_ptr->predictedCost += context_ptr->costDepthMode[LCU_AVC_DEPTH_MODE - 1];
+        context_ptr->lcu_cost_array[sb_index] = context_ptr->cost_depth_mode[LCU_AVC_DEPTH_MODE - 1];
+        context_ptr->predicted_cost += context_ptr->cost_depth_mode[LCU_AVC_DEPTH_MODE - 1];
 
     }
     else {
-        context_ptr->lcuScoreArray[sb_index] = CLIP3(context_ptr->lcuMinScore, context_ptr->lcuMaxScore, context_ptr->lcuScoreArray[sb_index]);
-        scoreToMin = context_ptr->lcuScoreArray[sb_index] - context_ptr->lcuMinScore;
-        maxToMinScore = context_ptr->lcuMaxScore - context_ptr->lcuMinScore;
+        context_ptr->lcu_score_array[sb_index] = CLIP3(context_ptr->lcu_min_score, context_ptr->lcu_max_score, context_ptr->lcu_score_array[sb_index]);
+        scoreToMin = context_ptr->lcu_score_array[sb_index] - context_ptr->lcu_min_score;
+        maxToMinScore = context_ptr->lcu_max_score - context_ptr->lcu_min_score;
 
-        if ((scoreToMin <= (maxToMinScore * context_ptr->scoreTh[0]) / 100 && context_ptr->scoreTh[0] != 0) || context_ptr->numberOfSegments == 1 || context_ptr->scoreTh[1] == 100) {
-            context_ptr->lcuCostArray[sb_index] = context_ptr->intervalCost[0];
-            context_ptr->predictedCost += context_ptr->intervalCost[0];
+        if ((scoreToMin <= (maxToMinScore * context_ptr->score_th[0]) / 100 && context_ptr->score_th[0] != 0) || context_ptr->number_of_segments == 1 || context_ptr->score_th[1] == 100) {
+            context_ptr->lcu_cost_array[sb_index] = context_ptr->interval_cost[0];
+            context_ptr->predicted_cost += context_ptr->interval_cost[0];
         }
-        else if ((scoreToMin <= (maxToMinScore * context_ptr->scoreTh[1]) / 100 && context_ptr->scoreTh[1] != 0) || context_ptr->numberOfSegments == 2 || context_ptr->scoreTh[2] == 100) {
-            context_ptr->lcuCostArray[sb_index] = context_ptr->intervalCost[1];
-            context_ptr->predictedCost += context_ptr->intervalCost[1];
+        else if ((scoreToMin <= (maxToMinScore * context_ptr->score_th[1]) / 100 && context_ptr->score_th[1] != 0) || context_ptr->number_of_segments == 2 || context_ptr->score_th[2] == 100) {
+            context_ptr->lcu_cost_array[sb_index] = context_ptr->interval_cost[1];
+            context_ptr->predicted_cost += context_ptr->interval_cost[1];
         }
-        else if ((scoreToMin <= (maxToMinScore * context_ptr->scoreTh[2]) / 100 && context_ptr->scoreTh[2] != 0) || context_ptr->numberOfSegments == 3 || context_ptr->scoreTh[3] == 100) {
-            context_ptr->lcuCostArray[sb_index] = context_ptr->intervalCost[2];
-            context_ptr->predictedCost += context_ptr->intervalCost[2];
+        else if ((scoreToMin <= (maxToMinScore * context_ptr->score_th[2]) / 100 && context_ptr->score_th[2] != 0) || context_ptr->number_of_segments == 3 || context_ptr->score_th[3] == 100) {
+            context_ptr->lcu_cost_array[sb_index] = context_ptr->interval_cost[2];
+            context_ptr->predicted_cost += context_ptr->interval_cost[2];
         }
-        else if ((scoreToMin <= (maxToMinScore * context_ptr->scoreTh[3]) / 100 && context_ptr->scoreTh[3] != 0) || context_ptr->numberOfSegments == 4 || context_ptr->scoreTh[4] == 100) {
-            context_ptr->lcuCostArray[sb_index] = context_ptr->intervalCost[3];
-            context_ptr->predictedCost += context_ptr->intervalCost[3];
+        else if ((scoreToMin <= (maxToMinScore * context_ptr->score_th[3]) / 100 && context_ptr->score_th[3] != 0) || context_ptr->number_of_segments == 4 || context_ptr->score_th[4] == 100) {
+            context_ptr->lcu_cost_array[sb_index] = context_ptr->interval_cost[3];
+            context_ptr->predicted_cost += context_ptr->interval_cost[3];
         }
-        else if ((scoreToMin <= (maxToMinScore * context_ptr->scoreTh[4]) / 100 && context_ptr->scoreTh[4] != 0) || context_ptr->numberOfSegments == 5 || context_ptr->scoreTh[5] == 100) {
-            context_ptr->lcuCostArray[sb_index] = context_ptr->intervalCost[4];
-            context_ptr->predictedCost += context_ptr->intervalCost[4];
+        else if ((scoreToMin <= (maxToMinScore * context_ptr->score_th[4]) / 100 && context_ptr->score_th[4] != 0) || context_ptr->number_of_segments == 5 || context_ptr->score_th[5] == 100) {
+            context_ptr->lcu_cost_array[sb_index] = context_ptr->interval_cost[4];
+            context_ptr->predicted_cost += context_ptr->interval_cost[4];
         }
-        else if ((scoreToMin <= (maxToMinScore * context_ptr->scoreTh[5]) / 100 && context_ptr->scoreTh[5] != 0) || context_ptr->numberOfSegments == 6 || context_ptr->scoreTh[6] == 100) {
-            context_ptr->lcuCostArray[sb_index] = context_ptr->intervalCost[5];
-            context_ptr->predictedCost += context_ptr->intervalCost[5];
+        else if ((scoreToMin <= (maxToMinScore * context_ptr->score_th[5]) / 100 && context_ptr->score_th[5] != 0) || context_ptr->number_of_segments == 6 || context_ptr->score_th[6] == 100) {
+            context_ptr->lcu_cost_array[sb_index] = context_ptr->interval_cost[5];
+            context_ptr->predicted_cost += context_ptr->interval_cost[5];
         }
         else {
-            context_ptr->lcuCostArray[sb_index] = context_ptr->intervalCost[6];
-            context_ptr->predictedCost += context_ptr->intervalCost[6];
+            context_ptr->lcu_cost_array[sb_index] = context_ptr->interval_cost[6];
+            context_ptr->predicted_cost += context_ptr->interval_cost[6];
         }
         // Switch to AVC mode if the SB cost is higher than the AVC cost and the the SB is marked + adjust the current picture cost accordingly
-        if (IsAvcPartitioningMode(sequence_control_set_ptr, picture_control_set_ptr, sb_ptr) && context_ptr->lcuCostArray[sb_index] > context_ptr->costDepthMode[LCU_AVC_DEPTH_MODE - 1]) {
-            context_ptr->predictedCost -= (context_ptr->lcuCostArray[sb_index] - context_ptr->costDepthMode[LCU_AVC_DEPTH_MODE - 1]);
-            context_ptr->lcuCostArray[sb_index] = context_ptr->costDepthMode[LCU_AVC_DEPTH_MODE - 1];
+        if (IsAvcPartitioningMode(sequence_control_set_ptr, picture_control_set_ptr, sb_ptr) && context_ptr->lcu_cost_array[sb_index] > context_ptr->cost_depth_mode[LCU_AVC_DEPTH_MODE - 1]) {
+            context_ptr->predicted_cost -= (context_ptr->lcu_cost_array[sb_index] - context_ptr->cost_depth_mode[LCU_AVC_DEPTH_MODE - 1]);
+            context_ptr->lcu_cost_array[sb_index] = context_ptr->cost_depth_mode[LCU_AVC_DEPTH_MODE - 1];
         }
 
 
@@ -2210,7 +2210,7 @@ void  DeriveOptimalBudgetPerLcu(
 
     while (deviationToTarget != 0 && (initialShooting == finalShooting) && adjustementIteration <= maxAdjustementIteration) {
 
-        if (context_ptr->predictedCost < context_ptr->budget) {
+        if (context_ptr->predicted_cost < context_ptr->budget) {
             initialShooting = UNDER_SHOOTING;
         }
         else {
@@ -2218,7 +2218,7 @@ void  DeriveOptimalBudgetPerLcu(
         }
 
         // reset running cost
-        context_ptr->predictedCost = 0;
+        context_ptr->predicted_cost = 0;
 
         for (sb_index = 0; sb_index < picture_control_set_ptr->parent_pcs_ptr->sb_total_count; sb_index++) {
 
@@ -2232,23 +2232,23 @@ void  DeriveOptimalBudgetPerLcu(
         }
 
         // Compute the deviation between the predicted budget & the target budget
-        deviationToTarget = (ABS((int32_t)(context_ptr->predictedCost - context_ptr->budget)) * 1000) / context_ptr->budget;
+        deviationToTarget = (ABS((int32_t)(context_ptr->predicted_cost - context_ptr->budget)) * 1000) / context_ptr->budget;
 
         // Derive shooting status
-        if (context_ptr->predictedCost < context_ptr->budget) {
-            context_ptr->scoreTh[0] = MAX((context_ptr->scoreTh[0] - adjustementStep), 0);
-            context_ptr->scoreTh[1] = MAX((context_ptr->scoreTh[1] - adjustementStep), 0);
-            context_ptr->scoreTh[2] = MAX((context_ptr->scoreTh[2] - adjustementStep), 0);
-            context_ptr->scoreTh[3] = MAX((context_ptr->scoreTh[3] - adjustementStep), 0);
-            context_ptr->scoreTh[4] = MAX((context_ptr->scoreTh[4] - adjustementStep), 0);
+        if (context_ptr->predicted_cost < context_ptr->budget) {
+            context_ptr->score_th[0] = MAX((context_ptr->score_th[0] - adjustementStep), 0);
+            context_ptr->score_th[1] = MAX((context_ptr->score_th[1] - adjustementStep), 0);
+            context_ptr->score_th[2] = MAX((context_ptr->score_th[2] - adjustementStep), 0);
+            context_ptr->score_th[3] = MAX((context_ptr->score_th[3] - adjustementStep), 0);
+            context_ptr->score_th[4] = MAX((context_ptr->score_th[4] - adjustementStep), 0);
             finalShooting = UNDER_SHOOTING;
         }
         else {
-            context_ptr->scoreTh[0] = (context_ptr->scoreTh[0] == 0) ? 0 : MIN(context_ptr->scoreTh[0] + adjustementStep, 100);
-            context_ptr->scoreTh[1] = (context_ptr->scoreTh[1] == 0) ? 0 : MIN(context_ptr->scoreTh[1] + adjustementStep, 100);
-            context_ptr->scoreTh[2] = (context_ptr->scoreTh[2] == 0) ? 0 : MIN(context_ptr->scoreTh[2] + adjustementStep, 100);
-            context_ptr->scoreTh[3] = (context_ptr->scoreTh[3] == 0) ? 0 : MIN(context_ptr->scoreTh[3] + adjustementStep, 100);
-            context_ptr->scoreTh[4] = (context_ptr->scoreTh[4] == 0) ? 0 : MIN(context_ptr->scoreTh[4] + adjustementStep, 100);
+            context_ptr->score_th[0] = (context_ptr->score_th[0] == 0) ? 0 : MIN(context_ptr->score_th[0] + adjustementStep, 100);
+            context_ptr->score_th[1] = (context_ptr->score_th[1] == 0) ? 0 : MIN(context_ptr->score_th[1] + adjustementStep, 100);
+            context_ptr->score_th[2] = (context_ptr->score_th[2] == 0) ? 0 : MIN(context_ptr->score_th[2] + adjustementStep, 100);
+            context_ptr->score_th[3] = (context_ptr->score_th[3] == 0) ? 0 : MIN(context_ptr->score_th[3] + adjustementStep, 100);
+            context_ptr->score_th[4] = (context_ptr->score_th[4] == 0) ? 0 : MIN(context_ptr->score_th[4] + adjustementStep, 100);
             finalShooting = OVER_SHOOTING;
         }
 
@@ -2277,21 +2277,21 @@ void ComputeRefinementCost(
     for (sb_index = 0; sb_index < picture_control_set_ptr->parent_pcs_ptr->sb_total_count; sb_index++) {
         LargestCodingUnit* sb_ptr = picture_control_set_ptr->sb_ptr_array[sb_index];
         if (IsAvcPartitioningMode(sequence_control_set_ptr, picture_control_set_ptr, sb_ptr)) {
-            refinementCost += context_ptr->costDepthMode[LCU_AVC_DEPTH_MODE - 1];
+            refinementCost += context_ptr->cost_depth_mode[LCU_AVC_DEPTH_MODE - 1];
         }
         // assumes the fastest mode will be used otherwise
         else {
-            refinementCost += context_ptr->intervalCost[0];
+            refinementCost += context_ptr->interval_cost[0];
         }
 
     }
 
     // Shut the refinement if the refinement cost is higher than the allocated budget
     if (refinementCost > context_ptr->budget) {
-        context_ptr->performRefinement = EB_FALSE;
+        context_ptr->perform_refinement = EB_FALSE;
     }
     else {
-        context_ptr->performRefinement = EB_TRUE;
+        context_ptr->perform_refinement = EB_TRUE;
     }
 }
 /******************************************************
@@ -2308,8 +2308,8 @@ void DeriveLcuScore(
     uint32_t  lcuScore;
     uint32_t  distortion;
 
-    context_ptr->lcuMinScore = ~0u;
-    context_ptr->lcuMaxScore = 0u;
+    context_ptr->lcu_min_score = ~0u;
+    context_ptr->lcu_max_score = 0u;
 
     for (sb_index = 0; sb_index < picture_control_set_ptr->sb_total_count; sb_index++) {
 
@@ -2376,11 +2376,11 @@ void DeriveLcuScore(
             }
         }
 
-        context_ptr->lcuScoreArray[sb_index] = lcuScore;
+        context_ptr->lcu_score_array[sb_index] = lcuScore;
 
         // Track MIN & MAX SB scores
-        context_ptr->lcuMinScore = MIN(context_ptr->lcuScoreArray[sb_index], context_ptr->lcuMinScore);
-        context_ptr->lcuMaxScore = MAX(context_ptr->lcuScoreArray[sb_index], context_ptr->lcuMaxScore);
+        context_ptr->lcu_min_score = MIN(context_ptr->lcu_score_array[sb_index], context_ptr->lcu_min_score);
+        context_ptr->lcu_max_score = MAX(context_ptr->lcu_score_array[sb_index], context_ptr->lcu_max_score);
     }
 
 
@@ -2417,7 +2417,7 @@ void PerformOutlierRemoval(
     uint32_t processedlcuCount = 0;
     int32_t slot = 0;
 
-    maxInterval = context_ptr->lcuMaxScore - context_ptr->lcuMinScore;
+    maxInterval = context_ptr->lcu_max_score - context_ptr->lcu_min_score;
     // Consider 10 bins
     subInterval = maxInterval / 10;
 
@@ -2430,35 +2430,35 @@ void PerformOutlierRemoval(
 
             processedlcuCount++;
 
-            lcuScore = context_ptr->lcuScoreArray[sb_index] + context_ptr->lcuMinScore;
-            if (lcuScore < (subInterval + context_ptr->lcuMinScore)) {
+            lcuScore = context_ptr->lcu_score_array[sb_index] + context_ptr->lcu_min_score;
+            if (lcuScore < (subInterval + context_ptr->lcu_min_score)) {
                 lcuScoreHistogram[0]++;
             }
-            else if (lcuScore < ((2 * subInterval) + context_ptr->lcuMinScore)) {
+            else if (lcuScore < ((2 * subInterval) + context_ptr->lcu_min_score)) {
                 lcuScoreHistogram[1]++;
             }
-            else if (lcuScore < ((3 * subInterval) + context_ptr->lcuMinScore)) {
+            else if (lcuScore < ((3 * subInterval) + context_ptr->lcu_min_score)) {
                 lcuScoreHistogram[2]++;
             }
-            else if (lcuScore < ((4 * subInterval) + context_ptr->lcuMinScore)) {
+            else if (lcuScore < ((4 * subInterval) + context_ptr->lcu_min_score)) {
                 lcuScoreHistogram[3]++;
             }
-            else if (lcuScore < ((5 * subInterval) + context_ptr->lcuMinScore)) {
+            else if (lcuScore < ((5 * subInterval) + context_ptr->lcu_min_score)) {
                 lcuScoreHistogram[4]++;
             }
-            else if (lcuScore < ((6 * subInterval) + context_ptr->lcuMinScore)) {
+            else if (lcuScore < ((6 * subInterval) + context_ptr->lcu_min_score)) {
                 lcuScoreHistogram[5]++;
             }
-            else if (lcuScore < ((7 * subInterval) + context_ptr->lcuMinScore)) {
+            else if (lcuScore < ((7 * subInterval) + context_ptr->lcu_min_score)) {
                 lcuScoreHistogram[6]++;
             }
-            else if (lcuScore < ((8 * subInterval) + context_ptr->lcuMinScore)) {
+            else if (lcuScore < ((8 * subInterval) + context_ptr->lcu_min_score)) {
                 lcuScoreHistogram[7]++;
             }
-            else if (lcuScore < ((9 * subInterval) + context_ptr->lcuMinScore)) {
+            else if (lcuScore < ((9 * subInterval) + context_ptr->lcu_min_score)) {
                 lcuScoreHistogram[8]++;
             }
-            else if (lcuScore < ((10 * subInterval) + context_ptr->lcuMinScore)) {
+            else if (lcuScore < ((10 * subInterval) + context_ptr->lcu_min_score)) {
                 lcuScoreHistogram[9]++;
             }
         }
@@ -2474,14 +2474,14 @@ void PerformOutlierRemoval(
     // Ignore null bins
     for (slot = 0; slot < 10; slot++) {
         if (lcuScoreHistogram[slot]) {
-            context_ptr->lcuMinScore = context_ptr->lcuMinScore + (slot * subInterval);
+            context_ptr->lcu_min_score = context_ptr->lcu_min_score + (slot * subInterval);
             break;
         }
     }
 
     for (slot = 9; slot >= 0; slot--) {
         if (lcuScoreHistogram[slot]) {
-            context_ptr->lcuMaxScore = context_ptr->lcuMaxScore - ((9 - slot) * subInterval);
+            context_ptr->lcu_max_score = context_ptr->lcu_max_score - ((9 - slot) * subInterval);
             break;
         }
     }
