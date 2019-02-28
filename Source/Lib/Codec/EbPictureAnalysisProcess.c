@@ -3148,7 +3148,7 @@ EbErrorType DenoiseInputPicture(
         }
 
     }
-    else if (context_ptr->picNoiseVarianceFloat >= 1.0) {
+    else if (context_ptr->pic_noise_variance_float >= 1.0) {
         //Luma : use filtered only for flatNoise LCUs
         for (lcuCodingOrder = 0; lcuCodingOrder < sb_total_count; ++lcuCodingOrder) {
 
@@ -3278,7 +3278,7 @@ EbErrorType DetectInputPictureNoise(
 
     }
 
-    context_ptr->picNoiseVarianceFloat = (double)picNoiseVariance / (double)totLcuCount;
+    context_ptr->pic_noise_variance_float = (double)picNoiseVariance / (double)totLcuCount;
 
     picNoiseVariance = picNoiseVariance / totLcuCount;
 
@@ -3720,7 +3720,7 @@ EbErrorType QuarterSampleDetectNoise(
     }
 
 
-    context_ptr->picNoiseVarianceFloat = (double)picNoiseVariance / (double)totLcuCount;
+    context_ptr->pic_noise_variance_float = (double)picNoiseVariance / (double)totLcuCount;
 
     picNoiseVariance = picNoiseVariance / totLcuCount;
 
@@ -3870,7 +3870,7 @@ EbErrorType SubSampleDetectNoise(
     }
 
 
-    context_ptr->picNoiseVarianceFloat = (double)picNoiseVariance / (double)totLcuCount;
+    context_ptr->pic_noise_variance_float = (double)picNoiseVariance / (double)totLcuCount;
 
     picNoiseVariance = picNoiseVariance / totLcuCount;
 
