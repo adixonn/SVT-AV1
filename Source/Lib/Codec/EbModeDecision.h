@@ -284,34 +284,6 @@ extern "C" {
 #endif
         EbBool                        same_fast_full_candidate);
 
-    typedef EbErrorType(*EbIntra4x4FastLumaCostFunc)(
-        struct ModeDecisionContext         *context_ptr,
-        uint32_t                            pu_index,
-        struct ModeDecisionCandidateBuffer *candidate_buffer_ptr,
-        uint64_t                            luma_distortion,
-        uint64_t                            lambda);
-
-    typedef EbErrorType(*EbIntra4x4FullLumaCostFunc)(
-        struct ModeDecisionCandidateBuffer *candidate_buffer_ptr,
-        uint64_t                           *y_distortion,
-        uint64_t                            lambda,
-        uint64_t                           *y_coeff_bits,
-        uint32_t                            transform_size);
-
-    typedef EbErrorType(*EbFullNxNCostFunc)(
-        PictureControlSet                  *picture_control_set_ptr,
-        struct ModeDecisionCandidateBuffer *candidate_buffer_ptr,
-        uint32_t                            qp,
-        uint64_t                           *y_distortion,
-        uint64_t                           *cb_distortion,
-        uint64_t                           *cr_distortion,
-        uint64_t                            lambda,
-        uint64_t                            lambda_chroma,
-        uint64_t                           *y_coeff_bits,
-        uint64_t                           *cb_coeff_bits,
-        uint64_t                           *cr_coeff_bits,
-        uint32_t                            transform_size);
-
     struct CodingLoopContext;
 #ifdef __cplusplus
 }
