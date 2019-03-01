@@ -53,18 +53,6 @@ extern "C" {
         /*D67_PRED      */  D67_PRED, D67_PRED, D67_PRED,                                       // EB_INTRA_MODE_28 -> EB_INTRA_MODE_30
         /*D45_PRED      */  D45_PRED, D45_PRED, D45_PRED, D45_PRED,                             // EB_INTRA_MODE_31 -> EB_INTRA_MODE_34
     };
-    static const int8_t hevcMode_to_angle_delta_map[35] = {
-        /*SMOOTH_PRED   */   0,                                                                 // EB_INTRA_PLANAR ->
-        /*DC_PRED       */   0,                                                                 // EB_INTRA_DC
-        /*D203_PRED     */   3, 2, 1, 0, -1, -2,                                                // EB_INTRA_MODE_2 -> EB_INTRA_MODE_7
-        /*H_PRED        */   3, 2, 0, -2, -3,                                                   // EB_INTRA_MODE_8 -> EB_INTRA_HORIZONTAL -> EB_INTRA_MODE_12
-        /*D157_PRED     */   2, 0, -2,                                                          // EB_INTRA_MODE_13 -> EB_INTRA_MODE_15
-        /*D135_PRED     */   3, 2, 0, -2, -3,                                                   // EB_INTRA_MODE_16 -> EB_INTRA_MODE_20
-        /*D113_PRED     */   2, 0, -2,                                                          // EB_INTRA_MODE_21 -> EB_INTRA_MODE_23
-        /*V_PRED        */   3, 2, 0, -2,                                                       // EB_INTRA_MODE_24 -> EB_INTRA_VERTICAL -> EB_INTRA_MODE_27
-        /*D67_PRED      */   2, 0, -2,                                                          // EB_INTRA_MODE_28 -> EB_INTRA_MODE_30
-        /*D45_PRED      */   3, 2, 0, -2,                                                       // EB_INTRA_MODE_31 -> EB_INTRA_MODE_34
-    };
     static const uint32_t intra_luma_to_chroma[INTRA_MODES] = {                                                                            // EB_INTRA_PLANAR
         /*DC_PRED       */  UV_DC_PRED,
         /*V_PRED        */  UV_SMOOTH_PRED,
@@ -96,34 +84,6 @@ extern "C" {
         /*UV_PAETH_PRED,       */   ADST_ADST ,
         /*UV_CFL_PRED,          */  DCT_DCT,
     };
-    static const uint8_t av1_is_directional_chroma[UV_INTRA_MODES] = {
-        /*UV_DC_PRED,        */  0,
-        /*UV_V_PRED,         */  0,
-        /*UV_H_PRED,         */  1,
-        /*UV_D45_PRED,       */  1,
-        /*UV_D135_PRED,      */  1,
-        /*UV_D113_PRED,      */  1,
-        /*UV_D157_PRED,      */  1,
-        /*UV_D203_PRED,      */  1,
-        /*UV_D67_PRED,       */  1,
-        /*UV_SMOOTH_PRED,    */  0,
-        /* UV_SMOOTH_PRED,   */  0,
-        /* UV_SMOOTH_V_PRED, */  0,
-        /* UV_SMOOTH_H_PRED, */  0,
-        /* UV_PAETH_PRED,    */  0,
-    };
-    static const uint8_t av1_is_directional[35] = {
-        0,                           // EB_INTRA_PLANAR
-        0,                           // EB_INTRA_DC
-        1, 1, 1, 1, 1, 1, 1, 1,      // EB_INTRA_MODE_2 -> EB_INTRA_MODE_9
-        1,                           // EB_INTRA_HORIZONTAL
-        1, 1, 1, 1, 1,               // EB_INTRA_MODE_11 -> EB_INTRA_MODE_15
-        1, 1, 1, 1, 1,               // EB_INTRA_MODE_16 -> EB_INTRA_MODE_20
-        1, 1, 1, 1, 1,               // EB_INTRA_MODE_21 -> EB_INTRA_MODE_25
-        1,                           // EB_INTRA_VERTICAL
-        1, 1, 1, 1,                  // EB_INTRA_MODE_27 -> EB_INTRA_MODE_30
-        1, 1, 1, 1,                  // EB_INTRA_MODE_31 -> EB_INTRA_MODE_34
-    };
     static const uint32_t mode_to_angle_map[] = {
         0, 90, 180, 45, 135, 113, 157, 203, 67, 0, 0, 0, 0,
     };
@@ -137,7 +97,7 @@ extern "C" {
         int16_t row;
         int16_t col;
     } MV;
-    typedef union  IntMv 
+    typedef union IntMv 
     {
         uint32_t as_int;
         MV as_mv;
@@ -308,7 +268,7 @@ extern "C" {
         int32_t                     quantized_dc[3];
         uint32_t                    is_inter_ctx;
         uint32_t                    interp_filters;
-        PartitionType               Part;
+        PartitionType               part;
         Part                        shape;
         uint16_t                    mds_idx;     //equivalent of leaf_index in the nscu context. we will keep both for now and use the right one on a case by case basis.
         uint8_t                    *neigh_left_recon[3];  //only for MD

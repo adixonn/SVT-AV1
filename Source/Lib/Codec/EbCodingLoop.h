@@ -19,16 +19,6 @@ extern "C" {
      *   performs CL (LCU)
      *******************************************/
 
-    typedef EbErrorType(*EB_MODE_DECISION)(
-        SequenceControlSet                *sequence_control_set_ptr,
-        PictureControlSet                 *picture_control_set_ptr,
-        const MdcLcuData * const           mdc_result_tb_ptr,
-        LargestCodingUnit                 *sb_ptr,
-        uint32_t                             sb_origin_x,
-        uint32_t                             sb_origin_y,
-        uint32_t                             lcu_addr,
-        ModeDecisionContext               *context_ptr);
-
 
     extern EbErrorType in_loop_motion_estimation_sblock(
         PictureControlSet                 *picture_control_set_ptr,  // input parameter, Picture Control Set Ptr

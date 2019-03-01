@@ -103,31 +103,31 @@ extern "C" {
 
     //**********************************************************************************************************//
     //onyxc_int.h
-    static INLINE int32_t frame_is_intra_only(const PictureParentControlSet *const pcsPtr) {
-        return pcsPtr->av1_frame_type == KEY_FRAME || pcsPtr->av1_frame_type == INTRA_ONLY_FRAME;
+    static INLINE int32_t frame_is_intra_only(const PictureParentControlSet *const pcs_ptr) {
+        return pcs_ptr->av1_frame_type == KEY_FRAME || pcs_ptr->av1_frame_type == INTRA_ONLY_FRAME;
     }
 
-    static INLINE int32_t frame_is_sframe(const PictureParentControlSet *pcsPtr) {
-        return pcsPtr->av1_frame_type == S_FRAME;
+    static INLINE int32_t frame_is_sframe(const PictureParentControlSet *pcs_ptr) {
+        return pcs_ptr->av1_frame_type == S_FRAME;
     }
 
     // Returns 1 if this frame might allow mvs from some reference frame.
 
-    static INLINE int32_t frame_might_allow_ref_frame_mvs(const PictureParentControlSet *pcsPtr,
+    static INLINE int32_t frame_might_allow_ref_frame_mvs(const PictureParentControlSet *pcs_ptr,
         SequenceControlSet    *scs_ptr) {
 #if AV1_UPGRADE
-        return !pcsPtr->error_resilient_mode &&
+        return !pcs_ptr->error_resilient_mode &&
 #else
-        return !pcsPtr->error_resilient_mode && !pcsPtr->large_scale_tile &&
+        return !pcs_ptr->error_resilient_mode && !pcs_ptr->large_scale_tile &&
 #endif
             scs_ptr->enable_ref_frame_mvs &&
-            scs_ptr->enable_order_hint && !frame_is_intra_only(pcsPtr);
+            scs_ptr->enable_order_hint && !frame_is_intra_only(pcs_ptr);
     }
 
     // Returns 1 if this frame might use warped_motion
-    static INLINE int32_t frame_might_allow_warped_motion(const PictureParentControlSet *pcsPtr,
+    static INLINE int32_t frame_might_allow_warped_motion(const PictureParentControlSet *pcs_ptr,
         SequenceControlSet    *scs_ptr) {
-        return !pcsPtr->error_resilient_mode && !frame_is_intra_only(pcsPtr) &&
+        return !pcs_ptr->error_resilient_mode && !frame_is_intra_only(pcs_ptr) &&
             scs_ptr->static_config.enable_warped_motion;
     }
 
@@ -139,23 +139,23 @@ extern "C" {
 
     //**********************************************************************************************************//
     //encoder.h
-    static INLINE int32_t get_ref_frame_map_idx(const PictureParentControlSet *pcsPtr,
+    static INLINE int32_t get_ref_frame_map_idx(const PictureParentControlSet *pcs_ptr,
         MvReferenceFrame ref_frame) {
-        // (void)(*pcsPtr);
+        // (void)(*pcs_ptr);
         // (void)ref_frame;
         // return 0;
 
-        return pcsPtr->av1_ref_signal.refDpbIndex[ref_frame - LAST_FRAME];//LAST-LAST2-LAST3-GOLDEN-BWD-ALT2-ALT
+        return pcs_ptr->av1_ref_signal.refDpbIndex[ref_frame - LAST_FRAME];//LAST-LAST2-LAST3-GOLDEN-BWD-ALT2-ALT
         //if (ref_frame >= LAST_FRAME && ref_frame <= LAST3_FRAME)
-        //    return pcsPtr->lst_fb_idxes[ref_frame - 1];
+        //    return pcs_ptr->lst_fb_idxes[ref_frame - 1];
         //else if (ref_frame == GOLDEN_FRAME)
-        //    return pcsPtr->gld_fb_idx;
+        //    return pcs_ptr->gld_fb_idx;
         //else if (ref_frame == BWDREF_FRAME)
-        //    return pcsPtr->bwd_fb_idx;
+        //    return pcs_ptr->bwd_fb_idx;
         //else if (ref_frame == ALTREF2_FRAME)
-        //    return pcsPtr->alt2_fb_idx;
+        //    return pcs_ptr->alt2_fb_idx;
         //else
-        //    return pcsPtr->alt_fb_idx;
+        //    return pcs_ptr->alt_fb_idx;
     }
 
     //*******************************************************************************************//
@@ -286,7 +286,7 @@ extern "C" {
     extern EbErrorType write_frame_header_av1(
         Bitstream *bitstream_ptr,
         SequenceControlSet *scs_ptr,
-        PictureControlSet *pcsPtr,
+        PictureControlSet *pcs_ptr,
         uint8_t show_existing);
 
     extern EbErrorType encode_td_av1(
