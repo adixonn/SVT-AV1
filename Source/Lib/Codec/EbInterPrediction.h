@@ -19,15 +19,15 @@ extern "C" {
 #endif
 
     struct ModeDecisionContext;
+
     typedef struct InterPredictionContext {
-        // mcp context
-        MotionCompensationPredictionContext  *mcp_context;
+        MotionCompensationPredictionContext *mcp_context;
     } InterPredictionContext;
 
     extern EbErrorType inter_prediction_context_ctor(
         InterPredictionContext   **inter_prediction_context,
-        uint16_t                     max_cu_width,
-        uint16_t                     max_cu_height);
+        uint16_t                   max_cu_width,
+        uint16_t                   max_cu_height);
 #if !CHROMA_BLIND
     extern EbErrorType inter2_nx2_n_pu_prediction_avc(
         struct ModeDecisionContext           *context_ptr,
