@@ -768,7 +768,7 @@ EB_API EbErrorType eb_init_encoder(EbComponentType *svt_enc_component)
 {
     if(svt_enc_component == NULL)
         return EB_ErrorBadParameter;
-    EbEncHandle *encHandlePtr = (EbEncHandle*)svt_enc_component->pComponentPrivate;
+    EbEncHandle *encHandlePtr = (EbEncHandle*)svt_enc_component->p_component_private;
     EbErrorType return_error = EB_ErrorNone;
     uint32_t instance_index;
     uint32_t processIndex;
@@ -1785,7 +1785,7 @@ EB_API EbErrorType eb_deinit_encoder(EbComponentType *svt_enc_component)
 {
     if(svt_enc_component == NULL)
         return EB_ErrorBadParameter;
-    EbEncHandle *encHandlePtr = (EbEncHandle*)svt_enc_component->pComponentPrivate;
+    EbEncHandle *encHandlePtr = (EbEncHandle*)svt_enc_component->p_component_private;
     EbErrorType return_error = EB_ErrorNone;
     int32_t              ptrIndex = 0;
     EbMemoryMapEntry*   memoryEntry = (EbMemoryMapEntry*)EB_NULL;
@@ -1858,7 +1858,7 @@ EB_API EbErrorType eb_init_handle(
         return_error = init_svt_av1_encoder_handle(*p_handle);
 
         if (return_error == EB_ErrorNone) {
-            ((EbComponentType*)(*p_handle))->pApplicationPrivate = p_app_data;
+            ((EbComponentType*)(*p_handle))->p_application_private = p_app_data;
 
         }
         else if (return_error == EB_ErrorInsufficientResources) {
@@ -1885,8 +1885,8 @@ EbErrorType eb_h265_enc_component_de_init(EbComponentType  *svt_enc_component)
 {
     EbErrorType       return_error = EB_ErrorNone;
 
-    if (svt_enc_component->pComponentPrivate) {
-        free((EbEncHandle *)svt_enc_component->pComponentPrivate);
+    if (svt_enc_component->p_component_private) {
+        free((EbEncHandle *)svt_enc_component->p_component_private);
     }
     else {
         return_error = EB_ErrorUndefined;
@@ -2045,13 +2045,13 @@ void SetParamBasedOnInput(
 
 void CopyApiFromApp(
     SequenceControlSet       *sequence_control_set_ptr,
-    EbSvtAv1EncConfiguration   *pComponentParameterStructure) {
+    EbSvtAv1EncConfiguration   *p_component_parameter_structure) {
 
     uint32_t                  hmeRegionIndex = 0;
 
-    sequence_control_set_ptr->max_input_luma_width = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->source_width;
-    sequence_control_set_ptr->max_input_luma_height = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->source_height;
-    sequence_control_set_ptr->frame_rate = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->frame_rate;
+    sequence_control_set_ptr->max_input_luma_width = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->source_width;
+    sequence_control_set_ptr->max_input_luma_height = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->source_height;
+    sequence_control_set_ptr->frame_rate = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->frame_rate;
 
     sequence_control_set_ptr->general_frame_only_constraint_flag = 0;
     sequence_control_set_ptr->general_progressive_source_flag = 1;
@@ -2061,7 +2061,7 @@ void CopyApiFromApp(
 #if DISABLE_128X128_SB
     sequence_control_set_ptr->static_config.super_block_size = 64;
 #else
-    sequence_control_set_ptr->static_config.super_block_size = (pComponentParameterStructure->enc_mode <= ENC_M2) ? 128 : 64;
+    sequence_control_set_ptr->static_config.super_block_size = (p_component_parameter_structure->enc_mode <= ENC_M2) ? 128 : 64;
 #endif
     sequence_control_set_ptr->static_config.pred_structure = 2; // Hardcoded(Cleanup)
     sequence_control_set_ptr->static_config.enable_qp_scaling_flag = 1;
@@ -2080,8 +2080,8 @@ void CopyApiFromApp(
     sequence_control_set_ptr->cropping_bottom_offset = -1;
 
     // Padding Offsets
-    sequence_control_set_ptr->sb_sz = (uint8_t)((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->sb_sz;
-    sequence_control_set_ptr->max_sb_depth = (uint8_t)((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->partition_depth;
+    sequence_control_set_ptr->sb_sz = (uint8_t)((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->sb_sz;
+    sequence_control_set_ptr->max_sb_depth = (uint8_t)((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->partition_depth;
 
     if (sequence_control_set_ptr->cropping_left_offset == -1 &&
         sequence_control_set_ptr->cropping_right_offset == -1 &&
@@ -2103,121 +2103,121 @@ void CopyApiFromApp(
         sequence_control_set_ptr->cropping_bottom_offset = 0;
 
     // Coding Structure
-    sequence_control_set_ptr->static_config.intra_period_length = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->intra_period_length;
-    sequence_control_set_ptr->static_config.intra_refresh_type = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->intra_refresh_type;
-    sequence_control_set_ptr->static_config.base_layer_switch_mode = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->base_layer_switch_mode;
-    sequence_control_set_ptr->static_config.hierarchical_levels = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->hierarchical_levels;
-    sequence_control_set_ptr->static_config.enc_mode = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->enc_mode;
+    sequence_control_set_ptr->static_config.intra_period_length = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->intra_period_length;
+    sequence_control_set_ptr->static_config.intra_refresh_type = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->intra_refresh_type;
+    sequence_control_set_ptr->static_config.base_layer_switch_mode = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->base_layer_switch_mode;
+    sequence_control_set_ptr->static_config.hierarchical_levels = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->hierarchical_levels;
+    sequence_control_set_ptr->static_config.enc_mode = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->enc_mode;
     sequence_control_set_ptr->intra_period_length = sequence_control_set_ptr->static_config.intra_period_length;
     sequence_control_set_ptr->intra_refresh_type = sequence_control_set_ptr->static_config.intra_refresh_type;
     sequence_control_set_ptr->max_temporal_layers = sequence_control_set_ptr->static_config.hierarchical_levels;
-    sequence_control_set_ptr->static_config.use_qp_file = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->use_qp_file;
+    sequence_control_set_ptr->static_config.use_qp_file = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->use_qp_file;
 
 #if SHUT_FILTERING
     sequence_control_set_ptr->static_config.disable_dlf_flag = 1;//
 #else
     // Deblock Filter
-    sequence_control_set_ptr->static_config.disable_dlf_flag = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->disable_dlf_flag;
+    sequence_control_set_ptr->static_config.disable_dlf_flag = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->disable_dlf_flag;
 #endif
 
     // Local Warped Motion
-    sequence_control_set_ptr->static_config.enable_warped_motion = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->enable_warped_motion;
+    sequence_control_set_ptr->static_config.enable_warped_motion = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->enable_warped_motion;
 
     // ME Tools
-    sequence_control_set_ptr->static_config.use_default_me_hme = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->use_default_me_hme;
-    sequence_control_set_ptr->static_config.enable_hme_flag = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->enable_hme_flag;
-    sequence_control_set_ptr->static_config.enable_hme_level0_flag = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->enable_hme_level0_flag;
-    sequence_control_set_ptr->static_config.enable_hme_level1_flag = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->enable_hme_level1_flag;
-    sequence_control_set_ptr->static_config.enable_hme_level2_flag = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->enable_hme_level2_flag;
-    sequence_control_set_ptr->static_config.search_area_width = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->search_area_width;
-    sequence_control_set_ptr->static_config.search_area_height = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->search_area_height;
-    sequence_control_set_ptr->static_config.number_hme_search_region_in_width = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->number_hme_search_region_in_width;
-    sequence_control_set_ptr->static_config.number_hme_search_region_in_height = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->number_hme_search_region_in_height;
-    sequence_control_set_ptr->static_config.hme_level0_total_search_area_width = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->hme_level0_total_search_area_width;
-    sequence_control_set_ptr->static_config.hme_level0_total_search_area_height = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->hme_level0_total_search_area_height;
-    sequence_control_set_ptr->static_config.ext_block_flag = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->ext_block_flag;
-    sequence_control_set_ptr->static_config.in_loop_me_flag = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->in_loop_me_flag;
+    sequence_control_set_ptr->static_config.use_default_me_hme = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->use_default_me_hme;
+    sequence_control_set_ptr->static_config.enable_hme_flag = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->enable_hme_flag;
+    sequence_control_set_ptr->static_config.enable_hme_level0_flag = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->enable_hme_level0_flag;
+    sequence_control_set_ptr->static_config.enable_hme_level1_flag = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->enable_hme_level1_flag;
+    sequence_control_set_ptr->static_config.enable_hme_level2_flag = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->enable_hme_level2_flag;
+    sequence_control_set_ptr->static_config.search_area_width = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->search_area_width;
+    sequence_control_set_ptr->static_config.search_area_height = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->search_area_height;
+    sequence_control_set_ptr->static_config.number_hme_search_region_in_width = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->number_hme_search_region_in_width;
+    sequence_control_set_ptr->static_config.number_hme_search_region_in_height = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->number_hme_search_region_in_height;
+    sequence_control_set_ptr->static_config.hme_level0_total_search_area_width = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->hme_level0_total_search_area_width;
+    sequence_control_set_ptr->static_config.hme_level0_total_search_area_height = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->hme_level0_total_search_area_height;
+    sequence_control_set_ptr->static_config.ext_block_flag = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->ext_block_flag;
+    sequence_control_set_ptr->static_config.in_loop_me_flag = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->in_loop_me_flag;
 
     for (hmeRegionIndex = 0; hmeRegionIndex < sequence_control_set_ptr->static_config.number_hme_search_region_in_width; ++hmeRegionIndex) {
-        sequence_control_set_ptr->static_config.hme_level0_search_area_in_width_array[hmeRegionIndex] = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->hme_level0_search_area_in_width_array[hmeRegionIndex];
-        sequence_control_set_ptr->static_config.hme_level1_search_area_in_width_array[hmeRegionIndex] = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->hme_level1_search_area_in_width_array[hmeRegionIndex];
-        sequence_control_set_ptr->static_config.hme_level2_search_area_in_width_array[hmeRegionIndex] = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->hme_level2_search_area_in_width_array[hmeRegionIndex];
+        sequence_control_set_ptr->static_config.hme_level0_search_area_in_width_array[hmeRegionIndex] = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->hme_level0_search_area_in_width_array[hmeRegionIndex];
+        sequence_control_set_ptr->static_config.hme_level1_search_area_in_width_array[hmeRegionIndex] = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->hme_level1_search_area_in_width_array[hmeRegionIndex];
+        sequence_control_set_ptr->static_config.hme_level2_search_area_in_width_array[hmeRegionIndex] = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->hme_level2_search_area_in_width_array[hmeRegionIndex];
     }
 
     for (hmeRegionIndex = 0; hmeRegionIndex < sequence_control_set_ptr->static_config.number_hme_search_region_in_height; ++hmeRegionIndex) {
-        sequence_control_set_ptr->static_config.hme_level0_search_area_in_height_array[hmeRegionIndex] = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->hme_level0_search_area_in_height_array[hmeRegionIndex];
-        sequence_control_set_ptr->static_config.hme_level1_search_area_in_height_array[hmeRegionIndex] = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->hme_level1_search_area_in_height_array[hmeRegionIndex];
-        sequence_control_set_ptr->static_config.hme_level2_search_area_in_height_array[hmeRegionIndex] = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->hme_level2_search_area_in_height_array[hmeRegionIndex];
+        sequence_control_set_ptr->static_config.hme_level0_search_area_in_height_array[hmeRegionIndex] = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->hme_level0_search_area_in_height_array[hmeRegionIndex];
+        sequence_control_set_ptr->static_config.hme_level1_search_area_in_height_array[hmeRegionIndex] = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->hme_level1_search_area_in_height_array[hmeRegionIndex];
+        sequence_control_set_ptr->static_config.hme_level2_search_area_in_height_array[hmeRegionIndex] = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->hme_level2_search_area_in_height_array[hmeRegionIndex];
     }
 
     //Denoise - Hardcoded(CleanUp)
     sequence_control_set_ptr->static_config.enable_denoise_flag = 0;
 
     //Film Grain
-    sequence_control_set_ptr->static_config.film_grain_denoise_strength = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->film_grain_denoise_strength;
+    sequence_control_set_ptr->static_config.film_grain_denoise_strength = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->film_grain_denoise_strength;
     sequence_control_set_ptr->film_grain_denoise_strength = sequence_control_set_ptr->static_config.film_grain_denoise_strength;
 
     // MD Parameters
-    sequence_control_set_ptr->static_config.constrained_intra = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->constrained_intra;
+    sequence_control_set_ptr->static_config.constrained_intra = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->constrained_intra;
 
     // Adaptive Loop Filter
 #if TILES
-    sequence_control_set_ptr->static_config.tile_rows = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->tile_rows;
-    sequence_control_set_ptr->static_config.tile_columns = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->tile_columns;
+    sequence_control_set_ptr->static_config.tile_rows = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->tile_rows;
+    sequence_control_set_ptr->static_config.tile_columns = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->tile_columns;
 #endif
 
     // Rate Control
-    sequence_control_set_ptr->static_config.scene_change_detection = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->scene_change_detection;
-    sequence_control_set_ptr->static_config.rate_control_mode = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->rate_control_mode;
-    sequence_control_set_ptr->static_config.look_ahead_distance = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->look_ahead_distance;
-    sequence_control_set_ptr->static_config.frames_to_be_encoded = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->frames_to_be_encoded;
-    sequence_control_set_ptr->static_config.frame_rate = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->frame_rate;
-    sequence_control_set_ptr->static_config.frame_rate_denominator = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->frame_rate_denominator;
-    sequence_control_set_ptr->static_config.frame_rate_numerator = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->frame_rate_numerator;
+    sequence_control_set_ptr->static_config.scene_change_detection = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->scene_change_detection;
+    sequence_control_set_ptr->static_config.rate_control_mode = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->rate_control_mode;
+    sequence_control_set_ptr->static_config.look_ahead_distance = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->look_ahead_distance;
+    sequence_control_set_ptr->static_config.frames_to_be_encoded = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->frames_to_be_encoded;
+    sequence_control_set_ptr->static_config.frame_rate = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->frame_rate;
+    sequence_control_set_ptr->static_config.frame_rate_denominator = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->frame_rate_denominator;
+    sequence_control_set_ptr->static_config.frame_rate_numerator = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->frame_rate_numerator;
 
-    sequence_control_set_ptr->static_config.target_bit_rate = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->target_bit_rate;
+    sequence_control_set_ptr->static_config.target_bit_rate = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->target_bit_rate;
 
     sequence_control_set_ptr->static_config.max_qp_allowed = (sequence_control_set_ptr->static_config.rate_control_mode) ?
-        ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->max_qp_allowed :
+        ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->max_qp_allowed :
         63;
 
     sequence_control_set_ptr->static_config.min_qp_allowed = (sequence_control_set_ptr->static_config.rate_control_mode) ?
-        ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->min_qp_allowed :
+        ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->min_qp_allowed :
         0;
 
     // Misc
-    sequence_control_set_ptr->static_config.encoder_bit_depth = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->encoder_bit_depth;
-    sequence_control_set_ptr->static_config.ten_bit_format = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->ten_bit_format;
-    sequence_control_set_ptr->static_config.compressed_ten_bit_format = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->compressed_ten_bit_format;
+    sequence_control_set_ptr->static_config.encoder_bit_depth = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->encoder_bit_depth;
+    sequence_control_set_ptr->static_config.ten_bit_format = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->ten_bit_format;
+    sequence_control_set_ptr->static_config.compressed_ten_bit_format = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->compressed_ten_bit_format;
 
     // Thresholds
-    sequence_control_set_ptr->static_config.improve_sharpness = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->improve_sharpness;
-    sequence_control_set_ptr->static_config.high_dynamic_range_input = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->high_dynamic_range_input;
-    sequence_control_set_ptr->static_config.access_unit_delimiter = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->access_unit_delimiter;
-    sequence_control_set_ptr->static_config.buffering_period_sei = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->buffering_period_sei;
-    sequence_control_set_ptr->static_config.picture_timing_sei = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->picture_timing_sei;
-    sequence_control_set_ptr->static_config.registered_user_data_sei_flag = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->registered_user_data_sei_flag;
-    sequence_control_set_ptr->static_config.unregistered_user_data_sei_flag = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->unregistered_user_data_sei_flag;
-    sequence_control_set_ptr->static_config.recovery_point_sei_flag = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->recovery_point_sei_flag;
-    sequence_control_set_ptr->static_config.enable_temporal_id = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->enable_temporal_id;
+    sequence_control_set_ptr->static_config.improve_sharpness = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->improve_sharpness;
+    sequence_control_set_ptr->static_config.high_dynamic_range_input = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->high_dynamic_range_input;
+    sequence_control_set_ptr->static_config.access_unit_delimiter = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->access_unit_delimiter;
+    sequence_control_set_ptr->static_config.buffering_period_sei = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->buffering_period_sei;
+    sequence_control_set_ptr->static_config.picture_timing_sei = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->picture_timing_sei;
+    sequence_control_set_ptr->static_config.registered_user_data_sei_flag = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->registered_user_data_sei_flag;
+    sequence_control_set_ptr->static_config.unregistered_user_data_sei_flag = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->unregistered_user_data_sei_flag;
+    sequence_control_set_ptr->static_config.recovery_point_sei_flag = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->recovery_point_sei_flag;
+    sequence_control_set_ptr->static_config.enable_temporal_id = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->enable_temporal_id;
 
     // Annex A parameters
-    sequence_control_set_ptr->static_config.profile = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->profile;
-    sequence_control_set_ptr->static_config.tier = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->tier;
-    sequence_control_set_ptr->static_config.level = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->level;
-    sequence_control_set_ptr->static_config.stat_report = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->stat_report;
+    sequence_control_set_ptr->static_config.profile = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->profile;
+    sequence_control_set_ptr->static_config.tier = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->tier;
+    sequence_control_set_ptr->static_config.level = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->level;
+    sequence_control_set_ptr->static_config.stat_report = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->stat_report;
 
-    sequence_control_set_ptr->static_config.injector_frame_rate = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->injector_frame_rate;
-    sequence_control_set_ptr->static_config.speed_control_flag = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->speed_control_flag;
+    sequence_control_set_ptr->static_config.injector_frame_rate = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->injector_frame_rate;
+    sequence_control_set_ptr->static_config.speed_control_flag = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->speed_control_flag;
 
     // Buffers - Hardcoded(Cleanup)
-    sequence_control_set_ptr->static_config.asm_type = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->asm_type;
+    sequence_control_set_ptr->static_config.asm_type = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->asm_type;
 
-    sequence_control_set_ptr->static_config.channel_id = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->channel_id;
-    sequence_control_set_ptr->static_config.active_channel_count = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->active_channel_count;
-    sequence_control_set_ptr->static_config.use_round_robin_thread_assignment = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->use_round_robin_thread_assignment;
-    sequence_control_set_ptr->qp = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->qp;
-    sequence_control_set_ptr->static_config.recon_enabled = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->recon_enabled;
+    sequence_control_set_ptr->static_config.channel_id = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->channel_id;
+    sequence_control_set_ptr->static_config.active_channel_count = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->active_channel_count;
+    sequence_control_set_ptr->static_config.use_round_robin_thread_assignment = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->use_round_robin_thread_assignment;
+    sequence_control_set_ptr->qp = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->qp;
+    sequence_control_set_ptr->static_config.recon_enabled = ((EbSvtAv1EncConfiguration*)p_component_parameter_structure)->recon_enabled;
 
     // Extract frame rate from Numerator and Denominator if not 0
     if (sequence_control_set_ptr->static_config.frame_rate_numerator != 0 && sequence_control_set_ptr->static_config.frame_rate_denominator != 0) {
@@ -2797,13 +2797,13 @@ __attribute__((visibility("default")))
 #endif
 EB_API EbErrorType eb_svt_enc_set_parameter(
     EbComponentType              *svt_enc_component,
-    EbSvtAv1EncConfiguration     *pComponentParameterStructure)
+    EbSvtAv1EncConfiguration     *p_component_parameter_structure)
 {
     if(svt_enc_component == NULL)
         return EB_ErrorBadParameter;
 
     EbErrorType           return_error  = EB_ErrorNone;
-    EbEncHandle        *pEncCompData  = (EbEncHandle*)svt_enc_component->pComponentPrivate;
+    EbEncHandle        *pEncCompData  = (EbEncHandle*)svt_enc_component->p_component_private;
     uint32_t              instance_index = 0;
 
     // Acquire Config Mutex
@@ -2814,7 +2814,7 @@ EB_API EbErrorType eb_svt_enc_set_parameter(
 
     CopyApiFromApp(
         pEncCompData->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr,
-        (EbSvtAv1EncConfiguration*)pComponentParameterStructure);
+        (EbSvtAv1EncConfiguration*)p_component_parameter_structure);
 
     return_error = (EbErrorType)VerifySettings(
         pEncCompData->sequence_control_set_instance_array[instance_index]->sequence_control_set_ptr);
@@ -2909,9 +2909,9 @@ static EbErrorType CopyFrameBuffer(
         uint16_t     chromaWidth = (lumaWidth >> 1) << is16BitInput;
         uint16_t     lumaHeight = (uint16_t)(input_picture_ptr->height - sequence_control_set_ptr->max_input_pad_bottom);
 
-        uint16_t     sourceLumaStride = (uint16_t)(inputPtr->yStride);
-        uint16_t     sourceCrStride = (uint16_t)(inputPtr->crStride);
-        uint16_t     sourceCbStride = (uint16_t)(inputPtr->cbStride);
+        uint16_t     sourceLumaStride = (uint16_t)(inputPtr->y_stride);
+        uint16_t     sourceCrStride = (uint16_t)(inputPtr->cr_stride);
+        uint16_t     sourceCbStride = (uint16_t)(inputPtr->cb_stride);
 
         //uint16_t     lumaHeight  = input_picture_ptr->max_height;
         // Y
@@ -2948,9 +2948,9 @@ static EbErrorType CopyFrameBuffer(
             uint16_t  chromaWidth = (lumaWidth >> 1);
             uint16_t  lumaHeight = (uint16_t)(input_picture_ptr->height - sequence_control_set_ptr->max_input_pad_bottom);
 
-            uint16_t  sourceLumaStride = (uint16_t)(inputPtr->yStride);
-            uint16_t  sourceCrStride = (uint16_t)(inputPtr->crStride);
-            uint16_t  sourceCbStride = (uint16_t)(inputPtr->cbStride);
+            uint16_t  sourceLumaStride = (uint16_t)(inputPtr->y_stride);
+            uint16_t  sourceCrStride = (uint16_t)(inputPtr->cr_stride);
+            uint16_t  sourceCbStride = (uint16_t)(inputPtr->cb_stride);
 
             // Y 8bit
             for (inputRowIndex = 0; inputRowIndex < lumaHeight; inputRowIndex++) {
@@ -2986,13 +2986,13 @@ static EbErrorType CopyFrameBuffer(
                 uint16_t sourceChroma2BitStride = sourceLuma2BitStride >> 1;
 
                 for (inputRowIndex = 0; inputRowIndex < lumaHeight; inputRowIndex++) {
-                    EB_MEMCPY(input_picture_ptr->buffer_bit_inc_y + luma2BitWidth * inputRowIndex, inputPtr->lumaExt + sourceLuma2BitStride * inputRowIndex, luma2BitWidth);
+                    EB_MEMCPY(input_picture_ptr->buffer_bit_inc_y + luma2BitWidth * inputRowIndex, inputPtr->luma_ext + sourceLuma2BitStride * inputRowIndex, luma2BitWidth);
                 }
                 for (inputRowIndex = 0; inputRowIndex < lumaHeight >> 1; inputRowIndex++) {
-                    EB_MEMCPY(input_picture_ptr->buffer_bit_inc_cb + (luma2BitWidth >> 1)*inputRowIndex, inputPtr->cbExt + sourceChroma2BitStride * inputRowIndex, luma2BitWidth >> 1);
+                    EB_MEMCPY(input_picture_ptr->buffer_bit_inc_cb + (luma2BitWidth >> 1)*inputRowIndex, inputPtr->cb_ext + sourceChroma2BitStride * inputRowIndex, luma2BitWidth >> 1);
                 }
                 for (inputRowIndex = 0; inputRowIndex < lumaHeight >> 1; inputRowIndex++) {
-                    EB_MEMCPY(input_picture_ptr->buffer_bit_inc_cr + (luma2BitWidth >> 1)*inputRowIndex, inputPtr->crExt + sourceChroma2BitStride * inputRowIndex, luma2BitWidth >> 1);
+                    EB_MEMCPY(input_picture_ptr->buffer_bit_inc_cr + (luma2BitWidth >> 1)*inputRowIndex, inputPtr->cr_ext + sourceChroma2BitStride * inputRowIndex, luma2BitWidth >> 1);
                 }
             }
 
@@ -3008,9 +3008,9 @@ static EbErrorType CopyFrameBuffer(
         uint16_t chromaWidth = (lumaWidth >> 1);
         uint16_t lumaHeight = (uint16_t)(input_picture_ptr->height - sequence_control_set_ptr->max_input_pad_bottom);
 
-        uint16_t sourceLumaStride = (uint16_t)(inputPtr->yStride);
-        uint16_t sourceCrStride = (uint16_t)(inputPtr->crStride);
-        uint16_t sourceCbStride = (uint16_t)(inputPtr->cbStride);
+        uint16_t sourceLumaStride = (uint16_t)(inputPtr->y_stride);
+        uint16_t sourceCrStride = (uint16_t)(inputPtr->cr_stride);
+        uint16_t sourceCbStride = (uint16_t)(inputPtr->cb_stride);
 
         un_pack2d(
             (uint16_t*)(inputPtr->luma + lumaOffset),
@@ -3078,7 +3078,7 @@ EB_API EbErrorType eb_svt_enc_send_picture(
     EbComponentType      *svt_enc_component,
     EbBufferHeaderType   *p_buffer)
 {
-    EbEncHandle          *encHandlePtr = (EbEncHandle*)svt_enc_component->pComponentPrivate;
+    EbEncHandle          *encHandlePtr = (EbEncHandle*)svt_enc_component->p_component_private;
     EbObjectWrapper      *ebWrapperPtr;
 
     // Take the buffer and put it into our internal queue structure
@@ -3130,7 +3130,7 @@ EB_API EbErrorType eb_svt_get_packet(
     unsigned char          pic_send_done)
 {
     EbErrorType             return_error = EB_ErrorNone;
-    EbEncHandle          *pEncCompData = (EbEncHandle*)svt_enc_component->pComponentPrivate;
+    EbEncHandle          *pEncCompData = (EbEncHandle*)svt_enc_component->p_component_private;
     EbObjectWrapper      *ebWrapperPtr = NULL;
     EbBufferHeaderType    *packet;
     if (pic_send_done)
@@ -3193,7 +3193,7 @@ EB_API EbErrorType eb_svt_get_recon(
     EbBufferHeaderType   *p_buffer)
 {
     EbErrorType           return_error = EB_ErrorNone;
-    EbEncHandle          *pEncCompData = (EbEncHandle*)svt_enc_component->pComponentPrivate;
+    EbEncHandle          *pEncCompData = (EbEncHandle*)svt_enc_component->p_component_private;
     EbObjectWrapper      *ebWrapperPtr = NULL;
 
     if (pEncCompData->sequence_control_set_instance_array[0]->sequence_control_set_ptr->static_config.recon_enabled) {
@@ -3233,7 +3233,7 @@ void lib_svt_encoder_send_error_exit(
     uint32_t                 error_code)
 {
     EbComponentType      *svt_enc_component = (EbComponentType*)hComponent;
-    EbEncHandle          *pEncCompData = (EbEncHandle*)svt_enc_component->pComponentPrivate;
+    EbEncHandle          *pEncCompData = (EbEncHandle*)svt_enc_component->p_component_private;
     EbObjectWrapper      *ebWrapperPtr = NULL;
     EbBufferHeaderType    *outputPacket;
 
@@ -3279,7 +3279,7 @@ EbErrorType init_svt_av1_encoder_handle(
 
     // Encoder Private Handle Ctor
     return_error = (EbErrorType)eb_enc_handle_ctor(
-        (EbEncHandle**) &(svt_enc_component->pComponentPrivate),
+        (EbEncHandle**) &(svt_enc_component->p_component_private),
         svt_enc_component);
 
     return return_error;
