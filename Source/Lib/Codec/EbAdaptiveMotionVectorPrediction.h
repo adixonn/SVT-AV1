@@ -31,7 +31,6 @@ extern "C" {
     typedef struct TmvpUnit 
     {
         Mv              mv[MAX_NUM_OF_REF_PIC_LIST][MAX_TMVP_CAND_PER_LCU];
-        uint64_t            refPicPOC[MAX_NUM_OF_REF_PIC_LIST][MAX_TMVP_CAND_PER_LCU];
         EbPredDirection  prediction_direction[MAX_TMVP_CAND_PER_LCU];
         EbBool              availabilityFlag[MAX_TMVP_CAND_PER_LCU];
 
@@ -42,11 +41,11 @@ extern "C" {
     extern EbErrorType clip_mv(
         uint32_t                   cu_origin_x,
         uint32_t                   cu_origin_y,
-        int16_t                  *MVx,
-        int16_t                  *MVy,
+        int16_t                  *mv_x,
+        int16_t                  *mv_y,
         uint32_t                   picture_width,
         uint32_t                   picture_height,
-        uint32_t                   tbSize);
+        uint32_t                   tb_size);
 
     void generate_av1_mvp_table(
 #if TILES
@@ -58,7 +57,7 @@ extern "C" {
         uint16_t                            cu_origin_x,
         uint16_t                            cu_origin_y,
         MvReferenceFrame                *ref_frames,
-        uint32_t                            TotRefs,
+        uint32_t                            tot_refs,
         PictureControlSet              *picture_control_set_ptr);
 
     void get_av1_mv_pred_drl(

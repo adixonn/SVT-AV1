@@ -162,8 +162,8 @@ EbBool find_projection(
     int       *pts1,
     int       *pts2,
     BlockSize  bsize,
-    int        mvy,
-    int        mvx,
+    int        mv_y,
+    int        mv_x,
     EbWarpedMotionParams *wm_params,
     int        mi_row,
     int        mi_col);

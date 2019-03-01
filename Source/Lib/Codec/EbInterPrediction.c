@@ -5437,7 +5437,7 @@ EbErrorType choose_mvp_idx_v2(
     uint32_t                    cu_origin_x,
     uint32_t                    cu_origin_y,
     uint32_t                    pu_index,
-    uint32_t                    tbSize,
+    uint32_t                    tb_size,
     int16_t                   *ref0_amvp_cand_array_x,
     int16_t                   *ref0_amvp_cand_array_y,
     uint32_t                    ref0_num_available_amvp_cand,
@@ -5466,7 +5466,7 @@ EbErrorType choose_mvp_idx_v2(
             &candidate_ptr->motion_vector_yl0,
             picture_width,
             picture_height,
-            tbSize);
+            tb_size);
 
         // Choose the AMVP candidate
         switch (ref0_num_available_amvp_cand) {
@@ -5507,7 +5507,7 @@ EbErrorType choose_mvp_idx_v2(
             &candidate_ptr->motion_vector_yl1,
             picture_width,
             picture_height,
-            tbSize);
+            tb_size);
 
         // Choose the AMVP candidate
         switch (ref1NumAvailableAMVPCand) {
@@ -5557,7 +5557,7 @@ EbErrorType choose_mvp_idx_v2(
             &candidate_ptr->motion_vector_yl0,
             picture_width,
             picture_height,
-            tbSize);
+            tb_size);
 
         // Choose the AMVP candidate
         switch (ref0_num_available_amvp_cand) {
@@ -5597,7 +5597,7 @@ EbErrorType choose_mvp_idx_v2(
             &candidate_ptr->motion_vector_yl1,
             picture_width,
             picture_height,
-            tbSize);
+            tb_size);
 
         // Choose the AMVP candidate
         switch (ref1NumAvailableAMVPCand) {

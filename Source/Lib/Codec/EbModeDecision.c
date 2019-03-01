@@ -277,7 +277,7 @@ EbErrorType SetMvpClipMVs(
     uint32_t                    cu_origin_x,
     uint32_t                    cu_origin_y,
     uint32_t                    pu_index,
-    uint32_t                    tbSize,
+    uint32_t                    tb_size,
     PictureControlSet      *picture_control_set_ptr)
 {
     EbErrorType  return_error = EB_ErrorNone;
@@ -302,7 +302,7 @@ EbErrorType SetMvpClipMVs(
             &candidate_ptr->motion_vector_yl0,
             picture_width,
             picture_height,
-            tbSize);
+            tb_size);
 
         break;
 
@@ -316,7 +316,7 @@ EbErrorType SetMvpClipMVs(
             &candidate_ptr->motion_vector_yl1,
             picture_width,
             picture_height,
-            tbSize);
+            tb_size);
 
         break;
 
@@ -331,7 +331,7 @@ EbErrorType SetMvpClipMVs(
             &candidate_ptr->motion_vector_yl0,
             picture_width,
             picture_height,
-            tbSize);
+            tb_size);
 
         // Choose the MVP in list1
         // Clip the input MV
@@ -342,7 +342,7 @@ EbErrorType SetMvpClipMVs(
             &candidate_ptr->motion_vector_yl1,
             picture_width,
             picture_height,
-            tbSize);
+            tb_size);
         break;
 
     default:
@@ -354,31 +354,31 @@ EbErrorType SetMvpClipMVs(
 
 
 void LimitMvOverBound(
-    int16_t *mvx,
-    int16_t *mvy,
+    int16_t *mv_x,
+    int16_t *mv_y,
     ModeDecisionContext     *ctxtPtr,
     const SequenceControlSet      *sCSet)
 {
     int32_t mvxF, mvyF;
 
     //L0
-    mvxF = (*mvx) >> 2;
-    mvyF = (*mvy) >> 2;
+    mvxF = (*mv_x) >> 2;
+    mvyF = (*mv_y) >> 2;
 
     if ((int32_t)ctxtPtr->cu_origin_x + mvxF + (int32_t)ctxtPtr->blk_geom->bwidth > (int32_t)sCSet->luma_width) {
-        *mvx = (int16_t)(sCSet->luma_width - ctxtPtr->blk_geom->bwidth - ctxtPtr->cu_origin_x);
+        *mv_x = (int16_t)(sCSet->luma_width - ctxtPtr->blk_geom->bwidth - ctxtPtr->cu_origin_x);
     }
 
     if ((int32_t)ctxtPtr->cu_origin_y + mvyF + (int32_t)ctxtPtr->blk_geom->bheight > (int32_t)sCSet->luma_height) {
-        *mvy = (int16_t)(sCSet->luma_height - ctxtPtr->blk_geom->bheight - ctxtPtr->cu_origin_y);
+        *mv_y = (int16_t)(sCSet->luma_height - ctxtPtr->blk_geom->bheight - ctxtPtr->cu_origin_y);
     }
 
     if ((int32_t)ctxtPtr->cu_origin_x + mvxF < 0) {
-        *mvx = -(int16_t)ctxtPtr->cu_origin_x;
+        *mv_x = -(int16_t)ctxtPtr->cu_origin_x;
     }
 
     if ((int32_t)ctxtPtr->cu_origin_y + mvyF < 0) {
-        *mvy = -(int16_t)ctxtPtr->cu_origin_y;
+        *mv_y = -(int16_t)ctxtPtr->cu_origin_y;
     }
 
 

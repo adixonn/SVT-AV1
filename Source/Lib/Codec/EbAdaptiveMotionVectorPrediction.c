@@ -47,8 +47,8 @@ static inline void scale_mv(
     uint64_t    target_ref_pic_poc,              // Iuput parameter, the POC of the reference picture where the inter coding is searching for.
     uint64_t    col_pu_pic_poc,                  // Iuput parameter, the POC of picture where the co-located PU is.
     uint64_t    col_pu_ref_pic_poc,               // Iuput parameter, the POC of the reference picture where the MV of the co-located PU points to.
-    int16_t    *mvx,                          // Output parameter,
-    int16_t    *mvy)                          // Output parameter,
+    int16_t    *mv_x,                          // Output parameter,
+    int16_t    *mv_y)                          // Output parameter,
 {
     int16_t td = (int16_t)(col_pu_pic_poc - col_pu_ref_pic_poc);
     int16_t tb = (int16_t)(current_pic_poc - target_ref_pic_poc);
@@ -61,8 +61,8 @@ static inline void scale_mv(
         temp = (int16_t)((0x4000 + ABS(td >> 1)) / td);
         scale_factor = CLIP3(-4096, 4095, (tb * temp + 32) >> 6);
 
-        *mvx = CLIP3(-32768, 32767, (scale_factor * (*mvx) + 127 + (scale_factor * (*mvx) < 0)) >> 8);
-        *mvy = CLIP3(-32768, 32767, (scale_factor * (*mvy) + 127 + (scale_factor * (*mvy) < 0)) >> 8);
+        *mv_x = CLIP3(-32768, 32767, (scale_factor * (*mv_x) + 127 + (scale_factor * (*mv_x) < 0)) >> 8);
+        *mv_y = CLIP3(-32768, 32767, (scale_factor * (*mv_y) + 127 + (scale_factor * (*mv_y) < 0)) >> 8);
     }
 
     return;
@@ -72,8 +72,8 @@ static inline void scale_mv(
 EbErrorType clip_mv(
     uint32_t                   cu_origin_x,
     uint32_t                   cu_origin_y,
-    int16_t                    *mvx,
-    int16_t                    *mvy,
+    int16_t                    *mv_x,
+    int16_t                    *mv_y,
     uint32_t                   picture_width,
     uint32_t                   picture_height,
     uint32_t                   tb_size)
@@ -81,16 +81,16 @@ EbErrorType clip_mv(
     EbErrorType return_error = EB_ErrorNone;
 
     // horizontal clipping
-    (*mvx) = CLIP3(((int16_t)((1 - cu_origin_x - 8 - tb_size) << 2)), ((int16_t)((picture_width + 8 - cu_origin_x - 1) << 2)), (*mvx));
+    (*mv_x) = CLIP3(((int16_t)((1 - cu_origin_x - 8 - tb_size) << 2)), ((int16_t)((picture_width + 8 - cu_origin_x - 1) << 2)), (*mv_x));
     // vertical clipping
-    (*mvy) = CLIP3(((int16_t)((1 - cu_origin_y - 8 - tb_size) << 2)), ((int16_t)((picture_height + 8 - cu_origin_y - 1) << 2)), (*mvy));
+    (*mv_y) = CLIP3(((int16_t)((1 - cu_origin_y - 8 - tb_size) << 2)), ((int16_t)((picture_height + 8 - cu_origin_y - 1) << 2)), (*mv_y));
 #if AV1_UPGRADE
     const int32_t clamp_max = MV_UPP - 1;
     const int32_t clamp_min = MV_LOW + 1;
     // horizontal clipping
-    (*mvx) = CLIP3(clamp_min, clamp_max, (*mvx));
+    (*mv_x) = CLIP3(clamp_min, clamp_max, (*mv_x));
     // vertical clipping
-    (*mvy) = CLIP3(clamp_min, clamp_max, (*mvy));
+    (*mv_y) = CLIP3(clamp_min, clamp_max, (*mv_y));
 #endif
     return return_error;
 }
