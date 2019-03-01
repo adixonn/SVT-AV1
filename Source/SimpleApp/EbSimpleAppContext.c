@@ -14,17 +14,17 @@ EbErrorType AllocateFrameBuffer(
     uint8_t           *p_buffer)
 {
     EbErrorType   return_error = EB_ErrorNone;
-    const int32_t tenBitPackedMode = (config->encoderBitDepth > 8) && (config->compressedTenBitFormat == 0) ? 1 : 0;
+    const int32_t tenBitPackedMode = (config->encoder_bit_depth > 8) && (config->compressed_ten_bit_format == 0) ? 1 : 0;
 
     // Determine size of each plane
     const size_t luma8bitSize =
-        config->inputPaddedWidth    *
-        config->inputPaddedHeight   *
+        config->input_padded_width    *
+        config->input_padded_height   *
         (1 << tenBitPackedMode);
 
     const size_t chroma8bitSize = luma8bitSize >> 2;
-    const size_t luma10bitSize = (config->encoderBitDepth > 8 && tenBitPackedMode == 0) ? luma8bitSize : 0;
-    const size_t chroma10bitSize = (config->encoderBitDepth > 8 && tenBitPackedMode == 0) ? chroma8bitSize : 0;
+    const size_t luma10bitSize = (config->encoder_bit_depth > 8 && tenBitPackedMode == 0) ? luma8bitSize : 0;
+    const size_t chroma10bitSize = (config->encoder_bit_depth > 8 && tenBitPackedMode == 0) ? chroma8bitSize : 0;
 
     // Determine
     EbSvtEncInput* inputPtr = (EbSvtEncInput*)p_buffer;
@@ -101,24 +101,24 @@ EbErrorType EbAppContextCtor(
     contextPtr->outputStreamBuffer = (EbBufferHeaderType*)malloc(sizeof(EbBufferHeaderType));
     if (!contextPtr->outputStreamBuffer) return return_error;
 
-    contextPtr->outputStreamBuffer->p_buffer = (uint8_t*)malloc(EB_OUTPUTSTREAMBUFFERSIZE_MACRO(config->sourceWidth*config->sourceHeight));
+    contextPtr->outputStreamBuffer->p_buffer = (uint8_t*)malloc(EB_OUTPUTSTREAMBUFFERSIZE_MACRO(config->source_width*config->source_height));
     if (!contextPtr->outputStreamBuffer->p_buffer) return return_error;
 
     contextPtr->outputStreamBuffer->size = sizeof(EbBufferHeaderType);
-    contextPtr->outputStreamBuffer->n_alloc_len = EB_OUTPUTSTREAMBUFFERSIZE_MACRO(config->sourceWidth*config->sourceHeight);
+    contextPtr->outputStreamBuffer->n_alloc_len = EB_OUTPUTSTREAMBUFFERSIZE_MACRO(config->source_width*config->source_height);
     contextPtr->outputStreamBuffer->p_app_private = NULL;
     contextPtr->outputStreamBuffer->pic_type = EB_INVALID_PICTURE;
 
     // recon buffer
-    if (config->reconFile) {
+    if (config->recon_file) {
         contextPtr->recon_buffer = (EbBufferHeaderType*)malloc(sizeof(EbBufferHeaderType));
         if (!contextPtr->recon_buffer) return return_error;
         const size_t luma_size =
-            config->inputPaddedWidth    *
-            config->inputPaddedHeight;
+            config->input_padded_width    *
+            config->input_padded_height;
         // both u and v
         const size_t chroma_size = luma_size >> 1;
-        const size_t tenBit = (config->encoderBitDepth > 8);
+        const size_t tenBit = (config->encoder_bit_depth > 8);
         const size_t frameSize = (luma_size + chroma_size) << tenBit;
 
         // Initialize Header
@@ -172,12 +172,12 @@ EbErrorType CopyConfigurationParameters(
     callback_data->instance_idx = (uint8_t)instance_idx;
 
     // Initialize Port Activity Flags
-    callback_data->ebEncParameters.source_width       = config->sourceWidth;
-    callback_data->ebEncParameters.source_height      = config->sourceHeight;
-    callback_data->ebEncParameters.encoder_bit_depth   = config->encoderBitDepth;
-    //callback_data->ebEncParameters.code_vps_sps_pps     = 1;
-    //callback_data->ebEncParameters.code_eos_nal        = 1;
-    callback_data->ebEncParameters.recon_enabled      = config->reconFile ? 1 : 0;
+    callback_data->eb_enc_parameters.source_width       = config->source_width;
+    callback_data->eb_enc_parameters.source_height      = config->source_height;
+    callback_data->eb_enc_parameters.encoder_bit_depth   = config->encoder_bit_depth;
+    //callback_data->eb_enc_parameters.code_vps_sps_pps     = 1;
+    //callback_data->eb_enc_parameters.code_eos_nal        = 1;
+    callback_data->eb_enc_parameters.recon_enabled      = config->recon_file ? 1 : 0;
 
     return return_error;
 
@@ -195,7 +195,7 @@ EbErrorType init_encoder(
 
     ///************************* LIBRARY INIT [START] *********************///
     // STEP 1: Call the library to construct a Component Handle
-    return_error = eb_init_handle(&callback_data->svtEncoderHandle, callback_data, &callback_data->ebEncParameters);
+    return_error = eb_init_handle(&callback_data->svt_encoder_handle, callback_data, &callback_data->eb_enc_parameters);
     if (return_error != EB_ErrorNone) {return return_error;}
 
     // STEP 3: Copy all configuration parameters into the callback structure
@@ -203,19 +203,19 @@ EbErrorType init_encoder(
     if (return_error != EB_ErrorNone) { return return_error; }
 
     // STEP 4: Send over all configuration parameters
-    return_error = eb_svt_enc_set_parameter(callback_data->svtEncoderHandle,&callback_data->ebEncParameters);
+    return_error = eb_svt_enc_set_parameter(callback_data->svt_encoder_handle,&callback_data->eb_enc_parameters);
     if (return_error != EB_ErrorNone) { return return_error; }
 
     // STEP 5: Init Encoder
-    return_error = eb_init_encoder(callback_data->svtEncoderHandle);
+    return_error = eb_init_encoder(callback_data->svt_encoder_handle);
     // Get ivf header
-    if (config->bitstreamFile) {
+    if (config->bitstream_file) {
         EbBufferHeaderType *outputStreamBuffer;
-        return_error = eb_svt_enc_stream_header(callback_data->svtEncoderHandle, &outputStreamBuffer);
+        return_error = eb_svt_enc_stream_header(callback_data->svt_encoder_handle, &outputStreamBuffer);
         if (return_error != EB_ErrorNone) {
             return return_error;
         }
-        fwrite(outputStreamBuffer->p_buffer, 1, outputStreamBuffer->n_filled_len, config->bitstreamFile);
+        fwrite(outputStreamBuffer->p_buffer, 1, outputStreamBuffer->n_filled_len, config->bitstream_file);
     }
     ///************************* LIBRARY INIT [END] *********************///
     return return_error;
@@ -231,15 +231,15 @@ EbErrorType de_init_encoder(
     (void)instance_index;
     EbErrorType return_error = EB_ErrorNone;
 
-    if (((EbComponentType*)(callback_data_ptr->svtEncoderHandle)) != NULL) {
-            return_error = eb_deinit_encoder(callback_data_ptr->svtEncoderHandle);
+    if (((EbComponentType*)(callback_data_ptr->svt_encoder_handle)) != NULL) {
+            return_error = eb_deinit_encoder(callback_data_ptr->svt_encoder_handle);
     }
 
     // Destruct the buffer memory pool
     if (return_error != EB_ErrorNone) { return return_error; }
 
     // Destruct the component
-    eb_deinit_handle(callback_data_ptr->svtEncoderHandle);
+    eb_deinit_handle(callback_data_ptr->svt_encoder_handle);
 
     return return_error;
 }

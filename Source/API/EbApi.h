@@ -163,7 +163,7 @@ typedef struct EbSvtAv1EncConfiguration
      * Default is 1. */
     uint32_t                 intra_refresh_type;
     /* Number of hierarchical layers used to construct GOP.
-     * Minigop size = 2^HierarchicalLevels.
+     * Minigop size = 2^hierarchical_levels.
      *
      * Default is 3. */
     uint32_t                 hierarchical_levels;
@@ -205,18 +205,18 @@ typedef struct EbSvtAv1EncConfiguration
     /* The frequecy of images being displayed. If the number is less than 1000,
      * the input frame rate is an integer number between 1 and 60, else the input
      * number is in Q16 format, shifted by 16 bits, where max allowed is 240 fps.
-     * If FrameRateNumerator and FrameRateDenominator are both not equal to zero,
+     * If frame_rate_numerator and frame_rate_denominator are both not equal to zero,
      * the encoder will ignore this parameter.
      *
      * Default is 25. */
     uint32_t                 frame_rate;
     /* Frame rate numerator. When zero, the encoder will use –fps if
-     * FrameRateDenominator is also zero, otherwise an error is returned.
+     * frame_rate_denominator is also zero, otherwise an error is returned.
      *
      * Default is 0. */
     uint32_t                 frame_rate_numerator;
     /* Frame rate denominator. When zero, the encoder will use –fps if
-     * FrameRateNumerator is also zero, otherwise an error is returned.
+     * frame_rate_numerator is also zero, otherwise an error is returned.
      *
      * Default is 0. */
     uint32_t                 frame_rate_denominator;
@@ -239,7 +239,7 @@ typedef struct EbSvtAv1EncConfiguration
      * 0 = encodes the full clip.
      *
      * Default is 0. */
-    uint64_t                 framesToBeEncoded;
+    uint64_t                 frames_to_be_encoded;
     uint32_t                 ten_bit_format;
     /* The visual quality knob that allows the use of adaptive quantization
      * within the picture and enables visual quality algorithms that improve the
@@ -382,7 +382,7 @@ typedef struct EbSvtAv1EncConfiguration
      *
      * Default is 1. */
     uint32_t                 scene_change_detection;
-    /* When RateControlMode is set to 1 it's best to set this parameter to be
+    /* When rate_control_mode is set to 1 it's best to set this parameter to be
      * equal to the Intra period value (such is the default set by the encoder).
      * When CQP is chosen, then a (2 * minigopsize +1) look ahead is recommended.
      *
@@ -492,7 +492,7 @@ typedef struct EbSvtAv1EncConfiguration
     // Debug tools
 
     /* Output reconstructed yuv used for debug purposes. The value is set through
-     * ReconFile token (-o) and using the feature will affect the speed of encoder.
+     * recon_file token (-o) and using the feature will affect the speed of encoder.
      *
      * Default is 0. */
     uint32_t                 recon_enabled;

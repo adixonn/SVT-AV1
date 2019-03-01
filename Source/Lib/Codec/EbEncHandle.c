@@ -2170,7 +2170,7 @@ void CopyApiFromApp(
     sequence_control_set_ptr->static_config.scene_change_detection = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->scene_change_detection;
     sequence_control_set_ptr->static_config.rate_control_mode = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->rate_control_mode;
     sequence_control_set_ptr->static_config.look_ahead_distance = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->look_ahead_distance;
-    sequence_control_set_ptr->static_config.framesToBeEncoded = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->framesToBeEncoded;
+    sequence_control_set_ptr->static_config.frames_to_be_encoded = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->frames_to_be_encoded;
     sequence_control_set_ptr->static_config.frame_rate = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->frame_rate;
     sequence_control_set_ptr->static_config.frame_rate_denominator = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->frame_rate_denominator;
     sequence_control_set_ptr->static_config.frame_rate_numerator = ((EbSvtAv1EncConfiguration*)pComponentParameterStructure)->frame_rate_numerator;
@@ -2470,7 +2470,7 @@ static EbErrorType VerifySettings(
         SVT_LOG("Error Instance %u: The maximum allowed frame rate is 240 fps\n", channelNumber + 1);
         return_error = EB_ErrorBadParameter;
     }
-    // Check that the frameRate is non-zero
+    // Check that the frame_rate is non-zero
     if (config->frame_rate <= 0) {
         SVT_LOG("Error Instance %u: The frame rate should be greater than 0 fps \n", channelNumber + 1);
         return_error = EB_ErrorBadParameter;
@@ -2566,7 +2566,7 @@ static EbErrorType VerifySettings(
         SVT_LOG("Error instance %u: Encoder Bit Depth shall be only 8 or 10 \n", channelNumber + 1);
         return_error = EB_ErrorBadParameter;
     }
-    // Check if the EncoderBitDepth is conformant with the Profile constraint
+    // Check if the encoder_bit_depth is conformant with the Profile constraint
     if (config->profile == 1 && config->encoder_bit_depth == 10) {
         SVT_LOG("Error instance %u: The encoder bit depth shall be equal to 8 for Main Profile\n", channelNumber + 1);
         return_error = EB_ErrorBadParameter;
@@ -2613,7 +2613,7 @@ EbErrorType eb_svt_enc_init_parameter(
     config_ptr->compressed_ten_bit_format = 0;
     config_ptr->source_width = 0;
     config_ptr->source_height = 0;
-    config_ptr->framesToBeEncoded = 0; 
+    config_ptr->frames_to_be_encoded = 0; 
     config_ptr->stat_report = 1;
 #if TILES
     config_ptr->tile_rows = 0;
@@ -2695,7 +2695,7 @@ EbErrorType eb_svt_enc_init_parameter(
 #endif
     config_ptr->sb_sz = 64;
     config_ptr->partition_depth = (uint8_t)EB_MAX_LCU_DEPTH;
-    //config_ptr->latencyMode = 0;
+    //config_ptr->latency_mode = 0;
     config_ptr->speed_control_flag = 0;
     config_ptr->film_grain_denoise_strength = 0;
 
@@ -2703,7 +2703,7 @@ EbErrorType eb_svt_enc_init_parameter(
     config_ptr->asm_type = 1;
 
     // Channel info
-    //config_ptr->logicalProcessors = 0;
+    //config_ptr->logical_processors = 0;
     //config_ptr->target_socket = -1;
     config_ptr->channel_id = 0;
     config_ptr->active_channel_count = 1;
@@ -2738,18 +2738,18 @@ static void PrintLibParams(
             SVT_LOG("Level %.1f\t", (float)(config->level / 10));
     }
     SVT_LOG("\nSVT [config]: EncoderMode \t\t\t\t\t\t\t: %d ", config->enc_mode);
-    SVT_LOG("\nSVT [config]: EncoderBitDepth / CompressedTenBitFormat\t\t\t\t: %d / %d ", config->encoder_bit_depth, config->compressed_ten_bit_format);
-    SVT_LOG("\nSVT [config]: SourceWidth / SourceHeight\t\t\t\t\t: %d / %d ", config->source_width, config->source_height);
+    SVT_LOG("\nSVT [config]: encoder_bit_depth / compressed_ten_bit_format\t\t\t\t: %d / %d ", config->encoder_bit_depth, config->compressed_ten_bit_format);
+    SVT_LOG("\nSVT [config]: source_width / source_height\t\t\t\t\t: %d / %d ", config->source_width, config->source_height);
     if (config->frame_rate_denominator != 0 && config->frame_rate_numerator != 0)
-        SVT_LOG("\nSVT [config]: Fps_Numerator / Fps_Denominator / Gop Size / IntraRefreshType \t: %d / %d / %d / %d", config->frame_rate_numerator > (1 << 16) ? config->frame_rate_numerator >> 16 : config->frame_rate_numerator,
+        SVT_LOG("\nSVT [config]: Fps_Numerator / Fps_Denominator / Gop Size / intra_refresh_type \t: %d / %d / %d / %d", config->frame_rate_numerator > (1 << 16) ? config->frame_rate_numerator >> 16 : config->frame_rate_numerator,
             config->frame_rate_denominator > (1 << 16) ? config->frame_rate_denominator >> 16 : config->frame_rate_denominator,
             config->intra_period_length + 1,
             config->intra_refresh_type);
     else
-        SVT_LOG("\nSVT [config]: FrameRate / Gop Size\t\t\t\t\t\t: %d / %d ", config->frame_rate > 1000 ? config->frame_rate >> 16 : config->frame_rate, config->intra_period_length + 1);
-    SVT_LOG("\nSVT [config]: HierarchicalLevels / BaseLayerSwitchMode / PredStructure\t\t: %d / %d / %d ", config->hierarchical_levels, config->base_layer_switch_mode, config->pred_structure);
+        SVT_LOG("\nSVT [config]: frame_rate / Gop Size\t\t\t\t\t\t: %d / %d ", config->frame_rate > 1000 ? config->frame_rate >> 16 : config->frame_rate, config->intra_period_length + 1);
+    SVT_LOG("\nSVT [config]: hierarchical_levels / BaseLayerSwitchMode / pred_structure\t\t: %d / %d / %d ", config->hierarchical_levels, config->base_layer_switch_mode, config->pred_structure);
     if (config->rate_control_mode == 1)
-        SVT_LOG("\nSVT [config]: RCMode / TargetBitrate / LookaheadDistance / SceneChange\t\t: VBR / %d / %d / %d ", config->target_bit_rate, config->look_ahead_distance, config->scene_change_detection);
+        SVT_LOG("\nSVT [config]: RCMode / target_bit_rate / LookaheadDistance / SceneChange\t\t: VBR / %d / %d / %d ", config->target_bit_rate, config->look_ahead_distance, config->scene_change_detection);
     else
         SVT_LOG("\nSVT [config]: BRC Mode / QP  / LookaheadDistance / SceneChange\t\t\t: CQP / %d / %d / %d ", scs->qp, config->look_ahead_distance, config->scene_change_detection);
 #ifdef DEBUG_BUFFERS

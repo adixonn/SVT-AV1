@@ -1181,8 +1181,8 @@ AppExitConditionType ProcessInputBuffer(
     EbAppContext         *appCallBack)
 {
     uint8_t                 is16bit = (uint8_t)(config->encoderBitDepth > 8);
-    EbBufferHeaderType     *headerPtr = appCallBack->inputBufferPool;
-    EbComponentType        *componentHandle = (EbComponentType*)appCallBack->svtEncoderHandle;
+    EbBufferHeaderType     *headerPtr = appCallBack->input_buffer_pool;
+    EbComponentType        *componentHandle = (EbComponentType*)appCallBack->svt_encoder_handle;
 
     AppExitConditionType    return_value = APP_ExitConditionNone;
 
@@ -1214,7 +1214,7 @@ AppExitConditionType ProcessInputBuffer(
 
         // Update the context parameters
         config->processedByteCount += headerPtr->n_filled_len;
-        headerPtr->p_app_private          = (EB_PTR)EB_NULL;
+        headerPtr->p_app_private          = (EbPtr)EB_NULL;
         config->framesEncoded           = (int32_t)(++config->processed_frame_count);
 
         // Configuration parameters changed on the fly
@@ -1345,9 +1345,9 @@ AppExitConditionType ProcessOutputStreamBuffer(
 
     uint8_t                 pic_send_done)
 {
-    AppPortActiveType      *portState       = &appCallBack->outputStreamPortActive;
+    AppPortActiveType      *portState       = &appCallBack->output_stream_port_active;
     EbBufferHeaderType     *headerPtr;
-    EbComponentType        *componentHandle = (EbComponentType*)appCallBack->svtEncoderHandle;
+    EbComponentType        *componentHandle = (EbComponentType*)appCallBack->svt_encoder_handle;
     AppExitConditionType    return_value    = APP_ExitConditionNone;
     EbErrorType             stream_status   = EB_ErrorNone;
     // Per channel variables
@@ -1375,7 +1375,7 @@ AppExitConditionType ProcessOutputStreamBuffer(
     }
     else if (stream_status != EB_NoErrorEmptyQueue) {
 #if TILES
-        EbBool   has_tiles                = (EbBool)(appCallBack->ebEncParameters.tile_columns || appCallBack->ebEncParameters.tile_rows);
+        EbBool   has_tiles                = (EbBool)(appCallBack->eb_enc_parameters.tile_columns || appCallBack->eb_enc_parameters.tile_rows);
 #else
         EbBool   has_tiles                = (EbBool)EB_FALSE;
 #endif
@@ -1501,7 +1501,7 @@ AppExitConditionType ProcessOutputReconBuffer(
     EbAppContext         *appCallBack)
 {
     EbBufferHeaderType    *headerPtr = appCallBack->recon_buffer; // needs to change for buffered input
-    EbComponentType       *componentHandle = (EbComponentType*)appCallBack->svtEncoderHandle;
+    EbComponentType       *componentHandle = (EbComponentType*)appCallBack->svt_encoder_handle;
     AppExitConditionType    return_value = APP_ExitConditionNone;
     EbErrorType            recon_status = EB_ErrorNone;
     int32_t fseekReturnVal;

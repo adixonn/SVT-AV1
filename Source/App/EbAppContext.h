@@ -14,20 +14,17 @@
  * App Callback data struct
  ***************************************/
 typedef struct EbAppContext {
-    void                               *cmdSemaphoreHandle;
-    void                               *inputSemaphoreHandle;
-    void                               *streamSemaphoreHandle;
-    EbSvtAv1EncConfiguration              ebEncParameters;
+    EbSvtAv1EncConfiguration           eb_enc_parameters;
 
     // Output Ports Active Flags
-    AppPortActiveType                   outputStreamPortActive;
+    AppPortActiveType                  output_stream_port_active;
 
     // Component Handle
-    EbComponentType*                   svtEncoderHandle;
+    EbComponentType*                   svt_encoder_handle;
 
     // Buffer Pools
-    EbBufferHeaderType                *inputBufferPool;
-    EbBufferHeaderType                *streamBufferPool;
+    EbBufferHeaderType                *input_buffer_pool;
+    EbBufferHeaderType                *stream_buffer_pool;
     EbBufferHeaderType                *recon_buffer;
 
     // Instance Index
