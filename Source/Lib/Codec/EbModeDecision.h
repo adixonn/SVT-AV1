@@ -81,7 +81,7 @@ extern "C" {
         uint64_t                           *y_coeff_bits,
         uint64_t                           *cb_coeff_bits,
         uint64_t                           *cr_coeff_bits,
-        block_size                          bsize);
+        BlockSize                           bsize);
 
     typedef EbErrorType(*EbFullLumaCostFunc)(
         CodingUnit                         *cu_ptr,

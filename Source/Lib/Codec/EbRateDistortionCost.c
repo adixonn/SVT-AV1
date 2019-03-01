@@ -25,11 +25,11 @@
 #define AV1_COST_PRECISION          0
 #define MV_COST_WEIGHT              108
 
-block_size GetBlockSize(uint8_t cu_size) {
+BlockSize GetBlockSize(uint8_t cu_size) {
     return (cu_size == 64 ? BLOCK_64X64 : cu_size == 32 ? BLOCK_32X32 : cu_size == 16 ? BLOCK_16X16 : cu_size == 8 ? BLOCK_8X8 : BLOCK_4X4);
 }
 
-static INLINE int32_t is_chroma_reference(int32_t mi_row, int32_t mi_col, block_size bsize,
+static INLINE int32_t is_chroma_reference(int32_t mi_row, int32_t mi_col, BlockSize bsize,
     int32_t subsampling_x, int32_t subsampling_y) {
     const int32_t bw = mi_size_wide[bsize];
     const int32_t bh = mi_size_high[bsize];
@@ -565,7 +565,7 @@ EbErrorType av1_intra_fast_cost(
     uint8_t   subSamplingX = 1; // NM - subsampling_x is harcoded to 1 for 420 chroma sampling.
     uint8_t   subSamplingY = 1; // NM - subsampling_y is harcoded to 1 for 420 chroma sampling.
 
-    block_size cuSizeIndex = context_ptr->blk_geom->bsize;
+    BlockSize cuSizeIndex = context_ptr->blk_geom->bsize;
 
     uint32_t miRow = context_ptr->cu_origin_y >> MI_SIZE_LOG2;
     uint32_t miCol = context_ptr->cu_origin_x >> MI_SIZE_LOG2;
@@ -1169,7 +1169,7 @@ EbErrorType av1_inter_fast_cost(
         && rf[1] != INTRA_FRAME)
     {
         MotionMode motion_mode_rd = candidate_buffer_ptr->candidate_ptr->motion_mode;
-        block_size bsize = context_ptr->blk_geom->bsize;
+        BlockSize bsize = context_ptr->blk_geom->bsize;
 
         cu_ptr->prediction_unit_array[0].num_proj_ref = candidate_buffer_ptr->candidate_ptr->num_proj_ref;
         MotionMode last_motion_mode_allowed = motion_mode_allowed(
@@ -1398,7 +1398,7 @@ EbErrorType Av1FullCost(
     uint64_t                               *y_coeff_bits,
     uint64_t                               *cb_coeff_bits,
     uint64_t                               *cr_coeff_bits,
-    block_size                               bsize)
+    BlockSize                               bsize)
 {
     UNUSED(picture_control_set_ptr);
     UNUSED(bsize);
@@ -1493,7 +1493,7 @@ EbErrorType  Av1MergeSkipFullCost(
     uint64_t                               *y_coeff_bits,
     uint64_t                               *cb_coeff_bits,
     uint64_t                               *cr_coeff_bits,
-    block_size                               bsize)
+    BlockSize                               bsize)
 {
     UNUSED(bsize);
     UNUSED(context_ptr);
@@ -1650,7 +1650,7 @@ EbErrorType av1_intra_full_cost(
     uint64_t                                 *y_coeff_bits,
     uint64_t                                 *cb_coeff_bits,
     uint64_t                                 *cr_coeff_bits,
-    block_size                              bsize)
+    BlockSize                              bsize)
 
 
 {
@@ -1703,7 +1703,7 @@ EbErrorType av1_inter_full_cost(
     uint64_t                                 *y_coeff_bits,
     uint64_t                                 *cb_coeff_bits,
     uint64_t                                 *cr_coeff_bits,
-    block_size                              bsize
+    BlockSize                              bsize
 )
 {
     EbErrorType  return_error = EB_ErrorNone;
@@ -1876,7 +1876,7 @@ void coding_loop_context_generation(
 
     // Skip and Dc sign context generation
 
-    block_size plane_bsize = context_ptr->blk_geom->bsize;
+    BlockSize plane_bsize = context_ptr->blk_geom->bsize;
 
     cu_ptr->luma_txb_skip_context = 0;
     cu_ptr->luma_dc_sign_context = 0;
@@ -2138,7 +2138,7 @@ EbErrorType av1_tu_calc_cost_luma(
     return return_error;
     }
 
-static INLINE int32_t partition_cdf_length(block_size bsize) {
+static INLINE int32_t partition_cdf_length(BlockSize bsize) {
     if (bsize <= BLOCK_8X8)
         return PARTITION_TYPES;
     else if (bsize == BLOCK_128X128)
@@ -2153,7 +2153,7 @@ static int32_t cdf_element_prob(const int32_t *cdf,
     return (element > 0 ? cdf[element - 1] : CDF_PROB_TOP) - cdf[element];
 }
 static void partition_gather_horz_alike(int32_t *out,
-    block_size bsize,
+    BlockSize bsize,
     const int32_t *const in) {
     out[0] = CDF_PROB_TOP;
     out[0] -= cdf_element_prob(in, PARTITION_HORZ);
@@ -2167,7 +2167,7 @@ static void partition_gather_horz_alike(int32_t *out,
 }
 
 static void partition_gather_vert_alike(int32_t *out,
-    block_size bsize,
+    BlockSize bsize,
     const int32_t *const in) {
     out[0] = CDF_PROB_TOP;
     out[0] -= cdf_element_prob(in, PARTITION_VERT);
@@ -2234,7 +2234,7 @@ EbErrorType av1_split_flag_rate(
 
     uint32_t cu_depth = blk_geom->depth;
     UNUSED(cu_depth);
-    block_size bsize = blk_geom->bsize;
+    BlockSize bsize = blk_geom->bsize;
     ASSERT(bsize<BlockSizeS_ALL);
     const int32_t is_partition_point = blk_geom->bsize >= BLOCK_8X8;
 

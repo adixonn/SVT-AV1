@@ -185,7 +185,7 @@ extern "C" {
         uint64_t                           *y_coeff_bits,
         uint64_t                           *cb_coeff_bits,
         uint64_t                           *cr_coeff_bits,
-        block_size                          bsize);
+        BlockSize                           bsize);
 
     extern EbErrorType av1_inter_full_cost(
         PictureControlSet                  *picture_control_set_ptr,
@@ -199,7 +199,7 @@ extern "C" {
         uint64_t                           *y_coeff_bits,
         uint64_t                           *cb_coeff_bits,
         uint64_t                           *cr_coeff_bits,
-        block_size                          bsize);
+        BlockSize                           bsize);
 
 #ifdef __cplusplus
 }

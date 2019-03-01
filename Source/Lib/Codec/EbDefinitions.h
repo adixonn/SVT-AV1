@@ -566,7 +566,7 @@ typedef enum ATTRIBUTE_PACKED
     BlockSizeS = BLOCK_4X16,
     BLOCK_INVALID = 255,
     BLOCK_LARGEST = (BlockSizeS - 1)
-} block_size;
+} BlockSize;
 
 typedef enum ATTRIBUTE_PACKED
 {
@@ -1295,7 +1295,7 @@ typedef struct PartitionContext
     PartContext left;
 }PartitionContext;
 // Generates 5 bit field in which each bit set to 1 represents
-// a block_size partition  11111 means we split 128x128, 64x64, 32x32, 16x16
+// a BlockSize partition  11111 means we split 128x128, 64x64, 32x32, 16x16
 // and 8x8.  10000 means we just split the 128x128 to 64x64
 /* clang-format off */
 static const struct {

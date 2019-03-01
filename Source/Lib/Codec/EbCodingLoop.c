@@ -63,7 +63,7 @@ extern void av1_predict_intra_block(
     int32_t row_off,
 #endif
     int32_t plane,
-    block_size bsize,
+    BlockSize bsize,
     uint32_t bl_org_x_pict,
     uint32_t bl_org_y_pict,
     uint32_t bl_org_x_mb,
@@ -90,7 +90,7 @@ void av1_predict_intra_block_16bit(
     int32_t col_off,
     int32_t row_off,
     int32_t plane,
-    block_size bsize,
+    BlockSize bsize,
     uint32_t bl_org_x_pict,
     uint32_t bl_org_y_pict);
 #endif
