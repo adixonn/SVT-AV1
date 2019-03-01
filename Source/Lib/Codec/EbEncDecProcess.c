@@ -907,14 +907,14 @@ void PsnrCalculations(
                 for (lcuNumberInWidth = 0; lcuNumberInWidth < picture_width_in_sb; ++lcuNumberInWidth)
                 {
 
-                    uint32_t tbOriginX = lcuNumberInWidth * 64;
-                    uint32_t tbOriginY = lcuNumberInHeight * 64;
-                    uint32_t sb_width = (luma_width - tbOriginX) < 64 ? (luma_width - tbOriginX) : 64;
-                    uint32_t sb_height = (luma_height - tbOriginY) < 64 ? (luma_height - tbOriginY) : 64;
+                    uint32_t tb_origin_x = lcuNumberInWidth * 64;
+                    uint32_t tb_origin_y = lcuNumberInHeight * 64;
+                    uint32_t sb_width = (luma_width - tb_origin_x) < 64 ? (luma_width - tb_origin_x) : 64;
+                    uint32_t sb_height = (luma_height - tb_origin_y) < 64 ? (luma_height - tb_origin_y) : 64;
 
-                    inputBuffer = inputBufferOrg + tbOriginY * input_picture_ptr->stride_y + tbOriginX;
-                    inputBufferBitInc = input_picture_ptr->buffer_bit_inc_y + tbOriginY * luma2BitWidth + (tbOriginX / 4)*sb_height;
-                    reconCoeffBuffer = reconBufferOrg + tbOriginY * recon_ptr->stride_y + tbOriginX;
+                    inputBuffer = inputBufferOrg + tb_origin_y * input_picture_ptr->stride_y + tb_origin_x;
+                    inputBufferBitInc = input_picture_ptr->buffer_bit_inc_y + tb_origin_y * luma2BitWidth + (tb_origin_x / 4)*sb_height;
+                    reconCoeffBuffer = reconBufferOrg + tb_origin_y * recon_ptr->stride_y + tb_origin_x;
 
                     uint64_t   j, k;
                     uint16_t   outPixel;
@@ -956,18 +956,18 @@ void PsnrCalculations(
 
                     //U+V
 
-                    tbOriginX = lcuNumberInWidth * 32;
-                    tbOriginY = lcuNumberInHeight * 32;
-                    sb_width = (chroma_width - tbOriginX) < 32 ? (chroma_width - tbOriginX) : 32;
-                    sb_height = (chroma_height - tbOriginY) < 32 ? (chroma_height - tbOriginY) : 32;
+                    tb_origin_x = lcuNumberInWidth * 32;
+                    tb_origin_y = lcuNumberInHeight * 32;
+                    sb_width = (chroma_width - tb_origin_x) < 32 ? (chroma_width - tb_origin_x) : 32;
+                    sb_height = (chroma_height - tb_origin_y) < 32 ? (chroma_height - tb_origin_y) : 32;
 
                     inn_stride = sb_width / 4;
 
-                    inputBuffer = inputBufferOrgU + tbOriginY * input_picture_ptr->stride_cb + tbOriginX;
+                    inputBuffer = inputBufferOrgU + tb_origin_y * input_picture_ptr->stride_cb + tb_origin_x;
 
-                    inputBufferBitInc = input_picture_ptr->buffer_bit_inc_cb + tbOriginY * chroma2BitWidth + (tbOriginX / 4)*sb_height;
+                    inputBufferBitInc = input_picture_ptr->buffer_bit_inc_cb + tb_origin_y * chroma2BitWidth + (tb_origin_x / 4)*sb_height;
 
-                    reconCoeffBuffer = reconBufferOrgU + tbOriginY * recon_ptr->stride_cb + tbOriginX;
+                    reconCoeffBuffer = reconBufferOrgU + tb_origin_y * recon_ptr->stride_cb + tb_origin_x;
 
 
 
@@ -1004,9 +1004,9 @@ void PsnrCalculations(
                     }
 
 
-                    inputBuffer = inputBufferOrgV + tbOriginY * input_picture_ptr->stride_cr + tbOriginX;
-                    inputBufferBitInc = input_picture_ptr->buffer_bit_inc_cr + tbOriginY * chroma2BitWidth + (tbOriginX / 4)*sb_height;
-                    reconCoeffBuffer = reconBufferOrgV + tbOriginY * recon_ptr->stride_cr + tbOriginX;
+                    inputBuffer = inputBufferOrgV + tb_origin_y * input_picture_ptr->stride_cr + tb_origin_x;
+                    inputBufferBitInc = input_picture_ptr->buffer_bit_inc_cr + tb_origin_y * chroma2BitWidth + (tb_origin_x / 4)*sb_height;
+                    reconCoeffBuffer = reconBufferOrgV + tb_origin_y * recon_ptr->stride_cr + tb_origin_x;
 
 
                     for (j = 0; j < sb_height; j++)

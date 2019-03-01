@@ -1070,7 +1070,7 @@ extern "C" {
         int32_t initialized;
 
 
-    } FRAME_CONTEXT;
+    } FrameContext;
 
 
 

@@ -2387,16 +2387,16 @@ uint32_t d2_inter_depth_block_decision(
     uint32_t                        blk_mds,
     LargestCodingUnit            *tb_ptr,
     uint32_t                          lcu_addr,
-    uint32_t                          tbOriginX,
-    uint32_t                          tbOriginY,
+    uint32_t                          tb_origin_x,
+    uint32_t                          tb_origin_y,
     uint64_t                          full_lambda,
     MdRateEstimationContext      *md_rate_estimation_ptr,
     PictureControlSet            *picture_control_set_ptr)
 {
     UNUSED(tb_ptr);
     UNUSED(lcu_addr);
-    UNUSED(tbOriginX);
-    UNUSED(tbOriginY);
+    UNUSED(tb_origin_x);
+    UNUSED(tb_origin_y);
     UNUSED(full_lambda);
     UNUSED(md_rate_estimation_ptr);
 

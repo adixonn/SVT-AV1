@@ -906,8 +906,8 @@ void PredictionPartitionLoop(
     SequenceControlSet                   *sequence_control_set_ptr,
     PictureControlSet                    *picture_control_set_ptr,
     uint32_t                                  sb_index,
-    uint32_t                                  tbOriginX,
-    uint32_t                                  tbOriginY,
+    uint32_t                                  tb_origin_x,
+    uint32_t                                  tb_origin_y,
     uint32_t                                  startDepth,
     uint32_t                                  endDepth,
     ModeDecisionConfigurationContext     *context_ptr
@@ -929,8 +929,8 @@ void PredictionPartitionLoop(
     uint32_t cu_index = 0;
     uint32_t start_index = 0;
 
-    (void)tbOriginX;
-    (void)tbOriginY;
+    (void)tb_origin_x;
+    (void)tb_origin_y;
 
     const CodedUnitStats *cuStatsPtr;
 
@@ -1077,8 +1077,8 @@ EbErrorType early_mode_decision_lcu(
 
     EbErrorType    return_error = EB_ErrorNone;
 
-    uint32_t          tbOriginX = sb_ptr->origin_x;
-    uint32_t          tbOriginY = sb_ptr->origin_y;
+    uint32_t          tb_origin_x = sb_ptr->origin_x;
+    uint32_t          tb_origin_y = sb_ptr->origin_y;
     EB_SLICE        slice_type = picture_control_set_ptr->slice_type;
 
     uint32_t      startDepth = (picture_control_set_ptr->parent_pcs_ptr->pic_depth_mode == PIC_SB_SWITCH_DEPTH_MODE && picture_control_set_ptr->parent_pcs_ptr->sb_md_mode_array[sb_index] == LCU_AVC_DEPTH_MODE) ?
@@ -1107,8 +1107,8 @@ EbErrorType early_mode_decision_lcu(
         sequence_control_set_ptr,
         picture_control_set_ptr,
         sb_index,
-        tbOriginX,
-        tbOriginY,
+        tb_origin_x,
+        tb_origin_y,
         startDepth,
         endDepth,
         context_ptr

@@ -26,7 +26,7 @@ EbErrorType hl_rate_control_histogram_entry_ctor(
     EB_MALLOC(HlRateControlHistogramEntry*, *entry_dbl_ptr, sizeof(HlRateControlHistogramEntry), EB_N_PTR);
 
     (*entry_dbl_ptr)->picture_number = picture_number;
-    (*entry_dbl_ptr)->lifeCount = 0;
+    (*entry_dbl_ptr)->life_count = 0;
 
     (*entry_dbl_ptr)->parent_pcs_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
 

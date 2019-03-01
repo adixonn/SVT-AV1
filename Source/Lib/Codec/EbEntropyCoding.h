@@ -53,6 +53,7 @@ extern "C" {
      * Extern Function Declarations
      **************************************/
     struct EntropyCodingContext;
+
     extern EbErrorType write_sb(
         struct EntropyCodingContext   *context_ptr,
         LargestCodingUnit     *tb_ptr,
@@ -113,21 +114,21 @@ extern "C" {
     // Returns 1 if this frame might allow mvs from some reference frame.
 
     static INLINE int32_t frame_might_allow_ref_frame_mvs(const PictureParentControlSet *pcsPtr,
-        SequenceControlSet    *scsPtr) {
+        SequenceControlSet    *scs_ptr) {
 #if AV1_UPGRADE
         return !pcsPtr->error_resilient_mode &&
 #else
         return !pcsPtr->error_resilient_mode && !pcsPtr->large_scale_tile &&
 #endif
-            scsPtr->enable_ref_frame_mvs &&
-            scsPtr->enable_order_hint && !frame_is_intra_only(pcsPtr);
+            scs_ptr->enable_ref_frame_mvs &&
+            scs_ptr->enable_order_hint && !frame_is_intra_only(pcsPtr);
     }
 
     // Returns 1 if this frame might use warped_motion
     static INLINE int32_t frame_might_allow_warped_motion(const PictureParentControlSet *pcsPtr,
-        SequenceControlSet    *scsPtr) {
+        SequenceControlSet    *scs_ptr) {
         return !pcsPtr->error_resilient_mode && !frame_is_intra_only(pcsPtr) &&
-            scsPtr->static_config.enable_warped_motion;
+            scs_ptr->static_config.enable_warped_motion;
     }
 
     static INLINE uint8_t major_minor_to_seq_level_idx(BitstreamLevel bl) {
@@ -159,47 +160,34 @@ extern "C" {
 
     //*******************************************************************************************//
     // bitwriter_buffer.h
-    struct aom_write_bit_buffer {
+    struct AomWriteBitBuffer {
         uint8_t *bit_buffer;
         uint32_t bit_offset;
-    };
+    }AomWriteBitBuffer;
 
-    int32_t aom_wb_is_byte_aligned(const struct aom_write_bit_buffer *wb);
-    uint32_t aom_wb_bytes_written(const struct aom_write_bit_buffer *wb);
+    int32_t aom_wb_is_byte_aligned(const struct AomWriteBitBuffer *wb);
+    uint32_t aom_wb_bytes_written(const struct AomWriteBitBuffer *wb);
 
-    void aom_wb_write_bit(struct aom_write_bit_buffer *wb, int32_t bit);
+    void aom_wb_write_bit(struct AomWriteBitBuffer *wb, int32_t bit);
 
-    void aom_wb_overwrite_bit(struct aom_write_bit_buffer *wb, int32_t bit);
+    void aom_wb_overwrite_bit(struct AomWriteBitBuffer *wb, int32_t bit);
 
-    void aom_wb_write_literal(struct aom_write_bit_buffer *wb, int32_t data, int32_t bits);
+    void aom_wb_write_literal(struct AomWriteBitBuffer *wb, int32_t data, int32_t bits);
 
-    void aom_wb_write_inv_signed_literal(struct aom_write_bit_buffer *wb, int32_t data,
+    void aom_wb_write_inv_signed_literal(struct AomWriteBitBuffer *wb, int32_t data,
         int32_t bits);
     //*******************************************************************************************//
     // bitstream.h
-    struct aom_write_bit_buffer;
+    struct AomWriteBitBuffer;
 
-    //void WriteSequenceHeader(/*AV1Comp *cpi, */struct aom_write_bit_buffer *wb);
-    void WriteSequenceHeader(SequenceControlSet *scsPtr/*AV1Comp *cpi*/, struct aom_write_bit_buffer *wb);
+    //void write_sequence_header(/*AV1Comp *cpi, */struct AomWriteBitBuffer *wb);
+    void write_sequence_header(SequenceControlSet *scs_ptr, struct AomWriteBitBuffer *wb);
 
-    uint32_t WriteObuHeader(ObuType ObuType, int32_t obuExtension,
+    uint32_t write_obu_header(ObuType ObuType, int32_t obu_extension,
         uint8_t *const dst);
 
-    int32_t WriteUlebObuSize(uint32_t obuHeaderSize, uint32_t obuPayloadSize,
+    int32_t write_uleb_obu_size(uint32_t obu_header_size, uint32_t obu_payload_size,
         uint8_t *dest);
-
-    /*int32_t av1_pack_bitstream(AV1Comp *const cpi, uint8_t *dest, size_t *size);
-
-    static INLINE int32_t av1_preserve_existing_gf(AV1Comp *cpi) {
-    // Do not swap gf and arf indices for internal overlay frames
-    return !cpi->multi_arf_allowed && cpi->rc.is_src_frame_alt_ref &&
-    !cpi->rc.is_src_frame_ext_arf;
-    }
-
-    void av1_write_tx_type(const Av1Common *const cm, const MacroBlockD *xd,
-    int32_t blk_row, int32_t blk_col, int32_t plane, TxSize tx_size,
-    aom_writer *w);
-    */
 
     //*******************************************************************************************//
     // blockd.h
@@ -297,7 +285,7 @@ extern "C" {
 
     extern EbErrorType write_frame_header_av1(
         Bitstream *bitstream_ptr,
-        SequenceControlSet *scsPtr,
+        SequenceControlSet *scs_ptr,
         PictureControlSet *pcsPtr,
         uint8_t show_existing);
 
@@ -306,7 +294,7 @@ extern "C" {
 
     extern EbErrorType encode_sps_av1(
         Bitstream *bitstream_ptr,
-        SequenceControlSet *scsPtr);
+        SequenceControlSet *scs_ptr);
 
 
     //*******************************************************************************************//

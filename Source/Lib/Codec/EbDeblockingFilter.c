@@ -1017,15 +1017,15 @@ void av1_filter_block_plane_vert(
     const MacroblockdPlane *const plane_ptr,
     const uint32_t mi_row, const uint32_t mi_col) {
 
-    SequenceControlSet *scsPtr = (SequenceControlSet*)pcsPtr->parent_pcs_ptr->sequence_control_set_wrapper_ptr->object_ptr;
-    EbBool is16bit = scsPtr->static_config.encoder_bit_depth > 8;
+    SequenceControlSet *scs_ptr = (SequenceControlSet*)pcsPtr->parent_pcs_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+    EbBool is16bit = scs_ptr->static_config.encoder_bit_depth > 8;
     const int32_t row_step = MI_SIZE >> MI_SIZE_LOG2;
     const uint32_t scale_horz = plane_ptr->subsampling_x;
     const uint32_t scale_vert = plane_ptr->subsampling_y;
     uint8_t *const dst_ptr = plane_ptr->dst.buf;
     const int32_t dst_stride = plane_ptr->dst.stride;
-    const int32_t y_range = scsPtr->sb_size == BLOCK_128X128 ? (MAX_MIB_SIZE >> scale_vert) : (SB64_MIB_SIZE >> scale_vert);
-    const int32_t x_range = scsPtr->sb_size == BLOCK_128X128 ? (MAX_MIB_SIZE >> scale_horz) : (SB64_MIB_SIZE >> scale_horz);
+    const int32_t y_range = scs_ptr->sb_size == BLOCK_128X128 ? (MAX_MIB_SIZE >> scale_vert) : (SB64_MIB_SIZE >> scale_vert);
+    const int32_t x_range = scs_ptr->sb_size == BLOCK_128X128 ? (MAX_MIB_SIZE >> scale_horz) : (SB64_MIB_SIZE >> scale_horz);
     for (int32_t y = 0; y < y_range; y += row_step) {
         uint8_t *p = dst_ptr + ((y * MI_SIZE * dst_stride) << plane_ptr->is16Bit);
         for (int32_t x = 0; x < x_range;) {
@@ -1058,7 +1058,7 @@ void av1_filter_block_plane_vert(
                         params.mblim,
                         params.lim,
                         params.hev_thr,
-                        scsPtr->static_config.encoder_bit_depth);
+                        scs_ptr->static_config.encoder_bit_depth);
                 else
                     aom_lpf_vertical_4(
                         p,
@@ -1076,7 +1076,7 @@ void av1_filter_block_plane_vert(
                         params.mblim,
                         params.lim,
                         params.hev_thr,
-                        scsPtr->static_config.encoder_bit_depth);
+                        scs_ptr->static_config.encoder_bit_depth);
                 else
                     aom_lpf_vertical_6(
                         p,
@@ -1094,7 +1094,7 @@ void av1_filter_block_plane_vert(
                         params.mblim,
                         params.lim,
                         params.hev_thr,
-                        scsPtr->static_config.encoder_bit_depth);
+                        scs_ptr->static_config.encoder_bit_depth);
                 else
                     aom_lpf_vertical_8(
                         p,
@@ -1112,7 +1112,7 @@ void av1_filter_block_plane_vert(
                         params.mblim,
                         params.lim,
                         params.hev_thr,
-                        scsPtr->static_config.encoder_bit_depth);
+                        scs_ptr->static_config.encoder_bit_depth);
                 else
                     aom_lpf_vertical_14(
                         p,
@@ -1139,15 +1139,15 @@ void av1_filter_block_plane_horz(
     const MacroblockdPlane *const plane_ptr,
     const uint32_t mi_row, const uint32_t mi_col) {
 
-    SequenceControlSet *scsPtr = (SequenceControlSet*)pcsPtr->parent_pcs_ptr->sequence_control_set_wrapper_ptr->object_ptr;
-    EbBool is16bit = scsPtr->static_config.encoder_bit_depth > 8;
+    SequenceControlSet *scs_ptr = (SequenceControlSet*)pcsPtr->parent_pcs_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+    EbBool is16bit = scs_ptr->static_config.encoder_bit_depth > 8;
     const int32_t col_step = MI_SIZE >> MI_SIZE_LOG2;
     const uint32_t scale_horz = plane_ptr->subsampling_x;
     const uint32_t scale_vert = plane_ptr->subsampling_y;
     uint8_t *const dst_ptr = plane_ptr->dst.buf;
     const int32_t dst_stride = plane_ptr->dst.stride;
-    const int32_t y_range = scsPtr->sb_size == BLOCK_128X128 ? (MAX_MIB_SIZE >> scale_vert) : (SB64_MIB_SIZE >> scale_vert);
-    const int32_t x_range = scsPtr->sb_size == BLOCK_128X128 ? (MAX_MIB_SIZE >> scale_horz) : (SB64_MIB_SIZE >> scale_horz);
+    const int32_t y_range = scs_ptr->sb_size == BLOCK_128X128 ? (MAX_MIB_SIZE >> scale_vert) : (SB64_MIB_SIZE >> scale_vert);
+    const int32_t x_range = scs_ptr->sb_size == BLOCK_128X128 ? (MAX_MIB_SIZE >> scale_horz) : (SB64_MIB_SIZE >> scale_horz);
     uint32_t mi_stride = pcsPtr->parent_pcs_ptr->sequence_control_set_ptr->picture_width_in_sb*(BLOCK_SIZE_64 >> MI_SIZE_LOG2);
     for (int32_t x = 0; x < x_range; x += col_step) {
         uint8_t *p = dst_ptr + ((x * MI_SIZE) << plane_ptr->is16Bit);
@@ -1191,7 +1191,7 @@ void av1_filter_block_plane_horz(
                         params.mblim,
                         params.lim,
                         params.hev_thr,
-                        scsPtr->static_config.encoder_bit_depth);
+                        scs_ptr->static_config.encoder_bit_depth);
                 else
                     aom_lpf_horizontal_4(
                         p,
@@ -1210,7 +1210,7 @@ void av1_filter_block_plane_horz(
                         params.mblim,
                         params.lim,
                         params.hev_thr,
-                        scsPtr->static_config.encoder_bit_depth);
+                        scs_ptr->static_config.encoder_bit_depth);
                 else
                     aom_lpf_horizontal_6(
                         p,
@@ -1228,7 +1228,7 @@ void av1_filter_block_plane_horz(
                         params.mblim,
                         params.lim,
                         params.hev_thr,
-                        scsPtr->static_config.encoder_bit_depth);
+                        scs_ptr->static_config.encoder_bit_depth);
                 else
                     aom_lpf_horizontal_8(
                         p,
@@ -1246,7 +1246,7 @@ void av1_filter_block_plane_horz(
                         params.mblim,
                         params.lim,
                         params.hev_thr,
-                        scsPtr->static_config.encoder_bit_depth);
+                        scs_ptr->static_config.encoder_bit_depth);
                 else
                     aom_lpf_horizontal_14(
                         p,
@@ -1353,18 +1353,18 @@ void av1_loop_filter_frame(
     PictureControlSet *picture_control_set_ptr,
     int32_t plane_start, int32_t plane_end) {
 
-    SequenceControlSet *scsPtr = (SequenceControlSet*)picture_control_set_ptr->parent_pcs_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+    SequenceControlSet *scs_ptr = (SequenceControlSet*)picture_control_set_ptr->parent_pcs_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     //LargestCodingUnit                     *sb_ptr;
     //uint16_t                                   sb_index;
-    uint8_t                                   sb_size_Log2 = (uint8_t)Log2f(scsPtr->sb_size_pix);
+    uint8_t                                   sb_size_Log2 = (uint8_t)Log2f(scs_ptr->sb_size_pix);
     uint32_t                                   x_lcu_index;
     uint32_t                                   y_lcu_index;
     uint32_t                                   sb_origin_x;
     uint32_t                                   sb_origin_y;
     EbBool                                  endOfRowFlag;
 
-    uint32_t picture_width_in_sb = (scsPtr->luma_width + scsPtr->sb_size_pix - 1) / scsPtr->sb_size_pix;
-    uint32_t picture_height_in_sb = (scsPtr->luma_height + scsPtr->sb_size_pix - 1) / scsPtr->sb_size_pix;
+    uint32_t picture_width_in_sb = (scs_ptr->luma_width + scs_ptr->sb_size_pix - 1) / scs_ptr->sb_size_pix;
+    uint32_t picture_height_in_sb = (scs_ptr->luma_height + scs_ptr->sb_size_pix - 1) / scs_ptr->sb_size_pix;
     av1_loop_filter_frame_init(picture_control_set_ptr, plane_start, plane_end);
 
     for (y_lcu_index = 0; y_lcu_index < picture_height_in_sb; ++y_lcu_index) {
@@ -1888,7 +1888,7 @@ void av1_pick_filter_level(
     PictureControlSet     *pcsPtr,
     LpfPickMethod          method) {
 
-    SequenceControlSet *scsPtr = (SequenceControlSet*)pcsPtr->parent_pcs_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+    SequenceControlSet *scs_ptr = (SequenceControlSet*)pcsPtr->parent_pcs_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     const int32_t num_planes = 3;
     (void)srcBuffer;
     struct LoopFilter *const lf = &pcsPtr->parent_pcs_ptr->lf;
@@ -1901,7 +1901,7 @@ void av1_pick_filter_level(
     else if (method >= LPF_PICK_FROM_Q) {
         const int32_t min_filter_level = 0;
         const int32_t max_filter_level = MAX_LOOP_FILTER;// av1_get_max_filter_level(cpi);
-        const int32_t q = av1_ac_quant_Q3(pcsPtr->parent_pcs_ptr->base_qindex, 0, (AomBitDepth)scsPtr->static_config.encoder_bit_depth);
+        const int32_t q = av1_ac_quant_Q3(pcsPtr->parent_pcs_ptr->base_qindex, 0, (AomBitDepth)scs_ptr->static_config.encoder_bit_depth);
         // These values were determined by linear fitting the result of the
         // searched level for 8 bit depth:
         // Keyframes: filt_guess = q * 0.06699 - 1.60817
@@ -1910,7 +1910,7 @@ void av1_pick_filter_level(
         // And high bit depth separately:
         // filt_guess = q * 0.316206 + 3.87252
         int32_t filt_guess;
-        switch (scsPtr->static_config.encoder_bit_depth) {
+        switch (scs_ptr->static_config.encoder_bit_depth) {
         case EB_8BIT:
             filt_guess = (pcsPtr->parent_pcs_ptr->av1_frame_type == KEY_FRAME)
                 ? ROUND_POWER_OF_TWO(q * 17563 - 421574, 18)
@@ -1928,7 +1928,7 @@ void av1_pick_filter_level(
                 "or AOM_BITS_12");
             return;
         }
-        if (scsPtr->static_config.encoder_bit_depth != EB_8BIT && pcsPtr->parent_pcs_ptr->av1_frame_type == KEY_FRAME)
+        if (scs_ptr->static_config.encoder_bit_depth != EB_8BIT && pcsPtr->parent_pcs_ptr->av1_frame_type == KEY_FRAME)
             filt_guess -= 4;
 
    
@@ -1947,7 +1947,7 @@ void av1_pick_filter_level(
             lf->filter_level[1],
             lf->filter_level_u,
             lf->filter_level_v };
-        EbPictureBufferDesc  *tempLfReconBuffer = (scsPtr->static_config.encoder_bit_depth != EB_8BIT) ? context_ptr->temp_lf_recon_picture16bit_ptr : context_ptr->temp_lf_recon_picture_ptr;
+        EbPictureBufferDesc  *tempLfReconBuffer = (scs_ptr->static_config.encoder_bit_depth != EB_8BIT) ? context_ptr->temp_lf_recon_picture16bit_ptr : context_ptr->temp_lf_recon_picture_ptr;
 
         lf->filter_level[0] = lf->filter_level[1] =
             search_filter_level(srcBuffer, tempLfReconBuffer, pcsPtr, method == LPF_PICK_FROM_SUBIMAGE,

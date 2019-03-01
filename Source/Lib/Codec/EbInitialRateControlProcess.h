@@ -17,8 +17,8 @@
  **************************************/
 typedef struct InitialRateControlContext
 {
-    EbFifo                    *motion_estimation_results_input_fifo_ptr;
-    EbFifo                    *initialrate_control_results_output_fifo_ptr;
+    EbFifo *motion_estimation_results_input_fifo_ptr;
+    EbFifo *initialrate_control_results_output_fifo_ptr;
 } InitialRateControlContext;
 
 /***************************************

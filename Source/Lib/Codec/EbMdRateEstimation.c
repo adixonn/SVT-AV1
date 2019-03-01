@@ -76,7 +76,7 @@ void av1_get_syntax_rate_from_cdf(
 void av1_estimate_syntax_rate(
     MdRateEstimationContext  *md_rate_estimation_array,
     EbBool                     is_i_slice,
-    FRAME_CONTEXT              *fc)
+    FrameContext              *fc)
 {
     int32_t i, j;
 
@@ -391,7 +391,7 @@ void av1_estimate_mv_rate(
 ***************************************************************************/
 void av1_estimate_coefficients_rate(
     MdRateEstimationContext  *md_rate_estimation_array,
-    FRAME_CONTEXT              *fc)
+    FrameContext              *fc)
 {
     int32_t num_planes = 3; // NM - Hardcoded to 3
     const int32_t nplanes = AOMMIN(num_planes, PLANE_TYPES);

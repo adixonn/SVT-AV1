@@ -12,16 +12,16 @@ extern "C" {
 #endif
 
     void full_loop_r(
-        LargestCodingUnit            *sb_ptr,
-        ModeDecisionCandidateBuffer  *candidate_buffer,
-        ModeDecisionContext          *context_ptr,
-        EbPictureBufferDesc          *input_picture_ptr,
-        PictureControlSet            *picture_control_set_ptr,
-        uint32_t                          component_mask,
-        uint32_t                          cb_qp,
-        uint32_t                          cr_qp,
-        uint32_t                          *cb_count_non_zero_coeffs,
-        uint32_t                          *cr_count_non_zero_coeffs);
+        LargestCodingUnit           *sb_ptr,
+        ModeDecisionCandidateBuffer *candidate_buffer,
+        ModeDecisionContext         *context_ptr,
+        EbPictureBufferDesc         *input_picture_ptr,
+        PictureControlSet           *picture_control_set_ptr,
+        uint32_t                     component_mask,
+        uint32_t                     cb_qp,
+        uint32_t                     cr_qp,
+        uint32_t                     *cb_count_non_zero_coeffs,
+        uint32_t                     *cr_count_non_zero_coeffs);
 
     void cu_full_distortion_fast_tu_mode_r(
         LargestCodingUnit            *sb_ptr,
@@ -59,15 +59,15 @@ extern "C" {
         uint32_t                        blk_mds,
         LargestCodingUnit            *tb_ptr,
         uint32_t                          lcu_addr,
-        uint32_t                          tbOriginX,
-        uint32_t                          tbOriginY,
+        uint32_t                          tb_origin_x,
+        uint32_t                          tb_origin_y,
         uint64_t                          full_lambda,
         MdRateEstimationContext      *md_rate_estimation_ptr,
         PictureControlSet            *picture_control_set_ptr);
 
 
     void  d1_non_square_block_decision(
-        ModeDecisionContext               *context_ptr);
+        ModeDecisionContext *context_ptr);
 
 
 

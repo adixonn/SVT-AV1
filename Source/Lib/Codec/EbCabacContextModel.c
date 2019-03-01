@@ -956,7 +956,7 @@ default_switchable_interp_cdf[SWITCHABLE_FILTER_CONTEXTS][CDF_SIZE(
   { AOM_CDF3(601, 943) },     { AOM_CDF3(14969, 21398) }
 };
 
-void init_mode_probs(FRAME_CONTEXT *fc) {
+void init_mode_probs(FrameContext *fc) {
     av1_copy(fc->palette_y_size_cdf, default_palette_y_size_cdf);
     av1_copy(fc->palette_uv_size_cdf, default_palette_uv_size_cdf);
     av1_copy(fc->palette_y_color_index_cdf, default_palette_y_color_index_cdf);
@@ -4443,7 +4443,7 @@ static int32_t get_q_ctx(int32_t q) {
     return 3;
 }
 
-void av1_default_coef_probs(FRAME_CONTEXT *fc, int32_t base_qindex) {
+void av1_default_coef_probs(FrameContext *fc, int32_t base_qindex) {
     const int32_t index = get_q_ctx(base_qindex);
 
 #if CONFIG_ENTROPY_STATS
@@ -4498,7 +4498,7 @@ static void reset_nmv_counter(NMVContext *nmv) {
     }
 }
 
-void av1_reset_cdf_symbol_counters(FRAME_CONTEXT *fc) {
+void av1_reset_cdf_symbol_counters(FrameContext *fc) {
     RESET_CDF_COUNTER(fc->txb_skip_cdf, 2);
     RESET_CDF_COUNTER(fc->eob_extra_cdf, 2);
     RESET_CDF_COUNTER(fc->dc_sign_cdf, 2);

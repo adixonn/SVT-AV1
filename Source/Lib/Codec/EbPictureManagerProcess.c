@@ -36,12 +36,12 @@ void set_tile_info(PictureParentControlSet * pcsPtr);
   * Configure Picture edges
   ************************************************/
 static void ConfigurePictureEdges(
-    SequenceControlSet *scsPtr,
+    SequenceControlSet *scs_ptr,
     PictureControlSet  *ppsPtr)
 {
     // Tiles Initialisation
-    const uint16_t picture_width_in_sb = (scsPtr->luma_width + scsPtr->sb_size_pix - 1) / scsPtr->sb_size_pix;
-    const uint16_t picture_height_in_sb = (scsPtr->luma_height + scsPtr->sb_size_pix - 1) / scsPtr->sb_size_pix;
+    const uint16_t picture_width_in_sb = (scs_ptr->luma_width + scs_ptr->sb_size_pix - 1) / scs_ptr->sb_size_pix;
+    const uint16_t picture_height_in_sb = (scs_ptr->luma_height + scs_ptr->sb_size_pix - 1) / scs_ptr->sb_size_pix;
     unsigned x_lcu_index, y_lcu_index, sb_index;
 
     // LCU-loops

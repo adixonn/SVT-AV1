@@ -13,7 +13,7 @@
  * Process Results
  **************************************/
 typedef struct InitialRateControlResults {
-    EbObjectWrapper   *picture_control_set_wrapper_ptr;
+    EbObjectWrapper *picture_control_set_wrapper_ptr;
 } InitialRateControlResults;
 
 typedef struct InitialRateControlResultInitData {
@@ -25,7 +25,7 @@ typedef struct InitialRateControlResultInitData {
  **************************************/
 extern EbErrorType initial_rate_control_results_ctor(
     EbPtr *object_dbl_ptr,
-    EbPtr object_init_data_ptr);
+    EbPtr  object_init_data_ptr);
 
 
 #endif //EbInitialRateControlResults_h

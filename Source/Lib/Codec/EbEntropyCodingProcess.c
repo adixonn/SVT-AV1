@@ -226,14 +226,14 @@ static void ResetEntropyCodingPicture(
 #endif
 
     // pass the ent
-    OutputBitstreamUnit *outputBitstreamPtr = (OutputBitstreamUnit*)(picture_control_set_ptr->entropy_coder_ptr->ecOutputBitstreamPtr);
+    OutputBitstreamUnit *output_bitstream_ptr = (OutputBitstreamUnit*)(picture_control_set_ptr->entropy_coder_ptr->ec_output_bitstream_ptr);
     //****************************************************************//
 
-    uint8_t *data = outputBitstreamPtr->bufferAv1;
-    picture_control_set_ptr->entropy_coder_ptr->ecWriter.allow_update_cdf = !picture_control_set_ptr->parent_pcs_ptr->large_scale_tile;
-    picture_control_set_ptr->entropy_coder_ptr->ecWriter.allow_update_cdf =
-        picture_control_set_ptr->entropy_coder_ptr->ecWriter.allow_update_cdf && !picture_control_set_ptr->parent_pcs_ptr->disable_cdf_update;
-    aom_start_encode(&picture_control_set_ptr->entropy_coder_ptr->ecWriter, data);
+    uint8_t *data = output_bitstream_ptr->bufferAv1;
+    picture_control_set_ptr->entropy_coder_ptr->ec_writer.allow_update_cdf = !picture_control_set_ptr->parent_pcs_ptr->large_scale_tile;
+    picture_control_set_ptr->entropy_coder_ptr->ec_writer.allow_update_cdf =
+        picture_control_set_ptr->entropy_coder_ptr->ec_writer.allow_update_cdf && !picture_control_set_ptr->parent_pcs_ptr->disable_cdf_update;
+    aom_start_encode(&picture_control_set_ptr->entropy_coder_ptr->ec_writer, data);
 
     // ADD Reset here
 
@@ -304,20 +304,20 @@ static void reset_ec_tile(
 #endif
 
     // pass the ent
-    OutputBitstreamUnit *outputBitstreamPtr = (OutputBitstreamUnit*)(picture_control_set_ptr->entropy_coder_ptr->ecOutputBitstreamPtr);
+    OutputBitstreamUnit *output_bitstream_ptr = (OutputBitstreamUnit*)(picture_control_set_ptr->entropy_coder_ptr->ec_output_bitstream_ptr);
     //****************************************************************//
 
-    uint8_t *data = outputBitstreamPtr->bufferAv1 + total_size;
-    picture_control_set_ptr->entropy_coder_ptr->ecWriter.allow_update_cdf = !picture_control_set_ptr->parent_pcs_ptr->large_scale_tile;
-    picture_control_set_ptr->entropy_coder_ptr->ecWriter.allow_update_cdf =
-        picture_control_set_ptr->entropy_coder_ptr->ecWriter.allow_update_cdf && !picture_control_set_ptr->parent_pcs_ptr->disable_cdf_update;
+    uint8_t *data = output_bitstream_ptr->bufferAv1 + total_size;
+    picture_control_set_ptr->entropy_coder_ptr->ec_writer.allow_update_cdf = !picture_control_set_ptr->parent_pcs_ptr->large_scale_tile;
+    picture_control_set_ptr->entropy_coder_ptr->ec_writer.allow_update_cdf =
+        picture_control_set_ptr->entropy_coder_ptr->ec_writer.allow_update_cdf && !picture_control_set_ptr->parent_pcs_ptr->disable_cdf_update;
 
 
     //if not last tile, advance buffer by 4B to leave space for tile Size
     if (is_last_tile_in_tg == 0)
         data += 4;
 
-    aom_start_encode(&picture_control_set_ptr->entropy_coder_ptr->ecWriter, data);
+    aom_start_encode(&picture_control_set_ptr->entropy_coder_ptr->ec_writer, data);
 
     //reset probabilities
     reset_entropy_coder(
@@ -752,13 +752,13 @@ void* entropy_coding_kernel(void *input_ptr)
                                          
                      encode_slice_finish(picture_control_set_ptr->entropy_coder_ptr);
                     
-                     int tile_size = picture_control_set_ptr->entropy_coder_ptr->ecWriter.pos;
+                     int tile_size = picture_control_set_ptr->entropy_coder_ptr->ec_writer.pos;
                      assert(tile_size >= AV1_MIN_TILE_SIZE_BYTES);
                     
                      if (!is_last_tile_in_tg) {
                          
-                         OutputBitstreamUnit *outputBitstreamPtr = (OutputBitstreamUnit*)(picture_control_set_ptr->entropy_coder_ptr->ecOutputBitstreamPtr);
-                         uint8_t *buf_data = outputBitstreamPtr->bufferAv1 + total_size;
+                         OutputBitstreamUnit *output_bitstream_ptr = (OutputBitstreamUnit*)(picture_control_set_ptr->entropy_coder_ptr->ec_output_bitstream_ptr);
+                         uint8_t *buf_data = output_bitstream_ptr->bufferAv1 + total_size;
                          mem_put_le32(buf_data, tile_size - AV1_MIN_TILE_SIZE_BYTES);
                      }                   
 

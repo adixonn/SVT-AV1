@@ -1232,10 +1232,10 @@ void GetHistogramQueueData(
     histogramQueueEntryPtr->slice_type = picture_control_set_ptr->slice_type;
     histogramQueueEntryPtr->temporal_layer_index = picture_control_set_ptr->temporal_layer_index;
     histogramQueueEntryPtr->full_sb_count = picture_control_set_ptr->full_sb_count;
-    histogramQueueEntryPtr->lifeCount = 0;
-    histogramQueueEntryPtr->passedToHlrc = EB_FALSE;
-    histogramQueueEntryPtr->isCoded = EB_FALSE;
-    histogramQueueEntryPtr->totalNumBitsCoded = 0;
+    histogramQueueEntryPtr->life_count = 0;
+    histogramQueueEntryPtr->passed_to_hlrc = EB_FALSE;
+    histogramQueueEntryPtr->is_coded = EB_FALSE;
+    histogramQueueEntryPtr->total_num_bits_coded = 0;
     EB_MEMCPY(
         histogramQueueEntryPtr->me_distortion_histogram,
         picture_control_set_ptr->me_distortion_histogram,
@@ -1247,7 +1247,7 @@ void GetHistogramQueueData(
         sizeof(uint16_t) * NUMBER_OF_INTRA_SAD_INTERVALS);
 
     eb_release_mutex(sequence_control_set_ptr->encode_context_ptr->hl_rate_control_historgram_queue_mutex);
-    //printf("Test1 POC: %d\t POC: %d\t LifeCount: %d\n", histogramQueueEntryPtr->picture_number, picture_control_set_ptr->picture_number,  histogramQueueEntryPtr->lifeCount);
+    //printf("Test1 POC: %d\t POC: %d\t life_count: %d\n", histogramQueueEntryPtr->picture_number, picture_control_set_ptr->picture_number,  histogramQueueEntryPtr->life_count);
 
 
     return;
@@ -1271,8 +1271,8 @@ void UpdateHistogramQueueEntry(
         histogramQueueEntryIndex - HIGH_LEVEL_RATE_CONTROL_HISTOGRAM_QUEUE_MAX_DEPTH :
         histogramQueueEntryIndex;
     histogramQueueEntryPtr = encode_context_ptr->hl_rate_control_historgram_queue[histogramQueueEntryIndex];
-    histogramQueueEntryPtr->lifeCount += picture_control_set_ptr->historgram_life_count;
-    histogramQueueEntryPtr->passedToHlrc = EB_TRUE;
+    histogramQueueEntryPtr->life_count += picture_control_set_ptr->historgram_life_count;
+    histogramQueueEntryPtr->passed_to_hlrc = EB_TRUE;
 
     eb_release_mutex(sequence_control_set_ptr->encode_context_ptr->rate_table_update_mutex);
 

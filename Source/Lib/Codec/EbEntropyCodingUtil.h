@@ -29,11 +29,11 @@ extern "C" {
     * Data Structures
     **************************************/
     typedef struct BacEncContext {
-        OutputBitstreamUnit   m_pcTComBitIf;
+        OutputBitstreamUnit m_pc_t_com_bit_if;
     } BacEncContext;
 
     typedef struct CabacEncodeContext {
-        BacEncContext            bacEncContext;
+        BacEncContext bac_enc_context;
     } CabacEncodeContext;
 
 

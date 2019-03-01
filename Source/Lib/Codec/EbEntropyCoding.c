@@ -91,91 +91,91 @@ static INLINE int32_t does_level_match(int32_t width, int32_t height, double fps
         height <= lvl_height * lvl_dim_mult;
 }
 
-static void SetBitstreamLevelTier(SequenceControlSet *scsPtr) {
+static void SetBitstreamLevelTier(SequenceControlSet *scs_ptr) {
     // TODO(any): This is a placeholder function that only addresses dimensions
     // and max display sample rates.
     // Need to add checks for max bit rate, max decoded luma sample rate, header
     // rate, etc. that are not covered by this function.
 
     BitstreamLevel bl = { 9, 3 };
-    if (does_level_match(scsPtr->luma_width, scsPtr->luma_height, (scsPtr->frame_rate >> 16), 512,
+    if (does_level_match(scs_ptr->luma_width, scs_ptr->luma_height, (scs_ptr->frame_rate >> 16), 512,
         288, 30.0, 4)) {
         bl.major = 2;
         bl.minor = 0;
     }
-    else if (does_level_match(scsPtr->luma_width, scsPtr->luma_height, (scsPtr->frame_rate >> 16),
+    else if (does_level_match(scs_ptr->luma_width, scs_ptr->luma_height, (scs_ptr->frame_rate >> 16),
         704, 396, 30.0, 4)) {
         bl.major = 2;
         bl.minor = 1;
     }
-    else if (does_level_match(scsPtr->luma_width, scsPtr->luma_height, (scsPtr->frame_rate >> 16),
+    else if (does_level_match(scs_ptr->luma_width, scs_ptr->luma_height, (scs_ptr->frame_rate >> 16),
         1088, 612, 30.0, 4)) {
         bl.major = 3;
         bl.minor = 0;
     }
-    else if (does_level_match(scsPtr->luma_width, scsPtr->luma_height, (scsPtr->frame_rate >> 16),
+    else if (does_level_match(scs_ptr->luma_width, scs_ptr->luma_height, (scs_ptr->frame_rate >> 16),
         1376, 774, 30.0, 4)) {
         bl.major = 3;
         bl.minor = 1;
     }
-    else if (does_level_match(scsPtr->luma_width, scsPtr->luma_height, (scsPtr->frame_rate >> 16),
+    else if (does_level_match(scs_ptr->luma_width, scs_ptr->luma_height, (scs_ptr->frame_rate >> 16),
         2048, 1152, 30.0, 3)) {
         bl.major = 4;
         bl.minor = 0;
     }
-    else if (does_level_match(scsPtr->luma_width, scsPtr->luma_height, (scsPtr->frame_rate >> 16),
+    else if (does_level_match(scs_ptr->luma_width, scs_ptr->luma_height, (scs_ptr->frame_rate >> 16),
         2048, 1152, 60.0, 3)) {
         bl.major = 4;
         bl.minor = 1;
     }
-    else if (does_level_match(scsPtr->luma_width, scsPtr->luma_height, (scsPtr->frame_rate >> 16),
+    else if (does_level_match(scs_ptr->luma_width, scs_ptr->luma_height, (scs_ptr->frame_rate >> 16),
         4096, 2176, 30.0, 2)) {
         bl.major = 5;
         bl.minor = 0;
     }
-    else if (does_level_match(scsPtr->luma_width, scsPtr->luma_height, (scsPtr->frame_rate >> 16),
+    else if (does_level_match(scs_ptr->luma_width, scs_ptr->luma_height, (scs_ptr->frame_rate >> 16),
         4096, 2176, 60.0, 2)) {
         bl.major = 5;
         bl.minor = 1;
     }
-    else if (does_level_match(scsPtr->luma_width, scsPtr->luma_height, (scsPtr->frame_rate >> 16),
+    else if (does_level_match(scs_ptr->luma_width, scs_ptr->luma_height, (scs_ptr->frame_rate >> 16),
         4096, 2176, 120.0, 2)) {
         bl.major = 5;
         bl.minor = 2;
     }
-    else if (does_level_match(scsPtr->luma_width, scsPtr->luma_height, (scsPtr->frame_rate >> 16),
+    else if (does_level_match(scs_ptr->luma_width, scs_ptr->luma_height, (scs_ptr->frame_rate >> 16),
         8192, 4352, 30.0, 2)) {
         bl.major = 6;
         bl.minor = 0;
     }
-    else if (does_level_match(scsPtr->luma_width, scsPtr->luma_height, (scsPtr->frame_rate >> 16),
+    else if (does_level_match(scs_ptr->luma_width, scs_ptr->luma_height, (scs_ptr->frame_rate >> 16),
         8192, 4352, 60.0, 2)) {
         bl.major = 6;
         bl.minor = 1;
     }
-    else if (does_level_match(scsPtr->luma_width, scsPtr->luma_height, (scsPtr->frame_rate >> 16),
+    else if (does_level_match(scs_ptr->luma_width, scs_ptr->luma_height, (scs_ptr->frame_rate >> 16),
         8192, 4352, 120.0, 2)) {
         bl.major = 6;
         bl.minor = 2;
     }
-    else if (does_level_match(scsPtr->luma_width, scsPtr->luma_height, (scsPtr->frame_rate >> 16),
+    else if (does_level_match(scs_ptr->luma_width, scs_ptr->luma_height, (scs_ptr->frame_rate >> 16),
         16384, 8704, 30.0, 2)) {
         bl.major = 7;
         bl.minor = 0;
     }
-    else if (does_level_match(scsPtr->luma_width, scsPtr->luma_height, (scsPtr->frame_rate >> 16),
+    else if (does_level_match(scs_ptr->luma_width, scs_ptr->luma_height, (scs_ptr->frame_rate >> 16),
         16384, 8704, 60.0, 2)) {
         bl.major = 7;
         bl.minor = 1;
     }
-    else if (does_level_match(scsPtr->luma_width, scsPtr->luma_height, (scsPtr->frame_rate >> 16),
+    else if (does_level_match(scs_ptr->luma_width, scs_ptr->luma_height, (scs_ptr->frame_rate >> 16),
         16384, 8704, 120.0, 2)) {
         bl.major = 7;
         bl.minor = 2;
     }
     for (int32_t i = 0; i < MAX_NUM_OPERATING_POINTS; ++i) {
-        scsPtr->level[i] = bl;
-        scsPtr->tier[i] = 0;  // setting main tier by default
+        scs_ptr->level[i] = bl;
+        scs_ptr->tier[i] = 0;  // setting main tier by default
 
     }
 }
@@ -471,8 +471,8 @@ void get_txb_ctx(
 
 void Av1WriteTxType(
     PictureParentControlSet   *pcsPtr,
-    FRAME_CONTEXT               *frameContext,
-    aom_writer                  *ecWriter,
+    FrameContext               *frameContext,
+    aom_writer                  *ec_writer,
     CodingUnit                *cu_ptr,
     uint32_t                      intraDir,
     TxType                     txType,
@@ -492,7 +492,7 @@ void Av1WriteTxType(
         assert(eset > 0);
         assert(av1_ext_tx_used[txSetType][txType]);
         if (isInter) {
-            aom_write_symbol(ecWriter, av1_ext_tx_ind[txSetType][txType],
+            aom_write_symbol(ec_writer, av1_ext_tx_ind[txSetType][txType],
                 frameContext->inter_ext_tx_cdf[eset][squareTxSize],
                 av1_num_ext_tx_set[txSetType]);
         }
@@ -500,7 +500,7 @@ void Av1WriteTxType(
 
 
             aom_write_symbol(
-                ecWriter, av1_ext_tx_ind[txSetType][txType],
+                ec_writer, av1_ext_tx_ind[txSetType][txType],
                 frameContext->intra_ext_tx_cdf[eset][squareTxSize][intraDir],
                 av1_num_ext_tx_set[txSetType]);
         }
@@ -519,8 +519,8 @@ static INLINE void set_dc_sign(int32_t *cul_level, int32_t dc_val) {
 
 int32_t  Av1WriteCoeffsTxb1D(
     PictureParentControlSet   *parent_pcs_ptr,
-    FRAME_CONTEXT               *frameContext,
-    aom_writer                  *ecWriter,
+    FrameContext               *frameContext,
+    aom_writer                  *ec_writer,
     CodingUnit                *cu_ptr,
     TxSize                     txSize,
     uint32_t                       pu_index,
@@ -548,7 +548,7 @@ int32_t  Av1WriteCoeffsTxb1D(
     uint8_t *const levels = SetLevels(levelsBuf, width);
     DECLARE_ALIGNED(16, int8_t, coeffContexts[MAX_TX_SQUARE]);
 
-    aom_write_symbol(ecWriter, eob == 0,
+    aom_write_symbol(ec_writer, eob == 0,
 
         frameContext->txb_skip_cdf[txs_ctx][txb_skip_ctx], 2);
 
@@ -579,7 +579,7 @@ int32_t  Av1WriteCoeffsTxb1D(
         Av1WriteTxType(
             parent_pcs_ptr,
             frameContext,
-            ecWriter,
+            ec_writer,
             cu_ptr,
             intraLumaDir,
             txType,
@@ -592,31 +592,31 @@ int32_t  Av1WriteCoeffsTxb1D(
     const int16_t eobMultiCtx = (tx_type_to_class[txType] == TX_CLASS_2D) ? 0 : 1;
     switch (eobMultiSize) {
     case 0:
-        aom_write_symbol(ecWriter, eobPt - 1,
+        aom_write_symbol(ec_writer, eobPt - 1,
             frameContext->eob_flag_cdf16[component_type][eobMultiCtx], 5);
         break;
     case 1:
-        aom_write_symbol(ecWriter, eobPt - 1,
+        aom_write_symbol(ec_writer, eobPt - 1,
             frameContext->eob_flag_cdf32[component_type][eobMultiCtx], 6);
         break;
     case 2:
-        aom_write_symbol(ecWriter, eobPt - 1,
+        aom_write_symbol(ec_writer, eobPt - 1,
             frameContext->eob_flag_cdf64[component_type][eobMultiCtx], 7);
         break;
     case 3:
-        aom_write_symbol(ecWriter, eobPt - 1,
+        aom_write_symbol(ec_writer, eobPt - 1,
             frameContext->eob_flag_cdf128[component_type][eobMultiCtx], 8);
         break;
     case 4:
-        aom_write_symbol(ecWriter, eobPt - 1,
+        aom_write_symbol(ec_writer, eobPt - 1,
             frameContext->eob_flag_cdf256[component_type][eobMultiCtx], 9);
         break;
     case 5:
-        aom_write_symbol(ecWriter, eobPt - 1,
+        aom_write_symbol(ec_writer, eobPt - 1,
             frameContext->eob_flag_cdf512[component_type][eobMultiCtx], 10);
         break;
     default:
-        aom_write_symbol(ecWriter, eobPt - 1,
+        aom_write_symbol(ec_writer, eobPt - 1,
             frameContext->eob_flag_cdf1024[component_type][eobMultiCtx], 11);
         break;
     }
@@ -625,11 +625,11 @@ int32_t  Av1WriteCoeffsTxb1D(
     if (eobOffsetBits > 0) {
         int32_t eobShift = eobOffsetBits - 1;
         int32_t bit = (eobExtra & (1 << eobShift)) ? 1 : 0;
-        aom_write_symbol(ecWriter, bit, frameContext->eob_extra_cdf[txs_ctx][component_type][eobPt], 2);
+        aom_write_symbol(ec_writer, bit, frameContext->eob_extra_cdf[txs_ctx][component_type][eobPt], 2);
         for (int32_t i = 1; i < eobOffsetBits; i++) {
             eobShift = eobOffsetBits - 1 - i;
             bit = (eobExtra & (1 << eobShift)) ? 1 : 0;
-            aom_write_bit(ecWriter, bit);
+            aom_write_bit(ec_writer, bit);
         }
     }
 
@@ -644,11 +644,11 @@ int32_t  Av1WriteCoeffsTxb1D(
 
         if (c == eob - 1) {
             aom_write_symbol(
-                ecWriter, AOMMIN(level, 3) - 1,
+                ec_writer, AOMMIN(level, 3) - 1,
                 frameContext->coeff_base_eob_cdf[txs_ctx][component_type][coeffCtx], 3);
         }
         else {
-            aom_write_symbol(ecWriter, AOMMIN(level, 3),
+            aom_write_symbol(ec_writer, AOMMIN(level, 3),
                 frameContext->coeff_base_cdf[txs_ctx][component_type][coeffCtx],
                 4);
         }
@@ -660,7 +660,7 @@ int32_t  Av1WriteCoeffsTxb1D(
             for (int32_t idx = 0; idx < COEFF_BASE_RANGE; idx += BR_CDF_SIZE - 1) {
                 const int32_t k = AOMMIN(base_range - idx, BR_CDF_SIZE - 1);
                 aom_write_symbol(
-                    ecWriter, k,
+                    ec_writer, k,
                     frameContext->coeff_br_cdf[AOMMIN(txs_ctx, TX_32X32)][component_type][brCtx],
                     BR_CDF_SIZE);
                 if (k < BR_CDF_SIZE - 1) break;
@@ -683,13 +683,13 @@ int32_t  Av1WriteCoeffsTxb1D(
         if (level) {
             if (c == 0) {
                 aom_write_symbol(
-                    ecWriter, sign, frameContext->dc_sign_cdf[component_type][dcSignCtx], 2);
+                    ec_writer, sign, frameContext->dc_sign_cdf[component_type][dcSignCtx], 2);
             }
             else {
-                aom_write_bit(ecWriter, sign);
+                aom_write_bit(ec_writer, sign);
             }
             if (level > COEFF_BASE_RANGE + NUM_BASE_LEVELS) {
-                WriteGolomb(ecWriter,
+                WriteGolomb(ec_writer,
                     level - COEFF_BASE_RANGE - 1 - NUM_BASE_LEVELS);
             }
         }
@@ -710,8 +710,8 @@ int32_t  Av1WriteCoeffsTxb1D(
 static EbErrorType Av1EncodeCoeff1D(
     PictureControlSet     *pcsPtr,
     EntropyCodingContext  *context_ptr,
-    FRAME_CONTEXT           *frameContext,
-    aom_writer              *ecWriter,
+    FrameContext           *frameContext,
+    aom_writer              *ec_writer,
     CodingUnit           *cu_ptr,
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
@@ -763,7 +763,7 @@ static EbErrorType Av1EncodeCoeff1D(
                 Av1WriteCoeffsTxb1D(
                     pcsPtr->parent_pcs_ptr,
                     frameContext,
-                    ecWriter,
+                    ec_writer,
                     cu_ptr,
                     tx_size,
                     0,
@@ -800,7 +800,7 @@ static EbErrorType Av1EncodeCoeff1D(
                     Av1WriteCoeffsTxb1D(
                         pcsPtr->parent_pcs_ptr,
                         frameContext,
-                        ecWriter,
+                        ec_writer,
                         cu_ptr,
                         chroma_tx_size,
                         0,
@@ -837,7 +837,7 @@ static EbErrorType Av1EncodeCoeff1D(
                     Av1WriteCoeffsTxb1D(
                         pcsPtr->parent_pcs_ptr,
                         frameContext,
-                        ecWriter,
+                        ec_writer,
                         cu_ptr,
                         chroma_tx_size,
                         0,
@@ -957,8 +957,8 @@ static void partition_gather_vert_alike(AomCdfProb *out,
 }
 static void EncodePartitionAv1(
     SequenceControlSet    *sequence_control_set_ptr,
-    FRAME_CONTEXT           *frameContext,
-    aom_writer              *ecWriter,
+    FrameContext           *frameContext,
+    aom_writer              *ec_writer,
     block_size              bsize,
     PartitionType          p,
     uint32_t                  cu_origin_x,
@@ -1004,7 +1004,7 @@ static void EncodePartitionAv1(
     if (hasRows && hasCols) {
 
         aom_write_symbol(
-            ecWriter,
+            ec_writer,
             p,
             frameContext->partition_cdf[contextIndex],
             partition_cdf_length(bsize));
@@ -1014,7 +1014,7 @@ static void EncodePartitionAv1(
         AomCdfProb cdf[2];
         partition_gather_vert_alike(cdf, frameContext->partition_cdf[contextIndex], bsize);
         aom_write_symbol(
-            ecWriter,
+            ec_writer,
             p == PARTITION_SPLIT,
             cdf,
             2);
@@ -1023,7 +1023,7 @@ static void EncodePartitionAv1(
         AomCdfProb cdf[2];
         partition_gather_horz_alike(cdf, frameContext->partition_cdf[contextIndex], bsize);
         aom_write_symbol(
-            ecWriter,
+            ec_writer,
             p == PARTITION_SPLIT,
             cdf,
             2);
@@ -1037,8 +1037,8 @@ static void EncodePartitionAv1(
 *   Encodes the skip coefficient flag
 *********************************************************************/
 static void EncodeSkipCoeffAv1(
-    FRAME_CONTEXT           *frameContext,
-    aom_writer              *ecWriter,
+    FrameContext           *frameContext,
+    aom_writer              *ec_writer,
     EbBool                 skipCoeffFlag,
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
@@ -1064,7 +1064,7 @@ static void EncodeSkipCoeffAv1(
         (skip_coeff_neighbor_array->top_array[skipCoeffTopNeighborIndex]) ? 1 : 0;
 
     aom_write_symbol(
-        ecWriter,
+        ec_writer,
         skipCoeffFlag ? 1 : 0,
         frameContext->skip_cdfs[contextIndex],
         2);
@@ -1076,8 +1076,8 @@ static void EncodeSkipCoeffAv1(
 *   Encodes the Intra Luma Mode
 *********************************************************************/
 static void EncodeIntraLumaModeAv1(
-    FRAME_CONTEXT           *frameContext,
-    aom_writer              *ecWriter,
+    FrameContext           *frameContext,
+    aom_writer              *ec_writer,
     CodingUnit            *cu_ptr,
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
@@ -1113,7 +1113,7 @@ static void EncodeIntraLumaModeAv1(
     leftContext = intra_mode_context[left_neighbor_mode];
 
     aom_write_symbol(
-        ecWriter,
+        ec_writer,
         luma_mode,
         frameContext->kf_y_cdf[topContext][leftContext],
         INTRA_MODES);
@@ -1121,7 +1121,7 @@ static void EncodeIntraLumaModeAv1(
     if (cu_ptr->pred_mode != INTRA_MODE_4x4)
 
         if (cu_ptr->prediction_unit_array[0].use_angle_delta && cu_ptr->prediction_unit_array[0].is_directional_mode_flag) {
-            aom_write_symbol(ecWriter,
+            aom_write_symbol(ec_writer,
                 cu_ptr->prediction_unit_array[0].angle_delta[PLANE_TYPE_Y] + MAX_ANGLE_DELTA,
                 frameContext->angle_delta_cdf[luma_mode - V_PRED],
                 2 * MAX_ANGLE_DELTA + 1);
@@ -1135,8 +1135,8 @@ static void EncodeIntraLumaModeAv1(
 *   Encodes the Intra Luma Mode for non Key frames
 *********************************************************************/
 static void EncodeIntraLumaModeNonKeyAv1(
-    FRAME_CONTEXT           *frameContext,
-    aom_writer              *ecWriter,
+    FrameContext           *frameContext,
+    aom_writer              *ec_writer,
     CodingUnit            *cu_ptr,
 
     block_size                bsize,
@@ -1144,7 +1144,7 @@ static void EncodeIntraLumaModeNonKeyAv1(
 {
 
     aom_write_symbol(
-        ecWriter,
+        ec_writer,
         luma_mode,
         frameContext->y_mode_cdf[size_group_lookup[bsize]],
         INTRA_MODES);
@@ -1152,7 +1152,7 @@ static void EncodeIntraLumaModeNonKeyAv1(
     if (cu_ptr->pred_mode != INTRA_MODE_4x4)
 
         if (cu_ptr->prediction_unit_array[0].use_angle_delta && cu_ptr->prediction_unit_array[0].is_directional_mode_flag) {
-            aom_write_symbol(ecWriter,
+            aom_write_symbol(ec_writer,
                 cu_ptr->prediction_unit_array[0].angle_delta[PLANE_TYPE_Y] + MAX_ANGLE_DELTA,
                 frameContext->angle_delta_cdf[luma_mode - V_PRED],
                 2 * MAX_ANGLE_DELTA + 1);
@@ -1161,7 +1161,7 @@ static void EncodeIntraLumaModeNonKeyAv1(
     return;
 }
 
-static void write_cfl_alphas(FRAME_CONTEXT *const ec_ctx, int32_t idx,
+static void write_cfl_alphas(FrameContext *const ec_ctx, int32_t idx,
     int32_t joint_sign, aom_writer *w) {
     aom_write_symbol(w, joint_sign, ec_ctx->cfl_sign_cdf, CFL_JOINT_SIGNS);
     // Magnitudes are only signaled for nonzero codes.
@@ -1181,25 +1181,25 @@ static void write_cfl_alphas(FRAME_CONTEXT *const ec_ctx, int32_t idx,
 *   Encodes the Intra Chroma Mode
 *********************************************************************/
 static void EncodeIntraChromaModeAv1(
-    FRAME_CONTEXT           *frameContext,
-    aom_writer              *ecWriter,
+    FrameContext           *frameContext,
+    aom_writer              *ec_writer,
     CodingUnit            *cu_ptr,
     uint32_t                  luma_mode,
     uint32_t                  chroma_mode,
     uint8_t                   cflAllowed)
 {
     aom_write_symbol(
-        ecWriter,
+        ec_writer,
         chroma_mode,
         frameContext->uv_mode_cdf[cflAllowed][luma_mode],
         UV_INTRA_MODES - !cflAllowed);
 
     if (chroma_mode == UV_CFL_PRED)
-        write_cfl_alphas(frameContext, cu_ptr->prediction_unit_array->cfl_alpha_idx, cu_ptr->prediction_unit_array->cfl_alpha_signs, ecWriter);
+        write_cfl_alphas(frameContext, cu_ptr->prediction_unit_array->cfl_alpha_idx, cu_ptr->prediction_unit_array->cfl_alpha_signs, ec_writer);
 
     if (cu_ptr->pred_mode != INTRA_MODE_4x4)
         if (cu_ptr->prediction_unit_array[0].use_angle_delta && cu_ptr->prediction_unit_array[0].is_directional_chroma_mode_flag) {
-            aom_write_symbol(ecWriter,
+            aom_write_symbol(ec_writer,
                 cu_ptr->prediction_unit_array[0].angle_delta[PLANE_TYPE_UV] + MAX_ANGLE_DELTA,
                 frameContext->angle_delta_cdf[chroma_mode - V_PRED],
                 2 * MAX_ANGLE_DELTA + 1);
@@ -1214,8 +1214,8 @@ static void EncodeIntraChromaModeAv1(
 *   Encodes the skip Mode flag
 *********************************************************************/
 static void EncodeSkipModeAv1(
-    FRAME_CONTEXT           *frameContext,
-    aom_writer              *ecWriter,
+    FrameContext           *frameContext,
+    aom_writer              *ec_writer,
     EbBool                 skipModeFlag,
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
@@ -1241,7 +1241,7 @@ static void EncodeSkipModeAv1(
         (skip_flag_neighbor_array->top_array[skipFlagTopNeighborIndex]) ? 1 : 0;
 
     aom_write_symbol(
-        ecWriter,
+        ec_writer,
         skipModeFlag ? 1 : 0,
         frameContext->skip_mode_cdfs[contextIndex],
         2);
@@ -1253,8 +1253,8 @@ static void EncodeSkipModeAv1(
 *   Encodes the Prediction Mode
 *********************************************************************/
 static void EncodePredModeAv1(
-    FRAME_CONTEXT           *frameContext,
-    aom_writer              *ecWriter,
+    FrameContext           *frameContext,
+    aom_writer              *ec_writer,
     EbBool                 predModeFlag,
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
@@ -1285,7 +1285,7 @@ static void EncodePredModeAv1(
     }
 
     aom_write_symbol(
-        ecWriter,
+        ec_writer,
         predModeFlag == INTER_MODE ? 1 : 0,
         frameContext->intra_inter_cdf[contextIndex],
         2);
@@ -1359,7 +1359,7 @@ MotionMode motion_mode_allowed(
 *   Encodes the Motion Mode (obmc or warped)
 *********************************************************************/
 static void write_motion_mode(
-    FRAME_CONTEXT            *frame_context,
+    FrameContext            *FrameContext,
     aom_writer               *ec_writer,
     block_size                 bsize,
     MotionMode               motion_mode,
@@ -1378,14 +1378,14 @@ static void write_motion_mode(
         aom_write_symbol(
             ec_writer,
             SIMPLE_TRANSLATION, // motion_mode == OBMC_CAUSAL, TODO: support OBMC
-            frame_context->obmc_cdf[bsize],
+            FrameContext->obmc_cdf[bsize],
             2);
         break;
     default:
         aom_write_symbol(
             ec_writer,
             motion_mode,
-            frame_context->motion_mode_cdf[bsize],
+            FrameContext->motion_mode_cdf[bsize],
             MOTION_MODES);
     }
 
@@ -1423,7 +1423,7 @@ EbErrorType encode_slice_finish(
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    aom_stop_encode(&entropy_coder_ptr->ecWriter);
+    aom_stop_encode(&entropy_coder_ptr->ec_writer);
 
     return return_error;
 }
@@ -1432,10 +1432,10 @@ EbErrorType reset_bitstream(
     EbPtr bitstream_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
-    OutputBitstreamUnit *outputBitstreamPtr = (OutputBitstreamUnit*)bitstream_ptr;
+    OutputBitstreamUnit *output_bitstream_ptr = (OutputBitstreamUnit*)bitstream_ptr;
 
     output_bitstream_reset(
-        outputBitstreamPtr);
+        output_bitstream_ptr);
 
     return return_error;
 }
@@ -1465,18 +1465,18 @@ EbErrorType copy_rbsp_bitstream_to_payload(
     EncodeContext         *encode_context_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
-    OutputBitstreamUnit *outputBitstreamPtr = (OutputBitstreamUnit*)bitstream_ptr->outputBitstreamPtr;
+    OutputBitstreamUnit *output_bitstream_ptr = (OutputBitstreamUnit*)bitstream_ptr->output_bitstream_ptr;
 
 
     CHECK_REPORT_ERROR(
-        ((outputBitstreamPtr->writtenBitsCount >> 3) + (*output_buffer_index) < (*output_buffer_size)),
+        ((output_bitstream_ptr->writtenBitsCount >> 3) + (*output_buffer_index) < (*output_buffer_size)),
         encode_context_ptr->app_callback_ptr,
         EB_ENC_EC_ERROR2);
 
 
 
     output_bitstream_rbsp_to_payload(
-        outputBitstreamPtr,
+        output_bitstream_ptr,
         output_buffer,
         output_buffer_index,
         output_buffer_size,
@@ -1493,10 +1493,10 @@ EbErrorType bitstream_ctor(
     EbErrorType return_error = EB_ErrorNone;
     EB_MALLOC(Bitstream*, *bitstream_dbl_ptr, sizeof(Bitstream), EB_N_PTR);
 
-    EB_MALLOC(EbPtr, (*bitstream_dbl_ptr)->outputBitstreamPtr, sizeof(OutputBitstreamUnit), EB_N_PTR);
+    EB_MALLOC(EbPtr, (*bitstream_dbl_ptr)->output_bitstream_ptr, sizeof(OutputBitstreamUnit), EB_N_PTR);
 
     return_error = output_bitstream_unit_ctor(
-        (OutputBitstreamUnit *)(*bitstream_dbl_ptr)->outputBitstreamPtr,
+        (OutputBitstreamUnit *)(*bitstream_dbl_ptr)->output_bitstream_ptr,
         buffer_size);
 
     return return_error;
@@ -1512,22 +1512,22 @@ EbErrorType entropy_coder_ctor(
     EbErrorType return_error = EB_ErrorNone;
     EB_MALLOC(EntropyCoder*, *entropy_coder_dbl_ptr, sizeof(EntropyCoder), EB_N_PTR);
 
-    EB_MALLOC(EbPtr, (*entropy_coder_dbl_ptr)->cabacEncodeContextPtr, sizeof(CabacEncodeContext), EB_N_PTR);
+    EB_MALLOC(EbPtr, (*entropy_coder_dbl_ptr)->cabac_encode_context_ptr, sizeof(CabacEncodeContext), EB_N_PTR);
 
-    EB_MALLOC(FRAME_CONTEXT*, (*entropy_coder_dbl_ptr)->fc, sizeof(FRAME_CONTEXT), EB_N_PTR);
+    EB_MALLOC(FrameContext*, (*entropy_coder_dbl_ptr)->fc, sizeof(FrameContext), EB_N_PTR);
 
-    EB_MALLOC(EbPtr, (*entropy_coder_dbl_ptr)->ecOutputBitstreamPtr, sizeof(OutputBitstreamUnit), EB_N_PTR);
+    EB_MALLOC(EbPtr, (*entropy_coder_dbl_ptr)->ec_output_bitstream_ptr, sizeof(OutputBitstreamUnit), EB_N_PTR);
 
     return_error = output_bitstream_unit_ctor(
-        (OutputBitstreamUnit *)(*entropy_coder_dbl_ptr)->ecOutputBitstreamPtr,
+        (OutputBitstreamUnit *)(*entropy_coder_dbl_ptr)->ec_output_bitstream_ptr,
         buffer_size);
 
     CabacCtor(
-        (CabacEncodeContext *)(*entropy_coder_dbl_ptr)->cabacEncodeContextPtr);
+        (CabacEncodeContext *)(*entropy_coder_dbl_ptr)->cabac_encode_context_ptr);
 
 
     return_error = output_bitstream_unit_ctor(
-        &((((CabacEncodeContext*)(*entropy_coder_dbl_ptr)->cabacEncodeContextPtr)->bacEncContext).m_pcTComBitIf),
+        &((((CabacEncodeContext*)(*entropy_coder_dbl_ptr)->cabac_encode_context_ptr)->bac_enc_context).m_pc_t_com_bit_if),
         buffer_size);
 
     return return_error;
@@ -1539,8 +1539,8 @@ EbErrorType entropy_coder_ctor(
 EbPtr entropy_coder_get_bitstream_ptr(
     EntropyCoder *entropy_coder_ptr)
 {
-    CabacEncodeContext *cabacEncCtxPtr = (CabacEncodeContext*)entropy_coder_ptr->cabacEncodeContextPtr;
-    EbPtr bitstream_ptr = (EbPtr)&(cabacEncCtxPtr->bacEncContext.m_pcTComBitIf);
+    CabacEncodeContext *cabacEncCtxPtr = (CabacEncodeContext*)entropy_coder_ptr->cabac_encode_context_ptr;
+    EbPtr bitstream_ptr = (EbPtr)&(cabacEncCtxPtr->bac_enc_context.m_pc_t_com_bit_if);
 
     return bitstream_ptr;
 }
@@ -1583,16 +1583,16 @@ int32_t aom_uleb_encode(uint64_t value, size_t available, uint8_t *coded_value,
 }
 
 
-int32_t aom_wb_is_byte_aligned(const struct aom_write_bit_buffer *wb) {
+int32_t aom_wb_is_byte_aligned(const struct AomWriteBitBuffer *wb) {
     return (wb->bit_offset % CHAR_BIT == 0);
 }
 
 
-uint32_t aom_wb_bytes_written(const struct aom_write_bit_buffer *wb) {
+uint32_t aom_wb_bytes_written(const struct AomWriteBitBuffer *wb) {
     return wb->bit_offset / CHAR_BIT + (wb->bit_offset % CHAR_BIT > 0);
 }
 
-void aom_wb_write_bit(struct aom_write_bit_buffer *wb, int32_t bit) {
+void aom_wb_write_bit(struct AomWriteBitBuffer *wb, int32_t bit) {
     const int32_t off = (int32_t)wb->bit_offset;
     const int32_t p = off / CHAR_BIT;
     const int32_t q = CHAR_BIT - 1 - off % CHAR_BIT;
@@ -1607,7 +1607,7 @@ void aom_wb_write_bit(struct aom_write_bit_buffer *wb, int32_t bit) {
     wb->bit_offset = off + 1;
 }
 
-void aom_wb_overwrite_bit(struct aom_write_bit_buffer *wb, int32_t bit) {
+void aom_wb_overwrite_bit(struct AomWriteBitBuffer *wb, int32_t bit) {
     // Do not zero bytes but overwrite exisiting values
     const int32_t off = (int32_t)wb->bit_offset;
     const int32_t p = off / CHAR_BIT;
@@ -1617,12 +1617,12 @@ void aom_wb_overwrite_bit(struct aom_write_bit_buffer *wb, int32_t bit) {
     wb->bit_offset = off + 1;
 }
 
-void aom_wb_write_literal(struct aom_write_bit_buffer *wb, int32_t data, int32_t bits) {
+void aom_wb_write_literal(struct AomWriteBitBuffer *wb, int32_t data, int32_t bits) {
     int32_t bit;
     for (bit = bits - 1; bit >= 0; bit--) aom_wb_write_bit(wb, (data >> bit) & 1);
 }
 
-void aom_wb_write_inv_signed_literal(struct aom_write_bit_buffer *wb, int32_t data,
+void aom_wb_write_inv_signed_literal(struct AomWriteBitBuffer *wb, int32_t data,
     int32_t bits) {
     aom_wb_write_literal(wb, data, bits + 1);
 }
@@ -1631,8 +1631,8 @@ void aom_wb_write_inv_signed_literal(struct aom_write_bit_buffer *wb, int32_t da
 //*******************************************************************************************//
 
 static void WriteInterMode(
-    FRAME_CONTEXT       *frameContext,
-    aom_writer          *ecWriter,
+    FrameContext       *frameContext,
+    aom_writer          *ec_writer,
     PredictionMode     mode,
     const int16_t       mode_ctx,
     uint32_t                  cu_origin_x,
@@ -1643,17 +1643,17 @@ static void WriteInterMode(
     (void)cu_origin_y;
     int16_t newmv_ctx = mode_ctx & NEWMV_CTX_MASK;
     ASSERT(newmv_ctx<NEWMV_MODE_CONTEXTS);
-    aom_write_symbol(ecWriter, mode != NEWMV, frameContext->newmv_cdf[newmv_ctx], 2);
+    aom_write_symbol(ec_writer, mode != NEWMV, frameContext->newmv_cdf[newmv_ctx], 2);
 
     if (mode != NEWMV) {
         const int16_t zeromv_ctx =
             (mode_ctx >> GLOBALMV_OFFSET) & GLOBALMV_CTX_MASK;
-        aom_write_symbol(ecWriter, mode != GLOBALMV, frameContext->zeromv_cdf[zeromv_ctx], 2);
+        aom_write_symbol(ec_writer, mode != GLOBALMV, frameContext->zeromv_cdf[zeromv_ctx], 2);
 
         if (mode != GLOBALMV) {
             int16_t refmv_ctx = (mode_ctx >> REFMV_OFFSET) & REFMV_CTX_MASK;
             ASSERT(refmv_ctx<REFMV_MODE_CONTEXTS);            
-            aom_write_symbol(ecWriter, mode != NEARESTMV, frameContext->refmv_cdf[refmv_ctx], 2);
+            aom_write_symbol(ec_writer, mode != NEARESTMV, frameContext->refmv_cdf[refmv_ctx], 2);
         }
     }
 }
@@ -1663,8 +1663,8 @@ static void WriteInterMode(
 extern uint8_t av1_drl_ctx(const CandidateMv *ref_mv_stack, int32_t ref_idx);
 
 void WriteDrlIdx(
-    FRAME_CONTEXT       *frameContext,
-    aom_writer          *ecWriter,
+    FrameContext       *frameContext,
+    aom_writer          *ec_writer,
     CodingUnit        *cu_ptr) {
 
     //uint8_t ref_frame_type = av1_ref_frame_type(mbmi->ref_frame);
@@ -1682,7 +1682,7 @@ void WriteDrlIdx(
                 uint8_t drl_ctx =
                     av1_drl_ctx(xd->final_ref_mv_stack, idx);
 
-                aom_write_symbol(ecWriter, cu_ptr->drl_index != idx, frameContext->drl_cdf[drl_ctx],
+                aom_write_symbol(ec_writer, cu_ptr->drl_index != idx, frameContext->drl_cdf[drl_ctx],
                     2);
 
                 if (cu_ptr->drl_index == idx) return;
@@ -1699,7 +1699,7 @@ void WriteDrlIdx(
                 uint8_t drl_ctx =
                     av1_drl_ctx(xd->final_ref_mv_stack, idx);
     
-                aom_write_symbol(ecWriter, cu_ptr->drl_index != (idx - 1),
+                aom_write_symbol(ec_writer, cu_ptr->drl_index != (idx - 1),
                     frameContext->drl_cdf[drl_ctx], 2);
 
                 if (cu_ptr->drl_index == (idx - 1)) return;
@@ -1770,7 +1770,7 @@ static INLINE int32_t is_mv_valid(const MV *mv) {
 
 void av1_encode_mv(
     PictureParentControlSet   *pcsPtr,
-    aom_writer                  *ecWriter,
+    aom_writer                  *ec_writer,
     const MV *mv,
     const MV *ref,
     NMVContext *mvctx,
@@ -1788,12 +1788,12 @@ void av1_encode_mv(
     if (pcsPtr->cur_frame_force_integer_mv) {
         usehp = MV_SUBPEL_NONE;
     }
-    aom_write_symbol(ecWriter, j, mvctx->joints_cdf, MV_JOINTS);
+    aom_write_symbol(ec_writer, j, mvctx->joints_cdf, MV_JOINTS);
     if (mv_joint_vertical(j))
-        encode_mv_component(ecWriter, diff[0], &mvctx->comps[0], (MvSubpelPrecision)usehp);
+        encode_mv_component(ec_writer, diff[0], &mvctx->comps[0], (MvSubpelPrecision)usehp);
 
     if (mv_joint_horizontal(j))
-        encode_mv_component(ecWriter, diff[1], &mvctx->comps[1], (MvSubpelPrecision)usehp);
+        encode_mv_component(ec_writer, diff[1], &mvctx->comps[1], (MvSubpelPrecision)usehp);
 
     // If auto_mv_step_size is enabled then keep track of the largest
     // motion vector component used.
@@ -1936,7 +1936,7 @@ void write_mb_interp_filter(
     MvReferenceFrame rf0,
     MvReferenceFrame rf1,
     PictureParentControlSet   *pcsPtr,
-    aom_writer                  *ecWriter,
+    aom_writer                  *ec_writer,
     CodingUnit             *cu_ptr,
     EntropyCoder *entropy_coder_ptr,
     NeighborArrayUnit32     *interpolation_type_neighbor_array,
@@ -1945,7 +1945,7 @@ void write_mb_interp_filter(
 {
     Av1Common *const cm = pcsPtr->av1_cm; //&cpi->common;
     //const MbModeInfo *const mbmi = xd->mi[0];
-    //FRAME_CONTEXT *ec_ctx = xd->tile_ctx;
+    //FrameContext *ec_ctx = xd->tile_ctx;
 
     if (!av1_is_interp_needed(rf0, rf1, cu_ptr, bsize, pcsPtr)) {
 
@@ -1957,7 +1957,7 @@ void write_mb_interp_filter(
     if (cm->interp_filter == SWITCHABLE) {
         int32_t dir;
         for (dir = 0; dir < 2; ++dir) {
-            // printf("\nP:%d\tX: %d\tY:%d\t %d",(pcsPtr)->picture_number,blkOriginX,blkOriginY ,((ecWriter)->ec).rng);
+            // printf("\nP:%d\tX: %d\tY:%d\t %d",(pcsPtr)->picture_number,blkOriginX,blkOriginY ,((ec_writer)->ec).rng);
             const int32_t ctx = av1_get_pred_context_switchable_interp(
                 ref_frame_type_neighbor_array,
 
@@ -1972,7 +1972,7 @@ void write_mb_interp_filter(
             );
             InterpFilter filter = av1_extract_interp_filter(cu_ptr->interp_filters, dir);
             ASSERT(ctx < SWITCHABLE_FILTER_CONTEXTS);
-            aom_write_symbol(ecWriter, filter, /*ec_ctx*/entropy_coder_ptr->fc->switchable_interp_cdf[ctx],
+            aom_write_symbol(ec_writer, filter, /*ec_ctx*/entropy_coder_ptr->fc->switchable_interp_cdf[ctx],
                 SWITCHABLE_FILTERS);
 
             // ++pcsPtr->interp_filter_selected[0][filter];
@@ -1982,12 +1982,12 @@ void write_mb_interp_filter(
 }
 
 static void WriteInterCompoundMode(
-    FRAME_CONTEXT       *frameContext,
-    aom_writer          *ecWriter,
+    FrameContext       *frameContext,
+    aom_writer          *ec_writer,
     PredictionMode     mode,
     const int16_t       mode_ctx) {
     assert(is_inter_compound_mode(mode));
-    aom_write_symbol(ecWriter, INTER_COMPOUND_OFFSET(mode),
+    aom_write_symbol(ec_writer, INTER_COMPOUND_OFFSET(mode),
         frameContext->inter_compound_mode_cdf[mode_ctx],
         INTER_COMPOUND_MODES);
 
@@ -2251,7 +2251,7 @@ void av1_collect_neighbors_ref_counts(
 }
 
 #define WRITE_REF_BIT(bname, pname) \
-  aom_write_symbol(ecWriter, bname, av1_get_pred_cdf_##pname(), 2)
+  aom_write_symbol(ec_writer, bname, av1_get_pred_cdf_##pname(), 2)
 /***************************************************************************************/
 
 // == Common context functions for both comp and single ref ==
@@ -2432,8 +2432,8 @@ int32_t av1_get_pred_context_single_ref_p6(const MacroBlockD *xd) {
 
 // This function encodes the reference frame
 static void WriteRefFrames(
-    FRAME_CONTEXT               *frameContext,
-    aom_writer                  *ecWriter,
+    FrameContext               *frameContext,
+    aom_writer                  *ec_writer,
     PictureParentControlSet   *pcsPtr,
     CodingUnit                *cu_ptr,
     block_size                   bsize,
@@ -2470,7 +2470,7 @@ static void WriteRefFrames(
                     cu_origin_y,
                     mode_type_neighbor_array,
                     inter_pred_dir_neighbor_array);
-                aom_write_symbol(ecWriter, is_compound, frameContext->comp_inter_cdf[context], 2);
+                aom_write_symbol(ec_writer, is_compound, frameContext->comp_inter_cdf[context], 2);
 
 
             }
@@ -2495,7 +2495,7 @@ static void WriteRefFrames(
                 mode_type_neighbor_array,
                 inter_pred_dir_neighbor_array);
 
-            aom_write_symbol(ecWriter, comp_ref_type, frameContext->comp_ref_type_cdf[context],
+            aom_write_symbol(ec_writer, comp_ref_type, frameContext->comp_ref_type_cdf[context],
                 2);
 
             if (comp_ref_type == UNIDIR_COMP_REFERENCE) {
@@ -2526,7 +2526,7 @@ static void WriteRefFrames(
                 refType[0] == LAST3_FRAME);
 
             context = av1_get_pred_context_comp_ref_p(cu_ptr->av1xd);
-            aom_write_symbol(ecWriter, bit, frameContext->comp_ref_cdf[context][0],
+            aom_write_symbol(ec_writer, bit, frameContext->comp_ref_cdf[context][0],
                 2);
             //            WRITE_REF_BIT(bit, comp_ref_p);
 
@@ -2534,14 +2534,14 @@ static void WriteRefFrames(
             if (!bit) {
                 const int32_t bit1 = (refType[0] == LAST2_FRAME);
                 context = av1_get_pred_context_comp_ref_p1(cu_ptr->av1xd);
-                aom_write_symbol(ecWriter, bit1, frameContext->comp_ref_cdf[context][1],
+                aom_write_symbol(ec_writer, bit1, frameContext->comp_ref_cdf[context][1],
                     2);
                 //WRITE_REF_BIT(bit1, comp_ref_p1);
             }
             else {
                 const int32_t bit2 = (refType[0] == GOLDEN_FRAME);
                 context = av1_get_pred_context_comp_ref_p2(cu_ptr->av1xd);
-                aom_write_symbol(ecWriter, bit2, frameContext->comp_ref_cdf[context][2],
+                aom_write_symbol(ec_writer, bit2, frameContext->comp_ref_cdf[context][2],
                     2);
 
                 //WRITE_REF_BIT(bit2, comp_ref_p2);
@@ -2549,13 +2549,13 @@ static void WriteRefFrames(
 
             const int32_t bit_bwd = (refType[1] == ALTREF_FRAME);
             context = av1_get_pred_context_comp_bwdref_p(cu_ptr->av1xd);
-            aom_write_symbol(ecWriter, bit_bwd, frameContext->comp_bwdref_cdf[context][0],
+            aom_write_symbol(ec_writer, bit_bwd, frameContext->comp_bwdref_cdf[context][0],
                 2);
             //WRITE_REF_BIT(bit_bwd, comp_bwdref_p);
 
             if (!bit_bwd) {
                 context = av1_get_pred_context_comp_bwdref_p1(cu_ptr->av1xd);
-                aom_write_symbol(ecWriter, refType[1] == ALTREF2_FRAME, frameContext->comp_bwdref_cdf[context][1],
+                aom_write_symbol(ec_writer, refType[1] == ALTREF2_FRAME, frameContext->comp_bwdref_cdf[context][1],
                     2);
                 //WRITE_REF_BIT(mbmi->ref_frame[1] == ALTREF2_FRAME, comp_bwdref_p1);
             }
@@ -2566,20 +2566,20 @@ static void WriteRefFrames(
                 cu_ptr->prediction_unit_array[0].ref_frame_type >= BWDREF_FRAME);//0
 
             context = av1_get_pred_context_single_ref_p1(cu_ptr->av1xd);
-            aom_write_symbol(ecWriter, bit0, frameContext->single_ref_cdf[context][0],
+            aom_write_symbol(ec_writer, bit0, frameContext->single_ref_cdf[context][0],
                 2);
             //WRITE_REF_BIT(bit0, single_ref_p1);
 
             if (bit0) {
                 const int32_t bit1 = (cu_ptr->prediction_unit_array[0].ref_frame_type == ALTREF_FRAME);
                 context = av1_get_pred_context_single_ref_p2(cu_ptr->av1xd);
-                aom_write_symbol(ecWriter, bit1, frameContext->single_ref_cdf[context][1],
+                aom_write_symbol(ec_writer, bit1, frameContext->single_ref_cdf[context][1],
                     2);
                 //WRITE_REF_BIT(bit1, single_ref_p2);
 
                 if (!bit1) {
                     context = av1_get_pred_context_single_ref_p6(cu_ptr->av1xd);
-                    aom_write_symbol(ecWriter, cu_ptr->prediction_unit_array[0].ref_frame_type == ALTREF2_FRAME, frameContext->single_ref_cdf[context][5],
+                    aom_write_symbol(ec_writer, cu_ptr->prediction_unit_array[0].ref_frame_type == ALTREF2_FRAME, frameContext->single_ref_cdf[context][5],
                         2);
                     //WRITE_REF_BIT(mbmi->ref_frame[0] == ALTREF2_FRAME, single_ref_p6);
                 }
@@ -2588,21 +2588,21 @@ static void WriteRefFrames(
                 const int32_t bit2 = (cu_ptr->prediction_unit_array[0].ref_frame_type == LAST3_FRAME ||
                     cu_ptr->prediction_unit_array[0].ref_frame_type == GOLDEN_FRAME); //0
                 context = av1_get_pred_context_single_ref_p3(cu_ptr->av1xd);
-                aom_write_symbol(ecWriter, bit2, frameContext->single_ref_cdf[context][2],
+                aom_write_symbol(ec_writer, bit2, frameContext->single_ref_cdf[context][2],
                     2);
                 //WRITE_REF_BIT(bit2, single_ref_p3);
                 if (!bit2) {
                     const int32_t bit3 = (cu_ptr->prediction_unit_array[0].ref_frame_type != LAST_FRAME); //0;
                     context = av1_get_pred_context_single_ref_p4(cu_ptr->av1xd);
 
-                    aom_write_symbol(ecWriter, bit3, frameContext->single_ref_cdf[context][3],
+                    aom_write_symbol(ec_writer, bit3, frameContext->single_ref_cdf[context][3],
                         2);
                     //WRITE_REF_BIT(bit3, single_ref_p4);
                 }
                 else {
                     const int32_t bit4 = (cu_ptr->prediction_unit_array[0].ref_frame_type != LAST3_FRAME);
                     context = av1_get_pred_context_single_ref_p5(cu_ptr->av1xd);
-                    aom_write_symbol(ecWriter, bit4, frameContext->single_ref_cdf[context][4],
+                    aom_write_symbol(ec_writer, bit4, frameContext->single_ref_cdf[context][4],
                         2);
                     //WRITE_REF_BIT(bit4, single_ref_p5);
                 }
@@ -2613,7 +2613,7 @@ static void WriteRefFrames(
 
 
 static void encode_restoration_mode(PictureParentControlSet *pcsPtr,
-    struct aom_write_bit_buffer *wb) {
+    struct AomWriteBitBuffer *wb) {
 
     Av1Common* cm = pcsPtr->av1_cm;
 
@@ -2706,7 +2706,7 @@ static void encode_restoration_mode(PictureParentControlSet *pcsPtr,
 }
 
 
-static void encode_loopfilter(PictureParentControlSet *pcsPtr, struct aom_write_bit_buffer *wb) {
+static void encode_loopfilter(PictureParentControlSet *pcsPtr, struct AomWriteBitBuffer *wb) {
     assert(!pcsPtr->coded_lossless);
     if (pcsPtr->allow_intrabc) return;
     const int32_t num_planes = 3;// av1_num_planes(pcsPtr);
@@ -2768,7 +2768,7 @@ static void encode_loopfilter(PictureParentControlSet *pcsPtr, struct aom_write_
 
 }
 
-static void encode_cdef(const PictureParentControlSet *pcsPtr, struct aom_write_bit_buffer *wb) {
+static void encode_cdef(const PictureParentControlSet *pcsPtr, struct AomWriteBitBuffer *wb) {
     //assert(!cm->coded_lossless);
     // moved out side
     //if (!cm->seq_params.enable_cdef) return;
@@ -2787,7 +2787,7 @@ static void encode_cdef(const PictureParentControlSet *pcsPtr, struct aom_write_
     }
 }
 
-static void write_delta_q(struct aom_write_bit_buffer *wb, int32_t delta_q) {
+static void write_delta_q(struct AomWriteBitBuffer *wb, int32_t delta_q) {
     if (delta_q != 0) {
         aom_wb_write_bit(wb, 1);
         aom_wb_write_inv_signed_literal(wb, delta_q, 6);
@@ -2798,7 +2798,7 @@ static void write_delta_q(struct aom_write_bit_buffer *wb, int32_t delta_q) {
 }
 
 static void encode_quantization(const PictureParentControlSet *const pcsPtr,
-    struct aom_write_bit_buffer *wb) {
+    struct AomWriteBitBuffer *wb) {
     const int32_t num_planes = 3;//av1_num_planes(cm);
 
     aom_wb_write_literal(wb, pcsPtr->base_qindex, QINDEX_BITS);
@@ -2828,7 +2828,7 @@ static void encode_quantization(const PictureParentControlSet *const pcsPtr,
 }
 
 static void write_tile_info_max_tile(const PictureParentControlSet *const pcsPtr,
-    struct aom_write_bit_buffer *wb) {
+    struct AomWriteBitBuffer *wb) {
 
 
     Av1Common * cm = pcsPtr->av1_cm;
@@ -3087,8 +3087,8 @@ void av1_calculate_tile_rows(PictureParentControlSet * pcsPtr)
 
 
 static void write_tile_info(const PictureParentControlSet *const pcs_ptr,
-    //struct aom_write_bit_buffer *saved_wb,
-    struct aom_write_bit_buffer *wb) {
+    //struct AomWriteBitBuffer *saved_wb,
+    struct AomWriteBitBuffer *wb) {
 
     av1_get_tile_limits((PictureParentControlSet *)pcs_ptr);
 #if AV1_UPGRADE
@@ -3160,8 +3160,8 @@ static void write_tile_info(const PictureParentControlSet *const pcs_ptr,
 
 static void write_frame_size(PictureParentControlSet *pcsPtr,
     int32_t frame_size_override,
-    struct aom_write_bit_buffer *wb) {
-    SequenceControlSet *scsPtr = (SequenceControlSet*)pcsPtr->sequence_control_set_wrapper_ptr->object_ptr;
+    struct AomWriteBitBuffer *wb) {
+    SequenceControlSet *scs_ptr = (SequenceControlSet*)pcsPtr->sequence_control_set_wrapper_ptr->object_ptr;
     (void)(*pcsPtr);
     (void)frame_size_override;
     //const int32_t coded_width = cm->superres_upscaled_width - 1;
@@ -3174,7 +3174,7 @@ static void write_frame_size(PictureParentControlSet *pcsPtr,
     //    aom_wb_write_literal(wb, coded_width, num_bits_width);
     //    aom_wb_write_literal(wb, coded_height, num_bits_height);
     //}
-    if (scsPtr->enable_superres) {
+    if (scs_ptr->enable_superres) {
         printf("ERROR[AN]: enable_superres not supported yet\n");
         //write_superres_scale(cm, wb);
     }
@@ -3185,28 +3185,28 @@ static void write_frame_size(PictureParentControlSet *pcsPtr,
 }
 
 static void WriteProfile(BitstreamProfile profile,
-    struct aom_write_bit_buffer *wb) {
+    struct AomWriteBitBuffer *wb) {
     assert(profile >= PROFILE_0 && profile < MAX_PROFILES);
     aom_wb_write_literal(wb, profile, PROFILE_BITS);
 
 }
 
-static void write_bitdepth(SequenceControlSet *scsPtr/*Av1Common *const cm*/,
-    struct aom_write_bit_buffer *wb) {
+static void write_bitdepth(SequenceControlSet *scs_ptr/*Av1Common *const cm*/,
+    struct AomWriteBitBuffer *wb) {
     // Profile 0/1: [0] for 8 bit, [1]  10-bit
     // Profile   2: [0] for 8 bit, [10] 10-bit, [11] - 12-bit
-    aom_wb_write_bit(wb, scsPtr->static_config.encoder_bit_depth == EB_8BIT ? 0 : 1);
-    if (scsPtr->static_config.profile == PROFILE_2 && scsPtr->static_config.encoder_bit_depth != EB_8BIT) {
+    aom_wb_write_bit(wb, scs_ptr->static_config.encoder_bit_depth == EB_8BIT ? 0 : 1);
+    if (scs_ptr->static_config.profile == PROFILE_2 && scs_ptr->static_config.encoder_bit_depth != EB_8BIT) {
         printf("ERROR[AN]: Profile 2 Not supported\n");
-        aom_wb_write_bit(wb, scsPtr->static_config.encoder_bit_depth == EB_10BIT ? 0 : 1);
+        aom_wb_write_bit(wb, scs_ptr->static_config.encoder_bit_depth == EB_10BIT ? 0 : 1);
     }
 }
 #if AV1_UPGRADE
 static void write_color_config(
-    SequenceControlSet *scsPtr/*Av1Common *const cm*/, struct aom_write_bit_buffer *wb) {
+    SequenceControlSet *scs_ptr/*Av1Common *const cm*/, struct AomWriteBitBuffer *wb) {
 
     //write_bitdepth(cm, wb);
-    write_bitdepth(scsPtr, wb);
+    write_bitdepth(scs_ptr, wb);
     const int32_t is_monochrome = 0;// cm->seq_params.monochrome;
     // monochrome bit
     aom_wb_write_bit(wb, is_monochrome);
@@ -3282,8 +3282,8 @@ static void write_color_config(
 
 #else
 static void WriteBitdepthColorspaceSampling(
-    SequenceControlSet *scsPtr/*Av1Common *const cm*/, struct aom_write_bit_buffer *wb) {
-    write_bitdepth(scsPtr, wb);
+    SequenceControlSet *scs_ptr/*Av1Common *const cm*/, struct AomWriteBitBuffer *wb) {
+    write_bitdepth(scs_ptr, wb);
 
     const int32_t is_monochrome = 0;// cm->seq_params.monochrome;
     // monochrome bit
@@ -3361,103 +3361,103 @@ static void WriteBitdepthColorspaceSampling(
     //aom_wb_write_bit(wb, cm->separate_uv_delta_q);
 }
 #endif
-void WriteSequenceHeader(SequenceControlSet *scsPtr/*AV1Comp *cpi*/, struct aom_write_bit_buffer *wb) {
+void write_sequence_header(SequenceControlSet *scs_ptr/*AV1Comp *cpi*/, struct AomWriteBitBuffer *wb) {
     //    Av1Common *const cm = &cpi->common;
     //    SequenceHeader *seq_params = &cm->seq_params;
     //
 
 
 
-    int32_t max_frame_width = scsPtr->luma_width;
+    int32_t max_frame_width = scs_ptr->luma_width;
     /*        cpi->oxcf.forced_max_frame_width
     ? cpi->oxcf.forced_max_frame_width
     : cpi->oxcf.width;*/
-    int32_t max_frame_height = scsPtr->luma_height;
+    int32_t max_frame_height = scs_ptr->luma_height;
     /*cpi->oxcf.forced_max_frame_height
     ? cpi->oxcf.forced_max_frame_height
     : cpi->oxcf.height;*/
 
-    aom_wb_write_literal(wb, scsPtr->num_bits_width - 1, 4);
-    aom_wb_write_literal(wb, scsPtr->num_bits_height - 1, 4);
-    aom_wb_write_literal(wb, max_frame_width - 1, scsPtr->num_bits_width);
-    aom_wb_write_literal(wb, max_frame_height - 1, scsPtr->num_bits_height);
+    aom_wb_write_literal(wb, scs_ptr->num_bits_width - 1, 4);
+    aom_wb_write_literal(wb, scs_ptr->num_bits_height - 1, 4);
+    aom_wb_write_literal(wb, max_frame_width - 1, scs_ptr->num_bits_width);
+    aom_wb_write_literal(wb, max_frame_height - 1, scs_ptr->num_bits_height);
     //
     /* Placeholder for actually writing to the bitstream */
 
-    if (!scsPtr->reduced_still_picture_hdr) {
+    if (!scs_ptr->reduced_still_picture_hdr) {
 
-        //scsPtr->frame_id_numbers_present_flag = 0;
+        //scs_ptr->frame_id_numbers_present_flag = 0;
         //    cm->large_scale_tile ? 0 : cm->error_resilient_mode;
 
-        aom_wb_write_bit(wb, scsPtr->frame_id_numbers_present_flag);
-        if (scsPtr->frame_id_numbers_present_flag) {
+        aom_wb_write_bit(wb, scs_ptr->frame_id_numbers_present_flag);
+        if (scs_ptr->frame_id_numbers_present_flag) {
             // We must always have delta_frame_id_length < frame_id_length,
             // in order for a frame to be referenced with a unique delta.
             // Avoid wasting bits by using a coding that enforces this restriction.
-            aom_wb_write_literal(wb, scsPtr->delta_frame_id_length - 2, 4);
+            aom_wb_write_literal(wb, scs_ptr->delta_frame_id_length - 2, 4);
             aom_wb_write_literal(
-                wb, scsPtr->frame_id_length - scsPtr->delta_frame_id_length - 1,
+                wb, scs_ptr->frame_id_length - scs_ptr->delta_frame_id_length - 1,
                 3);
         }
 
     }
 
-    aom_wb_write_bit(wb, scsPtr->sb_size == BLOCK_128X128 ? 1 : 0);
+    aom_wb_write_bit(wb, scs_ptr->sb_size == BLOCK_128X128 ? 1 : 0);
     //    write_sb_size(seq_params, wb);
-    aom_wb_write_bit(wb, scsPtr->enable_filter_intra);
+    aom_wb_write_bit(wb, scs_ptr->enable_filter_intra);
 #if !INTRA_10BIT_SUPPORT
-    if (scsPtr->static_config.encoder_bit_depth == 8)
+    if (scs_ptr->static_config.encoder_bit_depth == 8)
 #endif
 
 #if  DIS_EDGE_FIL
-        scsPtr->enable_intra_edge_filter = 0;
+        scs_ptr->enable_intra_edge_filter = 0;
 #else
-        scsPtr->enable_intra_edge_filter = 1;
+        scs_ptr->enable_intra_edge_filter = 1;
 #endif
-    aom_wb_write_bit(wb, scsPtr->enable_intra_edge_filter);
+    aom_wb_write_bit(wb, scs_ptr->enable_intra_edge_filter);
 
-    if (!scsPtr->reduced_still_picture_hdr) {
+    if (!scs_ptr->reduced_still_picture_hdr) {
 
-        aom_wb_write_bit(wb, scsPtr->enable_interintra_compound);
-        aom_wb_write_bit(wb, scsPtr->enable_masked_compound);
-        aom_wb_write_bit(wb, scsPtr->static_config.enable_warped_motion);
-        aom_wb_write_bit(wb, scsPtr->enable_dual_filter);
+        aom_wb_write_bit(wb, scs_ptr->enable_interintra_compound);
+        aom_wb_write_bit(wb, scs_ptr->enable_masked_compound);
+        aom_wb_write_bit(wb, scs_ptr->static_config.enable_warped_motion);
+        aom_wb_write_bit(wb, scs_ptr->enable_dual_filter);
 
-        aom_wb_write_bit(wb, scsPtr->enable_order_hint);
+        aom_wb_write_bit(wb, scs_ptr->enable_order_hint);
 
-        if (scsPtr->enable_order_hint) {
-            aom_wb_write_bit(wb, scsPtr->enable_jnt_comp);
-            aom_wb_write_bit(wb, scsPtr->enable_ref_frame_mvs);
+        if (scs_ptr->enable_order_hint) {
+            aom_wb_write_bit(wb, scs_ptr->enable_jnt_comp);
+            aom_wb_write_bit(wb, scs_ptr->enable_ref_frame_mvs);
         }
 
-        if (scsPtr->force_screen_content_tools == 2) {
+        if (scs_ptr->force_screen_content_tools == 2) {
             aom_wb_write_bit(wb, 1);
         }
         else {
             aom_wb_write_bit(wb, 0);
-            aom_wb_write_bit(wb, scsPtr->force_screen_content_tools);
+            aom_wb_write_bit(wb, scs_ptr->force_screen_content_tools);
         }
         //
-        if (scsPtr->force_screen_content_tools > 0) {
-            if (scsPtr->force_integer_mv == 2) {
+        if (scs_ptr->force_screen_content_tools > 0) {
+            if (scs_ptr->force_integer_mv == 2) {
                 aom_wb_write_bit(wb, 1);
             }
             else {
                 aom_wb_write_bit(wb, 0);
-                aom_wb_write_bit(wb, scsPtr->force_integer_mv);
+                aom_wb_write_bit(wb, scs_ptr->force_integer_mv);
             }
         }
         else {
-            assert(scsPtr->force_integer_mv == 2);
+            assert(scs_ptr->force_integer_mv == 2);
         }
 
-        if (scsPtr->enable_order_hint)
-            aom_wb_write_literal(wb, scsPtr->order_hint_bits_minus1, 3);
+        if (scs_ptr->enable_order_hint)
+            aom_wb_write_literal(wb, scs_ptr->order_hint_bits_minus1, 3);
     }
 
-    aom_wb_write_bit(wb, scsPtr->enable_superres);
-    aom_wb_write_bit(wb, scsPtr->enable_cdef);
-    aom_wb_write_bit(wb, scsPtr->enable_restoration);
+    aom_wb_write_bit(wb, scs_ptr->enable_superres);
+    aom_wb_write_bit(wb, scs_ptr->enable_cdef);
+    aom_wb_write_bit(wb, scs_ptr->enable_restoration);
 }
 
 // Recenters a non-negative literal v around a reference r
@@ -3499,7 +3499,7 @@ void aom_write_primitive_quniform(aom_writer *w, uint16_t n, uint16_t v) {
     }
 }
 
-static void aom_wb_write_primitive_quniform(struct aom_write_bit_buffer *wb,
+static void aom_wb_write_primitive_quniform(struct AomWriteBitBuffer *wb,
     uint16_t n, uint16_t v) {
     if (n <= 1) return;
     const int32_t l = get_msb(n - 1) + 1;
@@ -3547,7 +3547,7 @@ void aom_write_primitive_subexpfin(aom_writer *w, uint16_t n, uint16_t k,
     }
 }
 
-static void aom_wb_write_primitive_subexpfin(struct aom_write_bit_buffer *wb,
+static void aom_wb_write_primitive_subexpfin(struct AomWriteBitBuffer *wb,
     uint16_t n, uint16_t k,
     uint16_t v) {
     int32_t i = 0;
@@ -3608,13 +3608,13 @@ void aom_write_primitive_refsubexpfin(aom_writer *w, uint16_t n, uint16_t k,
     aom_write_primitive_subexpfin(w, n, k, recenter_finite_nonneg(n, ref, v));
 }
 
-static void aom_wb_write_primitive_refsubexpfin(struct aom_write_bit_buffer *wb,
+static void aom_wb_write_primitive_refsubexpfin(struct AomWriteBitBuffer *wb,
     uint16_t n, uint16_t k,
     uint16_t ref, uint16_t v) {
     aom_wb_write_primitive_subexpfin(wb, n, k, recenter_finite_nonneg(n, ref, v));
 }
 
-void aom_wb_write_signed_primitive_refsubexpfin(struct aom_write_bit_buffer *wb,
+void aom_wb_write_signed_primitive_refsubexpfin(struct AomWriteBitBuffer *wb,
     uint16_t n, uint16_t k,
     int16_t ref, int16_t v) {
     ref += n - 1;
@@ -3630,7 +3630,7 @@ int32_t aom_count_primitive_refsubexpfin(uint16_t n, uint16_t k, uint16_t ref,
 
 static void write_global_motion_params(const EbWarpedMotionParams *params,
     const EbWarpedMotionParams *ref_params,
-    struct aom_write_bit_buffer *wb,
+    struct AomWriteBitBuffer *wb,
     int32_t allow_hp) {
     const TransformationType type = params->wmtype;
     assert(type == TRANSLATION || type == IDENTITY);
@@ -3699,7 +3699,7 @@ static void write_global_motion_params(const EbWarpedMotionParams *params,
 }
 static void WriteGlobalMotion(
     PictureParentControlSet *pcsPtr,
-    struct aom_write_bit_buffer *wb)
+    struct AomWriteBitBuffer *wb)
 
 {
     int32_t frame;
@@ -3735,7 +3735,7 @@ static void WriteGlobalMotion(
 }
 
 static void write_film_grain_params(PictureParentControlSet *pcsPtr,
-    struct aom_write_bit_buffer *wb) {
+    struct AomWriteBitBuffer *wb) {
 
     aom_film_grain_t *pars = &pcsPtr->film_grain_params;
 
@@ -3850,10 +3850,10 @@ static void write_film_grain_params(PictureParentControlSet *pcsPtr,
 }
 
 // New function based on HLS R18
-static void WriteUncompressedHeaderObu(SequenceControlSet *scsPtr/*AV1Comp *cpi*/,
+static void WriteUncompressedHeaderObu(SequenceControlSet *scs_ptr/*AV1Comp *cpi*/,
     PictureParentControlSet *pcsPtr,
-    //struct aom_write_bit_buffer *saved_wb,
-    struct aom_write_bit_buffer *wb,
+    //struct AomWriteBitBuffer *saved_wb,
+    struct AomWriteBitBuffer *wb,
     uint8_t show_existing) {
     // Av1Common *const cm = &cpi->common;
     // MacroBlockD *const xd = &cpi->td.mb.e_mbd;
@@ -3861,7 +3861,7 @@ static void WriteUncompressedHeaderObu(SequenceControlSet *scsPtr/*AV1Comp *cpi*
     // NOTE: By default all coded frames to be used as a reference
     pcsPtr->is_reference_frame = 1;
 
-    if (!scsPtr->reduced_still_picture_hdr) {
+    if (!scs_ptr->reduced_still_picture_hdr) {
 
         if (show_existing) {
             //printf("ERROR[AN]: show_existing_frame not supported yet\n");
@@ -3878,7 +3878,7 @@ static void WriteUncompressedHeaderObu(SequenceControlSet *scsPtr/*AV1Comp *cpi*
             aom_wb_write_bit(wb, 1);  // show_existing_frame
             aom_wb_write_literal(wb, pcsPtr->show_existing_loc, 3);
 
-            if (scsPtr->frame_id_numbers_present_flag) {
+            if (scs_ptr->frame_id_numbers_present_flag) {
                 printf("ERROR[AN]: frame_id_numbers_present_flag not supported yet\n");
                 /*int32_t frame_id_len = cm->seq_params.frame_id_length;
                 int32_t display_frame_id = cm->ref_frame_id[cpi->show_existing_loc];
@@ -3924,30 +3924,30 @@ static void WriteUncompressedHeaderObu(SequenceControlSet *scsPtr/*AV1Comp *cpi*
 
     aom_wb_write_bit(wb, pcsPtr->disable_cdf_update);
 
-    if (scsPtr->force_screen_content_tools == 2) {
+    if (scs_ptr->force_screen_content_tools == 2) {
         aom_wb_write_bit(wb, pcsPtr->allow_screen_content_tools);
     }
     else {
         assert(pcsPtr->allow_screen_content_tools ==
-            scsPtr->force_screen_content_tools);
+            scs_ptr->force_screen_content_tools);
     }
 
     if (pcsPtr->allow_screen_content_tools) {
-        if (scsPtr->force_integer_mv == 2) {
+        if (scs_ptr->force_integer_mv == 2) {
             aom_wb_write_bit(wb, pcsPtr->cur_frame_force_integer_mv);
         }
         else {
-            assert(pcsPtr->cur_frame_force_integer_mv == scsPtr->force_integer_mv);
+            assert(pcsPtr->cur_frame_force_integer_mv == scs_ptr->force_integer_mv);
         }
     }
     else {
         assert(pcsPtr->cur_frame_force_integer_mv == 0);
     }
 
-    if (!scsPtr->reduced_still_picture_hdr) {
+    if (!scs_ptr->reduced_still_picture_hdr) {
 
-        if (scsPtr->frame_id_numbers_present_flag) {
-            int32_t frame_id_len = scsPtr->frame_id_length;
+        if (scs_ptr->frame_id_numbers_present_flag) {
+            int32_t frame_id_len = scs_ptr->frame_id_length;
             aom_wb_write_literal(wb, pcsPtr->current_frame_id, frame_id_len);
         }
 
@@ -3963,9 +3963,9 @@ static void WriteUncompressedHeaderObu(SequenceControlSet *scsPtr/*AV1Comp *cpi*
         cm->height != cm->seq_params.max_frame_height);*/
         if (pcsPtr->av1_frame_type != S_FRAME) aom_wb_write_bit(wb, frame_size_override_flag);
 
-        if (scsPtr->enable_order_hint)
+        if (scs_ptr->enable_order_hint)
             aom_wb_write_literal(wb, (int32_t)pcsPtr->frame_offset,
-                scsPtr->order_hint_bits_minus1 + 1);
+                scs_ptr->order_hint_bits_minus1 + 1);
 
 
         if (!pcsPtr->error_resilient_mode && !frame_is_intra_only(pcsPtr)) {
@@ -4054,7 +4054,7 @@ static void WriteUncompressedHeaderObu(SequenceControlSet *scsPtr/*AV1Comp *cpi*
             assert(pcsPtr->frame_refs_short_signaling == 0);
             // NOTE: Error resilient mode turns off frame_refs_short_signaling
             //       automatically.
-            if (scsPtr->enable_order_hint)
+            if (scs_ptr->enable_order_hint)
                 aom_wb_write_bit(wb, pcsPtr->frame_refs_short_signaling);
 
             if (pcsPtr->frame_refs_short_signaling) {
@@ -4069,7 +4069,7 @@ static void WriteUncompressedHeaderObu(SequenceControlSet *scsPtr/*AV1Comp *cpi*
                     aom_wb_write_literal(wb, get_ref_frame_map_idx(pcsPtr, ref_frame),
                         REF_FRAMES_LOG2);
 
-                if (scsPtr->frame_id_numbers_present_flag) {
+                if (scs_ptr->frame_id_numbers_present_flag) {
                     printf("ERROR[AN]: frame_id_numbers_present_flag not supported yet\n");
                     //int32_t i = get_ref_frame_map_idx(cpi, ref_frame);
                     //int32_t frame_id_len = cm->seq_params.frame_id_length;
@@ -4110,23 +4110,23 @@ static void WriteUncompressedHeaderObu(SequenceControlSet *scsPtr/*AV1Comp *cpi*
                 aom_wb_write_literal(wb, pcsPtr->av1_cm->interp_filter, LOG_SWITCHABLE_FILTERS);
 
             aom_wb_write_bit(wb, pcsPtr->switchable_motion_mode);
-            if (frame_might_allow_ref_frame_mvs(pcsPtr, scsPtr)) {
+            if (frame_might_allow_ref_frame_mvs(pcsPtr, scs_ptr)) {
 
                 aom_wb_write_bit(wb, pcsPtr->allow_ref_frame_mvs);
             }
         }
     }
 
-    //if (scsPtr->frame_id_numbers_present_flag)
+    //if (scs_ptr->frame_id_numbers_present_flag)
     //    pcsPtr->refresh_mask = get_refresh_mask(pcsPtr);
 #if AV1_UPGRADE
     const int32_t might_bwd_adapt =
-        !(scsPtr->reduced_still_picture_hdr) && !(pcsPtr->disable_cdf_update);
+        !(scs_ptr->reduced_still_picture_hdr) && !(pcsPtr->disable_cdf_update);
     if (pcsPtr->large_scale_tile)
         pcsPtr->refresh_frame_context = REFRESH_FRAME_CONTEXT_DISABLED;
 #else
     const int32_t might_bwd_adapt =
-        !(scsPtr->reduced_still_picture_hdr) && !(pcsPtr->large_scale_tile) && !(pcsPtr->disable_cdf_update);
+        !(scs_ptr->reduced_still_picture_hdr) && !(pcsPtr->large_scale_tile) && !(pcsPtr->disable_cdf_update);
 #endif
     if (might_bwd_adapt) {
         aom_wb_write_bit(
@@ -4191,11 +4191,11 @@ static void WriteUncompressedHeaderObu(SequenceControlSet *scsPtr/*AV1Comp *cpi*
     else {
         if (!pcsPtr->coded_lossless) {
             encode_loopfilter(pcsPtr, wb);
-            if (scsPtr->enable_cdef) {
+            if (scs_ptr->enable_cdef) {
                 encode_cdef(pcsPtr, wb);
             }
         }
-        if (scsPtr->enable_restoration) {
+        if (scs_ptr->enable_restoration) {
             encode_restoration_mode(pcsPtr, wb);
         }
     }
@@ -4212,7 +4212,7 @@ static void WriteUncompressedHeaderObu(SequenceControlSet *scsPtr/*AV1Comp *cpi*
 
     if (pcsPtr->is_skip_mode_allowed) aom_wb_write_bit(wb, pcsPtr->skip_mode_flag);
 
-    if (frame_might_allow_warped_motion(pcsPtr, scsPtr))
+    if (frame_might_allow_warped_motion(pcsPtr, scs_ptr))
         aom_wb_write_bit(wb, pcsPtr->allow_warped_motion);
     else
         assert(!pcsPtr->allow_warped_motion);
@@ -4226,33 +4226,33 @@ static void WriteUncompressedHeaderObu(SequenceControlSet *scsPtr/*AV1Comp *cpi*
 
 
 
-    if (scsPtr->film_grain_params_present && (pcsPtr->show_frame || pcsPtr->showable_frame)) {
+    if (scs_ptr->film_grain_params_present && (pcsPtr->show_frame || pcsPtr->showable_frame)) {
         write_film_grain_params(pcsPtr, wb);
     }
 }
 
-uint32_t WriteObuHeader(ObuType ObuType, int32_t obuExtension,
+uint32_t write_obu_header(ObuType ObuType, int32_t obu_extension,
     uint8_t *const dst) {
-    struct aom_write_bit_buffer wb = { dst, 0 };
+    struct AomWriteBitBuffer wb = { dst, 0 };
     uint32_t size = 0;
 
     aom_wb_write_literal(&wb, 0, 1);  // forbidden bit.
     aom_wb_write_literal(&wb, (int32_t)ObuType, 4);
-    aom_wb_write_literal(&wb, obuExtension ? 1 : 0, 1);
+    aom_wb_write_literal(&wb, obu_extension ? 1 : 0, 1);
     aom_wb_write_literal(&wb, 1, 1);  // obu_has_payload_length_field
     aom_wb_write_literal(&wb, 0, 1);  // reserved
 
-    if (obuExtension) {
-        aom_wb_write_literal(&wb, obuExtension & 0xFF, 8);
+    if (obu_extension) {
+        aom_wb_write_literal(&wb, obu_extension & 0xFF, 8);
     }
 
     size = aom_wb_bytes_written(&wb);
     return size;
 }
-int32_t WriteUlebObuSize(uint32_t obuHeaderSize, uint32_t obuPayloadSize,
+int32_t write_uleb_obu_size(uint32_t obu_header_size, uint32_t obu_payload_size,
     uint8_t *dest) {
-    const uint32_t obuSize = obuPayloadSize;
-    const uint32_t offset = obuHeaderSize;
+    const uint32_t obuSize = obu_payload_size;
+    const uint32_t offset = obu_header_size;
     size_t codedObuSize = 0;
 
     if (aom_uleb_encode(obuSize, sizeof(obuSize), dest + offset,
@@ -4263,20 +4263,20 @@ int32_t WriteUlebObuSize(uint32_t obuHeaderSize, uint32_t obuPayloadSize,
     return AOM_CODEC_OK;
 }
 static size_t ObuMemMove(
-    uint32_t obuHeaderSize,
-    uint32_t obuPayloadSize,
+    uint32_t obu_header_size,
+    uint32_t obu_payload_size,
     uint8_t *data)
 {
-    const size_t lengthFieldSize = aom_uleb_size_in_bytes(obuPayloadSize);
+    const size_t lengthFieldSize = aom_uleb_size_in_bytes(obu_payload_size);
     const uint32_t moveDstOffset =
-        (uint32_t)lengthFieldSize + obuHeaderSize;
-    const uint32_t moveSrcOffset = obuHeaderSize;
-    const uint32_t moveSize = obuPayloadSize;
+        (uint32_t)lengthFieldSize + obu_header_size;
+    const uint32_t moveSrcOffset = obu_header_size;
+    const uint32_t moveSize = obu_payload_size;
     memmove(data + moveDstOffset, data + moveSrcOffset, moveSize);
     return lengthFieldSize;
 }
 
-static void add_trailing_bits(struct aom_write_bit_buffer *wb) {
+static void add_trailing_bits(struct AomWriteBitBuffer *wb) {
     if (aom_wb_is_byte_aligned(wb)) {
         aom_wb_write_literal(wb, 0x80, 8);
     }
@@ -4286,47 +4286,47 @@ static void add_trailing_bits(struct aom_write_bit_buffer *wb) {
     }
 }
 static void write_bitstream_level(BitstreamLevel bl,
-    struct aom_write_bit_buffer *wb) {
+    struct AomWriteBitBuffer *wb) {
     uint8_t seq_level_idx = major_minor_to_seq_level_idx(bl);
     assert(is_valid_seq_level_idx(seq_level_idx));
     aom_wb_write_literal(wb, seq_level_idx, LEVEL_BITS);
 }
 static uint32_t WriteSequenceHeaderObu(
-    SequenceControlSet *scsPtr,
+    SequenceControlSet *scs_ptr,
     uint8_t *const dst,
     uint8_t numberSpatialLayers)
 {
-    struct aom_write_bit_buffer wb = { dst, 0 };
+    struct AomWriteBitBuffer wb = { dst, 0 };
     uint32_t size = 0;
 
-    SetBitstreamLevelTier(scsPtr);
+    SetBitstreamLevelTier(scs_ptr);
 
-    WriteProfile((BitstreamProfile)scsPtr->static_config.profile, &wb);
+    WriteProfile((BitstreamProfile)scs_ptr->static_config.profile, &wb);
 
     // Still picture or not
-    aom_wb_write_bit(&wb, scsPtr->still_picture);
-    assert(IMPLIES(!scsPtr->still_picture,
-        !scsPtr->reduced_still_picture_hdr));
+    aom_wb_write_bit(&wb, scs_ptr->still_picture);
+    assert(IMPLIES(!scs_ptr->still_picture,
+        !scs_ptr->reduced_still_picture_hdr));
 
     // whether to use reduced still picture header
-    aom_wb_write_bit(&wb, scsPtr->reduced_still_picture_hdr);
+    aom_wb_write_bit(&wb, scs_ptr->reduced_still_picture_hdr);
 
-    if (scsPtr->reduced_still_picture_hdr) {
+    if (scs_ptr->reduced_still_picture_hdr) {
         printf("ERROR[AN]: reduced_still_picture_hdr not supported\n");
         //write_bitstream_level(cm->seq_params.level[0], &wb);
     }
     else {
 #if AV1_UPGRADE
-        aom_wb_write_bit(&wb, scsPtr->timing_info_present);  // timing info present flag
+        aom_wb_write_bit(&wb, scs_ptr->timing_info_present);  // timing info present flag
 
-        if (scsPtr->timing_info_present) {
+        if (scs_ptr->timing_info_present) {
             // timing_info
             printf("ERROR[AN]: timing_info_present not supported\n");
             /*write_timing_info_header(cm, &wb);
             aom_wb_write_bit(&wb, cm->decoder_model_info_present_flag);
             if (cm->decoder_model_info_present_flag) write_decoder_model_info(cm, &wb);*/
         }
-        aom_wb_write_bit(&wb, scsPtr->display_model_info_present_flag);
+        aom_wb_write_bit(&wb, scs_ptr->display_model_info_present_flag);
 
 
         uint8_t operating_points_cnt_minus_1 =
@@ -4335,19 +4335,19 @@ static uint32_t WriteSequenceHeaderObu(
             OP_POINTS_CNT_MINUS_1_BITS);
         int32_t i;
         for (i = 0; i < operating_points_cnt_minus_1 + 1; i++) {
-            aom_wb_write_literal(&wb, scsPtr->operating_point_idc[i],
+            aom_wb_write_literal(&wb, scs_ptr->operating_point_idc[i],
                 OP_POINTS_IDC_BITS);
-            write_bitstream_level(scsPtr->level[i], &wb);
-            if (scsPtr->level[i].major > 3)
-                aom_wb_write_bit(&wb, scsPtr->tier[i]);
-            if (scsPtr->decoder_model_info_present_flag) {
+            write_bitstream_level(scs_ptr->level[i], &wb);
+            if (scs_ptr->level[i].major > 3)
+                aom_wb_write_bit(&wb, scs_ptr->tier[i]);
+            if (scs_ptr->decoder_model_info_present_flag) {
                 printf("ERROR[AN]: decoder_model_info_present_flag not supported\n");
                 //aom_wb_write_bit(&wb,
                 //    cm->op_params[i].decoder_model_param_present_flag);
                 //if (cm->op_params[i].decoder_model_param_present_flag)
                 //    write_dec_model_op_parameters(cm, &wb, i);
             }
-            if (scsPtr->display_model_info_present_flag) {
+            if (scs_ptr->display_model_info_present_flag) {
                 printf("ERROR[AN]: display_model_info_present_flag not supported\n");
                 //aom_wb_write_bit(&wb,
                 //    cm->op_params[i].display_model_param_present_flag);
@@ -4359,9 +4359,9 @@ static uint32_t WriteSequenceHeaderObu(
             }
         }
     }
-    WriteSequenceHeader(scsPtr, &wb);
+    write_sequence_header(scs_ptr, &wb);
 
-    write_color_config(scsPtr, &wb);
+    write_color_config(scs_ptr, &wb);
 #else
 
         uint8_t operating_points_cnt_minus_1 =
@@ -4370,7 +4370,7 @@ static uint32_t WriteSequenceHeaderObu(
             OP_POINTS_CNT_MINUS_1_BITS);
         int32_t i;
         if (operating_points_cnt_minus_1 == 0) {
-            scsPtr->operating_point_idc[0] = 0;
+            scs_ptr->operating_point_idc[0] = 0;
         }
         else {
             printf("ERROR[AN]: more than 1 operating_point_idc not supported\n");
@@ -4384,27 +4384,27 @@ static uint32_t WriteSequenceHeaderObu(
         }
 
         for (i = 0; i < operating_points_cnt_minus_1 + 1; i++) {
-            aom_wb_write_literal(&wb, scsPtr->operating_point_idc[i],
+            aom_wb_write_literal(&wb, scs_ptr->operating_point_idc[i],
                 OP_POINTS_IDC_BITS);
-            write_bitstream_level(scsPtr->level[i], &wb);
-            if (scsPtr->level[i].major > 3)
-                aom_wb_write_bit(&wb, scsPtr->tier[i]);
+            write_bitstream_level(scs_ptr->level[i], &wb);
+            if (scs_ptr->level[i].major > 3)
+                aom_wb_write_bit(&wb, scs_ptr->tier[i]);
         }
 }
 
 
-    WriteSequenceHeader(scsPtr, &wb);
+    write_sequence_header(scs_ptr, &wb);
 
     // color_config
-    WriteBitdepthColorspaceSampling(scsPtr, &wb);
+    WriteBitdepthColorspaceSampling(scs_ptr, &wb);
 
     // timing_info
-    if (!scsPtr->reduced_still_picture_hdr)
-        aom_wb_write_bit(&wb, scsPtr->timing_info_present);  // timing info present flag
+    if (!scs_ptr->reduced_still_picture_hdr)
+        aom_wb_write_bit(&wb, scs_ptr->timing_info_present);  // timing info present flag
     else
-        assert(scsPtr->timing_info_present == 0);
+        assert(scs_ptr->timing_info_present == 0);
 
-    if (scsPtr->timing_info_present) {
+    if (scs_ptr->timing_info_present) {
         // timing_info
         printf("ERROR[AN]: timing_info_present not supported\n");
         /*write_timing_info_header(cm, &wb);
@@ -4412,7 +4412,7 @@ static uint32_t WriteSequenceHeaderObu(
         if (cm->decoder_model_info_present_flag) write_decoder_model_info(cm, &wb);*/
     }
 
-    if (scsPtr->operating_points_decoder_model_cnt > 0) {
+    if (scs_ptr->operating_points_decoder_model_cnt > 0) {
         printf("ERROR[AN]: operating_points_decoder_model_cnt not supported\n");
         //aom_wb_write_bit(&wb, 1);
         //aom_wb_write_literal(&wb, cm->operating_points_decoder_model_cnt - 1, 5);
@@ -4420,7 +4420,7 @@ static uint32_t WriteSequenceHeaderObu(
     else {
         aom_wb_write_bit(&wb, 0);
     }
-    /*for (int32_t op_num = 0; op_num < scsPtr->operating_points_decoder_model_cnt;
+    /*for (int32_t op_num = 0; op_num < scs_ptr->operating_points_decoder_model_cnt;
        ++op_num) {
         aom_wb_write_literal(
             &wb, cm->op_params[op_num].decoder_model_operating_point_idc, 12);
@@ -4439,7 +4439,7 @@ static uint32_t WriteSequenceHeaderObu(
 
 
 #endif
-    aom_wb_write_bit(&wb, scsPtr->film_grain_params_present);
+    aom_wb_write_bit(&wb, scs_ptr->film_grain_params_present);
 
     add_trailing_bits(&wb);
 
@@ -4451,7 +4451,7 @@ static uint32_t write_tile_group_header(uint8_t *const dst, int startTile,
     int endTile, int tiles_log2,
     int tile_start_and_end_present_flag)
 {
-    struct aom_write_bit_buffer wb = { dst, 0 };
+    struct AomWriteBitBuffer wb = { dst, 0 };
     uint32_t size = 0;
 
     if (!tiles_log2) return size;
@@ -4467,7 +4467,7 @@ static uint32_t write_tile_group_header(uint8_t *const dst, int startTile,
 }
 #endif
 static uint32_t WriteFrameHeaderObu(
-    SequenceControlSet      *scsPtr,
+    SequenceControlSet      *scs_ptr,
     PictureParentControlSet *pcsPtr,
     uint8_t                   *const dst,
     uint8_t show_existing,
@@ -4475,10 +4475,10 @@ static uint32_t WriteFrameHeaderObu(
 
 )
 {
-    struct aom_write_bit_buffer wb = { dst, 0 };
+    struct AomWriteBitBuffer wb = { dst, 0 };
     uint32_t totalSize = 0;
 
-    WriteUncompressedHeaderObu(scsPtr, pcsPtr,/* saved_wb,*/ &wb, show_existing);
+    WriteUncompressedHeaderObu(scs_ptr, pcsPtr,/* saved_wb,*/ &wb, show_existing);
 
     if (appendTrailingBits)
         add_trailing_bits(&wb);
@@ -4498,15 +4498,15 @@ static uint32_t WriteFrameHeaderObu(
 **************************************************/
 EbErrorType write_frame_header_av1(
     Bitstream *bitstream_ptr,
-    SequenceControlSet *scsPtr,
+    SequenceControlSet *scs_ptr,
     PictureControlSet *pcsPtr,
     uint8_t show_existing)
 {
     EbErrorType                 return_error = EB_ErrorNone;
-    OutputBitstreamUnit       *outputBitstreamPtr = (OutputBitstreamUnit*)bitstream_ptr->outputBitstreamPtr;
+    OutputBitstreamUnit       *output_bitstream_ptr = (OutputBitstreamUnit*)bitstream_ptr->output_bitstream_ptr;
     PictureParentControlSet   *parent_pcs_ptr = pcsPtr->parent_pcs_ptr;
-    uint8_t                     *data = outputBitstreamPtr->bufferAv1;
-    uint32_t obuHeaderSize = 0;
+    uint8_t                     *data = output_bitstream_ptr->bufferAv1;
+    uint32_t obu_header_size = 0;
 
     int32_t currDataSize = 0;
 
@@ -4516,11 +4516,11 @@ EbErrorType write_frame_header_av1(
     // tile group header
     const ObuType ObuType = show_existing ? OBU_FRAME_HEADER : OBU_FRAME;
     currDataSize =
-        WriteObuHeader(ObuType, obuExtensionHeader, data);
-    obuHeaderSize = currDataSize;
+        write_obu_header(ObuType, obuExtensionHeader, data);
+    obu_header_size = currDataSize;
 
     currDataSize +=
-        WriteFrameHeaderObu(scsPtr, parent_pcs_ptr, /*saved_wb,*/ data + currDataSize, show_existing, show_existing);
+        WriteFrameHeaderObu(scs_ptr, parent_pcs_ptr, /*saved_wb,*/ data + currDataSize, show_existing, show_existing);
 
 #if TILES   
     const int n_log2_tiles = parent_pcs_ptr->av1_cm->log2_tile_rows + parent_pcs_ptr->av1_cm->log2_tile_cols;
@@ -4538,27 +4538,27 @@ EbErrorType write_frame_header_av1(
     if (!show_existing) {
         // Add data from EC stream to Picture Stream.
 #if TILES
-        int32_t frameSize = parent_pcs_ptr->av1_cm->tile_cols*parent_pcs_ptr->av1_cm->tile_rows==1 ? pcsPtr->entropy_coder_ptr->ecWriter.pos : pcsPtr->entropy_coder_ptr->ec_frame_size;
+        int32_t frameSize = parent_pcs_ptr->av1_cm->tile_cols*parent_pcs_ptr->av1_cm->tile_rows==1 ? pcsPtr->entropy_coder_ptr->ec_writer.pos : pcsPtr->entropy_coder_ptr->ec_frame_size;
 #else
-        int32_t frameSize = pcsPtr->entropy_coder_ptr->ecWriter.pos;
+        int32_t frameSize = pcsPtr->entropy_coder_ptr->ec_writer.pos;
 #endif
-        OutputBitstreamUnit *ecOutputBitstreamPtr = (OutputBitstreamUnit*)pcsPtr->entropy_coder_ptr->ecOutputBitstreamPtr;
+        OutputBitstreamUnit *ec_output_bitstream_ptr = (OutputBitstreamUnit*)pcsPtr->entropy_coder_ptr->ec_output_bitstream_ptr;
         //****************************************************************//
         // Copy from EC stream to frame stream
-        memcpy(data + currDataSize, ecOutputBitstreamPtr->bufferBeginAv1, frameSize);
+        memcpy(data + currDataSize, ec_output_bitstream_ptr->bufferBeginAv1, frameSize);
         currDataSize += (frameSize);
     }
-    const uint32_t obuPayloadSize = currDataSize - obuHeaderSize;
+    const uint32_t obu_payload_size = currDataSize - obu_header_size;
     const size_t lengthFieldSize =
-        ObuMemMove(obuHeaderSize, obuPayloadSize, data);
-    if (WriteUlebObuSize(obuHeaderSize, obuPayloadSize, data) !=
+        ObuMemMove(obu_header_size, obu_payload_size, data);
+    if (write_uleb_obu_size(obu_header_size, obu_payload_size, data) !=
         AOM_CODEC_OK) {
         assert(0);
     }
     currDataSize += (int32_t)lengthFieldSize;
     data += currDataSize;
 
-    outputBitstreamPtr->bufferAv1 = data;
+    output_bitstream_ptr->bufferAv1 = data;
     return return_error;
 }
 
@@ -4567,29 +4567,29 @@ EbErrorType write_frame_header_av1(
 **************************************************/
 EbErrorType encode_sps_av1(
     Bitstream *bitstream_ptr,
-    SequenceControlSet *scsPtr)
+    SequenceControlSet *scs_ptr)
 {
     EbErrorType            return_error = EB_ErrorNone;
-    OutputBitstreamUnit  *outputBitstreamPtr = (OutputBitstreamUnit*)bitstream_ptr->outputBitstreamPtr;
-    uint8_t                *data = outputBitstreamPtr->bufferAv1;
-    uint32_t                obuHeaderSize = 0;
-    uint32_t                obuPayloadSize = 0;
+    OutputBitstreamUnit  *output_bitstream_ptr = (OutputBitstreamUnit*)bitstream_ptr->output_bitstream_ptr;
+    uint8_t                *data = output_bitstream_ptr->bufferAv1;
+    uint32_t                obu_header_size = 0;
+    uint32_t                obu_payload_size = 0;
     const uint8_t enhancementLayersCnt = 0;// cm->enhancementLayersCnt;
 
     // write sequence header obu if KEY_FRAME, preceded by 4-byte size
-    obuHeaderSize = WriteObuHeader(OBU_SEQUENCE_HEADER, 0, data);
+    obu_header_size = write_obu_header(OBU_SEQUENCE_HEADER, 0, data);
 
-    obuPayloadSize = WriteSequenceHeaderObu(scsPtr,/*cpi,*/ data + obuHeaderSize,
+    obu_payload_size = WriteSequenceHeaderObu(scs_ptr,/*cpi,*/ data + obu_header_size,
         enhancementLayersCnt);
 
-    const size_t lengthFieldSize = ObuMemMove(obuHeaderSize, obuPayloadSize, data);
-    if (WriteUlebObuSize(obuHeaderSize, obuPayloadSize, data) !=
+    const size_t lengthFieldSize = ObuMemMove(obu_header_size, obu_payload_size, data);
+    if (write_uleb_obu_size(obu_header_size, obu_payload_size, data) !=
         AOM_CODEC_OK) {
         // return AOM_CODEC_ERROR;
     }
 
-    data += obuHeaderSize + obuPayloadSize + lengthFieldSize;
-    outputBitstreamPtr->bufferAv1 = data;
+    data += obu_header_size + obu_payload_size + lengthFieldSize;
+    output_bitstream_ptr->bufferAv1 = data;
     return return_error;
 }
 /**************************************************
@@ -4599,7 +4599,7 @@ EbErrorType encode_td_av1(
     uint8_t *output_bitstream_ptr)
 {
     EbErrorType              return_error = EB_ErrorNone;
-    //OutputBitstreamUnit_t   *outputBitstreamPtr = (OutputBitstreamUnit_t*)bitstreamPtr->outputBitstreamPtr;
+    //OutputBitstreamUnit_t   *output_bitstream_ptr = (OutputBitstreamUnit_t*)bitstreamPtr->output_bitstream_ptr;
     ASSERT(output_bitstream_ptr != NULL);
 
     uint8_t                 *data = output_bitstream_ptr;
@@ -4609,11 +4609,11 @@ EbErrorType encode_td_av1(
     const uint32_t obu_payload_size = 0;
     const size_t length_field_size = aom_uleb_size_in_bytes(obu_payload_size);
 
-    obu_header_size = WriteObuHeader(
+    obu_header_size = write_obu_header(
         OBU_TEMPORAL_DELIMITER, 0, data);
 
     // OBUs are preceded/succeeded by an unsigned leb128 coded integer.
-    if (WriteUlebObuSize(obu_header_size, obu_payload_size, data) != AOM_CODEC_OK) {
+    if (write_uleb_obu_size(obu_header_size, obu_payload_size, data) != AOM_CODEC_OK) {
         //return AOM_CODEC_ERROR;
     }
     data += obu_header_size + obu_payload_size + length_field_size;
@@ -4624,7 +4624,7 @@ EbErrorType encode_td_av1(
 
 #if ADD_DELTA_QP_SUPPORT
 static void Av1writeDeltaQindex(
-    FRAME_CONTEXT *frameContext,
+    FrameContext *frameContext,
     int32_t           delta_qindex,
     aom_writer    *w)
 {
@@ -4632,7 +4632,7 @@ static void Av1writeDeltaQindex(
     int32_t abs = sign ? -delta_qindex : delta_qindex;
     int32_t rem_bits, thr;
     int32_t smallval = abs < DELTA_Q_SMALL ? 1 : 0;
-    //FRAME_CONTEXT *ec_ctx = xd->tile_ctx;
+    //FrameContext *ec_ctx = xd->tile_ctx;
 
     aom_write_symbol(w, AOMMIN(abs, DELTA_Q_SMALL), frameContext->delta_q_cdf,
         DELTA_Q_PROBS + 1);
@@ -4781,7 +4781,7 @@ static void write_sgrproj_filter(const SgrprojInfo *sgrproj_info,
 
     memcpy(ref_sgrproj_info, sgrproj_info, sizeof(*sgrproj_info));
 }
-static void loop_restoration_write_sb_coeffs(PictureControlSet     *piCSetPtr, FRAME_CONTEXT           *frameContext, const Av1Common *const cm,
+static void loop_restoration_write_sb_coeffs(PictureControlSet     *piCSetPtr, FrameContext           *frameContext, const Av1Common *const cm,
     //MacroBlockD *xd,
     const RestorationUnitInfo *rui,
     aom_writer *const w, int32_t plane/*,
@@ -5019,8 +5019,8 @@ EbErrorType write_modes_b(
 {
     UNUSED(tb_ptr);
     EbErrorType return_error = EB_ErrorNone;
-    FRAME_CONTEXT           *frameContext = entropy_coder_ptr->fc;
-    aom_writer              *ecWriter = &entropy_coder_ptr->ecWriter;
+    FrameContext           *frameContext = entropy_coder_ptr->fc;
+    aom_writer              *ec_writer = &entropy_coder_ptr->ec_writer;
     SequenceControlSet     *sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
 
     NeighborArrayUnit     *mode_type_neighbor_array = picture_control_set_ptr->mode_type_neighbor_array;
@@ -5045,7 +5045,7 @@ EbErrorType write_modes_b(
         //const int32_t skip = write_skip(cm, xd, mbmi->segment_id, mi, w);
         EncodeSkipCoeffAv1(
             frameContext,
-            ecWriter,
+            ec_writer,
             skipCoeff,
             blkOriginX,
             blkOriginY,
@@ -5055,7 +5055,7 @@ EbErrorType write_modes_b(
             sequence_control_set_ptr,
             picture_control_set_ptr,
             cu_ptr->av1xd,
-            ecWriter,
+            ec_writer,
             skipCoeff,
             blkOriginX >> MI_SIZE_LOG2,
             blkOriginY >> MI_SIZE_LOG2);
@@ -5080,7 +5080,7 @@ EbErrorType write_modes_b(
                 Av1writeDeltaQindex(
                     frameContext,
                     reduced_delta_qindex,
-                    ecWriter);
+                    ec_writer);
                 /*if (picture_control_set_ptr->picture_number == 0){
                 printf("%d\t%d\t%d\t%d\n",
                 blkOriginX,
@@ -5101,7 +5101,7 @@ EbErrorType write_modes_b(
 
             EncodeIntraLumaModeAv1(
                 frameContext,
-                ecWriter,
+                ec_writer,
                 cu_ptr,
                 blkOriginX,
                 blkOriginY,
@@ -5122,7 +5122,7 @@ EbErrorType write_modes_b(
             if (blk_geom->has_uv)
                 EncodeIntraChromaModeAv1(
                     frameContext,
-                    ecWriter,
+                    ec_writer,
                     cu_ptr,
                     intra_luma_mode,
                     intra_chroma_mode,
@@ -5133,7 +5133,7 @@ EbErrorType write_modes_b(
                     picture_control_set_ptr,
                     context_ptr,
                     frameContext,
-                    ecWriter,
+                    ec_writer,
                     cu_ptr,
                     blkOriginX,
                     blkOriginY,
@@ -5150,7 +5150,7 @@ EbErrorType write_modes_b(
         if (picture_control_set_ptr->parent_pcs_ptr->skip_mode_flag && is_comp_ref_allowed(bsize)) {
             EncodeSkipModeAv1(
                 frameContext,
-                ecWriter,
+                ec_writer,
                 cu_ptr->skip_flag,
                 blkOriginX,
                 blkOriginY,
@@ -5164,7 +5164,7 @@ EbErrorType write_modes_b(
             //const int32_t skip = write_skip(cm, xd, mbmi->segment_id, mi, w);
             EncodeSkipCoeffAv1(
                 frameContext,
-                ecWriter,
+                ec_writer,
                 skipCoeff,
                 blkOriginX,
                 blkOriginY,
@@ -5175,7 +5175,7 @@ EbErrorType write_modes_b(
             sequence_control_set_ptr,
             picture_control_set_ptr, /*cm,*/
             cu_ptr->av1xd,
-            ecWriter,
+            ec_writer,
             cu_ptr->skip_flag ? 1 : skipCoeff,
             blkOriginX >> MI_SIZE_LOG2,
             blkOriginY >> MI_SIZE_LOG2);
@@ -5201,7 +5201,7 @@ EbErrorType write_modes_b(
                 Av1writeDeltaQindex(
                     frameContext,
                     reduced_delta_qindex,
-                    ecWriter);
+                    ec_writer);
 
                 picture_control_set_ptr->parent_pcs_ptr->prev_qindex = current_q_index;
             }
@@ -5214,7 +5214,7 @@ EbErrorType write_modes_b(
             //write_is_inter(cm, xd, mbmi->segment_id, w, is_inter)
             EncodePredModeAv1(
                 frameContext,
-                ecWriter,
+                ec_writer,
                 cu_ptr->prediction_mode_flag,
                 blkOriginX,
                 blkOriginY,
@@ -5227,7 +5227,7 @@ EbErrorType write_modes_b(
 
                 EncodeIntraLumaModeNonKeyAv1(
                     frameContext,
-                    ecWriter,
+                    ec_writer,
                     cu_ptr,
                     bsize,
                     intra_luma_mode);
@@ -5245,7 +5245,7 @@ EbErrorType write_modes_b(
                 if (blk_geom->has_uv)
                     EncodeIntraChromaModeAv1(
                         frameContext,
-                        ecWriter,
+                        ec_writer,
                         cu_ptr,
                         intra_luma_mode,
                         intra_chroma_mode,
@@ -5264,7 +5264,7 @@ EbErrorType write_modes_b(
 
                 WriteRefFrames(
                     frameContext,
-                    ecWriter,
+                    ec_writer,
                     picture_control_set_ptr->parent_pcs_ptr,
                     cu_ptr,
                     bsize,
@@ -5284,14 +5284,14 @@ EbErrorType write_modes_b(
                     if (cu_ptr->prediction_unit_array[0].is_compound) {
                         WriteInterCompoundMode(
                             frameContext,
-                            ecWriter,
+                            ec_writer,
                             inter_mode,
                             mode_ctx);
                     }
                     else /*if (is_inter_singleref_mode(mode))*/
                         WriteInterMode(
                             frameContext,
-                            ecWriter,
+                            ec_writer,
                             inter_mode,
                             mode_ctx,
                             blkOriginX,
@@ -5301,7 +5301,7 @@ EbErrorType write_modes_b(
                     if (inter_mode == NEWMV || inter_mode == NEW_NEWMV || have_nearmv_in_inter_mode(inter_mode)) {
                         WriteDrlIdx(
                             frameContext,
-                            ecWriter,
+                            ec_writer,
                             cu_ptr);
 
                     }
@@ -5325,7 +5325,7 @@ EbErrorType write_modes_b(
 
                         av1_encode_mv(
                             picture_control_set_ptr->parent_pcs_ptr,
-                            ecWriter,
+                            ec_writer,
                             &mv,
                             &ref_mv.as_mv,
                             nmvc,
@@ -5342,7 +5342,7 @@ EbErrorType write_modes_b(
 
                     av1_encode_mv(
                         picture_control_set_ptr->parent_pcs_ptr,
-                        ecWriter,
+                        ec_writer,
                         &mv,
                         &ref_mv.as_mv,
                         nmvc,
@@ -5359,7 +5359,7 @@ EbErrorType write_modes_b(
 
                     av1_encode_mv(
                         picture_control_set_ptr->parent_pcs_ptr,
-                        ecWriter,
+                        ec_writer,
                         &mv,
                         &ref_mv.as_mv,
                         nmvc,
@@ -5371,7 +5371,7 @@ EbErrorType write_modes_b(
                     && rf[1] != INTRA_FRAME) {
                     write_motion_mode(  
                         frameContext,
-                        ecWriter,
+                        ec_writer,
                         bsize,
                         cu_ptr->prediction_unit_array[0].motion_mode,
                         rf[0],
@@ -5390,7 +5390,7 @@ EbErrorType write_modes_b(
                     rf[0],
                     rf[1],
                     picture_control_set_ptr->parent_pcs_ptr,
-                    ecWriter,
+                    ec_writer,
                     cu_ptr,
                     entropy_coder_ptr,
                     interpolation_type_neighbor_array,
@@ -5410,7 +5410,7 @@ EbErrorType write_modes_b(
                         picture_control_set_ptr,
                         context_ptr,
                         frameContext,
-                        ecWriter,
+                        ec_writer,
                         cu_ptr,
                         blkOriginX,
                         blkOriginY,
@@ -5450,8 +5450,8 @@ EB_EXTERN EbErrorType write_sb(
     EbPictureBufferDesc   *coeff_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
-    FRAME_CONTEXT           *frameContext = entropy_coder_ptr->fc;
-    aom_writer              *ecWriter = &entropy_coder_ptr->ecWriter;
+    FrameContext           *frameContext = entropy_coder_ptr->fc;
+    aom_writer              *ec_writer = &entropy_coder_ptr->ec_writer;
     SequenceControlSet     *sequence_control_set_ptr = (SequenceControlSet*)picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr;
     NeighborArrayUnit     *partition_context_neighbor_array = picture_control_set_ptr->partition_context_neighbor_array;
 
@@ -5523,7 +5523,7 @@ EB_EXTERN EbErrorType write_sb(
                                 const int32_t runit_idx = tile_tl_idx + rcol + rrow * rstride;
                                 const RestorationUnitInfo *rui =
                                     &cm->rst_info[plane].unit_info[runit_idx];
-                                loop_restoration_write_sb_coeffs(picture_control_set_ptr, frameContext, cm, /*xd,*/ rui, ecWriter, plane);
+                                loop_restoration_write_sb_coeffs(picture_control_set_ptr, frameContext, cm, /*xd,*/ rui, ec_writer, plane);
                             }
                         }
                     }
@@ -5534,7 +5534,7 @@ EB_EXTERN EbErrorType write_sb(
                 EncodePartitionAv1(
                     sequence_control_set_ptr,
                     frameContext,
-                    ecWriter,
+                    ec_writer,
                     bsize,
                     tb_ptr->cu_partition_array[cu_index],
                     blkOriginX,

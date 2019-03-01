@@ -162,7 +162,7 @@ void* packetization_kernel(void *input_ptr)
         // slice_type = picture_control_set_ptr->slice_type;
          // Reset the bitstream before writing to it
         reset_bitstream(
-            picture_control_set_ptr->bitstream_ptr->outputBitstreamPtr);
+            picture_control_set_ptr->bitstream_ptr->output_bitstream_ptr);
 
         // Code the SPS
         if (picture_control_set_ptr->parent_pcs_ptr->av1_frame_type == KEY_FRAME) {
@@ -187,7 +187,7 @@ void* packetization_kernel(void *input_ptr)
         if (picture_control_set_ptr->parent_pcs_ptr->has_show_existing) {
             // Reset the bitstream before writing to it
             reset_bitstream(
-                picture_control_set_ptr->bitstream_ptr->outputBitstreamPtr);
+                picture_control_set_ptr->bitstream_ptr->output_bitstream_ptr);
             write_frame_header_av1(
                 picture_control_set_ptr->bitstream_ptr,
                 sequence_control_set_ptr,

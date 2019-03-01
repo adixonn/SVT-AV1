@@ -306,14 +306,14 @@ extern "C" {
     extern void av1_estimate_syntax_rate(
         MdRateEstimationContext *md_rate_estimation_array,
         EbBool                   is_i_slice,
-        FRAME_CONTEXT           *fc);
+        FrameContext           *fc);
     /**************************************************************************
     * Estimate the rate of the quantised coefficient
     * based on the frame CDF
     ***************************************************************************/
     extern void av1_estimate_coefficients_rate(
         MdRateEstimationContext *md_rate_estimation_array,
-        FRAME_CONTEXT           *fc);
+        FrameContext           *fc);
     /**************************************************************************
     * av1_estimate_mv_rate()
     * Estimate the rate of motion vectors

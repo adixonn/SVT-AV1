@@ -401,15 +401,15 @@ void HighLevelRcInputPictureMode2(
 
         // Increamenting the head of the hl_rate_control_historgram_queue and clean up the entores
         hlRateControlHistogramPtrTemp = (encode_context_ptr->hl_rate_control_historgram_queue[encode_context_ptr->hl_rate_control_historgram_queue_head_index]);
-        while ((hlRateControlHistogramPtrTemp->lifeCount == 0) && hlRateControlHistogramPtrTemp->passedToHlrc) {
+        while ((hlRateControlHistogramPtrTemp->life_count == 0) && hlRateControlHistogramPtrTemp->passed_to_hlrc) {
 
             eb_block_on_mutex(sequence_control_set_ptr->encode_context_ptr->hl_rate_control_historgram_queue_mutex);
             // Reset the Reorder Queue Entry
             hlRateControlHistogramPtrTemp->picture_number += INITIAL_RATE_CONTROL_REORDER_QUEUE_MAX_DEPTH;
-            hlRateControlHistogramPtrTemp->lifeCount = -1;
-            hlRateControlHistogramPtrTemp->passedToHlrc = EB_FALSE;
-            hlRateControlHistogramPtrTemp->isCoded = EB_FALSE;
-            hlRateControlHistogramPtrTemp->totalNumBitsCoded = 0;
+            hlRateControlHistogramPtrTemp->life_count = -1;
+            hlRateControlHistogramPtrTemp->passed_to_hlrc = EB_FALSE;
+            hlRateControlHistogramPtrTemp->is_coded = EB_FALSE;
+            hlRateControlHistogramPtrTemp->total_num_bits_coded = 0;
 
             // Increment the Reorder Queue head Ptr
             encode_context_ptr->hl_rate_control_historgram_queue_head_index =
@@ -596,11 +596,11 @@ void HighLevelRcInputPictureMode2(
                     hlRateControlHistogramPtrTemp->pred_bits_ref_qp[refQpIndexTemp] = 0;
 
                     if (refQpTableIndex == previous_selected_ref_qp) {
-                        hlRateControlHistogramPtrTemp->lifeCount--;
+                        hlRateControlHistogramPtrTemp->life_count--;
                     }
-                    if (hlRateControlHistogramPtrTemp->isCoded) {
+                    if (hlRateControlHistogramPtrTemp->is_coded) {
                         // If the frame is already coded, use the actual number of bits
-                        hlRateControlHistogramPtrTemp->pred_bits_ref_qp[refQpIndexTemp] = hlRateControlHistogramPtrTemp->totalNumBitsCoded;
+                        hlRateControlHistogramPtrTemp->pred_bits_ref_qp[refQpIndexTemp] = hlRateControlHistogramPtrTemp->total_num_bits_coded;
                     }
                     else {
                         rateControlTablesPtr = &encode_context_ptr->rate_control_tables_array[refQpIndexTemp];
@@ -725,8 +725,8 @@ void HighLevelRcInputPictureMode2(
 
                     hlRateControlHistogramPtrTemp->pred_bits_ref_qp[refQpIndexTemp] = 0;
 
-                    if (hlRateControlHistogramPtrTemp->isCoded) {
-                        hlRateControlHistogramPtrTemp->pred_bits_ref_qp[refQpIndexTemp] = hlRateControlHistogramPtrTemp->totalNumBitsCoded;
+                    if (hlRateControlHistogramPtrTemp->is_coded) {
+                        hlRateControlHistogramPtrTemp->pred_bits_ref_qp[refQpIndexTemp] = hlRateControlHistogramPtrTemp->total_num_bits_coded;
                     }
                     else {
                         rateControlTablesPtr = &encode_context_ptr->rate_control_tables_array[refQpIndexTemp];
