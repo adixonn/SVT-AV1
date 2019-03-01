@@ -27,12 +27,12 @@ extern "C" {
 
     typedef struct EbPmCand
     {
-        int16_t        tr_coeff[4 * 4];
-        int16_t        qu_coeff[4 * 4];
-        int16_t        iq_coeff[4 * 4];
-        uint8_t        masking_level;
-        uint64_t       cost;
-        uint32_t       nz_coeff;
+        int16_t  tr_coeff[4 * 4];
+        int16_t  qu_coeff[4 * 4];
+        int16_t  iq_coeff[4 * 4];
+        uint8_t  masking_level;
+        uint64_t cost;
+        uint32_t nz_coeff;
     } EbPmCand;
 
     /**************************************
@@ -40,17 +40,17 @@ extern "C" {
      **************************************/
     typedef struct EncDecContext
     {
-        EbFifo                              *mode_decision_input_fifo_ptr;
-        EbFifo                              *enc_dec_output_fifo_ptr;
-        EbFifo                              *enc_dec_feedback_fifo_ptr;
-        EbFifo                              *picture_demux_output_fifo_ptr;   // to picture-manager
-        int16_t                               *transform_inner_array_ptr;
-        MdRateEstimationContext             *md_rate_estimation_ptr;
-        ModeDecisionContext                 *md_context;
-        const BlockGeom                       *blk_geom;
+        EbFifo                  *mode_decision_input_fifo_ptr;
+        EbFifo                  *enc_dec_output_fifo_ptr;
+        EbFifo                  *enc_dec_feedback_fifo_ptr;
+        EbFifo                  *picture_demux_output_fifo_ptr;   // to picture-manager
+        int16_t                 *transform_inner_array_ptr;
+        MdRateEstimationContext *md_rate_estimation_ptr;
+        ModeDecisionContext     *md_context;
+        const BlockGeom         *blk_geom;
 
         // TMVP
-        EbReferenceObject                   *reference_object_write_ptr;
+        EbReferenceObject       *reference_object_write_ptr;
 
         // MCP Context
         MotionCompensationPredictionContext *mcp_context;
@@ -152,9 +152,9 @@ extern "C" {
         EbFifo                *packetization_output_fifo_ptr,
         EbFifo                *feedback_fifo_ptr,
         EbFifo                *picture_demux_fifo_ptr,
-        EbBool                   is16bit,
-        uint32_t                 max_input_luma_width,
-        uint32_t                 max_input_luma_height);
+        EbBool                 is16bit,
+        uint32_t               max_input_luma_width,
+        uint32_t               max_input_luma_height);
 
     extern void* enc_dec_kernel(void *input_ptr);
 

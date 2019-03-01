@@ -555,10 +555,10 @@ void* entropy_coding_kernel(void *input_ptr)
 #endif
         {
             initialProcessCall = EB_TRUE;
-            y_lcu_index = encDecResultsPtr->completedLcuRowIndexStart;
+            y_lcu_index = encDecResultsPtr->completed_lcu_row_index_start;
 
             // LCU-loops
-            while (UpdateEntropyCodingRows(picture_control_set_ptr, &y_lcu_index, encDecResultsPtr->completedLcuRowCount, &initialProcessCall) == EB_TRUE)
+            while (UpdateEntropyCodingRows(picture_control_set_ptr, &y_lcu_index, encDecResultsPtr->completed_lcu_row_count, &initialProcessCall) == EB_TRUE)
             {
                 uint32_t rowTotalBits = 0;
 

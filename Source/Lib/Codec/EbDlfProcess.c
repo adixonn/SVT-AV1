@@ -274,8 +274,8 @@ void* dlf_kernel(void *input_ptr)
                 &dlf_results_wrapper_ptr);
             dlf_results_ptr = (struct DlfResults*)dlf_results_wrapper_ptr->object_ptr;
             dlf_results_ptr->picture_control_set_wrapper_ptr = enc_dec_results_ptr->picture_control_set_wrapper_ptr;
-            dlf_results_ptr->completedLcuRowIndexStart = 0;
-            dlf_results_ptr->completedLcuRowCount = ((sequence_control_set_ptr->luma_height + sequence_control_set_ptr->sb_size_pix - 1) >> lcuSizeLog2);
+            dlf_results_ptr->completed_lcu_row_index_start = 0;
+            dlf_results_ptr->completed_lcu_row_count = ((sequence_control_set_ptr->luma_height + sequence_control_set_ptr->sb_size_pix - 1) >> lcuSizeLog2);
             // Post DLF Results
             eb_post_full_object(dlf_results_wrapper_ptr);
 #endif

@@ -20,14 +20,14 @@ extern "C" {
      **************************************/
     typedef struct EncDecTasks
     {
-        EbObjectWrapper            *picture_control_set_wrapper_ptr;
-        uint32_t                        inputType;
-        int16_t                        enc_dec_segment_row;
+        EbObjectWrapper *picture_control_set_wrapper_ptr;
+        uint32_t         input_type;
+        int16_t          enc_dec_segment_row;
 
     } EncDecTasks;
 
     typedef struct EncDecTasksInitData {
-        unsigned encDecSegmentRowCount;
+        unsigned enc_dec_segment_row_count;
     } EncDecTasksInitData;
 
     /**************************************
@@ -35,7 +35,7 @@ extern "C" {
      **************************************/
     extern EbErrorType enc_dec_tasks_ctor(
         EbPtr *object_dbl_ptr,
-        EbPtr object_init_data_ptr);
+        EbPtr  object_init_data_ptr);
 
 
 #ifdef __cplusplus

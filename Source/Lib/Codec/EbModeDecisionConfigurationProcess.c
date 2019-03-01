@@ -2885,7 +2885,7 @@ void* mode_decision_configuration_kernel(void *input_ptr)
 
         encDecTasksPtr = (EncDecTasks*)encDecTasksWrapperPtr->object_ptr;
         encDecTasksPtr->picture_control_set_wrapper_ptr = rateControlResultsPtr->picture_control_set_wrapper_ptr;
-        encDecTasksPtr->inputType = ENCDEC_TASKS_MDC_INPUT;
+        encDecTasksPtr->input_type = ENCDEC_TASKS_MDC_INPUT;
 
         // Post the Full Results Object
         eb_post_full_object(encDecTasksWrapperPtr);

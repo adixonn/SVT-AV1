@@ -16,19 +16,19 @@ extern "C" {
      **************************************/
     typedef struct EncDecResults
     {
-        EbObjectWrapper      *picture_control_set_wrapper_ptr;
-        uint32_t                  completedLcuRowIndexStart;
-        uint32_t                  completedLcuRowCount;
+        EbObjectWrapper *picture_control_set_wrapper_ptr;
+        uint32_t         completed_lcu_row_index_start;
+        uint32_t         completed_lcu_row_count;
 
     } EncDecResults;
 
 #if FILT_PROC
     typedef struct DlfResults
     {
-        EbObjectWrapper      *picture_control_set_wrapper_ptr;
+        EbObjectWrapper *picture_control_set_wrapper_ptr;
       
 #if CDEF_M
-        uint32_t          segment_index;
+        uint32_t         segment_index;
 #endif
 
     } DlfResults;
@@ -46,13 +46,13 @@ extern "C" {
     typedef struct RestResults
     {
         EbObjectWrapper      *picture_control_set_wrapper_ptr;
-        uint32_t                  completed_lcu_row_index_start;
-        uint32_t                  completed_lcu_row_count;
+        uint32_t              completed_lcu_row_index_start;
+        uint32_t              completed_lcu_row_count;
 
     } RestResults;
 #endif
     typedef struct EncDecResultsInitData {
-        uint32_t         junk;
+        uint32_t junk;
     } EncDecResultsInitData;
 
     /**************************************
@@ -60,7 +60,7 @@ extern "C" {
      **************************************/
     extern EbErrorType enc_dec_results_ctor(
         EbPtr *object_dbl_ptr,
-        EbPtr object_init_data_ptr);
+        EbPtr  object_init_data_ptr);
 
 
 #ifdef __cplusplus

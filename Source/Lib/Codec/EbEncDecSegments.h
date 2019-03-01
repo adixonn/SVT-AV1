@@ -37,16 +37,16 @@ extern "C" {
        **************************************/
     typedef struct EncDecSegDependencyMap 
     {
-        uint8_t      *dependencyMap;
-        EbHandle   updateMutex;
+        uint8_t  *dependency_map;
+        EbHandle  update_mutex;
     } EncDecSegDependencyMap;
 
     typedef struct EncDecSegSegmentRow 
     {
-        uint16_t      startingSegIndex;
-        uint16_t      endingSegIndex;
-        uint16_t      currentSegIndex;
-        EbHandle   assignmentMutex;
+        uint16_t starting_seg_index;
+        uint16_t ending_seg_index;
+        uint16_t current_seg_index;
+        EbHandle assignment_mutex;
     } EncDecSegSegmentRow;
 
     /**************************************
@@ -54,22 +54,22 @@ extern "C" {
      **************************************/
     typedef struct EncDecSegments
     {
-        EncDecSegDependencyMap  depMap;
-        EncDecSegSegmentRow    *rowArray;
+        EncDecSegDependencyMap  dep_map;
+        EncDecSegSegmentRow    *row_array;
 
-        uint16_t                   *xStartArray;
-        uint16_t                   *yStartArray;
-        uint16_t                   *validLcuCountArray;
-
-        uint32_t                    segment_band_count;
-        uint32_t                    segment_row_count;
-        uint32_t                    segmentTotalCount;
-        uint32_t                    lcuBandCount;
-        uint32_t                    lcuRowCount;
-
-        uint32_t                    segmentMaxBandCount;
-        uint32_t                    segmentMaxRowCount;
-        uint32_t                    segmentMaxTotalCount;
+        uint16_t               *x_start_array;
+        uint16_t               *y_start_array;
+        uint16_t               *valid_lcu_count_array;
+                               
+        uint32_t                segment_band_count;
+        uint32_t                segment_row_count;
+        uint32_t                segment_total_count;
+        uint32_t                lcu_band_count;
+        uint32_t                lcu_row_count;
+                               
+        uint32_t                segment_max_band_count;
+        uint32_t                segment_max_row_count;
+        uint32_t                segment_max_total_count;
 
     } EncDecSegments;
 
@@ -78,16 +78,16 @@ extern "C" {
      **************************************/
     extern EbErrorType enc_dec_segments_ctor(
         EncDecSegments **segments_dbl_ptr,
-        uint32_t             segment_col_count,
-        uint32_t             segment_row_count);
+        uint32_t         segment_col_count,
+        uint32_t         segment_row_count);
 
 
     extern void enc_dec_segments_init(
         EncDecSegments *segments_ptr,
-        uint32_t            col_count,
-        uint32_t            row_count,
-        uint32_t            pic_width_lcu,
-        uint32_t            pic_height_lcu);
+        uint32_t        col_count,
+        uint32_t        row_count,
+        uint32_t        pic_width_lcu,
+        uint32_t        pic_height_lcu);
 #ifdef __cplusplus
 }
 #endif
