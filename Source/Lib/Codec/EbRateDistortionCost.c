@@ -508,7 +508,7 @@ uint64_t av1_cost_coeffs_txb(
 }
 
 
-//static INLINE int32_t av1_get_skip_mode_context(const MacroBlockD *xd) {
+//static INLINE int32_t av1_get_skip_mode_context(const MacroBlockId *xd) {
 //    const MbModeInfo *const above_mi = xd->above_mbmi;
 //    const MbModeInfo *const left_mi = xd->left_mbmi;
 //    const int32_t above_skip_mode = above_mi ? above_mi->skip_mode : 0;
@@ -516,7 +516,7 @@ uint64_t av1_cost_coeffs_txb(
 //    return above_skip_mode + left_skip_mode;
 //}
 //
-//static INLINE int32_t av1_get_skip_context(const MacroBlockD *xd) {
+//static INLINE int32_t av1_get_skip_context(const MacroBlockId *xd) {
 //    const MbModeInfo *const above_mi = xd->above_mbmi;
 //    const MbModeInfo *const left_mi = xd->left_mbmi;
 //    const int32_t above_skip = above_mi ? above_mi->skip : 0;
@@ -2180,7 +2180,7 @@ static void partition_gather_vert_alike(int32_t *out,
     out[1] = AOM_ICDF(CDF_PROB_TOP);
 }
 
-//static INLINE int32_t partition_plane_context(const MacroBlockD *xd, int32_t mi_row,
+//static INLINE int32_t partition_plane_context(const MacroBlockId *xd, int32_t mi_row,
 //    int32_t mi_col, block_size bsize) {
 //    const PartContext *above_ctx = xd->above_seg_context + mi_col;
 //    const PartContext *left_ctx =

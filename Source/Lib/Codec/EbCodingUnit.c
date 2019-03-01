@@ -64,7 +64,7 @@ EbErrorType largest_coding_unit_ctor(
 
         largestCodingUnitPtr->final_cu_arr[cu_i].leaf_index = cu_i;
 
-        EB_MALLOC(MacroBlockD*, largestCodingUnitPtr->final_cu_arr[cu_i].av1xd, sizeof(MacroBlockD), EB_N_PTR);
+        EB_MALLOC(MacroBlockId*, largestCodingUnitPtr->final_cu_arr[cu_i].av1xd, sizeof(MacroBlockId), EB_N_PTR);
     }
 
     uint32_t  max_block_count = sb_size_pix == 128 ? BLOCK_MAX_COUNT_SB_128 : BLOCK_MAX_COUNT_SB_64; 

@@ -224,7 +224,7 @@ extern "C" {
         int32_t tile_col;
 #endif
     } TileInfo;
-    typedef struct MacroBlockD 
+    typedef struct MacroBlockId 
     {
         // block dimension in the unit of mode_info.
         uint8_t n8_w, n8_h;
@@ -244,7 +244,7 @@ extern "C" {
         int32_t mb_to_top_edge;
         int32_t mb_to_bottom_edge;
         uint8_t neighbors_ref_counts[TOTAL_REFS_PER_FRAME];
-    } MacroBlockD;
+    } MacroBlockId;
 
     typedef struct Macroblock 
     {
@@ -289,7 +289,7 @@ extern "C" {
         EbPictureBufferDesc      *recon_tmp;
         uint32_t                    cand_buff_index;
 #endif
-        MacroBlockD                *av1xd;
+        MacroBlockId                *av1xd;
         // uint8_t ref_mv_count[MODE_CTX_REF_FRAMES];
         int16_t                     inter_mode_ctx[MODE_CTX_REF_FRAMES];
         IntMv                       ref_mvs[MODE_CTX_REF_FRAMES][MAX_MV_REF_CANDIDATES]; //used only for nonCompound modes.

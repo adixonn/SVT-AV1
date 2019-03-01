@@ -24,8 +24,8 @@
 #if TILES
 #define  AV1_MIN_TILE_SIZE_BYTES 1
 void av1_reset_loop_restoration(PictureControlSet     *piCSetPtr);
-void av1_tile_set_col(TileInfo *tile, PictureParentControlSet * pcsPtr, int col);
-void av1_tile_set_row(TileInfo *tile, PictureParentControlSet * pcsPtr, int row);
+void av1_tile_set_col(TileInfo *tile, PictureParentControlSet * pcs_ptr, int col);
+void av1_tile_set_row(TileInfo *tile, PictureParentControlSet * pcs_ptr, int row);
 #endif
 
 /******************************************************
@@ -213,11 +213,11 @@ static void ResetEntropyCodingPicture(
     if (picture_control_set_ptr->parent_pcs_ptr->allow_intrabc)
         assert(picture_control_set_ptr->parent_pcs_ptr->delta_lf_present_flag == 0);
     /*else
-        aom_wb_write_bit(wb, pcsPtr->delta_lf_present_flag);*/
+        aom_wb_write_bit(wb, pcs_ptr->delta_lf_present_flag);*/
     if (picture_control_set_ptr->parent_pcs_ptr->delta_lf_present_flag) {
-        //aom_wb_write_literal(wb, OD_ILOG_NZ(pcsPtr->delta_lf_res) - 1, 2);
+        //aom_wb_write_literal(wb, OD_ILOG_NZ(pcs_ptr->delta_lf_res) - 1, 2);
         picture_control_set_ptr->parent_pcs_ptr->prev_delta_lf_from_base = 0;
-        //aom_wb_write_bit(wb, pcsPtr->delta_lf_multi);
+        //aom_wb_write_bit(wb, pcs_ptr->delta_lf_multi);
         const int32_t frame_lf_count =
             picture_control_set_ptr->parent_pcs_ptr->monochrome == 0 ? FRAME_LF_COUNT : FRAME_LF_COUNT - 2;
         for (int32_t lf_id = 0; lf_id < frame_lf_count; ++lf_id)
@@ -291,11 +291,11 @@ static void reset_ec_tile(
     if (picture_control_set_ptr->parent_pcs_ptr->allow_intrabc)
         assert(picture_control_set_ptr->parent_pcs_ptr->delta_lf_present_flag == 0);
     /*else
-        aom_wb_write_bit(wb, pcsPtr->delta_lf_present_flag);*/
+        aom_wb_write_bit(wb, pcs_ptr->delta_lf_present_flag);*/
     if (picture_control_set_ptr->parent_pcs_ptr->delta_lf_present_flag) {
-        //aom_wb_write_literal(wb, OD_ILOG_NZ(pcsPtr->delta_lf_res) - 1, 2);
+        //aom_wb_write_literal(wb, OD_ILOG_NZ(pcs_ptr->delta_lf_res) - 1, 2);
         picture_control_set_ptr->parent_pcs_ptr->prev_delta_lf_from_base = 0;
-        //aom_wb_write_bit(wb, pcsPtr->delta_lf_multi);
+        //aom_wb_write_bit(wb, pcs_ptr->delta_lf_multi);
         const int32_t frame_lf_count =
             picture_control_set_ptr->parent_pcs_ptr->monochrome == 0 ? FRAME_LF_COUNT : FRAME_LF_COUNT - 2;
         for (int32_t lf_id = 0; lf_id < frame_lf_count; ++lf_id)

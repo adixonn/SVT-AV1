@@ -679,17 +679,17 @@ EbErrorType signal_derivation_multi_processes_oq(
     // 5                                              Allow NSQ Intra-FULL and Inter-FULL
 #if TUNED_SETTINGS_FOR_M0 || TUNED_SETTINGS_FOR_M1
     if (!MR_MODE)
-    picture_control_set_ptr->nsq_search_level        = NSQ_SEARCH_BASE_ON_SQ_COEFF;
+    picture_control_set_ptr->NsqSearchLevel        = NSQ_SEARCH_BASE_ON_SQ_COEFF;
     else
 #endif
-    picture_control_set_ptr->nsq_search_level        = NSQ_SEARCH_FULL;
+    picture_control_set_ptr->NsqSearchLevel        = NSQ_SEARCH_FULL;
 
 
-    if (picture_control_set_ptr->nsq_search_level == NSQ_SEARCH_OFF) {
+    if (picture_control_set_ptr->NsqSearchLevel == NSQ_SEARCH_OFF) {
         if (picture_control_set_ptr->pic_depth_mode <= PIC_ALL_C_DEPTH_MODE) picture_control_set_ptr->pic_depth_mode = PIC_SQ_DEPTH_MODE;
     }
     if (picture_control_set_ptr->pic_depth_mode > PIC_SQ_DEPTH_MODE) {
-        assert(picture_control_set_ptr->nsq_search_level != NSQ_SEARCH_OFF);
+        assert(picture_control_set_ptr->NsqSearchLevel != NSQ_SEARCH_OFF);
     }
 #endif
 #if INTERPOLATION_SEARCH_LEVELS
@@ -699,10 +699,10 @@ EbErrorType signal_derivation_multi_processes_oq(
     // 2                                              Interpolation search at full loop
     // 3                                              Interpolation search at fast loop
     if (picture_control_set_ptr->enc_mode == ENC_M0) {
-        picture_control_set_ptr->interpolation_search_level = IT_SEARCH_FAST_LOOP;
+        picture_control_set_ptr->InterpolationSearchLevel = IT_SEARCH_FAST_LOOP;
     }
     else {
-        picture_control_set_ptr->interpolation_search_level = IT_SEARCH_OFF;
+        picture_control_set_ptr->InterpolationSearchLevel = IT_SEARCH_OFF;
     }
 #else
     // Interpolation filter search Level MD         Settings
@@ -802,10 +802,10 @@ EbErrorType signal_derivation_multi_processes_oq(
     // 3                                              Tx search at full loop
 
     if (picture_control_set_ptr->enc_mode > ENC_M1) {
-        picture_control_set_ptr->tx_search_level = TX_SEARCH_ENC_DEC;
+        picture_control_set_ptr->TxSearchLevel = TX_SEARCH_ENC_DEC;
     }
     else {
-        picture_control_set_ptr->tx_search_level = TX_SEARCH_FULL_LOOP;
+        picture_control_set_ptr->TxSearchLevel = TX_SEARCH_FULL_LOOP;
     }
 
     // Set tx search skip weights (MAX_MODE_COST: no skipping; 0: always skipping)

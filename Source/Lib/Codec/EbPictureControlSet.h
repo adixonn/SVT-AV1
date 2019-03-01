@@ -14279,15 +14279,15 @@ extern "C" {
         int32_t                           use_ref_frame_cdef_strength;
 #endif                                   
 #if TX_SEARCH_LEVELS                     
-        uint8_t                           tx_search_level;
+        uint8_t                           TxSearchLevel;
         uint64_t                          tx_weight;
         uint8_t                           tx_search_reduced_set;
 #endif                                   
 #if INTERPOLATION_SEARCH_LEVELS          
-        uint8_t                           interpolation_search_level;
+        uint8_t                           InterpolationSearchLevel;
 #endif                                   
 #if NSQ_SEARCH_LEVELS                    
-        uint8_t                           nsq_search_level;
+        uint8_t                           NsqSearchLevel;
 #endif
     } PictureParentControlSet;
 

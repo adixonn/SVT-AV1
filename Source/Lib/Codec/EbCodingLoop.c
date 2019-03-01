@@ -640,7 +640,7 @@ static void Av1EncodeLoop(
             context_ptr->blk_geom->tx_width[context_ptr->txb_itr],
             context_ptr->blk_geom->tx_height[context_ptr->txb_itr]);
 #if TX_SEARCH_LEVELS
-        uint8_t  tx_search_skip_fag = picture_control_set_ptr->parent_pcs_ptr->tx_search_level == TX_SEARCH_ENC_DEC ? get_skip_tx_search_flag(
+        uint8_t  tx_search_skip_fag = picture_control_set_ptr->parent_pcs_ptr->TxSearchLevel == TX_SEARCH_ENC_DEC ? get_skip_tx_search_flag(
             context_ptr->blk_geom->sq_size,
             MAX_MODE_COST,
             0,
@@ -1131,7 +1131,7 @@ static void Av1EncodeLoop16bit(
                 context_ptr->blk_geom->tx_height[context_ptr->txb_itr]);
 
 #if TX_SEARCH_LEVELS
-            uint8_t  tx_search_skip_fag = picture_control_set_ptr->parent_pcs_ptr->tx_search_level == TX_SEARCH_ENC_DEC ? get_skip_tx_search_flag(
+            uint8_t  tx_search_skip_fag = picture_control_set_ptr->parent_pcs_ptr->TxSearchLevel == TX_SEARCH_ENC_DEC ? get_skip_tx_search_flag(
                 context_ptr->blk_geom->sq_size,
                 MAX_MODE_COST,
                 0,
@@ -4237,7 +4237,7 @@ EB_EXTERN void av1_encode_pass(
     // First Pass Deblocking
     if (dlfEnableFlag && picture_control_set_ptr->parent_pcs_ptr->loop_filter_mode == 1) {
         if (picture_control_set_ptr->parent_pcs_ptr->lf.filter_level[0] || picture_control_set_ptr->parent_pcs_ptr->lf.filter_level[1]) {
-            uint8_t LastCol = ((sb_origin_x)+sb_width == sequence_control_set_ptr->luma_width) ? 1 : 0;
+            uint8_t last_col = ((sb_origin_x)+sb_width == sequence_control_set_ptr->luma_width) ? 1 : 0;
             loop_filter_sb(
                 recon_buffer,
                 picture_control_set_ptr,
@@ -4246,7 +4246,7 @@ EB_EXTERN void av1_encode_pass(
                 sb_origin_x >> 2,
                 0,
                 3,
-                LastCol);
+                last_col);
         }
     }
 #endif

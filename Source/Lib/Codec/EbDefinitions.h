@@ -403,12 +403,13 @@ static __inline void mem_put_le32(void *vmem, MEM_VALUE_T val) {
 /* clang-format on */
 //#endif  // AOM_PORTS_MEM_OPS_H_
 
-typedef uint16_t CONV_BUF_TYPE;
+typedef uint16_t ConvBufType;
+
 typedef struct ConvolveParams 
 {
     int32_t ref;
     int32_t do_average;
-    CONV_BUF_TYPE *dst;
+    ConvBufType *dst;
     int32_t dst_stride;
     int32_t round_0;
     int32_t round_1;
@@ -485,26 +486,26 @@ typedef struct InterpFilterParams
 } InterpFilterParams;
 
 #if TX_SEARCH_LEVELS
-typedef enum tx_search_level 
+typedef enum TxSearchLevel 
 {
     TX_SEARCH_OFF,
     TX_SEARCH_ENC_DEC,
     TX_SEARCH_INTER_DEPTH,
     TX_SEARCH_FULL_LOOP
-} tx_search_level;
+} TxSearchLevel;
 #endif
 
 #if INTERPOLATION_SEARCH_LEVELS
-typedef enum interpolation_search_level 
+typedef enum InterpolationSearchLevel 
 {
     IT_SEARCH_OFF,
     IT_SEARCH_INTER_DEPTH,
     IT_SEARCH_FULL_LOOP,
     IT_SEARCH_FAST_LOOP,
-} interpolation_search_level;
+} InterpolationSearchLevel;
 #endif
 #if NSQ_SEARCH_LEVELS
-typedef enum nsq_search_level 
+typedef enum NsqSearchLevel 
 {
     NSQ_SEARCH_OFF,
     NSQ_SEARCH_BASE_ON_SQ_TYPE,
@@ -512,7 +513,7 @@ typedef enum nsq_search_level
     NSQ_INTER_SEARCH_BASE_ON_SQ_MVMODE,
     NSQ_INTER_SEARCH_BASE_ON_SQ_INTRAMODE,
     NSQ_SEARCH_FULL
-} nsq_search_level;
+} NsqSearchLevel;
 #endif
 #if NSQ_SEARCH_LEVELS
 #define MAX_PARENT_SQ     6
@@ -2560,54 +2561,14 @@ strcmp(target,token)
 #define EB_STRLEN(target, max_size) \
 strnlen_ss(target, max_size)
 
-//#ifdef __cplusplus
-//}
-//#endif // __cplusplus
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-typedef struct EbParamPortDefinitionType 
-{
-uint32_t nFrameWidth;
-uint32_t nFrameHeight;
-int32_t  nStride;
-uint32_t size;
-} EbParamPortDefinitionType;
-
 /**************************************
 * Callback Functions
 **************************************/
 typedef struct EbCallback
 {
-EbPtr                                 appPrivateData;
-EbPtr                                 handle;
+
+EbPtr  app_private_data;
+EbPtr  handle;
 void(*ErrorHandler)(
     EbPtr handle,
     uint32_t error_code);

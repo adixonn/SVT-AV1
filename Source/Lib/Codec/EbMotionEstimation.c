@@ -116,7 +116,7 @@ uint32_t compute8x4_sad_kernel(
 
     return sadBlock8x4;
 }
-static EB_COMPUTE8X4SAD_TYPE FUNC_TABLE compute8x4SAD_funcPtrArray[ASM_TYPE_TOTAL] =// [C_DEFAULT/ASM]
+static EbCompute8x4SadType FUNC_TABLE compute8x4SAD_funcPtrArray[ASM_TYPE_TOTAL] =// [C_DEFAULT/ASM]
 {
     // C_DEFAULT
     compute8x4_sad_kernel,

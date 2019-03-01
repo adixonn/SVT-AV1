@@ -470,7 +470,7 @@ void get_txb_ctx(
 }
 
 void Av1WriteTxType(
-    PictureParentControlSet   *pcsPtr,
+    PictureParentControlSet   *pcs_ptr,
     FrameContext               *frameContext,
     aom_writer                  *ec_writer,
     CodingUnit                *cu_ptr,
@@ -482,11 +482,11 @@ void Av1WriteTxType(
 
     const TxSize squareTxSize = txsize_sqr_map[txSize];
 
-    if (get_ext_tx_types(txSize, isInter, pcsPtr->reduced_tx_set_used) > 1 &&
-        (pcsPtr->base_qindex > 0)) {
+    if (get_ext_tx_types(txSize, isInter, pcs_ptr->reduced_tx_set_used) > 1 &&
+        (pcs_ptr->base_qindex > 0)) {
         const TxSetType txSetType =
-            get_ext_tx_set_type(txSize, isInter, pcsPtr->reduced_tx_set_used);
-        const int32_t eset = get_ext_tx_set(txSize, isInter, pcsPtr->reduced_tx_set_used);
+            get_ext_tx_set_type(txSize, isInter, pcs_ptr->reduced_tx_set_used);
+        const int32_t eset = get_ext_tx_set(txSize, isInter, pcs_ptr->reduced_tx_set_used);
         // eset == 0 should correspond to a set with only DCT_DCT and there
         // is no need to send the tx_type
         assert(eset > 0);
@@ -708,7 +708,7 @@ int32_t  Av1WriteCoeffsTxb1D(
 ******* Av1EncodeTuCoeff
 **************************************/
 static EbErrorType Av1EncodeCoeff1D(
-    PictureControlSet     *pcsPtr,
+    PictureControlSet     *pcs_ptr,
     EntropyCodingContext  *context_ptr,
     FrameContext           *frameContext,
     aom_writer              *ec_writer,
@@ -761,7 +761,7 @@ static EbErrorType Av1EncodeCoeff1D(
 
             cul_level_y =
                 Av1WriteCoeffsTxb1D(
-                    pcsPtr->parent_pcs_ptr,
+                    pcs_ptr->parent_pcs_ptr,
                     frameContext,
                     ec_writer,
                     cu_ptr,
@@ -798,7 +798,7 @@ static EbErrorType Av1EncodeCoeff1D(
 
                 cul_level_cb =
                     Av1WriteCoeffsTxb1D(
-                        pcsPtr->parent_pcs_ptr,
+                        pcs_ptr->parent_pcs_ptr,
                         frameContext,
                         ec_writer,
                         cu_ptr,
@@ -835,7 +835,7 @@ static EbErrorType Av1EncodeCoeff1D(
 
                 cul_level_cr =
                     Av1WriteCoeffsTxb1D(
-                        pcsPtr->parent_pcs_ptr,
+                        pcs_ptr->parent_pcs_ptr,
                         frameContext,
                         ec_writer,
                         cu_ptr,
@@ -1669,7 +1669,7 @@ void WriteDrlIdx(
 
     //uint8_t ref_frame_type = av1_ref_frame_type(mbmi->ref_frame);
     uint8_t ref_frame_type = cu_ptr->prediction_unit_array[0].ref_frame_type;
-    MacroBlockD*  xd = cu_ptr->av1xd;
+    MacroBlockId*  xd = cu_ptr->av1xd;
     //assert(mbmi->ref_mv_idx < 3);
 
     //xd->ref_mv_stack[ref_frame][ref_mv_idx].comp_mv;
@@ -1769,7 +1769,7 @@ static INLINE int32_t is_mv_valid(const MV *mv) {
 }
 
 void av1_encode_mv(
-    PictureParentControlSet   *pcsPtr,
+    PictureParentControlSet   *pcs_ptr,
     aom_writer                  *ec_writer,
     const MV *mv,
     const MV *ref,
@@ -1785,7 +1785,7 @@ void av1_encode_mv(
     int32_t diff[2] = { mv->row - ref->row, mv->col - ref->col };
     const MvJointType j = av1_get_mv_joint_diff(diff);
 
-    if (pcsPtr->cur_frame_force_integer_mv) {
+    if (pcs_ptr->cur_frame_force_integer_mv) {
         usehp = MV_SUBPEL_NONE;
     }
     aom_write_symbol(ec_writer, j, mvctx->joints_cdf, MV_JOINTS);
@@ -1818,7 +1818,7 @@ int32_t av1_get_pred_context_switchable_interp(
 
     uint32_t cu_origin_x,
     uint32_t cu_origin_y,
-    //const MacroBlockD *xd,
+    //const MacroBlockId *xd,
     int32_t dir
 ) {
 
@@ -1894,7 +1894,7 @@ int32_t av1_get_pred_context_switchable_interp(
     MvReferenceFrame             rf1,
     CodingUnit                  *cu_ptr,
     BlockSize sb_type,
-    PictureParentControlSet   *pcsPtr) {
+    PictureParentControlSet   *pcs_ptr) {
     int32_t ref;
 
     // First check if all modes are GLOBALMV
@@ -1906,7 +1906,7 @@ int32_t av1_get_pred_context_switchable_interp(
 
     // Now check if all global motion is non translational
     for (ref = 0; ref < 1 + cu_ptr->prediction_unit_array->is_compound; ++ref) {
-        if (pcsPtr->global_motion[ref ? rf1 : rf0].wmtype == TRANSLATION)
+        if (pcs_ptr->global_motion[ref ? rf1 : rf0].wmtype == TRANSLATION)
             return 0;
     }
     return 1;
@@ -1916,7 +1916,7 @@ static int32_t av1_is_interp_needed(
     MvReferenceFrame            rf1,
     CodingUnit               *cu_ptr,
     BlockSize                   bsize,
-    PictureParentControlSet  *pcsPtr)
+    PictureParentControlSet  *pcs_ptr)
 {
     if (cu_ptr->skip_flag)
         return 0;
@@ -1924,7 +1924,7 @@ static int32_t av1_is_interp_needed(
     if (cu_ptr->prediction_unit_array[0].motion_mode == WARPED_CAUSAL)
         return 0;
 
-    if (is_nontrans_global_motion_EC(rf0, rf1, cu_ptr, bsize, pcsPtr))
+    if (is_nontrans_global_motion_EC(rf0, rf1, cu_ptr, bsize, pcs_ptr))
         return 0;
 
     return 1;
@@ -1935,7 +1935,7 @@ void write_mb_interp_filter(
     BlockSize bsize,
     MvReferenceFrame rf0,
     MvReferenceFrame rf1,
-    PictureParentControlSet   *pcsPtr,
+    PictureParentControlSet   *pcs_ptr,
     aom_writer                  *ec_writer,
     CodingUnit             *cu_ptr,
     EntropyCoder *entropy_coder_ptr,
@@ -1943,11 +1943,11 @@ void write_mb_interp_filter(
     uint32_t blkOriginX,
     uint32_t blkOriginY)
 {
-    Av1Common *const cm = pcsPtr->av1_cm; //&cpi->common;
+    Av1Common *const cm = pcs_ptr->av1_cm; //&cpi->common;
     //const MbModeInfo *const mbmi = xd->mi[0];
     //FrameContext *ec_ctx = xd->tile_ctx;
 
-    if (!av1_is_interp_needed(rf0, rf1, cu_ptr, bsize, pcsPtr)) {
+    if (!av1_is_interp_needed(rf0, rf1, cu_ptr, bsize, pcs_ptr)) {
 
         /* assert(mbmi->interp_filters ==
                 av1_broadcast_interp_filter(
@@ -1957,7 +1957,7 @@ void write_mb_interp_filter(
     if (cm->interp_filter == SWITCHABLE) {
         int32_t dir;
         for (dir = 0; dir < 2; ++dir) {
-            // printf("\nP:%d\tX: %d\tY:%d\t %d",(pcsPtr)->picture_number,blkOriginX,blkOriginY ,((ec_writer)->ec).rng);
+            // printf("\nP:%d\tX: %d\tY:%d\t %d",(pcs_ptr)->picture_number,blkOriginX,blkOriginY ,((ec_writer)->ec).rng);
             const int32_t ctx = av1_get_pred_context_switchable_interp(
                 ref_frame_type_neighbor_array,
 
@@ -1975,8 +1975,8 @@ void write_mb_interp_filter(
             aom_write_symbol(ec_writer, filter, /*ec_ctx*/entropy_coder_ptr->fc->switchable_interp_cdf[ctx],
                 SWITCHABLE_FILTERS);
 
-            // ++pcsPtr->interp_filter_selected[0][filter];
-            if (pcsPtr->sequence_control_set_ptr->enable_dual_filter == 0) return;
+            // ++pcs_ptr->interp_filter_selected[0][filter];
+            if (pcs_ptr->sequence_control_set_ptr->enable_dual_filter == 0) return;
         }
     }
 }
@@ -2258,7 +2258,7 @@ void av1_collect_neighbors_ref_counts(
 //
 // Obtain contexts to signal a reference frame to be either LAST/LAST2 or
 // LAST3/GOLDEN.
-static int32_t get_pred_context_ll2_or_l3gld(const MacroBlockD *xd) {
+static int32_t get_pred_context_ll2_or_l3gld(const MacroBlockId *xd) {
     const uint8_t *const ref_counts = &xd->neighbors_ref_counts[0];
 
     // Count of LAST + LAST2
@@ -2276,7 +2276,7 @@ static int32_t get_pred_context_ll2_or_l3gld(const MacroBlockD *xd) {
 }
 
 // Obtain contexts to signal a reference frame to be either LAST or LAST2.
-static int32_t get_pred_context_last_or_last2(const MacroBlockD *xd) {
+static int32_t get_pred_context_last_or_last2(const MacroBlockId *xd) {
     const uint8_t *const ref_counts = &xd->neighbors_ref_counts[0];
 
     // Count of LAST
@@ -2292,7 +2292,7 @@ static int32_t get_pred_context_last_or_last2(const MacroBlockD *xd) {
 }
 
 // Obtain contexts to signal a reference frame to be either LAST3 or GOLDEN.
-static int32_t get_pred_context_last3_or_gld(const MacroBlockD *xd) {
+static int32_t get_pred_context_last3_or_gld(const MacroBlockId *xd) {
     const uint8_t *const ref_counts = &xd->neighbors_ref_counts[0];
 
     // Count of LAST3
@@ -2309,7 +2309,7 @@ static int32_t get_pred_context_last3_or_gld(const MacroBlockD *xd) {
 
 // Obtain contexts to signal a reference frame be either BWDREF/ALTREF2, or
 // ALTREF.
-static int32_t get_pred_context_brfarf2_or_arf(const MacroBlockD *xd) {
+static int32_t get_pred_context_brfarf2_or_arf(const MacroBlockId *xd) {
     const uint8_t *const ref_counts = &xd->neighbors_ref_counts[0];
 
     // Counts of BWDREF, ALTREF2, or ALTREF frames (B, A2, or A)
@@ -2325,7 +2325,7 @@ static int32_t get_pred_context_brfarf2_or_arf(const MacroBlockD *xd) {
 }
 
 // Obtain contexts to signal a reference frame be either BWDREF or ALTREF2.
-static int32_t get_pred_context_brf_or_arf2(const MacroBlockD *xd) {
+static int32_t get_pred_context_brf_or_arf2(const MacroBlockId *xd) {
     const uint8_t *const ref_counts = &xd->neighbors_ref_counts[0];
 
     // Count of BWDREF frames (B)
@@ -2345,33 +2345,33 @@ static int32_t get_pred_context_brf_or_arf2(const MacroBlockD *xd) {
 // Returns a context number for the given MB prediction signal
 // Signal the first reference frame for a compound mode be either
 // GOLDEN/LAST3, or LAST/LAST2.
-int32_t av1_get_pred_context_comp_ref_p(const MacroBlockD *xd) {
+int32_t av1_get_pred_context_comp_ref_p(const MacroBlockId *xd) {
     return get_pred_context_ll2_or_l3gld(xd);
 }
 
 // Returns a context number for the given MB prediction signal
 // Signal the first reference frame for a compound mode be LAST,
 // conditioning on that it is known either LAST/LAST2.
-int32_t av1_get_pred_context_comp_ref_p1(const MacroBlockD *xd) {
+int32_t av1_get_pred_context_comp_ref_p1(const MacroBlockId *xd) {
     return get_pred_context_last_or_last2(xd);
 }
 
 // Returns a context number for the given MB prediction signal
 // Signal the first reference frame for a compound mode be GOLDEN,
 // conditioning on that it is known either GOLDEN or LAST3.
-int32_t av1_get_pred_context_comp_ref_p2(const MacroBlockD *xd) {
+int32_t av1_get_pred_context_comp_ref_p2(const MacroBlockId *xd) {
     return get_pred_context_last3_or_gld(xd);
 }
 
 // Signal the 2nd reference frame for a compound mode be either
 // ALTREF, or ALTREF2/BWDREF.
-int32_t av1_get_pred_context_comp_bwdref_p(const MacroBlockD *xd) {
+int32_t av1_get_pred_context_comp_bwdref_p(const MacroBlockId *xd) {
     return get_pred_context_brfarf2_or_arf(xd);
 }
 
 // Signal the 2nd reference frame for a compound mode be either
 // ALTREF2 or BWDREF.
-int32_t av1_get_pred_context_comp_bwdref_p1(const MacroBlockD *xd) {
+int32_t av1_get_pred_context_comp_bwdref_p1(const MacroBlockId *xd) {
     return get_pred_context_brf_or_arf2(xd);
 }
 
@@ -2379,7 +2379,7 @@ int32_t av1_get_pred_context_comp_bwdref_p1(const MacroBlockD *xd) {
 //
 // For the bit to signal whether the single reference is a forward reference
 // frame or a backward reference frame.
-int32_t av1_get_pred_context_single_ref_p1(const MacroBlockD *xd) {
+int32_t av1_get_pred_context_single_ref_p1(const MacroBlockId *xd) {
     const uint8_t *const ref_counts = &xd->neighbors_ref_counts[0];
 
     // Count of forward reference frames
@@ -2399,31 +2399,31 @@ int32_t av1_get_pred_context_single_ref_p1(const MacroBlockD *xd) {
 // For the bit to signal whether the single reference is ALTREF_FRAME or
 // non-ALTREF backward reference frame, knowing that it shall be either of
 // these 2 choices.
-int32_t av1_get_pred_context_single_ref_p2(const MacroBlockD *xd) {
+int32_t av1_get_pred_context_single_ref_p2(const MacroBlockId *xd) {
     return get_pred_context_brfarf2_or_arf(xd);
 }
 
 // For the bit to signal whether the single reference is LAST3/GOLDEN or
 // LAST2/LAST, knowing that it shall be either of these 2 choices.
-int32_t av1_get_pred_context_single_ref_p3(const MacroBlockD *xd) {
+int32_t av1_get_pred_context_single_ref_p3(const MacroBlockId *xd) {
     return get_pred_context_ll2_or_l3gld(xd);
 }
 
 // For the bit to signal whether the single reference is LAST2_FRAME or
 // LAST_FRAME, knowing that it shall be either of these 2 choices.
-int32_t av1_get_pred_context_single_ref_p4(const MacroBlockD *xd) {
+int32_t av1_get_pred_context_single_ref_p4(const MacroBlockId *xd) {
     return get_pred_context_last_or_last2(xd);
 }
 
 // For the bit to signal whether the single reference is GOLDEN_FRAME or
 // LAST3_FRAME, knowing that it shall be either of these 2 choices.
-int32_t av1_get_pred_context_single_ref_p5(const MacroBlockD *xd) {
+int32_t av1_get_pred_context_single_ref_p5(const MacroBlockId *xd) {
     return get_pred_context_last3_or_gld(xd);
 }
 
 // For the bit to signal whether the single reference is ALTREF2_FRAME or
 // BWDREF_FRAME, knowing that it shall be either of these 2 choices.
-int32_t av1_get_pred_context_single_ref_p6(const MacroBlockD *xd) {
+int32_t av1_get_pred_context_single_ref_p6(const MacroBlockId *xd) {
     return get_pred_context_brf_or_arf2(xd);
 }
 /***************************************************************************************/
@@ -2434,7 +2434,7 @@ int32_t av1_get_pred_context_single_ref_p6(const MacroBlockD *xd) {
 static void WriteRefFrames(
     FrameContext               *frameContext,
     aom_writer                  *ec_writer,
-    PictureParentControlSet   *pcsPtr,
+    PictureParentControlSet   *pcs_ptr,
     CodingUnit                *cu_ptr,
     BlockSize                   bsize,
     uint32_t                       cu_origin_x,
@@ -2461,7 +2461,7 @@ static void WriteRefFrames(
     else*/ {
     // does the feature use compound prediction or not
     // (if not specified at the frame/segment level)
-        if (pcsPtr->reference_mode == REFERENCE_MODE_SELECT) {
+        if (pcs_ptr->reference_mode == REFERENCE_MODE_SELECT) {
 
             if (is_comp_ref_allowed(bsize)) {
                 int32_t context = 0;
@@ -2476,7 +2476,7 @@ static void WriteRefFrames(
             }
         }
         else {
-            assert((!is_compound) == (pcsPtr->reference_mode == SINGLE_REFERENCE));
+            assert((!is_compound) == (pcs_ptr->reference_mode == SINGLE_REFERENCE));
         }
 
 
@@ -2612,17 +2612,17 @@ static void WriteRefFrames(
 }
 
 
-static void encode_restoration_mode(PictureParentControlSet *pcsPtr,
+static void encode_restoration_mode(PictureParentControlSet *pcs_ptr,
     struct AomWriteBitBuffer *wb) {
 
-    Av1Common* cm = pcsPtr->av1_cm;
+    Av1Common* cm = pcs_ptr->av1_cm;
 
     //printf("ERROR[AN]: encode_restoration_mode might not work. Double check the reference code\n");
-    assert(!pcsPtr->all_lossless);
+    assert(!pcs_ptr->all_lossless);
     // move out side of the function
     //if (!cm->seq_params.enable_restoration) return;
 
-    if (pcsPtr->allow_intrabc) return;
+    if (pcs_ptr->allow_intrabc) return;
 
     const int32_t num_planes = 3;// av1_num_planes(cm);
     int32_t all_none = 1, chroma_none = 1;
@@ -2630,14 +2630,14 @@ static void encode_restoration_mode(PictureParentControlSet *pcsPtr,
         //   aom_wb_write_bit(wb, 0);
         //   aom_wb_write_bit(wb, 0);
 
-        RestorationInfo *rsi = &pcsPtr->av1_cm->rst_info[p];
+        RestorationInfo *rsi = &pcs_ptr->av1_cm->rst_info[p];
 
         //if (p==0)
-        //   printf("POC:%i Luma restType:%i\n", pcsPtr->picture_number, rsi->frame_restoration_type);
+        //   printf("POC:%i Luma restType:%i\n", pcs_ptr->picture_number, rsi->frame_restoration_type);
         //if (p == 1)
-        //    printf("POC:%i Cb restType:%i\n", pcsPtr->picture_number, rsi->frame_restoration_type);
+        //    printf("POC:%i Cb restType:%i\n", pcs_ptr->picture_number, rsi->frame_restoration_type);
         //if (p == 2)
-        //    printf("POC:%i Cr restType:%i\n", pcsPtr->picture_number, rsi->frame_restoration_type);
+        //    printf("POC:%i Cr restType:%i\n", pcs_ptr->picture_number, rsi->frame_restoration_type);
 
 
         if (rsi->frame_restoration_type != RESTORE_NONE) {
@@ -2668,8 +2668,8 @@ static void encode_restoration_mode(PictureParentControlSet *pcsPtr,
 
         //  assert(cm->seq_params.sb_size == BLOCK_64X64 ||
         //      cm->seq_params.sb_size == BLOCK_128X128);
-        const int32_t sb_size = pcsPtr->sequence_control_set_ptr->sb_size == BLOCK_128X128 ? 128 : 64;;
-        RestorationInfo *rsi = &pcsPtr->av1_cm->rst_info[0];
+        const int32_t sb_size = pcs_ptr->sequence_control_set_ptr->sb_size == BLOCK_128X128 ? 128 : 64;;
+        RestorationInfo *rsi = &pcs_ptr->av1_cm->rst_info[0];
 
         assert(rsi->restoration_unit_size >= sb_size);
         assert(RESTORATION_UNITSIZE_MAX == 256);
@@ -2706,12 +2706,12 @@ static void encode_restoration_mode(PictureParentControlSet *pcsPtr,
 }
 
 
-static void encode_loopfilter(PictureParentControlSet *pcsPtr, struct AomWriteBitBuffer *wb) {
-    assert(!pcsPtr->coded_lossless);
-    if (pcsPtr->allow_intrabc) return;
-    const int32_t num_planes = 3;// av1_num_planes(pcsPtr);
+static void encode_loopfilter(PictureParentControlSet *pcs_ptr, struct AomWriteBitBuffer *wb) {
+    assert(!pcs_ptr->coded_lossless);
+    if (pcs_ptr->allow_intrabc) return;
+    const int32_t num_planes = 3;// av1_num_planes(pcs_ptr);
 
-    struct LoopFilter *lf = &pcsPtr->lf;
+    struct LoopFilter *lf = &pcs_ptr->lf;
 
     // Encode the loop filter level and type
     aom_wb_write_literal(wb, lf->filter_level[0], 6);
@@ -2731,7 +2731,7 @@ static void encode_loopfilter(PictureParentControlSet *pcsPtr, struct AomWriteBi
         printf("ERROR[AN]: Loop Filter is not supported yet \n");
         /* aom_wb_write_bit(wb, lf->mode_ref_delta_update);
         if (lf->mode_ref_delta_update) {
-        const int32_t prime_idx = pcsPtr->primary_ref_frame;
+        const int32_t prime_idx = pcs_ptr->primary_ref_frame;
         const int32_t buf_idx =
         prime_idx == PRIMARY_REF_NONE ? -1 : cm->frame_refs[prime_idx].idx;
         int8_t last_ref_deltas[TOTAL_REFS_PER_FRAME];
@@ -2768,22 +2768,22 @@ static void encode_loopfilter(PictureParentControlSet *pcsPtr, struct AomWriteBi
 
 }
 
-static void encode_cdef(const PictureParentControlSet *pcsPtr, struct AomWriteBitBuffer *wb) {
+static void encode_cdef(const PictureParentControlSet *pcs_ptr, struct AomWriteBitBuffer *wb) {
     //assert(!cm->coded_lossless);
     // moved out side
     //if (!cm->seq_params.enable_cdef) return;
 
-    if (pcsPtr->allow_intrabc) return;
+    if (pcs_ptr->allow_intrabc) return;
 
-    const int32_t num_planes = 3;// av1_num_planes(pcsPtr);
+    const int32_t num_planes = 3;// av1_num_planes(pcs_ptr);
     int32_t i;
-    aom_wb_write_literal(wb, pcsPtr->cdef_pri_damping - 3, 2);
-    assert(pcsPtr->cdef_pri_damping == pcsPtr->cdef_sec_damping);
-    aom_wb_write_literal(wb, pcsPtr->cdef_bits, 2);
-    for (i = 0; i < pcsPtr->nb_cdef_strengths; i++) {
-        aom_wb_write_literal(wb, pcsPtr->cdef_strengths[i], CDEF_STRENGTH_BITS);
+    aom_wb_write_literal(wb, pcs_ptr->cdef_pri_damping - 3, 2);
+    assert(pcs_ptr->cdef_pri_damping == pcs_ptr->cdef_sec_damping);
+    aom_wb_write_literal(wb, pcs_ptr->cdef_bits, 2);
+    for (i = 0; i < pcs_ptr->nb_cdef_strengths; i++) {
+        aom_wb_write_literal(wb, pcs_ptr->cdef_strengths[i], CDEF_STRENGTH_BITS);
         if (num_planes > 1)
-            aom_wb_write_literal(wb, pcsPtr->cdef_uv_strengths[i], CDEF_STRENGTH_BITS);
+            aom_wb_write_literal(wb, pcs_ptr->cdef_uv_strengths[i], CDEF_STRENGTH_BITS);
     }
 }
 
@@ -2797,44 +2797,44 @@ static void write_delta_q(struct AomWriteBitBuffer *wb, int32_t delta_q) {
     }
 }
 
-static void encode_quantization(const PictureParentControlSet *const pcsPtr,
+static void encode_quantization(const PictureParentControlSet *const pcs_ptr,
     struct AomWriteBitBuffer *wb) {
     const int32_t num_planes = 3;//av1_num_planes(cm);
 
-    aom_wb_write_literal(wb, pcsPtr->base_qindex, QINDEX_BITS);
-    write_delta_q(wb, pcsPtr->y_dc_delta_q);
+    aom_wb_write_literal(wb, pcs_ptr->base_qindex, QINDEX_BITS);
+    write_delta_q(wb, pcs_ptr->y_dc_delta_q);
     if (num_planes > 1) {
-        int32_t diff_uv_delta = (pcsPtr->u_dc_delta_q != pcsPtr->v_dc_delta_q) ||
-            (pcsPtr->u_ac_delta_q != pcsPtr->v_ac_delta_q);
-        if (pcsPtr->separate_uv_delta_q) aom_wb_write_bit(wb, diff_uv_delta);
-        write_delta_q(wb, pcsPtr->u_dc_delta_q);
-        write_delta_q(wb, pcsPtr->u_ac_delta_q);
+        int32_t diff_uv_delta = (pcs_ptr->u_dc_delta_q != pcs_ptr->v_dc_delta_q) ||
+            (pcs_ptr->u_ac_delta_q != pcs_ptr->v_ac_delta_q);
+        if (pcs_ptr->separate_uv_delta_q) aom_wb_write_bit(wb, diff_uv_delta);
+        write_delta_q(wb, pcs_ptr->u_dc_delta_q);
+        write_delta_q(wb, pcs_ptr->u_ac_delta_q);
         if (diff_uv_delta) {
-            write_delta_q(wb, pcsPtr->v_dc_delta_q);
-            write_delta_q(wb, pcsPtr->v_ac_delta_q);
+            write_delta_q(wb, pcs_ptr->v_dc_delta_q);
+            write_delta_q(wb, pcs_ptr->v_ac_delta_q);
         }
     }
-    aom_wb_write_bit(wb, pcsPtr->using_qmatrix);
-    if (pcsPtr->using_qmatrix) {
+    aom_wb_write_bit(wb, pcs_ptr->using_qmatrix);
+    if (pcs_ptr->using_qmatrix) {
 
-        aom_wb_write_literal(wb, pcsPtr->qm_y, QM_LEVEL_BITS);
-        aom_wb_write_literal(wb, pcsPtr->qm_u, QM_LEVEL_BITS);
-        if (!pcsPtr->separate_uv_delta_q)
-            assert(pcsPtr->qm_u == pcsPtr->qm_v);
+        aom_wb_write_literal(wb, pcs_ptr->qm_y, QM_LEVEL_BITS);
+        aom_wb_write_literal(wb, pcs_ptr->qm_u, QM_LEVEL_BITS);
+        if (!pcs_ptr->separate_uv_delta_q)
+            assert(pcs_ptr->qm_u == pcs_ptr->qm_v);
         else
-            aom_wb_write_literal(wb, pcsPtr->qm_v, QM_LEVEL_BITS);
+            aom_wb_write_literal(wb, pcs_ptr->qm_v, QM_LEVEL_BITS);
 
     }
 }
 
-static void write_tile_info_max_tile(const PictureParentControlSet *const pcsPtr,
+static void write_tile_info_max_tile(const PictureParentControlSet *const pcs_ptr,
     struct AomWriteBitBuffer *wb) {
 
 
-    Av1Common * cm = pcsPtr->av1_cm;
-    aom_wb_write_bit(wb, pcsPtr->uniform_tile_spacing_flag);
+    Av1Common * cm = pcs_ptr->av1_cm;
+    aom_wb_write_bit(wb, pcs_ptr->uniform_tile_spacing_flag);
 
-    if (pcsPtr->uniform_tile_spacing_flag) {
+    if (pcs_ptr->uniform_tile_spacing_flag) {
 
 #if !TILES
         //CHKN: no tiles
@@ -2896,16 +2896,16 @@ static int32_t tile_log2(int32_t blk_size, int32_t target) {
     }
     return k;
 }
-void av1_get_tile_limits(PictureParentControlSet * pcsPtr) {
+void av1_get_tile_limits(PictureParentControlSet * pcs_ptr) {
 
-    Av1Common * cm = pcsPtr->av1_cm;
+    Av1Common * cm = pcs_ptr->av1_cm;
 
-    int32_t mi_cols = ALIGN_POWER_OF_TWO(cm->mi_cols, pcsPtr->sequence_control_set_ptr->mib_size_log2);
-    int32_t mi_rows = ALIGN_POWER_OF_TWO(cm->mi_rows, pcsPtr->sequence_control_set_ptr->mib_size_log2);
-    int32_t sb_cols = mi_cols >> pcsPtr->sequence_control_set_ptr->mib_size_log2;
-    int32_t sb_rows = mi_rows >> pcsPtr->sequence_control_set_ptr->mib_size_log2;
+    int32_t mi_cols = ALIGN_POWER_OF_TWO(cm->mi_cols, pcs_ptr->sequence_control_set_ptr->mib_size_log2);
+    int32_t mi_rows = ALIGN_POWER_OF_TWO(cm->mi_rows, pcs_ptr->sequence_control_set_ptr->mib_size_log2);
+    int32_t sb_cols = mi_cols >> pcs_ptr->sequence_control_set_ptr->mib_size_log2;
+    int32_t sb_rows = mi_rows >> pcs_ptr->sequence_control_set_ptr->mib_size_log2;
 
-    int32_t sb_size_log2 = pcsPtr->sequence_control_set_ptr->mib_size_log2 + MI_SIZE_LOG2;
+    int32_t sb_size_log2 = pcs_ptr->sequence_control_set_ptr->mib_size_log2 + MI_SIZE_LOG2;
     cm->max_tile_width_sb = MAX_TILE_WIDTH >> sb_size_log2;
     int32_t max_tile_area_sb = MAX_TILE_AREA >> (2 * sb_size_log2);
 
@@ -2960,12 +2960,12 @@ void av1_calculate_tile_cols(PictureParentControlSet * pcs_ptr) {
     }
 }
 
-void av1_calculate_tile_rows(PictureParentControlSet * pcsPtr)
+void av1_calculate_tile_rows(PictureParentControlSet * pcs_ptr)
 {
-    Av1Common *const cm = pcsPtr->av1_cm;
+    Av1Common *const cm = pcs_ptr->av1_cm;
 
-    int mi_rows = ALIGN_POWER_OF_TWO(cm->mi_rows, pcsPtr->sequence_control_set_ptr->mib_size_log2);
-    int sb_rows = mi_rows >> pcsPtr->sequence_control_set_ptr->mib_size_log2;
+    int mi_rows = ALIGN_POWER_OF_TWO(cm->mi_rows, pcs_ptr->sequence_control_set_ptr->mib_size_log2);
+    int sb_rows = mi_rows >> pcs_ptr->sequence_control_set_ptr->mib_size_log2;
     int start_sb, size_sb, i;
 
     if (cm->uniform_tile_spacing_flag) {
@@ -2979,7 +2979,7 @@ void av1_calculate_tile_rows(PictureParentControlSet * pcsPtr)
         cm->tile_rows = i;
         cm->tile_row_start_sb[i] = sb_rows;
 
-        cm->tile_height = size_sb << pcsPtr->sequence_control_set_ptr->mib_size_log2;
+        cm->tile_height = size_sb << pcs_ptr->sequence_control_set_ptr->mib_size_log2;
         cm->tile_height = AOMMIN(cm->tile_height, cm->mi_rows);
     }
     else {
@@ -3158,11 +3158,11 @@ static void write_tile_info(const PictureParentControlSet *const pcs_ptr,
     //}
 }
 
-static void write_frame_size(PictureParentControlSet *pcsPtr,
+static void write_frame_size(PictureParentControlSet *pcs_ptr,
     int32_t frame_size_override,
     struct AomWriteBitBuffer *wb) {
-    SequenceControlSet *scs_ptr = (SequenceControlSet*)pcsPtr->sequence_control_set_wrapper_ptr->object_ptr;
-    (void)(*pcsPtr);
+    SequenceControlSet *scs_ptr = (SequenceControlSet*)pcs_ptr->sequence_control_set_wrapper_ptr->object_ptr;
+    (void)(*pcs_ptr);
     (void)frame_size_override;
     //const int32_t coded_width = cm->superres_upscaled_width - 1;
     //const int32_t coded_height = cm->superres_upscaled_height - 1;
@@ -3698,17 +3698,17 @@ static void write_global_motion_params(const EbWarpedMotionParams *params,
     }
 }
 static void WriteGlobalMotion(
-    PictureParentControlSet *pcsPtr,
+    PictureParentControlSet *pcs_ptr,
     struct AomWriteBitBuffer *wb)
 
 {
     int32_t frame;
     for (frame = LAST_FRAME; frame <= ALTREF_FRAME; ++frame) {
         const EbWarpedMotionParams *ref_params = &default_warp_params;
-        //pcsPtr->prev_frame ? &pcsPtr->prev_frame->global_motion[frame] : &default_warp_params;
+        //pcs_ptr->prev_frame ? &pcs_ptr->prev_frame->global_motion[frame] : &default_warp_params;
 
-        write_global_motion_params(&pcsPtr->global_motion[frame], ref_params, wb,
-            pcsPtr->allow_high_precision_mv);
+        write_global_motion_params(&pcs_ptr->global_motion[frame], ref_params, wb,
+            pcs_ptr->allow_high_precision_mv);
         // TODO(sarahparker, debargha): The logic in the commented out code below
         // does not work currently and causes mismatches when resize is on.
         // Fix it before turning the optimization back on.
@@ -3734,30 +3734,30 @@ static void WriteGlobalMotion(
     }
 }
 
-static void write_film_grain_params(PictureParentControlSet *pcsPtr,
+static void write_film_grain_params(PictureParentControlSet *pcs_ptr,
     struct AomWriteBitBuffer *wb) {
 
-    aom_film_grain_t *pars = &pcsPtr->film_grain_params;
+    aom_film_grain_t *pars = &pcs_ptr->film_grain_params;
 
     aom_wb_write_bit(wb, pars->apply_grain);
     if (!pars->apply_grain) return;
 
     aom_wb_write_literal(wb, pars->random_seed, 16);
 
-    if (pcsPtr->av1_frame_type == INTER_FRAME) {
-        EbReferenceObject* refObj0 = (EbReferenceObject*)pcsPtr->child_pcs->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
+    if (pcs_ptr->av1_frame_type == INTER_FRAME) {
+        EbReferenceObject* refObj0 = (EbReferenceObject*)pcs_ptr->child_pcs->ref_pic_ptr_array[REF_LIST_0]->object_ptr;
         int32_t ref_idx = 0;
         pars->update_parameters = 1;
         if (film_grain_params_equal(&refObj0->film_grain_params, pars)) {
             pars->update_parameters = 0;
-            ref_idx = get_ref_frame_map_idx(pcsPtr, LAST_FRAME);
+            ref_idx = get_ref_frame_map_idx(pcs_ptr, LAST_FRAME);
         }
-        else if (pcsPtr->child_pcs->slice_type == B_SLICE)
+        else if (pcs_ptr->child_pcs->slice_type == B_SLICE)
         {
-            EbReferenceObject* refObj1 = (EbReferenceObject*)pcsPtr->child_pcs->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
+            EbReferenceObject* refObj1 = (EbReferenceObject*)pcs_ptr->child_pcs->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
             if (film_grain_params_equal(&refObj1->film_grain_params, pars)) {
                 pars->update_parameters = 0;
-                ref_idx = get_ref_frame_map_idx(pcsPtr, ALTREF_FRAME);  //todo: will it always be ALF_REF in L1?
+                ref_idx = get_ref_frame_map_idx(pcs_ptr, ALTREF_FRAME);  //todo: will it always be ALF_REF in L1?
             }
         }
         aom_wb_write_bit(wb, pars->update_parameters);
@@ -3777,15 +3777,15 @@ static void write_film_grain_params(PictureParentControlSet *pcsPtr,
         aom_wb_write_literal(wb, pars->scaling_points_y[i][1], 8);
     }
 
-    if (!pcsPtr->sequence_control_set_ptr->monochrome)
+    if (!pcs_ptr->sequence_control_set_ptr->monochrome)
         aom_wb_write_bit(wb, pars->chroma_scaling_from_luma);
     else
         pars->chroma_scaling_from_luma = 0;  // for monochrome override to 0
 
-    if (pcsPtr->sequence_control_set_ptr->monochrome || pars->chroma_scaling_from_luma ||
+    if (pcs_ptr->sequence_control_set_ptr->monochrome || pars->chroma_scaling_from_luma ||
         // todo: add corresponding check when subsampling variables are present
-        ((pcsPtr->sequence_control_set_ptr->subsampling_x == 1) &&
-        (pcsPtr->sequence_control_set_ptr->subsampling_y == 1) &&
+        ((pcs_ptr->sequence_control_set_ptr->subsampling_x == 1) &&
+        (pcs_ptr->sequence_control_set_ptr->subsampling_y == 1) &&
             (pars->num_y_points == 0))) {
         pars->num_cb_points = 0;
         pars->num_cr_points = 0;
@@ -3851,15 +3851,15 @@ static void write_film_grain_params(PictureParentControlSet *pcsPtr,
 
 // New function based on HLS R18
 static void WriteUncompressedHeaderObu(SequenceControlSet *scs_ptr/*AV1Comp *cpi*/,
-    PictureParentControlSet *pcsPtr,
+    PictureParentControlSet *pcs_ptr,
     //struct AomWriteBitBuffer *saved_wb,
     struct AomWriteBitBuffer *wb,
     uint8_t show_existing) {
     // Av1Common *const cm = &cpi->common;
-    // MacroBlockD *const xd = &cpi->td.mb.e_mbd;
+    // MacroBlockId *const xd = &cpi->td.mb.e_mbd;
 
     // NOTE: By default all coded frames to be used as a reference
-    pcsPtr->is_reference_frame = 1;
+    pcs_ptr->is_reference_frame = 1;
 
     if (!scs_ptr->reduced_still_picture_hdr) {
 
@@ -3876,7 +3876,7 @@ static void WriteUncompressedHeaderObu(SequenceControlSet *scs_ptr/*AV1Comp *cpi
             //ref_cnt_fb(frame_bufs, &cm->new_fb_idx, frame_to_show);
 
             aom_wb_write_bit(wb, 1);  // show_existing_frame
-            aom_wb_write_literal(wb, pcsPtr->show_existing_loc, 3);
+            aom_wb_write_literal(wb, pcs_ptr->show_existing_loc, 3);
 
             if (scs_ptr->frame_id_numbers_present_flag) {
                 printf("ERROR[AN]: frame_id_numbers_present_flag not supported yet\n");
@@ -3900,55 +3900,55 @@ static void WriteUncompressedHeaderObu(SequenceControlSet *scs_ptr/*AV1Comp *cpi
         }
 
 
-        //pcsPtr->av1_frame_type = pcsPtr->intra_only ? INTRA_ONLY_FRAME : pcsPtr->av1_frame_type;
+        //pcs_ptr->av1_frame_type = pcs_ptr->intra_only ? INTRA_ONLY_FRAME : pcs_ptr->av1_frame_type;
 
-        aom_wb_write_literal(wb, pcsPtr->av1_frame_type, 2);
+        aom_wb_write_literal(wb, pcs_ptr->av1_frame_type, 2);
 
-        // if (pcsPtr->intra_only) pcsPtr->av1_frame_type = INTRA_ONLY_FRAME;
+        // if (pcs_ptr->intra_only) pcs_ptr->av1_frame_type = INTRA_ONLY_FRAME;
 
-        aom_wb_write_bit(wb, pcsPtr->show_frame);
+        aom_wb_write_bit(wb, pcs_ptr->show_frame);
 
-        if (!pcsPtr->show_frame) {
-            aom_wb_write_bit(wb, pcsPtr->showable_frame);
+        if (!pcs_ptr->show_frame) {
+            aom_wb_write_bit(wb, pcs_ptr->showable_frame);
         }
-        if (pcsPtr->av1_frame_type == S_FRAME) {
-            assert(pcsPtr->error_resilient_mode);
+        if (pcs_ptr->av1_frame_type == S_FRAME) {
+            assert(pcs_ptr->error_resilient_mode);
         }
 
-        else if (!(pcsPtr->av1_frame_type == KEY_FRAME && pcsPtr->show_frame)) {
+        else if (!(pcs_ptr->av1_frame_type == KEY_FRAME && pcs_ptr->show_frame)) {
 
-            aom_wb_write_bit(wb, pcsPtr->error_resilient_mode);
+            aom_wb_write_bit(wb, pcs_ptr->error_resilient_mode);
         }
 
     }
 
-    aom_wb_write_bit(wb, pcsPtr->disable_cdf_update);
+    aom_wb_write_bit(wb, pcs_ptr->disable_cdf_update);
 
     if (scs_ptr->force_screen_content_tools == 2) {
-        aom_wb_write_bit(wb, pcsPtr->allow_screen_content_tools);
+        aom_wb_write_bit(wb, pcs_ptr->allow_screen_content_tools);
     }
     else {
-        assert(pcsPtr->allow_screen_content_tools ==
+        assert(pcs_ptr->allow_screen_content_tools ==
             scs_ptr->force_screen_content_tools);
     }
 
-    if (pcsPtr->allow_screen_content_tools) {
+    if (pcs_ptr->allow_screen_content_tools) {
         if (scs_ptr->force_integer_mv == 2) {
-            aom_wb_write_bit(wb, pcsPtr->cur_frame_force_integer_mv);
+            aom_wb_write_bit(wb, pcs_ptr->cur_frame_force_integer_mv);
         }
         else {
-            assert(pcsPtr->cur_frame_force_integer_mv == scs_ptr->force_integer_mv);
+            assert(pcs_ptr->cur_frame_force_integer_mv == scs_ptr->force_integer_mv);
         }
     }
     else {
-        assert(pcsPtr->cur_frame_force_integer_mv == 0);
+        assert(pcs_ptr->cur_frame_force_integer_mv == 0);
     }
 
     if (!scs_ptr->reduced_still_picture_hdr) {
 
         if (scs_ptr->frame_id_numbers_present_flag) {
             int32_t frame_id_len = scs_ptr->frame_id_length;
-            aom_wb_write_literal(wb, pcsPtr->current_frame_id, frame_id_len);
+            aom_wb_write_literal(wb, pcs_ptr->current_frame_id, frame_id_len);
         }
 
         //if (cm->width > cm->seq_params.max_frame_width ||
@@ -3958,115 +3958,115 @@ static void WriteUncompressedHeaderObu(SequenceControlSet *scs_ptr/*AV1Comp *cpi
         //}
 
         int32_t frame_size_override_flag = 0;
-        /*        (pcsPtr->av1_frame_type == S_FRAME) ? 1
+        /*        (pcs_ptr->av1_frame_type == S_FRAME) ? 1
         : (cm->width != cm->seq_params.max_frame_width ||
         cm->height != cm->seq_params.max_frame_height);*/
-        if (pcsPtr->av1_frame_type != S_FRAME) aom_wb_write_bit(wb, frame_size_override_flag);
+        if (pcs_ptr->av1_frame_type != S_FRAME) aom_wb_write_bit(wb, frame_size_override_flag);
 
         if (scs_ptr->enable_order_hint)
-            aom_wb_write_literal(wb, (int32_t)pcsPtr->frame_offset,
+            aom_wb_write_literal(wb, (int32_t)pcs_ptr->frame_offset,
                 scs_ptr->order_hint_bits_minus1 + 1);
 
 
-        if (!pcsPtr->error_resilient_mode && !frame_is_intra_only(pcsPtr)) {
-            aom_wb_write_literal(wb, pcsPtr->primary_ref_frame, PRIMARY_REF_BITS);
+        if (!pcs_ptr->error_resilient_mode && !frame_is_intra_only(pcs_ptr)) {
+            aom_wb_write_literal(wb, pcs_ptr->primary_ref_frame, PRIMARY_REF_BITS);
         }
 
     }
     int32_t frame_size_override_flag = 0;
-    if (pcsPtr->av1_frame_type == KEY_FRAME) {
-        if (!pcsPtr->show_frame) {
-            aom_wb_write_literal(wb, pcsPtr->av1_ref_signal.refreshFrameMask, REF_FRAMES);
+    if (pcs_ptr->av1_frame_type == KEY_FRAME) {
+        if (!pcs_ptr->show_frame) {
+            aom_wb_write_literal(wb, pcs_ptr->av1_ref_signal.refreshFrameMask, REF_FRAMES);
         }
     }
     else {
 
-        if (pcsPtr->av1_frame_type == INTRA_ONLY_FRAME) {
-            // pcsPtr->refresh_frame_mask = get_refresh_mask(cpi);
+        if (pcs_ptr->av1_frame_type == INTRA_ONLY_FRAME) {
+            // pcs_ptr->refresh_frame_mask = get_refresh_mask(cpi);
             int32_t updated_fb = -1;
             for (int32_t i = 0; i < REF_FRAMES; i++) {
                 // If more than one frame is refreshed, it doesn't matter which one
                 // we pick, so pick the first.
-                if (pcsPtr->av1_ref_signal.refreshFrameMask & (1 << i)) {
+                if (pcs_ptr->av1_ref_signal.refreshFrameMask & (1 << i)) {
                     updated_fb = i;
                     break;
                 }
             }
             assert(updated_fb >= 0);
-            pcsPtr->fb_of_context_type[pcsPtr->frame_context_idx] = updated_fb;
+            pcs_ptr->fb_of_context_type[pcs_ptr->frame_context_idx] = updated_fb;
 
-            aom_wb_write_literal(wb, pcsPtr->av1_ref_signal.refreshFrameMask, REF_FRAMES);
+            aom_wb_write_literal(wb, pcs_ptr->av1_ref_signal.refreshFrameMask, REF_FRAMES);
 
         }
-        else if (pcsPtr->av1_frame_type == INTER_FRAME || frame_is_sframe(pcsPtr)) {
+        else if (pcs_ptr->av1_frame_type == INTER_FRAME || frame_is_sframe(pcs_ptr)) {
 
-            //pcsPtr->refresh_frame_mask = get_refresh_mask(cpi);
-            if (pcsPtr->av1_frame_type == INTER_FRAME) {
-                aom_wb_write_literal(wb, pcsPtr->av1_ref_signal.refreshFrameMask, REF_FRAMES);
+            //pcs_ptr->refresh_frame_mask = get_refresh_mask(cpi);
+            if (pcs_ptr->av1_frame_type == INTER_FRAME) {
+                aom_wb_write_literal(wb, pcs_ptr->av1_ref_signal.refreshFrameMask, REF_FRAMES);
             }
             else {
-                assert(frame_is_sframe(pcsPtr) && pcsPtr->av1_ref_signal.refreshFrameMask == 0xFF);
+                assert(frame_is_sframe(pcs_ptr) && pcs_ptr->av1_ref_signal.refreshFrameMask == 0xFF);
             }
 
             int32_t updated_fb = -1;
             for (int32_t i = 0; i < REF_FRAMES; i++) {
                 // If more than one frame is refreshed, it doesn't matter which one
                 // we pick, so pick the first.
-                if (pcsPtr->av1_ref_signal.refreshFrameMask & (1 << i)) {
+                if (pcs_ptr->av1_ref_signal.refreshFrameMask & (1 << i)) {
                     updated_fb = i;
                     break;
                 }
             }
             // large scale tile sometimes won't refresh any fbs
             if (updated_fb >= 0) {
-                pcsPtr->fb_of_context_type[pcsPtr->frame_context_idx] = updated_fb;
+                pcs_ptr->fb_of_context_type[pcs_ptr->frame_context_idx] = updated_fb;
             }
 
-            if (!pcsPtr->av1_ref_signal.refreshFrameMask) {
+            if (!pcs_ptr->av1_ref_signal.refreshFrameMask) {
                 // NOTE: "cpi->refresh_frame_mask == 0" indicates that the coded frame
                 //       will not be used as a reference
-                pcsPtr->is_reference_frame = 0;
+                pcs_ptr->is_reference_frame = 0;
             }
 
         }
     }
 
-    if (pcsPtr->av1_frame_type == KEY_FRAME) {
-        write_frame_size(pcsPtr, frame_size_override_flag, wb);
+    if (pcs_ptr->av1_frame_type == KEY_FRAME) {
+        write_frame_size(pcs_ptr, frame_size_override_flag, wb);
         //assert(av1_superres_unscaled(cm) ||
         //    !(cm->allow_intrabc && NO_FILTER_FOR_IBC));
-        if (pcsPtr->allow_screen_content_tools &&
+        if (pcs_ptr->allow_screen_content_tools &&
             0 /*(av1_superres_unscaled(cm) || !NO_FILTER_FOR_IBC)*/)
-            aom_wb_write_bit(wb, pcsPtr->allow_intrabc);
+            aom_wb_write_bit(wb, pcs_ptr->allow_intrabc);
         // all eight fbs are refreshed, pick one that will live long enough
-        pcsPtr->fb_of_context_type[REGULAR_FRAME] = 0;
+        pcs_ptr->fb_of_context_type[REGULAR_FRAME] = 0;
     }
     else {
-        if (pcsPtr->av1_frame_type == INTRA_ONLY_FRAME) {
-            write_frame_size(pcsPtr, frame_size_override_flag, wb);
-            if (pcsPtr->allow_screen_content_tools &&
+        if (pcs_ptr->av1_frame_type == INTRA_ONLY_FRAME) {
+            write_frame_size(pcs_ptr, frame_size_override_flag, wb);
+            if (pcs_ptr->allow_screen_content_tools &&
                 0 /*(av1_superres_unscaled(cm) || !NO_FILTER_FOR_IBC)*/)
-                aom_wb_write_bit(wb, pcsPtr->allow_intrabc);
+                aom_wb_write_bit(wb, pcs_ptr->allow_intrabc);
         }
-        else if (pcsPtr->av1_frame_type == INTER_FRAME || frame_is_sframe(pcsPtr)) {
+        else if (pcs_ptr->av1_frame_type == INTER_FRAME || frame_is_sframe(pcs_ptr)) {
             MvReferenceFrame ref_frame;
 
-            assert(pcsPtr->frame_refs_short_signaling == 0);
+            assert(pcs_ptr->frame_refs_short_signaling == 0);
             // NOTE: Error resilient mode turns off frame_refs_short_signaling
             //       automatically.
             if (scs_ptr->enable_order_hint)
-                aom_wb_write_bit(wb, pcsPtr->frame_refs_short_signaling);
+                aom_wb_write_bit(wb, pcs_ptr->frame_refs_short_signaling);
 
-            if (pcsPtr->frame_refs_short_signaling) {
-                aom_wb_write_literal(wb, get_ref_frame_map_idx(pcsPtr, LAST_FRAME),
+            if (pcs_ptr->frame_refs_short_signaling) {
+                aom_wb_write_literal(wb, get_ref_frame_map_idx(pcs_ptr, LAST_FRAME),
                     REF_FRAMES_LOG2);
-                aom_wb_write_literal(wb, get_ref_frame_map_idx(pcsPtr, GOLDEN_FRAME),
+                aom_wb_write_literal(wb, get_ref_frame_map_idx(pcs_ptr, GOLDEN_FRAME),
                     REF_FRAMES_LOG2);
             }
             for (ref_frame = LAST_FRAME; ref_frame <= ALTREF_FRAME; ++ref_frame) {
-                assert(get_ref_frame_map_idx(pcsPtr, ref_frame) != INVALID_IDX);
-                if (!pcsPtr->frame_refs_short_signaling)
-                    aom_wb_write_literal(wb, get_ref_frame_map_idx(pcsPtr, ref_frame),
+                assert(get_ref_frame_map_idx(pcs_ptr, ref_frame) != INVALID_IDX);
+                if (!pcs_ptr->frame_refs_short_signaling)
+                    aom_wb_write_literal(wb, get_ref_frame_map_idx(pcs_ptr, ref_frame),
                         REF_FRAMES_LOG2);
 
                 if (scs_ptr->frame_id_numbers_present_flag) {
@@ -4086,82 +4086,82 @@ static void WriteUncompressedHeaderObu(SequenceControlSet *scs_ptr/*AV1Comp *cpi
                 }
             }
 
-            if (!pcsPtr->error_resilient_mode && frame_size_override_flag) {
+            if (!pcs_ptr->error_resilient_mode && frame_size_override_flag) {
                 printf("ERROR[AN]: frame_size_override_flag not supported yet\n");
-                //write_frame_size_with_refs(pcsPtr, wb);
+                //write_frame_size_with_refs(pcs_ptr, wb);
             }
             else {
-                write_frame_size(pcsPtr, frame_size_override_flag, wb);
+                write_frame_size(pcs_ptr, frame_size_override_flag, wb);
             }
 
-            if (pcsPtr->cur_frame_force_integer_mv) {
-                pcsPtr->allow_high_precision_mv = 0;
+            if (pcs_ptr->cur_frame_force_integer_mv) {
+                pcs_ptr->allow_high_precision_mv = 0;
             }
             else {
-                aom_wb_write_bit(wb, pcsPtr->allow_high_precision_mv);
+                aom_wb_write_bit(wb, pcs_ptr->allow_high_precision_mv);
             }
 
 #define LOG_SWITCHABLE_FILTERS  2
 
             // OPT fix_interp_filter(cm, cpi->td.counts);
             // write_frame_interp_filter(cm->interp_filter, wb);
-            aom_wb_write_bit(wb, pcsPtr->av1_cm->interp_filter == SWITCHABLE);
-            if (pcsPtr->av1_cm->interp_filter != SWITCHABLE)
-                aom_wb_write_literal(wb, pcsPtr->av1_cm->interp_filter, LOG_SWITCHABLE_FILTERS);
+            aom_wb_write_bit(wb, pcs_ptr->av1_cm->interp_filter == SWITCHABLE);
+            if (pcs_ptr->av1_cm->interp_filter != SWITCHABLE)
+                aom_wb_write_literal(wb, pcs_ptr->av1_cm->interp_filter, LOG_SWITCHABLE_FILTERS);
 
-            aom_wb_write_bit(wb, pcsPtr->switchable_motion_mode);
-            if (frame_might_allow_ref_frame_mvs(pcsPtr, scs_ptr)) {
+            aom_wb_write_bit(wb, pcs_ptr->switchable_motion_mode);
+            if (frame_might_allow_ref_frame_mvs(pcs_ptr, scs_ptr)) {
 
-                aom_wb_write_bit(wb, pcsPtr->allow_ref_frame_mvs);
+                aom_wb_write_bit(wb, pcs_ptr->allow_ref_frame_mvs);
             }
         }
     }
 
     //if (scs_ptr->frame_id_numbers_present_flag)
-    //    pcsPtr->refresh_mask = get_refresh_mask(pcsPtr);
+    //    pcs_ptr->refresh_mask = get_refresh_mask(pcs_ptr);
 #if AV1_UPGRADE
     const int32_t might_bwd_adapt =
-        !(scs_ptr->reduced_still_picture_hdr) && !(pcsPtr->disable_cdf_update);
-    if (pcsPtr->large_scale_tile)
-        pcsPtr->refresh_frame_context = REFRESH_FRAME_CONTEXT_DISABLED;
+        !(scs_ptr->reduced_still_picture_hdr) && !(pcs_ptr->disable_cdf_update);
+    if (pcs_ptr->large_scale_tile)
+        pcs_ptr->refresh_frame_context = REFRESH_FRAME_CONTEXT_DISABLED;
 #else
     const int32_t might_bwd_adapt =
-        !(scs_ptr->reduced_still_picture_hdr) && !(pcsPtr->large_scale_tile) && !(pcsPtr->disable_cdf_update);
+        !(scs_ptr->reduced_still_picture_hdr) && !(pcs_ptr->large_scale_tile) && !(pcs_ptr->disable_cdf_update);
 #endif
     if (might_bwd_adapt) {
         aom_wb_write_bit(
-            wb, pcsPtr->refresh_frame_context == REFRESH_FRAME_CONTEXT_DISABLED);
+            wb, pcs_ptr->refresh_frame_context == REFRESH_FRAME_CONTEXT_DISABLED);
     }
 
-    write_tile_info(pcsPtr, /*saved_wb,*/ wb);
+    write_tile_info(pcs_ptr, /*saved_wb,*/ wb);
 
-    encode_quantization(pcsPtr, wb);
+    encode_quantization(pcs_ptr, wb);
 
     aom_wb_write_bit(wb, 0);
     //encode_segmentation(cm, xd, wb);
-        //if (pcsPtr->delta_q_present_flag)
-           // assert(delta_q_allowed == 1 && pcsPtr->base_qindex > 0);
+        //if (pcs_ptr->delta_q_present_flag)
+           // assert(delta_q_allowed == 1 && pcs_ptr->base_qindex > 0);
 
-    if (pcsPtr->base_qindex > 0) {
+    if (pcs_ptr->base_qindex > 0) {
 
-        aom_wb_write_bit(wb, pcsPtr->delta_q_present_flag);
-        if (pcsPtr->delta_q_present_flag) {
+        aom_wb_write_bit(wb, pcs_ptr->delta_q_present_flag);
+        if (pcs_ptr->delta_q_present_flag) {
 
 #if ADD_DELTA_QP_SUPPORT //Part 0
-            aom_wb_write_literal(wb, OD_ILOG_NZ(pcsPtr->delta_q_res) - 1, 2);
-            pcsPtr->prev_qindex = pcsPtr->base_qindex;
-            if (pcsPtr->allow_intrabc)
-                assert(pcsPtr->delta_lf_present_flag == 0);
+            aom_wb_write_literal(wb, OD_ILOG_NZ(pcs_ptr->delta_q_res) - 1, 2);
+            pcs_ptr->prev_qindex = pcs_ptr->base_qindex;
+            if (pcs_ptr->allow_intrabc)
+                assert(pcs_ptr->delta_lf_present_flag == 0);
             else
-                aom_wb_write_bit(wb, pcsPtr->delta_lf_present_flag);
-            if (pcsPtr->delta_lf_present_flag) {
-                aom_wb_write_literal(wb, OD_ILOG_NZ(pcsPtr->delta_lf_res) - 1, 2);
-                pcsPtr->prev_delta_lf_from_base = 0;
-                aom_wb_write_bit(wb, pcsPtr->delta_lf_multi);
+                aom_wb_write_bit(wb, pcs_ptr->delta_lf_present_flag);
+            if (pcs_ptr->delta_lf_present_flag) {
+                aom_wb_write_literal(wb, OD_ILOG_NZ(pcs_ptr->delta_lf_res) - 1, 2);
+                pcs_ptr->prev_delta_lf_from_base = 0;
+                aom_wb_write_bit(wb, pcs_ptr->delta_lf_multi);
                 const int32_t frame_lf_count =
-                    pcsPtr->monochrome == 0 ? FRAME_LF_COUNT : FRAME_LF_COUNT - 2;
+                    pcs_ptr->monochrome == 0 ? FRAME_LF_COUNT : FRAME_LF_COUNT - 2;
                 for (int32_t lf_id = 0; lf_id < frame_lf_count; ++lf_id)
-                    pcsPtr->prev_delta_lf[lf_id] = 0;
+                    pcs_ptr->prev_delta_lf[lf_id] = 0;
             }
 #else
             printf("ERROR[AN]: delta_q_present_flag not supported yet\n");
@@ -4183,51 +4183,51 @@ static void WriteUncompressedHeaderObu(SequenceControlSet *scs_ptr/*AV1Comp *cpi
             //                }
         }
     }
-    if (pcsPtr->all_lossless) {
+    if (pcs_ptr->all_lossless) {
 
         printf("ERROR[AN]: all_lossless\n");
-        //assert(av1_superres_unscaled(pcsPtr));
+        //assert(av1_superres_unscaled(pcs_ptr));
     }
     else {
-        if (!pcsPtr->coded_lossless) {
-            encode_loopfilter(pcsPtr, wb);
+        if (!pcs_ptr->coded_lossless) {
+            encode_loopfilter(pcs_ptr, wb);
             if (scs_ptr->enable_cdef) {
-                encode_cdef(pcsPtr, wb);
+                encode_cdef(pcs_ptr, wb);
             }
         }
         if (scs_ptr->enable_restoration) {
-            encode_restoration_mode(pcsPtr, wb);
+            encode_restoration_mode(pcs_ptr, wb);
         }
     }
 
-    aom_wb_write_bit(wb, pcsPtr->tx_mode == TX_MODE_SELECT);
+    aom_wb_write_bit(wb, pcs_ptr->tx_mode == TX_MODE_SELECT);
 
 
-    if (pcsPtr->allow_comp_inter_inter) {
-        const int32_t use_hybrid_pred = pcsPtr->reference_mode == REFERENCE_MODE_SELECT;
+    if (pcs_ptr->allow_comp_inter_inter) {
+        const int32_t use_hybrid_pred = pcs_ptr->reference_mode == REFERENCE_MODE_SELECT;
 
         aom_wb_write_bit(wb, use_hybrid_pred);
     }
 
 
-    if (pcsPtr->is_skip_mode_allowed) aom_wb_write_bit(wb, pcsPtr->skip_mode_flag);
+    if (pcs_ptr->is_skip_mode_allowed) aom_wb_write_bit(wb, pcs_ptr->skip_mode_flag);
 
-    if (frame_might_allow_warped_motion(pcsPtr, scs_ptr))
-        aom_wb_write_bit(wb, pcsPtr->allow_warped_motion);
+    if (frame_might_allow_warped_motion(pcs_ptr, scs_ptr))
+        aom_wb_write_bit(wb, pcs_ptr->allow_warped_motion);
     else
-        assert(!pcsPtr->allow_warped_motion);
+        assert(!pcs_ptr->allow_warped_motion);
 
-    aom_wb_write_bit(wb, pcsPtr->reduced_tx_set_used);
+    aom_wb_write_bit(wb, pcs_ptr->reduced_tx_set_used);
 
-    if (!frame_is_intra_only(pcsPtr)) {
+    if (!frame_is_intra_only(pcs_ptr)) {
         //  printf("ERROR[AN]: Global motion not supported yet\n");
-        WriteGlobalMotion(pcsPtr, wb);
+        WriteGlobalMotion(pcs_ptr, wb);
     }
 
 
 
-    if (scs_ptr->film_grain_params_present && (pcsPtr->show_frame || pcsPtr->showable_frame)) {
-        write_film_grain_params(pcsPtr, wb);
+    if (scs_ptr->film_grain_params_present && (pcs_ptr->show_frame || pcs_ptr->showable_frame)) {
+        write_film_grain_params(pcs_ptr, wb);
     }
 }
 
@@ -4468,7 +4468,7 @@ static uint32_t write_tile_group_header(uint8_t *const dst, int startTile,
 #endif
 static uint32_t WriteFrameHeaderObu(
     SequenceControlSet      *scs_ptr,
-    PictureParentControlSet *pcsPtr,
+    PictureParentControlSet *pcs_ptr,
     uint8_t                   *const dst,
     uint8_t show_existing,
     int32_t appendTrailingBits
@@ -4478,7 +4478,7 @@ static uint32_t WriteFrameHeaderObu(
     struct AomWriteBitBuffer wb = { dst, 0 };
     uint32_t totalSize = 0;
 
-    WriteUncompressedHeaderObu(scs_ptr, pcsPtr,/* saved_wb,*/ &wb, show_existing);
+    WriteUncompressedHeaderObu(scs_ptr, pcs_ptr,/* saved_wb,*/ &wb, show_existing);
 
     if (appendTrailingBits)
         add_trailing_bits(&wb);
@@ -4499,12 +4499,12 @@ static uint32_t WriteFrameHeaderObu(
 EbErrorType write_frame_header_av1(
     Bitstream *bitstream_ptr,
     SequenceControlSet *scs_ptr,
-    PictureControlSet *pcsPtr,
+    PictureControlSet *pcs_ptr,
     uint8_t show_existing)
 {
     EbErrorType                 return_error = EB_ErrorNone;
     OutputBitstreamUnit       *output_bitstream_ptr = (OutputBitstreamUnit*)bitstream_ptr->output_bitstream_ptr;
-    PictureParentControlSet   *parent_pcs_ptr = pcsPtr->parent_pcs_ptr;
+    PictureParentControlSet   *parent_pcs_ptr = pcs_ptr->parent_pcs_ptr;
     uint8_t                     *data = output_bitstream_ptr->bufferAv1;
     uint32_t obu_header_size = 0;
 
@@ -4538,11 +4538,11 @@ EbErrorType write_frame_header_av1(
     if (!show_existing) {
         // Add data from EC stream to Picture Stream.
 #if TILES
-        int32_t frameSize = parent_pcs_ptr->av1_cm->tile_cols*parent_pcs_ptr->av1_cm->tile_rows==1 ? pcsPtr->entropy_coder_ptr->ec_writer.pos : pcsPtr->entropy_coder_ptr->ec_frame_size;
+        int32_t frameSize = parent_pcs_ptr->av1_cm->tile_cols*parent_pcs_ptr->av1_cm->tile_rows==1 ? pcs_ptr->entropy_coder_ptr->ec_writer.pos : pcs_ptr->entropy_coder_ptr->ec_frame_size;
 #else
-        int32_t frameSize = pcsPtr->entropy_coder_ptr->ec_writer.pos;
+        int32_t frameSize = pcs_ptr->entropy_coder_ptr->ec_writer.pos;
 #endif
-        OutputBitstreamUnit *ec_output_bitstream_ptr = (OutputBitstreamUnit*)pcsPtr->entropy_coder_ptr->ec_output_bitstream_ptr;
+        OutputBitstreamUnit *ec_output_bitstream_ptr = (OutputBitstreamUnit*)pcs_ptr->entropy_coder_ptr->ec_output_bitstream_ptr;
         //****************************************************************//
         // Copy from EC stream to frame stream
         memcpy(data + currDataSize, ec_output_bitstream_ptr->bufferBeginAv1, frameSize);
@@ -4654,7 +4654,7 @@ static void write_cdef(
     SequenceControlSet     *seqCSetPtr,
     PictureControlSet     *p_pcs_ptr,
     //Av1Common *cm,
-    MacroBlockD *const xd,
+    MacroBlockId *const xd,
     aom_writer *w,
     int32_t skip, int32_t mi_col, int32_t mi_row)
 {
@@ -4782,7 +4782,7 @@ static void write_sgrproj_filter(const SgrprojInfo *sgrproj_info,
     memcpy(ref_sgrproj_info, sgrproj_info, sizeof(*sgrproj_info));
 }
 static void loop_restoration_write_sb_coeffs(PictureControlSet     *piCSetPtr, FrameContext           *frameContext, const Av1Common *const cm,
-    //MacroBlockD *xd,
+    //MacroBlockId *xd,
     const RestorationUnitInfo *rui,
     aom_writer *const w, int32_t plane/*,
     FRAME_COUNTS *counts*/)

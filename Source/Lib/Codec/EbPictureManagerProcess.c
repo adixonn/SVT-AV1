@@ -22,9 +22,9 @@
 #include "EbErrorCodes.h"
 
 #if TILES
-void av1_tile_set_col(TileInfo *tile, PictureParentControlSet * pcsPtr, int col);
-void av1_tile_set_row(TileInfo *tile, PictureParentControlSet * pcsPtr, int row);
-void set_tile_info(PictureParentControlSet * pcsPtr);
+void av1_tile_set_col(TileInfo *tile, PictureParentControlSet * pcs_ptr, int col);
+void av1_tile_set_row(TileInfo *tile, PictureParentControlSet * pcs_ptr, int row);
+void set_tile_info(PictureParentControlSet * pcs_ptr);
 #endif
 
 /************************************************

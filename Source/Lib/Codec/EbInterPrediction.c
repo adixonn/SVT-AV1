@@ -78,7 +78,7 @@ static INLINE void clamp_mv(MV *mv, int32_t min_col, int32_t max_col, int32_t mi
 extern void av1_set_ref_frame(MvReferenceFrame *rf,
     int8_t ref_frame_type);
 
-static INLINE MV clamp_mv_to_umv_border_sb(const MacroBlockD *xd,
+static INLINE MV clamp_mv_to_umv_border_sb(const MacroBlockId *xd,
     const MV *src_mv, int32_t bw, int32_t bh,
     int32_t ss_x, int32_t ss_y) {
     // If the MV points so far into the UMV border that no visible pixels
@@ -173,7 +173,7 @@ void av1_convolve_2d_sr_c(const uint8_t *src, int32_t src_stride, uint8_t *dst,
                 sum += y_filter[k] * src_vert[(y - fo_vert + k) * im_stride + x];
             }
             assert(0 <= sum && sum < (1 << (offset_bits + 2)));
-            int16_t res = (CONV_BUF_TYPE)(ROUND_POWER_OF_TWO(sum, conv_params->round_1) -
+            int16_t res = (ConvBufType)(ROUND_POWER_OF_TWO(sum, conv_params->round_1) -
                 ((1 << (offset_bits - conv_params->round_1)) +
                 (1 << (offset_bits - conv_params->round_1 - 1))));
             dst[y * dst_stride + x] = (uint8_t)clip_pixel_highbd(ROUND_POWER_OF_TWO(res, bits), 8);
@@ -272,7 +272,7 @@ void av1_jnt_convolve_2d_c(const uint8_t *src, int32_t src_stride, uint8_t *dst8
     const int32_t subpel_x_q4, const int32_t subpel_y_q4,
     ConvolveParams *conv_params)
 {
-    CONV_BUF_TYPE *dst = conv_params->dst;
+    ConvBufType *dst = conv_params->dst;
     int32_t dst_stride = conv_params->dst_stride;
     int16_t im_block[(MAX_SB_SIZE + MAX_FILTER_TAP - 1) * MAX_SB_SIZE];
     int32_t im_h = h + filter_params_y->taps - 1;
@@ -311,7 +311,7 @@ void av1_jnt_convolve_2d_c(const uint8_t *src, int32_t src_stride, uint8_t *dst8
                 sum += y_filter[k] * src_vert[(y - fo_vert + k) * im_stride + x];
             }
             assert(0 <= sum && sum < (1 << (offset_bits + 2)));
-            CONV_BUF_TYPE res = (CONV_BUF_TYPE)ROUND_POWER_OF_TWO(sum, conv_params->round_1);
+            ConvBufType res = (ConvBufType)ROUND_POWER_OF_TWO(sum, conv_params->round_1);
             if (conv_params->do_average) {
                 int32_t tmp = dst[y * dst_stride + x];
                 if (conv_params->use_jnt_comp_avg) {
@@ -343,7 +343,7 @@ void av1_jnt_convolve_y_c(const uint8_t *src, int32_t src_stride, uint8_t *dst8,
     const int32_t subpel_x_q4, const int32_t subpel_y_q4,
     ConvolveParams *conv_params)
 {
-    CONV_BUF_TYPE *dst = conv_params->dst;
+    ConvBufType *dst = conv_params->dst;
     int32_t dst_stride = conv_params->dst_stride;
     const int32_t fo_vert = filter_params_y->taps / 2 - 1;
     const int32_t bits = FILTER_BITS - conv_params->round_0;
@@ -383,7 +383,7 @@ void av1_jnt_convolve_y_c(const uint8_t *src, int32_t src_stride, uint8_t *dst8,
                     (uint8_t)clip_pixel_highbd(ROUND_POWER_OF_TWO(tmp, round_bits), 8);
             }
             else {
-                dst[y * dst_stride + x] = (CONV_BUF_TYPE)res;
+                dst[y * dst_stride + x] = (ConvBufType)res;
             }
 
         }
@@ -397,7 +397,7 @@ void av1_jnt_convolve_x_c(const uint8_t *src, int32_t src_stride, uint8_t *dst8,
     const int32_t subpel_x_q4, const int32_t subpel_y_q4,
     ConvolveParams *conv_params)
 {
-    CONV_BUF_TYPE *dst = conv_params->dst;
+    ConvBufType *dst = conv_params->dst;
     int32_t dst_stride = conv_params->dst_stride;
     const int32_t fo_horiz = filter_params_x->taps / 2 - 1;
     const int32_t bits = FILTER_BITS - conv_params->round_1;
@@ -438,7 +438,7 @@ void av1_jnt_convolve_x_c(const uint8_t *src, int32_t src_stride, uint8_t *dst8,
                     (uint8_t)clip_pixel_highbd(ROUND_POWER_OF_TWO(tmp, round_bits), 8);
             }
             else {
-                dst[y * dst_stride + x] = (CONV_BUF_TYPE)res;
+                dst[y * dst_stride + x] = (ConvBufType)res;
             }
         }
     }
@@ -451,7 +451,7 @@ void av1_jnt_convolve_2d_copy_c(const uint8_t *src, int32_t src_stride,
     const int32_t subpel_x_q4, const int32_t subpel_y_q4,
     ConvolveParams *conv_params)
 {
-    CONV_BUF_TYPE *dst = conv_params->dst;
+    ConvBufType *dst = conv_params->dst;
     int32_t dst_stride = conv_params->dst_stride;
     const int32_t bits =
         FILTER_BITS * 2 - conv_params->round_1 - conv_params->round_0;
@@ -466,8 +466,8 @@ void av1_jnt_convolve_2d_copy_c(const uint8_t *src, int32_t src_stride,
 
     for (int32_t y = 0; y < h; ++y) {
         for (int32_t x = 0; x < w; ++x) {
-            CONV_BUF_TYPE res = src[y * src_stride + x] << bits;
-            res += (CONV_BUF_TYPE)round_offset;
+            ConvBufType res = src[y * src_stride + x] << bits;
+            res += (ConvBufType)round_offset;
 
             if (conv_params->do_average) {
                 int32_t tmp = dst[y * dst_stride + x];
@@ -594,7 +594,7 @@ void av1_highbd_convolve_2d_sr_c(const uint16_t *src, int32_t src_stride,
                 sum += x_filter[k] * src_horiz[y * src_stride + x - fo_horiz + k];
             }
             assert(0 <= sum && sum < (1 << (bd + FILTER_BITS + 1)));
-            im_block[y * im_stride + x] = (CONV_BUF_TYPE)
+            im_block[y * im_stride + x] = (ConvBufType)
                 ROUND_POWER_OF_TWO(sum, conv_params->round_0);
         }
     }
@@ -626,7 +626,7 @@ void av1_highbd_jnt_convolve_x_c(const uint16_t *src, int32_t src_stride,
     const InterpFilterParams *filter_params_y,
     const int32_t subpel_x_q4, const int32_t subpel_y_q4,
     ConvolveParams *conv_params, int32_t bd) {
-    CONV_BUF_TYPE *dst = conv_params->dst;
+    ConvBufType *dst = conv_params->dst;
     int32_t dst_stride = conv_params->dst_stride;
     const int32_t fo_horiz = filter_params_x->taps / 2 - 1;
     const int32_t bits = FILTER_BITS - conv_params->round_1;
@@ -666,7 +666,7 @@ void av1_highbd_jnt_convolve_x_c(const uint16_t *src, int32_t src_stride,
                     clip_pixel_highbd(ROUND_POWER_OF_TWO(tmp, round_bits), bd);
             }
             else {
-                dst[y * dst_stride + x] = (CONV_BUF_TYPE)res;
+                dst[y * dst_stride + x] = (ConvBufType)res;
             }
         }
     }
@@ -678,7 +678,7 @@ void av1_highbd_jnt_convolve_y_c(const uint16_t *src, int32_t src_stride,
     const InterpFilterParams *filter_params_y,
     const int32_t subpel_x_q4, const int32_t subpel_y_q4,
     ConvolveParams *conv_params, int32_t bd) {
-    CONV_BUF_TYPE *dst = conv_params->dst;
+    ConvBufType *dst = conv_params->dst;
     int32_t dst_stride = conv_params->dst_stride;
     const int32_t fo_vert = filter_params_y->taps / 2 - 1;
     const int32_t bits = FILTER_BITS - conv_params->round_0;
@@ -718,7 +718,7 @@ void av1_highbd_jnt_convolve_y_c(const uint16_t *src, int32_t src_stride,
                     clip_pixel_highbd(ROUND_POWER_OF_TWO(tmp, round_bits), bd);
             }
             else {
-                dst[y * dst_stride + x] = (CONV_BUF_TYPE)res;
+                dst[y * dst_stride + x] = (ConvBufType)res;
             }
         }
     }
@@ -729,7 +729,7 @@ void av1_highbd_jnt_convolve_2d_copy_c(
     int32_t w, int32_t h, const InterpFilterParams *filter_params_x,
     const InterpFilterParams *filter_params_y, const int32_t subpel_x_q4,
     const int32_t subpel_y_q4, ConvolveParams *conv_params, int32_t bd) {
-    CONV_BUF_TYPE *dst = conv_params->dst;
+    ConvBufType *dst = conv_params->dst;
     int32_t dst_stride = conv_params->dst_stride;
     const int32_t bits =
         FILTER_BITS * 2 - conv_params->round_1 - conv_params->round_0;
@@ -744,8 +744,8 @@ void av1_highbd_jnt_convolve_2d_copy_c(
 
     for (int32_t y = 0; y < h; ++y) {
         for (int32_t x = 0; x < w; ++x) {
-            CONV_BUF_TYPE res = src[y * src_stride + x] << bits;
-            res += (CONV_BUF_TYPE)round_offset;
+            ConvBufType res = src[y * src_stride + x] << bits;
+            res += (ConvBufType)round_offset;
             if (conv_params->do_average) {
                 int32_t tmp = dst[y * dst_stride + x];
                 if (conv_params->use_jnt_comp_avg) {
@@ -777,7 +777,7 @@ void av1_highbd_jnt_convolve_2d_c(const uint16_t *src, int32_t src_stride,
 {
     int32_t x, y, k;
     int16_t im_block[(MAX_SB_SIZE + MAX_FILTER_TAP - 1) * MAX_SB_SIZE];
-    CONV_BUF_TYPE *dst = conv_params->dst;
+    ConvBufType *dst = conv_params->dst;
     int32_t dst_stride = conv_params->dst_stride;
     int32_t im_h = h + filter_params_y->taps - 1;
     int32_t im_stride = w;
@@ -818,7 +818,7 @@ void av1_highbd_jnt_convolve_2d_c(const uint16_t *src, int32_t src_stride,
                 sum += y_filter[k] * src_vert[(y - fo_vert + k) * im_stride + x];
             }
             assert(0 <= sum && sum < (1 << (offset_bits + 2)));
-            CONV_BUF_TYPE res = (CONV_BUF_TYPE)ROUND_POWER_OF_TWO(sum, conv_params->round_1);
+            ConvBufType res = (ConvBufType)ROUND_POWER_OF_TWO(sum, conv_params->round_1);
             if (conv_params->do_average) {
                 int32_t tmp = dst[y * dst_stride + x];
                 if (conv_params->use_jnt_comp_avg) {
@@ -1029,7 +1029,7 @@ EbErrorType av1_inter_prediction(
         uint32_t mi_x = pu_origin_x;       //these are luma picture wise
         uint32_t mi_y = pu_origin_y;
 
-        MacroBlockD  *xd = cu_ptr->av1xd;
+        MacroBlockId  *xd = cu_ptr->av1xd;
         xd->mi_stride = picture_control_set_ptr->parent_pcs_ptr->sequence_control_set_ptr->picture_width_in_sb*(BLOCK_SIZE_64 / 4);
         const int32_t offset = (mi_y >> MI_SIZE_LOG2) * xd->mi_stride + (mi_x >> MI_SIZE_LOG2);
         xd->mi = picture_control_set_ptr->mi_grid_base + offset;
@@ -1417,7 +1417,7 @@ EbErrorType av1_inter_prediction(
 *  PreLoad Reference Block  for 16bit mode
 ***************************************************/
 void Av1UnPackReferenceBlock(
-    uint16_t                *SrcBuffer,
+    uint16_t                *src_buffer,
     uint32_t                 SrcStride,
     uint32_t                 pu_width,
     uint32_t                 pu_height,
@@ -1430,7 +1430,7 @@ void Av1UnPackReferenceBlock(
 
     pu_width += Tap;
     pu_height += Tap;
-    uint16_t *ptr16 = (uint16_t *)SrcBuffer - (Tap >> 1) - ((Tap >> 1)*SrcStride);
+    uint16_t *ptr16 = (uint16_t *)src_buffer - (Tap >> 1) - ((Tap >> 1)*SrcStride);
 
     extract8_bitdata_safe_sub(
         ptr16,
@@ -1517,7 +1517,7 @@ EbErrorType AV1MDInterPrediction(
         uint32_t mi_x = pu_origin_x;       //these are luma picture wise
         uint32_t mi_y = pu_origin_y;
 
-        MacroBlockD  *xd = cu_ptr->av1xd;
+        MacroBlockId  *xd = cu_ptr->av1xd;
         xd->mi_stride = picture_control_set_ptr->parent_pcs_ptr->sequence_control_set_ptr->picture_width_in_sb*(BLOCK_SIZE_64 / 4);
         const int32_t offset = (mi_y >> MI_SIZE_LOG2) * xd->mi_stride + (mi_x >> MI_SIZE_LOG2);
         xd->mi = picture_control_set_ptr->mi_grid_base + offset;
@@ -2093,7 +2093,7 @@ EbErrorType av1_inter_prediction_hbd(
         uint32_t mi_x = pu_origin_x;       //these are luma picture wise
         uint32_t mi_y = pu_origin_y;
 
-        MacroBlockD  *xd = cu_ptr->av1xd;
+        MacroBlockId  *xd = cu_ptr->av1xd;
         xd->mi_stride = picture_control_set_ptr->parent_pcs_ptr->sequence_control_set_ptr->picture_width_in_sb*(BLOCK_SIZE_64 / 4);
         const int32_t offset = (mi_y >> MI_SIZE_LOG2) * xd->mi_stride + (mi_x >> MI_SIZE_LOG2);
         xd->mi = picture_control_set_ptr->mi_grid_base + offset;
@@ -3126,7 +3126,7 @@ int32_t av1_get_switchable_rate(
     const Av1Common *const cm,
     ModeDecisionContext *md_context_ptr//,
     // Macroblock *x,
-    // const MacroBlockD *xd
+    // const MacroBlockId *xd
 ) {
     if (cm->interp_filter == SWITCHABLE) {
         // const MbModeInfo *const mbmi = xd->mi[0];
@@ -3350,7 +3350,7 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
     BlockSize bsize,
     int16_t quantizer,
     //const AV1Comp *const cpi,
-    //const MacroBlockD *const xd,
+    //const MacroBlockId *const xd,
     //block_size bsize,
     //int32_t plane,
     int64_t sse,
@@ -3393,7 +3393,7 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
     //const AV1Comp *const cpi,
     //block_size bsize,
     //Macroblock *x,
-    //MacroBlockD *xd,
+    //MacroBlockId *xd,
     int32_t plane_from,
     int32_t plane_to,
     int32_t *out_rate_sum,
@@ -3619,7 +3619,7 @@ static const int32_t filter_sets[DUAL_FILTER_SET_SIZE][2] = {
             uint32_t best_filters = 0;// mbmi->interp_filters;
 
 #if INTERPOLATION_SEARCH_LEVELS
-            if (picture_control_set_ptr->parent_pcs_ptr->interpolation_search_level &&
+            if (picture_control_set_ptr->parent_pcs_ptr->InterpolationSearchLevel &&
 #else
             if (picture_control_set_ptr->parent_pcs_ptr->interpolation_filter_search_mode == 1 &&
 #endif
@@ -3969,7 +3969,7 @@ static const int32_t filter_sets[DUAL_FILTER_SET_SIZE][2] = {
             uint32_t best_filters = 0;// mbmi->interp_filters;
 
 #if INTERPOLATION_SEARCH_LEVELS
-            if (picture_control_set_ptr->parent_pcs_ptr->interpolation_search_level &&
+            if (picture_control_set_ptr->parent_pcs_ptr->InterpolationSearchLevel &&
 #else
             if (picture_control_set_ptr->parent_pcs_ptr->interpolation_filter_search_mode == 1 &&
 #endif

@@ -3320,13 +3320,13 @@ EbErrorType DetectInputPictureNoise(
 }
 
 static int32_t apply_denoise_2d(SequenceControlSet        *scs_ptr,
-    PictureParentControlSet   *pcsPtr,
+    PictureParentControlSet   *pcs_ptr,
     EbPictureBufferDesc *inputPicturePointer,
     EbAsm asm_type) {
 
 
-    if (aom_denoise_and_model_run(pcsPtr->denoise_and_model, inputPicturePointer,
-        &pcsPtr->film_grain_params,
+    if (aom_denoise_and_model_run(pcs_ptr->denoise_and_model, inputPicturePointer,
+        &pcs_ptr->film_grain_params,
         scs_ptr->static_config.encoder_bit_depth > EB_8BIT, asm_type)) {
     }
     return 0;
