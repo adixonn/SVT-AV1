@@ -718,16 +718,16 @@ extern "C" {
 
     struct frame_contexts;
 
-    typedef char ENTROPY_CONTEXT;
+    typedef char EntropyContext;
 
-    static INLINE int32_t combine_entropy_contexts(ENTROPY_CONTEXT a,
-        ENTROPY_CONTEXT b) {
+    static INLINE int32_t combine_entropy_contexts(EntropyContext a,
+        EntropyContext b) {
         return (a != 0) + (b != 0);
     }
 
-    static INLINE int32_t get_entropy_context(TxSize tx_size, const ENTROPY_CONTEXT *a,
-        const ENTROPY_CONTEXT *l) {
-        ENTROPY_CONTEXT above_ec = 0, left_ec = 0;
+    static INLINE int32_t get_entropy_context(TxSize tx_size, const EntropyContext *a,
+        const EntropyContext *l) {
+        EntropyContext above_ec = 0, left_ec = 0;
 
         switch (tx_size) {
         case TX_4X4:

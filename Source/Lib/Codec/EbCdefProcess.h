@@ -20,8 +20,8 @@
  **************************************/
 typedef struct CdefContext
 {
-    EbFifo                       *cdef_input_fifo_ptr;
-    EbFifo                       *cdef_output_fifo_ptr;
+    EbFifo *cdef_input_fifo_ptr;
+    EbFifo *cdef_output_fifo_ptr;
 } CdefContext;
 
 /**************************************
@@ -29,12 +29,12 @@ typedef struct CdefContext
  **************************************/
 extern EbErrorType cdef_context_ctor(
     CdefContext **context_dbl_ptr,
-    EbFifo               *cdef_input_fifo_ptr,
-    EbFifo               *cdef_output_fifo_ptr,
-    EbBool                  is16bit,
-    uint32_t                max_input_luma_width,
-    uint32_t                max_input_luma_height
-   );
+    EbFifo        *cdef_input_fifo_ptr,
+    EbFifo        *cdef_output_fifo_ptr,
+    EbBool         is16bit,
+    uint32_t       max_input_luma_width,
+    uint32_t       max_input_luma_height
+   );             
 
 extern void* cdef_kernel(void *input_ptr);
 

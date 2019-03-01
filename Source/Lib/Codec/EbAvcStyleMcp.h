@@ -88,7 +88,7 @@ extern "C" {
         EbAsm                 asm_type);
 
     void estimate_uni_pred_interpolation_avc_chroma_ref10_bit(
-        EbPictureBufferDesc *refFramePicList0,
+        EbPictureBufferDesc *ref_frame_pic_list0,
         uint32_t                 pos_x,
         uint32_t                 pos_y,
         uint32_t                 pu_width,
@@ -102,8 +102,8 @@ extern "C" {
         EbAsm                 asm_type);
 
     void estimate_bi_pred_interpolation_avc_chroma_ref10_bit(
-        EbPictureBufferDesc *refFramePicList0,
-        EbPictureBufferDesc *refFramePicList1,
+        EbPictureBufferDesc *ref_frame_pic_list0,
+        EbPictureBufferDesc *ref_frame_pic_list1,
         uint32_t                 ref_list0_pos_x,
         uint32_t                 ref_list0_pos_y,
         uint32_t                 ref_list1_pos_x,
@@ -121,7 +121,7 @@ extern "C" {
         EbAsm                 asm_type);
 
     void estimate_uni_pred_interpolation_avc_lumaRef10Bit(
-        EbPictureBufferDesc *refFramePicList0,
+        EbPictureBufferDesc *ref_frame_pic_list0,
         uint32_t                 pos_x,
         uint32_t                 pos_y,
         uint32_t                 pu_width,
@@ -132,12 +132,12 @@ extern "C" {
         uint32_t                 component_mask,
         EbByte                temp_buf,
         EbBool                sub_pred,
-        EbBool                subPredChroma,
+        EbBool                sub_pred_chroma,
         EbAsm                 asm_type);
 
     void estimate_bi_pred_interpolation_avc_luma_ref10_bit(
-        EbPictureBufferDesc *refFramePicList0,
-        EbPictureBufferDesc *refFramePicList1,
+        EbPictureBufferDesc *ref_frame_pic_list0,
+        EbPictureBufferDesc *ref_frame_pic_list1,
         uint32_t                 ref_list0_pos_x,
         uint32_t                 ref_list0_pos_y,
         uint32_t                 ref_list1_pos_x,
@@ -152,7 +152,7 @@ extern "C" {
         EbByte                ref_list1_temp_dst,
         EbByte                first_pass_if_temp_dst,
         EbBool                sub_pred,
-        EbBool                subPredChroma,
+        EbBool                sub_pred_chroma,
         EbAsm                 asm_type);
 
     void uni_pred_i_free_ref8_bit(
@@ -167,7 +167,7 @@ extern "C" {
         uint32_t                 component_mask,
         EbByte                temp_buf,
         EbBool                sub_sample_pred_flag,
-        EbBool                subSamplePredFlagChroma,
+        EbBool                sub_sample_pred_flag_chroma,
         EbAsm                 asm_type);
 
     void bi_pred_i_free_ref8_bit(
@@ -187,7 +187,7 @@ extern "C" {
         EbByte                ref_list1_temp_dst,
         EbByte                first_pass_if_temp_dst,
         EbBool                sub_sample_pred_flag,
-        EbBool                subSamplePredFlagChroma,
+        EbBool                sub_sample_pred_flag_chroma,
         EbAsm                 asm_type);
 
     typedef void(*AvcStyleInterpolationFilterNew)(

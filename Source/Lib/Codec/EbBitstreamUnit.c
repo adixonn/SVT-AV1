@@ -31,15 +31,15 @@ EbErrorType output_bitstream_unit_ctor(
 
     if (buffer_size) {
         bitstream_ptr->size = buffer_size / sizeof(uint32_t);
-        EB_MALLOC(uint8_t*, bitstream_ptr->bufferBeginAv1, sizeof(uint8_t) * bitstream_ptr->size, EB_N_PTR);
-        bitstream_ptr->bufferAv1 = bitstream_ptr->bufferBeginAv1;
+        EB_MALLOC(uint8_t*, bitstream_ptr->buffer_begin_av1, sizeof(uint8_t) * bitstream_ptr->size, EB_N_PTR);
+        bitstream_ptr->buffer_av1 = bitstream_ptr->buffer_begin_av1;
     }
     else {
         bitstream_ptr->size = 0;
-        bitstream_ptr->bufferBeginAv1 = 0;
-        bitstream_ptr->bufferAv1 = 0;
+        bitstream_ptr->buffer_begin_av1 = 0;
+        bitstream_ptr->buffer_av1 = 0;
     }
-    bitstream_ptr->writtenBitsCount = 0;
+    bitstream_ptr->written_bits_count = 0;
     
     return EB_ErrorNone;
 }
@@ -52,9 +52,9 @@ EbErrorType output_bitstream_reset(
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    bitstream_ptr->writtenBitsCount = 0;
+    bitstream_ptr->written_bits_count = 0;
     // Reset the write ptr to the beginning of the buffer
-    bitstream_ptr->bufferAv1 = bitstream_ptr->bufferBeginAv1;
+    bitstream_ptr->buffer_av1 = bitstream_ptr->buffer_begin_av1;
 
     return return_error;
 }
@@ -71,7 +71,7 @@ EbErrorType output_bitstream_rbsp_to_payload(
     uint32_t                 start_location)
 {
     EbErrorType return_error = EB_ErrorNone;
-    uint32_t  buffer_written_bytes_count = (uint32_t)(bitstream_ptr->bufferAv1 - bitstream_ptr->bufferBeginAv1);
+    uint32_t  buffer_written_bytes_count = (uint32_t)(bitstream_ptr->buffer_av1 - bitstream_ptr->buffer_begin_av1);
     uint32_t  write_location = start_location;
     uint32_t  read_location = start_location;
     EbByte read_byte_ptr;
@@ -81,7 +81,7 @@ EbErrorType output_bitstream_rbsp_to_payload(
 
 #endif
     // IVF data
-    read_byte_ptr = (EbByte)bitstream_ptr->bufferBeginAv1;
+    read_byte_ptr = (EbByte)bitstream_ptr->buffer_begin_av1;
     write_byte_ptr = &output_buffer[*output_buffer_index];
 #if IVF_FRAME_HEADER_IN_LIB
     mem_put_le32(&write_byte_ptr[write_location], (int32_t)buffer_written_bytes_count);
@@ -108,13 +108,13 @@ EbErrorType output_bitstream_rbsp_to_payload(
 /********************************************************************************************************************************/
 /********************************************************************************************************************************/
 // daalaboolwriter.c
-void aom_daala_start_encode(daala_writer *br, uint8_t *source) {
+void aom_daala_start_encode(DaalaWriter *br, uint8_t *source) {
     br->buffer = source;
     br->pos = 0;
     od_ec_enc_init(&br->ec, 62025);
 }
 
-int32_t aom_daala_stop_encode(daala_writer *br) {
+int32_t aom_daala_stop_encode(DaalaWriter *br) {
     int32_t nb_bits;
     uint32_t daala_bytes;
     uint8_t *daala_data;

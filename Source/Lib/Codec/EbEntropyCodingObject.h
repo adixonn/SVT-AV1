@@ -19,7 +19,7 @@ extern "C" {
     typedef struct EntropyCoder {
         EbPtr cabac_encode_context_ptr;
         FrameContext   *fc;              /* this frame entropy */
-        aom_writer       ec_writer;
+        AomWriter       ec_writer;
         EbPtr           ec_output_bitstream_ptr;
 #if TILES
         uint64_t   ec_frame_size;
