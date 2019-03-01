@@ -40,7 +40,7 @@ static uint8_t QP_OFFSET_LAYER_ARRAY[MAX_TEMPORAL_LAYERS] =
 void RateControlLayerReset(
     RateControlLayerContext   *rateControlLayerPtr,
     PictureControlSet         *picture_control_set_ptr,
-    RateControlContext        *rateControlContextPtr,
+    RateControlContext        *rate_control_context_ptr,
     uint32_t                       pictureAreaInPixel,
     EbBool                      was_used)
 {
@@ -61,7 +61,7 @@ void RateControlLayerReset(
         if (picture_control_set_ptr->picture_number % ((sequence_control_set_ptr->intra_period_length + 1)) == 0) {
             totalFrameInInterval = 0;
             for (temporal_layer_index = 0; temporal_layer_index < EB_MAX_TEMPORAL_LAYERS; temporal_layer_index++) {
-                rateControlContextPtr->frames_in_interval[temporal_layer_index] = picture_control_set_ptr->parent_pcs_ptr->frames_in_interval[temporal_layer_index];
+                rate_control_context_ptr->frames_in_interval[temporal_layer_index] = picture_control_set_ptr->parent_pcs_ptr->frames_in_interval[temporal_layer_index];
                 totalFrameInInterval += picture_control_set_ptr->parent_pcs_ptr->frames_in_interval[temporal_layer_index];
                 sumBitsPerSw += picture_control_set_ptr->parent_pcs_ptr->bits_per_sw_per_layer[temporal_layer_index];
             }
@@ -97,7 +97,7 @@ void RateControlLayerReset(
         rateControlLayerPtr->frame_rate = rateControlLayerPtr->frame_rate >> 1;
     }
     if (sequence_control_set_ptr->static_config.intra_period_length != -1) {
-        rateControlLayerPtr->frame_rate = sequence_control_set_ptr->frame_rate * rateControlContextPtr->frames_in_interval[rateControlLayerPtr->temporal_index] / totalFrameInInterval;
+        rateControlLayerPtr->frame_rate = sequence_control_set_ptr->frame_rate * rate_control_context_ptr->frames_in_interval[rateControlLayerPtr->temporal_index] / totalFrameInInterval;
     }
 
     rateControlLayerPtr->coeff_averaging_weight2 = 16 - rateControlLayerPtr->coeff_averaging_weight1;
