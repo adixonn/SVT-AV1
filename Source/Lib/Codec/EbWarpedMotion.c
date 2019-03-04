@@ -1133,13 +1133,13 @@ static int find_affine_int(int np, const int *pts1, const int *pts2,
   assert(By[0] >= LS_MAT_MIN && By[0] <= LS_MAT_MAX);
   assert(By[1] >= LS_MAT_MIN && By[1] <= LS_MAT_MAX);
 
-  int64_t Det;
+  int64_t det;
   int16_t iDet, shift;
 
   // Compute Determinant of A
-  Det = (int64_t)A[0][0] * A[1][1] - (int64_t)A[0][1] * A[0][1];
-  if (Det == 0) return 1;
-  iDet = resolve_divisor_64(llabs(Det), &shift) * (Det < 0 ? -1 : 1);
+  det = (int64_t)A[0][0] * A[1][1] - (int64_t)A[0][1] * A[0][1];
+  if (det == 0) return 1;
+  iDet = resolve_divisor_64(llabs(det), &shift) * (det < 0 ? -1 : 1);
   shift -= WARPEDMODEL_PREC_BITS;
   if (shift < 0) {
     iDet <<= (-shift);
@@ -1148,7 +1148,7 @@ static int find_affine_int(int np, const int *pts1, const int *pts2,
 
   int64_t Px[2], Py[2];
 
-  // These divided by the Det, are the least squares solutions
+  // These divided by the det, are the least squares solutions
   Px[0] = (int64_t)A[1][1] * Bx[0] - (int64_t)A[0][1] * Bx[1];
   Px[1] = -(int64_t)A[0][1] * Bx[0] + (int64_t)A[0][0] * Bx[1];
   Py[0] = (int64_t)A[1][1] * By[0] - (int64_t)A[0][1] * By[1];

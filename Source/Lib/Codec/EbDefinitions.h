@@ -298,8 +298,8 @@ typedef int16_t InterpKernel[SUBPEL_TAPS];
 /****************** Helper Macros ******************/
 /***************************************************/
 void aom_reset_mmx_state(void);
-extern void RunEmms();
-#define aom_clear_system_state() RunEmms() //aom_reset_mmx_state()
+extern void run_emms();
+#define aom_clear_system_state() run_emms() //aom_reset_mmx_state()
 
 /* Shift down with rounding for use when n >= 0, value >= 0 */
 #define ROUND_POWER_OF_TWO(value, n) (((value)+(((1 << (n)) >> 1))) >> (n))

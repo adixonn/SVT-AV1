@@ -482,7 +482,7 @@ static int64_t finer_search_pixel_proj_error(
     return err;
 }
 
-extern void RunEmms();
+extern void run_emms();
 
 void get_proj_subspace_c(const uint8_t *src8, int32_t width, int32_t height,
     int32_t src_stride, const uint8_t *dat8,
@@ -493,12 +493,12 @@ void get_proj_subspace_c(const uint8_t *src8, int32_t width, int32_t height,
     int32_t i, j;
     double H[2][2] = { { 0, 0 }, { 0, 0 } };
     double C[2] = { 0, 0 };
-    double Det;
+    double det;
     double x[2];
     const int32_t size = width * height;
 
     aom_clear_system_state();
-    RunEmms();
+    run_emms();
 
     // Default
     xq[0] = 0;
@@ -552,10 +552,10 @@ void get_proj_subspace_c(const uint8_t *src8, int32_t width, int32_t height,
     if (params->r[0] == 0) {
         // H matrix is now only the scalar H[1][1]
         // C vector is now only the scalar C[1]
-        Det = H[1][1];
-        if (Det < 1e-8) return;  // ill-posed, return default values
+        det = H[1][1];
+        if (det < 1e-8) return;  // ill-posed, return default values
         x[0] = 0;
-        x[1] = C[1] / Det;
+        x[1] = C[1] / det;
 
         xq[0] = 0;
         xq[1] = (int32_t)rint(x[1] * (1 << SGRPROJ_PRJ_BITS));
@@ -563,19 +563,19 @@ void get_proj_subspace_c(const uint8_t *src8, int32_t width, int32_t height,
     else if (params->r[1] == 0) {
         // H matrix is now only the scalar H[0][0]
         // C vector is now only the scalar C[0]
-        Det = H[0][0];
-        if (Det < 1e-8) return;  // ill-posed, return default values
-        x[0] = C[0] / Det;
+        det = H[0][0];
+        if (det < 1e-8) return;  // ill-posed, return default values
+        x[0] = C[0] / det;
         x[1] = 0;
 
         xq[0] = (int32_t)rint(x[0] * (1 << SGRPROJ_PRJ_BITS));
         xq[1] = 0;
     }
     else {
-        Det = (H[0][0] * H[1][1] - H[0][1] * H[1][0]);
-        if (Det < 1e-8) return;  // ill-posed, return default values
-        x[0] = (H[1][1] * C[0] - H[0][1] * C[1]) / Det;
-        x[1] = (H[0][0] * C[1] - H[1][0] * C[0]) / Det;
+        det = (H[0][0] * H[1][1] - H[0][1] * H[1][0]);
+        if (det < 1e-8) return;  // ill-posed, return default values
+        x[0] = (H[1][1] * C[0] - H[0][1] * C[1]) / det;
+        x[1] = (H[0][0] * C[1] - H[1][0] * C[0]) / det;
 
         xq[0] = (int32_t)rint(x[0] * (1 << SGRPROJ_PRJ_BITS));
         xq[1] = (int32_t)rint(x[1] * (1 << SGRPROJ_PRJ_BITS));

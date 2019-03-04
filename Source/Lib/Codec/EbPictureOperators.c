@@ -798,14 +798,14 @@ int32_t  sum_residual(int16_t * in_ptr,
     uint32_t   stride_in)
 {
 
-    int32_t sumBlock = 0;
+    int32_t sum_block = 0;
     uint32_t i, j;
 
     for (j = 0; j < size; j++)
         for (i = 0; i < size; i++)
-            sumBlock += in_ptr[j*stride_in + i];
+            sum_block += in_ptr[j*stride_in + i];
 
-    return sumBlock;
+    return sum_block;
 
 }
 

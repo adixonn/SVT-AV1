@@ -551,11 +551,11 @@ void* motion_estimation_kernel(void *input_ptr)
 
                         {
                             uint8_t  *framePtr = &sixteenth_decimated_picture_ptr->buffer_y[bufferIndex];
-                            uint8_t  *localPtr = context_ptr->me_context_ptr->sixteenth_sb_buffer;
+                            uint8_t  *local_ptr = context_ptr->me_context_ptr->sixteenth_sb_buffer;
 
                             for (lcuRow = 0; lcuRow < (sb_height >> 2); lcuRow += 2) {
-                                EB_MEMCPY(localPtr, framePtr, (sb_width >> 2) * sizeof(uint8_t));
-                                localPtr += 16;
+                                EB_MEMCPY(local_ptr, framePtr, (sb_width >> 2) * sizeof(uint8_t));
+                                local_ptr += 16;
                                 framePtr += sixteenth_decimated_picture_ptr->stride_y << 1;
                             }
                         }

@@ -587,15 +587,15 @@ uint64_t spatial_full_distortion_kernel16_mx_n_ssse3_intrin(
     do
     {
         uint8_t *coeff_temp = input;
-        uint8_t *reconCoeffTemp = recon;
+        uint8_t *recon_coeff_temp = recon;
 
         row_count = area_height;
         do
         {
             x0 = _mm_loadu_si128((__m128i *)(coeff_temp + 0x00));
-            y0 = _mm_loadu_si128((__m128i *)(reconCoeffTemp + 0x00));
+            y0 = _mm_loadu_si128((__m128i *)(recon_coeff_temp + 0x00));
             coeff_temp += input_stride;
-            reconCoeffTemp += recon_stride;
+            recon_coeff_temp += recon_stride;
             x0 = _mm_sub_epi8(x0, y0);
             x0 = _mm_sign_epi8(x0, x0);
 
