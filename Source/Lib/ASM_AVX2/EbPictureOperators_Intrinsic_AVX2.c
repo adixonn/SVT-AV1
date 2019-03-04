@@ -1969,7 +1969,7 @@ void full_distortion_kernel32_bits_avx2(
     rowCount = area_height;
     do
     {
-        int32_t *coeffTemp = coeff;
+        int32_t *coeff_temp = coeff;
         int32_t *reconCoeffTemp = recon_coeff;
 
         col_count = area_width / 4;
@@ -1977,7 +1977,7 @@ void full_distortion_kernel32_bits_avx2(
         {
             __m128i x0, y0;
             __m256i x, y, z;
-            x0 = _mm_loadu_si128((__m128i *)(coeffTemp));
+            x0 = _mm_loadu_si128((__m128i *)(coeff_temp));
             y0 = _mm_loadu_si128((__m128i *)(reconCoeffTemp));
             x = _mm256_cvtepi32_epi64(x0);
             y = _mm256_cvtepi32_epi64(y0);
@@ -1986,7 +1986,7 @@ void full_distortion_kernel32_bits_avx2(
             x = _mm256_sub_epi64(x, y);
             x = _mm256_mul_epi32(x, x);
             sum1 = _mm256_add_epi32(sum1, x);
-            coeffTemp += 4;
+            coeff_temp += 4;
             reconCoeffTemp += 4;
         } while (--col_count);
 
@@ -2026,15 +2026,15 @@ void full_distortion_kernel_cbf_zero32_bits_avx2(
     rowCount = area_height;
     do
     {
-        int32_t *coeffTemp = coeff;
+        int32_t *coeff_temp = coeff;
 
         col_count = area_width / 4;
         do
         {
             __m128i x0;
             __m256i y0, z0;
-            x0 = _mm_loadu_si128((__m128i *)(coeffTemp));
-            coeffTemp += 4;
+            x0 = _mm_loadu_si128((__m128i *)(coeff_temp));
+            coeff_temp += 4;
             y0 = _mm256_cvtepi32_epi64(x0);
             z0 = _mm256_mul_epi32(y0, y0);
             sum = _mm256_add_epi64(sum, z0);

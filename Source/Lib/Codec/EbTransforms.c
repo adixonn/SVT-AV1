@@ -82,18 +82,18 @@ void mat_mult_out(
 
     uint32_t coeffLocation = 0, coeffOutLocation = 0;
     uint32_t row_index, colIndex;
-    int32_t coeffTemp;
+    int32_t coeff_temp;
 
     *nonzerocoeff = 0;
 
     for (row_index = 0; row_index < compute_size; ++row_index) {
         for (colIndex = 0; colIndex < compute_size; ++colIndex) {
-            coeffTemp = (ABS(coeff[coeffLocation]) * masking_matrix[colIndex + row_index * masking_matrix_stride] + offset) >> shift_num;
-            coeffTemp = (coeff[coeffLocation] < 0) ? -coeffTemp : coeffTemp;
+            coeff_temp = (ABS(coeff[coeffLocation]) * masking_matrix[colIndex + row_index * masking_matrix_stride] + offset) >> shift_num;
+            coeff_temp = (coeff[coeffLocation] < 0) ? -coeff_temp : coeff_temp;
 
-            coeff_out[coeffOutLocation] = (int16_t)CLIP3(MIN_NEG_16BIT_NUM, MAX_POS_16BIT_NUM, coeffTemp);
+            coeff_out[coeffOutLocation] = (int16_t)CLIP3(MIN_NEG_16BIT_NUM, MAX_POS_16BIT_NUM, coeff_temp);
 
-            (*nonzerocoeff) += (coeffTemp != 0);
+            (*nonzerocoeff) += (coeff_temp != 0);
             ++coeffLocation;
             ++coeffOutLocation;
         }
@@ -1171,17 +1171,17 @@ void mat_mult(
 
     uint32_t coeffLocation = 0;
     uint32_t row_index, colIndex;
-    int32_t coeffTemp;
+    int32_t coeff_temp;
 
     *nonzerocoeff = 0;
 
     for (row_index = 0; row_index < compute_size; ++row_index) {
         for (colIndex = 0; colIndex < compute_size; ++colIndex) {
-            coeffTemp = (ABS(coeff[coeffLocation]) * masking_matrix[colIndex + row_index * masking_matrix_stride] + offset) >> shift_num;
-            coeffTemp = (coeff[coeffLocation] < 0) ? -coeffTemp : coeffTemp;
+            coeff_temp = (ABS(coeff[coeffLocation]) * masking_matrix[colIndex + row_index * masking_matrix_stride] + offset) >> shift_num;
+            coeff_temp = (coeff[coeffLocation] < 0) ? -coeff_temp : coeff_temp;
 
-            coeff[coeffLocation] = (int16_t)CLIP3(MIN_NEG_16BIT_NUM, MAX_POS_16BIT_NUM, coeffTemp);
-            (*nonzerocoeff) += (coeffTemp != 0);
+            coeff[coeffLocation] = (int16_t)CLIP3(MIN_NEG_16BIT_NUM, MAX_POS_16BIT_NUM, coeff_temp);
+            (*nonzerocoeff) += (coeff_temp != 0);
             ++coeffLocation;
         }
         coeffLocation += coeff_stride - compute_size;
