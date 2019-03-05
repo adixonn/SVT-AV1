@@ -11,6 +11,9 @@
 #include "EbDefinitions.h"
 #include "EbRateControlProcess.h"
 #include "EbSequenceControlSet.h"
+#if MDC_FIX_0
+#include "EbModeDecision.h"
+#endif
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -43,6 +46,7 @@ extern "C" {
         uint64_t                    lambda;
         MdcpLocalCodingUnit         local_cu_array[CU_MAX_COUNT];
 
+
         // Inter depth decision
         uint8_t                     group_of8x8_blocks_count;
         uint8_t                     group_of16x16_blocks_count;
@@ -56,7 +60,19 @@ extern "C" {
         int16_t                     max_delta_qp_weight;
         int8_t                      min_delta_qp[4];
         int8_t                      max_delta_qp[4];
-
+#if ADAPTIVE_DEPTH_PARTITIONING
+        // Adaptive Depth Partitioning
+        uint32_t                             *sb_score_array;
+        uint8_t                               cost_depth_mode[SB_PRED_OPEN_LOOP_1_NFL_DEPTH_MODE];
+        uint8_t                              *sb_cost_array;
+        uint32_t                              predicted_cost;
+        uint32_t                              budget;
+        int8_t                                score_th[MAX_SUPPORTED_SEGMENTS];
+        uint8_t                               interval_cost[MAX_SUPPORTED_SEGMENTS];
+        uint8_t                               number_of_segments;
+        uint32_t                              sb_min_score;
+        uint32_t                              sb_max_score;
+#else
         // Budgeting
         uint32_t                   *lcu_score_array;
                                    
@@ -76,7 +92,19 @@ extern "C" {
         EbBool                      perform_refinement;
 
         uint8_t                     qp_index;
+#endif
+#if MDC_FIX_0
+        const BlockGeom                      *blk_geom;
+        ModeDecisionCandidate              *mdc_candidate_ptr;
+        CandidateMv                          *mdc_ref_mv_stack;
+        CodingUnit                           *mdc_cu_ptr;
+#endif
+        uint8_t                               qp_index;
 
+#if ADAPTIVE_DEPTH_PARTITIONING
+        // Multi - Mode signal(s)
+        uint8_t                               adp_level; // Hsan: to use
+#endif
     } ModeDecisionConfigurationContext;
 
 

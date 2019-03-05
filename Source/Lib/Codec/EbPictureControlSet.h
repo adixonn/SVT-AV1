@@ -14076,54 +14076,42 @@ extern "C" {
         OisCu8Results                     **ois_cu8_results;
 
         // Dynamic GOP
-        EbPred                              pred_structure;
-        uint8_t                             hierarchical_levels;
-        uint16_t                            full_sb_count;
-#if NEW_PRED_STRUCT                         
-        EbBool                              init_pred_struct_position_flag;
-        int8_t                              hierarchical_layers_diff;
-#endif                                      
-        // ME Tools                         
-        EbBool                              use_subpel_flag;
-        EbBool                              enable_hme_flag;
-        EbBool                              enable_hme_level0_flag;
-        EbBool                              enable_hme_level1_flag;
-        EbBool                              enable_hme_level2_flag;
-#if !ME_HME_OQ
-        // ME Parameters
-        uint8_t                             search_area_width;
-        uint8_t                             search_area_height;
-        // HME Parameters                   
-        uint16_t                            number_hme_search_region_in_width;
-        uint16_t                            number_hme_search_region_in_height;
-        uint16_t                            hme_level0_total_search_area_width;
-        uint16_t                            hme_level0_total_search_area_height;
-        uint16_t                            hme_level0_search_area_in_width_array[EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT];
-        uint16_t                            hme_level0_search_area_in_height_array[EB_HME_SEARCH_AREA_ROW_MAX_COUNT];
-        uint16_t                            hme_level1_search_area_in_width_array[EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT];
-        uint16_t                            hme_level1_search_area_in_height_array[EB_HME_SEARCH_AREA_ROW_MAX_COUNT];
-        uint16_t                            hme_level2_search_area_in_width_array[EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT];
-        uint16_t                            hme_level2_search_area_in_height_array[EB_HME_SEARCH_AREA_ROW_MAX_COUNT];
-#endif
+        EbPred                                pred_structure;
+        uint8_t                               hierarchical_levels;
+        uint16_t                              full_sb_count;
+#if NEW_PRED_STRUCT
+        EbBool                                init_pred_struct_position_flag;
+        int8_t                                hierarchical_layers_diff;
+#endif        
+        // ME Tools
+        EbBool                                use_subpel_flag;
+        EbBool                                enable_hme_flag;
+        EbBool                                enable_hme_level0_flag;
+        EbBool                                enable_hme_level1_flag;
+        EbBool                                enable_hme_level2_flag;
+
         // MD
-        EbEncMode                           enc_mode;
-                                           
-        EbLcuDepthMode                     *sb_md_mode_array;
-#if !CHROMA_BLIND                          
-        EbChromaMode                        chroma_mode;
-#endif                                     
-        EbSbComplexityStatus               *complex_sb_array;
-        EbCu8x8Mode                         cu8x8_mode;
-        EbBool                              use_src_ref;
-        EbBool                              limit_ois_to_dc_mode_flag;
-                                           
-        // Multi-modes signal(s)           
-        EbPictureDepthMode                  pic_depth_mode;
-#if !INTERPOLATION_SEARCH_LEVELS           
-        uint8_t                             interpolation_filter_search_mode;
-#endif                                     
-        uint8_t                             loop_filter_mode;
-        uint8_t                             intra_pred_mode;
+        EbEncMode                             enc_mode;
+#if ADAPTIVE_DEPTH_PARTITIONING
+        EB_SB_DEPTH_MODE                     *sb_depth_mode_array;
+#else
+        EbLcuDepthMode                       *sb_md_mode_array;
+#endif		
+#if !CHROMA_BLIND
+        EbChromaMode                          chroma_mode;
+#endif
+        EbSbComplexityStatus                 *complex_sb_array;
+        EbCu8x8Mode                           cu8x8_mode;
+        EbBool                                use_src_ref;
+        EbBool                                limit_ois_to_dc_mode_flag;
+
+        // Multi-modes signal(s) 
+        EbPictureDepthMode                    pic_depth_mode;
+        uint8_t                               loop_filter_mode;
+        uint8_t                               intra_pred_mode;
+#if TWO_FAST_LOOP
+        uint8_t                               enable_two_fast_loops;
+#endif
         //**********************************************************************************************************//
         FrameType                           av1_frame_type;
         Av1RpsNode                          av1_ref_signal;
@@ -14271,26 +14259,20 @@ extern "C" {
         EbBool                            enable_in_loop_motion_estimation_flag;
 #if REST_M       
         RestUnitSearchInfo               *rusi_picture[3];//for 3 planes
-#endif                                   
-#if FAST_CDEF                            
+#endif
+#if FAST_CDEF
         int8_t                            cdef_filter_mode;
         int32_t                           cdef_frame_strength;
         int32_t                           cdf_ref_frame_strenght;
         int32_t                           use_ref_frame_cdef_strength;
-#endif                                   
-#if TX_SEARCH_LEVELS                     
-        uint8_t                           TxSearchLevel;
+#endif                                    
+        uint8_t                           tx_search_level;
         uint64_t                          tx_weight;
         uint8_t                           tx_search_reduced_set;
-#endif                                   
-#if INTERPOLATION_SEARCH_LEVELS          
-        uint8_t                           InterpolationSearchLevel;
-#endif                                   
-#if NSQ_SEARCH_LEVELS                    
-        uint8_t                           NsqSearchLevel;
-#endif
-    } PictureParentControlSet;
+        uint8_t                           interpolation_search_level;
+        uint8_t                           nsq_search_level;
 
+    } PictureParentControlSet;
 
     typedef struct PictureControlSetInitData
     {

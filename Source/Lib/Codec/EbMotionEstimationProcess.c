@@ -52,7 +52,6 @@ EbErrorType CheckZeroZeroCenter(
     int16_t                       *y_search_center,
     EbAsm                       asm_type);
 
-#if ME_HME_OQ
 /************************************************
  * Set ME/HME Params from Config
  ************************************************/
@@ -97,7 +96,7 @@ void* set_me_hme_params_oq(
     SequenceControlSet            *sequence_control_set_ptr,
     EbInputResolution                 input_resolution)
 {
-    (void)*picture_control_set_ptr;
+    UNUSED(sequence_control_set_ptr);
     //uint8_t  hmeMeLevel = picture_control_set_ptr->enc_mode;
     uint8_t  hmeMeLevel =  picture_control_set_ptr->enc_mode; // OMK to be revised after new presets
 
@@ -127,23 +126,6 @@ void* set_me_hme_params_oq(
     // ME
     me_context_ptr->search_area_width = search_area_width[input_resolution][hmeMeLevel];
     me_context_ptr->search_area_height = search_area_height[input_resolution][hmeMeLevel];
-
-
-    // HME Level0 adjustment for low frame rate contents (frame rate <= 30)
-    if (input_resolution == INPUT_SIZE_4K_RANGE) {
-        if ((sequence_control_set_ptr->static_config.frame_rate >> 16) <= 30) {
-
-            if (hmeMeLevel == ENC_M6) {
-                me_context_ptr->hme_level0_total_search_area_width = MAX(96, me_context_ptr->hme_level0_total_search_area_width);
-                me_context_ptr->hme_level0_total_search_area_height = MAX(64, me_context_ptr->hme_level0_total_search_area_height);
-                me_context_ptr->hme_level0_search_area_in_width_array[0] = MAX(48, me_context_ptr->hme_level0_search_area_in_width_array[0]);
-                me_context_ptr->hme_level0_search_area_in_width_array[1] = MAX(48, me_context_ptr->hme_level0_search_area_in_width_array[1]);
-                me_context_ptr->hme_level0_search_area_in_height_array[0] = MAX(32, me_context_ptr->hme_level0_search_area_in_height_array[0]);
-                me_context_ptr->hme_level0_search_area_in_height_array[1] = MAX(32, me_context_ptr->hme_level0_search_area_in_height_array[1]);
-
-            }
-        }
-    }
 
     me_context_ptr->update_hme_search_center_flag = 1;
 
@@ -180,7 +162,6 @@ EbErrorType signal_derivation_me_kernel_oq(
 
     return return_error;
 };
-#endif
 /************************************************
  * Motion Analysis Context Constructor
  ************************************************/
@@ -461,15 +442,14 @@ void* motion_estimation_kernel(void *input_ptr)
         md_rate_estimation_array += picture_control_set_ptr->slice_type * TOTAL_NUMBER_OF_QP_VALUES + picture_control_set_ptr->picture_qp;
         // Reset MD rate Estimation table to initial values by copying from md_rate_estimation_array
         EB_MEMCPY(&(context_ptr->me_context_ptr->mvd_bits_array[0]), &(md_rate_estimation_array->mvd_bits[0]), sizeof(EbBitFraction)*NUMBER_OF_MVD_CASES);
-        ///context_ptr->me_context_ptr->lambda = lambda_mode_decision_ld_sad_qp_scaling[picture_control_set_ptr->picture_qp];
-#if ME_HME_OQ
-   // ME Kernel Signal(s) derivation
-
+        ///context_ptr->me_context_ptr->lambda = lambdaModeDecisionLdSadQpScaling[picture_control_set_ptr->picture_qp];
+        
+        // ME Kernel Signal(s) derivation
         signal_derivation_me_kernel_oq(
             sequence_control_set_ptr,
             picture_control_set_ptr,
             context_ptr);
-#endif
+
         // Lambda Assignement
         if (sequence_control_set_ptr->static_config.pred_structure == EB_PRED_RANDOM_ACCESS) {
 

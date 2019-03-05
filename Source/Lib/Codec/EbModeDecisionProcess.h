@@ -166,6 +166,9 @@ extern "C" {
         uint8_t                       pu_itr;
         uint8_t                       cu_size_log2;
         uint8_t                       best_candidate_index_array[MAX_NFL];
+#if USED_NFL_FEATURE_BASED            
+        uint8_t                       sorted_candidate_index_array[MAX_NFL];
+#endif                                
         uint16_t                      cu_origin_x;
         uint16_t                      cu_origin_y;
         uint64_t                      chroma_weight;
@@ -208,18 +211,28 @@ extern "C" {
         BlockSize  scaled_chroma_bsize;
 #endif
 
+#if REMOVED_DUPLICATE_INTER
+        int16_t                           injected_mv_x_l0_array[MODE_DECISION_CANDIDATE_MAX_COUNT]; // used to do not inject existing MV
+        int16_t                           injected_mv_y_l0_array[MODE_DECISION_CANDIDATE_MAX_COUNT]; // used to do not inject existing MV
+        uint8_t                           injected_mv_count_l0;
+                                          
+        int16_t                           injected_mv_x_l1_array[MODE_DECISION_CANDIDATE_MAX_COUNT]; // used to do not inject existing MV
+        int16_t                           injected_mv_y_l1_array[MODE_DECISION_CANDIDATE_MAX_COUNT]; // used to do not inject existing MV
+        uint8_t                           injected_mv_count_l1;
+                                          
+        int16_t                           injected_mv_x_bipred_l0_array[MODE_DECISION_CANDIDATE_MAX_COUNT]; // used to do not inject existing MV
+        int16_t                           injected_mv_y_bipred_l0_array[MODE_DECISION_CANDIDATE_MAX_COUNT]; // used to do not inject existing MV
+        int16_t                           injected_mv_x_bipred_l1_array[MODE_DECISION_CANDIDATE_MAX_COUNT]; // used to do not inject existing MV
+        int16_t                           injected_mv_y_bipred_l1_array[MODE_DECISION_CANDIDATE_MAX_COUNT]; // used to do not inject existing MV
+        uint8_t                           injected_mv_count_bipred;
+#endif
 
         // Multi-modes signal(s) 
         uint8_t                           nfl_level;
-
-#if INTERPOLATION_SEARCH_LEVELS
         uint8_t                           skip_interpolation_search;
-#endif
-#if NSQ_SEARCH_LEVELS
         uint8_t                           parent_sq_type[MAX_PARENT_SQ];
         uint8_t                           parent_sq_has_coeff[MAX_PARENT_SQ];
         uint8_t                           parent_sq_pred_mode[MAX_PARENT_SQ];
-#endif
 #if CHROMA_BLIND
         uint8_t                           chroma_level;
 #endif

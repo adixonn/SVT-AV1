@@ -47,14 +47,14 @@ extern "C" {
 #define REST_NEED_B                                     1 // use boundary update in restoration
 #define NEW_PRED_STRUCT                                 1 // Ability to run 5-layer prediction structure. By Default 5L is used
 #define TILES                                           1
-#define INTRA_CORE_OPT                                  1
-#define ENCODER_MODE_CLEANUP                            1                                          
+
+#define INTRA_CORE_OPT                                  0
 #define ENABLE_INTRA_4x4                                1 //
 #define DISABLE_NSQ                                     1 //
 #define DISABLE_128X128_SB                              0
 #define ENABLE_INTER_4x4                                0 // optional
 #define DISABLE_4xN_Nx4                                 1 //
-#define DISABLE_128x128                                 0 //
+#define DISABLE_128x128                                 0
 #define VCI_CANDIDATE_II                                1
 
 #if VCI_CANDIDATE_II
@@ -80,7 +80,6 @@ extern "C" {
 #define SUPPORT_10BIT                                   1 // Support for 10 Bit encodings
 #define NEW_QPS                                         1 // New QPS based on AOM 1Pass
 #define ME_HME_OQ                                       1 // Ported ME HME from EB32 OQ
-
 #if SUPPORT_10BIT
 #define INTRA_10BIT_SUPPORT                             1
 #define QT_10BIT_SUPPORT                                1
@@ -90,7 +89,6 @@ extern "C" {
 #define LF_10BIT_FIX                                    1
 #define INTERPOL_FILTER_SEARCH_10BIT_SUPPORT            1
 #endif
-
 #define BUG_FIX                                         1 // BUG fix related to transform type
 #define LIMIT_INTRA_INJ                                 1
 #define TURN_OFF_INTERPOL_FILTER_SEARCH                 1
@@ -105,7 +103,7 @@ extern "C" {
 
 // NEW MACOS
 #define INTRINSIC_OPT_2                                 1 // Intrinsics opt work phase 2
-#define DIS_EDGE_FIL                                    1 // disable intra edge filter - to be removed after fixing the neigbor array for intra 4xN and Nx4
+#define DIS_EDGE_FIL                                    0 // disable intra edge filter - to be removed after fixing the neigbor array for intra 4xN and Nx4
 #define DISABLE_INTRA_PRED_INTRINSIC                    0 // To be used to switch between intrinsic and C code for intra-pred
 #define USE_INLOOP_ME_FULL_SAD                          0 // To switch between full SAD and subsampled-SAD for in-loop-me subpel.
 #define NO_SUBPEL_FOR_128X128                           1 // Intrinsic is not available for 128x128 Subpel
@@ -138,14 +136,34 @@ extern "C" {
 #define FAST_CDEF                                       1
 #define FAST_SG                                         1
 #define FAST_WN                                         1
-#define TX_SEARCH_LEVELS                                1 
-#define INTERPOLATION_SEARCH_LEVELS                     1 
-#define NSQ_SEARCH_LEVELS                               1
-
 #define CHROMA_BLIND                                    1 // Added the ability to switch between three chroma modes: 1. chroma @ MD, 2. chroma blind @ MD + CFL @ EP. 3. chroma blind @ MD + no CFL @ EP
-#define TUNED_SETTINGS_FOR_M0                           1
-#define TUNED_SETTINGS_FOR_M1                           1
 #define CONTENT_BASED_QPS                               1 // Adaptive QP Scaling (active for I only)
+#define ADAPTIVE_DEPTH_PARTITIONING                     1 // Added the ability to switch @ SB basis between: (1) all square up to 64x64,  (2) mdc up to 64x64, (3) mdc up to 64x64 only pred, (4) mdc up to 64x64 only pred + 1 NFL
+#if ADAPTIVE_DEPTH_PARTITIONING
+#define ADP_V1                                          0      
+#define ADP_STATS_PER_LAYER                             0
+#define OPEN_LOOP_EARLY_PARTITION                       1
+#if OPEN_LOOP_EARLY_PARTITION
+#define REST_FAST_RATE_EST                              1
+#define MDC_FIX_0                                       1
+#define MDC_FIX_1                                       1
+#endif
+#endif
+
+#define REMOVED_DUPLICATE_INTER                         1
+#define REMOVED_DUPLICATE_INTER_L1                      1
+#define REMOVED_DUPLICATE_INTER_BIPRED                  1
+
+#define USED_NFL_FEATURE_BASED                          1
+#if USED_NFL_FEATURE_BASED
+#define NFL_TX_TH                                      12 // To be tuned
+#define NFL_IT_TH                                       2 // To be tuned
+#endif
+
+#define ENABLE_PAETH                                    1
+#define TWO_FAST_LOOP                                   1
+#define ENABLE_EOB_ZERO_CHECK                           1
+#define DISABLE_128_SB_FOR_SUB_720                      1
 
 /********************************************************/
 /****************** Pre-defined Values ******************/
@@ -485,7 +503,6 @@ typedef struct InterpFilterParams
     InterpFilter interp_filter;
 } InterpFilterParams;
 
-#if TX_SEARCH_LEVELS
 typedef enum TxSearchLevel 
 {
     TX_SEARCH_OFF,
@@ -495,7 +512,6 @@ typedef enum TxSearchLevel
 } TxSearchLevel;
 #endif
 
-#if INTERPOLATION_SEARCH_LEVELS
 typedef enum InterpolationSearchLevel 
 {
     IT_SEARCH_OFF,
@@ -503,8 +519,7 @@ typedef enum InterpolationSearchLevel
     IT_SEARCH_FULL_LOOP,
     IT_SEARCH_FAST_LOOP,
 } InterpolationSearchLevel;
-#endif
-#if NSQ_SEARCH_LEVELS
+
 typedef enum NsqSearchLevel 
 {
     NSQ_SEARCH_OFF,
@@ -514,10 +529,9 @@ typedef enum NsqSearchLevel
     NSQ_INTER_SEARCH_BASE_ON_SQ_INTRAMODE,
     NSQ_SEARCH_FULL
 } NsqSearchLevel;
-#endif
-#if NSQ_SEARCH_LEVELS
+
 #define MAX_PARENT_SQ     6
-#endif
+
 typedef enum CompoundDistWeightMode {
     DIST,
 } CompoundDistWeightMode;
@@ -2070,6 +2084,7 @@ typedef enum EbIntraRefreshType
 #define ENC_M4          4
 #define ENC_M5          5
 #define ENC_M6          6
+#define ENC_M7          7
 
 #define MAX_SUPPORTED_MODES 8
 
@@ -2131,8 +2146,8 @@ typedef enum EbTuSize
 
 static const uint8_t qp_offset_weight[3][4] = { // [Slice Type][QP Offset Weight Level]
     { 9, 8, 7, 6 },
-{ 9, 8, 7, 6 },
-{ 10, 9, 8, 7 }
+    { 9, 8, 7, 6 },
+    { 10, 9, 8, 7 }
 };
 
 /** Assembly Types
@@ -3018,6 +3033,15 @@ typedef enum EbPictureDepthMode
     PIC_OPEN_LOOP_DEPTH_MODE    = 7
 } EbPictureDepthMode;
 
+
+#if ADAPTIVE_DEPTH_PARTITIONING
+#define EB_SB_DEPTH_MODE              uint8_t
+#define SB_SQ_BLOCKS_DEPTH_MODE             1
+#define SB_SQ_NON4_BLOCKS_DEPTH_MODE        2
+#define SB_OPEN_LOOP_DEPTH_MODE             3
+#define SB_PRED_OPEN_LOOP_DEPTH_MODE        4
+#define SB_PRED_OPEN_LOOP_1_NFL_DEPTH_MODE  5
+#else
 typedef enum EbLcuDepthMode 
 {
     LCU_FULL85_DEPTH_MODE = 1,
@@ -3030,7 +3054,7 @@ typedef enum EbLcuDepthMode
     LCU_PRED_OPEN_LOOP_DEPTH_MODE = 8,
     LCU_PRED_OPEN_LOOP_1_NFL_DEPTH_MODE = 9
 } EbLcuDepthMode;
-
+#endif
 typedef enum EbIntrA4x4SearchMethod 
 {
     INTRA4x4_OFF = 0,
@@ -3387,7 +3411,6 @@ static const uint32_t md_scan_to_ois_32x32_scan[CU_MAX_COUNT] =
     /*83 */3,
     /*84 */3,
 };
-#if ME_HME_OQ
 /******************************************************************************
                             ME/HME settings
 *******************************************************************************/
@@ -3400,39 +3423,39 @@ static const uint8_t enable_hme_level0_flag[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODE
 };
 static const uint16_t hme_level0_total_search_area_width[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  48,   48,   48,   48,   48,   48,   48,   48 },
-    { 112,   96,   64,   64,   64,   64,   64,   64 },
-    { 128,  128,   96,   96,   96,   96,   96,   96 },
+    { 112,  112,   96,   96,   96,   64,   64,   64 },
+    { 128,  128,  128,  128,  128,   96,   96,   96 },
     { 128,  128,  128,  128,  128,  128,  128,  128 }
 };
 
 static const uint16_t hme_level0_search_area_in_width_array_left[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  24,   24,   24,   24,   24,   24,   24,   24 },
-    {  56,   48,   32,   32,   32,   32,   32,   32 },
-    {  64,   64,   48,   48,   48,   48,   48,   48 },
+    {  56,   56,   48,   48,   48,   32,   32,   32 },
+    {  64,   64,   64,   64,   64,   48,   48,   48 },
     {  64,   64,   64,   64,   64,   64,   64,   64 }
 };
 static const uint16_t hme_level0_search_area_in_width_array_right[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  24,   24,   24,   24,   24,   24,   24,   24 },
-    {  56,   48,   32,   32,   32,   32,   32,   32 },
-    {  64,   64,   48,   48,   48,   48,   48,   48 },
+    {  56,   56,   48,   48,   48,   32,   32,   32 },
+    {  64,   64,   64,   64,   64,   48,   48,   48 },
     {  64,   64,   64,   64,   64,   64,   64,   64 }
 };
 static const uint16_t hme_level0_total_search_area_height[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  40,   40,   40,   40,   40,   40,   40,   40 },
-    {  64,   64,   48,   48,   48,   48,   48,   48 },
-    {  80,   80,   48,   48,   48,   48,   48,   48 },
+    {  64,   64,   64,   64,   64,   48,   48,   48 },
+    {  80,   80,   80,   80,   80,   48,   48,   48 },
     {  80,   80,   80,   80,   80,   80,   80,   80 }
 };
 static const uint16_t hme_level0_search_area_in_height_array_top[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  20,   20,   20,   20,   20,   20,   20,   20 },
-    {  32,   32,   24,   24,   24,   24,   24,   24 },
-    {  40,   40,   24,   24,   24,   24,   24,   24 },
+    {  32,   32,   32,   32,   32,   24,   24,   24 },
+    {  40,   40,   40,   40,   40,   24,   24,   24 },
     {  40,   40,   40,   40,   40,   40,   40,   40 }
 };
 static const uint16_t hme_level0_search_area_in_height_array_bottom[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  20,   20,   20,   20,   20,   20,   20,   20 },
-    {  32,   32,   24,   24,   24,   24,   24,   24 },
-    {  40,   40,   24,   24,   24,   24,   24,   24 },
+    {  32,   32,   32,   32,   32,   24,   24,   24 },
+    {  40,   40,   40,   40,   40,   24,   24,   24 },
     {  40,   40,   40,   40,   40,   40,   40,   40 }
 };
 
@@ -3508,16 +3531,13 @@ static const uint8_t search_area_width[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = 
     { 128,  112,   96,   64,   56,   48,   40,   32 } 
 
 };
-
 static const uint8_t search_area_height[INPUT_SIZE_COUNT][MAX_SUPPORTED_MODES] = {
     {  64,   64,   64,   64,   56,   48,   40,   32 },
     { 112,   96,   64,   64,   56,   48,   40,   32 },
     { 128,  112,   96,   64,   56,   48,   40,   32 },
     { 128,  112,   96,   64,   56,   48,   40,   32 } 
-
 //     M0    M1    M2    M3    M4    M5    M6    M7
 };
-#endif
 
 #ifdef __cplusplus
 }

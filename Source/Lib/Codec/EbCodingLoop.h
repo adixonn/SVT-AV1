@@ -45,13 +45,11 @@ extern "C" {
         PictureControlSet                    *picture_control_set_ptr,
         EncDecContext                        *context_ptr);
 
-#if TX_SEARCH_LEVELS
     uint8_t get_skip_tx_search_flag(
         int32_t                  sq_size,
         uint64_t                 ref_fast_cost,
         uint64_t                 cu_cost,
         uint64_t                 weight);
-#endif
 
     extern void av1_encode_pass(
         SequenceControlSet    *sequence_control_set_ptr,

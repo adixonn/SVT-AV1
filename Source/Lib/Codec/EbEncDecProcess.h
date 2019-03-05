@@ -69,7 +69,7 @@ extern "C" {
         EbPictureBufferDesc                 *trial_frame_rst;
 #endif
         // temporary buffers for decision making of LF (LPF_PICK_FROM_FULL_IMAGE).
-        // Since recon switches between recon_ptr and referencePtr, the temporary buffers sizes used the referencePtr's which has padding,...
+        // Since recon switches between reconPtr and referencePtr, the temporary buffers sizes used the referencePtr's which has padding,...
 #if !FILT_PROC
         EbPictureBufferDesc                 *temp_lf_recon_picture_ptr;
         EbPictureBufferDesc                 *temp_lf_recon_picture16bit_ptr;

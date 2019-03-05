@@ -98,8 +98,8 @@
 #define INJECTOR_FRAMERATE_TOKEN        "-inj-frm-rt" // no Eval
 #define SPEED_CONTROL_TOKEN             "-speed-ctrl"
 #define ASM_TYPE_TOKEN                  "-asm"
-#define RR_THREAD_MGMNT                    "-rr"
-#define TARGET_SOCKET                    "-ss"
+#define THREAD_MGMNT                    "-lp"
+#define TARGET_SOCKET                   "-ss"
 #define CONFIG_FILE_COMMENT_CHAR    '#'
 #define CONFIG_FILE_NEWLINE_CHAR    '\n'
 #define CONFIG_FILE_RETURN_CHAR     '\r'
@@ -249,8 +249,10 @@ static void SetInjectorFrameRate                (const char *value, EbConfig *cf
         cfg->injector_frame_rate = cfg->injector_frame_rate << 16;
     }
 }
+
 static void SetLatencyMode                      (const char *value, EbConfig *cfg)  {cfg->latency_mode               = (uint8_t)strtol(value, NULL, 0);};
-static void SetAsmType                          (const char *value, EbConfig *cfg)  {cfg->asm_type                  = (uint32_t)strtoul(value, NULL, 0);};
+static void SetAsmType                          (const char *value, EbConfig *cfg)  {cfg->asm_type                   = (uint32_t)strtoul(value, NULL, 0);};
+static void SetLogicalProcessors                (const char *value, EbConfig *cfg)  {cfg->logical_processors         = (uint32_t)strtoul(value, NULL, 0);};
 static void SetTargetSocket                     (const char *value, EbConfig *cfg)  {cfg->target_socket              = (int32_t)strtol(value, NULL, 0);};
 
 enum cfg_type{
@@ -346,8 +348,8 @@ ConfigEntry config_entry[] = {
     { SINGLE_INPUT, CONSTRAINED_INTRA_ENABLE_TOKEN, "ConstrainedIntra", SetEnableConstrainedIntra},
 
     // Thread Management
-//    { SINGLE_INPUT, THREAD_MGMNT, "logical_processors", SetLogicalProcessors },
-    { SINGLE_INPUT, TARGET_SOCKET, "target_socket", SetTargetSocket },
+    { SINGLE_INPUT, THREAD_MGMNT, "logicalProcessors", SetLogicalProcessors },
+    { SINGLE_INPUT, TARGET_SOCKET, "TargetSocket", SetTargetSocket },
 
     // Optional Features
 
@@ -517,7 +519,8 @@ void eb_config_ctor(EbConfig *config_ptr)
     config_ptr->asm_type                              = 1;
 
     config_ptr->stop_encoder                          = 0;
-    config_ptr->target_socket                         = 1;
+    config_ptr->logical_processors                    = 0;
+    config_ptr->target_socket                         = -1;
     config_ptr->processed_frame_count                  = 0;
     config_ptr->processed_byte_count                   = 0;
 #if TILES

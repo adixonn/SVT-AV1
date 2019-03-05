@@ -39,7 +39,6 @@ extern "C" {
     {
         int32_t  reference_list;
         uint32_t reference_list_count;
-
     } ReferenceList;
 
     /************************************************
@@ -60,7 +59,6 @@ extern "C" {
     {
         int32_t  *list;
         uint32_t  list_count;
-
     } DependentList;
 
     /************************************************

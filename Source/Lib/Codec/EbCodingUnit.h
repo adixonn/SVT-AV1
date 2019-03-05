@@ -142,7 +142,7 @@ extern "C" {
         //int32_t wedge_index;
         //int32_t wedge_sign;
         //SEG_MASK_TYPE mask_type;
-        //MOTION_MODE motion_mode;
+        //MotionMode MotionMode;
         //int32_t overlappable_neighbors[2];
         IntMv mv[2];
         //IntMv pred_mv[2];

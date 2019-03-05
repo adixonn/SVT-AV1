@@ -178,6 +178,7 @@ EbErrorType CopyConfigurationParameters(
     callback_data->eb_enc_parameters.tile_rows = config->tile_rows;
     callback_data->eb_enc_parameters.tile_columns = config->tile_columns;
 #endif
+
     callback_data->eb_enc_parameters.scene_change_detection = config->scene_change_detection;
     callback_data->eb_enc_parameters.look_ahead_distance = config->look_ahead_distance;
     callback_data->eb_enc_parameters.frames_to_be_encoded = config->frames_to_be_encoded;
@@ -220,6 +221,8 @@ EbErrorType CopyConfigurationParameters(
     callback_data->eb_enc_parameters.injector_frame_rate = config->injector_frame_rate;
     callback_data->eb_enc_parameters.speed_control_flag = config->speed_control_flag;
     callback_data->eb_enc_parameters.asm_type = config->asm_type;
+    callback_data->eb_enc_parameters.logical_processors = config->logical_processors;
+    callback_data->eb_enc_parameters.target_socket = config->target_socket;
     callback_data->eb_enc_parameters.recon_enabled = config->recon_file ? EB_TRUE : EB_FALSE;
 
     for (hmeRegionIndex = 0; hmeRegionIndex < callback_data->eb_enc_parameters.number_hme_search_region_in_width; ++hmeRegionIndex) {
