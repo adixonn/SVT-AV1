@@ -554,9 +554,7 @@ void extract_8bit_data(
     uint32_t       out8_stride,
     uint32_t       width,
     uint32_t       height,
-    EbAsm       asm_type
-)
-{
+    EbAsm          asm_type){
 
     unpack8_bit_func_ptr_array_16_bit[((width & 3) == 0) && ((height & 1) == 0)][asm_type](
         in16_bit_buffer,
@@ -601,6 +599,8 @@ void extract8_bitdata_safe_sub(
     EbAsm       asm_type
 )
 {
+    /* sub_pred not implemented */
+    (void)sub_pred;
 
     unpack8_bit_safe_sub_func_ptr_array_16_bit[asm_type](
         in16_bit_buffer,
@@ -608,8 +608,7 @@ void extract8_bitdata_safe_sub(
         out8_bit_buffer,
         out8_stride,
         width,
-        height,
-        sub_pred
+        height
         );
 }
 void unpack_l0l1_avg_safe_sub(
