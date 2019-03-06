@@ -228,59 +228,59 @@ extern "C" {
 
     // Obtain contexts to signal a reference frame be either BWDREF/ALTREF2, or
     // ALTREF.
-    //extern int32_t get_pred_context_brfarf2_or_arf(const MacroBlockId *xd);
+    //extern int32_t get_pred_context_brfarf2_or_arf(const MacroBlockD *xd);
     // Obtain contexts to signal a reference frame be either BWDREF or ALTREF2.
-    //extern int32_t get_pred_context_brf_or_arf2(const MacroBlockId *xd);
+    //extern int32_t get_pred_context_brf_or_arf2(const MacroBlockD *xd);
     // == Context functions for comp ref ==
     //
     // Returns a context number for the given MB prediction signal
     // Signal the first reference frame for a compound mode be either
     // GOLDEN/LAST3, or LAST/LAST2.
-    extern int32_t av1_get_pred_context_comp_ref_p(const MacroBlockId *xd);
+    extern int32_t av1_get_pred_context_comp_ref_p(const MacroBlockD *xd);
 
     // Returns a context number for the given MB prediction signal
     // Signal the first reference frame for a compound mode be LAST,
     // conditioning on that it is known either LAST/LAST2.
-    extern int32_t av1_get_pred_context_comp_ref_p1(const MacroBlockId *xd);
+    extern int32_t av1_get_pred_context_comp_ref_p1(const MacroBlockD *xd);
 
     // Returns a context number for the given MB prediction signal
     // Signal the first reference frame for a compound mode be GOLDEN,
     // conditioning on that it is known either GOLDEN or LAST3.
-    extern int32_t av1_get_pred_context_comp_ref_p2(const MacroBlockId *xd);
+    extern int32_t av1_get_pred_context_comp_ref_p2(const MacroBlockD *xd);
 
     // Signal the 2nd reference frame for a compound mode be either
     // ALTREF, or ALTREF2/BWDREF.
-    extern int32_t av1_get_pred_context_comp_bwdref_p(const MacroBlockId *xd);
+    extern int32_t av1_get_pred_context_comp_bwdref_p(const MacroBlockD *xd);
 
     // Signal the 2nd reference frame for a compound mode be either
     // ALTREF2 or BWDREF.
-    extern int32_t av1_get_pred_context_comp_bwdref_p1(const MacroBlockId *xd);
+    extern int32_t av1_get_pred_context_comp_bwdref_p1(const MacroBlockD *xd);
     // == Context functions for single ref ==
     //
     // For the bit to signal whether the single reference is a forward reference
     // frame or a backward reference frame.
-    extern int32_t av1_get_pred_context_single_ref_p1(const MacroBlockId *xd);
+    extern int32_t av1_get_pred_context_single_ref_p1(const MacroBlockD *xd);
 
     // For the bit to signal whether the single reference is ALTREF_FRAME or
     // non-ALTREF backward reference frame, knowing that it shall be either of
     // these 2 choices.
-    extern int32_t av1_get_pred_context_single_ref_p2(const MacroBlockId *xd);
+    extern int32_t av1_get_pred_context_single_ref_p2(const MacroBlockD *xd);
 
     // For the bit to signal whether the single reference is LAST3/GOLDEN or
     // LAST2/LAST, knowing that it shall be either of these 2 choices.
-    extern int32_t av1_get_pred_context_single_ref_p3(const MacroBlockId *xd);
+    extern int32_t av1_get_pred_context_single_ref_p3(const MacroBlockD *xd);
 
     // For the bit to signal whether the single reference is LAST2_FRAME or
     // LAST_FRAME, knowing that it shall be either of these 2 choices.
-    extern int32_t av1_get_pred_context_single_ref_p4(const MacroBlockId *xd);
+    extern int32_t av1_get_pred_context_single_ref_p4(const MacroBlockD *xd);
 
     // For the bit to signal whether the single reference is GOLDEN_FRAME or
     // LAST3_FRAME, knowing that it shall be either of these 2 choices.
-    extern int32_t av1_get_pred_context_single_ref_p5(const MacroBlockId *xd);
+    extern int32_t av1_get_pred_context_single_ref_p5(const MacroBlockD *xd);
 
     // For the bit to signal whether the single reference is ALTREF2_FRAME or
     // BWDREF_FRAME, knowing that it shall be either of these 2 choices.
-    extern int32_t av1_get_pred_context_single_ref_p6(const MacroBlockId *xd);
+    extern int32_t av1_get_pred_context_single_ref_p6(const MacroBlockD *xd);
 
 
     extern EbErrorType write_frame_header_av1(

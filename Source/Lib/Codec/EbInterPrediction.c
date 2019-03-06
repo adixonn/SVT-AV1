@@ -78,7 +78,7 @@ static INLINE void clamp_mv(MV *mv, int32_t min_col, int32_t max_col, int32_t mi
 extern void av1_set_ref_frame(MvReferenceFrame *rf,
     int8_t ref_frame_type);
 
-static INLINE MV clamp_mv_to_umv_border_sb(const MacroBlockId *xd,
+static INLINE MV clamp_mv_to_umv_border_sb(const MacroBlockD *xd,
     const MV *src_mv, int32_t bw, int32_t bh,
     int32_t ss_x, int32_t ss_y) {
     // If the MV points so far into the UMV border that no visible pixels
@@ -1029,7 +1029,7 @@ EbErrorType av1_inter_prediction(
         uint32_t mi_x = pu_origin_x;       //these are luma picture wise
         uint32_t mi_y = pu_origin_y;
 
-        MacroBlockId  *xd = cu_ptr->av1xd;
+        MacroBlockD  *xd = cu_ptr->av1xd;
         xd->mi_stride = picture_control_set_ptr->parent_pcs_ptr->sequence_control_set_ptr->picture_width_in_sb*(BLOCK_SIZE_64 / 4);
         const int32_t offset = (mi_y >> MI_SIZE_LOG2) * xd->mi_stride + (mi_x >> MI_SIZE_LOG2);
         xd->mi = picture_control_set_ptr->mi_grid_base + offset;
@@ -1517,7 +1517,7 @@ EbErrorType AV1MDInterPrediction(
         uint32_t mi_x = pu_origin_x;       //these are luma picture wise
         uint32_t mi_y = pu_origin_y;
 
-        MacroBlockId  *xd = cu_ptr->av1xd;
+        MacroBlockD  *xd = cu_ptr->av1xd;
         xd->mi_stride = picture_control_set_ptr->parent_pcs_ptr->sequence_control_set_ptr->picture_width_in_sb*(BLOCK_SIZE_64 / 4);
         const int32_t offset = (mi_y >> MI_SIZE_LOG2) * xd->mi_stride + (mi_x >> MI_SIZE_LOG2);
         xd->mi = picture_control_set_ptr->mi_grid_base + offset;
@@ -2093,7 +2093,7 @@ EbErrorType av1_inter_prediction_hbd(
         uint32_t mi_x = pu_origin_x;       //these are luma picture wise
         uint32_t mi_y = pu_origin_y;
 
-        MacroBlockId  *xd = cu_ptr->av1xd;
+        MacroBlockD  *xd = cu_ptr->av1xd;
         xd->mi_stride = picture_control_set_ptr->parent_pcs_ptr->sequence_control_set_ptr->picture_width_in_sb*(BLOCK_SIZE_64 / 4);
         const int32_t offset = (mi_y >> MI_SIZE_LOG2) * xd->mi_stride + (mi_x >> MI_SIZE_LOG2);
         xd->mi = picture_control_set_ptr->mi_grid_base + offset;
@@ -3126,7 +3126,7 @@ int32_t av1_get_switchable_rate(
     const Av1Common *const cm,
     ModeDecisionContext *md_context_ptr//,
     // Macroblock *x,
-    // const MacroBlockId *xd
+    // const MacroBlockD *xd
 ) {
     if (cm->interp_filter == SWITCHABLE) {
         // const MbModeInfo *const mbmi = xd->mi[0];
@@ -3343,7 +3343,7 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
     BlockSize bsize,
     int16_t quantizer,
     //const AV1Comp *const cpi,
-    //const MacroBlockId *const xd,
+    //const MacroBlockD *const xd,
     //block_size bsize,
     //int32_t plane,
     int64_t sse,
@@ -3386,7 +3386,7 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
     //const AV1Comp *const cpi,
     //block_size bsize,
     //Macroblock *x,
-    //MacroBlockId *xd,
+    //MacroBlockD *xd,
     int32_t plane_from,
     int32_t plane_to,
     int32_t *out_rate_sum,

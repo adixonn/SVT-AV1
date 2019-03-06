@@ -845,7 +845,7 @@ av1_get_max_uv_txsize(BlockSize bsize, const struct MacroblockdPlane *pd) {
 }
 //***************************************************************************************************//
 
-static TxSize get_transform_size(const MacroBlockId *const xd,
+static TxSize get_transform_size(const MacroBlockD *const xd,
     const MbModeInfo *const mbmi,
     const EdgeDir EdgeDir, const int32_t mi_row,
     const int32_t mi_col, const int32_t plane,
@@ -892,7 +892,7 @@ typedef struct AV1DeblockingParameters {
 // awared
 static TxSize set_lpf_parameters(
     AV1DeblockingParameters *const params, const uint64_t mode_step,
-    const PictureControlSet *const  pcs_ptr, const MacroBlockId *const xd,
+    const PictureControlSet *const  pcs_ptr, const MacroBlockD *const xd,
     const EdgeDir EdgeDir, const uint32_t x, const uint32_t y,
     const int32_t plane, const struct MacroblockdPlane *const plane_ptr) {
     // reset to initial values
@@ -1013,7 +1013,7 @@ static TxSize set_lpf_parameters(
 
 void av1_filter_block_plane_vert(
     const PictureControlSet *const  pcs_ptr,
-    const MacroBlockId *const xd, const int32_t plane,
+    const MacroBlockD *const xd, const int32_t plane,
     const MacroblockdPlane *const plane_ptr,
     const uint32_t mi_row, const uint32_t mi_col) {
 
@@ -1135,7 +1135,7 @@ void av1_filter_block_plane_vert(
 
 void av1_filter_block_plane_horz(
     const PictureControlSet *const  pcs_ptr,
-    const MacroBlockId *const xd, const int32_t plane,
+    const MacroBlockD *const xd, const int32_t plane,
     const MacroblockdPlane *const plane_ptr,
     const uint32_t mi_row, const uint32_t mi_col) {
 
@@ -1274,7 +1274,7 @@ void loop_filter_sb(
     EbPictureBufferDesc *frame_buffer,//reconpicture,
     //Yv12BufferConfig *frame_buffer,
     PictureControlSet *pcs_ptr,
-    MacroBlockId *xd, int32_t mi_row, int32_t mi_col,
+    MacroBlockD *xd, int32_t mi_row, int32_t mi_col,
     int32_t plane_start, int32_t plane_end,
     uint8_t last_col) {
 

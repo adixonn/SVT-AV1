@@ -313,7 +313,7 @@ static INLINE int32_t is_inside(const TileInfo *const tile, int32_t mi_col, int3
     }
 }
 
-static INLINE void clamp_mv_ref(MV *mv, int32_t bw, int32_t bh, const MacroBlockId *xd) {
+static INLINE void clamp_mv_ref(MV *mv, int32_t bw, int32_t bh, const MacroBlockD *xd) {
     clamp_mv(mv, xd->mb_to_left_edge - bw * 8 - MV_BORDER,
         xd->mb_to_right_edge + bw * 8 + MV_BORDER,
         xd->mb_to_top_edge - bh * 8 - MV_BORDER,
@@ -410,7 +410,7 @@ static void add_ref_mv_candidate(
     }
 }
 }
-static void scan_row_mbmi(const Av1Common *cm, const MacroBlockId *xd,
+static void scan_row_mbmi(const Av1Common *cm, const MacroBlockD *xd,
     int32_t mi_row, int32_t mi_col,
     const MvReferenceFrame rf[2], int32_t row_offset,
     CandidateMv ref_mv_stack[][MAX_REF_MV_STACK_SIZE],
@@ -470,7 +470,7 @@ static void scan_row_mbmi(const Av1Common *cm, const MacroBlockId *xd,
     }
 }
 
-static void scan_col_mbmi(const Av1Common *cm, const MacroBlockId *xd,
+static void scan_col_mbmi(const Av1Common *cm, const MacroBlockD *xd,
     int32_t mi_row, int32_t mi_col,
     const MvReferenceFrame rf[2], int32_t col_offset,
     CandidateMv ref_mv_stack[][MAX_REF_MV_STACK_SIZE],
@@ -529,7 +529,7 @@ static void scan_col_mbmi(const Av1Common *cm, const MacroBlockId *xd,
     }
 }
 
-static void scan_blk_mbmi(const Av1Common *cm, const MacroBlockId *xd,
+static void scan_blk_mbmi(const Av1Common *cm, const MacroBlockD *xd,
     const int32_t mi_row, const int32_t mi_col,
     const MvReferenceFrame rf[2], int32_t row_offset,
     int32_t col_offset,
@@ -561,7 +561,7 @@ static void scan_blk_mbmi(const Av1Common *cm, const MacroBlockId *xd,
     }  // Analyze a single 8x8 block motion information.
 }
 
-static int32_t has_top_right(const Av1Common *cm, const MacroBlockId *xd,
+static int32_t has_top_right(const Av1Common *cm, const MacroBlockD *xd,
     int32_t mi_row, int32_t mi_col, int32_t bs) {
 
     (void)xd;
@@ -631,7 +631,7 @@ static INLINE int32_t find_valid_col_offset(const TileInfo *const tile, int32_t 
 }
 
 void setup_ref_mv_list(
-    const Av1Common *cm, const MacroBlockId *xd, MvReferenceFrame ref_frame,
+    const Av1Common *cm, const MacroBlockD *xd, MvReferenceFrame ref_frame,
     uint8_t refmv_count[MODE_CTX_REF_FRAMES],
     CandidateMv ref_mv_stack[][MAX_REF_MV_STACK_SIZE],
     IntMv mv_ref_list[][MAX_MV_REF_CANDIDATES],
@@ -1160,7 +1160,7 @@ void generate_av1_mvp_table(
     int32_t mi_row = cu_origin_y >> MI_SIZE_LOG2;
     int32_t mi_col = cu_origin_x >> MI_SIZE_LOG2;
     Av1Common  *cm = picture_control_set_ptr->parent_pcs_ptr->av1_cm;
-    MacroBlockId  *xd = cu_ptr->av1xd;
+    MacroBlockD  *xd = cu_ptr->av1xd;
     xd->n8_w = blk_geom->bwidth >> MI_SIZE_LOG2;
     xd->n8_h = blk_geom->bheight >> MI_SIZE_LOG2;
     xd->n4_w = blk_geom->bwidth >> MI_SIZE_LOG2;
@@ -1267,7 +1267,7 @@ void get_av1_mv_pred_drl(
     IntMv              nearmv[2],
     IntMv              ref_mv[2])
 {
-    MacroBlockId*  xd = cu_ptr->av1xd;
+    MacroBlockD*  xd = cu_ptr->av1xd;
 
     if (!is_compound &&  mode != GLOBALMV) {
 
@@ -1587,7 +1587,7 @@ int select_samples(
 // left-top pixel of current block.
 int av1_find_samples(
     const Av1Common                    *cm,
-    MacroBlockId                        *xd,
+    MacroBlockD                        *xd,
     int                                 mi_row,
     int                                 mi_col,
     MvReferenceFrame                    rf0,
@@ -1741,7 +1741,7 @@ void wm_count_samples(
     uint16_t                           *num_samples)
 {
     Av1Common  *cm = picture_control_set_ptr->parent_pcs_ptr->av1_cm;
-    MacroBlockId  *xd = cu_ptr->av1xd;
+    MacroBlockD  *xd = cu_ptr->av1xd;
 
     int32_t mi_row = cu_origin_y >> MI_SIZE_LOG2;
     int32_t mi_col = cu_origin_x >> MI_SIZE_LOG2;
@@ -1881,7 +1881,7 @@ uint16_t wm_find_samples(
     int32_t                            *pts_inref)
 {
     Av1Common  *cm = picture_control_set_ptr->parent_pcs_ptr->av1_cm;
-    MacroBlockId  *xd = cu_ptr->av1xd;
+    MacroBlockD  *xd = cu_ptr->av1xd;
 
     int32_t mi_row = cu_origin_y >> MI_SIZE_LOG2;
     int32_t mi_col = cu_origin_x >> MI_SIZE_LOG2;
@@ -1904,7 +1904,7 @@ EbBool warped_motion_parameters(
     EbWarpedMotionParams             *wm_params,
     uint16_t                         *num_samples)
 {
-    MacroBlockId  *xd = cu_ptr->av1xd;
+    MacroBlockD  *xd = cu_ptr->av1xd;
     BlockSize bsize = blk_geom->bsize;
     EbBool apply_wm = EB_FALSE;
 
@@ -1960,7 +1960,7 @@ EbBool warped_motion_parameters(
 //foreach_overlappable_nb_above
 int count_overlappable_nb_above(
     const Av1Common *cm,
-    MacroBlockId *xd,
+    MacroBlockD *xd,
     int32_t mi_col,
     int nb_max)
 {
@@ -1999,7 +1999,7 @@ int count_overlappable_nb_above(
 
 int count_overlappable_nb_left(
     const Av1Common *cm,
-    MacroBlockId *xd,
+    MacroBlockD *xd,
     int32_t mi_row,
     int nb_max)
 {
@@ -2040,7 +2040,7 @@ void av1_count_overlappable_neighbors(
     int32_t                           mi_col)
 {
     Av1Common  *cm  = picture_control_set_ptr->parent_pcs_ptr->av1_cm;
-    MacroBlockId *xd = cu_ptr->av1xd;
+    MacroBlockD *xd = cu_ptr->av1xd;
 
     xd->mi_stride = picture_control_set_ptr->parent_pcs_ptr->sequence_control_set_ptr->picture_width_in_sb*(BLOCK_SIZE_64 / 4);
     const int32_t offset = mi_row * xd->mi_stride + mi_col;

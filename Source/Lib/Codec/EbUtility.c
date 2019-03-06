@@ -687,7 +687,7 @@ static INLINE TxSize av1_get_max_uv_txsize(BlockSize bsize, int32_t subsampling_
 }
 static INLINE TxSize av1_get_tx_size(
     BlockSize  sb_type,
-    int32_t plane/*, const MacroBlockId *xd*/) {
+    int32_t plane/*, const MacroBlockD *xd*/) {
     //const MbModeInfo *mbmi = xd->mi[0];
     // if (xd->lossless[mbmi->segment_id]) return TX_4X4;
     if (plane == 0) return blocksize_to_txsize[sb_type];

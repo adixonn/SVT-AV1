@@ -791,7 +791,7 @@ EbErrorType mode_decision_configuration_context_ctor(
     EB_MALLOC(ModeDecisionCandidate*, context_ptr->mdc_candidate_ptr, sizeof(ModeDecisionCandidate), EB_N_PTR);
     EB_MALLOC(CandidateMv*, context_ptr->mdc_ref_mv_stack, sizeof(CandidateMv), EB_N_PTR);
     EB_MALLOC(CodingUnit*, context_ptr->mdc_cu_ptr, sizeof(CodingUnit), EB_N_PTR);
-    EB_MALLOC(MacroBlockId*, context_ptr->mdc_cu_ptr->av1xd, sizeof(MacroBlockId), EB_N_PTR);
+    EB_MALLOC(MacroBlockD*, context_ptr->mdc_cu_ptr->av1xd, sizeof(MacroBlockD), EB_N_PTR);
 #endif
     return EB_ErrorNone;
 }

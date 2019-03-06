@@ -8165,7 +8165,7 @@ void av1_upsample_intra_edge_c(uint8_t *p, int32_t sz) {
 static void build_intra_predictors_md(
 
     ModeDecisionContext            *cu_ptr,
-    const MacroBlockId *xd,
+    const MacroBlockD *xd,
     uint8_t* topNeighArray,
     uint8_t* leftNeighArray,
     // const uint8_t *ref,    int32_t ref_stride,
@@ -8545,8 +8545,8 @@ void generate_intra_reference_samples(
 
         }
 
-        MacroBlockId xdS;
-        MacroBlockId *xd = &xdS;
+        MacroBlockD xdS;
+        MacroBlockD *xd = &xdS;
 
         // Adjust mirow , micol ;
         // All plane have the same values
@@ -8743,7 +8743,7 @@ static void build_intra_predictors(
     uint8_t    intra_chroma_top_mode,
 
 #if !INTRA_CORE_OPT
-    const MacroBlockId *xd,
+    const MacroBlockD *xd,
 #endif
     uint8_t* topNeighArray,
     uint8_t* leftNeighArray,
@@ -8991,7 +8991,7 @@ static void build_intra_predictors(
 #if INTRA_10BIT_SUPPORT
 static void build_intra_predictors_high(
     CodingUnit            *cu_ptr,
-    const MacroBlockId *xd,
+    const MacroBlockD *xd,
     uint16_t* topNeighArray, // int8_t
     uint16_t* leftNeighArray, // int8_t
     //const uint8_t *ref8, int32_t ref_stride,
@@ -9250,8 +9250,8 @@ extern void av1_predict_intra_block_md(
 )
 {
     (void)use_palette;
-    MacroBlockId xdS;
-    MacroBlockId *xd = &xdS;
+    MacroBlockD xdS;
+    MacroBlockD *xd = &xdS;
     int32_t mirow = cuOrgY >> 2;
     int32_t micol = cuOrgX >> 2;
     xd->up_available = (mirow > 0);
@@ -9456,8 +9456,8 @@ extern void av1_predict_intra_block(
 {
     (void)use_palette;
 #if !INTRA_CORE_OPT
-    MacroBlockId xdS;
-    MacroBlockId *xd = &xdS;
+    MacroBlockD xdS;
+    MacroBlockD *xd = &xdS;
 #endif
 
     uint32_t  pred_buf_x_offest;
@@ -9788,8 +9788,8 @@ void av1_predict_intra_block_16bit(
     uint32_t bl_org_y_pict)
 {
     (void)use_palette;
-    MacroBlockId xdS;
-    MacroBlockId *xd = &xdS;
+    MacroBlockD xdS;
+    MacroBlockD *xd = &xdS;
 
     uint32_t  pred_buf_x_offest;
     uint32_t  pred_buf_y_offest;
