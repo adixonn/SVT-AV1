@@ -1669,7 +1669,7 @@ void WriteDrlIdx(
 
     //uint8_t ref_frame_type = av1_ref_frame_type(mbmi->ref_frame);
     uint8_t ref_frame_type = cu_ptr->prediction_unit_array[0].ref_frame_type;
-    MacroBlockId*  xd = cu_ptr->av1xd;
+    MacroBlockD*  xd = cu_ptr->av1xd;
     //assert(mbmi->ref_mv_idx < 3);
 
     //xd->ref_mv_stack[ref_frame][ref_mv_idx].comp_mv;
@@ -1818,7 +1818,7 @@ int32_t av1_get_pred_context_switchable_interp(
 
     uint32_t cu_origin_x,
     uint32_t cu_origin_y,
-    //const MacroBlockId *xd,
+    //const MacroBlockD *xd,
     int32_t dir
 ) {
 
@@ -2258,7 +2258,7 @@ void av1_collect_neighbors_ref_counts(
 //
 // Obtain contexts to signal a reference frame to be either LAST/LAST2 or
 // LAST3/GOLDEN.
-static int32_t get_pred_context_ll2_or_l3gld(const MacroBlockId *xd) {
+static int32_t get_pred_context_ll2_or_l3gld(const MacroBlockD *xd) {
     const uint8_t *const ref_counts = &xd->neighbors_ref_counts[0];
 
     // Count of LAST + LAST2
@@ -2276,7 +2276,7 @@ static int32_t get_pred_context_ll2_or_l3gld(const MacroBlockId *xd) {
 }
 
 // Obtain contexts to signal a reference frame to be either LAST or LAST2.
-static int32_t get_pred_context_last_or_last2(const MacroBlockId *xd) {
+static int32_t get_pred_context_last_or_last2(const MacroBlockD *xd) {
     const uint8_t *const ref_counts = &xd->neighbors_ref_counts[0];
 
     // Count of LAST
@@ -2292,7 +2292,7 @@ static int32_t get_pred_context_last_or_last2(const MacroBlockId *xd) {
 }
 
 // Obtain contexts to signal a reference frame to be either LAST3 or GOLDEN.
-static int32_t get_pred_context_last3_or_gld(const MacroBlockId *xd) {
+static int32_t get_pred_context_last3_or_gld(const MacroBlockD *xd) {
     const uint8_t *const ref_counts = &xd->neighbors_ref_counts[0];
 
     // Count of LAST3
@@ -2309,7 +2309,7 @@ static int32_t get_pred_context_last3_or_gld(const MacroBlockId *xd) {
 
 // Obtain contexts to signal a reference frame be either BWDREF/ALTREF2, or
 // ALTREF.
-static int32_t get_pred_context_brfarf2_or_arf(const MacroBlockId *xd) {
+static int32_t get_pred_context_brfarf2_or_arf(const MacroBlockD *xd) {
     const uint8_t *const ref_counts = &xd->neighbors_ref_counts[0];
 
     // Counts of BWDREF, ALTREF2, or ALTREF frames (B, A2, or A)
@@ -2325,7 +2325,7 @@ static int32_t get_pred_context_brfarf2_or_arf(const MacroBlockId *xd) {
 }
 
 // Obtain contexts to signal a reference frame be either BWDREF or ALTREF2.
-static int32_t get_pred_context_brf_or_arf2(const MacroBlockId *xd) {
+static int32_t get_pred_context_brf_or_arf2(const MacroBlockD *xd) {
     const uint8_t *const ref_counts = &xd->neighbors_ref_counts[0];
 
     // Count of BWDREF frames (B)
@@ -2345,33 +2345,33 @@ static int32_t get_pred_context_brf_or_arf2(const MacroBlockId *xd) {
 // Returns a context number for the given MB prediction signal
 // Signal the first reference frame for a compound mode be either
 // GOLDEN/LAST3, or LAST/LAST2.
-int32_t av1_get_pred_context_comp_ref_p(const MacroBlockId *xd) {
+int32_t av1_get_pred_context_comp_ref_p(const MacroBlockD *xd) {
     return get_pred_context_ll2_or_l3gld(xd);
 }
 
 // Returns a context number for the given MB prediction signal
 // Signal the first reference frame for a compound mode be LAST,
 // conditioning on that it is known either LAST/LAST2.
-int32_t av1_get_pred_context_comp_ref_p1(const MacroBlockId *xd) {
+int32_t av1_get_pred_context_comp_ref_p1(const MacroBlockD *xd) {
     return get_pred_context_last_or_last2(xd);
 }
 
 // Returns a context number for the given MB prediction signal
 // Signal the first reference frame for a compound mode be GOLDEN,
 // conditioning on that it is known either GOLDEN or LAST3.
-int32_t av1_get_pred_context_comp_ref_p2(const MacroBlockId *xd) {
+int32_t av1_get_pred_context_comp_ref_p2(const MacroBlockD *xd) {
     return get_pred_context_last3_or_gld(xd);
 }
 
 // Signal the 2nd reference frame for a compound mode be either
 // ALTREF, or ALTREF2/BWDREF.
-int32_t av1_get_pred_context_comp_bwdref_p(const MacroBlockId *xd) {
+int32_t av1_get_pred_context_comp_bwdref_p(const MacroBlockD *xd) {
     return get_pred_context_brfarf2_or_arf(xd);
 }
 
 // Signal the 2nd reference frame for a compound mode be either
 // ALTREF2 or BWDREF.
-int32_t av1_get_pred_context_comp_bwdref_p1(const MacroBlockId *xd) {
+int32_t av1_get_pred_context_comp_bwdref_p1(const MacroBlockD *xd) {
     return get_pred_context_brf_or_arf2(xd);
 }
 
@@ -2379,7 +2379,7 @@ int32_t av1_get_pred_context_comp_bwdref_p1(const MacroBlockId *xd) {
 //
 // For the bit to signal whether the single reference is a forward reference
 // frame or a backward reference frame.
-int32_t av1_get_pred_context_single_ref_p1(const MacroBlockId *xd) {
+int32_t av1_get_pred_context_single_ref_p1(const MacroBlockD *xd) {
     const uint8_t *const ref_counts = &xd->neighbors_ref_counts[0];
 
     // Count of forward reference frames
@@ -2399,31 +2399,31 @@ int32_t av1_get_pred_context_single_ref_p1(const MacroBlockId *xd) {
 // For the bit to signal whether the single reference is ALTREF_FRAME or
 // non-ALTREF backward reference frame, knowing that it shall be either of
 // these 2 choices.
-int32_t av1_get_pred_context_single_ref_p2(const MacroBlockId *xd) {
+int32_t av1_get_pred_context_single_ref_p2(const MacroBlockD *xd) {
     return get_pred_context_brfarf2_or_arf(xd);
 }
 
 // For the bit to signal whether the single reference is LAST3/GOLDEN or
 // LAST2/LAST, knowing that it shall be either of these 2 choices.
-int32_t av1_get_pred_context_single_ref_p3(const MacroBlockId *xd) {
+int32_t av1_get_pred_context_single_ref_p3(const MacroBlockD *xd) {
     return get_pred_context_ll2_or_l3gld(xd);
 }
 
 // For the bit to signal whether the single reference is LAST2_FRAME or
 // LAST_FRAME, knowing that it shall be either of these 2 choices.
-int32_t av1_get_pred_context_single_ref_p4(const MacroBlockId *xd) {
+int32_t av1_get_pred_context_single_ref_p4(const MacroBlockD *xd) {
     return get_pred_context_last_or_last2(xd);
 }
 
 // For the bit to signal whether the single reference is GOLDEN_FRAME or
 // LAST3_FRAME, knowing that it shall be either of these 2 choices.
-int32_t av1_get_pred_context_single_ref_p5(const MacroBlockId *xd) {
+int32_t av1_get_pred_context_single_ref_p5(const MacroBlockD *xd) {
     return get_pred_context_last3_or_gld(xd);
 }
 
 // For the bit to signal whether the single reference is ALTREF2_FRAME or
 // BWDREF_FRAME, knowing that it shall be either of these 2 choices.
-int32_t av1_get_pred_context_single_ref_p6(const MacroBlockId *xd) {
+int32_t av1_get_pred_context_single_ref_p6(const MacroBlockD *xd) {
     return get_pred_context_brf_or_arf2(xd);
 }
 /***************************************************************************************/
@@ -3856,7 +3856,7 @@ static void WriteUncompressedHeaderObu(SequenceControlSet *scs_ptr/*AV1Comp *cpi
     struct AomWriteBitBuffer *wb,
     uint8_t show_existing) {
     // Av1Common *const cm = &cpi->common;
-    // MacroBlockId *const xd = &cpi->td.mb.e_mbd;
+    // MacroBlockD *const xd = &cpi->td.mb.e_mbd;
 
     // NOTE: By default all coded frames to be used as a reference
     pcs_ptr->is_reference_frame = 1;
@@ -4654,7 +4654,7 @@ static void write_cdef(
     SequenceControlSet     *seqCSetPtr,
     PictureControlSet     *p_pcs_ptr,
     //Av1Common *cm,
-    MacroBlockId *const xd,
+    MacroBlockD *const xd,
     AomWriter *w,
     int32_t skip, int32_t mi_col, int32_t mi_row)
 {
@@ -4782,7 +4782,7 @@ static void write_sgrproj_filter(const SgrprojInfo *sgrproj_info,
     memcpy(ref_sgrproj_info, sgrproj_info, sizeof(*sgrproj_info));
 }
 static void loop_restoration_write_sb_coeffs(PictureControlSet     *piCSetPtr, FrameContext           *frameContext, const Av1Common *const cm,
-    //MacroBlockId *xd,
+    //MacroBlockD *xd,
     const RestorationUnitInfo *rui,
     AomWriter *const w, int32_t plane/*,
     FRAME_COUNTS *counts*/)

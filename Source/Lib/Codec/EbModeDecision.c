@@ -986,7 +986,7 @@ void InjectAv1MvpCandidates(
     EbBool isCompoundEnabled = (picture_control_set_ptr->parent_pcs_ptr->reference_mode == SINGLE_REFERENCE) ? 0 : 1;
     isCompoundEnabled = (context_ptr->blk_geom->bwidth == 4 || context_ptr->blk_geom->bheight == 4) ? EB_FALSE : isCompoundEnabled;
 
-    MacroBlockId  *xd = cu_ptr->av1xd;
+    MacroBlockD  *xd = cu_ptr->av1xd;
     uint8_t drli, maxDrlIndex;
     IntMv    nearestmv[2], nearmv[2], ref_mv[2];
 
@@ -1334,7 +1334,7 @@ void inject_warped_motion_candidates(
 {
     uint32_t canIdx = *candTotCnt;
     ModeDecisionCandidate *candidateArray = context_ptr->fast_candidate_array;
-    MacroBlockId  *xd = cu_ptr->av1xd;
+    MacroBlockD  *xd = cu_ptr->av1xd;
     uint8_t drli, maxDrlIndex;
     IntMv nearestmv[2], nearmv[2], ref_mv[2];
 
@@ -2239,7 +2239,7 @@ static INLINE TxType av1_get_tx_type(
     PredictionMode pred_mode,
     UVPredictionMode pred_mode_uv,
     PlaneType plane_type,
-    const MacroBlockId *xd, int32_t blk_row,
+    const MacroBlockD *xd, int32_t blk_row,
     int32_t blk_col, TxSize tx_size,
     int32_t reduced_tx_set)
 {

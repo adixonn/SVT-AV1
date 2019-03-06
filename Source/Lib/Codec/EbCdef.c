@@ -1707,7 +1707,7 @@ void av1_cdef_search(
     //Yv12BufferConfig *frame,
     //const Yv12BufferConfig *ref,
     //Av1Common *cm,
-    //MacroBlockId *xd,
+    //MacroBlockD *xd,
     //int32_t fast
 )
 {
@@ -2092,7 +2092,7 @@ void av1_cdef_search16bit(
     //Yv12BufferConfig *frame,
     //const Yv12BufferConfig *ref,
     //Av1Common *cm,
-    //MacroBlockId *xd,
+    //MacroBlockD *xd,
     //int32_t fast
 )
 {

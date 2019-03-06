@@ -2581,8 +2581,8 @@ void move_cu_data(
     dst_cu->skip_flag = src_cu->skip_flag;
 
 
-    //CHKN    MacroBlockId*  av1xd;
-    memcpy(dst_cu->av1xd, src_cu->av1xd, sizeof(MacroBlockId));
+    //CHKN    MacroBlockD*  av1xd;
+    memcpy(dst_cu->av1xd, src_cu->av1xd, sizeof(MacroBlockD));
 
 
     // uint8_t ref_mv_count[MODE_CTX_REF_FRAMES];
