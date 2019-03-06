@@ -141,7 +141,7 @@ extern "C" {
     * Function Ptrs Definitions
     **************************************/
     typedef EbErrorType(*EbPredictionFunc)(
-        struct ModeDecisionContext_s           *context_ptr,
+        struct ModeDecisionContext           *context_ptr,
 #if !CHROMA_BLIND
         uint32_t                                component_mask,
 #endif
@@ -165,7 +165,7 @@ extern "C" {
         uint32_t                                top_neighbor_mode);
 #else
     typedef EbErrorType(*EbFastCostFunc)(
-        struct ModeDecisionContext_s           *context_ptr,
+        struct ModeDecisionContext           *context_ptr,
         CodingUnit                           *cu_ptr,
         struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
         uint32_t                                qp,
@@ -239,15 +239,15 @@ extern "C" {
             struct {
                 union {
                     struct {
-                        int16_t              motion_vector_xl0;  //Note: Do not change the order of these fields
-                        int16_t              motion_vector_yl0;
+                        int16_t              motionVector_x_L0;  //Note: Do not change the order of these fields
+                        int16_t              motionVector_y_L0;
                     };
                     uint32_t mvs_l0;
                 };
                 union {
                     struct {
-                        int16_t              motion_vector_xl1;  //Note: Do not change the order of these fields
-                        int16_t              motion_vector_yl1;
+                        int16_t              motionVector_x_L1;  //Note: Do not change the order of these fields
+                        int16_t              motionVector_y_L1;
                     };
                     uint32_t mvs_l1;
                 };
@@ -411,7 +411,7 @@ extern "C" {
         EbBool                          same_fast_full_candidate);
 
     typedef EbErrorType(*EB_INTRA_4x4_FAST_LUMA_COST_FUNC)(
-        struct ModeDecisionContext_s           *context_ptr,
+        struct ModeDecisionContext           *context_ptr,
         uint32_t                                pu_index,
         struct ModeDecisionCandidateBuffer   *candidate_buffer_ptr,
         uint64_t                                luma_distortion,

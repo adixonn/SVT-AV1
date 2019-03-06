@@ -1362,7 +1362,7 @@ static void write_motion_mode(
     FrameContext            *FrameContext,
     AomWriter               *ec_writer,
     BlockSize                 bsize,
-    MotionMode               MotionMode,
+    MotionMode               motion_mode,
     MvReferenceFrame          rf0,
     MvReferenceFrame          rf1,
     CodingUnit             *cu_ptr,
@@ -1384,7 +1384,7 @@ static void write_motion_mode(
     default:
         aom_write_symbol(
             ec_writer,
-            MotionMode,
+            motion_mode,
             FrameContext->motion_mode_cdf[bsize],
             MOTION_MODES);
     }
@@ -1921,7 +1921,7 @@ static int32_t av1_is_interp_needed(
     if (cu_ptr->skip_flag)
         return 0;
 
-    if (cu_ptr->prediction_unit_array[0].MotionMode == WARPED_CAUSAL)
+    if (cu_ptr->prediction_unit_array[0].motion_mode == WARPED_CAUSAL)
         return 0;
 
     if (is_nontrans_global_motion_EC(rf0, rf1, cu_ptr, bsize, pcs_ptr))
@@ -5373,7 +5373,7 @@ EbErrorType write_modes_b(
                         frameContext,
                         ec_writer,
                         bsize,
-                        cu_ptr->prediction_unit_array[0].MotionMode,
+                        cu_ptr->prediction_unit_array[0].motion_mode,
                         rf[0],
                         rf[1],
                         cu_ptr,

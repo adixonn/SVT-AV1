@@ -791,7 +791,7 @@ EbErrorType mode_decision_configuration_context_ctor(
     EB_MALLOC(ModeDecisionCandidate*, context_ptr->mdc_candidate_ptr, sizeof(ModeDecisionCandidate), EB_N_PTR);
     EB_MALLOC(CandidateMv*, context_ptr->mdc_ref_mv_stack, sizeof(CandidateMv), EB_N_PTR);
     EB_MALLOC(CodingUnit*, context_ptr->mdc_cu_ptr, sizeof(CodingUnit), EB_N_PTR);
-    EB_MALLOC(MacroBlockD*, context_ptr->mdc_cu_ptr->av1xd, sizeof(MacroBlockD), EB_N_PTR);
+    EB_MALLOC(MacroBlockId*, context_ptr->mdc_cu_ptr->av1xd, sizeof(MacroBlockId), EB_N_PTR);
 #endif
     return EB_ErrorNone;
 }
@@ -1171,12 +1171,12 @@ void forward_sq_blocks_to_md(
 
 #if ADAPTIVE_DEPTH_PARTITIONING
 void sb_forward_sq_blocks_to_md(
-    SequenceControlSet_t *sequence_control_set_ptr,
+    SequenceControlSet *sequence_control_set_ptr,
     PictureControlSet  *picture_control_set_ptr,
     uint32_t              sb_index)
 {
     EbBool   split_flag;
-    MdcLcuData_t *resultsPtr = &picture_control_set_ptr->mdc_sb_array[sb_index];
+    MdcLcuData *resultsPtr = &picture_control_set_ptr->mdc_sb_array[sb_index];
     resultsPtr->leaf_count = 0;
     uint32_t  blk_index = picture_control_set_ptr->slice_type == I_SLICE && sequence_control_set_ptr->sb_size == BLOCK_128X128 ? 17 : 0;
 
@@ -1715,7 +1715,7 @@ void derive_search_method(
     }
 
 #if ADP_STATS_PER_LAYER
-    SequenceControlSet_t *sequence_control_set_ptr = (SequenceControlSet_t *)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
+    SequenceControlSet *sequence_control_set_ptr = (SequenceControlSet *)picture_control_set_ptr->sequence_control_set_wrapper_ptr->objectPtr;
 
     for (sb_index = 0; sb_index < picture_control_set_ptr->parent_pcs_ptr->sequence_control_set_ptr->sb_tot_cnt; sb_index++) {
 
@@ -1750,9 +1750,9 @@ void derive_search_method(
     Output  : predicted budget for the LCU
 ******************************************************/
 void set_sb_budget(
-    SequenceControlSet_t               *sequence_control_set_ptr,
+    SequenceControlSet               *sequence_control_set_ptr,
     PictureControlSet                *picture_control_set_ptr,
-    LargestCodingUnit_t                *sb_ptr,
+    LargestCodingUnit                *sb_ptr,
     ModeDecisionConfigurationContext *context_ptr)
 {
     const uint32_t sb_index = sb_ptr->index;
@@ -1801,7 +1801,7 @@ void set_sb_budget(
     Output  : optimal budget for each LCU
 ******************************************************/
 void  derive_optimal_budget_per_sb(
-    SequenceControlSet_t               *sequence_control_set_ptr,
+    SequenceControlSet               *sequence_control_set_ptr,
     PictureControlSet                *picture_control_set_ptr,
     ModeDecisionConfigurationContext *context_ptr)
 {
@@ -1833,7 +1833,7 @@ void  derive_optimal_budget_per_sb(
 
         for (sb_index = 0; sb_index < picture_control_set_ptr->parent_pcs_ptr->sequence_control_set_ptr->sb_tot_cnt; sb_index++) {
 
-            LargestCodingUnit_t* sb_ptr = picture_control_set_ptr->sb_ptr_array[sb_index];
+            LargestCodingUnit* sb_ptr = picture_control_set_ptr->sb_ptr_array[sb_index];
 
             set_sb_budget(
                 sequence_control_set_ptr,
@@ -1918,7 +1918,7 @@ EbErrorType derive_default_segments(
     Output  : LCU score
 ******************************************************/
 void derive_sb_score(
-    SequenceControlSet_t               *sequence_control_set_ptr,
+    SequenceControlSet               *sequence_control_set_ptr,
     PictureControlSet                *picture_control_set_ptr,
     ModeDecisionConfigurationContext *context_ptr)
 {
@@ -1930,7 +1930,7 @@ void derive_sb_score(
     context_ptr->sb_max_score = 0u;
 
     for (sb_index = 0; sb_index < sequence_control_set_ptr->sb_tot_cnt; sb_index++) {
-        SbParams_t *sb_params = &sequence_control_set_ptr->sb_params_array[sb_index];
+        SbParams *sb_params = &sequence_control_set_ptr->sb_params_array[sb_index];
         if (picture_control_set_ptr->slice_type == I_SLICE) {
             assert(0);
         }
@@ -1941,7 +1941,7 @@ void derive_sb_score(
                 distortion = 0;
                 for (cu8x8Index = RASTER_SCAN_CU_INDEX_8x8_0; cu8x8Index <= RASTER_SCAN_CU_INDEX_8x8_63; cu8x8Index++) {
                     if (sb_params->raster_scan_cu_validity[cu8x8Index]) {
-                        distortion += picture_control_set_ptr->parent_pcs_ptr->me_results[sb_index][cu8x8Index].distortionDirection[0].distortion;
+                        distortion += picture_control_set_ptr->parent_pcs_ptr->me_results[sb_index][cu8x8Index].distortion_direction[0].distortion;
                         validCu8x8Count++;
                     }
                 }
@@ -1953,7 +1953,7 @@ void derive_sb_score(
 
             }
             else {
-                distortion = picture_control_set_ptr->parent_pcs_ptr->me_results[sb_index][RASTER_SCAN_CU_INDEX_64x64].distortionDirection[0].distortion;
+                distortion = picture_control_set_ptr->parent_pcs_ptr->me_results[sb_index][RASTER_SCAN_CU_INDEX_64x64].distortion_direction[0].distortion;
                 // Perform SB score manipulation for incomplete SBs for SQ mode
                 sb_score = distortion;
 
@@ -1974,7 +1974,7 @@ Input   : cost per depth
 Output  : budget per picture
 ******************************************************/
 void set_target_budget_oq(
-    SequenceControlSet_t               *sequence_control_set_ptr,
+    SequenceControlSet               *sequence_control_set_ptr,
     PictureControlSet                *picture_control_set_ptr,
     ModeDecisionConfigurationContext *context_ptr)
 {
@@ -2004,7 +2004,7 @@ void set_target_budget_oq(
     Output  : search method for each LCU
 ******************************************************/
 void derive_sb_md_mode(
-    SequenceControlSet_t               *sequence_control_set_ptr,
+    SequenceControlSet               *sequence_control_set_ptr,
     PictureControlSet                *picture_control_set_ptr,
     ModeDecisionConfigurationContext *context_ptr) {
 
@@ -2884,13 +2884,13 @@ void forward_sq_non4_blocks_to_md(
 
 #if ADAPTIVE_DEPTH_PARTITIONING
 void sb_forward_sq_non4_blocks_to_md(
-    SequenceControlSet_t *sequence_control_set_ptr,
+    SequenceControlSet *sequence_control_set_ptr,
     PictureControlSet  *picture_control_set_ptr,
     uint32_t              sb_index)
 {
 
     EbBool split_flag;
-    MdcLcuData_t *resultsPtr = &picture_control_set_ptr->mdc_sb_array[sb_index];
+    MdcLcuData *resultsPtr = &picture_control_set_ptr->mdc_sb_array[sb_index];
     resultsPtr->leaf_count = 0;
     uint32_t blk_index = picture_control_set_ptr->slice_type == I_SLICE && sequence_control_set_ptr->sb_size == BLOCK_128X128 ? 17 : 0;
 
@@ -3101,7 +3101,7 @@ void* mode_decision_configuration_kernel(void *input_ptr)
 
 #if REST_FAST_RATE_EST   
         // Hsan: collapse spare code 
-        MdRateEstimationContext_t   *md_rate_estimation_array;
+        MdRateEstimationContext   *md_rate_estimation_array;
         uint32_t                     entropyCodingQp;
 
         // QP
@@ -3128,7 +3128,7 @@ void* mode_decision_configuration_kernel(void *input_ptr)
             picture_control_set_ptr->slice_type;
 
         // Increment the MD Rate Estimation array pointer to point to the right address based on the QP and slice type
-        md_rate_estimation_array = (MdRateEstimationContext_t*)sequence_control_set_ptr->encode_context_ptr->md_rate_estimation_array;
+        md_rate_estimation_array = (MdRateEstimationContext*)sequence_control_set_ptr->encode_context_ptr->md_rate_estimation_array;
 #if ADD_DELTA_QP_SUPPORT
         md_rate_estimation_array += slice_type * TOTAL_NUMBER_OF_QP_VALUES + picture_control_set_ptr->parent_pcs_ptr->picture_qp;
 #else
@@ -3141,7 +3141,7 @@ void* mode_decision_configuration_kernel(void *input_ptr)
         entropyCodingQp = picture_control_set_ptr->parent_pcs_ptr->base_qindex;
 
         // Reset CABAC Contexts
-        ResetEntropyCoder(
+        reset_entropy_coder(
             sequence_control_set_ptr->encode_context_ptr,
             picture_control_set_ptr->coeff_est_entropy_coder_ptr,
             entropyCodingQp,

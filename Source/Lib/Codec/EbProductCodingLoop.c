@@ -1362,7 +1362,7 @@ void ProductPerformFastLoop(
                     // Skip distortion computation if the candidate is MPM
                     
                     // Y
-                    lumaFastDistortion += (NxMSadKernelSubSampled_funcPtrArray[asm_type][bwidth >> 3](
+                    lumaFastDistortion += (nx_m_sad_kernel_sub_sampled_func_ptr_array[asm_type][bwidth >> 3](
                         inputBufferY,
                         inputStrideY << candidate_buffer->sub_sampled_pred,
                         predBufferY,
@@ -1380,7 +1380,7 @@ void ProductPerformFastLoop(
                         uint8_t * const inputBufferCb = input_picture_ptr->buffer_cb + input_cb_origin_index;
                         uint8_t *  const predBufferCb = candidate_buffer->prediction_ptr->buffer_cb + cu_chroma_origin_index;
 
-                        chromaFastDistortion += NxMSadKernelSubSampled_funcPtrArray[asm_type][bwidth >> 4](
+                        chromaFastDistortion += nx_m_sad_kernel_sub_sampled_func_ptr_array[asm_type][bwidth >> 4](
                             inputBufferCb,
                             input_picture_ptr->stride_cb << candidate_buffer->sub_sampled_pred_chroma,
                             predBufferCb,
@@ -1392,7 +1392,7 @@ void ProductPerformFastLoop(
                         uint8_t * const inputBufferCr = input_picture_ptr->buffer_cr + inputCrOriginIndex;
                         uint8_t * const predBufferCr = candidate_buffer->prediction_ptr->buffer_cr + cu_chroma_origin_index;
 
-                        chromaFastDistortion += NxMSadKernelSubSampled_funcPtrArray[asm_type][bwidth >> 4](
+                        chromaFastDistortion += nx_m_sad_kernel_sub_sampled_func_ptr_array[asm_type][bwidth >> 4](
                             inputBufferCr,
                             input_picture_ptr->stride_cb << candidate_buffer->sub_sampled_pred_chroma,
                             predBufferCr,
@@ -2688,7 +2688,7 @@ void inter_depth_tx_search(
     EbAsm                                     asm_type)
 {
 
-    uint8_t  tx_search_skip_fag = picture_control_set_ptr->parent_pcs_ptr->TxSearchLevel == TX_SEARCH_INTER_DEPTH ? get_skip_tx_search_flag(
+    uint8_t  tx_search_skip_fag = picture_control_set_ptr->parent_pcs_ptr->tx_search_level == TX_SEARCH_INTER_DEPTH ? get_skip_tx_search_flag(
         context_ptr->blk_geom->sq_size,
         ref_fast_cost,
         *candidate_buffer->fast_cost_ptr,
@@ -3007,7 +3007,7 @@ void md_encode_block(
 
     if (allowed_ns_cu(
 #if DISABLE_NSQ_FOR_NON_REF || DISABLE_NSQ
-        context_ptr, sequence_control_set_ptr->sb_geom[lcuAddr].is_complete_sb))
+        context_ptr, sequence_control_set_ptr->sb_geom[lcu_addr].is_complete_sb))
 #else
         context_ptr, sequence_control_set_ptr->sb_geom[lcu_addr].is_complete_sb))
 #endif

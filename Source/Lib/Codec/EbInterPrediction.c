@@ -4232,10 +4232,10 @@ EbErrorType inter_pu_prediction_av1(
 
     MvUnit mv_unit;
     mv_unit.pred_direction = candidate_buffer_ptr->candidate_ptr->prediction_direction[md_context_ptr->pu_itr];
-    mv_unit.mv[0].x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl0;
-    mv_unit.mv[0].y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl0;
-    mv_unit.mv[1].x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl1;
-    mv_unit.mv[1].y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl1;
+    mv_unit.mv[0].x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
+    mv_unit.mv[0].y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
+    mv_unit.mv[1].x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
+    mv_unit.mv[1].y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
 
     SequenceControlSet* sequence_control_set_ptr = ((SequenceControlSet*)(picture_control_set_ptr->sequence_control_set_wrapper_ptr->object_ptr));
     EbBool  is16bit = (EbBool)(sequence_control_set_ptr->static_config.encoder_bit_depth > EB_8BIT);
@@ -4478,8 +4478,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
             ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->reference_picture16bit;
 
 
-            motionVector_x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl0;
-            motionVector_y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl0;
+            motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
+            motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
 
             motionVector_x = motionVector_x >> 1;
             motionVector_y = motionVector_y >> 1;
@@ -4533,8 +4533,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
             else
                 ref_pic_list0 = referenceObject->reference_picture;
 
-            motionVector_x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl0;
-            motionVector_y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl0;
+            motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
+            motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
 
             motionVector_x = motionVector_x >> 1;
             motionVector_y = motionVector_y >> 1;
@@ -4584,8 +4584,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 
             ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->reference_picture16bit;
 
-            motionVector_x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl1;
-            motionVector_y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl1;
+            motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
+            motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
 
             motionVector_x = motionVector_x >> 1;
             motionVector_y = motionVector_y >> 1;
@@ -4631,8 +4631,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
             else
                 ref_pic_list1 = referenceObject->reference_picture;
 
-            motionVector_x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl1;
-            motionVector_y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl1;
+            motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
+            motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
 
             motionVector_x = motionVector_x >> 1;
             motionVector_y = motionVector_y >> 1;
@@ -4683,8 +4683,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
 
             ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->reference_picture16bit;
 
-            motionVector_x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl0;
-            motionVector_y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl0;
+            motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
+            motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
             if (md_context_ptr->round_mv_to_integer) {
                 RoundMvOnTheFly(
                     &motionVector_x,
@@ -4704,8 +4704,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
             referenceObject = (EbReferenceObject *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
             ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->reference_picture16bit;
 
-            motionVector_x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl1;
-            motionVector_y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl1;
+            motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
+            motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
 
             motionVector_x = motionVector_x >> 1;
             motionVector_y = motionVector_y >> 1;
@@ -4759,8 +4759,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
                 ref_pic_list0 = referenceObject->reference_picture;
 
 
-            motionVector_x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl0;
-            motionVector_y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl0;
+            motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
+            motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
 
             motionVector_x = motionVector_x >> 1;
             motionVector_y = motionVector_y >> 1;
@@ -4789,8 +4789,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc(
             else
                 ref_pic_list1 = referenceObject->reference_picture;
 
-            motionVector_x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl1;
-            motionVector_y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl1;
+            motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
+            motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
 
             motionVector_x = motionVector_x >> 1;
             motionVector_y = motionVector_y >> 1;
@@ -4934,8 +4934,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
             ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->reference_picture16bit;
 
 
-            motionVector_x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl0;
-            motionVector_y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl0;
+            motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
+            motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
 
             motionVector_x = motionVector_x >> 1;
             motionVector_y = motionVector_y >> 1;
@@ -5016,8 +5016,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
             else
                 ref_pic_list0 = referenceObject->reference_picture;
 
-            motionVector_x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl0;
-            motionVector_y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl0;
+            motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
+            motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
 
             motionVector_x = motionVector_x >> 1;
             motionVector_y = motionVector_y >> 1;
@@ -5066,8 +5066,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
             ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->reference_picture16bit;
 
-            motionVector_x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl1;
-            motionVector_y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl1;
+            motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
+            motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
 
             motionVector_x = motionVector_x >> 1;
             motionVector_y = motionVector_y >> 1;
@@ -5141,8 +5141,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
             else
                 ref_pic_list1 = referenceObject->reference_picture;
 
-            motionVector_x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl1;
-            motionVector_y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl1;
+            motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
+            motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
 
             motionVector_x = motionVector_x >> 1;
             motionVector_y = motionVector_y >> 1;
@@ -5192,8 +5192,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
 
             ref_pic_list0 = (EbPictureBufferDesc*)referenceObject->reference_picture16bit;
 
-            motionVector_x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl0;
-            motionVector_y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl0;
+            motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
+            motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
 
             motionVector_x = motionVector_x >> 1;
             motionVector_y = motionVector_y >> 1;
@@ -5217,8 +5217,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
             referenceObject = (EbReferenceObject *)picture_control_set_ptr->ref_pic_ptr_array[REF_LIST_1]->object_ptr;
             ref_pic_list1 = (EbPictureBufferDesc*)referenceObject->reference_picture16bit;
 
-            motionVector_x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl1;
-            motionVector_y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl1;
+            motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
+            motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
 
             motionVector_x = motionVector_x >> 1;
             motionVector_y = motionVector_y >> 1;
@@ -5310,8 +5310,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
             else
                 ref_pic_list0 = referenceObject->reference_picture;
 
-            motionVector_x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl0;
-            motionVector_y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl0;
+            motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L0;
+            motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L0;
 
             motionVector_x = motionVector_x >> 1;
             motionVector_y = motionVector_y >> 1;
@@ -5342,8 +5342,8 @@ EbErrorType inter2_nx2_n_pu_prediction_avc_style(
                 ref_pic_list1 = referenceObject->reference_picture;
 
 
-            motionVector_x = candidate_buffer_ptr->candidate_ptr->motion_vector_xl1;
-            motionVector_y = candidate_buffer_ptr->candidate_ptr->motion_vector_yl1;
+            motionVector_x = candidate_buffer_ptr->candidate_ptr->motionVector_x_L1;
+            motionVector_y = candidate_buffer_ptr->candidate_ptr->motionVector_y_L1;
 
             motionVector_x = motionVector_x >> 1;
             motionVector_y = motionVector_y >> 1;
@@ -5438,8 +5438,8 @@ EbErrorType choose_mvp_idx_v2(
         clip_mv(
             cu_origin_x,
             cu_origin_y,
-            &candidate_ptr->motion_vector_xl0,
-            &candidate_ptr->motion_vector_yl0,
+            &candidate_ptr->motionVector_x_L0,
+            &candidate_ptr->motionVector_y_L0,
             picture_width,
             picture_height,
             tb_size);
@@ -5455,11 +5455,11 @@ EbErrorType choose_mvp_idx_v2(
             break;
         case 2:
 
-            mvd0 = EB_ABS_DIFF(ref0_amvp_cand_array_x[0], candidate_ptr->motion_vector_xl0) +
-                EB_ABS_DIFF(ref0_amvp_cand_array_y[0], candidate_ptr->motion_vector_yl0);
+            mvd0 = EB_ABS_DIFF(ref0_amvp_cand_array_x[0], candidate_ptr->motionVector_x_L0) +
+                EB_ABS_DIFF(ref0_amvp_cand_array_y[0], candidate_ptr->motionVector_y_L0);
 
-            mvd1 = EB_ABS_DIFF(ref0_amvp_cand_array_x[1], candidate_ptr->motion_vector_xl0) +
-                EB_ABS_DIFF(ref0_amvp_cand_array_y[1], candidate_ptr->motion_vector_yl0);
+            mvd1 = EB_ABS_DIFF(ref0_amvp_cand_array_x[1], candidate_ptr->motionVector_x_L0) +
+                EB_ABS_DIFF(ref0_amvp_cand_array_y[1], candidate_ptr->motionVector_y_L0);
 
             mvpRef0Idx = ((mvd0) <= (mvd1)) ? 0 : 1;
 
@@ -5479,8 +5479,8 @@ EbErrorType choose_mvp_idx_v2(
         clip_mv(
             cu_origin_x,
             cu_origin_y,
-            &candidate_ptr->motion_vector_xl1,
-            &candidate_ptr->motion_vector_yl1,
+            &candidate_ptr->motionVector_x_L1,
+            &candidate_ptr->motionVector_y_L1,
             picture_width,
             picture_height,
             tb_size);
@@ -5496,11 +5496,11 @@ EbErrorType choose_mvp_idx_v2(
             break;
         case 2:
 
-            mvd0 = EB_ABS_DIFF(ref1_amvp_cand_array_x[0], candidate_ptr->motion_vector_xl1) +
-                EB_ABS_DIFF(ref1_amvp_cand_array_y[0], candidate_ptr->motion_vector_yl1);
+            mvd0 = EB_ABS_DIFF(ref1_amvp_cand_array_x[0], candidate_ptr->motionVector_x_L1) +
+                EB_ABS_DIFF(ref1_amvp_cand_array_y[0], candidate_ptr->motionVector_y_L1);
 
-            mvd1 = EB_ABS_DIFF(ref1_amvp_cand_array_x[1], candidate_ptr->motion_vector_xl1) +
-                EB_ABS_DIFF(ref1_amvp_cand_array_y[1], candidate_ptr->motion_vector_yl1);
+            mvd1 = EB_ABS_DIFF(ref1_amvp_cand_array_x[1], candidate_ptr->motionVector_x_L1) +
+                EB_ABS_DIFF(ref1_amvp_cand_array_y[1], candidate_ptr->motionVector_y_L1);
 
             mvpRef1Idx = ((mvd0) <= (mvd1)) ? 0 : 1;
 
@@ -5529,8 +5529,8 @@ EbErrorType choose_mvp_idx_v2(
         clip_mv(
             cu_origin_x,
             cu_origin_y,
-            &candidate_ptr->motion_vector_xl0,
-            &candidate_ptr->motion_vector_yl0,
+            &candidate_ptr->motionVector_x_L0,
+            &candidate_ptr->motionVector_y_L0,
             picture_width,
             picture_height,
             tb_size);
@@ -5546,11 +5546,11 @@ EbErrorType choose_mvp_idx_v2(
             break;
         case 2:
 
-            mvd0 = EB_ABS_DIFF(ref0_amvp_cand_array_x[0], candidate_ptr->motion_vector_xl0) +
-                EB_ABS_DIFF(ref0_amvp_cand_array_y[0], candidate_ptr->motion_vector_yl0);
+            mvd0 = EB_ABS_DIFF(ref0_amvp_cand_array_x[0], candidate_ptr->motionVector_x_L0) +
+                EB_ABS_DIFF(ref0_amvp_cand_array_y[0], candidate_ptr->motionVector_y_L0);
 
-            mvd1 = EB_ABS_DIFF(ref0_amvp_cand_array_x[1], candidate_ptr->motion_vector_xl0) +
-                EB_ABS_DIFF(ref0_amvp_cand_array_y[1], candidate_ptr->motion_vector_yl0);
+            mvd1 = EB_ABS_DIFF(ref0_amvp_cand_array_x[1], candidate_ptr->motionVector_x_L0) +
+                EB_ABS_DIFF(ref0_amvp_cand_array_y[1], candidate_ptr->motionVector_y_L0);
 
             mvpRef0Idx = ((mvd0) <= (mvd1)) ? 0 : 1;
 
@@ -5569,8 +5569,8 @@ EbErrorType choose_mvp_idx_v2(
         clip_mv(
             cu_origin_x,
             cu_origin_y,
-            &candidate_ptr->motion_vector_xl1,
-            &candidate_ptr->motion_vector_yl1,
+            &candidate_ptr->motionVector_x_L1,
+            &candidate_ptr->motionVector_y_L1,
             picture_width,
             picture_height,
             tb_size);
@@ -5586,11 +5586,11 @@ EbErrorType choose_mvp_idx_v2(
             break;
         case 2:
 
-            mvd0 = EB_ABS_DIFF(ref1_amvp_cand_array_x[0], candidate_ptr->motion_vector_xl1) +
-                EB_ABS_DIFF(ref1_amvp_cand_array_y[0], candidate_ptr->motion_vector_yl1);
+            mvd0 = EB_ABS_DIFF(ref1_amvp_cand_array_x[0], candidate_ptr->motionVector_x_L1) +
+                EB_ABS_DIFF(ref1_amvp_cand_array_y[0], candidate_ptr->motionVector_y_L1);
 
-            mvd1 = EB_ABS_DIFF(ref1_amvp_cand_array_x[1], candidate_ptr->motion_vector_xl1) +
-                EB_ABS_DIFF(ref1_amvp_cand_array_y[1], candidate_ptr->motion_vector_yl1);
+            mvd1 = EB_ABS_DIFF(ref1_amvp_cand_array_x[1], candidate_ptr->motionVector_x_L1) +
+                EB_ABS_DIFF(ref1_amvp_cand_array_y[1], candidate_ptr->motionVector_y_L1);
 
             mvpRef1Idx = ((mvd0) <= (mvd1)) ? 0 : 1;
 

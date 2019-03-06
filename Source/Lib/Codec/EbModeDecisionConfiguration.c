@@ -1019,7 +1019,7 @@ void PredictionPartitionLoop(
 {
 
 #if !OPEN_LOOP_EARLY_PARTITION
-    MdRateEstimationContext_t *md_rate_estimation_ptr = context_ptr->md_rate_estimation_ptr;
+    MdRateEstimationContext *md_rate_estimation_ptr = context_ptr->md_rate_estimation_ptr;
 #endif
     MdcpLocalCodingUnit *local_cu_array = context_ptr->local_cu_array;
     MdcpLocalCodingUnit   *cu_ptr;

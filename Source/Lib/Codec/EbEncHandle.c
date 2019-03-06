@@ -443,7 +443,7 @@ int32_t set_parent_pcs(EbSvtAv1EncConfiguration*   config) {
     }
 }
 
-void LoadDefaultBufferConfigurationSettings(
+EbErrorType LoadDefaultBufferConfigurationSettings(
     SequenceControlSet       *sequence_control_set_ptr){
     EbErrorType           return_error = EB_ErrorNone;
     uint32_t encDecSegH = (sequence_control_set_ptr->static_config.super_block_size == 128) ?

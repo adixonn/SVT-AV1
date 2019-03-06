@@ -503,14 +503,13 @@ typedef struct InterpFilterParams
     InterpFilter interp_filter;
 } InterpFilterParams;
 
-typedef enum TxSearchLevel 
+typedef enum tx_search_level 
 {
     TX_SEARCH_OFF,
     TX_SEARCH_ENC_DEC,
     TX_SEARCH_INTER_DEPTH,
     TX_SEARCH_FULL_LOOP
-} TxSearchLevel;
-#endif
+} tx_search_level;
 
 typedef enum InterpolationSearchLevel 
 {
@@ -520,7 +519,7 @@ typedef enum InterpolationSearchLevel
     IT_SEARCH_FAST_LOOP,
 } InterpolationSearchLevel;
 
-typedef enum NsqSearchLevel 
+typedef enum nsq_search_level 
 {
     NSQ_SEARCH_OFF,
     NSQ_SEARCH_BASE_ON_SQ_TYPE,
@@ -528,7 +527,7 @@ typedef enum NsqSearchLevel
     NSQ_INTER_SEARCH_BASE_ON_SQ_MVMODE,
     NSQ_INTER_SEARCH_BASE_ON_SQ_INTRAMODE,
     NSQ_SEARCH_FULL
-} NsqSearchLevel;
+} nsq_search_level;
 
 #define MAX_PARENT_SQ     6
 
