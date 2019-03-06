@@ -51,7 +51,8 @@ extern "C" {
     //----
 #define MAX_FILTER_TAP 8
 
-    typedef enum ATTRIBUTE_PACKED {
+    typedef enum ATTRIBUTE_PACKED 
+    {
         EIGHTTAP_REGULAR,
         EIGHTTAP_SMOOTH,
         MULTITAP_SHARP,

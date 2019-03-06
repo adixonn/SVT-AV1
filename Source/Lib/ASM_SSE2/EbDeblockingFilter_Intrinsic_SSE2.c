@@ -465,7 +465,7 @@ static AOM_FORCE_INLINE void lpf_internal_14_sse2(
             filt);
         filt = _mm_packs_epi16(filt, _mm_subs_epi16(zero, filt));
         qs1ps1 = _mm_xor_si128(_mm_adds_epi8(qs1ps1, filt), t80);
-        // loopfilter done
+        // LoopFilter done
 
         {
             __m128i work;
@@ -2676,7 +2676,7 @@ static AOM_FORCE_INLINE void highbd_lpf_internal_8_sse2(
 
     {
         __m128i workp_a, workp_b, workp_shft0, workp_shft1;
-        // Added before shift for rounding part of ROUND_POWER_OF_TWO
+        // Added before shift for rounding Part of ROUND_POWER_OF_TWO
 
         // o*p2
         workp_a = _mm_add_epi16(_mm_add_epi16(*p3, *p3), _mm_add_epi16(*p2, *p1));
@@ -2798,7 +2798,7 @@ static AOM_FORCE_INLINE void highbd_lpf_internal_8_dual_sse2(
 
     {
         __m128i workp_a, workp_b;
-        // Added before shift for rounding part of ROUND_POWER_OF_TWO
+        // Added before shift for rounding Part of ROUND_POWER_OF_TWO
 
         // o*p2
         workp_a = _mm_add_epi16(_mm_add_epi16(*p3, *p3), _mm_add_epi16(*p2, *p1));

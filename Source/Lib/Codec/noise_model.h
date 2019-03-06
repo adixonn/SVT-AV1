@@ -158,20 +158,22 @@ extern "C" {
         int32_t stride, uint8_t *flat_blocks);
 
     // The noise shape indicates the allowed coefficients in the AR model.
-    typedef enum {
+    typedef enum AomNoiseShape
+    {
         AOM_NOISE_SHAPE_DIAMOND = 0,
         AOM_NOISE_SHAPE_SQUARE = 1
-    } aom_noise_shape;
+    } AomNoiseShape;
 
     // The parameters of the noise model include the shape type, lag, the
     // bit depth of the input images provided, and whether the input images
     // will be using uint16 (or uint8) representation.
-    typedef struct {
-        aom_noise_shape shape;
-        int32_t lag;
-        int32_t bit_depth;
-        int32_t use_highbd;
-    } aom_noise_model_params_t;
+    typedef struct AomNoiseModelParams
+    {
+        AomNoiseShape shape;
+        int32_t       lag;
+        int32_t       bit_depth;
+        int32_t       use_highbd;
+    } AomNoiseModelParams;
 
     /*!\brief State of a noise model estimate for a single channel.
      *
@@ -193,7 +195,7 @@ extern "C" {
      * estimate over all previous frames that had similar parameters.
      */
     typedef struct {
-        aom_noise_model_params_t params;
+        AomNoiseModelParams params;
         aom_noise_state_t combined_state[3];  // Combined state per channel
         aom_noise_state_t latest_state[3];    // Latest state per channel
         int32_t(*coords)[2];  // Offsets (x,y) of the coefficient samples
@@ -202,18 +204,19 @@ extern "C" {
     } aom_noise_model_t;
 
     /*!\brief Result of a noise model update. */
-    typedef enum {
+    typedef enum AomNoiseStatus
+    {
         AOM_NOISE_STATUS_OK = 0,
         AOM_NOISE_STATUS_INVALID_ARGUMENT,
         AOM_NOISE_STATUS_INSUFFICIENT_FLAT_BLOCKS,
         AOM_NOISE_STATUS_DIFFERENT_NOISE_TYPE,
         AOM_NOISE_STATUS_INTERNAL_ERROR,
-    } aom_noise_status_t;
+    } AomNoiseStatus;
 
     /************************************
-     * denoise_and_model_init_data_s
+     * DenoiseAndModelInitData
      ************************************/
-    typedef struct denoise_and_model_init_data_s
+    typedef struct DenoiseAndModelInitData
     {
         uint16_t          noise_level;
         uint32_t          encoder_bit_depth;
@@ -223,7 +226,7 @@ extern "C" {
         uint16_t          stride_y;
         uint16_t          stride_cb;
         uint16_t          stride_cr;
-    } denoise_and_model_init_data_t;
+    } DenoiseAndModelInitData;
 
     /************************************
      * denoise and model constructor
@@ -236,7 +239,7 @@ extern "C" {
      * Returns 0 on failure.
      */
     int32_t aom_noise_model_init(aom_noise_model_t *model,
-        const aom_noise_model_params_t params);
+        const AomNoiseModelParams params);
     void aom_noise_model_free(aom_noise_model_t *model);
 
     /*!\brief Updates the noise model with a new frame observation.
@@ -260,7 +263,7 @@ extern "C" {
      * \param[in]     flat_blocks     A map to blocks that have been determined flat
      * \param[in]     block_size      The size of blocks.
      */
-    aom_noise_status_t aom_noise_model_update(
+    AomNoiseStatus aom_noise_model_update(
         aom_noise_model_t *const noise_model, const uint8_t *const data[3],
         const uint8_t *const denoised[3], int32_t w, int32_t h, int32_t strides[3],
         int32_t chroma_sub_log2[2], const uint8_t *const flat_blocks, int32_t block_size);
@@ -320,7 +323,7 @@ extern "C" {
      * \param[out]    grain  Output film grain parameters
      */
     int32_t aom_denoise_and_model_run(struct aom_denoise_and_model_t *ctx,
-        EbPictureBufferDesc_t *sd,
+        EbPictureBufferDesc *sd,
         aom_film_grain_t *film_grain,
         int32_t use_highbd,
         EbAsm asm_type);

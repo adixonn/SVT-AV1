@@ -18,28 +18,27 @@
 /**************************************
  * Dlf Context
  **************************************/
-typedef struct DlfContext_s
+typedef struct DlfContext
 {
-    EbFifo_t                       *dlf_input_fifo_ptr;
-    EbFifo_t                       *dlf_output_fifo_ptr;
+    EbFifo              *dlf_input_fifo_ptr;
+    EbFifo              *dlf_output_fifo_ptr;
+                        
+    EbPictureBufferDesc *temp_lf_recon_picture_ptr;
+    EbPictureBufferDesc *temp_lf_recon_picture16bit_ptr;
 
 
-    EbPictureBufferDesc_t                 *temp_lf_recon_picture_ptr;
-    EbPictureBufferDesc_t                 *temp_lf_recon_picture16bit_ptr;
-
-
-} DlfContext_t;
+} DlfContext;
 
 /**************************************
  * Extern Function Declarations
  **************************************/
 extern EbErrorType dlf_context_ctor(
-    DlfContext_t **context_dbl_ptr,
-    EbFifo_t                       *dlf_input_fifo_ptr,
-    EbFifo_t                       *dlf_output_fifo_ptr,
-    EbBool                  is16bit,
-    uint32_t                max_input_luma_width,
-    uint32_t                max_input_luma_height
+    DlfContext **context_dbl_ptr,
+    EbFifo      *dlf_input_fifo_ptr,
+    EbFifo      *dlf_output_fifo_ptr,
+    EbBool       is16bit,
+    uint32_t     max_input_luma_width,
+    uint32_t     max_input_luma_height
    );
 
 extern void* dlf_kernel(void *input_ptr);

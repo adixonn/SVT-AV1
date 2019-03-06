@@ -33,22 +33,23 @@ static const int32_t NewSqrt2 = 5793;
 // 2^12 / sqrt(2)
 static const int32_t NewInvSqrt2 = 2896;
 
-typedef enum ATTRIBUTE_PACKED {
+typedef enum ATTRIBUTE_PACKED 
+{
     IDCT_1D,
     IADST_1D,
     IFLIPADST_1D = IADST_1D,
     IIDENTITY_1D,
     ITX_TYPES_1D,
-} ITX_TYPE_1D;
+} ItxType1D;
 
-static const ITX_TYPE_1D vitx_1d_tab[TX_TYPES] = {
+static const ItxType1D vitx_1d_tab[TX_TYPES] = {
     IDCT_1D, IADST_1D, IDCT_1D, IADST_1D,
     IFLIPADST_1D, IDCT_1D, IFLIPADST_1D, IADST_1D,
     IFLIPADST_1D, IIDENTITY_1D, IDCT_1D, IIDENTITY_1D,
     IADST_1D, IIDENTITY_1D, IFLIPADST_1D, IIDENTITY_1D,
 };
 
-static const ITX_TYPE_1D hitx_1d_tab[TX_TYPES] = {
+static const ItxType1D hitx_1d_tab[TX_TYPES] = {
     IDCT_1D, IDCT_1D, IADST_1D, IADST_1D,
     IDCT_1D, IFLIPADST_1D, IFLIPADST_1D, IFLIPADST_1D,
     IADST_1D, IIDENTITY_1D, IIDENTITY_1D, IDCT_1D,

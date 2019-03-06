@@ -18,11 +18,11 @@ section .text
 ;     threads in cooperative operating systems, unless it is certain that more MMX
 ;     instructions will be executed before any x87 FPU code.
 
-; So if RunEmms() is called according to the above cases,
+; So if run_emms() is called according to the above cases,
 ; then the "emms" instruction in all other assembly functions can be removed.
 
 cglobal _RunEmms
-cglobal RunEmms
+cglobal run_emms
     emms
     ret
 

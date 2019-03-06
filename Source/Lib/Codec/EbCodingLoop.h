@@ -19,62 +19,31 @@ extern "C" {
      *   performs CL (LCU)
      *******************************************/
 
-    typedef EbErrorType(*EB_MODE_DECISION)(
-        SequenceControlSet_t                *sequence_control_set_ptr,
-        PictureControlSet_t                 *picture_control_set_ptr,
-        const MdcLcuData_t * const           mdcResultTbPtr,
-        LargestCodingUnit_t                 *sb_ptr,
-        uint32_t                             sb_origin_x,
-        uint32_t                             sb_origin_y,
-        uint32_t                             lcuAddr,
-        ModeDecisionContext_t               *context_ptr);
-
-
-    extern EbErrorType AV1ProductModeDecisionLcu(
-        SequenceControlSet_t                *sequence_control_set_ptr,
-        PictureControlSet_t                 *picture_control_set_ptr,
-        const MdcLcuData_t * const           mdcResultTbPtr,
-        LargestCodingUnit_t                 *sb_ptr,
-        uint32_t                             sb_origin_x,
-        uint32_t                             sb_origin_y,
-        uint32_t                             lcuAddr,
-        ModeDecisionContext_t               *context_ptr);
-
 
     extern EbErrorType in_loop_motion_estimation_sblock(
-        PictureControlSet_t                 *picture_control_set_ptr,  // input parameter, Picture Control Set Ptr
+        PictureControlSet                 *picture_control_set_ptr,  // input parameter, Picture Control Set Ptr
         uint32_t                             sb_origin_x,            // input parameter, SB Origin X
         uint32_t                             sb_origin_y,            // input parameter, SB Origin X
-        int16_t                              xMvL0,
-        int16_t                              yMvL0,
-        int16_t                              xMvL1,
-        int16_t                              yMvL1,
-        SsMeContext_t                        *context_ptr);          // input parameter, ME Context Ptr, used to store decimated/interpolated LCU/SR
+        int16_t                              x_mv_l0,
+        int16_t                              y_mv_l0,
+        int16_t                              x_mv_l1,
+        int16_t                              y_mv_l1,
+        SsMeContext                        *context_ptr);          // input parameter, ME Context Ptr, used to store decimated/interpolated LCU/SR
 
     extern EbErrorType mode_decision_sb(
-        SequenceControlSet_t                *sequence_control_set_ptr,
-        PictureControlSet_t                 *picture_control_set_ptr,
-        const MdcLcuData_t * const           mdcResultTbPtr,
-        LargestCodingUnit_t                 *sb_ptr,
+        SequenceControlSet                *sequence_control_set_ptr,
+        PictureControlSet                 *picture_control_set_ptr,
+        const MdcLcuData * const           mdc_result_tb_ptr,
+        LargestCodingUnit                 *sb_ptr,
         uint16_t                             sb_origin_x,
         uint16_t                             sb_origin_y,
-        uint32_t                             lcuAddr,
-        SsMeContext_t                       *ss_mecontext,
-        ModeDecisionContext_t               *context_ptr);
+        uint32_t                             lcu_addr,
+        SsMeContext                       *ss_mecontext,
+        ModeDecisionContext               *context_ptr);
 
-
-
-    extern EbErrorType ModeDecisionRefinementLcu(
-        SequenceControlSet_t                *sequence_control_set_ptr,
-        PictureControlSet_t                 *picture_control_set_ptr,
-        LargestCodingUnit_t                 *sb_ptr,
-        uint32_t                               sb_origin_x,
-        uint32_t                               sb_origin_y,
-        ModeDecisionContext_t               *context_ptr);
-
-    extern EbErrorType QpmDeriveWeightsMinAndMax(
-        PictureControlSet_t                    *picture_control_set_ptr,
-        EncDecContext_t                        *context_ptr);
+    extern EbErrorType qpm_derive_weights_min_and_max(
+        PictureControlSet                    *picture_control_set_ptr,
+        EncDecContext                        *context_ptr);
 
     uint8_t get_skip_tx_search_flag(
         int32_t                  sq_size,
@@ -82,28 +51,28 @@ extern "C" {
         uint64_t                 cu_cost,
         uint64_t                 weight);
 
-    extern void AV1EncodePass(
-        SequenceControlSet_t    *sequence_control_set_ptr,
-        PictureControlSet_t     *picture_control_set_ptr,
-        LargestCodingUnit_t     *sb_ptr,
-        uint32_t                   tbAddr,
+    extern void av1_encode_pass(
+        SequenceControlSet    *sequence_control_set_ptr,
+        PictureControlSet     *picture_control_set_ptr,
+        LargestCodingUnit     *sb_ptr,
+        uint32_t                   tb_addr,
         uint32_t                   sb_origin_x,
         uint32_t                   sb_origin_y,
         uint32_t                   sb_qp,
-        EncDecContext_t         *context_ptr);
+        EncDecContext         *context_ptr);
 
 
 #if NO_ENCDEC
 
     void no_enc_dec_pass(
-        SequenceControlSet_t    *sequence_control_set_ptr,
-        PictureControlSet_t     *picture_control_set_ptr,
-        LargestCodingUnit_t     *sb_ptr,
-        uint32_t                   tbAddr,
+        SequenceControlSet    *sequence_control_set_ptr,
+        PictureControlSet     *picture_control_set_ptr,
+        LargestCodingUnit     *sb_ptr,
+        uint32_t                   tb_addr,
         uint32_t                   sb_origin_x,
         uint32_t                   sb_origin_y,
         uint32_t                   sb_qp,
-        EncDecContext_t         *context_ptr);
+        EncDecContext         *context_ptr);
 #endif
 
 #ifdef __cplusplus
