@@ -21,18 +21,18 @@ extern "C" {
 #endif
 #define USE_PRE_COMPUTE             0
 
-    typedef struct MotionCompensationPredictionContext_s
+    typedef struct MotionCompensationPredictionContext
     {
-        EbByte                   avc_style_mcp_intermediate_result_buf0;                    // For short filter in MD
-        EbByte                   avc_style_mcp_intermediate_result_buf1;                    // For short filter in MD
-#if !USE_PRE_COMPUTE
-        EbByte                   avc_style_mcp_two_d_interpolation_first_pass_filter_result_buf; // For short filter in MD
+        EbByte                 avc_style_mcp_intermediate_result_buf0;                         // For short filter in MD
+        EbByte                 avc_style_mcp_intermediate_result_buf1;                         // For short filter in MD
+#if !USE_PRE_COMPUTE           
+        EbByte                 avc_style_mcp_two_d_interpolation_first_pass_filter_result_buf; // For short filter in MD
 #endif
-        EbPictureBufferDesc_t   *local_reference_block_l0;                //used to pre-load reference L0 full pel block in local memory in 16bit mode
-        EbPictureBufferDesc_t   *local_reference_block_l1;                //used to pre-load reference L1 full pel block in local memory in 16bit mode
-        EbPictureBufferDesc_t   *local_reference_block8_bitl0;                //used to pre-load reference L0 full pel block in local memory in 16bit mode
-        EbPictureBufferDesc_t   *local_reference_block8_bitl1;                //used to pre-load reference L1 full pel block in local memory in 16bit mode
-    }MotionCompensationPredictionContext_t;
+        EbPictureBufferDesc   *local_reference_block_l0;                                       //used to pre-load reference L0 full pel block in local memory in 16bit mode
+        EbPictureBufferDesc   *local_reference_block_l1;                                       //used to pre-load reference L1 full pel block in local memory in 16bit mode
+        EbPictureBufferDesc   *local_reference_block8_bitl0;                                   //used to pre-load reference L0 full pel block in local memory in 16bit mode
+        EbPictureBufferDesc   *local_reference_block8_bitl1;                                   //used to pre-load reference L1 full pel block in local memory in 16bit mode
+    }MotionCompensationPredictionContext;
 
     /** InterpolationFilter()
             is generally defined interpolation filter function.
@@ -62,80 +62,80 @@ extern "C" {
             afterwards.
      */
     typedef void(*InterpolationFilterNew)(
-        EbByte               ref_pic,               //8-bits input parameter, please refer to the detailed explanation above.
-        uint32_t             src_stride,            //input parameter
-        EbByte               dst,                  //output parameter, please refer to the detailed explanation above.
-        uint32_t             dst_stride,            //input parameter
-        uint32_t             pu_width,              //input parameter
-        uint32_t             pu_height,             //input parameter
-        int16_t             *first_pass_if_dst);      //input parameter, please refer to the detailed explanation above.
+        EbByte    ref_pic,                 //8-bits input parameter, please refer to the detailed explanation above.
+        uint32_t  src_stride,              //input parameter
+        EbByte    dst,                     //output parameter, please refer to the detailed explanation above.
+        uint32_t  dst_stride,              //input parameter
+        uint32_t  pu_width,                //input parameter
+        uint32_t  pu_height,               //input parameter
+        int16_t  *first_pass_if_dst);      //input parameter, please refer to the detailed explanation above.
 
     typedef void(*InterpolationFilterOutRaw)(
-        EbByte              ref_pic,               //8-bits input parameter, please refer to the detailed explanation above.
-        uint32_t            src_stride,            //input parameter
-        int16_t            *dst,                  //output parameter, please refer to the detailed explanation above.
-        uint32_t            pu_width,              //input parameter
-        uint32_t            pu_height,             //input parameter
-        int16_t            *first_pass_if_dst);      //input parameter, please refer to the detailed explanation above.
+        EbByte    ref_pic,                 //8-bits input parameter, please refer to the detailed explanation above.
+        uint32_t  src_stride,              //input parameter
+        int16_t  *dst,                     //output parameter, please refer to the detailed explanation above.
+        uint32_t  pu_width,                //input parameter
+        uint32_t  pu_height,               //input parameter
+        int16_t  *first_pass_if_dst);      //input parameter, please refer to the detailed explanation above.
 
     typedef void(*ChromaFilterNew)(
-        EbByte             ref_pic,
-        uint32_t           src_stride,
-        EbByte             dst,
-        uint32_t           dst_stride,
-        uint32_t           pu_width,
-        uint32_t           pu_height,
-        int16_t           *first_pass_if_dst,
-        uint32_t           frac_pos_x,
-        uint32_t           frac_pos_y);
+        EbByte    ref_pic,
+        uint32_t  src_stride,
+        EbByte    dst,
+        uint32_t  dst_stride,
+        uint32_t  pu_width,
+        uint32_t  pu_height,
+        int16_t  *first_pass_if_dst,
+        uint32_t  frac_pos_x,
+        uint32_t  frac_pos_y);
 
     typedef void(*ChromaFilterOutRaw)(
-        EbByte             ref_pic,
-        uint32_t           src_stride,
-        int16_t           *dst,
-        uint32_t           pu_width,
-        uint32_t           pu_height,
-        int16_t           *first_pass_if_dst,
-        uint32_t           frac_pos_x,
-        uint32_t           frac_pos_y);
+        EbByte    ref_pic,
+        uint32_t  src_stride,
+        int16_t  *dst,
+        uint32_t  pu_width,
+        uint32_t  pu_height,
+        int16_t  *first_pass_if_dst,
+        uint32_t  frac_pos_x,
+        uint32_t  frac_pos_y);
 
     extern EbErrorType motion_compensation_prediction_context_ctor(
-        MotionCompensationPredictionContext_t **context_dbl_ptr,
-        uint16_t                                max_cu_width,
-        uint16_t                                max_cu_height);
+        MotionCompensationPredictionContext **context_dbl_ptr,
+        uint16_t                              max_cu_width,
+        uint16_t                              max_cu_height);
 
     extern EbErrorType in_loop_me_context_ctor(
-        SsMeContext_t                         **ss_mecontext);
+        SsMeContext **ss_mecontext);
 
     extern void generate_padding(
-        EbByte              src_pic,
-        uint32_t            src_stride,
-        uint32_t            original_src_width,
-        uint32_t            original_src_height,
-        uint32_t            padding_width,
-        uint32_t            padding_height);
+        EbByte   src_pic,
+        uint32_t src_stride,
+        uint32_t original_src_width,
+        uint32_t original_src_height,
+        uint32_t padding_width,
+        uint32_t padding_height);
 
     extern void generate_padding16_bit(
-        EbByte              src_pic,
-        uint32_t            src_stride,
-        uint32_t            original_src_width,
-        uint32_t            original_src_height,
-        uint32_t            padding_width,
-        uint32_t            padding_height);
+        EbByte   src_pic,
+        uint32_t src_stride,
+        uint32_t original_src_width,
+        uint32_t original_src_height,
+        uint32_t padding_width,
+        uint32_t padding_height);
 
     extern void pad_input_picture(
-        EbByte              src_pic,
-        uint32_t            src_stride,
-        uint32_t            original_src_width,
-        uint32_t            original_src_height,
-        uint32_t            pad_right,
-        uint32_t            pad_bottom);
+        EbByte   src_pic,
+        uint32_t src_stride,
+        uint32_t original_src_width,
+        uint32_t original_src_height,
+        uint32_t pad_right,
+        uint32_t pad_bottom);
 
     // Function Tables (Super-long, declared in EbMcpTables.c)
-    extern const InterpolationFilterNew     uniPredLumaIFFunctionPtrArrayNew[ASM_TYPE_TOTAL][16];
-    extern const InterpolationFilterOutRaw  biPredLumaIFFunctionPtrArrayNew[ASM_TYPE_TOTAL][16];
-    extern const ChromaFilterNew            uniPredChromaIFFunctionPtrArrayNew[ASM_TYPE_TOTAL][64];
-    extern const ChromaFilterOutRaw         biPredChromaIFFunctionPtrArrayNew[ASM_TYPE_TOTAL][64];
+    extern const InterpolationFilterNew     uni_pred_luma_if_function_ptr_array_new[ASM_TYPE_TOTAL][16];
+    extern const InterpolationFilterOutRaw  bi_pred_luma_if_function_ptr_array_new[ASM_TYPE_TOTAL][16];
+    extern const ChromaFilterNew            uni_pred_chroma_if_function_ptr_array_new[ASM_TYPE_TOTAL][64];
+    extern const ChromaFilterOutRaw         bi_pred_chroma_if_function_ptr_array_new[ASM_TYPE_TOTAL][64];
 
 #ifdef __cplusplus
 }

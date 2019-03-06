@@ -1013,12 +1013,12 @@ void Pfreq2DInvTransform32_SSE2(
         x0 = _mm_unpacklo_epi16(y0, y1); // 00 04 08 0c 01 05 09 0d
         x1 = _mm_unpackhi_epi16(y0, y1); // 02 06 0a 0e 03 07 0b 0f
 
-        y0 = _mm_unpacklo_epi64(x0, x0); // 00 04 08 0c 10 14 18 1c     y0=part of it zero
-        y1 = _mm_unpacklo_epi64(x1, x1); // 02 06 0a 0e 12 16 1a 1e     y1=part of it zero
+        y0 = _mm_unpacklo_epi64(x0, x0); // 00 04 08 0c 10 14 18 1c     y0=Part of it zero
+        y1 = _mm_unpacklo_epi64(x1, x1); // 02 06 0a 0e 12 16 1a 1e     y1=Part of it zero
         y2 = _mm_unpackhi_epi16(x0, x1); // 01 03 05 07 09 0b 0d 0f
 
-        x0 = y0;   //part of it zero
-        x1 = y1;   //part of it zero
+        x0 = y0;   //Part of it zero
+        x1 = y1;   //Part of it zero
         x2 = y2;
 
         a0 = _mm_madd_epi16(_mm_shuffle_epi32(x0, 0x00), coeff32[0]);
@@ -1122,12 +1122,12 @@ void Pfreq1DInvTransform32_SSE2(
         x0 = _mm_unpacklo_epi16(y0, y1); // 00 04 08 0c 01 05 09 0d
         x1 = _mm_unpackhi_epi16(y0, y1); // 02 06 0a 0e 03 07 0b 0f
 
-        y0 = _mm_unpacklo_epi64(x0, x0); // 00 04 08 0c 10 14 18 1c     y0=part of it zero
-        y1 = _mm_unpacklo_epi64(x1, x1); // 02 06 0a 0e 12 16 1a 1e     y1=part of it zero
+        y0 = _mm_unpacklo_epi64(x0, x0); // 00 04 08 0c 10 14 18 1c     y0=Part of it zero
+        y1 = _mm_unpacklo_epi64(x1, x1); // 02 06 0a 0e 12 16 1a 1e     y1=Part of it zero
         y2 = _mm_unpackhi_epi16(x0, x1); // 01 03 05 07 09 0b 0d 0f
 
-        x0 = y0;   //part of it zero
-        x1 = y1;   //part of it zero
+        x0 = y0;   //Part of it zero
+        x1 = y1;   //Part of it zero
         x2 = y2;
 
         a0 = _mm_madd_epi16(_mm_shuffle_epi32(x0, 0x00), coeff32[0]);

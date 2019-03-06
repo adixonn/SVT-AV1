@@ -19,7 +19,7 @@ extern "C" {
     typedef struct BlockGeom
     {
         uint8_t    depth;                       // depth of the block
-        PART       shape;                       // P_N..P_V4 . P_S is not used.
+        Part       shape;                       // P_N..P_V4 . P_S is not used.
         uint8_t    origin_x;                    // orgin x from topleft of sb
         uint8_t    origin_y;                    // orgin x from topleft of sb
                    
@@ -35,8 +35,8 @@ extern "C" {
         uint8_t    bheight_uv;                  // block height for Chroma 4:2:0
         uint8_t    bwidth_log2;                 // block width log2
         uint8_t    bheight_log2;                // block height log2
-        block_size bsize;                       // bloc size
-        block_size bsize_uv;                    // bloc size for Chroma 4:2:0
+        BlockSize  bsize;                       // bloc size
+        BlockSize  bsize_uv;                    // bloc size for Chroma 4:2:0
         uint16_t   txb_count;                   //4-2-1
         TxSize     txsize[MAX_TXB_COUNT];
         TxSize     txsize_uv[MAX_TXB_COUNT];
@@ -59,7 +59,7 @@ extern "C" {
 
     } BlockGeom;
 
-    static const block_size ss_size_lookup[BlockSizeS_ALL][2][2] = {
+    static const BlockSize ss_size_lookup[BlockSizeS_ALL][2][2] = {
         //  ss_x == 0    ss_x == 0        ss_x == 1      ss_x == 1
         //  ss_y == 0    ss_y == 1        ss_y == 0      ss_y == 1
         { { BLOCK_4X4, BLOCK_4X4 }, { BLOCK_4X4, BLOCK_4X4 } },
@@ -85,7 +85,7 @@ extern "C" {
         { { BLOCK_16X64, BLOCK_16X32 }, { BLOCK_INVALID, BLOCK_8X32 } },
         { { BLOCK_64X16, BLOCK_INVALID }, { BLOCK_32X16, BLOCK_32X8 } }
     };
-    static INLINE block_size get_plane_block_size(block_size bsize,
+    static INLINE BlockSize get_plane_block_size(BlockSize bsize,
         int32_t subsampling_x,
         int32_t subsampling_y) {
         if (bsize == BLOCK_INVALID) return BLOCK_INVALID;
@@ -113,52 +113,52 @@ extern "C" {
 
 
     // CU Stats Helper Functions
-    typedef struct CodedUnitStats_s
+    typedef struct CodedUnitStats
     {
         uint8_t   depth;
         uint8_t   size;
         uint8_t   size_log2;
         uint16_t  origin_x;
         uint16_t  origin_y;
-        uint8_t   cuNumInDepth;
+        uint8_t   cu_num_in_depth;
         uint8_t   parent32x32Index;
 
-    } CodedUnitStats_t;
+    } CodedUnitStats;
 
     // PU Stats Helper Functions
-    typedef struct PredictionUnitStats_t
+    typedef struct PredictionUnitStats
     {
         uint8_t  width;
         uint8_t  height;
-        uint8_t  offsetX;
-        uint8_t  offsetY;
+        uint8_t  offset_x;
+        uint8_t  offset_y;
 
-    } PredictionUnitStats_t;
+    } PredictionUnitStats;
 
     // TU Stats Helper Functions
-    typedef struct TransformUnitStats_s
+    typedef struct TransformUnitStats
     {
         uint8_t  depth;
-        uint8_t  offsetX;
-        uint8_t  offsetY;
+        uint8_t  offset_x;
+        uint8_t  offset_y;
 
-    } TransformUnitStats_t;
+    } TransformUnitStats;
 
-    extern uint64_t Log2fHighPrecision(uint64_t x, uint8_t precision);
+    extern uint64_t log2f_high_precision(uint64_t x, uint8_t precision);
 
-    extern const CodedUnitStats_t* GetCodedUnitStats(const uint32_t cuIdx);
-    extern const TransformUnitStats_t* GetTransformUnitStats(const uint32_t tuIdx);
+    extern const CodedUnitStats* get_coded_unit_stats(const uint32_t cu_idx);
+    extern const TransformUnitStats* get_transform_unit_stats(const uint32_t tu_idx);
 
-#define PU_ORIGIN_ADJUST(cuOrigin, cu_size, offset) ((((cu_size) * (offset)) >> 2) + (cuOrigin))
-#define PU_SIZE_ADJUST(cu_size, puSize) (((cu_size) * (puSize)) >> 2)
+#define PU_ORIGIN_ADJUST(cu_origin, cu_size, offset) ((((cu_size) * (offset)) >> 2) + (cu_origin))
+#define PU_SIZE_ADJUST(cu_size, pu_size) (((cu_size) * (pu_size)) >> 2)
 
-#define TU_ORIGIN_ADJUST(cuOrigin, cu_size, offset) ((((cu_size) * (offset)) >> 2) + (cuOrigin))
-#define TU_SIZE_ADJUST(cu_size, tuDepth) ((cu_size) >> (tuDepth))
+#define TU_ORIGIN_ADJUST(cu_origin, cu_size, offset) ((((cu_size) * (offset)) >> 2) + (cu_origin))
+#define TU_SIZE_ADJUST(cu_size, tu_depth) ((cu_size) >> (tu_depth))
 
-    extern EbErrorType ZOrderIncrement(uint32_t *xLoc, uint32_t *yLoc);
-    extern void ZOrderIncrementWithLevel(
-        uint32_t *xLoc,
-        uint32_t *yLoc,
+    extern EbErrorType z_order_increment(uint32_t *x_loc, uint32_t *y_loc);
+    extern void z_order_increment_with_level(
+        uint32_t *x_loc,
+        uint32_t *y_loc,
         uint32_t *level,
         uint32_t *index);
 
@@ -264,13 +264,13 @@ extern "C" {
 // Helper functions for EbLinkedListNode.
 
 // concatenate two linked list, and return the pointer to the new concatenated list
-    EbLinkedListNode* concatEbLinkedList(EbLinkedListNode* a, EbLinkedListNode* b);
+    EbLinkedListNode* concat_eb_linked_list(EbLinkedListNode* a, EbLinkedListNode* b);
 
     // split a linked list into two. return the pointer to a linked list whose nodes meets the condition
     // predicateFunc(node) == TRUE, the rest of the nodes will be collected into another linked list to which (*restLL) is
     // set. Does not gaurantee the original order of the nodes.
 
-    EbLinkedListNode* splitEbLinkedList(EbLinkedListNode* input, EbLinkedListNode** restLL, EbBool(*predicateFunc)(EbLinkedListNode*));
+    EbLinkedListNode* split_eb_linked_list(EbLinkedListNode* input, EbLinkedListNode** restLL, EbBool(*predicateFunc)(EbLinkedListNode*));
 
 #define MINI_GOP_MAX_COUNT            15
 #define MINI_GOP_WINDOW_MAX_COUNT     8    // widow subdivision: 8 x 3L
@@ -278,16 +278,18 @@ extern "C" {
 #define MIN_HIERARCHICAL_LEVEL         2
     static const uint32_t MiniGopOffset[4] = { 1, 3, 7, 31 };
 
-    typedef struct MiniGopStats_s
+    typedef struct MiniGopStats
     {
-        uint32_t  hierarchical_levels;
-        uint32_t  startIndex;
-        uint32_t  endIndex;
-        uint32_t  lenght;
+        uint32_t hierarchical_levels;
+        uint32_t start_index;
+        uint32_t end_index;
+        uint32_t lenght;
 
-    } MiniGopStats_t;
-    extern const MiniGopStats_t* GetMiniGopStats(const uint32_t miniGopIndex);
-    typedef enum MINI_GOP_INDEX {
+    } MiniGopStats;
+    extern const MiniGopStats* get_mini_gop_stats(const uint32_t mini_gop_index);
+    
+    typedef enum MiniGopIndex 
+    {
         L6_INDEX = 0,
         L5_0_INDEX = 1,
         L4_0_INDEX = 2,
@@ -303,7 +305,7 @@ extern "C" {
         L4_3_INDEX = 12,
         L3_6_INDEX = 13,
         L3_7_INDEX = 14
-    } MINI_GOP_INDEX;
+    } MiniGopIndex;
 
 #ifdef __cplusplus
 }

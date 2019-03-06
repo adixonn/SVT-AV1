@@ -20,60 +20,46 @@ extern "C" {
 #define SQUARE_PU_COUNT          85
 #define MAX_ME_CANDIDATE_PER_PU   3
 
-    typedef struct MeCandidate_s {
-
+    typedef struct MeCandidate 
+    {
         union {
             struct {
-                signed short     xMvL0;  //Note: Do not change the order of these fields
-                signed short     yMvL0;
-                signed short     xMvL1;
-                signed short     yMvL1;
+                signed short x_mv_l0;  //Note: Do not change the order of these fields
+                signed short y_mv_l0;
+                signed short x_mv_l1;
+                signed short y_mv_l1;
             };
             uint64_t MVs;
         };
 
-        unsigned    distortion : 32;     // 20-bits holds maximum SAD of 64x64 PU
-
+        unsigned    distortion : 32;    // 20-bits holds maximum SAD of 64x64 PU
         unsigned    direction : 8;      // 0: uni-pred L0, 1: uni-pred L1, 2: bi-pred
 
-    } MeCandidate_t;
-
-    // move this to a new file with ctor & dtor
-    typedef struct MeLcuResults_s {
-
-        uint32_t          lcuDistortion;
-        uint8_t          *totalMeCandidateIndex;
-        int16_t          xMvHmeSearchCenter[MAX_NUM_OF_REF_PIC_LIST][MAX_REF_IDX];
-        int16_t          yMvHmeSearchCenter[MAX_NUM_OF_REF_PIC_LIST][MAX_REF_IDX];
-        MeCandidate_t **me_candidate;
-        MeCandidate_t  *meCandidateArray;
-
-    } MeLcuResults_t;
+    } MeCandidate;
 
 
-
-
-    typedef struct  DistDir_s {
+    typedef struct DistDir 
+    {
         unsigned    distortion : 32; //20bits are enough
         unsigned    direction : 2;
-    } DistDir_t;
+    } DistDir;
 
 
-    typedef struct MeCuResults_s {
+    typedef struct MeCuResults 
+    {
         union {
             struct {
-                signed short     xMvL0;
-                signed short     yMvL0;
-                signed short     xMvL1;
-                signed short     yMvL1;
+                signed short     x_mv_l0;
+                signed short     y_mv_l0;
+                signed short     x_mv_l1;
+                signed short     y_mv_l1;
             };
             uint64_t MVs;
         };
+        DistDir distortion_direction[3];
+        uint8_t total_me_candidate_index;
 
-        DistDir_t    distortionDirection[3];
-
-        uint8_t        totalMeCandidateIndex;
-    } MeCuResults_t;
+    } MeCuResults;
 
 #ifdef __cplusplus
 }

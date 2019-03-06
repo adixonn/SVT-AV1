@@ -52,11 +52,11 @@ EbErrorType picture_control_set_ctor(
     EbPtr *object_dbl_ptr,
     EbPtr object_init_data_ptr)
 {
-    PictureControlSet_t *object_ptr;
-    PictureControlSetInitData_t *initDataPtr = (PictureControlSetInitData_t*)object_init_data_ptr;
+    PictureControlSet *object_ptr;
+    PictureControlSetInitData *initDataPtr = (PictureControlSetInitData*)object_init_data_ptr;
 
-    EbPictureBufferDescInitData_t input_picture_buffer_desc_init_data;
-    EbPictureBufferDescInitData_t coeffBufferDescInitData;
+    EbPictureBufferDescInitData input_picture_buffer_desc_init_data;
+    EbPictureBufferDescInitData coeffBufferDescInitData;
 
     // Max/Min CU Sizes
     const uint32_t maxCuSize = initDataPtr->sb_sz;
@@ -71,11 +71,11 @@ EbErrorType picture_control_set_ctor(
 
     EbBool is16bit = initDataPtr->is16bit;
 
-    EB_MALLOC(PictureControlSet_t*, object_ptr, sizeof(PictureControlSet_t), EB_N_PTR);
+    EB_MALLOC(PictureControlSet*, object_ptr, sizeof(PictureControlSet), EB_N_PTR);
 
     // Init Picture Init data
-    input_picture_buffer_desc_init_data.maxWidth = initDataPtr->picture_width;
-    input_picture_buffer_desc_init_data.maxHeight = initDataPtr->picture_height;
+    input_picture_buffer_desc_init_data.max_width = initDataPtr->picture_width;
+    input_picture_buffer_desc_init_data.max_height = initDataPtr->picture_height;
     input_picture_buffer_desc_init_data.bit_depth = initDataPtr->bit_depth;
     input_picture_buffer_desc_init_data.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
 
@@ -84,10 +84,10 @@ EbErrorType picture_control_set_ctor(
     input_picture_buffer_desc_init_data.top_padding = PAD_VALUE;
     input_picture_buffer_desc_init_data.bot_padding = PAD_VALUE;
 
-    input_picture_buffer_desc_init_data.splitMode = EB_FALSE;
+    input_picture_buffer_desc_init_data.split_mode = EB_FALSE;
 
-    coeffBufferDescInitData.maxWidth = initDataPtr->picture_width;
-    coeffBufferDescInitData.maxHeight = initDataPtr->picture_height;
+    coeffBufferDescInitData.max_width = initDataPtr->picture_width;
+    coeffBufferDescInitData.max_height = initDataPtr->picture_height;
     coeffBufferDescInitData.bit_depth = EB_16BIT;
     coeffBufferDescInitData.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
 
@@ -96,28 +96,28 @@ EbErrorType picture_control_set_ctor(
     coeffBufferDescInitData.top_padding = PAD_VALUE;
     coeffBufferDescInitData.bot_padding = PAD_VALUE;
 
-    coeffBufferDescInitData.splitMode = EB_FALSE;
+    coeffBufferDescInitData.split_mode = EB_FALSE;
 
 
     *object_dbl_ptr = (EbPtr)object_ptr;
 
-    object_ptr->sequence_control_set_wrapper_ptr = (EbObjectWrapper_t *)EB_NULL;
+    object_ptr->sequence_control_set_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
 
-    object_ptr->recon_picture16bit_ptr = (EbPictureBufferDesc_t *)EB_NULL;
-    object_ptr->recon_picture_ptr = (EbPictureBufferDesc_t *)EB_NULL;
+    object_ptr->recon_picture16bit_ptr = (EbPictureBufferDesc *)EB_NULL;
+    object_ptr->recon_picture_ptr = (EbPictureBufferDesc *)EB_NULL;
 
-    EbPictureBufferDescInitData_t coeffBufferDes32bitInitData;
-    coeffBufferDes32bitInitData.maxWidth = initDataPtr->picture_width;
-    coeffBufferDes32bitInitData.maxHeight = initDataPtr->picture_height;
+    EbPictureBufferDescInitData coeffBufferDes32bitInitData;
+    coeffBufferDes32bitInitData.max_width = initDataPtr->picture_width;
+    coeffBufferDes32bitInitData.max_height = initDataPtr->picture_height;
     coeffBufferDes32bitInitData.bit_depth = EB_32BIT;
     coeffBufferDes32bitInitData.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
     coeffBufferDes32bitInitData.left_padding = 0;
     coeffBufferDes32bitInitData.right_padding = 0;
     coeffBufferDes32bitInitData.top_padding = 0;
     coeffBufferDes32bitInitData.bot_padding = 0;
-    coeffBufferDes32bitInitData.splitMode = EB_FALSE;
+    coeffBufferDes32bitInitData.split_mode = EB_FALSE;
 
-    object_ptr->recon_picture32bit_ptr = (EbPictureBufferDesc_t *)EB_NULL;
+    object_ptr->recon_picture32bit_ptr = (EbPictureBufferDesc *)EB_NULL;
     return_error = eb_recon_picture_buffer_desc_ctor(
         (EbPtr*)&(object_ptr->recon_picture32bit_ptr),
         (EbPtr)&coeffBufferDes32bitInitData);
@@ -171,7 +171,7 @@ EbErrorType picture_control_set_ctor(
 
 
     // Entropy Coder
-    return_error = EntropyCoderCtor(
+    return_error = entropy_coder_ctor(
         &object_ptr->entropy_coder_ptr,
         SEGMENT_ENTROPY_BUFFER_SIZE);
 
@@ -180,15 +180,15 @@ EbErrorType picture_control_set_ctor(
     }
 
     // Packetization process Bitstream
-    return_error = BitstreamCtor(
-        &object_ptr->bitstreamPtr,
+    return_error = bitstream_ctor(
+        &object_ptr->bitstream_ptr,
         PACKETIZATION_PROCESS_BUFFER_SIZE);
 
     if (return_error == EB_ErrorInsufficientResources) {
         return EB_ErrorInsufficientResources;
     }
     // Rate estimation entropy coder
-    return_error = EntropyCoderCtor(
+    return_error = entropy_coder_ctor(
         &object_ptr->coeff_est_entropy_coder_ptr,
         SEGMENT_ENTROPY_BUFFER_SIZE);
     if (return_error == EB_ErrorInsufficientResources) {
@@ -201,7 +201,7 @@ EbErrorType picture_control_set_ctor(
     // SB Array
     object_ptr->sb_max_depth = (uint8_t)initDataPtr->max_depth;
     object_ptr->sb_total_count = pictureLcuWidth * pictureLcuHeight;
-    EB_MALLOC(LargestCodingUnit_t**, object_ptr->sb_ptr_array, sizeof(LargestCodingUnit_t*) * object_ptr->sb_total_count, EB_N_PTR);
+    EB_MALLOC(LargestCodingUnit**, object_ptr->sb_ptr_array, sizeof(LargestCodingUnit*) * object_ptr->sb_total_count, EB_N_PTR);
 
     sb_origin_x = 0;
     sb_origin_y = 0;
@@ -229,12 +229,12 @@ EbErrorType picture_control_set_ctor(
     }
 
     // Copy SB array map
-    EB_MALLOC(LargestCodingUnit_t**, object_ptr->sb_ptr_array_copy, sizeof(LargestCodingUnit_t*) * object_ptr->sb_total_count, EB_N_PTR);
+    EB_MALLOC(LargestCodingUnit**, object_ptr->sb_ptr_array_copy, sizeof(LargestCodingUnit*) * object_ptr->sb_total_count, EB_N_PTR);
 
-    EB_MEMCPY(object_ptr->sb_ptr_array_copy, object_ptr->sb_ptr_array, object_ptr->sb_total_count * sizeof(sizeof(LargestCodingUnit_t*)));
+    EB_MEMCPY(object_ptr->sb_ptr_array_copy, object_ptr->sb_ptr_array, object_ptr->sb_total_count * sizeof(sizeof(LargestCodingUnit*)));
 
     // Mode Decision Control config
-    EB_MALLOC(MdcLcuData_t*, object_ptr->mdc_sb_array, object_ptr->sb_total_count * sizeof(MdcLcuData_t), EB_N_PTR);
+    EB_MALLOC(MdcLcuData*, object_ptr->mdc_sb_array, object_ptr->sb_total_count * sizeof(MdcLcuData), EB_N_PTR);
     object_ptr->qp_array_stride = (uint16_t)((initDataPtr->picture_width + MIN_BLOCK_SIZE - 1) / MIN_BLOCK_SIZE);
     object_ptr->qp_array_size = ((initDataPtr->picture_width + MIN_BLOCK_SIZE - 1) / MIN_BLOCK_SIZE) *
         ((initDataPtr->picture_height + MIN_BLOCK_SIZE - 1) / MIN_BLOCK_SIZE);
@@ -276,7 +276,7 @@ EbErrorType picture_control_set_ctor(
             &object_ptr->md_mv_neighbor_array[depth],
             MAX_PICTURE_WIDTH_SIZE,
             MAX_PICTURE_HEIGHT_SIZE,
-            sizeof(MvUnit_t),
+            sizeof(MvUnit),
             PU_NEIGHBOR_ARRAY_GRANULARITY,
             PU_NEIGHBOR_ARRAY_GRANULARITY,
             NEIGHBOR_ARRAY_UNIT_FULL_MASK);
@@ -531,7 +531,7 @@ EbErrorType picture_control_set_ctor(
         &object_ptr->ep_mv_neighbor_array,
         MAX_PICTURE_WIDTH_SIZE,
         MAX_PICTURE_HEIGHT_SIZE,
-        sizeof(MvUnit_t),
+        sizeof(MvUnit),
         PU_NEIGHBOR_ARRAY_GRANULARITY,
         PU_NEIGHBOR_ARRAY_GRANULARITY,
         NEIGHBOR_ARRAY_UNIT_FULL_MASK);
@@ -661,7 +661,7 @@ EbErrorType picture_control_set_ctor(
         &object_ptr->amvp_mv_merge_mv_neighbor_array,
         MAX_PICTURE_WIDTH_SIZE,
         MAX_PICTURE_HEIGHT_SIZE,
-        sizeof(MvUnit_t),
+        sizeof(MvUnit),
         PU_NEIGHBOR_ARRAY_GRANULARITY,
         PU_NEIGHBOR_ARRAY_GRANULARITY,
         NEIGHBOR_ARRAY_UNIT_FULL_MASK);
@@ -838,7 +838,7 @@ EbErrorType picture_control_set_ctor(
     object_ptr->constrained_intra_flag = EB_FALSE;
 
     // Segments
-    return_error = EncDecSegmentsCtor(
+    return_error = enc_dec_segments_ctor(
         &object_ptr->enc_dec_segment_ctrl,
         initDataPtr->enc_dec_segment_col,
         initDataPtr->enc_dec_segment_row);
@@ -901,8 +901,8 @@ EbErrorType picture_parent_control_set_ctor(
     EbPtr *object_dbl_ptr,
     EbPtr object_init_data_ptr)
 {
-    PictureParentControlSet_t   *object_ptr;
-    PictureControlSetInitData_t *initDataPtr = (PictureControlSetInitData_t*)object_init_data_ptr;
+    PictureParentControlSet   *object_ptr;
+    PictureControlSetInitData *initDataPtr = (PictureControlSetInitData*)object_init_data_ptr;
     EbErrorType return_error = EB_ErrorNone;
     const uint16_t pictureLcuWidth = (uint16_t)((initDataPtr->picture_width + initDataPtr->sb_sz - 1) / initDataPtr->sb_sz);
     const uint16_t pictureLcuHeight = (uint16_t)((initDataPtr->picture_height + initDataPtr->sb_sz - 1) / initDataPtr->sb_sz);
@@ -910,14 +910,14 @@ EbErrorType picture_parent_control_set_ctor(
     uint32_t regionInPictureWidthIndex;
     uint32_t regionInPictureHeightIndex;
 
-    EB_MALLOC(PictureParentControlSet_t*, object_ptr, sizeof(PictureParentControlSet_t), EB_N_PTR);
+    EB_MALLOC(PictureParentControlSet*, object_ptr, sizeof(PictureParentControlSet), EB_N_PTR);
 
     *object_dbl_ptr = (EbPtr)object_ptr;
-    object_ptr->sequence_control_set_wrapper_ptr = (EbObjectWrapper_t *)EB_NULL;
-    object_ptr->input_picture_wrapper_ptr = (EbObjectWrapper_t *)EB_NULL;
-    object_ptr->reference_picture_wrapper_ptr = (EbObjectWrapper_t *)EB_NULL;
+    object_ptr->sequence_control_set_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
+    object_ptr->input_picture_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
+    object_ptr->reference_picture_wrapper_ptr = (EbObjectWrapper *)EB_NULL;
 
-    object_ptr->enhanced_picture_ptr = (EbPictureBufferDesc_t *)EB_NULL;
+    object_ptr->enhanced_picture_ptr = (EbPictureBufferDesc *)EB_NULL;
 
     // GOP
     object_ptr->pred_struct_index = 0;
@@ -931,12 +931,12 @@ EbErrorType picture_parent_control_set_ctor(
     object_ptr->data_ll_head_ptr = (EbLinkedListNode *)EB_NULL;
     object_ptr->app_out_data_ll_head_ptr = (EbLinkedListNode *)EB_NULL;
     EB_MALLOC(uint16_t**, object_ptr->variance, sizeof(uint16_t*) * object_ptr->sb_total_count, EB_N_PTR);
-    EB_MALLOC(uint8_t**, object_ptr->yMean, sizeof(uint8_t*) * object_ptr->sb_total_count, EB_N_PTR);
+    EB_MALLOC(uint8_t**, object_ptr->y_mean, sizeof(uint8_t*) * object_ptr->sb_total_count, EB_N_PTR);
     EB_MALLOC(uint8_t**, object_ptr->cbMean, sizeof(uint8_t*) * object_ptr->sb_total_count, EB_N_PTR);
     EB_MALLOC(uint8_t**, object_ptr->crMean, sizeof(uint8_t*) * object_ptr->sb_total_count, EB_N_PTR);
     for (sb_index = 0; sb_index < object_ptr->sb_total_count; ++sb_index) {
         EB_MALLOC(uint16_t*, object_ptr->variance[sb_index], sizeof(uint16_t) * MAX_ME_PU_COUNT, EB_N_PTR);
-        EB_MALLOC(uint8_t*, object_ptr->yMean[sb_index], sizeof(uint8_t) * MAX_ME_PU_COUNT, EB_N_PTR);
+        EB_MALLOC(uint8_t*, object_ptr->y_mean[sb_index], sizeof(uint8_t) * MAX_ME_PU_COUNT, EB_N_PTR);
         EB_MALLOC(uint8_t*, object_ptr->cbMean[sb_index], sizeof(uint8_t) * 21, EB_N_PTR);
         EB_MALLOC(uint8_t*, object_ptr->crMean[sb_index], sizeof(uint8_t) * 21, EB_N_PTR);
     }
@@ -965,40 +965,40 @@ EbErrorType picture_parent_control_set_ctor(
     }
     uint32_t maxOisCand = MAX_OPEN_LOOP_INTRA_CANDIDATES ;
 
-    EB_MALLOC(OisCu32Cu16Results_t**, object_ptr->ois_cu32_cu16_results, sizeof(OisCu32Cu16Results_t*) * object_ptr->sb_total_count, EB_N_PTR);
+    EB_MALLOC(OisCu32Cu16Results**, object_ptr->ois_cu32_cu16_results, sizeof(OisCu32Cu16Results*) * object_ptr->sb_total_count, EB_N_PTR);
 
     for (sb_index = 0; sb_index < object_ptr->sb_total_count; ++sb_index) {
 
-        EB_MALLOC(OisCu32Cu16Results_t*, object_ptr->ois_cu32_cu16_results[sb_index], sizeof(OisCu32Cu16Results_t), EB_N_PTR);
+        EB_MALLOC(OisCu32Cu16Results*, object_ptr->ois_cu32_cu16_results[sb_index], sizeof(OisCu32Cu16Results), EB_N_PTR);
 
-        OisCandidate_t* contigousCand;
-        EB_MALLOC(OisCandidate_t*, contigousCand, sizeof(OisCandidate_t) * maxOisCand * 21, EB_N_PTR);
+        OisCandidate* contigousCand;
+        EB_MALLOC(OisCandidate*, contigousCand, sizeof(OisCandidate) * maxOisCand * 21, EB_N_PTR);
 
-        uint32_t cuIdx;
-        for (cuIdx = 0; cuIdx < 21; ++cuIdx) {
-            object_ptr->ois_cu32_cu16_results[sb_index]->sorted_ois_candidate[cuIdx] = &contigousCand[cuIdx*maxOisCand];
+        uint32_t cu_idx;
+        for (cu_idx = 0; cu_idx < 21; ++cu_idx) {
+            object_ptr->ois_cu32_cu16_results[sb_index]->sorted_ois_candidate[cu_idx] = &contigousCand[cu_idx*maxOisCand];
         }
     }
 
-    EB_MALLOC(OisCu8Results_t**, object_ptr->ois_cu8_results, sizeof(OisCu8Results_t*) * object_ptr->sb_total_count, EB_N_PTR);
+    EB_MALLOC(OisCu8Results**, object_ptr->ois_cu8_results, sizeof(OisCu8Results*) * object_ptr->sb_total_count, EB_N_PTR);
     for (sb_index = 0; sb_index < object_ptr->sb_total_count; ++sb_index) {
 
-        EB_MALLOC(OisCu8Results_t*, object_ptr->ois_cu8_results[sb_index], sizeof(OisCu8Results_t), EB_N_PTR);
+        EB_MALLOC(OisCu8Results*, object_ptr->ois_cu8_results[sb_index], sizeof(OisCu8Results), EB_N_PTR);
 
-        OisCandidate_t* contigousCand;
-        EB_MALLOC(OisCandidate_t*, contigousCand, sizeof(OisCandidate_t) * maxOisCand * 64, EB_N_PTR);
+        OisCandidate* contigousCand;
+        EB_MALLOC(OisCandidate*, contigousCand, sizeof(OisCandidate) * maxOisCand * 64, EB_N_PTR);
 
-        uint32_t cuIdx;
-        for (cuIdx = 0; cuIdx < 64; ++cuIdx) {
-            object_ptr->ois_cu8_results[sb_index]->sorted_ois_candidate[cuIdx] = &contigousCand[cuIdx*maxOisCand];
+        uint32_t cu_idx;
+        for (cu_idx = 0; cu_idx < 64; ++cu_idx) {
+            object_ptr->ois_cu8_results[sb_index]->sorted_ois_candidate[cu_idx] = &contigousCand[cu_idx*maxOisCand];
         }
     }
     // Motion Estimation Results
     object_ptr->max_number_of_pus_per_sb = (initDataPtr->ext_block_flag) ? MAX_ME_PU_COUNT : SQUARE_PU_COUNT;
-    EB_MALLOC(MeCuResults_t**, object_ptr->me_results, sizeof(MeCuResults_t*) * object_ptr->sb_total_count, EB_N_PTR);
+    EB_MALLOC(MeCuResults**, object_ptr->me_results, sizeof(MeCuResults*) * object_ptr->sb_total_count, EB_N_PTR);
 
     for (sb_index = 0; sb_index < object_ptr->sb_total_count; ++sb_index) {
-        EB_MALLOC(MeCuResults_t*, object_ptr->me_results[sb_index], sizeof(MeCuResults_t) * MAX_ME_PU_COUNT, EB_N_PTR);
+        EB_MALLOC(MeCuResults*, object_ptr->me_results[sb_index], sizeof(MeCuResults) * MAX_ME_PU_COUNT, EB_N_PTR);
     }
     EB_MALLOC(uint32_t*, object_ptr->rc_me_distortion, sizeof(uint32_t) * object_ptr->sb_total_count, EB_N_PTR);
     // ME and OIS Distortion Histograms
@@ -1023,7 +1023,7 @@ EbErrorType picture_parent_control_set_ctor(
     EB_MALLOC(uint8_t*, object_ptr->sb_flat_noise_array, sizeof(uint8_t) * object_ptr->sb_total_count, EB_N_PTR);
     EB_MALLOC(uint64_t*, object_ptr->sb_variance_of_variance_over_time, sizeof(uint64_t) * object_ptr->sb_total_count, EB_N_PTR);
     EB_MALLOC(EbBool*, object_ptr->is_sb_homogeneous_over_time, sizeof(EbBool) * object_ptr->sb_total_count, EB_N_PTR);
-    EB_MALLOC(EdgeLcuResults_t*, object_ptr->edge_results_ptr, sizeof(EdgeLcuResults_t) * object_ptr->sb_total_count, EB_N_PTR);
+    EB_MALLOC(EdgeLcuResults*, object_ptr->edge_results_ptr, sizeof(EdgeLcuResults) * object_ptr->sb_total_count, EB_N_PTR);
 
     EB_MALLOC(uint8_t*, object_ptr->sharp_edge_sb_flag, sizeof(EbBool) * object_ptr->sb_total_count, EB_N_PTR);
 
@@ -1059,7 +1059,7 @@ EbErrorType picture_parent_control_set_ctor(
     // Allocate memory for 32x32 cu array for clean sparse coeff
     EB_MALLOC(uint8_t*, object_ptr->cu32x32_clean_sparse_coeff_map_array, sizeof(uint8_t) * object_ptr->cu32x32_clean_sparse_coeff_map_array_size, EB_N_PTR);
 
-    EB_MALLOC(SbStat_t*, object_ptr->sb_stat_array, sizeof(SbStat_t) * object_ptr->sb_total_count, EB_N_PTR);
+    EB_MALLOC(SbStat*, object_ptr->sb_stat_array, sizeof(SbStat) * object_ptr->sb_total_count, EB_N_PTR);
 
     EB_MALLOC(EbSbComplexityStatus*, object_ptr->complex_sb_array, sizeof(EbSbComplexityStatus) * object_ptr->sb_total_count, EB_N_PTR);
 
@@ -1126,7 +1126,7 @@ EbErrorType picture_parent_control_set_ctor(
 
     // Film grain noise model if film grain is applied
     if (initDataPtr->film_grain_noise_level) {
-        denoise_and_model_init_data_t fg_init_data;
+        DenoiseAndModelInitData fg_init_data;
         fg_init_data.encoder_bit_depth = initDataPtr->encoder_bit_depth;
         fg_init_data.noise_level = initDataPtr->film_grain_noise_level;
         fg_init_data.width = initDataPtr->picture_width;

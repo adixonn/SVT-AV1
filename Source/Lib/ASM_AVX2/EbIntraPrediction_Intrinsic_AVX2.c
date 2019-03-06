@@ -2231,7 +2231,7 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
     uint32_t                           src_origin_x,
     uint32_t                           src_origin_y,
     uint32_t                           block_size,
-    EbAsm                             asmType)
+    EbAsm                             asm_type)
 {
 
     uint32_t idx;
@@ -2498,7 +2498,7 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
 
 
     }
-    (void)asmType;
+    (void)asm_type;
 }
 
 /***********************************************************************************************************************************************************************************************

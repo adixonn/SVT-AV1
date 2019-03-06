@@ -82,25 +82,25 @@ EbBool is a 32 bit quantity and is aligned on a 32 bit word boundary.
     typedef struct EbComponentType
     {
         uint32_t size;
-        void* pComponentPrivate;
-        void* pApplicationPrivate;
+        void* p_component_private;
+        void* p_application_private;
     } EbComponentType;
 
     typedef enum EbErrorType
     {
-        EB_ErrorNone = 0,
-        EB_ErrorInsufficientResources = (int32_t)0x80001000,
-        EB_ErrorUndefined = (int32_t)0x80001001,
-        EB_ErrorInvalidComponent = (int32_t)0x80001004,
-        EB_ErrorBadParameter = (int32_t)0x80001005,
-        EB_ErrorDestroyThreadFailed = (int32_t)0x80002012,
-        EB_ErrorSemaphoreUnresponsive = (int32_t)0x80002021,
+        EB_ErrorNone                   = 0,
+        EB_ErrorInsufficientResources  = (int32_t)0x80001000,
+        EB_ErrorUndefined              = (int32_t)0x80001001,
+        EB_ErrorInvalidComponent       = (int32_t)0x80001004,
+        EB_ErrorBadParameter           = (int32_t)0x80001005,
+        EB_ErrorDestroyThreadFailed    = (int32_t)0x80002012,
+        EB_ErrorSemaphoreUnresponsive  = (int32_t)0x80002021,
         EB_ErrorDestroySemaphoreFailed = (int32_t)0x80002022,
-        EB_ErrorCreateMutexFailed = (int32_t)0x80002030,
-        EB_ErrorMutexUnresponsive = (int32_t)0x80002031,
-        EB_ErrorDestroyMutexFailed = (int32_t)0x80002032,
-        EB_NoErrorEmptyQueue = (int32_t)0x80002033,
-        EB_ErrorMax = 0x7FFFFFFF
+        EB_ErrorCreateMutexFailed      = (int32_t)0x80002030,
+        EB_ErrorMutexUnresponsive      = (int32_t)0x80002031,
+        EB_ErrorDestroyMutexFailed     = (int32_t)0x80002032,
+        EB_NoErrorEmptyQueue           = (int32_t)0x80002033,
+        EB_ErrorMax                    = 0x7FFFFFFF
     } EbErrorType;
 
 #define EB_BUFFERFLAG_EOS           0x00000001  // signals the last packet of the stream
@@ -112,7 +112,7 @@ EbBool is a 32 bit quantity and is aligned on a 32 bit word boundary.
 #endif
     // For 8-bit and 10-bit packed inputs, the luma, cb, and cr fields should be used
     //   for the three input picture planes.  However, for 10-bit unpacked planes the
-    //   lumaExt, cbExt, and crExt fields should be used hold the extra 2-bits of
+    //   luma_ext, cb_ext, and cr_ext fields should be used hold the extra 2-bits of
     //   precision while the luma, cb, and cr fields hold the 8-bit data.
     typedef struct EbSvtEncInput
     {
@@ -122,13 +122,13 @@ EbBool is a 32 bit quantity and is aligned on a 32 bit word boundary.
         uint8_t *cr;
 
         // Hosts LSB 2 bits of 10bit input when the compressed 10bit format is used
-        uint8_t *lumaExt;
-        uint8_t *cbExt;
-        uint8_t *crExt;
+        uint8_t *luma_ext;
+        uint8_t *cb_ext;
+        uint8_t *cr_ext;
 
-        uint32_t yStride;
-        uint32_t crStride;
-        uint32_t cbStride;
+        uint32_t y_stride;
+        uint32_t cr_stride;
+        uint32_t cb_stride;
 
     } EbSvtEncInput;
 
@@ -165,7 +165,7 @@ typedef struct EbSvtAv1EncConfiguration
      * Default is 1. */
     uint32_t                 intra_refresh_type;
     /* Number of hierarchical layers used to construct GOP.
-     * Minigop size = 2^HierarchicalLevels.
+     * Minigop size = 2^hierarchical_levels.
      *
      * Default is 3. */
     uint32_t                 hierarchical_levels;
@@ -207,7 +207,7 @@ typedef struct EbSvtAv1EncConfiguration
     /* The frequecy of images being displayed. If the number is less than 1000,
      * the input frame rate is an integer number between 1 and 60, else the input
      * number is in Q16 format, shifted by 16 bits, where max allowed is 240 fps.
-     * If FrameRateNumerator and FrameRateDenominator are both not equal to zero,
+     * If frame_rate_numerator and frame_rate_denominator are both not equal to zero,
      * the encoder will ignore this parameter.
      *
      * Default is 25. */
@@ -241,7 +241,7 @@ typedef struct EbSvtAv1EncConfiguration
      * 0 = encodes the full clip.
      *
      * Default is 0. */
-    uint64_t                 framesToBeEncoded;
+    uint64_t                 frames_to_be_encoded;
     uint32_t                 ten_bit_format;
     /* The visual quality knob that allows the use of adaptive quantization
      * within the picture and enables visual quality algorithms that improve the
@@ -384,7 +384,7 @@ typedef struct EbSvtAv1EncConfiguration
      *
      * Default is 1. */
     uint32_t                 scene_change_detection;
-    /* When RateControlMode is set to 1 it's best to set this parameter to be
+    /* When rate_control_mode is set to 1 it's best to set this parameter to be
      * equal to the Intra period value (such is the default set by the encoder).
      * When CQP is chosen, then a (2 * minigopsize +1) look ahead is recommended.
      *
@@ -510,7 +510,7 @@ typedef struct EbSvtAv1EncConfiguration
     // Debug tools
 
     /* Output reconstructed yuv used for debug purposes. The value is set through
-     * ReconFile token (-o) and using the feature will affect the speed of encoder.
+     * recon_file token (-o) and using the feature will affect the speed of encoder.
      *
      * Default is 0. */
     uint32_t                 recon_enabled;
@@ -542,10 +542,10 @@ typedef struct EbSvtAv1EncConfiguration
      *
      * Parameter:
      * @ *svt_enc_component              Encoder handler.
-     * @ *pComponentParameterStructure  Encoder and buffer configurations will be copied to the library. */
+     * @ *p_component_parameter_structure  Encoder and buffer configurations will be copied to the library. */
     EB_API EbErrorType eb_svt_enc_set_parameter(
         EbComponentType           *svt_enc_component,
-        EbSvtAv1EncConfiguration   *pComponentParameterStructure); // pComponentParameterStructure contents will be copied to the library
+        EbSvtAv1EncConfiguration   *p_component_parameter_structure); // p_component_parameter_structure contents will be copied to the library
 
     /* STEP 3: Initialize encoder and allocates memory to necessary buffers.
      *

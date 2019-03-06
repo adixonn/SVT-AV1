@@ -472,7 +472,7 @@ void av1_highbd_warp_affine_c(const int32_t *mat, const uint16_t *ref,
           }
 
           if (conv_params->is_compound) {
-            CONV_BUF_TYPE *p =
+            ConvBufType *p =
                 &conv_params
                      ->dst[(i - p_row + k + 4) * conv_params->dst_stride +
                            (j - p_col + l + 4)];
@@ -760,7 +760,7 @@ void av1_warp_affine_c(const int32_t *mat, const uint8_t *ref, int width,
           }
 
           if (conv_params->is_compound) {
-            CONV_BUF_TYPE *p =
+            ConvBufType *p =
                 &conv_params
                      ->dst[(i - p_row + k + 4) * conv_params->dst_stride +
                            (j - p_col + l + 4)];
@@ -1064,7 +1064,7 @@ static int32_t get_mult_shift_diag(int64_t Px, int16_t iDet, int shift) {
 #endif  // USE_LIMITED_PREC_MULT
 
 static int find_affine_int(int np, const int *pts1, const int *pts2,
-                           block_size bsize, int mvy, int mvx,
+    BlockSize bsize, int mv_y, int mv_x,
                            EbWarpedMotionParams *wm, int mi_row, int mi_col) {
   int32_t A[2][2] = { { 0, 0 }, { 0, 0 } };
   int32_t Bx[2] = { 0, 0 };
@@ -1077,8 +1077,8 @@ static int find_affine_int(int np, const int *pts1, const int *pts2,
   const int rsux = (AOMMAX(bw, MI_SIZE) / 2 - 1);
   const int suy = rsuy * 8;
   const int sux = rsux * 8;
-  const int duy = suy + mvy;
-  const int dux = sux + mvx;
+  const int duy = suy + mv_y;
+  const int dux = sux + mv_x;
   const int isuy = (mi_row * MI_SIZE + rsuy);
   const int isux = (mi_col * MI_SIZE + rsux);
 
@@ -1133,13 +1133,13 @@ static int find_affine_int(int np, const int *pts1, const int *pts2,
   assert(By[0] >= LS_MAT_MIN && By[0] <= LS_MAT_MAX);
   assert(By[1] >= LS_MAT_MIN && By[1] <= LS_MAT_MAX);
 
-  int64_t Det;
+  int64_t det;
   int16_t iDet, shift;
 
   // Compute Determinant of A
-  Det = (int64_t)A[0][0] * A[1][1] - (int64_t)A[0][1] * A[0][1];
-  if (Det == 0) return 1;
-  iDet = resolve_divisor_64(llabs(Det), &shift) * (Det < 0 ? -1 : 1);
+  det = (int64_t)A[0][0] * A[1][1] - (int64_t)A[0][1] * A[0][1];
+  if (det == 0) return 1;
+  iDet = resolve_divisor_64(llabs(det), &shift) * (det < 0 ? -1 : 1);
   shift -= WARPEDMODEL_PREC_BITS;
   if (shift < 0) {
     iDet <<= (-shift);
@@ -1148,7 +1148,7 @@ static int find_affine_int(int np, const int *pts1, const int *pts2,
 
   int64_t Px[2], Py[2];
 
-  // These divided by the Det, are the least squares solutions
+  // These divided by the det, are the least squares solutions
   Px[0] = (int64_t)A[1][1] * Bx[0] - (int64_t)A[0][1] * Bx[1];
   Px[1] = -(int64_t)A[0][1] * Bx[0] + (int64_t)A[0][0] * Bx[1];
   Py[0] = (int64_t)A[1][1] * By[0] - (int64_t)A[0][1] * By[1];
@@ -1163,10 +1163,10 @@ static int find_affine_int(int np, const int *pts1, const int *pts2,
   // 2nd and 3rd terms are (2^16 - 1) * (2^13 - 1). That leaves enough room
   // for the first term so that the overall sum in the worst case fits
   // within 32 bits overall.
-  int32_t vx = mvx * (1 << (WARPEDMODEL_PREC_BITS - 3)) -
+  int32_t vx = mv_x * (1 << (WARPEDMODEL_PREC_BITS - 3)) -
                (isux * (wm->wmmat[2] - (1 << WARPEDMODEL_PREC_BITS)) +
                 isuy * wm->wmmat[3]);
-  int32_t vy = mvy * (1 << (WARPEDMODEL_PREC_BITS - 3)) -
+  int32_t vy = mv_y * (1 << (WARPEDMODEL_PREC_BITS - 3)) -
                (isux * wm->wmmat[4] +
                 isuy * (wm->wmmat[5] - (1 << WARPEDMODEL_PREC_BITS)));
   wm->wmmat[0] =
@@ -1182,14 +1182,14 @@ EbBool find_projection(
     int np,
     int *pts1,
     int *pts2,
-    block_size bsize,
-    int mvy,
-    int mvx,
+    BlockSize bsize,
+    int mv_y,
+    int mv_x,
     EbWarpedMotionParams *wm_params,
     int mi_row,
     int mi_col)
 {
-    if (find_affine_int(np, pts1, pts2, bsize, mvy, mvx, wm_params,
+    if (find_affine_int(np, pts1, pts2, bsize, mv_y, mv_x, wm_params,
                         mi_row, mi_col))
     {
         return 1;
