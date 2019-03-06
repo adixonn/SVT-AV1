@@ -2197,7 +2197,7 @@ void CopyApiFromApp(
 #if DISABLE_128X128_SB
     sequence_control_set_ptr->static_config.super_block_size = 64;
 #else
-    sequence_control_set_ptr->static_config.super_block_size = (p_component_parameter_structure->enc_mode <= ENC_M2) ? 128 : 64;
+    sequence_control_set_ptr->static_config.super_block_size = (p_component_parameter_structure->enc_mode == ENC_M0) ? 128 : 64;
 #endif
 #endif
     sequence_control_set_ptr->static_config.pred_structure = 2; // Hardcoded(Cleanup)
