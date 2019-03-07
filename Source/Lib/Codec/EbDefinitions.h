@@ -580,7 +580,7 @@ typedef enum ATTRIBUTE_PACKED
     BlockSizeS = BLOCK_4X16,
     BLOCK_INVALID = 255,
     BLOCK_LARGEST = (BlockSizeS - 1)
-} BlockSize;
+} block_size;
 
 typedef enum ATTRIBUTE_PACKED
 {

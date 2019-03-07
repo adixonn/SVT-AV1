@@ -1655,7 +1655,7 @@ void finish_cdef_search(
         picture_control_set_ptr->mi_grid_base[sb_index[i]]->mbmi.cdef_strength = (int8_t)best_gi;
         //in case the fb is within a block=128x128 or 128x64, or 64x128, then we genrate param only for the first 64x64.
         //since our mi map deos not have the multi pointer single data assignment, we need to duplicate data.
-        BlockSize sb_type = picture_control_set_ptr->mi_grid_base[sb_index[i]]->mbmi.sb_type;
+        block_size sb_type = picture_control_set_ptr->mi_grid_base[sb_index[i]]->mbmi.sb_type;
 
         switch (sb_type)
         {
@@ -1881,7 +1881,7 @@ void av1_cdef_search(
             nvb = AOMMIN(MI_SIZE_64X64, cm->mi_rows - MI_SIZE_64X64 * fbr);
             int32_t hb_step = 1; //CHKN these should be all time with 64x64 LCUs
             int32_t vb_step = 1;
-            BlockSize bs = BLOCK_64X64;
+            block_size bs = BLOCK_64X64;
             ModeInfo **mi = picture_control_set_ptr->mi_grid_base + MI_SIZE_64X64 * fbr * cm->mi_stride + MI_SIZE_64X64 * fbc;
             const MbModeInfo *mbmi = &mi[0]->mbmi;
 
@@ -1965,7 +1965,7 @@ void av1_cdef_search(
                         ref_coeff[pli] +
                         (fbr * MI_SIZE_64X64 << mi_high_l2[pli]) * stride[pli] +
                         (fbc * MI_SIZE_64X64 << mi_wide_l2[pli]),
-                        stride[pli], tmp_dst, dlist, cdef_count, (BlockSize)bsize[pli], coeff_shift,
+                        stride[pli], tmp_dst, dlist, cdef_count, (block_size)bsize[pli], coeff_shift,
                         pli);
 
                     if (pli < 2)
@@ -2037,7 +2037,7 @@ void av1_cdef_search(
         picture_control_set_ptr->mi_grid_base[sb_index[i]]->mbmi.cdef_strength = (int8_t)best_gi;
         //in case the fb is within a block=128x128 or 128x64, or 64x128, then we genrate param only for the first 64x64.
         //since our mi map deos not have the multi pointer single data assignment, we need to duplicate data.
-        BlockSize sb_type = picture_control_set_ptr->mi_grid_base[sb_index[i]]->mbmi.sb_type;
+        block_size sb_type = picture_control_set_ptr->mi_grid_base[sb_index[i]]->mbmi.sb_type;
 
         if (sb_type == BLOCK_128X128)
         {
@@ -2287,7 +2287,7 @@ void av1_cdef_search16bit(
             nvb = AOMMIN(MI_SIZE_64X64, cm->mi_rows - MI_SIZE_64X64 * fbr);
             int32_t hb_step = 1; //CHKN these should be all time with 64x64 LCUs
             int32_t vb_step = 1;
-            BlockSize bs = BLOCK_64X64;
+            block_size bs = BLOCK_64X64;
             ModeInfo **mi = picture_control_set_ptr->mi_grid_base + MI_SIZE_64X64 * fbr * cm->mi_stride + MI_SIZE_64X64 * fbc;
             const MbModeInfo *mbmi = &mi[0]->mbmi;
 
@@ -2356,7 +2356,7 @@ void av1_cdef_search16bit(
                         ref_coeff[pli] +
                         (fbr * MI_SIZE_64X64 << mi_high_l2[pli]) * stride[pli] +
                         (fbc * MI_SIZE_64X64 << mi_wide_l2[pli]),
-                        stride[pli], tmp_dst, dlist, cdef_count, (BlockSize)bsize[pli], coeff_shift,
+                        stride[pli], tmp_dst, dlist, cdef_count, (block_size)bsize[pli], coeff_shift,
                         pli);
 
                     if (pli < 2)
@@ -2428,7 +2428,7 @@ void av1_cdef_search16bit(
         picture_control_set_ptr->mi_grid_base[sb_index[i]]->mbmi.cdef_strength = (int8_t)best_gi;
         //in case the fb is within a block=128x128 or 128x64, or 64x128, then we genrate param only for the first 64x64.
         //since our mi map deos not have the multi pointer single data assignment, we need to duplicate data.
-        BlockSize sb_type = picture_control_set_ptr->mi_grid_base[sb_index[i]]->mbmi.sb_type;
+        block_size sb_type = picture_control_set_ptr->mi_grid_base[sb_index[i]]->mbmi.sb_type;
 
         if (sb_type == BLOCK_128X128)
         {

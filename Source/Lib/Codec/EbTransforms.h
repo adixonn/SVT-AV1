@@ -93,7 +93,7 @@ extern "C" {
         DCT_1D, FLIPADST_1D, FLIPADST_1D, FLIPADST_1D, ADST_1D, IDTX_1D,
         IDTX_1D, DCT_1D, IDTX_1D, ADST_1D, IDTX_1D, FLIPADST_1D,
     };
-    static const BlockSize txsize_to_bsize[TX_SIZES_ALL] = {
+    static const block_size txsize_to_bsize[TX_SIZES_ALL] = {
         BLOCK_4X4,    // TX_4X4
         BLOCK_8X8,    // TX_8X8
         BLOCK_16X16,  // TX_16X16

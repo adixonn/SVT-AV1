@@ -1502,7 +1502,7 @@ void av1_foreach_rest_unit_in_frame_seg(Av1Common *cm, int32_t plane,
 #endif
 
 int32_t av1_loop_restoration_corners_in_sb(Av1Common *cm, int32_t plane,
-    int32_t mi_row, int32_t mi_col, BlockSize bsize,
+    int32_t mi_row, int32_t mi_col, block_size bsize,
     int32_t *rcol0, int32_t *rcol1, int32_t *rrow0,
     int32_t *rrow1, int32_t *tile_tl_idx) {
     assert(rcol0 && rcol1 && rrow0 && rrow1);

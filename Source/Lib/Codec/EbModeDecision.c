@@ -2234,7 +2234,7 @@ static TxType intra_mode_to_tx_type(const MbModeInfo *mbmi,
 }
 
 static INLINE TxType av1_get_tx_type(
-    BlockSize  sb_type,
+    block_size  sb_type,
     int32_t   is_inter,
     PredictionMode pred_mode,
     UVPredictionMode pred_mode_uv,
@@ -2404,6 +2404,10 @@ void  inject_intra_candidates(
                         candidateArray[canTotalCnt].intra_chroma_mode = disable_ang_uv && av1_is_directional_mode(candidateArray[canTotalCnt].intra_chroma_mode) ?
                             UV_DC_PRED : candidateArray[canTotalCnt].intra_chroma_mode;
 #endif
+#if !DIS_EDGE_FIL
+                        candidateArray[canTotalCnt].intra_chroma_mode = disable_ang_uv && av1_is_directional_mode(candidateArray[canTotalCnt].intra_chroma_mode) ?
+                            UV_DC_PRED : candidateArray[canTotalCnt].intra_chroma_mode;
+#endif
                         candidateArray[canTotalCnt].cfl_alpha_signs = 0;
                         candidateArray[canTotalCnt].cfl_alpha_idx = 0;
                         candidateArray[canTotalCnt].is_directional_chroma_mode_flag = (uint8_t)av1_is_directional_mode((PredictionMode)candidateArray[canTotalCnt].intra_chroma_mode);
@@ -2459,6 +2463,10 @@ void  inject_intra_candidates(
 #else
             candidateArray[canTotalCnt].intra_chroma_mode = disable_cfl_flag ? intra_luma_to_chroma[open_loop_intra_candidate] : UV_CFL_PRED;
 #endif
+#endif
+#if !DIS_EDGE_FIL
+            candidateArray[canTotalCnt].intra_chroma_mode = disable_ang_uv && av1_is_directional_mode(candidateArray[canTotalCnt].intra_chroma_mode) ?
+                UV_DC_PRED : candidateArray[canTotalCnt].intra_chroma_mode;
 #endif
 #if !DIS_EDGE_FIL
             candidateArray[canTotalCnt].intra_chroma_mode = disable_ang_uv && av1_is_directional_mode(candidateArray[canTotalCnt].intra_chroma_mode) ?

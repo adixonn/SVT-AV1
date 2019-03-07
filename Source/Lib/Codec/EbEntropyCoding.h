@@ -201,7 +201,7 @@ extern "C" {
         NeighborArrayUnit     *dc_sign_level_coeff_neighbor_array,
         uint32_t                  cu_origin_x,
         uint32_t                  cu_origin_y,
-        const BlockSize        plane_bsize,
+        const block_size        plane_bsize,
         const TxSize           tx_size,
         int16_t *const           txb_skip_ctx,
         int16_t *const           dc_sign_ctx);
