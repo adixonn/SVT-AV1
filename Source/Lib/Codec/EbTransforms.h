@@ -83,17 +83,17 @@ extern "C" {
     // tran_high_t is the datatype used for intermediate transform stages.
     typedef int64_t tran_high_t;
 
-    static const TX_TYPE_1D vtx_tab[TX_TYPES] = {
+    static const TxType1D vtx_tab[TX_TYPES] = {
         DCT_1D, ADST_1D, DCT_1D, ADST_1D,
         FLIPADST_1D, DCT_1D, FLIPADST_1D, ADST_1D, FLIPADST_1D, IDTX_1D,
         DCT_1D, IDTX_1D, ADST_1D, IDTX_1D, FLIPADST_1D, IDTX_1D,
     };
-    static const TX_TYPE_1D htx_tab[TX_TYPES] = {
+    static const TxType1D htx_tab[TX_TYPES] = {
         DCT_1D, DCT_1D, ADST_1D, ADST_1D,
         DCT_1D, FLIPADST_1D, FLIPADST_1D, FLIPADST_1D, ADST_1D, IDTX_1D,
         IDTX_1D, DCT_1D, IDTX_1D, ADST_1D, IDTX_1D, FLIPADST_1D,
     };
-    static const block_size txsize_to_bsize[TX_SIZES_ALL] = {
+    static const BlockSize txsize_to_bsize[TX_SIZES_ALL] = {
         BLOCK_4X4,    // TX_4X4
         BLOCK_8X8,    // TX_8X8
         BLOCK_16X16,  // TX_16X16
@@ -148,20 +148,21 @@ extern "C" {
         { 0, 0, 12, 11, 10 }
     };
 
-    typedef struct TransfromParam_s {
+    typedef struct TransfromParam {
         // for both forward and inverse transforms
         TxType transform_type;
         TxSize transform_size;
         //int32_t lossless;
         uint8_t bit_depth;
-        TxSetType transformSetType;
+        TxSetType transform_set_type;
         // for inverse transforms only
         int32_t eob;
-    } TransformParam_t;
+    } TransfromParam;
 
     // Utility function that returns the log of the ratio of the col and row
     // sizes.
-    typedef enum TXFM_TYPE {
+    typedef enum TxfmType 
+    {
         TXFM_TYPE_DCT4,
         TXFM_TYPE_DCT8,
         TXFM_TYPE_DCT16,
@@ -178,22 +179,23 @@ extern "C" {
         TXFM_TYPE_IDENTITY64,
         TXFM_TYPES,
         TXFM_TYPE_INVALID,
-    } TXFM_TYPE;
-    typedef struct TXFM_2D_FLIP_CFG {
-        TxSize tx_size;
-        int32_t ud_flip;  // flip upside down
-        int32_t lr_flip;  // flip left to right
+    } TxfmType;
+    typedef struct Txfm2DFlipCfg 
+    {
+        TxSize   tx_size;
+        int32_t  ud_flip;  // flip upside down
+        int32_t  lr_flip;  // flip left to right
         const int8_t *shift;
-        int8_t cos_bit_col;
-        int8_t cos_bit_row;
-        int8_t stage_range_col[MAX_TXFM_STAGE_NUM];
-        int8_t stage_range_row[MAX_TXFM_STAGE_NUM];
-        TXFM_TYPE txfm_type_col;
-        TXFM_TYPE txfm_type_row;
-        int32_t stage_num_col;
-        int32_t stage_num_row;
-    } TXFM_2D_FLIP_CFG;
-    static const TXFM_TYPE av1_txfm_type_ls[5][TX_TYPES_1D] = {
+        int8_t   cos_bit_col;
+        int8_t   cos_bit_row;
+        int8_t   stage_range_col[MAX_TXFM_STAGE_NUM];
+        int8_t   stage_range_row[MAX_TXFM_STAGE_NUM];
+        TxfmType txfm_type_col;
+        TxfmType txfm_type_row;
+        int32_t  stage_num_col;
+        int32_t  stage_num_row;
+    } Txfm2DFlipCfg;
+    static const TxfmType av1_txfm_type_ls[5][TX_TYPES_1D] = {
         { TXFM_TYPE_DCT4, TXFM_TYPE_ADST4, TXFM_TYPE_ADST4, TXFM_TYPE_IDENTITY4 },
         { TXFM_TYPE_DCT8, TXFM_TYPE_ADST8, TXFM_TYPE_ADST8, TXFM_TYPE_IDENTITY8 },
         { TXFM_TYPE_DCT16, TXFM_TYPE_ADST16, TXFM_TYPE_ADST16, TXFM_TYPE_IDENTITY16 },
@@ -299,12 +301,13 @@ extern "C" {
         7,  // 64x16 transform
     };
     ////////////////////// QUANTIZATION//////////////
-    typedef struct QUANT_PARAM {
+    typedef struct QuantParam 
+    {
         int32_t log_scale;
-        TxSize tx_size;
-        const qm_val_t *qmatrix;
-        const qm_val_t *iqmatrix;
-    } QUANT_PARAM;
+        TxSize  tx_size;
+        const QmVal *qmatrix;
+        const QmVal *iqmatrix;
+    } QuantParam;
 
     static inline int32_t av1_get_tx_scale(const TxSize tx_size) {
         const int32_t pels = tx_size_2d[tx_size];
@@ -3888,11 +3891,11 @@ extern "C" {
         uint32_t             bit_increment,
         TxType               transform_type,
         EbAsm                asm_type,
-        PLANE_TYPE           component_type,
+        PlaneType           component_type,
         EB_TRANS_COEFF_SHAPE trans_coeff_shape);
 
     extern void av1_quantize_inv_quantize(
-        PictureControlSet_t *picture_control_set_ptr,
+        PictureControlSet *picture_control_set_ptr,
         int32_t             *coeff,
         const uint32_t       coeff_stride,
         int32_t             *quant_coeff,
@@ -3915,7 +3918,7 @@ extern "C" {
         EbBool               clean_sparse_coeff_flag);
 
     extern void av1_quantize_inv_quantize_ii(
-        PictureControlSet_t *picture_control_set_ptr,
+        PictureControlSet *picture_control_set_ptr,
         int32_t             *coeff,
         const uint32_t       coeff_stride,
         int32_t             *quant_coeff,
@@ -3957,7 +3960,7 @@ extern "C" {
         TxSize      txsize,
         uint32_t    bit_increment,
         TxType      transform_type,
-        PLANE_TYPE  component_type,
+        PlaneType  component_type,
         uint32_t    eob);
 
     EbErrorType av1_inv_transform_recon8bit(
@@ -3966,7 +3969,7 @@ extern "C" {
         uint32_t    recon_stride,
         TxSize      txsize,
         TxType      transform_type,
-        PLANE_TYPE  component_type,
+        PlaneType  component_type,
         uint32_t    eob);
 
     extern EbErrorType encode_inv_transform(
@@ -4139,7 +4142,7 @@ extern "C" {
             inv_dst_transform4x4_sse2_intrin
         },
     };
-    void construct_pm_trans_coeff_shaping(SequenceControlSet_t  *sequence_control_set_ptr);
+    void construct_pm_trans_coeff_shaping(SequenceControlSet  *sequence_control_set_ptr);
 
 #ifdef __cplusplus
 }

@@ -19,31 +19,32 @@ extern "C" {
 /**********************************
  * Bitstream Unit Types
  **********************************/
-    typedef struct OutputBitstreamUnit_s {
-        uint32_t             size;                               // allocated buffer size
-        uint32_t             writtenBitsCount;                   // count of written bits
-        uint8_t     *bufferBeginAv1;                        // the byte buffer
-        uint8_t     *bufferAv1;                             // the byte buffer
-    } OutputBitstreamUnit_t;
+    typedef struct OutputBitstreamUnit 
+    {
+        uint32_t     size;                                    // allocated buffer size
+        uint32_t     written_bits_count;                      // count of written bits
+        uint8_t     *buffer_begin_av1;                        // the byte buffer
+        uint8_t     *buffer_av1;                              // the byte buffer
+    } OutputBitstreamUnit;
 
     /**********************************
      * Extern Function Declarations
      **********************************/
     extern EbErrorType output_bitstream_unit_ctor(
-        OutputBitstreamUnit_t   *bitstreamPtr,
-        uint32_t                   bufferSize);
+        OutputBitstreamUnit *bitstream_ptr,
+        uint32_t             buffer_size);
 
 
-    extern EbErrorType output_bitstream_reset(OutputBitstreamUnit_t *bitstreamPtr);
+    extern EbErrorType output_bitstream_reset(OutputBitstreamUnit *bitstream_ptr);
 
 
 
     extern EbErrorType output_bitstream_rbsp_to_payload(
-        OutputBitstreamUnit_t *bitstreamPtr,
-        EbByte                outputBuffer,
-        uint32_t                *outputBufferIndex,
-        uint32_t                *outputBufferSize,
-        uint32_t                 startLocation);
+        OutputBitstreamUnit *bitstream_ptr,
+        EbByte                output_buffer,
+        uint32_t                *output_buffer_index,
+        uint32_t                *output_buffer_size,
+        uint32_t                 start_location);
 
     /********************************************************************************************************************************/
     /********************************************************************************************************************************/
@@ -242,22 +243,22 @@ on a larger type, you can speed up the decoder by using it here.*/
 
     /********************************************************************************************************************************/
     //daalaboolwriter.h
-    struct daala_writer {
+    struct DaalaWriter {
         uint32_t pos;
         uint8_t *buffer;
         od_ec_enc ec;
         uint8_t allow_update_cdf;
     };
 
-    typedef struct daala_writer daala_writer;
+    typedef struct DaalaWriter DaalaWriter;
 
-    void aom_daala_start_encode(daala_writer *w, uint8_t *buffer);
-    int32_t aom_daala_stop_encode(daala_writer *w);
+    void aom_daala_start_encode(DaalaWriter *w, uint8_t *buffer);
+    int32_t aom_daala_stop_encode(DaalaWriter *w);
 
-    static INLINE void aom_daala_write(daala_writer *w, int32_t bit, int32_t prob) {
+    static INLINE void aom_daala_write(DaalaWriter *w, int32_t bit, int32_t prob) {
         int32_t p = (0x7FFFFF - (prob << 15) + prob) >> 8;
 #if CONFIG_BITSTREAM_DEBUG
-        aom_cdf_prob cdf[2] = { (aom_cdf_prob)p, 32767 };
+        AomCdfProb cdf[2] = { (AomCdfProb)p, 32767 };
         /*int32_t queue_r = 0;
         int32_t frame_idx_r = 0;
         int32_t queue_w = bitstream_queue_get_write();
@@ -272,8 +273,8 @@ on a larger type, you can speed up the decoder by using it here.*/
         od_ec_encode_bool_q15(&w->ec, bit, p);
     }
 
-    static INLINE void daala_write_symbol(daala_writer *w, int32_t symb,
-        const aom_cdf_prob *cdf, int32_t nsymbs) {
+    static INLINE void daala_write_symbol(DaalaWriter *w, int32_t symb,
+        const AomCdfProb *cdf, int32_t nsymbs) {
 #if CONFIG_BITSTREAM_DEBUG
         /*int32_t queue_r = 0;
         int32_t frame_idx_r = 0;
@@ -291,16 +292,16 @@ on a larger type, you can speed up the decoder by using it here.*/
 
     /********************************************************************************************************************************/
     // bitwriter.h
-    typedef struct daala_writer aom_writer;
+    typedef struct DaalaWriter AomWriter;
 
-    typedef struct TOKEN_STATS {
+    typedef struct TokenStats {
         int32_t cost;
 #if CONFIG_RD_DEBUG
         int32_t txb_coeff_cost_map[TXB_COEFF_COST_MAP_SIZE][TXB_COEFF_COST_MAP_SIZE];
 #endif
-    } TOKEN_STATS;
+    } TokenStats;
 
-    static INLINE void init_token_stats(TOKEN_STATS *token_stats) {
+    static INLINE void init_token_stats(TokenStats *token_stats) {
 #if CONFIG_RD_DEBUG
         int32_t r, c;
         for (r = 0; r < TXB_COEFF_COST_MAP_SIZE; ++r) {
@@ -312,34 +313,34 @@ on a larger type, you can speed up the decoder by using it here.*/
         token_stats->cost = 0;
     }
 
-    static INLINE void aom_start_encode(aom_writer *bc, uint8_t *buffer) {
+    static INLINE void aom_start_encode(AomWriter *bc, uint8_t *buffer) {
         aom_daala_start_encode(bc, buffer);
     }
 
-    static INLINE int32_t aom_stop_encode(aom_writer *bc) {
+    static INLINE int32_t aom_stop_encode(AomWriter *bc) {
         return aom_daala_stop_encode(bc);
     }
 
-    static INLINE void aom_write(aom_writer *br, int32_t bit, int32_t probability) {
+    static INLINE void aom_write(AomWriter *br, int32_t bit, int32_t probability) {
         aom_daala_write(br, bit, probability);
     }
 
-    static INLINE void aom_write_bit(aom_writer *w, int32_t bit) {
+    static INLINE void aom_write_bit(AomWriter *w, int32_t bit) {
         aom_write(w, bit, 128);  // aom_prob_half
     }
 
-    static INLINE void aom_write_literal(aom_writer *w, int32_t data, int32_t bits) {
+    static INLINE void aom_write_literal(AomWriter *w, int32_t data, int32_t bits) {
         int32_t bit;
 
         for (bit = bits - 1; bit >= 0; bit--) aom_write_bit(w, 1 & (data >> bit));
     }
 
-    static INLINE void aom_write_cdf(aom_writer *w, int32_t symb,
-        const aom_cdf_prob *cdf, int32_t nsymbs) {
+    static INLINE void aom_write_cdf(AomWriter *w, int32_t symb,
+        const AomCdfProb *cdf, int32_t nsymbs) {
         daala_write_symbol(w, symb, cdf, nsymbs);
     }
 
-    static INLINE void aom_write_symbol(aom_writer *w, int32_t symb, aom_cdf_prob *cdf,
+    static INLINE void aom_write_symbol(AomWriter *w, int32_t symb, AomCdfProb *cdf,
         int32_t nsymbs) {
         aom_write_cdf(w, symb, cdf, nsymbs);
         if (w->allow_update_cdf) update_cdf(cdf, symb, nsymbs);

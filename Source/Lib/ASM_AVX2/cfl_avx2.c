@@ -280,7 +280,7 @@ static INLINE __m256i _mm256_addl_epi16(__m256i a) {
                 _mm256_loadu_si256(src + CFL_BUF_LINE_I256));
             sum = _mm256_add_epi32(sum, _mm256_addl_epi16(l0));
             if (width == 32) { /* Don't worry, this if it gets optimized out. */
-                // Add the second part of the top row to the second part of the bottom row
+                // Add the second Part of the top row to the second Part of the bottom row
                 __m256i l1 =
                     _mm256_add_epi16(_mm256_loadu_si256(src + 1),
                     _mm256_loadu_si256(src + 1 + CFL_BUF_LINE_I256));
