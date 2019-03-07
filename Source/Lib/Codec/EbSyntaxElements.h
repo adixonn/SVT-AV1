@@ -8,8 +8,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    typedef enum NalRefIdc 
-    {
+    typedef enum NalRefIdc {
         NAL_REF_IDC_PRIORITY_LOWEST = 0,
         NAL_REF_IDC_PRIORITY_LOW,
         NAL_REF_IDC_PRIORITY_HIGH,

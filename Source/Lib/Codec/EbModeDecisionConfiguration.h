@@ -14,48 +14,48 @@ extern "C" {
 #endif
 
 /*******************************************
- * early_mode_decision_lcu 
+ * EarlyModeDecisionLcu 
  *   predicts candidates (LCU)
  *******************************************/
-extern EbErrorType early_mode_decision_lcu(
-    SequenceControlSet               *sequence_control_set_ptr,
-    PictureControlSet                *picture_control_set_ptr,
-    LargestCodingUnit                *sb_ptr,
-    uint32_t                          sb_index,
-    ModeDecisionConfigurationContext *context_ptr);
+extern EbErrorType EarlyModeDecisionLcu(
+    SequenceControlSet_t                   *sequence_control_set_ptr,
+    PictureControlSet_t                    *picture_control_set_ptr,
+    LargestCodingUnit_t                    *sb_ptr,
+    uint32_t                                  sb_index,
+    ModeDecisionConfigurationContext_t     *context_ptr);
 
 
 /*******************************************
-* derive_delta_qp_for_each_leaf_lcu
+* DeriveDeltaQPForEachLeafLcu
 *   Derive Lcu For Each Leaf (LCU)
 *******************************************/
-extern EbErrorType derive_delta_qp_for_each_leaf_lcu(
-    SequenceControlSet               *sequence_control_set_ptr,
-    PictureControlSet                *picture_control_set_ptr,
-    LargestCodingUnit                *sb_ptr,
-    uint32_t                          sb_index,
-    int32_t                           intra_min_distance,
-    int32_t                           intra_max_distance,
-    int32_t                           inter_min_distance,
-    int32_t                           inter_max_distance,
-    ModeDecisionConfigurationContext *context_ptr);
+extern EbErrorType DeriveDeltaQPForEachLeafLcu(
+    SequenceControlSet_t                   *sequence_control_set_ptr,
+    PictureControlSet_t                    *picture_control_set_ptr,
+    LargestCodingUnit_t                    *sb_ptr,
+    uint32_t                                  sb_index,
+    int32_t                                  intra_min_distance,
+    int32_t                                  intra_max_distance,
+    int32_t                                  inter_min_distance,
+    int32_t                                  inter_max_distance,
+    ModeDecisionConfigurationContext_t     *context_ptr);
 
-void qpm_derive_delta_qp_map_weights(
-    ModeDecisionConfigurationContext *context_ptr,
-    PictureControlSet                *picture_control_set_ptr);
+void QpmDeriveDeltaQpMapWeights(
+    ModeDecisionConfigurationContext_t    *context_ptr,
+    PictureControlSet_t                  *picture_control_set_ptr);
 
-extern uint8_t derive_contouring_class(
-    PictureParentControlSet *parent_pcs_ptr,
-    uint16_t                 sb_index,
-    uint8_t                  leaf_index);  
+extern uint8_t DeriveContouringClass(
+    PictureParentControlSet_t   *parentPcsPtr,
+    uint16_t                       sb_index,
+    uint8_t                        leaf_index);  
 /**************************************
 * Function Ptrs Definitions
 **************************************/
-typedef EbErrorType(*EbMdcFunc)(
-    MdcpLocalCodingUnit *local_cu_array,
-    uint32_t             cu_index,
-    uint32_t             depth,
-    EbBool              *mdc_prediction64);
+typedef EbErrorType(*EB_MDC_FUNC)(
+    MdcpLocalCodingUnit_t                   *localCuArray,
+    uint32_t                                   cu_index,
+    uint32_t                                   depth,
+    EbBool                                 *mdcPrediction64);
 
 #define Pred        0x01
 #define Predp1      0x02
@@ -71,7 +71,7 @@ typedef EbErrorType(*EbMdcFunc)(
 #define AllD        0x80
 
 #if MDC_FIX_1
-EB_ALIGN(16) static const uint8_t ndp_refinement_control[MAX_TEMPORAL_LAYERS/*temporal layer*/][4/*cu Size*/] =
+EB_ALIGN(16) static const uint8_t NdpRefinementControl[MAX_TEMPORAL_LAYERS/*temporal layer*/][4/*cu Size*/] =
 {
     //   64                         32                              16                  8  
     /* layer-0 */      { Pred + Predp1 + Predp2     , Pred + Predp1                  ,Pred + Predp1          ,Pred + Predm1         },
@@ -82,20 +82,20 @@ EB_ALIGN(16) static const uint8_t ndp_refinement_control[MAX_TEMPORAL_LAYERS/*te
     /* layer-5 */      { Pred + Predp1 + Predp2     , Pred + Predp1                  ,Pred + Predp1          ,Pred + Predm1         },
 };
 #else
-EB_ALIGN(16) static const uint8_t ndp_refinement_control_nref[MAX_TEMPORAL_LAYERS/*temporal layer*/][4/*cu Size*/] =
+EB_ALIGN(16) static const uint8_t NdpRefinementControlNREF[MAX_TEMPORAL_LAYERS/*temporal layer*/][4/*cu Size*/] =
 {
-    //   64                         32                              16                  8  
-    /* layer-0 */      { Pred + Predp1 + Predp2     , Pred + Predp1                  ,Pred + Predp1          ,Pred + Predm1         },
-    /* layer-1 */      { Pred + Predp1 + Predp2     , Pred + Predp1                  ,Pred + Predp1          ,Pred + Predm1         },
-    /* layer-2 */      { Pred + Predp1 + Predp2     , Pred + Predp1                  ,Pred + Predp1          ,Pred + Predm1         },
-    /* layer-3 */      { Pred + Predp1 + Predp2     , Pred + Predp1                  ,Pred + Predp1          ,Pred + Predm1         },
-    /* layer-4 */      { Pred + Predp1 + Predp2     , Pred + Predp1                  ,Pred + Predp1          ,Pred + Predm1         },
-    /* layer-5 */      { Pred + Predp1 + Predp2     , Pred + Predp1                  ,Pred + Predp1          ,Pred + Predm1         },
-};
+                            //   64                         32                              16                  8  
+    /* layer-0 */      { Pred + Predp1+Predp2     , Pred + Predp1                  ,Pred +Predp1          ,Pred+Predm1         },  
+    /* layer-1 */      { Pred + Predp1+Predp2     , Pred + Predp1                  ,Pred +Predp1          ,Pred+Predm1         },
+    /* layer-2 */      { Pred + Predp1+Predp2     , Pred + Predp1                  ,Pred +Predp1          ,Pred+Predm1         },
+    /* layer-3 */      { Pred + Predp1            , Pred + Predp1                  , Pred + Predp1        , Pred + Predm1      },
+    /* layer-4 */      { Pred + Predp1            , Pred + Predp1                  , Pred + Predp1        , Pred + Predm1      },
+    /* layer-5 */      { Pred + Predp1            , Pred + Predp1                  , Pred + Predp1        , Pred + Predm1      },
+  }; 
 #endif
 
 #if !MDC_FIX_1 // clean up
-EB_ALIGN(16) static const uint8_t ndp_refinement_control_fast[MAX_TEMPORAL_LAYERS/*temporal layer*/][4/*cu Size*/] =
+EB_ALIGN(16) static const uint8_t NdpRefinementControl_FAST[MAX_TEMPORAL_LAYERS/*temporal layer*/][4/*cu Size*/] =
 {
                             //   64                         32                              16                  8  
     /* layer-0 */      { Pred + Predp1+Predp2       , Pred + Predp1                  ,Pred +Predp1          ,Pred+Predm1         },  
@@ -286,6 +286,7 @@ EB_ALIGN(16)  static const uint8_t NdpRefinementControlSw[2/*NDP levels*/][4/*LC
         },
     }
 };
+
 EB_ALIGN(16) static const uint8_t NdpRefinementControl_ISLICE_M2[2/*LCU classifier class*/][4/*cu Size*/] =
 {
     { Predp1, Pred, Predm1 + Pred, Predm1 + Pred },
@@ -306,17 +307,18 @@ EB_ALIGN(16) static const uint8_t NdpRefinementControl_ISLICE_M4[2/*LCU classifi
 };
 
 // Max FullCandidates Settings For Intra Frame
-EB_ALIGN(16) static const uint8_t ndp_refinement_control_islice_1080_p_m4[2/*LCU classifier class*/][4/*cu Size*/] =
+EB_ALIGN(16) static const uint8_t NdpRefinementControl_ISLICE_1080P_M4[2/*LCU classifier class*/][4/*cu Size*/] =
 {
     { Predp1+Predp2             ,Pred+Predp1+Predp2         ,Predm1+Pred+Predp1     ,Predm1+Pred },
     { Predp1+Predp2+Predp3      ,Pred+Predp1+Predp2         ,Predm1+Pred+Predp1     ,Predm1+Pred },
 };
 
+
 EB_ALIGN(16)  static const uint8_t MaxFullCandidatesForIntraFrame[MAX_HIERARCHICAL_LEVEL/*hierarchical_levels*/][EB_MAX_LCU_DEPTH/*cu_depth*/] = {
 
     // hierarchical_levels
     { 2, 2, 2, 2 }, { 2, 2, 2, 2 }, { 2, 2, 2, 2 }, { 3, 3, 3, 2 }, { 3, 3, 3, 2 }, { 3, 3, 3, 2 }
-
+    
 };
 EB_ALIGN(16)  static const uint8_t FullLoopCandidatesForInterFrameLevel2E[4/*Input size class*/][MAX_HIERARCHICAL_LEVEL/*hierarchical_levels*/][MAX_TEMPORAL_LAYERS/*temporal layer*/][2/*No Edge/Edge*/][EB_MAX_LCU_DEPTH/*cu_depth*/] = {
 
@@ -327,200 +329,199 @@ EB_ALIGN(16)  static const uint8_t FullLoopCandidatesForInterFrameLevel2E[4/*Inp
             //-----No Edge--------Edge---------
             { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } }  // temporal layer-0
         },
-    // hierarchical_levels-1
-    {
-        //-----No Edge--------Edge---------
-        { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } }   // temporal layer-1
-    },
-    // hierarchical_levels-2
-    {
-        //-----No Edge--------Edge---------
-        { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } }   // temporal layer-2
-    },
-    // hierarchical_levels-3
-    {
-        //-----No Edge--------Edge---------
-        { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
-        { { 2, 1, 1, 1 }, { 2, 2, 1, 1 } }   // temporal layer-3 
-    },
-    // hierarchical_levels-4
-    {
-        //-----No Edge--------Edge---------
-        { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-3
-        { { 2, 1, 1, 1 }, { 2, 2, 1, 1 } }   // temporal layer-4 
+        // hierarchical_levels-1
+        {
+            //-----No Edge--------Edge---------
+            { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } }   // temporal layer-1
+        },
+        // hierarchical_levels-2
+        {
+            //-----No Edge--------Edge---------
+            { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } }   // temporal layer-2
+        },
+        // hierarchical_levels-3
+        {
+            //-----No Edge--------Edge---------
+            { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
+            { { 2, 1, 1, 1 }, { 2, 2, 1, 1 } }   // temporal layer-3 
+        },
+        // hierarchical_levels-4
+        {
+            //-----No Edge--------Edge---------
+            { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-3
+            { { 2, 1, 1, 1 }, { 2, 2, 1, 1 } }   // temporal layer-4 
 
+        },
+        // hierarchical_levels-5
+        {
+            //-----No Edge--------Edge---------
+            { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-3
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-4
+            { { 2, 1, 1, 1 }, { 2, 2, 1, 1 } }   // temporal layer-5 
+        }
     },
-    // hierarchical_levels-5
+    // input_resolution-1
     {
-        //-----No Edge--------Edge---------
-        { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-3
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-4
-        { { 2, 1, 1, 1 }, { 2, 2, 1, 1 } }   // temporal layer-5 
+        // hierarchical_levels-0
+        {
+            //-----No Edge--------Edge---------
+            { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } }  // temporal layer-0
+        },
+        // hierarchical_levels-1
+        {
+            //-----No Edge--------Edge---------
+            { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } }   // temporal layer-1
+        },
+        // hierarchical_levels-2
+        {
+            //-----No Edge--------Edge---------
+            { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } }   // temporal layer-2
+        },
+        // hierarchical_levels-3
+        {
+            //-----No Edge--------Edge---------
+            { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
+            { { 2, 1, 1, 1 }, { 2, 2, 1, 1 } }   // temporal layer-3 
+        },
+        // hierarchical_levels-4
+        {
+            //-----No Edge--------Edge---------
+            { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-3 
+            { { 2, 1, 1, 1 }, { 2, 2, 1, 1 } }   // temporal layer-4 
+
+        },
+        // hierarchical_levels-5
+        {
+            //-----No Edge--------Edge---------
+            { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-3
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-4
+            { { 2, 1, 1, 1 }, { 2, 2, 1, 1 } }   // temporal layer-5 
+        }
+    },
+    // input_resolution-2
+    {
+        // hierarchical_levels-0
+        {
+            //-----No Edge--------Edge---------
+            { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } }  // temporal layer-0
+        },
+        // hierarchical_levels-1
+        {
+            //-----No Edge--------Edge---------
+            { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } }   // temporal layer-1
+        },
+        // hierarchical_levels-2
+        {
+            //-----No Edge--------Edge---------
+            { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } }   // temporal layer-2
+        },
+        // hierarchical_levels-3
+        {
+            { { 2, 3, 3, 4 }, { 1, 1, 3, 4 } },  // temporal layer-0 
+            { { 3, 2, 2, 2 }, { 1, 1, 2, 2 } },  // temporal layer-1 
+            { { 2, 2, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
+            { { 2, 1, 1, 1 }, { 2, 1, 1, 1 } }   // temporal layer-3 
+
+        },
+        // hierarchical_levels-4
+        {
+            //-----No Edge--------Edge---------
+            { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-3
+            { { 2, 1, 1, 1 }, { 2, 2, 1, 1 } }   // temporal layer-4 
+
+        },
+        // hierarchical_levels-5
+        {
+            //-----No Edge--------Edge---------
+            { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-3
+            { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-4
+            { { 2, 1, 1, 1 }, { 2, 2, 1, 1 } }   // temporal layer-5 
+        }
+    },
+    // input_resolution-3
+    {
+        // hierarchical_levels-0
+        {
+            //-----No Edge--------Edge---------
+            { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } }  // temporal layer-0
+        },
+        // hierarchical_levels-1
+        {
+            //-----No Edge--------Edge---------
+            { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-0
+            { { 1, 1, 1, 1 }, { 2, 1, 1, 1 } }  // temporal layer-1
+        },
+        // hierarchical_levels-2
+        {
+            //-----No Edge--------Edge---------
+            { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-0
+            { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-1
+            { { 1, 1, 1, 1 }, { 2, 1, 1, 1 } }   // temporal layer-2
+        },
+        // hierarchical_levels-3
+        {
+            //-----No Edge--------Edge---------
+            { { 2, 2, 2, 2 }, { 1, 1, 2, 2 } },  // temporal layer-0 
+            { { 3, 2, 2, 2 }, { 1, 1, 1, 2 } },  // temporal layer-1 
+            { { 2, 2, 1, 1 }, { 2, 2, 1, 1 } },  // temporal layer-2 
+            { { 2, 1, 2, 1 }, { 2, 2, 2, 1 } }   // temporal layer-3 
+
+        },
+        // hierarchical_levels-4
+        {
+            //-----No Edge--------Edge---------
+            { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-0 
+            { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-1 
+            { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-2 
+            { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-3
+            { { 1, 1, 1, 1 }, { 2, 1, 1, 1 } }   // temporal layer-4 
+
+        },
+        // hierarchical_levels-5
+        {
+            //-----No Edge--------Edge---------
+            { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-0 
+            { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-1 
+            { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-2 
+            { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-3 
+            { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-4 
+            { { 1, 1, 1, 1 }, { 2, 1, 1, 1 } }   // temporal layer-5 
+        }
     }
-},
-// input_resolution-1
-{
-    // hierarchical_levels-0
-    {
-        //-----No Edge--------Edge---------
-        { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } }  // temporal layer-0
-    },
-    // hierarchical_levels-1
-    {
-        //-----No Edge--------Edge---------
-        { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } }   // temporal layer-1
-    },
-    // hierarchical_levels-2
-    {
-        //-----No Edge--------Edge---------
-        { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } }   // temporal layer-2
-    },
-    // hierarchical_levels-3
-    {
-        //-----No Edge--------Edge---------
-        { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
-        { { 2, 1, 1, 1 }, { 2, 2, 1, 1 } }   // temporal layer-3 
-    },
-    // hierarchical_levels-4
-    {
-        //-----No Edge--------Edge---------
-        { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-3 
-        { { 2, 1, 1, 1 }, { 2, 2, 1, 1 } }   // temporal layer-4 
-
-    },
-    // hierarchical_levels-5
-    {
-        //-----No Edge--------Edge---------
-        { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-3
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-4
-        { { 2, 1, 1, 1 }, { 2, 2, 1, 1 } }   // temporal layer-5 
-    }
-},
-// input_resolution-2
-{
-    // hierarchical_levels-0
-    {
-        //-----No Edge--------Edge---------
-        { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } }  // temporal layer-0
-    },
-    // hierarchical_levels-1
-    {
-        //-----No Edge--------Edge---------
-        { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } }   // temporal layer-1
-    },
-    // hierarchical_levels-2
-    {
-        //-----No Edge--------Edge---------
-        { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } }   // temporal layer-2
-    },
-    // hierarchical_levels-3
-    {
-        { { 2, 3, 3, 4 }, { 1, 1, 3, 4 } },  // temporal layer-0 
-        { { 3, 2, 2, 2 }, { 1, 1, 2, 2 } },  // temporal layer-1 
-        { { 2, 2, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
-        { { 2, 1, 1, 1 }, { 2, 1, 1, 1 } }   // temporal layer-3 
-
-    },
-    // hierarchical_levels-4
-    {
-        //-----No Edge--------Edge---------
-        { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-3
-        { { 2, 1, 1, 1 }, { 2, 2, 1, 1 } }   // temporal layer-4 
-
-    },
-    // hierarchical_levels-5
-    {
-        //-----No Edge--------Edge---------
-        { { 1, 2, 1, 1 }, { 1, 2, 2, 2 } },  // temporal layer-0 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-1 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-2 
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-3
-        { { 2, 1, 1, 1 }, { 2, 2, 2, 1 } },  // temporal layer-4
-        { { 2, 1, 1, 1 }, { 2, 2, 1, 1 } }   // temporal layer-5 
-    }
-},
-// input_resolution-3
-{
-    // hierarchical_levels-0
-    {
-        //-----No Edge--------Edge---------
-        { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } }  // temporal layer-0
-    },
-    // hierarchical_levels-1
-    {
-        //-----No Edge--------Edge---------
-        { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-0
-        { { 1, 1, 1, 1 }, { 2, 1, 1, 1 } }  // temporal layer-1
-    },
-    // hierarchical_levels-2
-    {
-        //-----No Edge--------Edge---------
-        { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-0
-        { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-1
-        { { 1, 1, 1, 1 }, { 2, 1, 1, 1 } }   // temporal layer-2
-    },
-    // hierarchical_levels-3
-    {
-        //-----No Edge--------Edge---------
-        { { 2, 2, 2, 2 }, { 1, 1, 2, 2 } },  // temporal layer-0 
-        { { 3, 2, 2, 2 }, { 1, 1, 1, 2 } },  // temporal layer-1 
-        { { 2, 2, 1, 1 }, { 2, 2, 1, 1 } },  // temporal layer-2 
-        { { 2, 1, 2, 1 }, { 2, 2, 2, 1 } }   // temporal layer-3 
-
-    },
-    // hierarchical_levels-4
-    {
-        //-----No Edge--------Edge---------
-        { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-0 
-        { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-1 
-        { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-2 
-        { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-3
-        { { 1, 1, 1, 1 }, { 2, 1, 1, 1 } }   // temporal layer-4 
-
-    },
-    // hierarchical_levels-5
-    {
-        //-----No Edge--------Edge---------
-        { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-0 
-        { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-1 
-        { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-2 
-        { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-3 
-        { { 2, 2, 2, 2 }, { 2, 2, 2, 2 } },  // temporal layer-4 
-        { { 1, 1, 1, 1 }, { 2, 1, 1, 1 } }   // temporal layer-5 
-    }
-}
 };
 
-
-EB_ALIGN(32)  static const uint32_t mv_bit_table[500][500] = {
+EB_ALIGN(32)  static const uint32_t mvBitTable[500][500] = {
 
     { 73744, 128728, 203592, 203592, 269128, 269128, 269128, 269128, 334664, 334664, 334664, 334664, 334664, 334664, 334664, 334664, 400200, 400200, 400200, 400200, 400200, 400200, 400200, 400200, 400200, 400200, 400200, 400200, 400200, 400200, 400200, 400200, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 465736, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 531272, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 596808, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344, 662344 }, // 0
     { 130975, 178780, 253644, 253644, 319180, 319180, 319180, 319180, 384716, 384716, 384716, 384716, 384716, 384716, 384716, 384716, 450252, 450252, 450252, 450252, 450252, 450252, 450252, 450252, 450252, 450252, 450252, 450252, 450252, 450252, 450252, 450252, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 515788, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 581324, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 646860, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396, 712396 }, // 1

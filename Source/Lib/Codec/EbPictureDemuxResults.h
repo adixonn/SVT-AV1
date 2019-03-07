@@ -11,33 +11,32 @@
 /**************************************
  * Enums
  **************************************/
-typedef enum EbPicType 
-{
+typedef enum EB_PIC_TYPE {
     EB_PIC_INVALID = 0,
     EB_PIC_INPUT = 1,
     EB_PIC_REFERENCE = 2
-} EbPicType;
+} EB_PIC_TYPE;
 
 /**************************************
  * Picture Demux Results
  **************************************/
-typedef struct PictureDemuxResults
+typedef struct PictureDemuxResults_s
 {
-    EbPicType                    picture_type;
+    EB_PIC_TYPE                    pictureType;
 
     // Only valid for input pictures
-    EbObjectWrapper             *picture_control_set_wrapper_ptr;
+    EbObjectWrapper_t             *pictureControlSetWrapperPtr;
 
     // Only valid for reference pictures
-    EbObjectWrapper             *reference_picture_wrapper_ptr;
-    EbObjectWrapper             *sequence_control_set_wrapper_ptr;
-    uint64_t                     picture_number;
+    EbObjectWrapper_t             *reference_picture_wrapper_ptr;
+    EbObjectWrapper_t             *sequence_control_set_wrapper_ptr;
+    uint64_t                         picture_number;
 
-} PictureDemuxResults;
+} PictureDemuxResults_t;
 
-typedef struct PictureResultInitData {
+typedef struct PictureResultInitData_s {
     int32_t junk;
-} PictureResultInitData;
+} PictureResultInitData_t;
 
 /**************************************
  * Extern Function Declarations

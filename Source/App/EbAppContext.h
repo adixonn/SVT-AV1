@@ -13,36 +13,33 @@
 
  * App Callback data struct
  ***************************************/
-typedef struct EbAppContext {
-    EbSvtAv1EncConfiguration           eb_enc_parameters;
+typedef struct EbAppContext_s {
+    void                               *cmdSemaphoreHandle;
+    void                               *inputSemaphoreHandle;
+    void                               *streamSemaphoreHandle;
+    EbSvtAv1EncConfiguration              ebEncParameters;
 
     // Output Ports Active Flags
-    AppPortActiveType                  output_stream_port_active;
+    APPPORTACTIVETYPE                   outputStreamPortActive;
 
     // Component Handle
-    EbComponentType*                   svt_encoder_handle;
+    EbComponentType*                   svtEncoderHandle;
 
     // Buffer Pools
-    EbBufferHeaderType                *input_buffer_pool;
-    EbBufferHeaderType                *stream_buffer_pool;
+    EbBufferHeaderType                *inputBufferPool;
+    EbBufferHeaderType                *streamBufferPool;
     EbBufferHeaderType                *recon_buffer;
 
     // Instance Index
-    uint8_t                            instance_idx;
+    uint8_t                            instanceIdx;
 
-} EbAppContext;
+} EbAppContext_t;
 
 
 /********************************
  * External Function
  ********************************/
-extern EbErrorType init_encoder(
-    EbConfig *config, 
-    EbAppContext *callback_data, 
-    uint32_t instance_idx);
-
-extern EbErrorType de_init_encoder(
-    EbAppContext *callback_data_ptr, 
-    uint32_t instance_index);
+extern EbErrorType InitEncoder(EbConfig_t *config, EbAppContext_t *callbackData, uint32_t instanceIdx);
+extern EbErrorType DeInitEncoder(EbAppContext_t *callbackDataPtr, uint32_t instanceIndex);
 
 #endif // EbAppContext_h

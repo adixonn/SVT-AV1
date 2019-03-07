@@ -31,13 +31,13 @@ extern "C" {
     /************************************
      * Sequence Control Set
      ************************************/
-    typedef struct SequenceControlSet
+    typedef struct SequenceControlSet_s
     {
         EbSvtAv1EncConfiguration                static_config;
-                                              
-        // Encoding Context                   
-        EncodeContext                          *encode_context_ptr;
-                                              
+
+        // Encoding Context
+        EncodeContext_t                        *encode_context_ptr;
+
         // Profile & ID
         uint32_t                                sps_id;
         uint32_t                                vps_id;
@@ -82,13 +82,13 @@ extern "C" {
         uint32_t                                conformance_window_flag;
 
         // Bitdepth
-        EbBitDepth                              input_bitdepth;
-        EbBitDepth                              output_bitdepth;
+        EB_BITDEPTH                             input_bitdepth;
+        EB_BITDEPTH                             output_bitdepth;
 
         // Group of Pictures (GOP) Structure
         uint32_t                                max_ref_count;            // Maximum number of reference pictures, however each pred
                                                             //   entry can be less.
-        PredictionStructure                    *pred_struct_ptr;
+        PredictionStructure_t                  *pred_struct_ptr;
         int32_t                                 intra_period_length;      // The frequency of intra pictures
         uint32_t                                intra_refresh_type;       // 1: CRA, 2: IDR
 
@@ -175,14 +175,14 @@ extern "C" {
         uint32_t                                total_process_init_count;
         
         uint16_t                                film_grain_random_seed;
-        SbParams                               *sb_params_array;
+        SbParams_t                             *sb_params_array;
         uint8_t                                 picture_width_in_sb;
         uint8_t                                 picture_height_in_sb;
         uint16_t                                sb_total_count;
         uint16_t                                sb_size_pix;  //sb size in pixels 64/128
         uint16_t                                sb_tot_cnt;   // sb total number
         uint16_t                                max_block_cnt;
-        SbGeom                                 *sb_geom;
+        SbGeom_t                               *sb_geom;
 
         EbInputResolution                       input_resolution;
         EbScdMode                               scd_mode;
@@ -195,7 +195,7 @@ extern "C" {
         int32_t                                 frame_id_numbers_present_flag;
         int32_t                                 frame_id_length;
         int32_t                                 delta_frame_id_length;
-        BlockSize                               sb_size;                            // Size of the superblock used for this frame
+        block_size                               sb_size;                            // Size of the superblock used for this frame
         int32_t                                 mib_size;                           // Size of the superblock in units of MI blocks
         int32_t                                 mib_size_log2;                      // Log 2 of above.
         int32_t                                 order_hint_bits_minus1;
@@ -250,22 +250,21 @@ extern "C" {
         uint64_t                                pred_count[5];
         uint64_t                                pred1_nfl_count[5];
 #endif
-    } SequenceControlSet;
+    } SequenceControlSet_t;
 
-
-    typedef struct EbSequenceControlSetInitData
+    typedef struct EbSequenceControlSetInitData_s
     {
-        EncodeContext *encode_context_ptr;
-        int32_t        sb_size;
-    } EbSequenceControlSetInitData;
+        EncodeContext_t            *encode_context_ptr;
+        int32_t                     sb_size;
+    } EbSequenceControlSetInitData_t;
 
-    typedef struct EbSequenceControlSetInstance
+    typedef struct EbSequenceControlSetInstance_s
     {
-        EncodeContext      *encode_context_ptr;
-        SequenceControlSet *sequence_control_set_ptr;
-        EbHandle            config_mutex;
+        EncodeContext_t            *encode_context_ptr;
+        SequenceControlSet_t       *sequence_control_set_ptr;
+        EbHandle                    config_mutex;
 
-    } EbSequenceControlSetInstance;
+    } EbSequenceControlSetInstance_t;
 
     /**************************************
      * Extern Function Declarations
@@ -275,23 +274,23 @@ extern "C" {
         EbPtr  object_init_data_ptr);
 
     extern EbErrorType copy_sequence_control_set(
-        SequenceControlSet *dst,
-        SequenceControlSet *src);
+        SequenceControlSet_t *dst,
+        SequenceControlSet_t *src);
 
     extern EbErrorType eb_sequence_control_set_instance_ctor(
-        EbSequenceControlSetInstance **object_dbl_ptr);
+        EbSequenceControlSetInstance_t **object_dbl_ptr);
 
     extern EbErrorType sb_params_ctor(
-        SequenceControlSet *sequence_control_set_ptr);
+        SequenceControlSet_t *sequence_control_set_ptr);
 
     extern EbErrorType sb_params_init(
-        SequenceControlSet *sequence_control_set_ptr);
+        SequenceControlSet_t *sequence_control_set_ptr);
 
     extern EbErrorType derive_input_resolution(
-        SequenceControlSet *sequence_control_set_ptr,
-        uint32_t            input_size);
+        SequenceControlSet_t *sequence_control_set_ptr,
+        uint32_t              input_size);
 
-    EbErrorType sb_geom_init(SequenceControlSet *sequence_control_set_ptr);
+    EbErrorType sb_geom_init(SequenceControlSet_t *sequence_control_set_ptr);
 
 #ifdef __cplusplus
 }

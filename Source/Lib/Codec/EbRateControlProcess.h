@@ -91,199 +91,204 @@ static const uint64_t two_to_power_x_over_six[] = {
 /**************************************
  * Input Port Types
  **************************************/
-typedef enum RateControlInputPortTypes 
-{
+typedef enum RATE_CONTROL_INPUT_PORT_TYPES {
     RATE_CONTROL_INPUT_PORT_PICTURE_MANAGER = 0,
     RATE_CONTROL_INPUT_PORT_PACKETIZATION = 1,
     RATE_CONTROL_INPUT_PORT_ENTROPY_CODING = 2,
     RATE_CONTROL_INPUT_PORT_TOTAL_COUNT = 3,
     RATE_CONTROL_INPUT_PORT_INVALID = ~0,
-} RateControlInputPortTypes;
+} RATE_CONTROL_INPUT_PORT_TYPES;
 
 /**************************************
  * Input Port Config
  **************************************/
-typedef struct RateControlPorts 
-{
-    RateControlInputPortTypes type;
-    uint32_t                  count;
-} RateControlPorts;
+typedef struct RateControlPorts_s {
+    RATE_CONTROL_INPUT_PORT_TYPES    type;
+    uint32_t                           count;
+} RateControlPorts_t;
 
 /**************************************
  * Coded Frames Stats
  **************************************/
-typedef struct CodedFramesStatsEntry 
-{
-    uint64_t picture_number;
-    int64_t  frame_total_bit_actual;
-    EbBool   end_of_sequence_flag;
-} CodedFramesStatsEntry;
+typedef struct CodedFramesStatsEntry_s {
+    uint64_t               picture_number;
+    int64_t               frameTotalBitActual;
+    EbBool              end_of_sequence_flag;
+} CodedFramesStatsEntry_t;
 /**************************************
  * Context
  **************************************/
-typedef struct RateControlLayerContext
+typedef struct RateControlLayerContext_s
 {
-    uint64_t                  previous_frame_sad_me;
-    uint64_t                  previous_frame_bit_actual;
-    uint64_t                  previous_frame_quantized_coeff_bit_actual;
-    EbBool                    feedback_arrived;
+    uint64_t                  previousFrameSadMe;
+    uint64_t                  previousFrameBitActual;
+    uint64_t                  previousFrameQuantizedCoeffBitActual;
+    EbBool                 feedbackArrived;
 
     uint64_t                  target_bit_rate;
     uint64_t                  frame_rate;
-    uint64_t                  channel_bit_rate;
+    uint64_t                  channelBitRate;
 
-    uint64_t                  previous_bit_constraint;
-    uint64_t                  bit_constraint;
-    uint64_t                  ec_bit_constraint;
-    int64_t                   dif_total_and_ec_bits;
+    uint64_t                  previousBitConstraint;
+    uint64_t                  bitConstraint;
+    uint64_t                  ecBitConstraint;
+    uint64_t                  previousEcBits;
+    int64_t                  difTotalAndEcBits;
+    int64_t                  prevDifTotalAndEcBits;
 
-    uint32_t                  coeff_averaging_weight1;
-    uint32_t                  coeff_averaging_weight2; // coeff_averaging_weight2 = 16- coeff_averaging_weight1
-    //c_coeffs have 2*RC_PRECISION precision
-    int64_t                  c_coeff;
-    int64_t                  previous_c_coeff;
-    //k_coeffs have RC_PRECISION precision
-    uint64_t                  k_coeff;
-    uint64_t                  previous_k_coeff;
+    int64_t                  bitDiff;
+    uint32_t                  coeffAveragingWeight1;
+    uint32_t                  coeffAveragingWeight2; // coeffAveragingWeight2 = 16- coeffAveragingWeight1
+    //Ccoeffs have 2*RC_PRECISION precision
+    int64_t                  cCoeff;
+    int64_t                  previousCCoeff;
+    //Kcoeffs have RC_PRECISION precision
+    uint64_t                  kCoeff;
+    uint64_t                  previousKCoeff;
+    uint64_t                  coeffWeight;
 
-    //delta_qp_fraction has RC_PRECISION precision
-    int64_t                   delta_qp_fraction;
-    uint32_t                  previous_frame_qp;
-    uint32_t                  calculated_frame_qp;
-    uint32_t                  previous_calculated_frame_qp;
-    uint32_t                  area_in_pixel;
-    uint32_t                  previous_frame_average_qp;
+    //deltaQpFraction has RC_PRECISION precision
+    int64_t                  deltaQpFraction;
+    uint32_t                  previousFrameQp;
+    uint32_t                  calculatedFrameQp;
+    uint32_t                  previousCalculatedFrameQp;
+    uint32_t                  areaInPixel;
+    uint32_t                  previousFrameAverageQp;
 
-    //total_mad has RC_PRECISION precision
-    uint64_t                  total_mad;
+    //totalMad has RC_PRECISION precision
+    uint64_t                  totalMad;
 
-    uint32_t                  first_frame;
-    uint32_t                  first_non_intra_frame;
-    uint32_t                  same_sad_count;
-    uint32_t                  frame_same_sad_min_qp_count;
-    uint32_t                  critical_states;
+    uint32_t                  firstFrame;
+    uint32_t                  firstNonIntraFrame;
+    uint32_t                  sameSADCount;
+    uint32_t                  frameSameSADMinQpCount;
+    uint32_t                  criticalStates;
 
-    uint32_t                  max_qp;
-    uint32_t                  temporal_index;
+    uint32_t                  maxQp;
+    uint32_t                  temporalIndex;
 
     uint64_t                  alpha;
 
-} RateControlLayerContext;
+} RateControlLayerContext_t;
 
-typedef struct RateControlIntervalParamContext
+typedef struct RateControlIntervalParamContext_s
 {
-    uint64_t                  first_poc;
-    uint64_t                  last_poc;
-    EbBool                    in_use;
-    EbBool                    was_used;
-    uint64_t                  processed_frames_number;
-    EbBool                    last_gop;
-    RateControlLayerContext **rate_control_layer_array;
+    uint64_t                       firstPoc;
+    uint64_t                       lastPoc;
+    EbBool                      inUse;
+    EbBool                      wasUsed;
+    uint64_t                       processedFramesNumber;
+    EbBool                      lastGop;
+    RateControlLayerContext_t  **rateControlLayerArray;
 
-    int64_t                   virtual_buffer_level;
-    int64_t                   previous_virtual_buffer_level;
-    uint32_t                  intra_frames_qp;
+    int64_t                       virtualBufferLevel;
+    int64_t                       previousVirtualBufferLevel;
+    uint32_t                       intraFramesQp;
 
-    uint32_t                  next_gop_intra_frame_qp;
-    uint64_t                  first_pic_pred_bits;
-    uint64_t                  first_pic_actual_bits;
-    uint16_t                  first_pic_pred_qp;
-    uint16_t                  first_pic_actual_qp;
-    EbBool                    first_pic_actual_qp_assigned;
-    EbBool                    scene_change_in_gop;
-    EbBool                    min_target_rate_assigned;
-    int64_t                   extra_ap_bit_ratio_i;
+    uint32_t                       nextGopIntraFrameQp;
+    int64_t                       totalExtraBits;
+    uint64_t                       firstPicPredBits;
+    uint64_t                       firstPicActualBits;
+    uint16_t                       firstPicPredQp;
+    uint16_t                       firstPicActualQp;
+    EbBool                       firstPicActualQpAssigned;
+    EbBool                      scene_change_in_gop;
+    EbBool                      min_target_rate_assigned;
+    int64_t                       extraApBitRatioI;
 
-} RateControlIntervalParamContext;
+} RateControlIntervalParamContext_t;
 
-typedef struct HighLevelRateControlContext
+typedef struct HighLevelRateControlContext_s
 {
 
-    uint64_t                  target_bit_rate;
-    uint64_t                  frame_rate;
-    uint64_t                  channel_bit_rate_per_frame;
-    uint64_t                  channel_bit_rate_per_sw;
-    uint64_t                  bit_constraint_per_sw;
-    uint64_t                  pred_bits_ref_qp_per_sw[MAX_REF_QP_NUM];
-#if RC_UPDATE_TARGET_RATE     
-    uint32_t                  prev_intra_selected_ref_qp;
-    uint32_t                  prev_intra_org_selected_ref_qp;
-    uint64_t                  previous_updated_bit_constraint_per_sw;
+    uint64_t                       targetBitsPerSlidingWindow;
+    uint64_t                       target_bit_rate;
+    uint64_t                       frame_rate;
+    uint64_t                       channelBitRatePerFrame;
+    uint64_t                       channelBitRatePerSw;
+    uint64_t                       bitConstraintPerSw;
+    uint64_t                       predBitsRefQpPerSw[MAX_REF_QP_NUM];
+#if RC_UPDATE_TARGET_RATE
+    uint32_t                       prevIntraSelectedRefQp;
+    uint32_t                       prevIntraOrgSelectedRefQp;
+    uint64_t                       previousUpdatedBitConstraintPerSw;
 #endif
 
 
-} HighLevelRateControlContext;
+} HighLevelRateControlContext_t;
 
-typedef struct RateControlContext
+typedef struct RateControlContext_s
 {
-    EbFifo                           *rate_control_input_tasks_fifo_ptr;
-    EbFifo                           *rate_control_output_results_fifo_ptr;
+    EbFifo_t                    *rate_control_input_tasks_fifo_ptr;
+    EbFifo_t                    *rate_control_output_results_fifo_ptr;
 
-    HighLevelRateControlContext      *high_level_rate_control_ptr;
+    HighLevelRateControlContext_t *highLevelRateControlPtr;
 
-    RateControlIntervalParamContext **rateControlParamQueue;
-    uint64_t                          rateControlParamQueueHeadIndex;
+    RateControlIntervalParamContext_t **rateControlParamQueue;
+    uint64_t                       rateControlParamQueueHeadIndex;
 
-    uint64_t                          frame_rate;
-                                      
-    uint64_t                          virtual_buffer_size;
-                                      
-    int64_t                           virtual_buffer_level_initial_value;
-    int64_t                           previous_virtual_buffer_level;
-                                      
-    int64_t                           virtual_buffer_level;
+    uint64_t                       frame_rate;
+
+    uint64_t                       virtualBufferSize;
+
+    int64_t                       virtualBufferLevelInitialValue;
+    int64_t                       previousVirtualBufferLevel;
+
+    int64_t                       virtualBufferLevel;
 
     //Virtual Buffer Thresholds
-    int64_t                           vb_fill_threshold1;
-    int64_t                           vb_fill_threshold2;
+    int64_t                       vbFillThreshold1;
+    int64_t                       vbFillThreshold2;
 
     // Rate Control Previous Bits Queue
 #if OVERSHOOT_STAT_PRINT
-    CodedFramesStatsEntry        **coded_frames_stat_queue;
-    uint32_t                       coded_frames_stat_queue_head_index;
-    uint32_t                       coded_frames_stat_queue_tail_index;
+    CodedFramesStatsEntry_t    **codedFramesStatQueue;
+    uint32_t                       codedFramesStatQueueHeadIndex;
+    uint32_t                       codedFramesStatQueueTailIndex;
 
-    uint64_t                       total_bit_actual_per_sw;
-    uint64_t                       max_bit_actual_per_sw;
-    uint64_t                       max_bit_actual_per_gop;
+    uint64_t                       totalBitActualPerSw;
+    uint64_t                       maxBitActualPerSw;
+    uint64_t                       maxBitActualPerGop;
 
 #endif
 
 
-    uint64_t                       rate_average_periodin_frames;
-    uint32_t                       base_layer_frames_avg_qp;
-    uint32_t                       base_layer_intra_frames_avg_qp;
+    uint64_t                       rateAveragePeriodinFrames;
+    uint32_t                       baseLayerFramesAvgQp;
+    uint32_t                       baseLayerIntraFramesAvgQp;
 
-    EbBool                         end_of_sequence_region;
+    uint32_t                       baseLayerIntraFramesAvgQpFloat;
+    EbBool                      end_of_sequence_region;
 
-    uint32_t                       intra_coef_rate;
+    uint32_t                       intraCoefRate;
+    uint32_t                       nonPeriodicIntraCoefRate;
 
     uint64_t                       frames_in_interval[EB_MAX_TEMPORAL_LAYERS];
-    int64_t                        extra_bits;
-    int64_t                        extra_bits_gen;
-    int16_t                        max_rate_adjust_delta_qp;
+    int64_t                       extraBits;
+    int64_t                       extraBitsGen;
+    int16_t                      maxRateAdjustDeltaQP;
 
 
-} RateControlContext;
+} RateControlContext_t;
 
 /**************************************
  * Extern Function Declarations
  **************************************/
 extern EbErrorType rate_control_layer_context_ctor(
-    RateControlLayerContext **entry_dbl_ptr);
+    RateControlLayerContext_t **entry_dbl_ptr);
 
 extern EbErrorType rate_control_interval_param_context_ctor(
-    RateControlIntervalParamContext **entry_dbl_ptr);
+    RateControlIntervalParamContext_t **entry_dbl_ptr);
 
 extern EbErrorType rate_control_coded_frames_stats_context_ctor(
-    CodedFramesStatsEntry **entry_dbl_ptr,
-    uint64_t                picture_number);
+    CodedFramesStatsEntry_t **entry_dbl_ptr,
+    uint64_t                  picture_number);
 
 extern EbErrorType rate_control_context_ctor(
-    RateControlContext **context_dbl_ptr,
-    EbFifo              *rate_control_input_tasks_fifo_ptr,
-    EbFifo              *rate_control_output_results_fifo_ptr,
-    int32_t              intra_period_length);
+    RateControlContext_t **context_dbl_ptr,
+    EbFifo_t              *rate_control_input_tasks_fifo_ptr,
+    EbFifo_t              *rate_control_output_results_fifo_ptr,
+    int32_t                intra_period_length);
 
 extern void* rate_control_kernel(void *input_ptr);
 

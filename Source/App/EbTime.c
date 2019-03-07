@@ -22,91 +22,91 @@
 #error OS/Platform not supported.
 #endif
 
-void eb_start_time(
-    uint64_t *start_seconds,
-    uint64_t *start_useconds)
+void EbStartTime(
+    uint64_t *Startseconds,
+    uint64_t *Startuseconds)
 {
 
 #if defined(__linux__) || defined(__APPLE__) //(LINUX_ENCODER_TIMING || LINUX_DECODER_TIMING)
     struct timeval start;
     gettimeofday(&start, NULL);
-    *start_seconds=start.tv_sec;
-    *start_useconds=start.tv_usec;
+    *Startseconds=start.tv_sec;
+    *Startuseconds=start.tv_usec;
 #elif _WIN32 //(WIN_ENCODER_TIMING || WIN_DECODER_TIMING)
-    *start_seconds = (uint64_t) clock();
-    (void) (*start_useconds);
+    *Startseconds = (uint64_t) clock();
+    (void) (*Startuseconds);
 #else
-    (void) (*start_useconds);
-    (void) (*start_seconds);
+    (void) (*Startuseconds);
+    (void) (*Startseconds);
 #endif
 
 }
-void eb_finish_time(
-    uint64_t *finish_seconds,
-    uint64_t *finish_useconds)
+void EbFinishTime(
+    uint64_t *Finishseconds,
+    uint64_t *Finishuseconds)
 {
 
 #if defined(__linux__) || defined(__APPLE__) //(LINUX_ENCODER_TIMING || LINUX_DECODER_TIMING)
     struct timeval finish;
     gettimeofday(&finish, NULL);
-    *finish_seconds=finish.tv_sec;
-    *finish_useconds=finish.tv_usec;
+    *Finishseconds=finish.tv_sec;
+    *Finishuseconds=finish.tv_usec;
 #elif _WIN32 //(WIN_ENCODER_TIMING || WIN_DECODER_TIMING)
-    *finish_seconds= (uint64_t)clock();
-    (void) (*finish_useconds);
+    *Finishseconds= (uint64_t)clock();
+    (void) (*Finishuseconds);
 #else
-    (void) (*finish_useconds);
-    (void) (*finish_seconds);
+    (void) (*Finishuseconds);
+    (void) (*Finishseconds);
 #endif
 
 }
-void eb_compute_overall_elapsed_time(
-    uint64_t start_seconds,
-    uint64_t start_useconds,
-    uint64_t finish_seconds,
-    uint64_t finish_useconds,
+void EbComputeOverallElapsedTime(
+    uint64_t Startseconds,
+    uint64_t Startuseconds,
+    uint64_t Finishseconds,
+    uint64_t Finishuseconds,
     double *duration){
 #if defined(__linux__) || defined(__APPLE__) //(LINUX_ENCODER_TIMING || LINUX_DECODER_TIMING)
     long   mtime, seconds, useconds;
-    seconds  = finish_seconds - start_seconds;
-    useconds = finish_useconds - start_useconds;
+    seconds  = Finishseconds - Startseconds;
+    useconds = Finishuseconds - Startuseconds;
     mtime = ((seconds) * 1000 + useconds/1000.0) + 0.5;
     *duration = (double)mtime/1000;
     //printf("\nElapsed time: %3.3ld seconds\n", mtime/1000);
 #elif _WIN32 //(WIN_ENCODER_TIMING || WIN_DECODER_TIMING)
     //double  duration;
-    *duration = (double)(finish_seconds - start_seconds) / CLOCKS_PER_SEC;
+    *duration = (double)(Finishseconds - Startseconds) / CLOCKS_PER_SEC;
     //printf("\nElapsed time: %3.3f seconds\n", *duration);
-    (void) (start_useconds);
-    (void) (finish_useconds);
+    (void) (Startuseconds);
+    (void) (Finishuseconds);
 #else
-    (void) (start_useconds);
-    (void) (start_seconds);
-    (void) (finish_useconds);
-    (void) (finish_seconds);
+    (void) (Startuseconds);
+    (void) (Startseconds);
+    (void) (Finishuseconds);
+    (void) (Finishseconds);
 
 #endif
 
 }
-void eb_sleep(
-    uint64_t milli_seconds){
+void EbSleep(
+    uint64_t milliSeconds){
 
-    if(milli_seconds) {
+    if(milliSeconds) {
 #if defined(__linux__) || defined(__APPLE__)
         struct timespec req,rem;
-        req.tv_sec=(int32_t)(milli_seconds/1000);
-        milli_seconds -= req.tv_sec * 1000;
-        req.tv_nsec = milli_seconds * 1000000UL;
+        req.tv_sec=(int32_t)(milliSeconds/1000);
+        milliSeconds -= req.tv_sec * 1000;
+        req.tv_nsec = milliSeconds * 1000000UL;
         nanosleep(&req,&rem);
 #elif _WIN32
-        Sleep((DWORD) milli_seconds);
+        Sleep((DWORD) milliSeconds);
 #else
 #error OS Not supported
 #endif
     }
 }
-void eb_injector(
-    uint64_t processed_frame_count,
+void EbInjector(
+    uint64_t processedFrameCount,
     uint32_t injector_frame_rate){
 
 #if defined(__linux__) || defined(__APPLE__)
@@ -134,7 +134,7 @@ void eb_injector(
         firstTime = 1;
 
 #if defined(__linux__) || defined(__APPLE__)
-        eb_start_time((uint64_t*)&startTimesSeconds, (uint64_t*)&startTimesuSeconds);
+        EbStartTime((uint64_t*)&startTimesSeconds, (uint64_t*)&startTimesuSeconds);
 #elif _WIN32
         QueryPerformanceFrequency(&counterFreq);
         QueryPerformanceCounter(&startCount);
@@ -144,19 +144,19 @@ void eb_injector(
     {
 
 #if defined(__linux__) || defined(__APPLE__)
-        eb_finish_time((uint64_t*)&currentTimesSeconds, (uint64_t*)&currentTimesuSeconds);
-        eb_compute_overall_elapsed_time(startTimesSeconds, startTimesuSeconds, currentTimesSeconds, currentTimesuSeconds, &elapsedTime);
+        EbFinishTime((uint64_t*)&currentTimesSeconds, (uint64_t*)&currentTimesuSeconds);
+        EbComputeOverallElapsedTime(startTimesSeconds, startTimesuSeconds, currentTimesSeconds, currentTimesuSeconds, &elapsedTime);
 #elif _WIN32
         QueryPerformanceCounter(&nowCount);
         elapsedTime = (double)(nowCount.QuadPart - startCount.QuadPart) / (double)counterFreq.QuadPart;
 #endif
 
-        predictedTime = (processed_frame_count - bufferFrames) * injectorInterval;
+        predictedTime = (processedFrameCount - bufferFrames) * injectorInterval;
         milliSecAhead = (int32_t)(1000 * (predictedTime - elapsedTime ));
         if (milliSecAhead>0)
         {
             //  timeBeginPeriod(1);
-            eb_sleep(milliSecAhead);
+            EbSleep(milliSecAhead);
             //  timeEndPeriod (1);
         }
     }

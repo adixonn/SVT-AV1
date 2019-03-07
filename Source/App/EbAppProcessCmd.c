@@ -33,580 +33,580 @@ extern volatile int32_t keepRunning;
 * Process Error Log
 ***************************************/
 void LogErrorOutput(
-    FILE                     *error_log_file,
-    uint32_t                  error_code)
+    FILE                     *errorLogFile,
+    uint32_t                  errorCode)
 {
 
-    switch (error_code) {
+    switch (errorCode) {
 
         // EB_ENC_AMVP_ERRORS:
     case EB_ENC_AMVP_ERROR1:
-        fprintf(error_log_file, "Error: The input PU to GetNonScalingSpatialAMVP() can not be I_MODE!\n");
+        fprintf(errorLogFile, "Error: The input PU to GetNonScalingSpatialAMVP() can not be I_MODE!\n");
         break;
 
     case EB_ENC_AMVP_ERROR2:
-        fprintf(error_log_file, "Error: The input PU to GetNonScalingSpatialAMVP() must be available!\n");
+        fprintf(errorLogFile, "Error: The input PU to GetNonScalingSpatialAMVP() must be available!\n");
         break;
 
     case EB_ENC_AMVP_ERROR3:
-        fprintf(error_log_file, "Error: The input PU to GetNonScalingSpatialAMVP() can not be I_MODE!\n");
+        fprintf(errorLogFile, "Error: The input PU to GetNonScalingSpatialAMVP() can not be I_MODE!\n");
         break;
 
     case EB_ENC_AMVP_ERROR4:
-        fprintf(error_log_file, "Error: The availability parameter in GetSpatialMVPPosAx() function can not be > 3 !\n");
+        fprintf(errorLogFile, "Error: The availability parameter in GetSpatialMVPPosAx() function can not be > 3 !\n");
         break;
 
     case EB_ENC_AMVP_ERROR5:
-        fprintf(error_log_file, "Error: The availability parameter in GetSpatialMVPPosBx() function can not be > 7 !\n");
+        fprintf(errorLogFile, "Error: The availability parameter in GetSpatialMVPPosBx() function can not be > 7 !\n");
         break;
 
     case EB_ENC_AMVP_ERROR6:
-        fprintf(error_log_file, "Error: GetTemporalMVP: tmvpMapLcuIndex must be either 0 or 1!\n");
+        fprintf(errorLogFile, "Error: GetTemporalMVP: tmvpMapLcuIndex must be either 0 or 1!\n");
         break;
 
     case EB_ENC_AMVP_ERROR7:
-        fprintf(error_log_file, "Error: the input PU to GetNonScalingSpatialAMVP() must be available!");
+        fprintf(errorLogFile, "Error: the input PU to GetNonScalingSpatialAMVP() must be available!");
         break;
 
     case EB_ENC_AMVP_ERROR8:
-        fprintf(error_log_file, "Error: GetTemporalMVP: tmvpMapLcuIndex must be either 0 or 1");
+        fprintf(errorLogFile, "Error: GetTemporalMVP: tmvpMapLcuIndex must be either 0 or 1");
         break;
 
     case EB_ENC_AMVP_NULL_REF_ERROR:
-        fprintf(error_log_file, "Error: The referenceObject can not be NULL!\n");
+        fprintf(errorLogFile, "Error: The referenceObject can not be NULL!\n");
         break;
 
     case EB_ENC_AMVP_SPATIAL_NA_ERROR:
-        fprintf(error_log_file, "Error: The input PU to GetNonScalingSpatialAMVP() must be available!\n");
+        fprintf(errorLogFile, "Error: The input PU to GetNonScalingSpatialAMVP() must be available!\n");
         break;
 
         // EB_ENC_CL_ERRORS:
     case EB_ENC_CL_ERROR1:
-        fprintf(error_log_file, "Error: Unknown Inter Prediction Direction!\n");
+        fprintf(errorLogFile, "Error: Unknown Inter Prediction Direction!\n");
         break;
 
     case EB_ENC_CL_ERROR2:
-        fprintf(error_log_file, "Error: Unknown coding mode!\n");
+        fprintf(errorLogFile, "Error: Unknown coding mode!\n");
         break;
 
     case EB_ENC_CL_ERROR3:
-        fprintf(error_log_file, "Error: Mode Decision Candidate Buffer Overflow!\n");
+        fprintf(errorLogFile, "Error: Mode Decision Candidate Buffer Overflow!\n");
         break;
 
     case EB_ENC_CL_ERROR4:
-        fprintf(error_log_file, "Error: Too many Mode Decision Fast Candidates!\n");
+        fprintf(errorLogFile, "Error: Too many Mode Decision Fast Candidates!\n");
         break;
 
     case EB_ENC_CL_ERROR5:
-        fprintf(error_log_file, "Error: Too many buffers chosen for this level by pre_mode_decision!\n");
+        fprintf(errorLogFile, "Error: Too many buffers chosen for this level by PreModeDecision!\n");
         break;
 
     case EB_ENC_CL_ERROR6:
-        fprintf(error_log_file, "Error: Ping-Pong structure needs at least two buffers to work properly!\n");
+        fprintf(errorLogFile, "Error: Ping-Pong structure needs at least two buffers to work properly!\n");
         break;
 
     case EB_ENC_CL_ERROR7:
-        fprintf(error_log_file, "Error: Invalid Intra Partition\n");
+        fprintf(errorLogFile, "Error: Invalid Intra Partition\n");
         break;
 
     case EB_ENC_CL_ERROR8:
-        fprintf(error_log_file, "Error: Invalid TU Configuration\n");
+        fprintf(errorLogFile, "Error: Invalid TU Configuration\n");
         break;
     case EB_ENC_CL_ERROR9:
-        fprintf(error_log_file, "Error: Invalid Prediction Mode\n");
+        fprintf(errorLogFile, "Error: Invalid Prediction Mode\n");
         break;
 
 
         // EB_ENC_DLF_ERRORS:
     case EB_ENC_DLF_ERROR1:
-        fprintf(error_log_file, "Error: While calculating bS for DLF!\n");
+        fprintf(errorLogFile, "Error: While calculating bS for DLF!\n");
         break;
 
     case EB_ENC_DLF_ERROR2:
-        fprintf(error_log_file, "Error: Unknown Inter Prediction Direction Combination!\n");
+        fprintf(errorLogFile, "Error: Unknown Inter Prediction Direction Combination!\n");
         break;
 
     case EB_ENC_DLF_ERROR3:
-        fprintf(error_log_file, "Error: If any PU is in I_MODE, the bS will be 2!\n");
+        fprintf(errorLogFile, "Error: If any PU is in I_MODE, the bS will be 2!\n");
         break;
 
     case EB_ENC_DLF_ERROR4:
-        fprintf(error_log_file, "Error: The x/y location of the CU must be the multiple of minmum CU size!");
+        fprintf(errorLogFile, "Error: The x/y location of the CU must be the multiple of minmum CU size!");
         break;
 
     case EB_ENC_DLF_ERROR5:
-        fprintf(error_log_file, "Error: Unknown Slice Type!");
+        fprintf(errorLogFile, "Error: Unknown Slice Type!");
         break;
 
     case EB_ENC_DLF_ERROR6:
-        fprintf(error_log_file, "Error: While calculating the bS for the PU bounday, the 4x4 block must be guaranteed at the PU boundary!");
+        fprintf(errorLogFile, "Error: While calculating the bS for the PU bounday, the 4x4 block must be guaranteed at the PU boundary!");
         break;
 
     case EB_ENC_DLF_ERROR7:
-        fprintf(error_log_file, "Error: LCU size must be power of 2!");
+        fprintf(errorLogFile, "Error: LCU size must be power of 2!");
         break;
 
     case EB_ENC_DLF_ERROR8:
-        fprintf(error_log_file, "Error: Deblocking filter can not support the picture whose width or height is not the multiple of 8!");
+        fprintf(errorLogFile, "Error: Deblocking filter can not support the picture whose width or height is not the multiple of 8!");
         break;
 
     case EB_ENC_DLF_ERROR9:
-        fprintf(error_log_file, "Error: Neighbor PU must be available!");
+        fprintf(errorLogFile, "Error: Neighbor PU must be available!");
         break;
 
     case EB_ENC_DLF_ERROR10:
-        fprintf(error_log_file, "Error: Deblocking filter can not support the picture whose width or height is not the multiple of 8!");
+        fprintf(errorLogFile, "Error: Deblocking filter can not support the picture whose width or height is not the multiple of 8!");
         break;
 
 
 
         // EB_ENC_EC_ERRORS:
     case EB_ENC_EC_ERROR1:
-        fprintf(error_log_file, "Error: EncodeCodedBlockFlags: context value too large!\n");
+        fprintf(errorLogFile, "Error: EncodeCodedBlockFlags: context value too large!\n");
         break;
 
     case EB_ENC_EC_ERROR10:
-        fprintf(error_log_file, "Error: EncodeTuSplitCoeff: context value too large!\n");
+        fprintf(errorLogFile, "Error: EncodeTuSplitCoeff: context value too large!\n");
         break;
 
     case EB_ENC_EC_ERROR11:
-        fprintf(error_log_file, "Error: CodeSPS: Long term reference pictures are not currently handled!\n");
+        fprintf(errorLogFile, "Error: CodeSPS: Long term reference pictures are not currently handled!\n");
         break;
 
     case EB_ENC_EC_ERROR12:
-        fprintf(error_log_file, "Error: CodeProfileTierLevel: The maximum sublayers must be equal to 1!\n");
+        fprintf(errorLogFile, "Error: CodeProfileTierLevel: The maximum sublayers must be equal to 1!\n");
         break;
 
     case EB_ENC_EC_ERROR13:
-        fprintf(error_log_file, "Error: EncodeRootCodedBlockFlag: rootCbf too large!\n");
+        fprintf(errorLogFile, "Error: EncodeRootCodedBlockFlag: rootCbf too large!\n");
         break;
 
     case EB_ENC_EC_ERROR14:
-        fprintf(error_log_file, "Error: cpbCountMinus1 in HRD parameter exceeds the upper limit 4!\n");
+        fprintf(errorLogFile, "Error: cpbCountMinus1 in HRD parameter exceeds the upper limit 4!\n");
         break;
 
     case EB_ENC_EC_ERROR15:
-        fprintf(error_log_file, "Error: numDecodingUnitsMinus1 in picture timeing SEI exceeds the upper limit 64!\n");
+        fprintf(errorLogFile, "Error: numDecodingUnitsMinus1 in picture timeing SEI exceeds the upper limit 64!\n");
         break;
 
     case EB_ENC_EC_ERROR16:
-        fprintf(error_log_file, "Error: The size of the unregistered user data SEI payload is not allowed!\n");
+        fprintf(errorLogFile, "Error: The size of the unregistered user data SEI payload is not allowed!\n");
         break;
 
     case EB_ENC_EC_ERROR2:
-        fprintf(error_log_file, "Error: copy_rbsp_bitstream_to_payload: output buffer too small!\n");
+        fprintf(errorLogFile, "Error: CopyRbspBitstreamToPayload: output buffer too small!\n");
         break;
 
     case EB_ENC_EC_ERROR3:
-        fprintf(error_log_file, "Error: EncodeLcu: Unknown mode type!\n");
+        fprintf(errorLogFile, "Error: EncodeLcu: Unknown mode type!\n");
         break;
 
     case EB_ENC_EC_ERROR4:
-        fprintf(error_log_file, "Error: 8x4 & 4x8 PU should not have Bi-pred mode!\n");
+        fprintf(errorLogFile, "Error: 8x4 & 4x8 PU should not have Bi-pred mode!\n");
         break;
 
     case EB_ENC_EC_ERROR5:
-        fprintf(error_log_file, "Error: EncodeMergeIndex: value too large!\n");
+        fprintf(errorLogFile, "Error: EncodeMergeIndex: value too large!\n");
         break;
 
     case EB_ENC_EC_ERROR6:
-        fprintf(error_log_file, "Error: EncodeSkipFlag: context too large!\n");
+        fprintf(errorLogFile, "Error: EncodeSkipFlag: context too large!\n");
         break;
 
     case EB_ENC_EC_ERROR7:
-        fprintf(error_log_file, "Error: EncodeBypassBins: binsLength must be less than 32!\n");
+        fprintf(errorLogFile, "Error: EncodeBypassBins: binsLength must be less than 32!\n");
         break;
 
     case EB_ENC_EC_ERROR8:
-        fprintf(error_log_file, "Error: EncodeQuantizedCoefficients: Invalid block size!\n");
+        fprintf(errorLogFile, "Error: EncodeQuantizedCoefficients: Invalid block size!\n");
         break;
 
     case EB_ENC_EC_ERROR9:
-        fprintf(error_log_file, "Error: EncodeSplitFlag: context too large!\n");
+        fprintf(errorLogFile, "Error: EncodeSplitFlag: context too large!\n");
         break;
 
     case EB_ENC_EC_ERROR26:
-        fprintf(error_log_file, "Error: Level not recognized!\n");
+        fprintf(errorLogFile, "Error: Level not recognized!\n");
         break;
 
     case EB_ENC_EC_ERROR27:
-        fprintf(error_log_file, "Error: EncodeOneBin:  BinaryValue must be less than 2\n");
+        fprintf(errorLogFile, "Error: EncodeOneBin:  BinaryValue must be less than 2\n");
         break;
 
     case EB_ENC_EC_ERROR28:
-        fprintf(error_log_file, "Error: No more than 6 SAO types\n");
+        fprintf(errorLogFile, "Error: No more than 6 SAO types\n");
         break;
 
     case EB_ENC_EC_ERROR29:
-        fprintf(error_log_file, "Error: No more than 6 SAO types\n");
+        fprintf(errorLogFile, "Error: No more than 6 SAO types\n");
         break;
 
         // EB_ENC_FL_ERRORS:
     case EB_ENC_FL_ERROR1:
-        fprintf(error_log_file, "Error: Uncovered area inside Cu!\n");
+        fprintf(errorLogFile, "Error: Uncovered area inside Cu!\n");
         break;
 
     case EB_ENC_FL_ERROR2:
-        fprintf(error_log_file, "Error: Depth 2 is not allowed for 8x8 CU!\n");
+        fprintf(errorLogFile, "Error: Depth 2 is not allowed for 8x8 CU!\n");
         break;
 
     case EB_ENC_FL_ERROR3:
-        fprintf(error_log_file, "Error: Depth 0 is not allowed for 64x64 CU!\n");
+        fprintf(errorLogFile, "Error: Depth 0 is not allowed for 64x64 CU!\n");
         break;
 
     case EB_ENC_FL_ERROR4:
-        fprintf(error_log_file, "Error: Max CU Depth Exceeded!\n");
+        fprintf(errorLogFile, "Error: Max CU Depth Exceeded!\n");
         break;
 
         // EB_ENC_HANDLE_ERRORS:
     case EB_ENC_HANDLE_ERROR1:
-        fprintf(error_log_file, "Error: Only one Resource Coordination Process allowed!\n");
+        fprintf(errorLogFile, "Error: Only one Resource Coordination Process allowed!\n");
         break;
 
     case EB_ENC_HANDLE_ERROR10:
-        fprintf(error_log_file, "Error: Need at least one Entropy Coding Process!\n");
+        fprintf(errorLogFile, "Error: Need at least one Entropy Coding Process!\n");
         break;
 
     case EB_ENC_HANDLE_ERROR11:
-        fprintf(error_log_file, "Error: Only one Packetization Process allowed!\n");
+        fprintf(errorLogFile, "Error: Only one Packetization Process allowed!\n");
         break;
 
     case EB_ENC_HANDLE_ERROR12:
-        fprintf(error_log_file, "Error: RC Results Fifo Size should be greater than RC Tasks Fifo Size in order to avoid deadlock!\n");
+        fprintf(errorLogFile, "Error: RC Results Fifo Size should be greater than RC Tasks Fifo Size in order to avoid deadlock!\n");
         break;
 
     case EB_ENC_HANDLE_ERROR13:
-        fprintf(error_log_file, "Error: RC Tasks Fifo Size should be greater than EC results Fifo Size in order to avoid deadlock!\n");
+        fprintf(errorLogFile, "Error: RC Tasks Fifo Size should be greater than EC results Fifo Size in order to avoid deadlock!\n");
         break;
 
     case EB_ENC_HANDLE_ERROR14:
-        fprintf(error_log_file, "Error: RC Tasks Fifo Size should be greater than Picture Manager results Fifo Size in order to avoid deadlock!\n");
+        fprintf(errorLogFile, "Error: RC Tasks Fifo Size should be greater than Picture Manager results Fifo Size in order to avoid deadlock!\n");
         break;
 
     case EB_ENC_HANDLE_ERROR18:
-        fprintf(error_log_file, "Error: Intra period setting breaks mini-gop!\n");
+        fprintf(errorLogFile, "Error: Intra period setting breaks mini-gop!\n");
         break;
 
     case EB_ENC_HANDLE_ERROR2:
-        fprintf(error_log_file, "Error: Only one Picture Enhancement Process allowed!\n");
+        fprintf(errorLogFile, "Error: Only one Picture Enhancement Process allowed!\n");
         break;
 
     case EB_ENC_HANDLE_ERROR3:
-        fprintf(error_log_file, "Error: Only one Picture Manager Process allowed!\n");
+        fprintf(errorLogFile, "Error: Only one Picture Manager Process allowed!\n");
         break;
 
     case EB_ENC_HANDLE_ERROR4:
-        fprintf(error_log_file, "Error: Need at least one ME Process!\n");
+        fprintf(errorLogFile, "Error: Need at least one ME Process!\n");
         break;
 
     case EB_ENC_HANDLE_ERROR5:
-        fprintf(error_log_file, "Error: Only one Rate-Control Process allowed!\n");
+        fprintf(errorLogFile, "Error: Only one Rate-Control Process allowed!\n");
         break;
 
     case EB_ENC_HANDLE_ERROR6:
-        fprintf(error_log_file, "Error: Need at least one Mode Decision Configuration Process!\n");
+        fprintf(errorLogFile, "Error: Need at least one Mode Decision Configuration Process!\n");
         break;
 
     case EB_ENC_HANDLE_ERROR7:
-        fprintf(error_log_file, "Error: Need at least one Coding Loop Process!\n");
+        fprintf(errorLogFile, "Error: Need at least one Coding Loop Process!\n");
         break;
 
     case EB_ENC_HANDLE_ERROR8:
-        fprintf(error_log_file, "Error: Only one Second Pass Deblocking Process allowed!\n");
+        fprintf(errorLogFile, "Error: Only one Second Pass Deblocking Process allowed!\n");
         break;
 
     case EB_ENC_HANDLE_ERROR9:
-        fprintf(error_log_file, "Error: Only one ALF Process allowed!\n");
+        fprintf(errorLogFile, "Error: Only one ALF Process allowed!\n");
         break;
 
         // EB_ENC_INTER_ERRORS:
     case EB_ENC_INTER_INVLD_MCP_ERROR:
-        fprintf(error_log_file, "Error: Motion compensation prediction is out of the picture boundary!\n");
+        fprintf(errorLogFile, "Error: Motion compensation prediction is out of the picture boundary!\n");
         break;
 
     case EB_ENC_INTER_PRED_ERROR0:
-        fprintf(error_log_file, "Error: Unkown Inter Prediction Direction!\n");
+        fprintf(errorLogFile, "Error: Unkown Inter Prediction Direction!\n");
         break;
 
     case EB_ENC_INTER_PRED_ERROR1:
-        fprintf(error_log_file, "Error: Inter prediction can not support more than 2 MVPs!\n");
+        fprintf(errorLogFile, "Error: Inter prediction can not support more than 2 MVPs!\n");
         break;
 
         // EB_ENC_INTRA_ERRORS:
     case EB_ENC_INTRA_PRED_ERROR1:
-        fprintf(error_log_file, "Error: IntraPrediction does not support 2Nx2N partition size!\n");
+        fprintf(errorLogFile, "Error: IntraPrediction does not support 2Nx2N partition size!\n");
         break;
 
     case EB_ENC_INTRA_PRED_ERROR2:
-        fprintf(error_log_file, "Error: IntraPrediction: intra prediction only supports square PU!\n");
+        fprintf(errorLogFile, "Error: IntraPrediction: intra prediction only supports square PU!\n");
         break;
 
     case EB_ENC_INTRA_PRED_ERROR3:
-        fprintf(error_log_file, "Error: IntraPredictionChroma: Only Planar!\n");
+        fprintf(errorLogFile, "Error: IntraPredictionChroma: Only Planar!\n");
         break;
 
     case EB_ENC_INVLD_PART_SIZE_ERROR:
-        fprintf(error_log_file, "Error: IntraPrediction: only PU sizes of 8 or largers are currently supported!\n");
+        fprintf(errorLogFile, "Error: IntraPrediction: only PU sizes of 8 or largers are currently supported!\n");
         break;
 
 
         // EB_ENC_MD_ERRORS:
     case EB_ENC_MD_ERROR1:
-        fprintf(error_log_file, "Error: Unknown AMVP Mode Decision Candidate Type!\n");
+        fprintf(errorLogFile, "Error: Unknown AMVP Mode Decision Candidate Type!\n");
         break;
 
     case EB_ENC_MD_ERROR2:
-        fprintf(error_log_file, "Error: pre_mode_decision: need at least one buffer!\n");
+        fprintf(errorLogFile, "Error: PreModeDecision: need at least one buffer!\n");
         break;
 
     case EB_ENC_MD_ERROR3:
-        fprintf(error_log_file, "Error: Unknow Inter Prediction Direction!\n");
+        fprintf(errorLogFile, "Error: Unknow Inter Prediction Direction!\n");
         break;
 
     case EB_ENC_MD_ERROR4:
-        fprintf(error_log_file, "Error: Unknown ME SAD Level!\n");
+        fprintf(errorLogFile, "Error: Unknown ME SAD Level!\n");
         break;
 
     case EB_ENC_MD_ERROR5:
-        fprintf(error_log_file, "Error: Invalid encoder mode. The encoder mode should be 0, 1 or 2!\n");
+        fprintf(errorLogFile, "Error: Invalid encoder mode. The encoder mode should be 0, 1 or 2!\n");
         break;
 
     case EB_ENC_MD_ERROR6:
-        fprintf(error_log_file, "Error: Invalid TU size!\n");
+        fprintf(errorLogFile, "Error: Invalid TU size!\n");
         break;
 
     case EB_ENC_MD_ERROR7:
-        fprintf(error_log_file, "Error: Unknown depth!\n");
+        fprintf(errorLogFile, "Error: Unknown depth!\n");
         break;
 
     case EB_ENC_MD_ERROR8:
-        fprintf(error_log_file, "Error: Depth not supported!\n");
+        fprintf(errorLogFile, "Error: Depth not supported!\n");
         break;
 
     case EB_ENC_MD_ERROR9:
-        fprintf(error_log_file, "Error: Ping-Pong structure needs at least two buffers to work properly\n");
+        fprintf(errorLogFile, "Error: Ping-Pong structure needs at least two buffers to work properly\n");
         break;
 
     case EB_ENC_MD_ERROR10:
-        fprintf(error_log_file, "Error: Ping-Pong structure needs at least two buffers to work properly\n");
+        fprintf(errorLogFile, "Error: Ping-Pong structure needs at least two buffers to work properly\n");
         break;
 
         // EB_ENC_ME_ERRORS:
     case EB_ENC_ME_ERROR1:
-        fprintf(error_log_file, "Error: Motion Estimation: non valid value of the subPelDirection !\n");
+        fprintf(errorLogFile, "Error: Motion Estimation: non valid value of the subPelDirection !\n");
         break;
 
     case EB_ENC_ME_ERROR2:
-        fprintf(error_log_file, "Error: FillMvMergeCandidate() method only supports P or B slices!\n");
+        fprintf(errorLogFile, "Error: FillMvMergeCandidate() method only supports P or B slices!\n");
         break;
 
         // EB_ENC_ERRORS:
     case EB_ENC_ROB_OF_ERROR:
-        fprintf(error_log_file, "Error: Recon Output Buffer Overflow!\n");
+        fprintf(errorLogFile, "Error: Recon Output Buffer Overflow!\n");
         break;
 
         // EB_ENC_PACKETIZATION_ERRORS:
     case EB_ENC_PACKETIZATION_ERROR1:
-        fprintf(error_log_file, "Error: PacketizationProcess: Picture Number does not match entry. PacketizationReorderQueue overflow!\n");
+        fprintf(errorLogFile, "Error: PacketizationProcess: Picture Number does not match entry. PacketizationReorderQueue overflow!\n");
         break;
 
     case EB_ENC_PACKETIZATION_ERROR2:
-        fprintf(error_log_file, "Error: Entropy Coding Result can not be outputed by processes other than entropy coder and ALF!\n");
+        fprintf(errorLogFile, "Error: Entropy Coding Result can not be outputed by processes other than entropy coder and ALF!\n");
         break;
 
     case EB_ENC_PACKETIZATION_ERROR3:
-        fprintf(error_log_file, "Error: The encoder can not support the SliceMode other than 0 and 1!\n");
+        fprintf(errorLogFile, "Error: The encoder can not support the SliceMode other than 0 and 1!\n");
         break;
 
     case EB_ENC_PACKETIZATION_ERROR4:
-        fprintf(error_log_file, "Error: Statistics Output Buffer Overflow!\n");
+        fprintf(errorLogFile, "Error: Statistics Output Buffer Overflow!\n");
         break;
     case EB_ENC_PACKETIZATION_ERROR5:
-        fprintf(error_log_file, "Error: Stream Fifo is starving..deadlock, increase EB_outputStreamBufferFifoInitCount APP_ENCODERSTREAMBUFFERCOUNT \n");
+        fprintf(errorLogFile, "Error: Stream Fifo is starving..deadlock, increase EB_outputStreamBufferFifoInitCount APP_ENCODERSTREAMBUFFERCOUNT \n");
         break;
 
         // EB_ENC_PM_ERRORS:
     case EB_ENC_PM_ERROR0:
-        fprintf(error_log_file, "Error: PictureManagerProcess: Unknown Slice Type!\n");
+        fprintf(errorLogFile, "Error: PictureManagerProcess: Unknown Slice Type!\n");
         break;
 
     case EB_ENC_PM_ERROR1:
-        fprintf(error_log_file, "Error: EbPictureManager: dependent_count underflow!\n");
+        fprintf(errorLogFile, "Error: EbPictureManager: dependentCount underflow!\n");
         break;
 
     case EB_ENC_PM_ERROR10:
-        fprintf(error_log_file, "Error: picture_manager_kernel: referenceEntryPtr should never be null!\n");
+        fprintf(errorLogFile, "Error: picture_manager_kernel: referenceEntryPtr should never be null!\n");
         break;
 
     case EB_ENC_PM_ERROR2:
-        fprintf(error_log_file, "Error: PictureManagerProcess: The Reference Structure period must be less than the MAX_ELAPSED_IDR_COUNT or false-IDR boundary logic will be activated!\n");
+        fprintf(errorLogFile, "Error: PictureManagerProcess: The Reference Structure period must be less than the MAX_ELAPSED_IDR_COUNT or false-IDR boundary logic will be activated!\n");
         break;
 
     case EB_ENC_PM_ERROR3:
-        fprintf(error_log_file, "Error: PictureManagerProcess: The dependent_count underflow detected!\n");
+        fprintf(errorLogFile, "Error: PictureManagerProcess: The dependentCount underflow detected!\n");
         break;
 
     case EB_ENC_PM_ERROR4:
-        fprintf(error_log_file, "Error: PictureManagerProcess: Empty input queue!\n");
+        fprintf(errorLogFile, "Error: PictureManagerProcess: Empty input queue!\n");
         break;
 
     case EB_ENC_PM_ERROR5:
-        fprintf(error_log_file, "Error: PictureManagerProcess: Empty reference queue!\n");
+        fprintf(errorLogFile, "Error: PictureManagerProcess: Empty reference queue!\n");
         break;
 
     case EB_ENC_PM_ERROR6:
-        fprintf(error_log_file, "Error: PictureManagerProcess: The capped elaspedNonIdrCount must be larger than the maximum supported delta ref poc!\n");
+        fprintf(errorLogFile, "Error: PictureManagerProcess: The capped elaspedNonIdrCount must be larger than the maximum supported delta ref poc!\n");
         break;
 
     case EB_ENC_PM_ERROR7:
-        fprintf(error_log_file, "Error: PictureManagerProcess: Reference Picture Queue Full!\n");
+        fprintf(errorLogFile, "Error: PictureManagerProcess: Reference Picture Queue Full!\n");
         break;
 
     case EB_ENC_PM_ERROR8:
-        fprintf(error_log_file, "Error: PictureManagerProcess: No reference match found - this will lead to a memory leak!\n");
+        fprintf(errorLogFile, "Error: PictureManagerProcess: No reference match found - this will lead to a memory leak!\n");
         break;
 
     case EB_ENC_PM_ERROR9:
-        fprintf(error_log_file, "Error: PictureManagerProcess: Unknown picture type!\n");
+        fprintf(errorLogFile, "Error: PictureManagerProcess: Unknown picture type!\n");
         break;
 
     case EB_ENC_PM_ERROR12:
-        fprintf(error_log_file, "Error: PictureManagerProcess: prediction structure configuration API has too many reference pictures\n");
+        fprintf(errorLogFile, "Error: PictureManagerProcess: prediction structure configuration API has too many reference pictures\n");
         break;
 
     case EB_ENC_PM_ERROR13:
-        fprintf(error_log_file, "Error: PictureManagerProcess: The maximum allowed frame rate is 60 fps\n");
+        fprintf(errorLogFile, "Error: PictureManagerProcess: The maximum allowed frame rate is 60 fps\n");
         break;
 
     case EB_ENC_PM_ERROR14:
-        fprintf(error_log_file, "Error: PictureManagerProcess: The minimum allowed frame rate is 1 fps\n");
+        fprintf(errorLogFile, "Error: PictureManagerProcess: The minimum allowed frame rate is 1 fps\n");
         break;
 
         // EB_ENC_PRED_STRC_ERRORS:
     case EB_ENC_PRED_STRC_ERROR1:
-        fprintf(error_log_file, "Error: PredictionStructureCtor: DecodeOrder LUT too small!\n");
+        fprintf(errorLogFile, "Error: PredictionStructureCtor: DecodeOrder LUT too small!\n");
         break;
 
     case EB_ENC_PRED_STRC_ERROR2:
-        fprintf(error_log_file, "Error: PredictionStructureCtor: prediction structure improperly configured!\n");
+        fprintf(errorLogFile, "Error: PredictionStructureCtor: prediction structure improperly configured!\n");
         break;
 
         // EB_ENC_PU_ERRORS:
     case EB_ENC_PU_ERROR1:
-        fprintf(error_log_file, "Error: Unknown partition size!\n");
+        fprintf(errorLogFile, "Error: Unknown partition size!\n");
         break;
 
     case EB_ENC_PU_ERROR2:
-        fprintf(error_log_file, "Error: The target area is not inside the CU!\n");
+        fprintf(errorLogFile, "Error: The target area is not inside the CU!\n");
         break;
 
         // EB_ENC_RC_ERRORS:
     case EB_ENC_RC_ERROR1:
-        fprintf(error_log_file, "Error: RateControlProcess: Unknown input task_type!\n");
+        fprintf(errorLogFile, "Error: RateControlProcess: Unknown input tasktype!\n");
         break;
 
     case EB_ENC_RC_ERROR2:
-        fprintf(error_log_file, "Error: RateControlProcess: No RC interval found!\n");
+        fprintf(errorLogFile, "Error: RateControlProcess: No RC interval found!\n");
         break;
 
     case EB_ENC_RC_ERROR3:
-        fprintf(error_log_file, "Error: RateControlProcess: RC input Picture Queue Full!\n");
+        fprintf(errorLogFile, "Error: RateControlProcess: RC input Picture Queue Full!\n");
         break;
 
     case EB_ENC_RC_ERROR4:
-        fprintf(error_log_file, "Error: RateControlProcess: RC feedback Picture Queue Full!\n");
+        fprintf(errorLogFile, "Error: RateControlProcess: RC feedback Picture Queue Full!\n");
         break;
 
     case EB_ENC_RC_ERROR5:
-        fprintf(error_log_file, "Error: RateControlProcess: RC feedback Picture Queue Full!\n");
+        fprintf(errorLogFile, "Error: RateControlProcess: RC feedback Picture Queue Full!\n");
         break;
 
     case EB_ENC_RC_ERROR6:
-        fprintf(error_log_file, "Error: RateControlProcess: No feedback frame match found - this will lead to a memory leak!\n");
+        fprintf(errorLogFile, "Error: RateControlProcess: No feedback frame match found - this will lead to a memory leak!\n");
         break;
 
     case EB_ENC_RC_ERROR7:
-        fprintf(error_log_file, "Error: remainingBytes has to be multiple of 2 for 16 bit input\n");
+        fprintf(errorLogFile, "Error: remainingBytes has to be multiple of 2 for 16 bit input\n");
         break;
 
     case EB_ENC_RC_ERROR8:
-        fprintf(error_log_file, "Error: hlRateControlHistorgramQueue Overflow\n");
+        fprintf(errorLogFile, "Error: hlRateControlHistorgramQueue Overflow\n");
         break;
 
         // EB_ENC_RD_COST_ERRORS:
     case EB_ENC_RD_COST_ERROR1:
-        fprintf(error_log_file, "Error: Skip mode only exists in 2Nx2N partition type!\n");
+        fprintf(errorLogFile, "Error: Skip mode only exists in 2Nx2N partition type!\n");
         break;
 
     case EB_ENC_RD_COST_ERROR2:
-        fprintf(error_log_file, "Error: IntraChromaCost: Unknown slice type!\n");
+        fprintf(errorLogFile, "Error: IntraChromaCost: Unknown slice type!\n");
         break;
 
     case EB_ENC_RD_COST_ERROR3:
-        fprintf(error_log_file, "Error: intra2_nx2_n_fast_cost_islice can only support 2Nx2N partition type!\n");
+        fprintf(errorLogFile, "Error: intra2_nx2_n_fast_cost_islice can only support 2Nx2N partition type!\n");
         break;
 
         // EB_ENC_SAO_ERRORS:
     case EB_ENC_SAO_ERROR1:
-        fprintf(error_log_file, "Error: No more than 6 SAO types!\n");
+        fprintf(errorLogFile, "Error: No more than 6 SAO types!\n");
         break;
 
     case EB_ENC_SAO_ERROR2:
-        fprintf(error_log_file, "Error: No more than 5 EO SAO categories!\n");
+        fprintf(errorLogFile, "Error: No more than 5 EO SAO categories!\n");
         break;
         // EB_ENC_SCS_ERRORS:
     case EB_ENC_SCS_ERROR1:
-        fprintf(error_log_file, "Error: SequenceControlSetCopy: Not all SequenceControlSet members are being copied!\n");
+        fprintf(errorLogFile, "Error: SequenceControlSetCopy: Not all SequenceControlSet_t members are being copied!\n");
         break;
 
         // EB_ENC_BITSTREAM_ERRORS:
     case EB_ENC_BITSTREAM_ERROR1:
-        fprintf(error_log_file, "Error: OutputBitstreamRBSPToPayload: Bitstream payload buffer empty!\n");
+        fprintf(errorLogFile, "Error: OutputBitstreamRBSPToPayload: Bitstream payload buffer empty!\n");
         break;
 
     case EB_ENC_BITSTREAM_ERROR2:
-        fprintf(error_log_file, "Error: OutputBitstreamWrite: Empty bitstream!\n");
+        fprintf(errorLogFile, "Error: OutputBitstreamWrite: Empty bitstream!\n");
         break;
 
     case EB_ENC_BITSTREAM_ERROR3:
-        fprintf(error_log_file, "Error: OutputBitstreamRBSPToPayload: Buffer index more than buffer size!\n");
+        fprintf(errorLogFile, "Error: OutputBitstreamRBSPToPayload: Buffer index more than buffer size!\n");
         break;
 
     case EB_ENC_BITSTREAM_ERROR4:
-        fprintf(error_log_file, "Error: OutputBitstreamRBSPToPayload: Start Location in not inside the buffer!\n");
+        fprintf(errorLogFile, "Error: OutputBitstreamRBSPToPayload: Start Location in not inside the buffer!\n");
         break;
 
     case EB_ENC_BITSTREAM_ERROR5:
-        fprintf(error_log_file, "Error: OutputBitstreamWrite: Trying to write more than one word!\n");
+        fprintf(errorLogFile, "Error: OutputBitstreamWrite: Trying to write more than one word!\n");
         break;
 
     case EB_ENC_BITSTREAM_ERROR6:
-        fprintf(error_log_file, "Error: OutputBitstreamRBSPToPayload: Expecting Start code!\n");
+        fprintf(errorLogFile, "Error: OutputBitstreamRBSPToPayload: Expecting Start code!\n");
         break;
 
     case EB_ENC_BITSTREAM_ERROR7:
-        fprintf(error_log_file, "Error: OutputBitstreamRBSPToPayload: Bitstream not flushed (i.e. byte-aligned)!\n");
+        fprintf(errorLogFile, "Error: OutputBitstreamRBSPToPayload: Bitstream not flushed (i.e. byte-aligned)!\n");
         break;
 
     case EB_ENC_RESS_COOR_ERRORS1:
-        fprintf(error_log_file, "Error: ResourceCoordinationProcess: The received input data should be equal to the buffer size - only complete frame transfer is supported\n");
+        fprintf(errorLogFile, "Error: ResourceCoordinationProcess: The received input data should be equal to the buffer size - only complete frame transfer is supported\n");
         break;
 
     case EB_ENC_RES_COORD_InvalidQP:
-        fprintf(error_log_file, "Error: ResourceCoordinationProcess: The QP value in the QP file is invalid\n");
+        fprintf(errorLogFile, "Error: ResourceCoordinationProcess: The QP value in the QP file is invalid\n");
         break;
 
     case EB_ENC_RES_COORD_InvalidSliceType:
-        fprintf(error_log_file, "Error: ResourceCoordinationProcess: Slice Type Invalid\n");
+        fprintf(errorLogFile, "Error: ResourceCoordinationProcess: Slice Type Invalid\n");
         break;
 
         // picture decision Errors
     case EB_ENC_PD_ERROR8:
-        fprintf(error_log_file, "Error: PictureDecisionProcess: Picture Decision Reorder Queue overflow\n");
+        fprintf(errorLogFile, "Error: PictureDecisionProcess: Picture Decision Reorder Queue overflow\n");
         break;
 
     default:
-        fprintf(error_log_file, "Error: Others!\n");
+        fprintf(errorLogFile, "Error: Others!\n");
         break;
     }
 
@@ -620,18 +620,18 @@ void LogErrorOutput(
 ******************************************************/
 void ProcessInputFieldStandardMode(
 
-    EbConfig               *config,
+    EbConfig_t               *config,
     EbBufferHeaderType      *headerPtr,
-    FILE                     *input_file,
+    FILE                     *inputFile,
     uint8_t                    *lumaInputPtr,
     uint8_t                    *cbInputPtr,
     uint8_t                    *crInputPtr,
     uint8_t                   is16bit) {
 
 
-    int64_t  input_padded_width  = config->input_padded_width;
-    int64_t  input_padded_height = config->input_padded_height;
-    uint64_t  sourceLumaRowSize = (uint64_t)(input_padded_width << is16bit);
+    int64_t  inputPaddedWidth  = config->inputPaddedWidth;
+    int64_t  inputPaddedHeight = config->inputPaddedHeight;
+    uint64_t  sourceLumaRowSize = (uint64_t)(inputPaddedWidth << is16bit);
     uint64_t  sourceChromaRowSize = sourceLumaRowSize >> 1;
     uint8_t  *ebInputPtr;
     uint32_t  inputRowIndex;
@@ -639,30 +639,30 @@ void ProcessInputFieldStandardMode(
     // Y
     ebInputPtr = lumaInputPtr;
     // Skip 1 luma row if bottom field (point to the bottom field)
-    if (config->processed_frame_count % 2 != 0)
-        fseeko64(input_file, (long)sourceLumaRowSize, SEEK_CUR);
+    if (config->processedFrameCount % 2 != 0)
+        fseeko64(inputFile, (long)sourceLumaRowSize, SEEK_CUR);
 
-    for (inputRowIndex = 0; inputRowIndex < input_padded_height; inputRowIndex++) {
+    for (inputRowIndex = 0; inputRowIndex < inputPaddedHeight; inputRowIndex++) {
 
-        headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, sourceLumaRowSize, input_file);
+        headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, sourceLumaRowSize, inputFile);
         // Skip 1 luma row (only fields)
-        fseeko64(input_file, (long)sourceLumaRowSize, SEEK_CUR);
+        fseeko64(inputFile, (long)sourceLumaRowSize, SEEK_CUR);
         ebInputPtr += sourceLumaRowSize;
     }
 
     // U
     ebInputPtr = cbInputPtr;
     // Step back 1 luma row if bottom field (undo the previous jump), and skip 1 chroma row if bottom field (point to the bottom field)
-    if (config->processed_frame_count % 2 != 0) {
-        fseeko64(input_file, -(long)sourceLumaRowSize, SEEK_CUR);
-        fseeko64(input_file, (long)sourceChromaRowSize, SEEK_CUR);
+    if (config->processedFrameCount % 2 != 0) {
+        fseeko64(inputFile, -(long)sourceLumaRowSize, SEEK_CUR);
+        fseeko64(inputFile, (long)sourceChromaRowSize, SEEK_CUR);
     }
 
-    for (inputRowIndex = 0; inputRowIndex < input_padded_height >> 1; inputRowIndex++) {
+    for (inputRowIndex = 0; inputRowIndex < inputPaddedHeight >> 1; inputRowIndex++) {
 
-        headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, sourceChromaRowSize, input_file);
+        headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, sourceChromaRowSize, inputFile);
         // Skip 1 chroma row (only fields)
-        fseeko64(input_file, (long)sourceChromaRowSize, SEEK_CUR);
+        fseeko64(inputFile, (long)sourceChromaRowSize, SEEK_CUR);
         ebInputPtr += sourceChromaRowSize;
     }
 
@@ -672,31 +672,31 @@ void ProcessInputFieldStandardMode(
     // => no action
 
 
-    for (inputRowIndex = 0; inputRowIndex < input_padded_height >> 1; inputRowIndex++) {
+    for (inputRowIndex = 0; inputRowIndex < inputPaddedHeight >> 1; inputRowIndex++) {
 
-        headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, sourceChromaRowSize, input_file);
+        headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, sourceChromaRowSize, inputFile);
         // Skip 1 chroma row (only fields)
-        fseeko64(input_file, (long)sourceChromaRowSize, SEEK_CUR);
+        fseeko64(inputFile, (long)sourceChromaRowSize, SEEK_CUR);
         ebInputPtr += sourceChromaRowSize;
     }
 
     // Step back 1 chroma row if bottom field (undo the previous jump)
-    if (config->processed_frame_count % 2 != 0) {
-        fseeko64(input_file, -(long)sourceChromaRowSize, SEEK_CUR);
+    if (config->processedFrameCount % 2 != 0) {
+        fseeko64(inputFile, -(long)sourceChromaRowSize, SEEK_CUR);
     }
 }
 
 
 //************************************/
 // GetNextQpFromQpFile
-// Reads and extracts one qp from the qp_file
+// Reads and extracts one qp from the qpfile
 // Input  : QP file
 // Output : QP value
 /************************************/
 static int32_t qpReadFromFile = 0;
 
 int32_t GetNextQpFromQpFile(
-    EbConfig  *config
+    EbConfig_t  *config
 )
 {
     uint8_t *line;
@@ -704,7 +704,7 @@ int32_t GetNextQpFromQpFile(
     uint32_t readsize = 0, eof = 0;
     EB_APP_MALLOC(uint8_t*, line, 8, EB_N_PTR, EB_ErrorInsufficientResources);
     memset(line,0,8);
-    readsize = (uint32_t)fread(line, 1, 2, config->qp_file);
+    readsize = (uint32_t)fread(line, 1, 2, config->qpFile);
 
     if (readsize == 0) {
         // end of file
@@ -717,7 +717,7 @@ int32_t GetNextQpFromQpFile(
     }
     else if (readsize == 2 && (line[0] == '\n')) {
         // new line
-        fseek(config->qp_file, -1, SEEK_CUR);
+        fseek(config->qpFile, -1, SEEK_CUR);
         qp = 0;
     }
     else if (readsize == 2 && (line[1] == '\n')) {
@@ -726,9 +726,9 @@ int32_t GetNextQpFromQpFile(
     }
     else if (readsize == 2 && (line[0] == '#' || line[0] == '/' || line[0] == '-' || line[0] == ' ')) {
         // Backup one step to not miss the new line char
-        fseek(config->qp_file, -1, SEEK_CUR);
+        fseek(config->qpFile, -1, SEEK_CUR);
         do {
-            readsize = (uint32_t)fread(line, 1, 1, config->qp_file);
+            readsize = (uint32_t)fread(line, 1, 1, config->qpFile);
             if (readsize != 1)
                 break;
         } while (line[0] != '\n');
@@ -743,7 +743,7 @@ int32_t GetNextQpFromQpFile(
     else if (readsize == 2) {
         qp = strtol((const char*)line, NULL, 0);
         do {
-            readsize = (uint32_t)fread(line, 1, 1, config->qp_file);
+            readsize = (uint32_t)fread(line, 1, 1, config->qpFile);
             if (readsize != 1)
                 break;
         } while (line[0] != '\n');
@@ -756,37 +756,37 @@ int32_t GetNextQpFromQpFile(
 }
 
 void ReadInputFrames(
-    EbConfig                  *config,
+    EbConfig_t                  *config,
     uint8_t                      is16bit,
     EbBufferHeaderType         *headerPtr){
 
     uint64_t  readSize;
-    uint32_t  input_padded_width = config->input_padded_width;
-    uint32_t  input_padded_height = config->input_padded_height;
-    FILE   *input_file = config->input_file;
+    uint32_t  inputPaddedWidth = config->inputPaddedWidth;
+    uint32_t  inputPaddedHeight = config->inputPaddedHeight;
+    FILE   *inputFile = config->inputFile;
     uint8_t  *ebInputPtr;
     EbSvtEncInput* inputPtr = (EbSvtEncInput*)headerPtr->p_buffer;
 
-    uint64_t frameSize = (uint64_t)((input_padded_width*input_padded_height * 3) / 2 + (input_padded_width / 4 * input_padded_height * 3) / 2);
-    inputPtr->y_stride  = input_padded_width;
-    inputPtr->cr_stride = input_padded_width >> 1;
-    inputPtr->cb_stride = input_padded_width >> 1;
+    uint64_t frameSize = (uint64_t)((inputPaddedWidth*inputPaddedHeight * 3) / 2 + (inputPaddedWidth / 4 * inputPaddedHeight * 3) / 2);
+    inputPtr->yStride  = inputPaddedWidth;
+    inputPtr->crStride = inputPaddedWidth >> 1;
+    inputPtr->cbStride = inputPaddedWidth >> 1;
 
-    if (config->buffered_input == -1) {
+    if (config->bufferedInput == -1) {
 
-        if (is16bit == 0 || (is16bit == 1 && config->compressed_ten_bit_format == 0)) {
+        if (is16bit == 0 || (is16bit == 1 && config->compressedTenBitFormat == 0)) {
 
-            readSize = (uint64_t)SIZE_OF_ONE_FRAME_IN_BYTES(input_padded_width, input_padded_height, is16bit);
+            readSize = (uint64_t)SIZE_OF_ONE_FRAME_IN_BYTES(inputPaddedWidth, inputPaddedHeight, is16bit);
 
             headerPtr->n_filled_len = 0;
 
             // Interlaced Video
-            if (config->separate_fields) {
+            if (config->separateFields) {
 
                 ProcessInputFieldStandardMode(
                     config,
                     headerPtr,
-                    input_file,
+                    inputFile,
                     inputPtr->luma,
                     inputPtr->cb,
                     inputPtr->cr,
@@ -794,13 +794,13 @@ void ReadInputFrames(
 
                 if (readSize != headerPtr->n_filled_len) {
 
-                    fseek(input_file, 0, SEEK_SET);
+                    fseek(inputFile, 0, SEEK_SET);
                     headerPtr->n_filled_len = 0;
 
                     ProcessInputFieldStandardMode(
                         config,
                         headerPtr,
-                        input_file,
+                        inputFile,
                         inputPtr->luma,
                         inputPtr->cb,
                         inputPtr->cr,
@@ -808,115 +808,115 @@ void ReadInputFrames(
                 }
 
                 // Reset the pointer position after a top field
-                if (config->processed_frame_count % 2 == 0) {
-                    fseek(input_file, -(long)(readSize << 1), SEEK_CUR);
+                if (config->processedFrameCount % 2 == 0) {
+                    fseek(inputFile, -(long)(readSize << 1), SEEK_CUR);
                 }
             }
             else {
 
                 /* if input is a y4m file, read next line which contains "FRAME" */
-                if(config->y4m_input==EB_TRUE) {
-                    read_y4m_frame_delimiter(config);
+                if(config->y4mInput==EB_TRUE) {
+                    readY4mFrameDelimiter(config);
                 }
 
-                uint64_t lumaReadSize = (uint64_t)input_padded_width*input_padded_height << is16bit;
+                uint64_t lumaReadSize = (uint64_t)inputPaddedWidth*inputPaddedHeight << is16bit;
                 ebInputPtr = inputPtr->luma;
-                if(config->y4m_input==EB_FALSE && config->processed_frame_count == 0 && config->input_file == stdin) {
+                if(config->y4mInput==EB_FALSE && config->processedFrameCount == 0 && config->inputFile == stdin) {
                     /* if not a y4m file and input is read from stdin, 9 bytes were already read when checking
                         or the YUV4MPEG2 string in the stream, so copy those bytes over */
-                    memcpy(ebInputPtr,config->y4m_buf,YUV4MPEG2_IND_SIZE);
+                    memcpy(ebInputPtr,config->y4mBuf,YUV4MPEG2_IND_SIZE);
                     headerPtr->n_filled_len += YUV4MPEG2_IND_SIZE;
                     ebInputPtr += YUV4MPEG2_IND_SIZE;
-                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize-YUV4MPEG2_IND_SIZE, input_file);
+                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize-YUV4MPEG2_IND_SIZE, inputFile);
                 }else {
-                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize, input_file);
+                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize, inputFile);
                 }
                 ebInputPtr = inputPtr->cb;
-                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, input_file);
+                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, inputFile);
                 ebInputPtr = inputPtr->cr;
-                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, input_file);
-              
-                inputPtr->luma = inputPtr->luma + ((config->input_padded_width*TOP_INPUT_PADDING + LEFT_INPUT_PADDING) << is16bit);
-                inputPtr->cb   = inputPtr->cb + (((config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)) << is16bit);
-                inputPtr->cr   = inputPtr->cr + (((config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)) << is16bit);
+                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, inputFile);
+
+                inputPtr->luma = inputPtr->luma + ((config->inputPaddedWidth*TOP_INPUT_PADDING + LEFT_INPUT_PADDING) << is16bit);
+                inputPtr->cb   = inputPtr->cb + (((config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)) << is16bit);
+                inputPtr->cr   = inputPtr->cr + (((config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)) << is16bit);
 
 
                 if (readSize != headerPtr->n_filled_len) {
 
-                    fseek(input_file, 0, SEEK_SET);
+                    fseek(inputFile, 0, SEEK_SET);
                     ebInputPtr = inputPtr->luma;
-                    headerPtr->n_filled_len = (uint32_t)fread(ebInputPtr, 1, lumaReadSize, input_file);
+                    headerPtr->n_filled_len = (uint32_t)fread(ebInputPtr, 1, lumaReadSize, inputFile);
                     ebInputPtr = inputPtr->cb;
-                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, input_file);
+                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, inputFile);
                     ebInputPtr = inputPtr->cr;
-                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, input_file);
+                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, inputFile);
 
-                    inputPtr->luma = inputPtr->luma + ((config->input_padded_width*TOP_INPUT_PADDING + LEFT_INPUT_PADDING));
-                    inputPtr->cb = inputPtr->cb + (((config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
-                    inputPtr->cr = inputPtr->cr + (((config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
+                    inputPtr->luma = inputPtr->luma + ((config->inputPaddedWidth*TOP_INPUT_PADDING + LEFT_INPUT_PADDING));
+                    inputPtr->cb = inputPtr->cb + (((config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
+                    inputPtr->cr = inputPtr->cr + (((config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
 
                 }
             }
         }
         // 10-bit Compressed Unpacked Mode
-        else if (is16bit == 1 && config->compressed_ten_bit_format == 1) {
+        else if (is16bit == 1 && config->compressedTenBitFormat == 1) {
 
             // Fill the buffer with a complete frame
             headerPtr->n_filled_len = 0;
 
 
-            uint64_t lumaReadSize = (uint64_t)input_padded_width*input_padded_height;
-            uint64_t nbitlumaReadSize = (uint64_t)(input_padded_width / 4)*input_padded_height;
+            uint64_t lumaReadSize = (uint64_t)inputPaddedWidth*inputPaddedHeight;
+            uint64_t nbitlumaReadSize = (uint64_t)(inputPaddedWidth / 4)*inputPaddedHeight;
 
             ebInputPtr = inputPtr->luma;
-            headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize, input_file);
+            headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize, inputFile);
             ebInputPtr = inputPtr->cb;
-            headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, input_file);
+            headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, inputFile);
             ebInputPtr = inputPtr->cr;
-            headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, input_file);
+            headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, inputFile);
 
-            inputPtr->luma = inputPtr->luma + config->input_padded_width*TOP_INPUT_PADDING + LEFT_INPUT_PADDING;
-            inputPtr->cb = inputPtr->cb + (config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1);
-            inputPtr->cr = inputPtr->cr + (config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1);
+            inputPtr->luma = inputPtr->luma + config->inputPaddedWidth*TOP_INPUT_PADDING + LEFT_INPUT_PADDING;
+            inputPtr->cb = inputPtr->cb + (config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1);
+            inputPtr->cr = inputPtr->cr + (config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1);
 
 
-            ebInputPtr = inputPtr->luma_ext;
-            headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, nbitlumaReadSize, input_file);
-            ebInputPtr = inputPtr->cb_ext;
-            headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, nbitlumaReadSize >> 2, input_file);
-            ebInputPtr = inputPtr->cr_ext;
-            headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, nbitlumaReadSize >> 2, input_file);
+            ebInputPtr = inputPtr->lumaExt;
+            headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, nbitlumaReadSize, inputFile);
+            ebInputPtr = inputPtr->cbExt;
+            headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, nbitlumaReadSize >> 2, inputFile);
+            ebInputPtr = inputPtr->crExt;
+            headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, nbitlumaReadSize >> 2, inputFile);
 
-            inputPtr->luma_ext = inputPtr->luma_ext + ((config->input_padded_width >> 2)*TOP_INPUT_PADDING + (LEFT_INPUT_PADDING >> 2));
-            inputPtr->cb_ext = inputPtr->cb_ext + (((config->input_padded_width >> 1) >> 2)*(TOP_INPUT_PADDING >> 1) + ((LEFT_INPUT_PADDING >> 1) >> 2));
-            inputPtr->cr_ext = inputPtr->cr_ext + (((config->input_padded_width >> 1) >> 2)*(TOP_INPUT_PADDING >> 1) + ((LEFT_INPUT_PADDING >> 1) >> 2));
+            inputPtr->lumaExt = inputPtr->lumaExt + ((config->inputPaddedWidth >> 2)*TOP_INPUT_PADDING + (LEFT_INPUT_PADDING >> 2));
+            inputPtr->cbExt = inputPtr->cbExt + (((config->inputPaddedWidth >> 1) >> 2)*(TOP_INPUT_PADDING >> 1) + ((LEFT_INPUT_PADDING >> 1) >> 2));
+            inputPtr->crExt = inputPtr->crExt + (((config->inputPaddedWidth >> 1) >> 2)*(TOP_INPUT_PADDING >> 1) + ((LEFT_INPUT_PADDING >> 1) >> 2));
 
             readSize = ((lumaReadSize * 3) >> 1) + ((nbitlumaReadSize * 3) >> 1);
 
             if (readSize != headerPtr->n_filled_len) {
 
-                fseek(input_file, 0, SEEK_SET);
+                fseek(inputFile, 0, SEEK_SET);
                 ebInputPtr = inputPtr->luma;
-                headerPtr->n_filled_len = (uint32_t)fread(ebInputPtr, 1, lumaReadSize, input_file);
+                headerPtr->n_filled_len = (uint32_t)fread(ebInputPtr, 1, lumaReadSize, inputFile);
                 ebInputPtr = inputPtr->cb;
-                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, input_file);
+                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, inputFile);
                 ebInputPtr = inputPtr->cr;
-                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, input_file);
+                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, inputFile);
 
-                inputPtr->luma = inputPtr->luma + config->input_padded_width*TOP_INPUT_PADDING + LEFT_INPUT_PADDING;
-                inputPtr->cb = inputPtr->cb + (config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1);
-                inputPtr->cr = inputPtr->cr + (config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1);
+                inputPtr->luma = inputPtr->luma + config->inputPaddedWidth*TOP_INPUT_PADDING + LEFT_INPUT_PADDING;
+                inputPtr->cb = inputPtr->cb + (config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1);
+                inputPtr->cr = inputPtr->cr + (config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1);
 
-                ebInputPtr = inputPtr->luma_ext;
-                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, nbitlumaReadSize, input_file);
-                ebInputPtr = inputPtr->cb_ext;
-                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, nbitlumaReadSize >> 2, input_file);
-                ebInputPtr = inputPtr->cr_ext;
-                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, nbitlumaReadSize >> 2, input_file);
+                ebInputPtr = inputPtr->lumaExt;
+                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, nbitlumaReadSize, inputFile);
+                ebInputPtr = inputPtr->cbExt;
+                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, nbitlumaReadSize >> 2, inputFile);
+                ebInputPtr = inputPtr->crExt;
+                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, nbitlumaReadSize >> 2, inputFile);
 
-                inputPtr->luma_ext = inputPtr->luma_ext + ((config->input_padded_width >> 2)*TOP_INPUT_PADDING + (LEFT_INPUT_PADDING >> 2));
-                inputPtr->cb_ext = inputPtr->cb_ext + (((config->input_padded_width >> 1) >> 2)*(TOP_INPUT_PADDING >> 1) + ((LEFT_INPUT_PADDING >> 1) >> 2));
-                inputPtr->cr_ext = inputPtr->cr_ext + (((config->input_padded_width >> 1) >> 2)*(TOP_INPUT_PADDING >> 1) + ((LEFT_INPUT_PADDING >> 1) >> 2));
+                inputPtr->lumaExt = inputPtr->lumaExt + ((config->inputPaddedWidth >> 2)*TOP_INPUT_PADDING + (LEFT_INPUT_PADDING >> 2));
+                inputPtr->cbExt = inputPtr->cbExt + (((config->inputPaddedWidth >> 1) >> 2)*(TOP_INPUT_PADDING >> 1) + ((LEFT_INPUT_PADDING >> 1) >> 2));
+                inputPtr->crExt = inputPtr->crExt + (((config->inputPaddedWidth >> 1) >> 2)*(TOP_INPUT_PADDING >> 1) + ((LEFT_INPUT_PADDING >> 1) >> 2));
 
             }
 
@@ -925,17 +925,17 @@ void ReadInputFrames(
         // 10-bit Unpacked Mode
         else {
 
-            readSize = (uint64_t)SIZE_OF_ONE_FRAME_IN_BYTES(input_padded_width, input_padded_height, 1);
+            readSize = (uint64_t)SIZE_OF_ONE_FRAME_IN_BYTES(inputPaddedWidth, inputPaddedHeight, 1);
 
             headerPtr->n_filled_len = 0;
 
             // Interlaced Video
-            if (config->separate_fields) {
+            if (config->separateFields) {
 
                 ProcessInputFieldStandardMode(
                     config,
                     headerPtr,
-                    input_file,
+                    inputFile,
                     inputPtr->luma,
                     inputPtr->cb,
                     inputPtr->cr,
@@ -944,21 +944,21 @@ void ReadInputFrames(
                 ProcessInputFieldStandardMode(
                     config,
                     headerPtr,
-                    input_file,
-                    inputPtr->luma_ext,
-                    inputPtr->cb_ext,
-                    inputPtr->cr_ext,
+                    inputFile,
+                    inputPtr->lumaExt,
+                    inputPtr->cbExt,
+                    inputPtr->crExt,
                     0);
 
                 if (readSize != headerPtr->n_filled_len) {
 
-                    fseek(input_file, 0, SEEK_SET);
+                    fseek(inputFile, 0, SEEK_SET);
                     headerPtr->n_filled_len = 0;
 
                     ProcessInputFieldStandardMode(
                         config,
                         headerPtr,
-                        input_file,
+                        inputFile,
                         inputPtr->luma,
                         inputPtr->cb,
                         inputPtr->cr,
@@ -967,70 +967,70 @@ void ReadInputFrames(
                     ProcessInputFieldStandardMode(
                         config,
                         headerPtr,
-                        input_file,
-                        inputPtr->luma_ext,
-                        inputPtr->cb_ext,
-                        inputPtr->cr_ext,
+                        inputFile,
+                        inputPtr->lumaExt,
+                        inputPtr->cbExt,
+                        inputPtr->crExt,
                         0);
                 }
 
                 // Reset the pointer position after a top field
-                if (config->processed_frame_count % 2 == 0) {
-                    fseek(input_file, -(long)(readSize << 1), SEEK_CUR);
+                if (config->processedFrameCount % 2 == 0) {
+                    fseek(inputFile, -(long)(readSize << 1), SEEK_CUR);
                 }
 
             }
             else {
 
 
-                uint64_t lumaReadSize = (uint64_t)input_padded_width*input_padded_height;
+                uint64_t lumaReadSize = (uint64_t)inputPaddedWidth*inputPaddedHeight;
 
                 ebInputPtr = inputPtr->luma;
-                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize, input_file);
+                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize, inputFile);
                 ebInputPtr = inputPtr->cb;
-                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, input_file);
+                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, inputFile);
                 ebInputPtr = inputPtr->cr;
-                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, input_file);
+                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, inputFile);
 
-                inputPtr->luma = inputPtr->luma + ((config->input_padded_width*TOP_INPUT_PADDING + LEFT_INPUT_PADDING));
-                inputPtr->cb = inputPtr->cb + (((config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
-                inputPtr->cr = inputPtr->cr + (((config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
+                inputPtr->luma = inputPtr->luma + ((config->inputPaddedWidth*TOP_INPUT_PADDING + LEFT_INPUT_PADDING));
+                inputPtr->cb = inputPtr->cb + (((config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
+                inputPtr->cr = inputPtr->cr + (((config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
 
-                ebInputPtr = inputPtr->luma_ext;
-                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize, input_file);
-                ebInputPtr = inputPtr->cb_ext;
-                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, input_file);
-                ebInputPtr = inputPtr->cr_ext;
-                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, input_file);
+                ebInputPtr = inputPtr->lumaExt;
+                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize, inputFile);
+                ebInputPtr = inputPtr->cbExt;
+                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, inputFile);
+                ebInputPtr = inputPtr->crExt;
+                headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, inputFile);
 
-                inputPtr->luma_ext = inputPtr->luma_ext + ((config->input_padded_width*TOP_INPUT_PADDING + LEFT_INPUT_PADDING));
-                inputPtr->cb_ext = inputPtr->cb_ext + (((config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
-                inputPtr->cr_ext = inputPtr->cr_ext + (((config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
+                inputPtr->lumaExt = inputPtr->lumaExt + ((config->inputPaddedWidth*TOP_INPUT_PADDING + LEFT_INPUT_PADDING));
+                inputPtr->cbExt = inputPtr->cbExt + (((config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
+                inputPtr->crExt = inputPtr->crExt + (((config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
 
                 if (readSize != headerPtr->n_filled_len) {
 
-                    fseek(input_file, 0, SEEK_SET);
+                    fseek(inputFile, 0, SEEK_SET);
                     ebInputPtr = inputPtr->luma;
-                    headerPtr->n_filled_len = (uint32_t)fread(ebInputPtr, 1, lumaReadSize, input_file);
+                    headerPtr->n_filled_len = (uint32_t)fread(ebInputPtr, 1, lumaReadSize, inputFile);
                     ebInputPtr = inputPtr->cb;
-                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, input_file);
+                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, inputFile);
                     ebInputPtr = inputPtr->cr;
-                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, input_file);
+                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, inputFile);
 
-                    inputPtr->luma = inputPtr->luma + ((config->input_padded_width*TOP_INPUT_PADDING + LEFT_INPUT_PADDING));
-                    inputPtr->cb = inputPtr->cb + (((config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
-                    inputPtr->cr = inputPtr->cr + (((config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
+                    inputPtr->luma = inputPtr->luma + ((config->inputPaddedWidth*TOP_INPUT_PADDING + LEFT_INPUT_PADDING));
+                    inputPtr->cb = inputPtr->cb + (((config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
+                    inputPtr->cr = inputPtr->cr + (((config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
 
-                    ebInputPtr = inputPtr->luma_ext;
-                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize, input_file);
-                    ebInputPtr = inputPtr->cb_ext;
-                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, input_file);
-                    ebInputPtr = inputPtr->cr_ext;
-                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, input_file);
+                    ebInputPtr = inputPtr->lumaExt;
+                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize, inputFile);
+                    ebInputPtr = inputPtr->cbExt;
+                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, inputFile);
+                    ebInputPtr = inputPtr->crExt;
+                    headerPtr->n_filled_len += (uint32_t)fread(ebInputPtr, 1, lumaReadSize >> 2, inputFile);
 
-                    inputPtr->luma_ext = inputPtr->luma_ext + ((config->input_padded_width*TOP_INPUT_PADDING + LEFT_INPUT_PADDING));
-                    inputPtr->cb_ext = inputPtr->cb_ext + (((config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
-                    inputPtr->cr_ext = inputPtr->cr_ext + (((config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
+                    inputPtr->lumaExt = inputPtr->lumaExt + ((config->inputPaddedWidth*TOP_INPUT_PADDING + LEFT_INPUT_PADDING));
+                    inputPtr->cbExt = inputPtr->cbExt + (((config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
+                    inputPtr->crExt = inputPtr->crExt + (((config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
 
                 }
 
@@ -1043,37 +1043,37 @@ void ReadInputFrames(
 
     }
     else {
-        if (config->encoder_bit_depth == 10 && config->compressed_ten_bit_format == 1)
+        if (config->encoderBitDepth == 10 && config->compressedTenBitFormat == 1)
         {
             // Determine size of each plane
 
-            const size_t luma8bitSize = config->input_padded_width * config->input_padded_height;
+            const size_t luma8bitSize = config->inputPaddedWidth * config->inputPaddedHeight;
             const size_t chroma8bitSize = luma8bitSize >> 2;
 
             const size_t luma2bitSize = luma8bitSize / 4; //4-2bit pixels into 1 byte
             const size_t chroma2bitSize = luma2bitSize >> 2;
 
             EbSvtEncInput* inputPtr = (EbSvtEncInput*)headerPtr->p_buffer;
-            inputPtr->y_stride = config->input_padded_width;
-            inputPtr->cr_stride = config->input_padded_width >> 1;
-            inputPtr->cb_stride = config->input_padded_width >> 1;
+            inputPtr->yStride = config->inputPaddedWidth;
+            inputPtr->crStride = config->inputPaddedWidth >> 1;
+            inputPtr->cbStride = config->inputPaddedWidth >> 1;
 
-            inputPtr->luma = config->sequence_buffer[config->processed_frame_count % config->buffered_input];
-            inputPtr->cb = config->sequence_buffer[config->processed_frame_count % config->buffered_input] + luma8bitSize;
-            inputPtr->cr = config->sequence_buffer[config->processed_frame_count % config->buffered_input] + luma8bitSize + chroma8bitSize;
+            inputPtr->luma = config->sequenceBuffer[config->processedFrameCount % config->bufferedInput];
+            inputPtr->cb = config->sequenceBuffer[config->processedFrameCount % config->bufferedInput] + luma8bitSize;
+            inputPtr->cr = config->sequenceBuffer[config->processedFrameCount % config->bufferedInput] + luma8bitSize + chroma8bitSize;
 
-            inputPtr->luma = inputPtr->luma + ((config->input_padded_width*TOP_INPUT_PADDING + LEFT_INPUT_PADDING));
-            inputPtr->cb = inputPtr->cb + (((config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
-            inputPtr->cr = inputPtr->cr + (((config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
+            inputPtr->luma = inputPtr->luma + ((config->inputPaddedWidth*TOP_INPUT_PADDING + LEFT_INPUT_PADDING));
+            inputPtr->cb = inputPtr->cb + (((config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
+            inputPtr->cr = inputPtr->cr + (((config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)));
 
             if (is16bit) {
-                inputPtr->luma_ext = config->sequence_buffer[config->processed_frame_count % config->buffered_input] + luma8bitSize + 2 * chroma8bitSize;
-                inputPtr->cb_ext = config->sequence_buffer[config->processed_frame_count % config->buffered_input] + luma8bitSize + 2 * chroma8bitSize + luma2bitSize;
-                inputPtr->cr_ext = config->sequence_buffer[config->processed_frame_count % config->buffered_input] + luma8bitSize + 2 * chroma8bitSize + luma2bitSize + chroma2bitSize;
+                inputPtr->lumaExt = config->sequenceBuffer[config->processedFrameCount % config->bufferedInput] + luma8bitSize + 2 * chroma8bitSize;
+                inputPtr->cbExt = config->sequenceBuffer[config->processedFrameCount % config->bufferedInput] + luma8bitSize + 2 * chroma8bitSize + luma2bitSize;
+                inputPtr->crExt = config->sequenceBuffer[config->processedFrameCount % config->bufferedInput] + luma8bitSize + 2 * chroma8bitSize + luma2bitSize + chroma2bitSize;
 
-                inputPtr->luma_ext = inputPtr->luma_ext + config->input_padded_width*TOP_INPUT_PADDING + LEFT_INPUT_PADDING;
-                inputPtr->cb_ext = inputPtr->cb_ext + (config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1);
-                inputPtr->cr_ext = inputPtr->cr_ext + (config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1);
+                inputPtr->lumaExt = inputPtr->lumaExt + config->inputPaddedWidth*TOP_INPUT_PADDING + LEFT_INPUT_PADDING;
+                inputPtr->cbExt = inputPtr->cbExt + (config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1);
+                inputPtr->crExt = inputPtr->crExt + (config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1);
 
             }
 
@@ -1081,44 +1081,44 @@ void ReadInputFrames(
         }
         else
         {
-            const int32_t tenBitPackedMode = (config->encoder_bit_depth > 8) && (config->compressed_ten_bit_format == 0) ? 1 : 0;
+            const int32_t tenBitPackedMode = (config->encoderBitDepth > 8) && (config->compressedTenBitFormat == 0) ? 1 : 0;
 
             // Determine size of each plane
             const size_t luma8bitSize =
-                (config->input_padded_width) *
-                (config->input_padded_height) *
+                (config->inputPaddedWidth) *
+                (config->inputPaddedHeight) *
                 (1 << tenBitPackedMode);
 
             const size_t chroma8bitSize = luma8bitSize >> 2;
 
-            const size_t luma10bitSize = (config->encoder_bit_depth > 8 && tenBitPackedMode == 0) ? luma8bitSize : 0;
-            const size_t chroma10bitSize = (config->encoder_bit_depth > 8 && tenBitPackedMode == 0) ? chroma8bitSize : 0;
+            const size_t luma10bitSize = (config->encoderBitDepth > 8 && tenBitPackedMode == 0) ? luma8bitSize : 0;
+            const size_t chroma10bitSize = (config->encoderBitDepth > 8 && tenBitPackedMode == 0) ? chroma8bitSize : 0;
 
             EbSvtEncInput* inputPtr = (EbSvtEncInput*)headerPtr->p_buffer;
 
-            inputPtr->y_stride = config->input_padded_width;
-            inputPtr->cr_stride = config->input_padded_width >> 1;
-            inputPtr->cb_stride = config->input_padded_width >> 1;
+            inputPtr->yStride = config->inputPaddedWidth;
+            inputPtr->crStride = config->inputPaddedWidth >> 1;
+            inputPtr->cbStride = config->inputPaddedWidth >> 1;
 
-            inputPtr->luma = config->sequence_buffer[config->processed_frame_count % config->buffered_input];
-            inputPtr->cb = config->sequence_buffer[config->processed_frame_count % config->buffered_input] + luma8bitSize;
-            inputPtr->cr = config->sequence_buffer[config->processed_frame_count % config->buffered_input] + luma8bitSize + chroma8bitSize;
-            inputPtr->luma = inputPtr->luma + ((config->input_padded_width*TOP_INPUT_PADDING + LEFT_INPUT_PADDING) << tenBitPackedMode);
-            inputPtr->cb = inputPtr->cb + (((config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)) << tenBitPackedMode);
-            inputPtr->cr = inputPtr->cr + (((config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)) << tenBitPackedMode);
+            inputPtr->luma = config->sequenceBuffer[config->processedFrameCount % config->bufferedInput];
+            inputPtr->cb = config->sequenceBuffer[config->processedFrameCount % config->bufferedInput] + luma8bitSize;
+            inputPtr->cr = config->sequenceBuffer[config->processedFrameCount % config->bufferedInput] + luma8bitSize + chroma8bitSize;
+            inputPtr->luma = inputPtr->luma + ((config->inputPaddedWidth*TOP_INPUT_PADDING + LEFT_INPUT_PADDING) << tenBitPackedMode);
+            inputPtr->cb = inputPtr->cb + (((config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)) << tenBitPackedMode);
+            inputPtr->cr = inputPtr->cr + (((config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1)) << tenBitPackedMode);
 
 
             if (is16bit) {
-                inputPtr->luma_ext = config->sequence_buffer[config->processed_frame_count % config->buffered_input] + luma8bitSize + 2 * chroma8bitSize;
-                inputPtr->cb_ext = config->sequence_buffer[config->processed_frame_count % config->buffered_input] + luma8bitSize + 2 * chroma8bitSize + luma10bitSize;
-                inputPtr->cr_ext = config->sequence_buffer[config->processed_frame_count % config->buffered_input] + luma8bitSize + 2 * chroma8bitSize + luma10bitSize + chroma10bitSize;
-                inputPtr->luma_ext = inputPtr->luma_ext + config->input_padded_width*TOP_INPUT_PADDING + LEFT_INPUT_PADDING;
-                inputPtr->cb_ext = inputPtr->cb_ext + (config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1);
-                inputPtr->cr_ext = inputPtr->cr_ext + (config->input_padded_width >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1);
+                inputPtr->lumaExt = config->sequenceBuffer[config->processedFrameCount % config->bufferedInput] + luma8bitSize + 2 * chroma8bitSize;
+                inputPtr->cbExt = config->sequenceBuffer[config->processedFrameCount % config->bufferedInput] + luma8bitSize + 2 * chroma8bitSize + luma10bitSize;
+                inputPtr->crExt = config->sequenceBuffer[config->processedFrameCount % config->bufferedInput] + luma8bitSize + 2 * chroma8bitSize + luma10bitSize + chroma10bitSize;
+                inputPtr->lumaExt = inputPtr->lumaExt + config->inputPaddedWidth*TOP_INPUT_PADDING + LEFT_INPUT_PADDING;
+                inputPtr->cbExt = inputPtr->cbExt + (config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1);
+                inputPtr->crExt = inputPtr->crExt + (config->inputPaddedWidth >> 1)*(TOP_INPUT_PADDING >> 1) + (LEFT_INPUT_PADDING >> 1);
 
             }
 
-            headerPtr->n_filled_len = (uint32_t)(uint64_t)SIZE_OF_ONE_FRAME_IN_BYTES(input_padded_width, input_padded_height, is16bit);
+            headerPtr->n_filled_len = (uint32_t)(uint64_t)SIZE_OF_ONE_FRAME_IN_BYTES(inputPaddedWidth, inputPaddedHeight, is16bit);
 
         }
 
@@ -1126,15 +1126,15 @@ void ReadInputFrames(
     }
 
     // If we reached the end of file, loop over again
-    if (feof(input_file) != 0) {
-        fseek(input_file, 0, SEEK_SET);
+    if (feof(inputFile) != 0) {
+        fseek(inputFile, 0, SEEK_SET);
     }
 
     return;
 }
 
 void SendQpOnTheFly(
-    EbConfig                  *config,
+    EbConfig_t                  *config,
     EbBufferHeaderType        *headerPtr){
     {
         uint32_t           qpPtr;
@@ -1151,7 +1151,7 @@ void SendQpOnTheFly(
 
             // check if eof
             if ((tmpQp == -1) && (qpReadFromFile != 0))
-                fseek(config->qp_file, 0, SEEK_SET);
+                fseek(config->qpFile, 0, SEEK_SET);
 
             // check if the qp read is valid
             else if (tmpQp > 0)
@@ -1176,59 +1176,59 @@ void SendQpOnTheFly(
 // Reads yuv frames from file and copy
 // them into the input buffer
 /************************************/
-AppExitConditionType ProcessInputBuffer(
-    EbConfig             *config,
-    EbAppContext         *appCallBack)
+APPEXITCONDITIONTYPE ProcessInputBuffer(
+    EbConfig_t             *config,
+    EbAppContext_t         *appCallBack)
 {
-    uint8_t                 is16bit = (uint8_t)(config->encoder_bit_depth > 8);
-    EbBufferHeaderType     *headerPtr = appCallBack->input_buffer_pool;
-    EbComponentType        *componentHandle = (EbComponentType*)appCallBack->svt_encoder_handle;
+    uint8_t                 is16bit = (uint8_t)(config->encoderBitDepth > 8);
+    EbBufferHeaderType     *headerPtr = appCallBack->inputBufferPool;
+    EbComponentType        *componentHandle = (EbComponentType*)appCallBack->svtEncoderHandle;
 
-    AppExitConditionType    return_value = APP_ExitConditionNone;
+    APPEXITCONDITIONTYPE    return_value = APP_ExitConditionNone;
 
-    int64_t                  input_padded_width           = config->input_padded_width;
-    int64_t                  input_padded_height          = config->input_padded_height;
-    int64_t                  frames_to_be_encoded          = config->frames_to_be_encoded;
-    uint64_t                 frameSize                  = (uint64_t)((input_padded_width*input_padded_height * 3) / 2 + (input_padded_width / 4 * input_padded_height * 3) / 2);
+    int64_t                  inputPaddedWidth           = config->inputPaddedWidth;
+    int64_t                  inputPaddedHeight          = config->inputPaddedHeight;
+    int64_t                  framesToBeEncoded          = config->framesToBeEncoded;
+    uint64_t                 frameSize                  = (uint64_t)((inputPaddedWidth*inputPaddedHeight * 3) / 2 + (inputPaddedWidth / 4 * inputPaddedHeight * 3) / 2);
     int64_t                  totalBytesToProcessCount;
     int64_t                  remainingByteCount;
 
-    if (config->injector && config->processed_frame_count)
+    if (config->injector && config->processedFrameCount)
     {
-        eb_injector(config->processed_frame_count, config->injector_frame_rate);
+        EbInjector(config->processedFrameCount, config->injector_frame_rate);
     }
 
-    totalBytesToProcessCount = (frames_to_be_encoded < 0) ? -1 : (config->encoder_bit_depth == 10 && config->compressed_ten_bit_format == 1) ?
-        frames_to_be_encoded * (int64_t)frameSize :
-        frames_to_be_encoded * SIZE_OF_ONE_FRAME_IN_BYTES(input_padded_width, input_padded_height, is16bit);
+    totalBytesToProcessCount = (framesToBeEncoded < 0) ? -1 : (config->encoderBitDepth == 10 && config->compressedTenBitFormat == 1) ?
+        framesToBeEncoded * (int64_t)frameSize :
+        framesToBeEncoded * SIZE_OF_ONE_FRAME_IN_BYTES(inputPaddedWidth, inputPaddedHeight, is16bit);
 
 
-    remainingByteCount       = (totalBytesToProcessCount < 0) ?   -1 :  totalBytesToProcessCount - (int64_t)config->processed_byte_count;
+    remainingByteCount       = (totalBytesToProcessCount < 0) ?   -1 :  totalBytesToProcessCount - (int64_t)config->processedByteCount;
 
     // If there are bytes left to encode, configure the header
-    if (remainingByteCount != 0 && config->stop_encoder == EB_FALSE) {
+    if (remainingByteCount != 0 && config->stopEncoder == EB_FALSE) {
         ReadInputFrames(
             config,
             is16bit,
             headerPtr);
 
         // Update the context parameters
-        config->processed_byte_count += headerPtr->n_filled_len;
-        headerPtr->p_app_private          = (EbPtr)EB_NULL;
-        config->frames_encoded           = (int32_t)(++config->processed_frame_count);
+        config->processedByteCount += headerPtr->n_filled_len;
+        headerPtr->p_app_private          = (EB_PTR)EB_NULL;
+        config->framesEncoded           = (int32_t)(++config->processedFrameCount);
 
         // Configuration parameters changed on the fly
-        if (config->use_qp_file && config->qp_file)
+        if (config->use_qp_file && config->qpFile)
             SendQpOnTheFly(
                 config,
                 headerPtr);
 
-        if (keepRunning == 0 && !config->stop_encoder) {
-            config->stop_encoder = EB_TRUE;
+        if (keepRunning == 0 && !config->stopEncoder) {
+            config->stopEncoder = EB_TRUE;
         }
 
         // Fill in Buffers Header control data
-        headerPtr->pts          = config->processed_frame_count-1;
+        headerPtr->pts          = config->processedFrameCount-1;
         headerPtr->pic_type    = EB_INVALID_PICTURE;
 
         headerPtr->flags = 0;
@@ -1236,7 +1236,7 @@ AppExitConditionType ProcessInputBuffer(
         // Send the picture
         eb_svt_enc_send_picture(componentHandle, headerPtr);
 
-        if ((config->processed_frame_count == (uint64_t)config->frames_to_be_encoded) || config->stop_encoder) {
+        if ((config->processedFrameCount == (uint64_t)config->framesToBeEncoded) || config->stopEncoder) {
 
             headerPtr->n_alloc_len    = 0;
             headerPtr->n_filled_len   = 0;
@@ -1283,7 +1283,7 @@ static __inline void mem_put_le16(void *vmem, int32_t val) {
     mem[1] = (uint8_t)((val >> 8) & 0xff);
 }
 
-static void write_ivf_stream_header(EbConfig *config)
+static void write_ivf_stream_header(EbConfig_t *config)
 {
     char header[IVF_STREAM_HEADER_SIZE];
     header[0] = 'D';
@@ -1293,41 +1293,41 @@ static void write_ivf_stream_header(EbConfig *config)
     mem_put_le16(header + 4, 0);                     // version
     mem_put_le16(header + 6, 32);                    // header size
     mem_put_le32(header + 8, AV1_FOURCC);                // fourcc
-    mem_put_le16(header + 12, config->input_padded_width);  // width
-    mem_put_le16(header + 14, config->input_padded_height); // height
-    if (config->frame_rate_denominator != 0 && config->frame_rate_numerator != 0){
-        mem_put_le32(header + 16, config->frame_rate_numerator);  // rate
-        mem_put_le32(header + 20, config->frame_rate_denominator);            // scale
+    mem_put_le16(header + 12, config->inputPaddedWidth);  // width
+    mem_put_le16(header + 14, config->inputPaddedHeight); // height
+    if (config->frameRateDenominator != 0 && config->frameRateNumerator != 0){
+        mem_put_le32(header + 16, config->frameRateNumerator);  // rate
+        mem_put_le32(header + 20, config->frameRateDenominator);            // scale
                                                     //mem_put_le32(header + 16, config->frameRateDenominator);  // rate
                                                     //mem_put_le32(header + 20, config->frameRateNumerator);  // scale
     }
     else {
-        mem_put_le32(header + 16, (config->frame_rate >> 16) * 1000);  // rate
+        mem_put_le32(header + 16, (config->frameRate >> 16) * 1000);  // rate
         mem_put_le32(header + 20, 1000);            // scale
                                                     //mem_put_le32(header + 16, config->frameRateDenominator);  // rate
                                                     //mem_put_le32(header + 20, config->frameRateNumerator);  // scale
     }
     mem_put_le32(header + 24, 0);               // length
     mem_put_le32(header + 28, 0);               // unused
-    //config->performance_context.byte_count += 32;
-    if (config->bitstream_file)
-        fwrite(header, 1, IVF_STREAM_HEADER_SIZE, config->bitstream_file);
+    //config->performanceContext.byteCount += 32;
+    if (config->bitstreamFile)
+        fwrite(header, 1, IVF_STREAM_HEADER_SIZE, config->bitstreamFile);
 
     return;
 }
-static void update_prev_ivf_header(EbConfig *config){
+static void update_prev_ivf_header(EbConfig_t *config){
 
     char header[4]; // only for the number of bytes
-    if (config && config->bitstream_file && config->byte_count_since_ivf != 0){
-        fseeko64(config->bitstream_file, (-(int32_t)(config->byte_count_since_ivf + IVF_FRAME_HEADER_SIZE)),SEEK_CUR);
+    if (config && config->bitstreamFile && config->byte_count_since_ivf != 0){
+        fseeko64(config->bitstreamFile, (-(int32_t)(config->byte_count_since_ivf + IVF_FRAME_HEADER_SIZE)),SEEK_CUR);
         mem_put_le32(&header[0], (int32_t)(config->byte_count_since_ivf));
-        fwrite(header, 1, 4, config->bitstream_file);
-        fseeko64(config->bitstream_file, (config->byte_count_since_ivf + IVF_FRAME_HEADER_SIZE - 4), SEEK_CUR);
+        fwrite(header, 1, 4, config->bitstreamFile);
+        fseeko64(config->bitstreamFile, (config->byte_count_since_ivf + IVF_FRAME_HEADER_SIZE - 4), SEEK_CUR);
         config->byte_count_since_ivf = 0;
     }
 }
 
-static void write_ivf_frame_header(EbConfig *config, uint32_t byte_count){
+static void write_ivf_frame_header(EbConfig_t *config, uint32_t byte_count){
     char header[IVF_FRAME_HEADER_SIZE];
     int32_t write_location = 0;
 
@@ -1343,29 +1343,28 @@ static void write_ivf_frame_header(EbConfig *config, uint32_t byte_count){
     config->ivf_count++;
     fflush(stdout);
 
-    if (config->bitstream_file)
-        fwrite(header, 1, IVF_FRAME_HEADER_SIZE, config->bitstream_file);
+    if (config->bitstreamFile)
+        fwrite(header, 1, IVF_FRAME_HEADER_SIZE, config->bitstreamFile);
 }
 
-AppExitConditionType ProcessOutputStreamBuffer(
-    EbConfig             *config,
-    EbAppContext         *appCallBack,
-
+APPEXITCONDITIONTYPE ProcessOutputStreamBuffer(
+    EbConfig_t             *config,
+    EbAppContext_t         *appCallBack,
     uint8_t                 pic_send_done)
 {
-    AppPortActiveType      *portState       = &appCallBack->output_stream_port_active;
+    APPPORTACTIVETYPE      *portState       = &appCallBack->outputStreamPortActive;
     EbBufferHeaderType     *headerPtr;
-    EbComponentType        *componentHandle = (EbComponentType*)appCallBack->svt_encoder_handle;
-    AppExitConditionType    return_value    = APP_ExitConditionNone;
+    EbComponentType        *componentHandle = (EbComponentType*)appCallBack->svtEncoderHandle;
+    APPEXITCONDITIONTYPE    return_value    = APP_ExitConditionNone;
     EbErrorType             stream_status   = EB_ErrorNone;
     // Per channel variables
-    FILE                   *streamFile       = config->bitstream_file;
+    FILE                   *streamFile       = config->bitstreamFile;
 
-    uint64_t               *total_latency     = &config->performance_context.total_latency;
-    uint32_t               *max_latency       = &config->performance_context.max_latency;
+    uint64_t               *totalLatency     = &config->performanceContext.totalLatency;
+    uint32_t               *maxLatency       = &config->performanceContext.maxLatency;
 
     // System performance variables
-    static int32_t         frame_count                = 0;
+    static int32_t         frameCount                = 0;
 
     // Local variables
     uint64_t                finishsTime     = 0;
@@ -1377,42 +1376,42 @@ AppExitConditionType ProcessOutputStreamBuffer(
     if (stream_status == EB_ErrorMax) {
         printf("\n");
         LogErrorOutput(
-            config->error_log_file,
+            config->errorLogFile,
             headerPtr->flags);
         return APP_ExitConditionError;
     }
     else if (stream_status != EB_NoErrorEmptyQueue) {
 #if TILES
-        EbBool   has_tiles                = (EbBool)(appCallBack->eb_enc_parameters.tile_columns || appCallBack->eb_enc_parameters.tile_rows);
+        EbBool   has_tiles                = (EbBool)(appCallBack->ebEncParameters.tile_columns || appCallBack->ebEncParameters.tile_rows);
 #else
         EbBool   has_tiles                = (EbBool)EB_FALSE;
 #endif
         uint8_t  obu_frame_header_size    = has_tiles ? OBU_FRAME_HEADER_SIZE + 1 : OBU_FRAME_HEADER_SIZE;
-        ++(config->performance_context.frame_count);
-        *total_latency += (uint64_t)headerPtr->n_tick_count;
-        *max_latency = (headerPtr->n_tick_count > *max_latency) ? headerPtr->n_tick_count : *max_latency;
+        ++(config->performanceContext.frameCount);
+        *totalLatency += (uint64_t)headerPtr->n_tick_count;
+        *maxLatency = (headerPtr->n_tick_count > *maxLatency) ? headerPtr->n_tick_count : *maxLatency;
 
-        eb_finish_time((uint64_t*)&finishsTime, (uint64_t*)&finishuTime);
+        EbFinishTime((uint64_t*)&finishsTime, (uint64_t*)&finishuTime);
 
         // total execution time, inc init time
-        eb_compute_overall_elapsed_time(
-            config->performance_context.lib_start_time[0],
-            config->performance_context.lib_start_time[1],
+        EbComputeOverallElapsedTime(
+            config->performanceContext.lib_start_time[0],
+            config->performanceContext.lib_start_time[1],
             finishsTime,
             finishuTime,
-            &config->performance_context.total_execution_time);
+            &config->performanceContext.total_execution_time);
 
         // total encode time
-        eb_compute_overall_elapsed_time(
-            config->performance_context.encode_start_time[0],
-            config->performance_context.encode_start_time[1],
+        EbComputeOverallElapsedTime(
+            config->performanceContext.encode_start_time[0],
+            config->performanceContext.encode_start_time[1],
             finishsTime,
             finishuTime,
-            &config->performance_context.total_encode_time);
+            &config->performanceContext.total_encode_time);
 
         // Write Stream Data to file
         if (streamFile) {
-            if (config->performance_context.frame_count == 1){
+            if (config->performanceContext.frameCount == 1){
                 write_ivf_stream_header(config);
             }
 
@@ -1471,7 +1470,7 @@ AppExitConditionType ProcessOutputStreamBuffer(
                     break;
             }
         }
-        config->performance_context.byte_count += headerPtr->n_filled_len;
+        config->performanceContext.byteCount += headerPtr->n_filled_len;
 
         // Update Output Port Activity State
         *portState = (headerPtr->flags & EB_BUFFERFLAG_EOS) ? APP_PortInactive : *portState;
@@ -1481,36 +1480,36 @@ AppExitConditionType ProcessOutputStreamBuffer(
         eb_svt_release_out_buffer(&headerPtr);
 
 #if DEADLOCK_DEBUG
-        ++frame_count;
+        ++frameCount;
 #else
-        //++frame_count;
-        printf("\b\b\b\b\b\b\b\b\b%9d", ++frame_count);
+        //++frameCount;
+        printf("\b\b\b\b\b\b\b\b\b%9d", ++frameCount);
 #endif
 
-        //++frame_count;
+        //++frameCount;
         fflush(stdout);
 
         {
-            config->performance_context.average_speed = (config->performance_context.frame_count) / config->performance_context.total_encode_time;
-            config->performance_context.average_latency = config->performance_context.total_latency / (double)(config->performance_context.frame_count);
+            config->performanceContext.averageSpeed = (config->performanceContext.frameCount) / config->performanceContext.total_encode_time;
+            config->performanceContext.averageLatency = config->performanceContext.totalLatency / (double)(config->performanceContext.frameCount);
         }
 
-        if (!(frame_count % SPEED_MEASUREMENT_INTERVAL)) {
+        if (!(frameCount % SPEED_MEASUREMENT_INTERVAL)) {
             {
                 printf("\n");
-                printf("Average System Encoding Speed:        %.2f\n", (double)(frame_count) / config->performance_context.total_encode_time);
+                printf("Average System Encoding Speed:        %.2f\n", (double)(frameCount) / config->performanceContext.total_encode_time);
             }
         }
     }
     return return_value;
 }
-AppExitConditionType ProcessOutputReconBuffer(
-    EbConfig             *config,
-    EbAppContext         *appCallBack)
+APPEXITCONDITIONTYPE ProcessOutputReconBuffer(
+    EbConfig_t             *config,
+    EbAppContext_t         *appCallBack)
 {
     EbBufferHeaderType    *headerPtr = appCallBack->recon_buffer; // needs to change for buffered input
-    EbComponentType       *componentHandle = (EbComponentType*)appCallBack->svt_encoder_handle;
-    AppExitConditionType    return_value = APP_ExitConditionNone;
+    EbComponentType       *componentHandle = (EbComponentType*)appCallBack->svtEncoderHandle;
+    APPEXITCONDITIONTYPE    return_value = APP_ExitConditionNone;
     EbErrorType            recon_status = EB_ErrorNone;
     int32_t fseekReturnVal;
     // non-blocking call until all input frames are sent
@@ -1519,16 +1518,16 @@ AppExitConditionType ProcessOutputReconBuffer(
     if (recon_status == EB_ErrorMax) {
         printf("\n");
         LogErrorOutput(
-            config->error_log_file,
+            config->errorLogFile,
             headerPtr->flags);
         return APP_ExitConditionError;
     }
     else if (recon_status != EB_NoErrorEmptyQueue) {
         //Sets the File position to the beginning of the file.
-        rewind(config->recon_file);
+        rewind(config->reconFile);
         uint64_t frameNum = headerPtr->pts;
         while (frameNum>0) {
-            fseekReturnVal = fseeko64(config->recon_file, headerPtr->n_filled_len, SEEK_CUR);
+            fseekReturnVal = fseeko64(config->reconFile, headerPtr->n_filled_len, SEEK_CUR);
 
             if (fseekReturnVal != 0) {
                 printf("Error in fseeko64  returnVal %i\n", fseekReturnVal);
@@ -1537,7 +1536,7 @@ AppExitConditionType ProcessOutputReconBuffer(
             frameNum = frameNum - 1;
         }
 
-        fwrite(headerPtr->p_buffer, 1, headerPtr->n_filled_len, config->recon_file);
+        fwrite(headerPtr->p_buffer, 1, headerPtr->n_filled_len, config->reconFile);
 
         // Update Output Port Activity State
         return_value = (headerPtr->flags & EB_BUFFERFLAG_EOS) ? APP_ExitConditionFinished : APP_ExitConditionNone;

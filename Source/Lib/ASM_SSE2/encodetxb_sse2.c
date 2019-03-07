@@ -472,7 +472,7 @@ void av1_get_nz_map_contexts_sse2(
     const int16_t *const scan,
     const uint16_t eob,
     TxSize tx_size,
-    const TxClass TxClass,
+    const TX_CLASS tx_class,
     int8_t *const coeff_contexts
 ) {
 
@@ -494,7 +494,7 @@ void av1_get_nz_map_contexts_sse2(
     /* coeff_contexts must be 16 byte aligned. */
     assert(!((intptr_t)coeff_contexts & 0xf));
 
-    if (TxClass == TX_CLASS_2D) {
+    if (tx_class == TX_CLASS_2D) {
         offsets[0] = 0 * stride + 2;
         offsets[1] = 1 * stride + 1;
         offsets[2] = 2 * stride + 0;
@@ -514,7 +514,7 @@ void av1_get_nz_map_contexts_sse2(
                 offsets, coeff_contexts);
         }
     }
-    else if (TxClass == TX_CLASS_HORIZ) {
+    else if (tx_class == TX_CLASS_HORIZ) {
         offsets[0] = 2;
         offsets[1] = 3;
         offsets[2] = 4;

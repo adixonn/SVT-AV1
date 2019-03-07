@@ -12,18 +12,19 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    typedef struct EbTransQuantBuffers
+    typedef struct EbTransQuantBuffers_s
     {
-        EbPictureBufferDesc         *tu_trans_coeff2_nx2_n_ptr;
-        EbPictureBufferDesc         *tu_trans_coeff_nx_n_ptr;
-        EbPictureBufferDesc         *tu_trans_coeff_n2x_n2_ptr;
-        EbPictureBufferDesc         *tu_quant_coeff_nx_n_ptr;
-        EbPictureBufferDesc         *tu_quant_coeff_n2x_n2_ptr;
-    } EbTransQuantBuffers;
+        EbPictureBufferDesc_t         *tuTransCoeff2Nx2NPtr;
+        EbPictureBufferDesc_t         *tuTransCoeffNxNPtr;
+        EbPictureBufferDesc_t         *tuTransCoeffN2xN2Ptr;
+        EbPictureBufferDesc_t         *tuQuantCoeffNxNPtr;
+        EbPictureBufferDesc_t         *tuQuantCoeffN2xN2Ptr;
+
+    } EbTransQuantBuffers_t;
 
 
-    extern EbErrorType eb_trans_quant_buffers_ctor(
-        EbTransQuantBuffers *trans_quant_buffers_ptr);
+    extern EbErrorType EbTransQuantBuffersCtor(
+        EbTransQuantBuffers_t            *trans_quant_buffers_ptr);
 
 
 #ifdef __cplusplus

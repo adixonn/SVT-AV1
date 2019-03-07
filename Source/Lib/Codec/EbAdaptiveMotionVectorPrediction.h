@@ -18,51 +18,50 @@
 extern "C" {
 #endif
 
-    struct ModeDecisionContext;
-    struct InterPredictionContext;
+    struct ModeDecisionContext_s;
+    struct InterPredictionContext_s;
 
-    typedef enum TmvpPos 
-    {
+    typedef enum TmvpPos {
         TmvpColocatedBottomRight = 0,
         TmvpColocatedCenter = 1
     } TmvpPos;
 
     // TMVP items corresponding to one LCU
-    typedef struct TmvpUnit 
-    {
-        Mv              mv[MAX_NUM_OF_REF_PIC_LIST][MAX_TMVP_CAND_PER_LCU];
+    typedef struct TmvpUnit_s {
+        Mv_t              mv[MAX_NUM_OF_REF_PIC_LIST][MAX_TMVP_CAND_PER_LCU];
+        uint64_t            refPicPOC[MAX_NUM_OF_REF_PIC_LIST][MAX_TMVP_CAND_PER_LCU];
         EbPredDirection  prediction_direction[MAX_TMVP_CAND_PER_LCU];
         EbBool              availabilityFlag[MAX_TMVP_CAND_PER_LCU];
 
         //*Note- list 1 motion info will be added when B-slices are ready
 
-    } TmvpUnit;
+    } TmvpUnit_t;
 
     extern EbErrorType clip_mv(
         uint32_t                   cu_origin_x,
         uint32_t                   cu_origin_y,
-        int16_t                  *mv_x,
-        int16_t                  *mv_y,
+        int16_t                  *MVx,
+        int16_t                  *MVy,
         uint32_t                   picture_width,
         uint32_t                   picture_height,
-        uint32_t                   tb_size);
+        uint32_t                   tbSize);
 
     void generate_av1_mvp_table(
 #if TILES
         TileInfo                              *tile,
 #endif
-      struct ModeDecisionContext            *context_ptr,
-        CodingUnit                     *cu_ptr,
+      struct ModeDecisionContext_s            *context_ptr,
+        CodingUnit_t                     *cu_ptr,
         const BlockGeom                   * blk_geom,
         uint16_t                            cu_origin_x,
         uint16_t                            cu_origin_y,
-        MvReferenceFrame                *ref_frames,
-        uint32_t                            tot_refs,
-        PictureControlSet              *picture_control_set_ptr);
+        MvReferenceFrame                *refFrames,
+        uint32_t                            TotRefs,
+        PictureControlSet_t              *picture_control_set_ptr);
 
     void get_av1_mv_pred_drl(
-        struct ModeDecisionContext            *context_ptr,
-        CodingUnit      *cu_ptr,
+        struct ModeDecisionContext_s            *context_ptr,
+        CodingUnit_t      *cu_ptr,
         MvReferenceFrame ref_frame,
         uint8_t              is_compound,
         PredictionMode    mode,
@@ -75,12 +74,12 @@ extern "C" {
 #if TILES
         TileInfo                               *tile,
 #endif
-         struct ModeDecisionContext            *md_context_ptr,
-        CodingUnit                     *cu_ptr,
+         struct ModeDecisionContext_s            *md_context_ptr,
+        CodingUnit_t                     *cu_ptr,
         const BlockGeom                   * blk_geom,
         uint16_t                            cu_origin_x,
         uint16_t                            cu_origin_y,
-        PictureControlSet              *picture_control_set_ptr,
+        PictureControlSet_t              *picture_control_set_ptr,
         MvReferenceFrame                ref_frame,
         uint8_t                             is_compound,
         PredictionMode                   mode,
@@ -89,38 +88,38 @@ extern "C" {
 
     void update_mi_map(
 #if CHROMA_BLIND
-        struct ModeDecisionContext   *context_ptr,
+        struct ModeDecisionContext_s   *context_ptr,
 #endif
-        CodingUnit                   *cu_ptr,
+        CodingUnit_t                   *cu_ptr,
         uint32_t                          cu_origin_x,
         uint32_t                          cu_origin_y,
         const BlockGeom               * blk_geom,
-        const CodedUnitStats         *cu_stats,
-        PictureControlSet            *picture_control_set_ptr);
+        const CodedUnitStats_t         *cu_stats,
+        PictureControlSet_t            *picture_control_set_ptr);
 
     uint16_t wm_find_samples(
-        CodingUnit                       *cu_ptr,
+        CodingUnit_t                       *cu_ptr,
         const BlockGeom                    *blk_geom,
         uint16_t                            cu_origin_x,
         uint16_t                            cu_origin_y,
         MvReferenceFrame                    rf0,
-        PictureControlSet                *picture_control_set_ptr,
+        PictureControlSet_t                *picture_control_set_ptr,
         int32_t                            *pts,
         int32_t                            *pts_inref);
 
     void wm_count_samples(
-        CodingUnit                       *cu_ptr,
+        CodingUnit_t                       *cu_ptr,
         const BlockGeom                    *blk_geom,
         uint16_t                            cu_origin_x,
         uint16_t                            cu_origin_y,
         uint8_t                             ref_frame_type,
-        PictureControlSet                *picture_control_set_ptr,
+        PictureControlSet_t                *picture_control_set_ptr,
         uint16_t                           *num_samples);
 
     EbBool warped_motion_parameters(
-        PictureControlSet              *picture_control_set_ptr,
-        CodingUnit                     *cu_ptr,
-        MvUnit                         *mv_unit,
+        PictureControlSet_t              *picture_control_set_ptr,
+        CodingUnit_t                     *cu_ptr,
+        MvUnit_t                         *mv_unit,
         const BlockGeom                  *blk_geom,
         uint16_t                          cu_origin_x,
         uint16_t                          cu_origin_y,
@@ -129,7 +128,7 @@ extern "C" {
         uint16_t                         *num_samples);
 
 
-    static INLINE EbBool is_motion_variation_allowed_bsize(const BlockSize bsize)
+    static INLINE EbBool is_motion_variation_allowed_bsize(const block_size bsize)
     {
         return (block_size_wide[bsize] >= 8 && block_size_high[bsize] >= 8);
     }
@@ -139,16 +138,16 @@ extern "C" {
         return /*is_intrabc_block(mbmi) ||*/ mbmi->ref_frame[0] > INTRA_FRAME; // TODO: modify when add intra_bc
     }
 
-    static INLINE EbBool has_overlappable_candidates(const CodingUnit *cu_ptr)
+    static INLINE EbBool has_overlappable_candidates(const CodingUnit_t *cu_ptr)
     {
         return (cu_ptr->prediction_unit_array[0].overlappable_neighbors[0] != 0
              || cu_ptr->prediction_unit_array[0].overlappable_neighbors[1] != 0);
     }
 
     void av1_count_overlappable_neighbors(
-        const PictureControlSet        *picture_control_set_ptr,
-        CodingUnit                     *cu_ptr,
-        const BlockSize                   bsize,
+        const PictureControlSet_t        *picture_control_set_ptr,
+        CodingUnit_t                     *cu_ptr,
+        const block_size                   bsize,
         int32_t                           mi_row,
         int32_t                           mi_col);
 

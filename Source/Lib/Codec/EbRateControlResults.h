@@ -15,13 +15,13 @@ extern "C" {
 /**************************************
  * Process Results
  **************************************/
-typedef struct RateControlResults {
-    EbObjectWrapper *picture_control_set_wrapper_ptr;
-} RateControlResults;
+typedef struct RateControlResults_s {
+    EbObjectWrapper_t *pictureControlSetWrapperPtr;
+} RateControlResults_t;
 
-typedef struct RateControlResultsInitData {
+typedef struct RateControlResultsInitData_s {
     int32_t junk;
-} RateControlResultsInitData;
+} RateControlResultsInitData_t;
 
 /**************************************
  * Extern Function Declarations

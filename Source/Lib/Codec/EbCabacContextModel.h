@@ -31,8 +31,8 @@ extern "C" {
     /********************************************************************************************************************************/
     //prob.h
 
-    // TODO(negge): Rename this AomProb once we remove vpxbool.
-    typedef uint16_t AomCdfProb;
+    // TODO(negge): Rename this aom_prob once we remove vpxbool.
+    typedef uint16_t aom_cdf_prob;
 
 #define CDF_SIZE(x) ((x) + 1)
 #define CDF_PROB_BITS 15
@@ -646,10 +646,10 @@ extern "C" {
         }
     }
 
-    static INLINE void update_cdf(AomCdfProb *cdf, int32_t val, int32_t nsymbs) {
+    static INLINE void update_cdf(aom_cdf_prob *cdf, int32_t val, int32_t nsymbs) {
         int32_t rate;
         int32_t i/*,tmp*/;
-        AomCdfProb tmp;
+        aom_cdf_prob tmp;
 
         static const int32_t nsymbs2speed[17] = { 0, 0, 1, 1, 2, 2, 2, 2, 2,
             2, 2, 2, 2, 2, 2, 2, 2 };
@@ -718,16 +718,16 @@ extern "C" {
 
     struct frame_contexts;
 
-    typedef char EntropyContext;
+    typedef char ENTROPY_CONTEXT;
 
-    static INLINE int32_t combine_entropy_contexts(EntropyContext a,
-        EntropyContext b) {
+    static INLINE int32_t combine_entropy_contexts(ENTROPY_CONTEXT a,
+        ENTROPY_CONTEXT b) {
         return (a != 0) + (b != 0);
     }
 
-    static INLINE int32_t get_entropy_context(TxSize tx_size, const EntropyContext *a,
-        const EntropyContext *l) {
-        EntropyContext above_ec = 0, left_ec = 0;
+    static INLINE int32_t get_entropy_context(TxSize tx_size, const ENTROPY_CONTEXT *a,
+        const ENTROPY_CONTEXT *l) {
+        ENTROPY_CONTEXT above_ec = 0, left_ec = 0;
 
         switch (tx_size) {
         case TX_4X4:
@@ -815,7 +815,7 @@ extern "C" {
 
     //**********************************************************************************************************************//
     // txb_Common.h
-    static const TxClass tx_type_to_class[TX_TYPES] = {
+    static const TX_CLASS tx_type_to_class[TX_TYPES] = {
         TX_CLASS_2D,     // DCT_DCT
         TX_CLASS_2D,     // ADST_DCT
         TX_CLASS_2D,     // DCT_ADST
@@ -840,26 +840,24 @@ extern "C" {
 
 /* Symbols for coding which components are zero jointly */
 #define MV_JOINTS 4
-    typedef enum MvJointType
-    {
+    typedef enum {
         MV_JOINT_ZERO = 0,   /* Zero vector */
         MV_JOINT_HNZVZ = 1,  /* Vert zero, hor nonzero */
         MV_JOINT_HZVNZ = 2,  /* Hor zero, vert nonzero */
         MV_JOINT_HNZVNZ = 3, /* Both components nonzero */
-    } MvJointType;
+    } MV_JOINT_TYPE;
 
-    static INLINE int32_t mv_joint_vertical(MvJointType type) {
+    static INLINE int32_t mv_joint_vertical(MV_JOINT_TYPE type) {
         return type == MV_JOINT_HZVNZ || type == MV_JOINT_HNZVNZ;
     }
 
-    static INLINE int32_t mv_joint_horizontal(MvJointType type) {
+    static INLINE int32_t mv_joint_horizontal(MV_JOINT_TYPE type) {
         return type == MV_JOINT_HNZVZ || type == MV_JOINT_HNZVNZ;
     }
 
     /* Symbols for coding magnitude class of nonzero components */
 #define MV_CLASSES 11
-    typedef enum MvClassType
-    {
+    typedef enum {
         MV_CLASS_0 = 0,   /* (0, 2]     integer pel */
         MV_CLASS_1 = 1,   /* (2, 4]     integer pel */
         MV_CLASS_2 = 2,   /* (4, 8]     integer pel */
@@ -871,7 +869,7 @@ extern "C" {
         MV_CLASS_8 = 8,   /* (256, 512] integer pel */
         MV_CLASS_9 = 9,   /* (512, 1024] integer pel */
         MV_CLASS_10 = 10, /* (1024,2048] integer pel */
-    } MvClassType;
+    } MV_CLASS_TYPE;
 
 #define CLASS0_BITS 1 /* bits at integer precision for class 0 */
 #define CLASS0_SIZE (1 << CLASS0_BITS)
@@ -891,25 +889,23 @@ extern "C" {
 #endif
 #define MV_LOW (-(1 << MV_IN_USE_BITS))
 
-    typedef struct NMVComponent
-    {
-        AomCdfProb classes_cdf[CDF_SIZE(MV_CLASSES)];
-        AomCdfProb class0_fp_cdf[CLASS0_SIZE][CDF_SIZE(MV_FP_SIZE)];
-        AomCdfProb fp_cdf[CDF_SIZE(MV_FP_SIZE)];
-        AomCdfProb sign_cdf[CDF_SIZE(2)];
-        AomCdfProb class0_hp_cdf[CDF_SIZE(2)];
-        AomCdfProb hp_cdf[CDF_SIZE(2)];
-        AomCdfProb class0_cdf[CDF_SIZE(CLASS0_SIZE)];
-        AomCdfProb bits_cdf[MV_OFFSET_BITS][CDF_SIZE(2)];
-    } NMVComponent;
+    typedef struct {
+        aom_cdf_prob classes_cdf[CDF_SIZE(MV_CLASSES)];
+        aom_cdf_prob class0_fp_cdf[CLASS0_SIZE][CDF_SIZE(MV_FP_SIZE)];
+        aom_cdf_prob fp_cdf[CDF_SIZE(MV_FP_SIZE)];
+        aom_cdf_prob sign_cdf[CDF_SIZE(2)];
+        aom_cdf_prob class0_hp_cdf[CDF_SIZE(2)];
+        aom_cdf_prob hp_cdf[CDF_SIZE(2)];
+        aom_cdf_prob class0_cdf[CDF_SIZE(CLASS0_SIZE)];
+        aom_cdf_prob bits_cdf[MV_OFFSET_BITS][CDF_SIZE(2)];
+    } nmv_component;
 
-    typedef struct NMVContext
-    {
-        AomCdfProb joints_cdf[CDF_SIZE(MV_JOINTS)];
-        NMVComponent comps[2];
-    } NMVContext;
+    typedef struct {
+        aom_cdf_prob joints_cdf[CDF_SIZE(MV_JOINTS)];
+        nmv_component comps[2];
+    } nmv_context;
 
-    //static INLINE MvJointType av1_get_mv_joint(const MV *mv) {
+    //static INLINE MV_JOINT_TYPE av1_get_mv_joint(const MV *mv) {
     //    if (mv->row == 0) {
     //        return mv->col == 0 ? MV_JOINT_ZERO : MV_JOINT_HNZVZ;
     //    }
@@ -918,10 +914,9 @@ extern "C" {
     //    }
     //}
 
-    MvClassType av1_get_mv_class(int32_t z, int32_t *offset);
+    MV_CLASS_TYPE av1_get_mv_class(int32_t z, int32_t *offset);
 
-    typedef enum MvSubpelPrecision
-    {
+    typedef enum {
         MV_SUBPEL_NONE = -1,
         MV_SUBPEL_LOW_PRECISION = 0,
         MV_SUBPEL_HIGH_PRECISION,
@@ -965,116 +960,115 @@ extern "C" {
 
 #define KF_MODE_CONTEXTS 5
 
-    typedef struct 
-    {
+    typedef struct {
         const int16_t *scan;
         const int16_t *iscan;
         const int16_t *neighbors;
     } SCAN_ORDER;
 
     typedef struct frame_contexts {
-        AomCdfProb txb_skip_cdf[TX_SIZES][TXB_SKIP_CONTEXTS][CDF_SIZE(2)];
-        AomCdfProb eob_extra_cdf[TX_SIZES][PLANE_TYPES][EOB_COEF_CONTEXTS]
+        aom_cdf_prob txb_skip_cdf[TX_SIZES][TXB_SKIP_CONTEXTS][CDF_SIZE(2)];
+        aom_cdf_prob eob_extra_cdf[TX_SIZES][PLANE_TYPES][EOB_COEF_CONTEXTS]
             [CDF_SIZE(2)];
-        AomCdfProb dc_sign_cdf[PLANE_TYPES][DC_SIGN_CONTEXTS][CDF_SIZE(2)];
-        AomCdfProb eob_flag_cdf16[PLANE_TYPES][2][CDF_SIZE(5)];
-        AomCdfProb eob_flag_cdf32[PLANE_TYPES][2][CDF_SIZE(6)];
-        AomCdfProb eob_flag_cdf64[PLANE_TYPES][2][CDF_SIZE(7)];
-        AomCdfProb eob_flag_cdf128[PLANE_TYPES][2][CDF_SIZE(8)];
-        AomCdfProb eob_flag_cdf256[PLANE_TYPES][2][CDF_SIZE(9)];
-        AomCdfProb eob_flag_cdf512[PLANE_TYPES][2][CDF_SIZE(10)];
-        AomCdfProb eob_flag_cdf1024[PLANE_TYPES][2][CDF_SIZE(11)];
-        AomCdfProb coeff_base_eob_cdf[TX_SIZES][PLANE_TYPES][SIG_COEF_CONTEXTS_EOB]
+        aom_cdf_prob dc_sign_cdf[PLANE_TYPES][DC_SIGN_CONTEXTS][CDF_SIZE(2)];
+        aom_cdf_prob eob_flag_cdf16[PLANE_TYPES][2][CDF_SIZE(5)];
+        aom_cdf_prob eob_flag_cdf32[PLANE_TYPES][2][CDF_SIZE(6)];
+        aom_cdf_prob eob_flag_cdf64[PLANE_TYPES][2][CDF_SIZE(7)];
+        aom_cdf_prob eob_flag_cdf128[PLANE_TYPES][2][CDF_SIZE(8)];
+        aom_cdf_prob eob_flag_cdf256[PLANE_TYPES][2][CDF_SIZE(9)];
+        aom_cdf_prob eob_flag_cdf512[PLANE_TYPES][2][CDF_SIZE(10)];
+        aom_cdf_prob eob_flag_cdf1024[PLANE_TYPES][2][CDF_SIZE(11)];
+        aom_cdf_prob coeff_base_eob_cdf[TX_SIZES][PLANE_TYPES][SIG_COEF_CONTEXTS_EOB]
             [CDF_SIZE(3)];
-        AomCdfProb coeff_base_cdf[TX_SIZES][PLANE_TYPES][SIG_COEF_CONTEXTS]
+        aom_cdf_prob coeff_base_cdf[TX_SIZES][PLANE_TYPES][SIG_COEF_CONTEXTS]
             [CDF_SIZE(4)];
-        AomCdfProb coeff_br_cdf[TX_SIZES][PLANE_TYPES][LEVEL_CONTEXTS]
+        aom_cdf_prob coeff_br_cdf[TX_SIZES][PLANE_TYPES][LEVEL_CONTEXTS]
             [CDF_SIZE(BR_CDF_SIZE)];
 
-        AomCdfProb newmv_cdf[NEWMV_MODE_CONTEXTS][CDF_SIZE(2)];
-        AomCdfProb zeromv_cdf[GLOBALMV_MODE_CONTEXTS][CDF_SIZE(2)];
-        AomCdfProb refmv_cdf[REFMV_MODE_CONTEXTS][CDF_SIZE(2)];
-        AomCdfProb drl_cdf[DRL_MODE_CONTEXTS][CDF_SIZE(2)];
+        aom_cdf_prob newmv_cdf[NEWMV_MODE_CONTEXTS][CDF_SIZE(2)];
+        aom_cdf_prob zeromv_cdf[GLOBALMV_MODE_CONTEXTS][CDF_SIZE(2)];
+        aom_cdf_prob refmv_cdf[REFMV_MODE_CONTEXTS][CDF_SIZE(2)];
+        aom_cdf_prob drl_cdf[DRL_MODE_CONTEXTS][CDF_SIZE(2)];
 
-        AomCdfProb inter_compound_mode_cdf[INTER_MODE_CONTEXTS]
+        aom_cdf_prob inter_compound_mode_cdf[INTER_MODE_CONTEXTS]
             [CDF_SIZE(INTER_COMPOUND_MODES)];
-        AomCdfProb compound_type_cdf[BlockSizeS_ALL][CDF_SIZE(COMPOUND_TYPES - 1)];
-        AomCdfProb wedge_idx_cdf[BlockSizeS_ALL][CDF_SIZE(16)];
-        AomCdfProb interintra_cdf[BlockSize_GROUPS][CDF_SIZE(2)];
-        AomCdfProb wedge_interintra_cdf[BlockSizeS_ALL][CDF_SIZE(2)];
-        AomCdfProb interintra_mode_cdf[BlockSize_GROUPS]
+        aom_cdf_prob compound_type_cdf[BlockSizeS_ALL][CDF_SIZE(COMPOUND_TYPES - 1)];
+        aom_cdf_prob wedge_idx_cdf[BlockSizeS_ALL][CDF_SIZE(16)];
+        aom_cdf_prob interintra_cdf[BlockSize_GROUPS][CDF_SIZE(2)];
+        aom_cdf_prob wedge_interintra_cdf[BlockSizeS_ALL][CDF_SIZE(2)];
+        aom_cdf_prob interintra_mode_cdf[BlockSize_GROUPS]
             [CDF_SIZE(INTERINTRA_MODES)];
-        AomCdfProb motion_mode_cdf[BlockSizeS_ALL][CDF_SIZE(MOTION_MODES)];
-        AomCdfProb obmc_cdf[BlockSizeS_ALL][CDF_SIZE(2)];
-        AomCdfProb palette_y_size_cdf[PALATTE_BSIZE_CTXS][CDF_SIZE(PALETTE_SIZES)];
-        AomCdfProb palette_uv_size_cdf[PALATTE_BSIZE_CTXS][CDF_SIZE(PALETTE_SIZES)];
-        AomCdfProb palette_y_color_index_cdf[PALETTE_SIZES]
+        aom_cdf_prob motion_mode_cdf[BlockSizeS_ALL][CDF_SIZE(MOTION_MODES)];
+        aom_cdf_prob obmc_cdf[BlockSizeS_ALL][CDF_SIZE(2)];
+        aom_cdf_prob palette_y_size_cdf[PALATTE_BSIZE_CTXS][CDF_SIZE(PALETTE_SIZES)];
+        aom_cdf_prob palette_uv_size_cdf[PALATTE_BSIZE_CTXS][CDF_SIZE(PALETTE_SIZES)];
+        aom_cdf_prob palette_y_color_index_cdf[PALETTE_SIZES]
             [PALETTE_COLOR_INDEX_CONTEXTS]
         [CDF_SIZE(PALETTE_COLORS)];
-        AomCdfProb palette_uv_color_index_cdf[PALETTE_SIZES]
+        aom_cdf_prob palette_uv_color_index_cdf[PALETTE_SIZES]
             [PALETTE_COLOR_INDEX_CONTEXTS]
         [CDF_SIZE(PALETTE_COLORS)];
-        AomCdfProb palette_y_mode_cdf[PALATTE_BSIZE_CTXS][PALETTE_Y_MODE_CONTEXTS]
+        aom_cdf_prob palette_y_mode_cdf[PALATTE_BSIZE_CTXS][PALETTE_Y_MODE_CONTEXTS]
             [CDF_SIZE(2)];
-        AomCdfProb palette_uv_mode_cdf[PALETTE_UV_MODE_CONTEXTS][CDF_SIZE(2)];
-        AomCdfProb comp_inter_cdf[COMP_INTER_CONTEXTS][CDF_SIZE(2)];
-        AomCdfProb single_ref_cdf[REF_CONTEXTS][SINGLE_REFS - 1][CDF_SIZE(2)];
-        AomCdfProb comp_ref_type_cdf[COMP_REF_TYPE_CONTEXTS][CDF_SIZE(2)];
-        AomCdfProb uni_comp_ref_cdf[UNI_COMP_REF_CONTEXTS][UNIDIR_COMP_REFS - 1]
+        aom_cdf_prob palette_uv_mode_cdf[PALETTE_UV_MODE_CONTEXTS][CDF_SIZE(2)];
+        aom_cdf_prob comp_inter_cdf[COMP_INTER_CONTEXTS][CDF_SIZE(2)];
+        aom_cdf_prob single_ref_cdf[REF_CONTEXTS][SINGLE_REFS - 1][CDF_SIZE(2)];
+        aom_cdf_prob comp_ref_type_cdf[COMP_REF_TYPE_CONTEXTS][CDF_SIZE(2)];
+        aom_cdf_prob uni_comp_ref_cdf[UNI_COMP_REF_CONTEXTS][UNIDIR_COMP_REFS - 1]
             [CDF_SIZE(2)];
-        AomCdfProb comp_ref_cdf[REF_CONTEXTS][FWD_REFS - 1][CDF_SIZE(2)];
-        AomCdfProb comp_bwdref_cdf[REF_CONTEXTS][BWD_REFS - 1][CDF_SIZE(2)];
-        AomCdfProb txfm_partition_cdf[TXFM_PARTITION_CONTEXTS][CDF_SIZE(2)];
-        AomCdfProb compound_index_cdf[COMP_INDEX_CONTEXTS][CDF_SIZE(2)];
-        AomCdfProb comp_group_idx_cdf[COMP_GROUP_IDX_CONTEXTS][CDF_SIZE(2)];
-        AomCdfProb skip_mode_cdfs[SKIP_CONTEXTS][CDF_SIZE(2)];
-        AomCdfProb skip_cdfs[SKIP_CONTEXTS][CDF_SIZE(2)];
-        AomCdfProb intra_inter_cdf[INTRA_INTER_CONTEXTS][CDF_SIZE(2)];
-        NMVContext nmvc;
-        NMVContext ndvc;
-        AomCdfProb intrabc_cdf[CDF_SIZE(2)];
+        aom_cdf_prob comp_ref_cdf[REF_CONTEXTS][FWD_REFS - 1][CDF_SIZE(2)];
+        aom_cdf_prob comp_bwdref_cdf[REF_CONTEXTS][BWD_REFS - 1][CDF_SIZE(2)];
+        aom_cdf_prob txfm_partition_cdf[TXFM_PARTITION_CONTEXTS][CDF_SIZE(2)];
+        aom_cdf_prob compound_index_cdf[COMP_INDEX_CONTEXTS][CDF_SIZE(2)];
+        aom_cdf_prob comp_group_idx_cdf[COMP_GROUP_IDX_CONTEXTS][CDF_SIZE(2)];
+        aom_cdf_prob skip_mode_cdfs[SKIP_CONTEXTS][CDF_SIZE(2)];
+        aom_cdf_prob skip_cdfs[SKIP_CONTEXTS][CDF_SIZE(2)];
+        aom_cdf_prob intra_inter_cdf[INTRA_INTER_CONTEXTS][CDF_SIZE(2)];
+        nmv_context nmvc;
+        nmv_context ndvc;
+        aom_cdf_prob intrabc_cdf[CDF_SIZE(2)];
         //struct segmentation_probs seg;
-        AomCdfProb filter_intra_cdfs[BlockSizeS_ALL][CDF_SIZE(2)];
-        AomCdfProb filter_intra_mode_cdf[CDF_SIZE(FILTER_INTRA_MODES)];
-        AomCdfProb switchable_restore_cdf[CDF_SIZE(RESTORE_SWITCHABLE_TYPES)];
-        AomCdfProb wiener_restore_cdf[CDF_SIZE(2)];
-        AomCdfProb sgrproj_restore_cdf[CDF_SIZE(2)];
-        AomCdfProb y_mode_cdf[BlockSize_GROUPS][CDF_SIZE(INTRA_MODES)];
-        AomCdfProb uv_mode_cdf[CFL_ALLOWED_TYPES][INTRA_MODES]
+        aom_cdf_prob filter_intra_cdfs[BlockSizeS_ALL][CDF_SIZE(2)];
+        aom_cdf_prob filter_intra_mode_cdf[CDF_SIZE(FILTER_INTRA_MODES)];
+        aom_cdf_prob switchable_restore_cdf[CDF_SIZE(RESTORE_SWITCHABLE_TYPES)];
+        aom_cdf_prob wiener_restore_cdf[CDF_SIZE(2)];
+        aom_cdf_prob sgrproj_restore_cdf[CDF_SIZE(2)];
+        aom_cdf_prob y_mode_cdf[BlockSize_GROUPS][CDF_SIZE(INTRA_MODES)];
+        aom_cdf_prob uv_mode_cdf[CFL_ALLOWED_TYPES][INTRA_MODES]
             [CDF_SIZE(UV_INTRA_MODES)];
-        AomCdfProb partition_cdf[PARTITION_CONTEXTS][CDF_SIZE(EXT_PARTITION_TYPES)];
+        aom_cdf_prob partition_cdf[PARTITION_CONTEXTS][CDF_SIZE(EXT_PARTITION_TYPES)];
 
-        AomCdfProb switchable_interp_cdf[SWITCHABLE_FILTER_CONTEXTS]
+        aom_cdf_prob switchable_interp_cdf[SWITCHABLE_FILTER_CONTEXTS]
             [CDF_SIZE(SWITCHABLE_FILTERS)];
         /* kf_y_cdf is discarded after use, so does not require persistent storage.
        However, we keep it with the other CDFs in this struct since it needs to
        be copied to each tile to support parallelism just like the others.
        */
-        AomCdfProb kf_y_cdf[KF_MODE_CONTEXTS][KF_MODE_CONTEXTS]
+        aom_cdf_prob kf_y_cdf[KF_MODE_CONTEXTS][KF_MODE_CONTEXTS]
             [CDF_SIZE(INTRA_MODES)];
 
-        AomCdfProb angle_delta_cdf[DIRECTIONAL_MODES]
+        aom_cdf_prob angle_delta_cdf[DIRECTIONAL_MODES]
             [CDF_SIZE(2 * MAX_ANGLE_DELTA + 1)];
 
-        AomCdfProb tx_size_cdf[MAX_TX_CATS][TX_SIZE_CONTEXTS]
+        aom_cdf_prob tx_size_cdf[MAX_TX_CATS][TX_SIZE_CONTEXTS]
             [CDF_SIZE(MAX_TX_DEPTH + 1)];
-        AomCdfProb delta_q_cdf[CDF_SIZE(DELTA_Q_PROBS + 1)];
-        AomCdfProb delta_lf_multi_cdf[FRAME_LF_COUNT][CDF_SIZE(DELTA_LF_PROBS + 1)];
-        AomCdfProb delta_lf_cdf[CDF_SIZE(DELTA_LF_PROBS + 1)];
-        AomCdfProb intra_ext_tx_cdf[EXT_TX_SETS_INTRA][EXT_TX_SIZES][INTRA_MODES]
+        aom_cdf_prob delta_q_cdf[CDF_SIZE(DELTA_Q_PROBS + 1)];
+        aom_cdf_prob delta_lf_multi_cdf[FRAME_LF_COUNT][CDF_SIZE(DELTA_LF_PROBS + 1)];
+        aom_cdf_prob delta_lf_cdf[CDF_SIZE(DELTA_LF_PROBS + 1)];
+        aom_cdf_prob intra_ext_tx_cdf[EXT_TX_SETS_INTRA][EXT_TX_SIZES][INTRA_MODES]
             [CDF_SIZE(TX_TYPES)];
-        AomCdfProb inter_ext_tx_cdf[EXT_TX_SETS_INTER][EXT_TX_SIZES]
+        aom_cdf_prob inter_ext_tx_cdf[EXT_TX_SETS_INTER][EXT_TX_SIZES]
             [CDF_SIZE(TX_TYPES)];
-        AomCdfProb cfl_sign_cdf[CDF_SIZE(CFL_JOINT_SIGNS)];
-        AomCdfProb cfl_alpha_cdf[CFL_ALPHA_CONTEXTS][CDF_SIZE(CFL_ALPHABET_SIZE)];
+        aom_cdf_prob cfl_sign_cdf[CDF_SIZE(CFL_JOINT_SIGNS)];
+        aom_cdf_prob cfl_alpha_cdf[CFL_ALPHA_CONTEXTS][CDF_SIZE(CFL_ALPHABET_SIZE)];
         int32_t initialized;
 
 
-    } FrameContext;
+    } FRAME_CONTEXT;
 
 
 
-    extern const AomCdfProb default_kf_y_mode_cdf[KF_MODE_CONTEXTS]
+    extern const aom_cdf_prob default_kf_y_mode_cdf[KF_MODE_CONTEXTS]
         [KF_MODE_CONTEXTS]
     [CDF_SIZE(INTRA_MODES)];
 

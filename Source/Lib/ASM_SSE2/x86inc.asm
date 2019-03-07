@@ -838,7 +838,7 @@ BRANCH_INSTR jz, je, jnz, jne, jl, jle, jnl, jnle, jg, jge, jng, jnge, ja, jae, 
 %endmacro
 
 ;=============================================================================
-; arch-independent Part
+; arch-independent part
 ;=============================================================================
 
 %assign function_align 16

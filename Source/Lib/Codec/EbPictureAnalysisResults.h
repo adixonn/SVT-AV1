@@ -12,13 +12,13 @@
 /**************************************
  * Process Results
  **************************************/
-typedef struct PictureAnalysisResults {
-    EbObjectWrapper *picture_control_set_wrapper_ptr;
-} PictureAnalysisResults;
+typedef struct PictureAnalysisResults_s {
+    EbObjectWrapper_t *pictureControlSetWrapperPtr;
+} PictureAnalysisResults_t;
 
-typedef struct PictureAnalysisResultInitData {
+typedef struct PictureAnalysisResultInitData_s {
     int32_t junk;
-} PictureAnalysisResultInitData;
+} PictureAnalysisResultInitData_t;
 
 /**************************************
  * Extern Function Declarations

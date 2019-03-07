@@ -9,58 +9,58 @@
 #include "EbApi.h"
 #include <stdio.h>
 
-typedef struct EbConfig
+typedef struct EbConfig_s
 {
     /****************************************
      * File I/O
      ****************************************/
-    FILE                        *config_file;
-    FILE                        *input_file;
-    FILE                        *bitstream_file;
-    FILE                        *recon_file;
-    FILE                        *error_log_file;
-    FILE                        *buffer_file;
+    FILE                        *configFile;
+    FILE                        *inputFile;
+    FILE                        *bitstreamFile;
+    FILE                        *reconFile;
+    FILE                        *errorLogFile;
+    FILE                        *bufferFile;
 
-    FILE                        *qp_file;
+    FILE                        *qpFile;
 
     uint8_t                      use_qp_file;
 
-    int64_t                      frame_rate;
-    int64_t                      frame_rate_numerator;
-    int64_t                      frame_rate_denominator;
+    int64_t                      frameRate;
+    int64_t                      frameRateNumerator;
+    int64_t                      frameRateDenominator;
     int64_t                      injector_frame_rate;
     uint32_t                     injector;
     uint32_t                     speed_control_flag;
-    uint32_t                     encoder_bit_depth;
-    uint32_t                     compressed_ten_bit_format;
-    uint32_t                     source_width;
-    uint32_t                     source_height;
+    uint32_t                     encoderBitDepth;
+    uint32_t                     compressedTenBitFormat;
+    uint32_t                     sourceWidth;
+    uint32_t                     sourceHeight;
 
-    uint32_t                     input_padded_width;
-    uint32_t                     input_padded_height;
+    uint32_t                     inputPaddedWidth;
+    uint32_t                     inputPaddedHeight;
 
-    int64_t                      frames_to_be_encoded;
-    int64_t                      frames_encoded;
-    int64_t                      buffered_input;
-    uint8_t                   **sequence_buffer;
+    int64_t                      framesToBeEncoded;
+    int64_t                      framesEncoded;
+    int64_t                      bufferedInput;
+    uint8_t                   **sequenceBuffer;
 
-    uint8_t                     latency_mode;
+    uint8_t                     latencyMode;
 
     /****************************************
      * // Interlaced Video
      ****************************************/
-    uint8_t                     interlaced_video;
-    uint8_t                     separate_fields;
+    uint8_t                     interlacedVideo;
+    uint8_t                     separateFields;
 
     /*****************************************
      * Coding Structure
      *****************************************/
     uint32_t                    base_layer_switch_mode;
-    uint8_t                     enc_mode;
-    int64_t                     intra_period;
-    uint32_t                    intra_refresh_type;
-    uint32_t                    hierarchical_levels;
-    uint32_t                    pred_structure;
+    uint8_t                     encMode;
+    int64_t                     intraPeriod;
+    uint32_t                    intraRefreshType;
+    uint32_t                    hierarchicalLevels;
+    uint32_t                    predStructure;
 
 
     /****************************************
@@ -77,36 +77,36 @@ typedef struct EbConfig
      * ME Tools
      ****************************************/
     uint8_t                     use_default_me_hme;
-    uint8_t                     enable_hme_flag;
-    uint8_t                     enable_hme_level0_flag;
-    uint8_t                     enable_hme_level1_flag;
-    uint8_t                     enable_hme_level2_flag;
+    uint8_t                     enableHmeFlag;
+    uint8_t                     enableHmeLevel0Flag;
+    uint8_t                     enableHmeLevel1Flag;
+    uint8_t                     enableHmeLevel2Flag;
 
     /****************************************
      * ME Parameters
      ****************************************/
-    uint32_t                    search_area_width;
-    uint32_t                    search_area_height;
+    uint32_t                    searchAreaWidth;
+    uint32_t                    searchAreaHeight;
 
     /****************************************
      * HME Parameters
      ****************************************/
     uint32_t                    numberHmeSearchRegionInWidth ;
     uint32_t                    numberHmeSearchRegionInHeight;
-    uint32_t                    hme_level0_total_search_area_width;
-    uint32_t                    hme_level0_total_search_area_height;
-    uint32_t                    hme_level0_column_index;
-    uint32_t                    hme_level0_row_index;
-    uint32_t                    hme_level1_column_index;
-    uint32_t                    hme_level1_row_index;
-    uint32_t                    hme_level2_column_index;
-    uint32_t                    hme_level2_row_index;
-    uint32_t                    hme_level0_search_area_in_width_array[EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT];
-    uint32_t                    hme_level0_search_area_in_height_array[EB_HME_SEARCH_AREA_ROW_MAX_COUNT];
-    uint32_t                    hme_level1_search_area_in_width_array[EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT];
-    uint32_t                    hme_level1_search_area_in_height_array[EB_HME_SEARCH_AREA_ROW_MAX_COUNT];
-    uint32_t                    hme_level2_search_area_in_width_array[EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT];
-    uint32_t                    hme_level2_search_area_in_height_array[EB_HME_SEARCH_AREA_ROW_MAX_COUNT];
+    uint32_t                    hmeLevel0TotalSearchAreaWidth;
+    uint32_t                    hmeLevel0TotalSearchAreaHeight;
+    uint32_t                    hmeLevel0ColumnIndex;
+    uint32_t                    hmeLevel0RowIndex;
+    uint32_t                    hmeLevel1ColumnIndex;
+    uint32_t                    hmeLevel1RowIndex;
+    uint32_t                    hmeLevel2ColumnIndex;
+    uint32_t                    hmeLevel2RowIndex;
+    uint32_t                    hmeLevel0SearchAreaInWidthArray[EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT];
+    uint32_t                    hmeLevel0SearchAreaInHeightArray[EB_HME_SEARCH_AREA_ROW_MAX_COUNT];
+    uint32_t                    hmeLevel1SearchAreaInWidthArray[EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT];
+    uint32_t                    hmeLevel1SearchAreaInHeightArray[EB_HME_SEARCH_AREA_ROW_MAX_COUNT];
+    uint32_t                    hmeLevel2SearchAreaInWidthArray[EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT];
+    uint32_t                    hmeLevel2SearchAreaInHeightArray[EB_HME_SEARCH_AREA_ROW_MAX_COUNT];
 
     /****************************************
      * MD Parameters
@@ -117,9 +117,9 @@ typedef struct EbConfig
      * Rate Control
      ****************************************/
     uint32_t                    scene_change_detection;
-    uint32_t                    rate_control_mode;
+    uint32_t                    rateControlMode;
     uint32_t                    look_ahead_distance;
-    uint32_t                    target_bit_rate;
+    uint32_t                    targetBitRate;
     uint32_t                    max_qp_allowed;
     uint32_t                    min_qp_allowed;
 
@@ -154,47 +154,47 @@ typedef struct EbConfig
     /****************************************
      * On-the-fly Testing
      ****************************************/
-    uint32_t                    test_user_data;
-    uint8_t                     eos_flag;
+    uint32_t                    testUserData;
+    uint8_t                     eosFlag;
 
     /****************************************
     * Optimization Type
     ****************************************/
-    uint32_t                    asm_type;
+    uint32_t                    asmType;
 
     // Channel info
     uint32_t                    channel_id;
     uint32_t                    active_channel_count;
-    uint32_t                    logical_processors;
-    int32_t                     target_socket;
-    uint8_t                     stop_encoder;         // to signal CTRL+C Event, need to stop encoding.
-} EbConfig;
+    uint32_t                    logicalProcessors;
+    int32_t                     targetSocket;
+    uint8_t                     stopEncoder;         // to signal CTRL+C Event, need to stop encoding.
+} EbConfig_t;
 
 /***************************************
  * App Callback data struct
  ***************************************/
-typedef struct EbAppContext {
-    EbSvtAv1EncConfiguration              eb_enc_parameters;
+typedef struct EbAppContext_s {
+    EbSvtAv1EncConfiguration              ebEncParameters;
 
     // Component Handle
-    EbComponentType*                   svt_encoder_handle;
+    EbComponentType*                   svtEncoderHandle;
 
     // Buffer Pools
     EbBufferHeaderType                 *inputPictureBuffer;
     EbBufferHeaderType                 *outputStreamBuffer;
     EbBufferHeaderType                 *recon_buffer;
 
-    uint32_t instance_idx;
+    uint32_t instanceIdx;
 
-} EbAppContext;
+} EbAppContext_t;
 
 
 /********************************
  * External Function
  ********************************/
-extern EbErrorType EbAppContextCtor(EbAppContext *contextPtr, EbConfig *config);
-extern void EbAppContextDtor(EbAppContext *contextPtr);
-extern EbErrorType init_encoder(EbConfig *config, EbAppContext *callback_data, uint32_t instance_idx);
-extern EbErrorType de_init_encoder(EbAppContext *callback_data_ptr, uint32_t instance_index);
+extern EbErrorType EbAppContextCtor(EbAppContext_t *contextPtr, EbConfig_t *config);
+extern void EbAppContextDtor(EbAppContext_t *contextPtr);
+extern EbErrorType InitEncoder(EbConfig_t *config, EbAppContext_t *callbackData, uint32_t instanceIdx);
+extern EbErrorType DeInitEncoder(EbAppContext_t *callbackDataPtr, uint32_t instanceIndex);
 
 #endif // EbAppContext_h

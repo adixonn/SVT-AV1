@@ -180,27 +180,23 @@ extern "C" {
 #error "Wiener filter currently only works if WIENER_FILT_PREC_BITS == 7"
 #endif
 
-    typedef struct WienerInfo 
-    {
+    typedef struct {
         DECLARE_ALIGNED(16, InterpKernel, vfilter);
         DECLARE_ALIGNED(16, InterpKernel, hfilter);
     } WienerInfo;
 
-    typedef struct SgrprojInfo 
-    {
+    typedef struct {
         int32_t ep;
         int32_t xqd[2];
     } SgrprojInfo;
 
-    typedef struct RestorationUnitInfo 
-    {
+    typedef struct {
         RestorationType restoration_type;
-        WienerInfo  wiener_info;
+        WienerInfo wiener_info;
         SgrprojInfo sgrproj_info;
     } RestorationUnitInfo;
 
-    typedef struct AV1PixelRect 
-    {
+    typedef struct {
         int32_t left, top, right, bottom;
     } AV1PixelRect;
 
@@ -215,20 +211,18 @@ extern "C" {
 #define RESTORATION_COLBUFFER_HEIGHT \
   (RESTORATION_PROC_UNIT_SIZE + 2 * RESTORATION_BORDER)
 
-    typedef struct RestorationLineBuffers 
-    {
+    typedef struct {
         // Temporary buffers to save/restore 3 lines above/below the restoration
         // stripe.
         uint16_t tmp_save_above[RESTORATION_BORDER][RESTORATION_LINEBUFFER_WIDTH];
         uint16_t tmp_save_below[RESTORATION_BORDER][RESTORATION_LINEBUFFER_WIDTH];
     } RestorationLineBuffers;
 
-    typedef struct RestorationStripeBoundaries 
-    {
+    typedef struct {
         uint8_t *stripe_boundary_above;
         uint8_t *stripe_boundary_below;
-        int32_t  stripe_boundary_stride;
-        int32_t  stripe_boundary_size;
+        int32_t stripe_boundary_stride;
+        int32_t stripe_boundary_size;
     } RestorationStripeBoundaries;
 
     typedef struct RestorationInfo {
@@ -267,11 +261,11 @@ extern "C" {
         wiener_info->vfilter[6] = wiener_info->hfilter[6] = WIENER_FILT_TAP0_MIDV;
     }
 
-    typedef struct RestorationTileLimits {
+    typedef struct {
         int32_t h_start, h_end, v_start, v_end;
     } RestorationTileLimits;
 
-    extern const SgrParamsType sgr_params[SGRPROJ_PARAMS];
+    extern const sgr_params_type sgr_params[SGRPROJ_PARAMS];
     extern int32_t sgrproj_mtable[SGRPROJ_PARAMS][2];
     extern const int32_t x_by_xplus1[256];
     extern const int32_t one_by_x[MAX_NELEM];
@@ -280,7 +274,7 @@ extern "C" {
     //                                  int32_t is_uv);
     void extend_frame(uint8_t *data, int32_t width, int32_t height, int32_t stride,
         int32_t border_horz, int32_t border_vert, int32_t highbd);
-    void decode_xq(const int32_t *xqd, int32_t *xq, const SgrParamsType *params);
+    void decode_xq(const int32_t *xqd, int32_t *xq, const sgr_params_type *params);
 
     // Filter a single loop restoration unit.
     //
@@ -400,10 +394,9 @@ extern "C" {
 
 
 #if REST_M
-    typedef struct RestUnitSearchInfo 
-    {
+    typedef struct {
         // The best coefficients for Wiener or Sgrproj restoration
-        WienerInfo  wiener;
+        WienerInfo wiener;
         SgrprojInfo sgrproj;
 
         // The sum of squared errors for this rtype.

@@ -12,14 +12,14 @@
 /************************************************
  * Packetization Reorder Queue Entry
  ************************************************/
-typedef struct PictureDecisionReorderEntry 
+typedef struct PictureDecisionReorderEntry_s 
 {
-    uint64_t         picture_number;
-    EbObjectWrapper *parent_pcs_wrapper_ptr;
-} PictureDecisionReorderEntry;
+    uint64_t                              picture_number;
+    EbObjectWrapper_t                    *parentPcsWrapperPtr;
+} PictureDecisionReorderEntry_t;
 
 extern EbErrorType picture_decision_reorder_entry_ctor(
-    PictureDecisionReorderEntry **entry_dbl_ptr,
-    uint32_t                      picture_number);
+    PictureDecisionReorderEntry_t       **entry_dbl_ptr,
+    uint32_t                              picture_number);
 
 #endif //EbPictureDecisionReorderQueue_h

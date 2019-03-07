@@ -31,7 +31,7 @@ void get_flip_cfg(TxType tx_type, int32_t *ud_flip, int32_t *lr_flip);
 void Av1TransformConfig(
     TxType tx_type,
     TxSize tx_size,
-    Txfm2DFlipCfg *cfg);
+    TXFM_2D_FLIP_CFG *cfg);
 
 typedef void(*fwd_transform_1d_avx2)(const __m256i *in, __m256i *out, int8_t bit,
     const int32_t num_cols);
@@ -4243,8 +4243,8 @@ static void fidtx64x64_avx2(const __m256i *input, __m256i *output,
     }
 }
 
-static INLINE TxfmFuncAVX2 fwd_txfm_type_to_func(TxfmType TxfmType) {
-    switch (TxfmType) {
+static INLINE TxfmFuncAVX2 fwd_txfm_type_to_func(TXFM_TYPE txfm_type) {
+    switch (txfm_type) {
     case TXFM_TYPE_DCT32: return fdct32x32_avx2; break;
     case TXFM_TYPE_IDENTITY32: return fidtx32x32_avx2; break;
     case TXFM_TYPE_DCT64: return fdct64x64_avx2; break;
@@ -4256,7 +4256,7 @@ static INLINE TxfmFuncAVX2 fwd_txfm_type_to_func(TxfmType TxfmType) {
 
 static INLINE void fwd_txfm2d_32x32_avx2(const int16_t *input, int32_t *output,
     const int32_t stride,
-    const Txfm2DFlipCfg *cfg,
+    const TXFM_2D_FLIP_CFG *cfg,
     int32_t *txfm_buf) {
     assert(cfg->tx_size < TX_SIZES);
     const int32_t txfm_size = tx_size_wide[cfg->tx_size];
@@ -4288,7 +4288,7 @@ static INLINE void fwd_txfm2d_32x32_avx2(const int16_t *input, int32_t *output,
 void av1_fwd_txfm2d_32x32_avx2(int16_t *input, int32_t *output, uint32_t stride, TxType tx_type, uint8_t  bd)
 {
     DECLARE_ALIGNED(32, int32_t, txfm_buf[1024]);
-    Txfm2DFlipCfg cfg;
+    TXFM_2D_FLIP_CFG cfg;
     Av1TransformConfig(tx_type, TX_32X32, &cfg);
     (void)bd;
     fwd_txfm2d_32x32_avx2(input, output, stride, &cfg, txfm_buf);
@@ -4296,7 +4296,7 @@ void av1_fwd_txfm2d_32x32_avx2(int16_t *input, int32_t *output, uint32_t stride,
 
 static INLINE void fwd_txfm2d_64x64_avx2(const int16_t *input,
     int32_t *output, const int32_t stride,
-    const Txfm2DFlipCfg *cfg,
+    const TXFM_2D_FLIP_CFG *cfg,
     int32_t *txfm_buf) {
     assert(cfg->tx_size < TX_SIZES);
     const int32_t txfm_size = tx_size_wide[cfg->tx_size];
@@ -4331,7 +4331,7 @@ static INLINE void fwd_txfm2d_64x64_avx2(const int16_t *input,
 void av1_fwd_txfm2d_64x64_avx2(int16_t *input, int32_t *output, uint32_t stride, TxType tx_type, uint8_t  bd)
 {
     DECLARE_ALIGNED(32, int32_t, txfm_buf[4096]);
-    Txfm2DFlipCfg cfg;
+    TXFM_2D_FLIP_CFG cfg;
     Av1TransformConfig(tx_type, TX_64X64, &cfg);
     (void)bd;
     fwd_txfm2d_64x64_avx2(input, output, stride, &cfg, txfm_buf);

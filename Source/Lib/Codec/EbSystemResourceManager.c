@@ -11,25 +11,25 @@
  * EbFifoCtor
  **************************************/
 static EbErrorType EbFifoCtor(
-    EbFifo           *fifoPtr,
+    EbFifo_t           *fifoPtr,
     uint32_t              initial_count,
     uint32_t              max_count,
-    EbObjectWrapper  *firstWrapperPtr,
-    EbObjectWrapper  *lastWrapperPtr,
-    EbMuxingQueue    *queue_ptr)
+    EbObjectWrapper_t  *firstWrapperPtr,
+    EbObjectWrapper_t  *lastWrapperPtr,
+    EbMuxingQueue_t    *queuePtr)
 {
     // Create Counting Semaphore
-    EB_CREATESEMAPHORE(EbHandle, fifoPtr->counting_semaphore, sizeof(EbHandle), EB_SEMAPHORE, initial_count, max_count);
+    EB_CREATESEMAPHORE(EbHandle, fifoPtr->countingSemaphore, sizeof(EbHandle), EB_SEMAPHORE, initial_count, max_count);
 
     // Create Buffer Pool Mutex
-    EB_CREATEMUTEX(EbHandle, fifoPtr->lockout_mutex, sizeof(EbHandle), EB_MUTEX);
+    EB_CREATEMUTEX(EbHandle, fifoPtr->lockoutMutex, sizeof(EbHandle), EB_MUTEX);
 
     // Initialize Fifo First & Last ptrs
-    fifoPtr->first_ptr = firstWrapperPtr;
-    fifoPtr->last_ptr = lastWrapperPtr;
+    fifoPtr->firstPtr = firstWrapperPtr;
+    fifoPtr->lastPtr = lastWrapperPtr;
 
     // Copy the Muxing Queue ptr this Fifo belongs to
-    fifoPtr->queue_ptr = queue_ptr;
+    fifoPtr->queuePtr = queuePtr;
 
     return EB_ErrorNone;
 }
@@ -39,22 +39,22 @@ static EbErrorType EbFifoCtor(
  * EbFifoPushBack
  **************************************/
 static EbErrorType EbFifoPushBack(
-    EbFifo            *fifoPtr,
-    EbObjectWrapper   *wrapper_ptr)
+    EbFifo_t            *fifoPtr,
+    EbObjectWrapper_t   *wrapper_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
     // If FIFO is empty
-    if (fifoPtr->first_ptr == (EbObjectWrapper*)EB_NULL) {
-        fifoPtr->first_ptr = wrapper_ptr;
-        fifoPtr->last_ptr = wrapper_ptr;
+    if (fifoPtr->firstPtr == (EbObjectWrapper_t*)EB_NULL) {
+        fifoPtr->firstPtr = wrapper_ptr;
+        fifoPtr->lastPtr = wrapper_ptr;
     }
     else {
-        fifoPtr->last_ptr->next_ptr = wrapper_ptr;
-        fifoPtr->last_ptr = wrapper_ptr;
+        fifoPtr->lastPtr->nextPtr = wrapper_ptr;
+        fifoPtr->lastPtr = wrapper_ptr;
     }
 
-    fifoPtr->last_ptr->next_ptr = (EbObjectWrapper*)EB_NULL;
+    fifoPtr->lastPtr->nextPtr = (EbObjectWrapper_t*)EB_NULL;
 
     return return_error;
 }
@@ -63,19 +63,19 @@ static EbErrorType EbFifoPushBack(
  * EbFifoPopFront
  **************************************/
 static EbErrorType EbFifoPopFront(
-    EbFifo            *fifoPtr,
-    EbObjectWrapper  **wrapper_ptr)
+    EbFifo_t            *fifoPtr,
+    EbObjectWrapper_t  **wrapper_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
     // Set wrapper_ptr to head of BufferPool
-    *wrapper_ptr = fifoPtr->first_ptr;
+    *wrapper_ptr = fifoPtr->firstPtr;
 
     // Update tail of BufferPool if the BufferPool is now empty
-    fifoPtr->last_ptr = (fifoPtr->first_ptr == fifoPtr->last_ptr) ? (EbObjectWrapper*)EB_NULL : fifoPtr->last_ptr;
+    fifoPtr->lastPtr = (fifoPtr->firstPtr == fifoPtr->lastPtr) ? (EbObjectWrapper_t*)EB_NULL : fifoPtr->lastPtr;
 
     // Update head of BufferPool
-    fifoPtr->first_ptr = fifoPtr->first_ptr->next_ptr;
+    fifoPtr->firstPtr = fifoPtr->firstPtr->nextPtr;
 
     return return_error;
 }
@@ -84,28 +84,28 @@ static EbErrorType EbFifoPopFront(
  * EbCircularBufferCtor
  **************************************/
 static EbErrorType EbCircularBufferCtor(
-    EbCircularBuffer  **buffer_dbl_ptr,
+    EbCircularBuffer_t  **buffer_dbl_ptr,
     uint32_t                buffer_total_count)
 {
     uint32_t bufferIndex;
-    EbCircularBuffer *bufferPtr;
+    EbCircularBuffer_t *bufferPtr;
 
-    EB_MALLOC(EbCircularBuffer*, bufferPtr, sizeof(EbCircularBuffer), EB_N_PTR);
+    EB_MALLOC(EbCircularBuffer_t*, bufferPtr, sizeof(EbCircularBuffer_t), EB_N_PTR);
 
     *buffer_dbl_ptr = bufferPtr;
 
     bufferPtr->buffer_total_count = buffer_total_count;
 
-    EB_MALLOC(EbPtr*, bufferPtr->array_ptr, sizeof(EbPtr) * bufferPtr->buffer_total_count, EB_N_PTR);
+    EB_MALLOC(EbPtr*, bufferPtr->arrayPtr, sizeof(EbPtr) * bufferPtr->buffer_total_count, EB_N_PTR);
 
     for (bufferIndex = 0; bufferIndex < bufferPtr->buffer_total_count; ++bufferIndex) {
-        bufferPtr->array_ptr[bufferIndex] = EB_NULL;
+        bufferPtr->arrayPtr[bufferIndex] = EB_NULL;
     }
 
-    bufferPtr->head_index = 0;
-    bufferPtr->tail_index = 0;
+    bufferPtr->headIndex = 0;
+    bufferPtr->tailIndex = 0;
 
-    bufferPtr->current_count = 0;
+    bufferPtr->currentCount = 0;
 
     return EB_ErrorNone;
 }
@@ -116,29 +116,29 @@ static EbErrorType EbCircularBufferCtor(
  * EbCircularBufferEmptyCheck
  **************************************/
 static EbBool EbCircularBufferEmptyCheck(
-    EbCircularBuffer   *bufferPtr)
+    EbCircularBuffer_t   *bufferPtr)
 {
-    return ((bufferPtr->head_index == bufferPtr->tail_index) && (bufferPtr->array_ptr[bufferPtr->head_index] == EB_NULL)) ? EB_TRUE : EB_FALSE;
+    return ((bufferPtr->headIndex == bufferPtr->tailIndex) && (bufferPtr->arrayPtr[bufferPtr->headIndex] == EB_NULL)) ? EB_TRUE : EB_FALSE;
 }
 
 /**************************************
  * EbCircularBufferPopFront
  **************************************/
 static EbErrorType EbCircularBufferPopFront(
-    EbCircularBuffer   *bufferPtr,
+    EbCircularBuffer_t   *bufferPtr,
     EbPtr               *object_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
     // Copy the head of the buffer into the object_ptr
-    *object_ptr = bufferPtr->array_ptr[bufferPtr->head_index];
-    bufferPtr->array_ptr[bufferPtr->head_index] = EB_NULL;
+    *object_ptr = bufferPtr->arrayPtr[bufferPtr->headIndex];
+    bufferPtr->arrayPtr[bufferPtr->headIndex] = EB_NULL;
 
     // Increment the head & check for rollover
-    bufferPtr->head_index = (bufferPtr->head_index == bufferPtr->buffer_total_count - 1) ? 0 : bufferPtr->head_index + 1;
+    bufferPtr->headIndex = (bufferPtr->headIndex == bufferPtr->buffer_total_count - 1) ? 0 : bufferPtr->headIndex + 1;
 
     // Decrement the Current Count
-    --bufferPtr->current_count;
+    --bufferPtr->currentCount;
 
     return return_error;
 }
@@ -147,19 +147,19 @@ static EbErrorType EbCircularBufferPopFront(
  * EbCircularBufferPushBack
  **************************************/
 static EbErrorType EbCircularBufferPushBack(
-    EbCircularBuffer   *bufferPtr,
+    EbCircularBuffer_t   *bufferPtr,
     EbPtr                object_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
     // Copy the pointer into the array
-    bufferPtr->array_ptr[bufferPtr->tail_index] = object_ptr;
+    bufferPtr->arrayPtr[bufferPtr->tailIndex] = object_ptr;
 
     // Increment the tail & check for rollover
-    bufferPtr->tail_index = (bufferPtr->tail_index == bufferPtr->buffer_total_count - 1) ? 0 : bufferPtr->tail_index + 1;
+    bufferPtr->tailIndex = (bufferPtr->tailIndex == bufferPtr->buffer_total_count - 1) ? 0 : bufferPtr->tailIndex + 1;
 
     // Increment the Current Count
-    ++bufferPtr->current_count;
+    ++bufferPtr->currentCount;
 
     return return_error;
 }
@@ -168,19 +168,19 @@ static EbErrorType EbCircularBufferPushBack(
  * EbCircularBufferPushFront
  **************************************/
 static EbErrorType EbCircularBufferPushFront(
-    EbCircularBuffer   *bufferPtr,
+    EbCircularBuffer_t   *bufferPtr,
     EbPtr                object_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    // Decrement the head_index
-    bufferPtr->head_index = (bufferPtr->head_index == 0) ? bufferPtr->buffer_total_count - 1 : bufferPtr->head_index - 1;
+    // Decrement the headIndex
+    bufferPtr->headIndex = (bufferPtr->headIndex == 0) ? bufferPtr->buffer_total_count - 1 : bufferPtr->headIndex - 1;
 
     // Copy the pointer into the array
-    bufferPtr->array_ptr[bufferPtr->head_index] = object_ptr;
+    bufferPtr->arrayPtr[bufferPtr->headIndex] = object_ptr;
 
     // Increment the Current Count
-    ++bufferPtr->current_count;
+    ++bufferPtr->currentCount;
 
     return return_error;
 }
@@ -189,55 +189,55 @@ static EbErrorType EbCircularBufferPushFront(
  * EbMuxingQueueCtor
  **************************************/
 static EbErrorType EbMuxingQueueCtor(
-    EbMuxingQueue   **queueDblPtr,
+    EbMuxingQueue_t   **queueDblPtr,
     uint32_t              object_total_count,
-    uint32_t              process_total_count,
-    EbFifo         ***processFifoPtrArrayPtr)
+    uint32_t              processTotalCount,
+    EbFifo_t         ***processFifoPtrArrayPtr)
 {
-    EbMuxingQueue *queue_ptr;
+    EbMuxingQueue_t *queuePtr;
     uint32_t processIndex;
     EbErrorType     return_error = EB_ErrorNone;
 
-    EB_MALLOC(EbMuxingQueue *, queue_ptr, sizeof(EbMuxingQueue), EB_N_PTR);
-    *queueDblPtr = queue_ptr;
+    EB_MALLOC(EbMuxingQueue_t *, queuePtr, sizeof(EbMuxingQueue_t), EB_N_PTR);
+    *queueDblPtr = queuePtr;
 
-    queue_ptr->process_total_count = process_total_count;
+    queuePtr->processTotalCount = processTotalCount;
 
     // Lockout Mutex
-    EB_CREATEMUTEX(EbHandle, queue_ptr->lockout_mutex, sizeof(EbHandle), EB_MUTEX);
+    EB_CREATEMUTEX(EbHandle, queuePtr->lockoutMutex, sizeof(EbHandle), EB_MUTEX);
 
     // Construct Object Circular Buffer
     return_error = EbCircularBufferCtor(
-        &queue_ptr->object_queue,
+        &queuePtr->objectQueue,
         object_total_count);
     if (return_error == EB_ErrorInsufficientResources) {
         return EB_ErrorInsufficientResources;
     }
     // Construct Process Circular Buffer
     return_error = EbCircularBufferCtor(
-        &queue_ptr->process_queue,
-        queue_ptr->process_total_count);
+        &queuePtr->processQueue,
+        queuePtr->processTotalCount);
     if (return_error == EB_ErrorInsufficientResources) {
         return EB_ErrorInsufficientResources;
     }
     // Construct the Process Fifos
-    EB_MALLOC(EbFifo**, queue_ptr->process_fifo_ptr_array, sizeof(EbFifo*) * queue_ptr->process_total_count, EB_N_PTR);
+    EB_MALLOC(EbFifo_t**, queuePtr->processFifoPtrArray, sizeof(EbFifo_t*) * queuePtr->processTotalCount, EB_N_PTR);
 
-    for (processIndex = 0; processIndex < queue_ptr->process_total_count; ++processIndex) {
-        EB_MALLOC(EbFifo*, queue_ptr->process_fifo_ptr_array[processIndex], sizeof(EbFifo) * queue_ptr->process_total_count, EB_N_PTR);
+    for (processIndex = 0; processIndex < queuePtr->processTotalCount; ++processIndex) {
+        EB_MALLOC(EbFifo_t*, queuePtr->processFifoPtrArray[processIndex], sizeof(EbFifo_t) * queuePtr->processTotalCount, EB_N_PTR);
         return_error = EbFifoCtor(
-            queue_ptr->process_fifo_ptr_array[processIndex],
+            queuePtr->processFifoPtrArray[processIndex],
             0,
             object_total_count,
-            (EbObjectWrapper *)EB_NULL,
-            (EbObjectWrapper *)EB_NULL,
-            queue_ptr);
+            (EbObjectWrapper_t *)EB_NULL,
+            (EbObjectWrapper_t *)EB_NULL,
+            queuePtr);
         if (return_error == EB_ErrorInsufficientResources) {
             return EB_ErrorInsufficientResources;
         }
     }
 
-    *processFifoPtrArrayPtr = queue_ptr->process_fifo_ptr_array;
+    *processFifoPtrArrayPtr = queuePtr->processFifoPtrArray;
 
     return return_error;
 }
@@ -246,27 +246,27 @@ static EbErrorType EbMuxingQueueCtor(
  * EbMuxingQueueAssignation
  **************************************/
 static EbErrorType EbMuxingQueueAssignation(
-    EbMuxingQueue *queue_ptr)
+    EbMuxingQueue_t *queuePtr)
 {
     EbErrorType return_error = EB_ErrorNone;
-    EbFifo *processFifoPtr;
-    EbObjectWrapper *wrapper_ptr;
+    EbFifo_t *processFifoPtr;
+    EbObjectWrapper_t *wrapper_ptr;
 
     // while loop
-    while ((EbCircularBufferEmptyCheck(queue_ptr->object_queue) == EB_FALSE) &&
-        (EbCircularBufferEmptyCheck(queue_ptr->process_queue) == EB_FALSE)) {
+    while ((EbCircularBufferEmptyCheck(queuePtr->objectQueue) == EB_FALSE) &&
+        (EbCircularBufferEmptyCheck(queuePtr->processQueue) == EB_FALSE)) {
         // Get the next process
         EbCircularBufferPopFront(
-            queue_ptr->process_queue,
+            queuePtr->processQueue,
             (void **)&processFifoPtr);
 
         // Get the next object
         EbCircularBufferPopFront(
-            queue_ptr->object_queue,
+            queuePtr->objectQueue,
             (void **)&wrapper_ptr);
 
         // Block on the Process Fifo's Mutex
-        eb_block_on_mutex(processFifoPtr->lockout_mutex);
+        eb_block_on_mutex(processFifoPtr->lockoutMutex);
 
         // Put the object on the fifo
         EbFifoPushBack(
@@ -274,10 +274,10 @@ static EbErrorType EbMuxingQueueAssignation(
             wrapper_ptr);
 
         // Release the Process Fifo's Mutex
-        eb_release_mutex(processFifoPtr->lockout_mutex);
+        eb_release_mutex(processFifoPtr->lockoutMutex);
 
         // Post the semaphore
-        eb_post_semaphore(processFifoPtr->counting_semaphore);
+        eb_post_semaphore(processFifoPtr->countingSemaphore);
     }
 
     return return_error;
@@ -287,16 +287,16 @@ static EbErrorType EbMuxingQueueAssignation(
  * EbMuxingQueueObjectPushBack
  **************************************/
 static EbErrorType EbMuxingQueueObjectPushBack(
-    EbMuxingQueue    *queue_ptr,
-    EbObjectWrapper  *object_ptr)
+    EbMuxingQueue_t    *queuePtr,
+    EbObjectWrapper_t  *object_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
     EbCircularBufferPushBack(
-        queue_ptr->object_queue,
+        queuePtr->objectQueue,
         object_ptr);
 
-    EbMuxingQueueAssignation(queue_ptr);
+    EbMuxingQueueAssignation(queuePtr);
 
     return return_error;
 }
@@ -305,101 +305,101 @@ static EbErrorType EbMuxingQueueObjectPushBack(
 * EbMuxingQueueObjectPushFront
 **************************************/
 static EbErrorType EbMuxingQueueObjectPushFront(
-    EbMuxingQueue    *queue_ptr,
-    EbObjectWrapper  *object_ptr)
+    EbMuxingQueue_t    *queuePtr,
+    EbObjectWrapper_t  *object_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
     EbCircularBufferPushFront(
-        queue_ptr->object_queue,
+        queuePtr->objectQueue,
         object_ptr);
 
-    EbMuxingQueueAssignation(queue_ptr);
+    EbMuxingQueueAssignation(queuePtr);
 
     return return_error;
 }
 
 /*********************************************************************
  * eb_object_release_enable
- *   Enables the release_enable member of EbObjectWrapper.  Used by
+ *   Enables the releaseEnable member of EbObjectWrapper.  Used by
  *   certain objects (e.g. SequenceControlSet) to control whether
  *   EbObjectWrappers are allowed to be released or not.
  *
  *   resource_ptr
  *      pointer to the SystemResource that manages the EbObjectWrapper.
- *      The emptyFifo's lockout_mutex is used to write protect the
+ *      The emptyFifo's lockoutMutex is used to write protect the
  *      modification of the EbObjectWrapper.
  *
  *   wrapper_ptr
  *      pointer to the EbObjectWrapper to be modified.
  *********************************************************************/
 EbErrorType eb_object_release_enable(
-    EbObjectWrapper   *wrapper_ptr)
+    EbObjectWrapper_t   *wrapper_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    eb_block_on_mutex(wrapper_ptr->system_resource_ptr->empty_queue->lockout_mutex);
+    eb_block_on_mutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
 
-    wrapper_ptr->release_enable = EB_TRUE;
+    wrapper_ptr->releaseEnable = EB_TRUE;
 
-    eb_release_mutex(wrapper_ptr->system_resource_ptr->empty_queue->lockout_mutex);
+    eb_release_mutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
 
     return return_error;
 }
 
 /*********************************************************************
  * eb_object_release_disable
- *   Disables the release_enable member of EbObjectWrapper.  Used by
+ *   Disables the releaseEnable member of EbObjectWrapper.  Used by
  *   certain objects (e.g. SequenceControlSet) to control whether
  *   EbObjectWrappers are allowed to be released or not.
  *
  *   resource_ptr
  *      pointer to the SystemResource that manages the EbObjectWrapper.
- *      The emptyFifo's lockout_mutex is used to write protect the
+ *      The emptyFifo's lockoutMutex is used to write protect the
  *      modification of the EbObjectWrapper.
  *
  *   wrapper_ptr
  *      pointer to the EbObjectWrapper to be modified.
  *********************************************************************/
 EbErrorType eb_object_release_disable(
-    EbObjectWrapper   *wrapper_ptr)
+    EbObjectWrapper_t   *wrapper_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    eb_block_on_mutex(wrapper_ptr->system_resource_ptr->empty_queue->lockout_mutex);
+    eb_block_on_mutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
 
-    wrapper_ptr->release_enable = EB_FALSE;
+    wrapper_ptr->releaseEnable = EB_FALSE;
 
-    eb_release_mutex(wrapper_ptr->system_resource_ptr->empty_queue->lockout_mutex);
+    eb_release_mutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
 
     return return_error;
 }
 
 /*********************************************************************
  * eb_object_inc_live_count
- *   Increments the live_count member of EbObjectWrapper.  Used by
+ *   Increments the liveCount member of EbObjectWrapper.  Used by
  *   certain objects (e.g. SequenceControlSet) to count the number of active
  *   pointers of a EbObjectWrapper in pipeline at any point in time.
  *
  *   resource_ptr
  *      pointer to the SystemResource that manages the EbObjectWrapper.
- *      The emptyFifo's lockout_mutex is used to write protect the
+ *      The emptyFifo's lockoutMutex is used to write protect the
  *      modification of the EbObjectWrapper.
  *
  *   wrapper_ptr
  *      pointer to the EbObjectWrapper to be modified.
  *********************************************************************/
 EbErrorType eb_object_inc_live_count(
-    EbObjectWrapper   *wrapper_ptr,
+    EbObjectWrapper_t   *wrapper_ptr,
     uint32_t               increment_number)
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    eb_block_on_mutex(wrapper_ptr->system_resource_ptr->empty_queue->lockout_mutex);
+    eb_block_on_mutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
 
-    wrapper_ptr->live_count += increment_number;
+    wrapper_ptr->liveCount += increment_number;
 
-    eb_release_mutex(wrapper_ptr->system_resource_ptr->empty_queue->lockout_mutex);
+    eb_release_mutex(wrapper_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
 
     return return_error;
 }
@@ -433,40 +433,40 @@ EbErrorType eb_object_inc_live_count(
  *     object_ctor is called.
  *********************************************************************/
 EbErrorType eb_system_resource_ctor(
-    EbSystemResource **resource_dbl_ptr,
+    EbSystemResource_t **resource_dbl_ptr,
     uint32_t               object_total_count,
     uint32_t               producer_process_total_count,
     uint32_t               consumer_process_total_count,
-    EbFifo          ***producer_fifo_ptr_array_ptr,
-    EbFifo          ***consumer_fifo_ptr_array_ptr,
+    EbFifo_t          ***producer_fifo_ptr_array_ptr,
+    EbFifo_t          ***consumer_fifo_ptr_array_ptr,
     EbBool              full_fifo_enabled,
-    EbCtor              object_ctor,
+    EB_CTOR              object_ctor,
     EbPtr               object_init_data_ptr)
 {
     uint32_t wrapperIndex;
     EbErrorType return_error = EB_ErrorNone;
     // Allocate the System Resource
-    EbSystemResource *resource_ptr;
+    EbSystemResource_t *resource_ptr;
 
-    EB_MALLOC(EbSystemResource*, resource_ptr, sizeof(EbSystemResource), EB_N_PTR);
+    EB_MALLOC(EbSystemResource_t*, resource_ptr, sizeof(EbSystemResource_t), EB_N_PTR);
     *resource_dbl_ptr = resource_ptr;
 
     resource_ptr->object_total_count = object_total_count;
 
     // Allocate array for wrapper pointers
-    EB_MALLOC(EbObjectWrapper**, resource_ptr->wrapper_ptr_pool, sizeof(EbObjectWrapper*) * resource_ptr->object_total_count, EB_N_PTR);
+    EB_MALLOC(EbObjectWrapper_t**, resource_ptr->wrapperPtrPool, sizeof(EbObjectWrapper_t*) * resource_ptr->object_total_count, EB_N_PTR);
 
     // Initialize each wrapper
     for (wrapperIndex = 0; wrapperIndex < resource_ptr->object_total_count; ++wrapperIndex) {
-        EB_MALLOC(EbObjectWrapper*, resource_ptr->wrapper_ptr_pool[wrapperIndex], sizeof(EbObjectWrapper), EB_N_PTR);
-        resource_ptr->wrapper_ptr_pool[wrapperIndex]->live_count = 0;
-        resource_ptr->wrapper_ptr_pool[wrapperIndex]->release_enable = EB_TRUE;
-        resource_ptr->wrapper_ptr_pool[wrapperIndex]->system_resource_ptr = resource_ptr;
+        EB_MALLOC(EbObjectWrapper_t*, resource_ptr->wrapperPtrPool[wrapperIndex], sizeof(EbObjectWrapper_t), EB_N_PTR);
+        resource_ptr->wrapperPtrPool[wrapperIndex]->liveCount = 0;
+        resource_ptr->wrapperPtrPool[wrapperIndex]->releaseEnable = EB_TRUE;
+        resource_ptr->wrapperPtrPool[wrapperIndex]->systemResourcePtr = resource_ptr;
 
         // Call the Constructor for each element
         if (object_ctor) {
             return_error = object_ctor(
-                &resource_ptr->wrapper_ptr_pool[wrapperIndex]->object_ptr,
+                &resource_ptr->wrapperPtrPool[wrapperIndex]->object_ptr,
                 object_init_data_ptr);
             if (return_error == EB_ErrorInsufficientResources) {
                 return EB_ErrorInsufficientResources;
@@ -476,7 +476,7 @@ EbErrorType eb_system_resource_ctor(
 
     // Initialize the Empty Queue
     return_error = EbMuxingQueueCtor(
-        &resource_ptr->empty_queue,
+        &resource_ptr->emptyQueue,
         resource_ptr->object_total_count,
         producer_process_total_count,
         producer_fifo_ptr_array_ptr);
@@ -486,14 +486,14 @@ EbErrorType eb_system_resource_ctor(
     // Fill the Empty Fifo with every ObjectWrapper
     for (wrapperIndex = 0; wrapperIndex < resource_ptr->object_total_count; ++wrapperIndex) {
         EbMuxingQueueObjectPushBack(
-            resource_ptr->empty_queue,
-            resource_ptr->wrapper_ptr_pool[wrapperIndex]);
+            resource_ptr->emptyQueue,
+            resource_ptr->wrapperPtrPool[wrapperIndex]);
     }
 
     // Initialize the Full Queue
     if (full_fifo_enabled == EB_TRUE) {
         return_error = EbMuxingQueueCtor(
-            &resource_ptr->full_queue,
+            &resource_ptr->fullQueue,
             resource_ptr->object_total_count,
             consumer_process_total_count,
             consumer_fifo_ptr_array_ptr);
@@ -502,8 +502,8 @@ EbErrorType eb_system_resource_ctor(
         }
     }
     else {
-        resource_ptr->full_queue = (EbMuxingQueue *)EB_NULL;
-        consumer_fifo_ptr_array_ptr = (EbFifo ***)EB_NULL;
+        resource_ptr->fullQueue = (EbMuxingQueue_t *)EB_NULL;
+        consumer_fifo_ptr_array_ptr = (EbFifo_t ***)EB_NULL;
     }
 
     return return_error;
@@ -515,19 +515,19 @@ EbErrorType eb_system_resource_ctor(
  * EbSystemResourceReleaseProcess
  *********************************************************************/
 static EbErrorType EbReleaseProcess(
-    EbFifo   *processFifoPtr)
+    EbFifo_t   *processFifoPtr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    eb_block_on_mutex(processFifoPtr->queue_ptr->lockout_mutex);
+    eb_block_on_mutex(processFifoPtr->queuePtr->lockoutMutex);
 
     EbCircularBufferPushFront(
-        processFifoPtr->queue_ptr->process_queue,
+        processFifoPtr->queuePtr->processQueue,
         processFifoPtr);
 
-    EbMuxingQueueAssignation(processFifoPtr->queue_ptr);
+    EbMuxingQueueAssignation(processFifoPtr->queuePtr);
 
-    eb_release_mutex(processFifoPtr->queue_ptr->lockout_mutex);
+    eb_release_mutex(processFifoPtr->queuePtr->lockoutMutex);
 
     return return_error;
 }
@@ -535,9 +535,9 @@ static EbErrorType EbReleaseProcess(
 /*********************************************************************
  * EbSystemResourcePostObject
  *   Queues a full EbObjectWrapper to the SystemResource. This
- *   function posts the SystemResource fullFifo counting_semaphore.
+ *   function posts the SystemResource fullFifo countingSemaphore.
  *   This function is write protected by the SystemResource fullFifo
- *   lockout_mutex.
+ *   lockoutMutex.
  *
  *   resource_ptr
  *      pointer to the SystemResource that the EbObjectWrapper is
@@ -547,17 +547,17 @@ static EbErrorType EbReleaseProcess(
  *      pointer to EbObjectWrapper to be posted.
  *********************************************************************/
 EbErrorType eb_post_full_object(
-    EbObjectWrapper   *object_ptr)
+    EbObjectWrapper_t   *object_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    eb_block_on_mutex(object_ptr->system_resource_ptr->full_queue->lockout_mutex);
+    eb_block_on_mutex(object_ptr->systemResourcePtr->fullQueue->lockoutMutex);
 
     EbMuxingQueueObjectPushBack(
-        object_ptr->system_resource_ptr->full_queue,
+        object_ptr->systemResourcePtr->fullQueue,
         object_ptr);
 
-    eb_release_mutex(object_ptr->system_resource_ptr->full_queue->lockout_mutex);
+    eb_release_mutex(object_ptr->systemResourcePtr->fullQueue->lockoutMutex);
 
     return return_error;
 }
@@ -565,35 +565,35 @@ EbErrorType eb_post_full_object(
 /*********************************************************************
  * EbSystemResourceReleaseObject
  *   Queues an empty EbObjectWrapper to the SystemResource. This
- *   function posts the SystemResource emptyFifo counting_semaphore.
+ *   function posts the SystemResource emptyFifo countingSemaphore.
  *   This function is write protected by the SystemResource emptyFifo
- *   lockout_mutex.
+ *   lockoutMutex.
  *
  *   object_ptr
  *      pointer to EbObjectWrapper to be released.
  *********************************************************************/
 EbErrorType eb_release_object(
-    EbObjectWrapper   *object_ptr)
+    EbObjectWrapper_t   *object_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
-    eb_block_on_mutex(object_ptr->system_resource_ptr->empty_queue->lockout_mutex);
+    eb_block_on_mutex(object_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
 
-    // Decrement live_count
-    object_ptr->live_count = (object_ptr->live_count == 0) ? object_ptr->live_count : object_ptr->live_count - 1;
+    // Decrement liveCount
+    object_ptr->liveCount = (object_ptr->liveCount == 0) ? object_ptr->liveCount : object_ptr->liveCount - 1;
 
-    if ((object_ptr->release_enable == EB_TRUE) && (object_ptr->live_count == 0)) {
+    if ((object_ptr->releaseEnable == EB_TRUE) && (object_ptr->liveCount == 0)) {
 
-        // Set live_count to EB_ObjectWrapperReleasedValue
-        object_ptr->live_count = EB_ObjectWrapperReleasedValue;
+        // Set liveCount to EB_ObjectWrapperReleasedValue
+        object_ptr->liveCount = EB_ObjectWrapperReleasedValue;
 
         EbMuxingQueueObjectPushFront(
-            object_ptr->system_resource_ptr->empty_queue,
+            object_ptr->systemResourcePtr->emptyQueue,
             object_ptr);
 
     }
 
-    eb_release_mutex(object_ptr->system_resource_ptr->empty_queue->lockout_mutex);
+    eb_release_mutex(object_ptr->systemResourcePtr->emptyQueue->lockoutMutex);
 
     return return_error;
 }
@@ -601,9 +601,9 @@ EbErrorType eb_release_object(
 /*********************************************************************
  * EbSystemResourceGetEmptyObject
  *   Dequeues an empty EbObjectWrapper from the SystemResource.  This
- *   function blocks on the SystemResource emptyFifo counting_semaphore.
+ *   function blocks on the SystemResource emptyFifo countingSemaphore.
  *   This function is write protected by the SystemResource emptyFifo
- *   lockout_mutex.
+ *   lockoutMutex.
  *
  *   resource_ptr
  *      pointer to the SystemResource that provides the empty
@@ -614,8 +614,8 @@ EbErrorType eb_release_object(
  *      EbObjectWrapper pointer.
  *********************************************************************/
 EbErrorType eb_get_empty_object(
-    EbFifo   *empty_fifo_ptr,
-    EbObjectWrapper **wrapper_dbl_ptr)
+    EbFifo_t   *empty_fifo_ptr,
+    EbObjectWrapper_t **wrapper_dbl_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
@@ -623,24 +623,24 @@ EbErrorType eb_get_empty_object(
     EbReleaseProcess(empty_fifo_ptr);
 
     // Block on the counting Semaphore until an empty buffer is available
-    eb_block_on_semaphore(empty_fifo_ptr->counting_semaphore);
+    eb_block_on_semaphore(empty_fifo_ptr->countingSemaphore);
 
     // Acquire lockout Mutex
-    eb_block_on_mutex(empty_fifo_ptr->lockout_mutex);
+    eb_block_on_mutex(empty_fifo_ptr->lockoutMutex);
 
     // Get the empty object
     EbFifoPopFront(
         empty_fifo_ptr,
         wrapper_dbl_ptr);
 
-    // Reset the wrapper's live_count
-    (*wrapper_dbl_ptr)->live_count = 0;
+    // Reset the wrapper's liveCount
+    (*wrapper_dbl_ptr)->liveCount = 0;
 
     // Object release enable
-    (*wrapper_dbl_ptr)->release_enable = EB_TRUE;
+    (*wrapper_dbl_ptr)->releaseEnable = EB_TRUE;
 
     // Release Mutex
-    eb_release_mutex(empty_fifo_ptr->lockout_mutex);
+    eb_release_mutex(empty_fifo_ptr->lockoutMutex);
 
     return return_error;
 }
@@ -648,9 +648,9 @@ EbErrorType eb_get_empty_object(
 /*********************************************************************
  * EbSystemResourceGetFullObject
  *   Dequeues an full EbObjectWrapper from the SystemResource. This
- *   function blocks on the SystemResource fullFifo counting_semaphore.
+ *   function blocks on the SystemResource fullFifo countingSemaphore.
  *   This function is write protected by the SystemResource fullFifo
- *   lockout_mutex.
+ *   lockoutMutex.
  *
  *   resource_ptr
  *      pointer to the SystemResource that provides the full
@@ -661,8 +661,8 @@ EbErrorType eb_get_empty_object(
  *      EbObjectWrapper pointer.
  *********************************************************************/
 EbErrorType eb_get_full_object(
-    EbFifo   *full_fifo_ptr,
-    EbObjectWrapper **wrapper_dbl_ptr)
+    EbFifo_t   *full_fifo_ptr,
+    EbObjectWrapper_t **wrapper_dbl_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
 
@@ -670,17 +670,17 @@ EbErrorType eb_get_full_object(
     EbReleaseProcess(full_fifo_ptr);
 
     // Block on the counting Semaphore until an empty buffer is available
-    eb_block_on_semaphore(full_fifo_ptr->counting_semaphore);
+    eb_block_on_semaphore(full_fifo_ptr->countingSemaphore);
 
     // Acquire lockout Mutex
-    eb_block_on_mutex(full_fifo_ptr->lockout_mutex);
+    eb_block_on_mutex(full_fifo_ptr->lockoutMutex);
 
     EbFifoPopFront(
         full_fifo_ptr,
         wrapper_dbl_ptr);
 
     // Release Mutex
-    eb_release_mutex(full_fifo_ptr->lockout_mutex);
+    eb_release_mutex(full_fifo_ptr->lockoutMutex);
 
     return return_error;
 }
@@ -689,11 +689,11 @@ EbErrorType eb_get_full_object(
 * EbFifoPopFront
 **************************************/
 static EbBool EbFifoPeakFront(
-    EbFifo            *fifoPtr)
+    EbFifo_t            *fifoPtr)
 {
 
     // Set wrapper_ptr to head of BufferPool
-    if (fifoPtr->first_ptr == (EbObjectWrapper*)EB_NULL) {
+    if (fifoPtr->firstPtr == (EbObjectWrapper_t*)EB_NULL) {
         return EB_TRUE;
     }
     else {
@@ -703,8 +703,8 @@ static EbBool EbFifoPeakFront(
 
 
 EbErrorType eb_get_full_object_non_blocking(
-    EbFifo   *full_fifo_ptr,
-    EbObjectWrapper **wrapper_dbl_ptr)
+    EbFifo_t   *full_fifo_ptr,
+    EbObjectWrapper_t **wrapper_dbl_ptr)
 {
     EbErrorType return_error = EB_ErrorNone;
     EbBool      fifoEmpty;
@@ -712,20 +712,20 @@ EbErrorType eb_get_full_object_non_blocking(
     EbReleaseProcess(full_fifo_ptr);
 
     // Acquire lockout Mutex
-    eb_block_on_mutex(full_fifo_ptr->lockout_mutex);
+    eb_block_on_mutex(full_fifo_ptr->lockoutMutex);
 
     fifoEmpty = EbFifoPeakFront(
         full_fifo_ptr);
 
     // Release Mutex
-    eb_release_mutex(full_fifo_ptr->lockout_mutex);
+    eb_release_mutex(full_fifo_ptr->lockoutMutex);
 
     if (fifoEmpty == EB_FALSE)
         eb_get_full_object(
             full_fifo_ptr,
             wrapper_dbl_ptr);
     else
-        *wrapper_dbl_ptr = (EbObjectWrapper*)EB_NULL;
+        *wrapper_dbl_ptr = (EbObjectWrapper_t*)EB_NULL;
 
     return return_error;
 }

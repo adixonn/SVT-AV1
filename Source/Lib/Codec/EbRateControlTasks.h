@@ -14,33 +14,32 @@
 /**************************************
  * Tasks Types
  **************************************/
-typedef enum RateControlTaskTypes 
-{
+typedef enum RATE_CONTROL_TASKTYPES {
     RC_PICTURE_MANAGER_RESULT,
     RC_PACKETIZATION_FEEDBACK_RESULT,
     RC_ENTROPY_CODING_ROW_FEEDBACK_RESULT,
     RC_INVALID_TASK
-} RateControlTaskTypes;
+} RATE_CONTROL_TASKTYPES;
 
 /**************************************
  * Process Results
  **************************************/
-typedef struct RateControlTasks
+typedef struct RateControlTasks_s
 {
-    RateControlTaskTypes  task_type;
-    EbObjectWrapper      *picture_control_set_wrapper_ptr;
-    uint32_t              segment_index;
+    RATE_CONTROL_TASKTYPES              taskType;
+    EbObjectWrapper_t                  *pictureControlSetWrapperPtr;
+    uint32_t                              segment_index;
 
     // Following are valid for RC_ENTROPY_CODING_ROW_FEEDBACK_RESULT only
-    uint64_t              picture_number;
-    uint32_t              row_number;
-    uint32_t              bit_count;
+    uint64_t                              picture_number;
+    uint32_t                              rowNumber;
+    uint32_t                              bitCount;
 
-} RateControlTasks;
+} RateControlTasks_t;
 
-typedef struct RateControlTasksInitData {
+typedef struct RateControlTasksInitData_s {
     int32_t junk;
-} RateControlTasksInitData;
+} RateControlTasksInitData_t;
 
 /**************************************
  * Extern Function Declarations

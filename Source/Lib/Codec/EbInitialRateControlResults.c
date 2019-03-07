@@ -6,12 +6,12 @@
 
 #include "EbInitialRateControlResults.h"
 
-EbErrorType initial_rate_control_results_ctor(
+EbErrorType InitialRateControlResultsCtor(
     EbPtr *object_dbl_ptr,
     EbPtr object_init_data_ptr)
 {
-    InitialRateControlResults *object_ptr;
-    EB_MALLOC(InitialRateControlResults *, object_ptr, sizeof(InitialRateControlResults), EB_N_PTR);
+    InitialRateControlResults_t *object_ptr;
+    EB_MALLOC(InitialRateControlResults_t *, object_ptr, sizeof(InitialRateControlResults_t), EB_N_PTR);
 
     *object_dbl_ptr = (EbPtr)object_ptr;
     object_init_data_ptr = 0;

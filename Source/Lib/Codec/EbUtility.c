@@ -56,9 +56,9 @@ static TxSize blocksize_to_txsize[BlockSizeS_ALL] = {
 
 
 };
-EbErrorType z_order_increment(
-    uint32_t *x_loc,   // x location, level agnostic
-    uint32_t *y_loc)   // y location, level agnostic
+EbErrorType ZOrderIncrement(
+    uint32_t *xLoc,   // x location, level agnostic
+    uint32_t *yLoc)   // y location, level agnostic
 {
     EbErrorType return_error = EB_ErrorNone;
     uint32_t mask;
@@ -86,14 +86,14 @@ EbErrorType z_order_increment(
     //
     //  Finally, X and Y are progressed only at the bit-positions in the mask.
 
-    mask = ((*x_loc & *y_loc) << 1) | 0x1;
+    mask = ((*xLoc & *yLoc) << 1) | 0x1;
     mask &= (mask << 1) | 0x01;
     mask &= (mask << 2) | 0x03;
     mask &= (mask << 4) | 0x0F;
     mask &= (mask << 8) | 0xFF;
 
-    *y_loc ^= *x_loc & mask;
-    *x_loc ^= mask;
+    *yLoc ^= *xLoc & mask;
+    *xLoc ^= mask;
 
     return return_error;
 }
@@ -102,15 +102,15 @@ EbErrorType z_order_increment(
  * Z-Order Increment with Level
  *   This is the main function for progressing
  *   through a treeblock's coding units. To get
- *   the true CU size, multiple the x_loc, y_loc
+ *   the true CU size, multiple the xLoc, yLoc
  *   by the smallest CU size.
  *****************************************/
-void z_order_increment_with_level(
-    uint32_t *x_loc,   // x location, units of smallest block size
-    uint32_t *y_loc,   // y location, units of smallest block size
+void ZOrderIncrementWithLevel(
+    uint32_t *xLoc,   // x location, units of smallest block size
+    uint32_t *yLoc,   // y location, units of smallest block size
     uint32_t *level,  // level, number of block size-steps from the smallest block size
     //   (e.g. if 8x8 = level 0, 16x16 = level 1, 32x32 == level 2, 64x64 == level 3)
-    uint32_t *index)  // The CU index, can be used to index a lookup table (see get_coded_unit_stats)
+    uint32_t *index)  // The CU index, can be used to index a lookup table (see GetCodedUnitStats)
 {
     uint32_t mask;
 
@@ -138,7 +138,7 @@ void z_order_increment_with_level(
     //  Finally, X and Y are progressed only at the bit-positions in the mask.
 
     // Seed the mask
-    mask = ((*x_loc & *y_loc) << 1) | 0x1;
+    mask = ((*xLoc & *yLoc) << 1) | 0x1;
 
     // This step zero-outs the mask if level is not zero.
     //   The purpose of this is step further down the tree
@@ -167,10 +167,10 @@ void z_order_increment_with_level(
 
     *level += ((2 ^ (mask >> 1)) & -(mask > 3)) ^ (mask >> 1);
 
-    // Increment the x_loc, y_loc.  Note that this only occurs when
+    // Increment the xLoc, yLoc.  Note that this only occurs when
     //   we are at the bottom of the tree.
-    *y_loc ^= *x_loc & mask;
-    *x_loc ^= mask;
+    *yLoc ^= *xLoc & mask;
+    *xLoc ^= mask;
 
     // Increment the index. Note that the natural progression of this
     //   block aligns with how leafs are stored in the accompanying
@@ -180,9 +180,9 @@ void z_order_increment_with_level(
     return;
 }
 
-static CodedUnitStats CodedUnitStatsArray[] = {
+static CodedUnitStats_t CodedUnitStatsArray[] = {
 
-    //   Depth       Size      SizeLog2     OriginX    OriginY   cu_num_in_depth   Index
+    //   Depth       Size      SizeLog2     OriginX    OriginY   cuNumInDepth   Index
         {0,           64,         6,           0,         0,        0     ,   0    },   // 0
         {1,           32,         5,           0,         0,        0     ,   1    },   // 1
         {2,           16,         4,           0,         0,        0     ,   1    },   // 2
@@ -273,22 +273,22 @@ static CodedUnitStats CodedUnitStatsArray[] = {
 /**************************************************************
  * Get Coded Unit Statistics
  **************************************************************/
-const CodedUnitStats* get_coded_unit_stats(const uint32_t cu_idx)
+const CodedUnitStats_t* GetCodedUnitStats(const uint32_t cuIdx)
 {
-    //ASSERT(cu_idx < CU_MAX_COUNT && "get_coded_unit_stats: Out-of-range CU Idx\n");
-    if (cu_idx == 255)
+    //ASSERT(cuIdx < CU_MAX_COUNT && "GetCodedUnitStats: Out-of-range CU Idx\n");
+    if (cuIdx == 255)
         printf("Invalid CuIndex\n");
 
-    return &CodedUnitStatsArray[cu_idx];
+    return &CodedUnitStatsArray[cuIdx];
 }
 
-static const TransformUnitStats TransformUnitStatsArray[] = {
+static const TransformUnitStats_t TransformUnitStatsArray[] = {
     //
     //        depth
     //       /
-    //      /       offset_x (units of the current depth)
+    //      /       offsetX (units of the current depth)
     //     /       /
-    //    /       /       offset_y (units of the current depth)
+    //    /       /       offsetY (units of the current depth)
     //   /       /       /
     {0,     0,      0},     // 0
     {1,     0,      0},     // 1
@@ -317,9 +317,9 @@ static const TransformUnitStats TransformUnitStatsArray[] = {
 /**************************************************************
  * Get Transform Unit Statistics
  **************************************************************/
-const TransformUnitStats* get_transform_unit_stats(const uint32_t tu_idx)
+const TransformUnitStats_t* GetTransformUnitStats(const uint32_t tuIdx)
 {
-    return &TransformUnitStatsArray[tu_idx];
+    return &TransformUnitStatsArray[tuIdx];
 }
 
 /*****************************************
@@ -384,7 +384,7 @@ uint32_t EndianSwap(uint32_t ui)
 
 }
 
-uint64_t log2f_high_precision(uint64_t x, uint8_t precision)
+uint64_t Log2fHighPrecision(uint64_t x, uint8_t precision)
 {
 
     uint64_t sigBitLocation = Log2f64(x);
@@ -399,7 +399,7 @@ uint64_t log2f_high_precision(uint64_t x, uint8_t precision)
 
 
 // concatenate two linked list, and return the pointer to the new concatenated list
-EbLinkedListNode* concat_eb_linked_list(EbLinkedListNode* a, EbLinkedListNode* b)
+EbLinkedListNode* concatEbLinkedList(EbLinkedListNode* a, EbLinkedListNode* b)
 {
     if (a)
     {
@@ -417,7 +417,7 @@ EbLinkedListNode* concat_eb_linked_list(EbLinkedListNode* a, EbLinkedListNode* b
 }
 
 // split a linked list
-EbLinkedListNode* split_eb_linked_list(EbLinkedListNode* input, EbLinkedListNode** restLL, EbBool(*predicateFunc)(EbLinkedListNode*))
+EbLinkedListNode* splitEbLinkedList(EbLinkedListNode* input, EbLinkedListNode** restLL, EbBool(*predicateFunc)(EbLinkedListNode*))
 {
     EbLinkedListNode* llTruePtr = (EbLinkedListNode *)EB_NULL;    // list of nodes satifying predicateFunc(node) == TRUE
     EbLinkedListNode* llRestPtr = (EbLinkedListNode *)EB_NULL;    // list of nodes satifying predicateFunc(node) != TRUE
@@ -428,11 +428,11 @@ EbLinkedListNode* split_eb_linked_list(EbLinkedListNode* input, EbLinkedListNode
         input->next = (EbLinkedListNode *)EB_NULL;
         if (predicateFunc(input))
         {
-            llTruePtr = concat_eb_linked_list(input, llTruePtr);
+            llTruePtr = concatEbLinkedList(input, llTruePtr);
         }
         else
         {
-            llRestPtr = concat_eb_linked_list(input, llRestPtr);
+            llRestPtr = concatEbLinkedList(input, llRestPtr);
         }
         input = next;
     }
@@ -441,9 +441,9 @@ EbLinkedListNode* split_eb_linked_list(EbLinkedListNode* input, EbLinkedListNode
     return llTruePtr;
 }
 
-static const MiniGopStats MiniGopStatsArray[] = {
+static const MiniGopStats_t MiniGopStatsArray[] = {
 
-    //    hierarchical_levels    start_index    end_index    Lenght    mini_gop_index
+    //    HierarchicalLevels    StartIndex    EndIndex    Lenght    miniGopIndex
     { 5,  0, 31, 32 },    // 0
     { 4,  0, 15, 16 },    // 1
     { 3,  0,  7,  8 },    // 2
@@ -464,96 +464,96 @@ static const MiniGopStats MiniGopStatsArray[] = {
 /**************************************************************
 * Get Mini GOP Statistics
 **************************************************************/
-const MiniGopStats* get_mini_gop_stats(const uint32_t mini_gop_index)
+const MiniGopStats_t* GetMiniGopStats(const uint32_t miniGopIndex)
 {
-    return &MiniGopStatsArray[mini_gop_index];
+    return &MiniGopStatsArray[miniGopIndex];
 }
 
 
-void eb_start_time(uint64_t *start_seconds, uint64_t *start_useconds) {
+void EbStartTime(uint64_t *Startseconds, uint64_t *Startuseconds) {
 
 #if defined(__linux__) || defined(__APPLE__) //(LINUX_ENCODER_TIMING || LINUX_DECODER_TIMING)
     struct timeval start;
     gettimeofday(&start, NULL);
-    *start_seconds = start.tv_sec;
-    *start_useconds = start.tv_usec;
+    *Startseconds = start.tv_sec;
+    *Startuseconds = start.tv_usec;
 #elif _WIN32 //(WIN_ENCODER_TIMING || WIN_DECODER_TIMING)
-    *start_seconds = (uint64_t)clock();
-    (void)(*start_useconds);
+    *Startseconds = (uint64_t)clock();
+    (void)(*Startuseconds);
 #else
-    (void)(*start_useconds);
-    (void)(*start_seconds);
+    (void)(*Startuseconds);
+    (void)(*Startseconds);
 #endif
 
 }
 
-void eb_finish_time(uint64_t *finish_seconds, uint64_t *finish_useconds) {
+void EbFinishTime(uint64_t *Finishseconds, uint64_t *Finishuseconds) {
 
 #if defined(__linux__) || defined(__APPLE__) //(LINUX_ENCODER_TIMING || LINUX_DECODER_TIMING)
     struct timeval finish;
     gettimeofday(&finish, NULL);
-    *finish_seconds = finish.tv_sec;
-    *finish_useconds = finish.tv_usec;
+    *Finishseconds = finish.tv_sec;
+    *Finishuseconds = finish.tv_usec;
 #elif _WIN32 //(WIN_ENCODER_TIMING || WIN_DECODER_TIMING)
-    *finish_seconds = (uint64_t)clock();
-    (void)(*finish_useconds);
+    *Finishseconds = (uint64_t)clock();
+    (void)(*Finishuseconds);
 #else
-    (void)(*finish_useconds);
-    (void)(*finish_seconds);
+    (void)(*Finishuseconds);
+    (void)(*Finishseconds);
 #endif
 
 }
-void ComputeOverallElapsedTime(uint64_t start_seconds, uint64_t start_useconds, uint64_t finish_seconds, uint64_t finish_useconds, double *duration)
+void ComputeOverallElapsedTime(uint64_t Startseconds, uint64_t Startuseconds, uint64_t Finishseconds, uint64_t Finishuseconds, double *duration)
 {
 #if defined(__linux__) || defined(__APPLE__) //(LINUX_ENCODER_TIMING || LINUX_DECODER_TIMING)
     long   mtime, seconds, useconds;
-    seconds = finish_seconds - start_seconds;
-    useconds = finish_useconds - start_useconds;
+    seconds = Finishseconds - Startseconds;
+    useconds = Finishuseconds - Startuseconds;
     mtime = ((seconds) * 1000 + useconds / 1000.0) + 0.5;
     *duration = (double)mtime / 1000;
     //printf("\nElapsed time: %3.3ld seconds\n", mtime/1000);
 #elif _WIN32 //(WIN_ENCODER_TIMING || WIN_DECODER_TIMING)
     //double  duration;
-    *duration = (double)(finish_seconds - start_seconds) / CLOCKS_PER_SEC;
+    *duration = (double)(Finishseconds - Startseconds) / CLOCKS_PER_SEC;
     //printf("\nElapsed time: %3.3f seconds\n", *duration);
-    (void)(start_useconds);
-    (void)(finish_useconds);
+    (void)(Startuseconds);
+    (void)(Finishuseconds);
 #else
-    (void)(start_useconds);
-    (void)(start_seconds);
-    (void)(finish_useconds);
-    (void)(finish_seconds);
+    (void)(Startuseconds);
+    (void)(Startseconds);
+    (void)(Finishuseconds);
+    (void)(Finishseconds);
 
 #endif
 
 }
-void eb_compute_overall_elapsed_time_ms(uint64_t start_seconds, uint64_t start_useconds, uint64_t finish_seconds, uint64_t finish_useconds, double *duration)
+void EbComputeOverallElapsedTimeMs(uint64_t Startseconds, uint64_t Startuseconds, uint64_t Finishseconds, uint64_t Finishuseconds, double *duration)
 {
 #if defined(__linux__) || defined(__APPLE__) //(LINUX_ENCODER_TIMING || LINUX_DECODER_TIMING)
     long   mtime, seconds, useconds;
-    seconds = finish_seconds - start_seconds;
-    useconds = finish_useconds - start_useconds;
+    seconds = Finishseconds - Startseconds;
+    useconds = Finishuseconds - Startuseconds;
     mtime = ((seconds) * 1000 + useconds / 1000.0) + 0.5;
     *duration = (double)mtime;
     //printf("\nElapsed time: %3.3ld seconds\n", mtime/1000);
 #elif _WIN32 //(WIN_ENCODER_TIMING || WIN_DECODER_TIMING)
     //double  duration;
-    *duration = (double)(finish_seconds - start_seconds);
+    *duration = (double)(Finishseconds - Startseconds);
     //printf("\nElapsed time: %3.3f seconds\n", *duration);
-    (void)(start_useconds);
-    (void)(finish_useconds);
+    (void)(Startuseconds);
+    (void)(Finishuseconds);
 #else
-    (void)(start_useconds);
-    (void)(start_seconds);
-    (void)(finish_useconds);
-    (void)(finish_seconds);
+    (void)(Startuseconds);
+    (void)(Startseconds);
+    (void)(Finishuseconds);
+    (void)(Finishseconds);
 
 #endif
 
 }
 
 
-uint32_t ns_quarter_off_mult[9/*Up to 9 Part*/][2/*x+y*/][4/*Up to 4 ns blocks per Part*/] =
+uint32_t ns_quarter_off_mult[9/*Up to 9 part*/][2/*x+y*/][4/*Up to 4 ns blocks per part*/] =
 {
     //9 means not used.
 
@@ -571,7 +571,7 @@ uint32_t ns_quarter_off_mult[9/*Up to 9 Part*/][2/*x+y*/][4/*Up to 4 ns blocks p
 
 };
 
-uint32_t ns_quarter_size_mult[9/*Up to 9 Part*/][2/*h+v*/][4/*Up to 4 ns blocks per Part*/] =
+uint32_t ns_quarter_size_mult[9/*Up to 9 part*/][2/*h+v*/][4/*Up to 4 ns blocks per part*/] =
 {
     //9 means not used.
 
@@ -589,7 +589,7 @@ uint32_t ns_quarter_size_mult[9/*Up to 9 Part*/][2/*h+v*/][4/*Up to 4 ns blocks 
 
 };
 
-BlockSize hvsize_to_bsize[/*H*/6][/*V*/6] =
+block_size hvsize_to_bsize[/*H*/6][/*V*/6] =
 {
     {  BLOCK_4X4,       BLOCK_4X8,     BLOCK_4X16,      BLOCK_INVALID,   BLOCK_INVALID,   BLOCK_INVALID      },
     {  BLOCK_8X4,       BLOCK_8X8,     BLOCK_8X16,      BLOCK_8X32,      BLOCK_INVALID,   BLOCK_INVALID      },
@@ -615,7 +615,7 @@ BlockGeom blk_geom_mds[MAX_NUM_BLOCKS_ALLOC];  //to access geom info of a partic
 
 uint32_t search_matching_from_dps(
     uint32_t depth,
-    uint32_t Part,
+    uint32_t part,
     uint32_t x,
     uint32_t y)
 {
@@ -624,7 +624,7 @@ uint32_t search_matching_from_dps(
     uint32_t matched = 0xFFFF;
     for (it = 0; it < max_num_active_blocks; it++)
     {
-        if (blk_geom_dps[it].depth == depth && blk_geom_dps[it].shape == Part && blk_geom_dps[it].origin_x == x && blk_geom_dps[it].origin_y == y)
+        if (blk_geom_dps[it].depth == depth && blk_geom_dps[it].shape == part && blk_geom_dps[it].origin_x == x && blk_geom_dps[it].origin_y == y)
         {
             if (found == 0)
             {
@@ -647,7 +647,7 @@ uint32_t search_matching_from_dps(
 }
 uint32_t search_matching_from_mds(
     uint32_t depth,
-    uint32_t Part,
+    uint32_t part,
     uint32_t x,
     uint32_t y)
 {
@@ -656,7 +656,7 @@ uint32_t search_matching_from_mds(
     uint32_t matched = 0xFFFF;
     for (it = 0; it < max_num_active_blocks; it++)
     {
-        if (blk_geom_mds[it].depth == depth && blk_geom_mds[it].shape == Part && blk_geom_mds[it].origin_x == x && blk_geom_mds[it].origin_y == y)
+        if (blk_geom_mds[it].depth == depth && blk_geom_mds[it].shape == part && blk_geom_mds[it].origin_x == x && blk_geom_mds[it].origin_y == y)
         {
             if (found == 0)
             {
@@ -677,17 +677,17 @@ uint32_t search_matching_from_mds(
     return matched;
 
 }
-static INLINE TxSize av1_get_max_uv_txsize(BlockSize bsize, int32_t subsampling_x,
+static INLINE TxSize av1_get_max_uv_txsize(block_size bsize, int32_t subsampling_x,
     int32_t subsampling_y) {
-    const BlockSize plane_bsize =
+    const block_size plane_bsize =
         get_plane_block_size(bsize, subsampling_x, subsampling_y);
     assert(plane_bsize < BlockSizeS_ALL);
     const TxSize uv_tx = max_txsize_rect_lookup[plane_bsize];
     return av1_get_adjusted_tx_size(uv_tx);
 }
 static INLINE TxSize av1_get_tx_size(
-    BlockSize  sb_type,
-    int32_t plane/*, const MacroBlockId *xd*/) {
+    block_size  sb_type,
+    int32_t plane/*, const MacroBlockD *xd*/) {
     //const MbModeInfo *mbmi = xd->mi[0];
     // if (xd->lossless[mbmi->segment_id]) return TX_4X4;
     if (plane == 0) return blocksize_to_txsize[sb_type];
@@ -734,7 +734,7 @@ void md_scan_all_blks(uint32_t *idx_mds, uint32_t sq_size, uint32_t x, uint32_t 
             blk_geom_mds[*idx_mds].sq_size = sq_size;
             blk_geom_mds[*idx_mds].is_last_quadrant = is_last_quadrant;
 
-            blk_geom_mds[*idx_mds].shape = (Part)part_it;
+            blk_geom_mds[*idx_mds].shape = (PART)part_it;
             blk_geom_mds[*idx_mds].origin_x = x + quartsize * ns_quarter_off_mult[part_it][0][nsq_it];
             blk_geom_mds[*idx_mds].origin_y = y + quartsize * ns_quarter_off_mult[part_it][1][nsq_it];
 
@@ -874,7 +874,7 @@ void depth_scan_all_blks()
                     {
                         blk_geom_dps[depth_scan_idx].blkidx_dps = depth_scan_idx;
                         blk_geom_dps[depth_scan_idx].depth = depth_it;
-                        blk_geom_dps[depth_scan_idx].shape = (Part)part_it;
+                        blk_geom_dps[depth_scan_idx].shape = (PART)part_it;
                         blk_geom_dps[depth_scan_idx].origin_x = sq_orgx + (sq_size / 4) *ns_quarter_off_mult[part_it][0][nsq_it];
                         blk_geom_dps[depth_scan_idx].origin_y = sq_orgy + (sq_size / 4) *ns_quarter_off_mult[part_it][1][nsq_it];
 

@@ -14,53 +14,52 @@ extern "C" {
     /**************************************
      * Process Results
      **************************************/
-    typedef struct EncDecResults
+    typedef struct EncDecResults_s
     {
-        EbObjectWrapper *picture_control_set_wrapper_ptr;
-        uint32_t         completed_lcu_row_index_start;
-        uint32_t         completed_lcu_row_count;
+        EbObjectWrapper_t      *pictureControlSetWrapperPtr;
+        uint32_t                  completedLcuRowIndexStart;
+        uint32_t                  completedLcuRowCount;
 
-    } EncDecResults;
+    } EncDecResults_t;
 
 #if FILT_PROC
-    typedef struct DlfResults
+    typedef struct DlfResults_s
     {
-        EbObjectWrapper *picture_control_set_wrapper_ptr;
+        EbObjectWrapper_t      *picture_control_set_wrapper_ptr;
       
 #if CDEF_M
-        uint32_t         segment_index;
+        uint32_t          segment_index;
 #endif
 
-    } DlfResults;
-
-    typedef struct CdefResults
+    } DlfResults_t;
+    typedef struct CdefResults_s
     {
-        EbObjectWrapper      *picture_control_set_wrapper_ptr;
+        EbObjectWrapper_t      *picture_control_set_wrapper_ptr;
        
 #if REST_M
         uint32_t          segment_index;
 #endif
 
-    } CdefResults;
-
-    typedef struct RestResults
+    } CdefResults_t;
+    typedef struct RestResults_s
     {
-        EbObjectWrapper      *picture_control_set_wrapper_ptr;
-        uint32_t              completed_lcu_row_index_start;
-        uint32_t              completed_lcu_row_count;
+        EbObjectWrapper_t      *picture_control_set_wrapper_ptr;
+        uint32_t                  completed_lcu_row_index_start;
+        uint32_t                  completed_lcu_row_count;
 
-    } RestResults;
+    } RestResults_t;
 #endif
-    typedef struct EncDecResultsInitData {
-        uint32_t junk;
-    } EncDecResultsInitData;
+    typedef struct EncDecResultsInitData_s
+    {
+        uint32_t         junk;
+    } EncDecResultsInitData_t;
 
     /**************************************
      * Extern Function Declarations
      **************************************/
-    extern EbErrorType enc_dec_results_ctor(
+    extern EbErrorType EncDecResultsCtor(
         EbPtr *object_dbl_ptr,
-        EbPtr  object_init_data_ptr);
+        EbPtr object_init_data_ptr);
 
 
 #ifdef __cplusplus

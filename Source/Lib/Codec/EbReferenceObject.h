@@ -10,15 +10,14 @@
 #include "EbDefinitions.h"
 #include "EbAdaptiveMotionVectorPrediction.h"
 
-typedef struct EbReferenceObject
-{
-    EbPictureBufferDesc            *reference_picture;
-    EbPictureBufferDesc            *reference_picture16bit;
-    EbPictureBufferDesc            *ref_den_src_picture;
-                                  
-    TmvpUnit                       *tmvp_map;
-    EbBool                          tmvp_enable_flag;
-    uint64_t                        ref_poc;
+typedef struct EbReferenceObject_s {
+    EbPictureBufferDesc_t          *referencePicture;
+    EbPictureBufferDesc_t          *referencePicture16bit;
+    EbPictureBufferDesc_t          *refDenSrcPicture;
+
+    TmvpUnit_t                     *tmvpMap;
+    EbBool                          tmvpEnableFlag;
+    uint64_t                        refPOC;
 #if ADD_DELTA_QP_SUPPORT
     uint16_t                        qp;
 #else
@@ -28,9 +27,10 @@ typedef struct EbReferenceObject
     uint8_t                         intra_coded_area;//percentage of intra coded area 0-100%
     uint8_t                         intra_coded_area_sb[MAX_NUMBER_OF_TREEBLOCKS_PER_PICTURE];//percentage of intra coded area 0-100%
     uint32_t                        non_moving_index_array[MAX_NUMBER_OF_TREEBLOCKS_PER_PICTURE];//array to hold non-moving blocks in reference frames
-    EbBool                          penalize_skipflag;
-    uint8_t                         tmp_layer_idx;
-    EbBool                          is_scene_change;
+    uint32_t                        picSampleValue[MAX_NUMBER_OF_REGIONS_IN_WIDTH][MAX_NUMBER_OF_REGIONS_IN_HEIGHT][3];// [Y U V];
+    EbBool                          penalizeSkipflag;
+    uint8_t                         tmpLayerIdx;
+    EbBool                          isSceneChange;
     uint16_t                        pic_avg_variance;
     uint8_t                         average_intensity;
     aom_film_grain_t                film_grain_params; //Film grain parameters for a reference frame
@@ -40,31 +40,29 @@ typedef struct EbReferenceObject
 #if FAST_SG
     int8_t                          sg_frame_ep;
 #endif
-} EbReferenceObject;
+} EbReferenceObject_t;
 
-typedef struct EbReferenceObjectDescInitData {
-    EbPictureBufferDescInitData reference_picture_desc_init_data;
-} EbReferenceObjectDescInitData;
+typedef struct EbReferenceObjectDescInitData_s {
+    EbPictureBufferDescInitData_t   referencePictureDescInitData;
+} EbReferenceObjectDescInitData_t;
 
-typedef struct EbPaReferenceObject 
-{
-    EbPictureBufferDesc     *input_padded_picture_ptr;
-    EbPictureBufferDesc     *quarter_decimated_picture_ptr;
-    EbPictureBufferDesc     *sixteenth_decimated_picture_ptr;
-    uint16_t                 variance[MAX_NUMBER_OF_TREEBLOCKS_PER_PICTURE];
-    uint8_t                  y_mean[MAX_NUMBER_OF_TREEBLOCKS_PER_PICTURE];
-    EB_SLICE                 slice_type;
-    uint32_t                 dependent_pictures_count; //number of pic using this reference frame
-    PictureParentControlSet *p_pcs_ptr;
+typedef struct EbPaReferenceObject_s {
+    EbPictureBufferDesc_t          *inputPaddedPicturePtr;
+    EbPictureBufferDesc_t          *quarterDecimatedPicturePtr;
+    EbPictureBufferDesc_t          *sixteenthDecimatedPicturePtr;
+    uint16_t                        variance[MAX_NUMBER_OF_TREEBLOCKS_PER_PICTURE];
+    uint8_t                         yMean[MAX_NUMBER_OF_TREEBLOCKS_PER_PICTURE];
+    EB_SLICE                        slice_type;
+    uint32_t                        dependentPicturesCount; //number of pic using this reference frame
+    PictureParentControlSet_t      *pPcsPtr;
 
-} EbPaReferenceObject;
+} EbPaReferenceObject_t;
 
-typedef struct EbPaReferenceObjectDescInitData
-{
-    EbPictureBufferDescInitData reference_picture_desc_init_data;
-    EbPictureBufferDescInitData quarter_picture_desc_init_data;
-    EbPictureBufferDescInitData sixteenth_picture_desc_init_data;
-} EbPaReferenceObjectDescInitData;
+typedef struct EbPaReferenceObjectDescInitData_s {
+    EbPictureBufferDescInitData_t   referencePictureDescInitData;
+    EbPictureBufferDescInitData_t   quarterPictureDescInitData;
+    EbPictureBufferDescInitData_t   sixteenthPictureDescInitData;
+} EbPaReferenceObjectDescInitData_t;
 
 /**************************************
  * Extern Function Declarations

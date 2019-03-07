@@ -13,7 +13,7 @@
 #ifdef __GNUC__
 __attribute__((aligned(16)))
 #endif
-EB_ALIGN(32) const int16_t coeff_tbl_avx2[48 * 16] =
+EB_ALIGN(32) const int16_t coeff_tbl_AVX2[48 * 16] =
 {
     64, 64, 89, 75, 83, 36, 75, -18, 64, 64, 89, 75, 83, 36, 75, -18, 64, -64, 50, -89, 36, -83, 18, -50, 64, -64, 50, -89, 36, -83, 18, -50,
     64, 64, 50, 18, -36, -83, -89, -50, 64, 64, 50, 18, -36, -83, -89, -50, -64, 64, 18, 75, 83, -36, 75, -89, -64, 64, 18, 75, 83, -36, 75, -89,
@@ -282,7 +282,7 @@ void quantize_inv_quantize8x8_avx2_intrin(
 
 
 // transpose 16x16 block of data
-void transpose16_avx2_intrin(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride)
+void transpose16_AVX2_INTRIN(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride)
 {
     uint32_t i;
     for (i = 0; i < 2; i++)
@@ -346,7 +346,7 @@ void transpose16_avx2_intrin(int16_t *src, uint32_t src_stride, int16_t *dst, ui
 }
 
 // transpose 32x32 block of data
-void transpose32_avx2_intrin(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride)
+void transpose32_AVX2_INTRIN(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride)
 {
     uint32_t i, j;
     for (i = 0; i < 4; i++)
@@ -412,7 +412,7 @@ void transpose32_avx2_intrin(int16_t *src, uint32_t src_stride, int16_t *dst, ui
     }
 }
 
-void pfreq_transpose32_avx2_intrin(
+void PfreqTranspose32_AVX2_INTRIN(
     int16_t *src,
     uint32_t  src_stride,
     int16_t *dst,
@@ -479,7 +479,7 @@ void pfreq_transpose32_avx2_intrin(
     }
 }
 
-void pfreq_sec_transpose32_avx2_intrin(
+void PfreqSecTranspose32_AVX2_INTRIN(
     int16_t *src,
     uint32_t  src_stride,
     int16_t *dst,
@@ -548,12 +548,12 @@ void pfreq_sec_transpose32_avx2_intrin(
 }
 
 // 16-point forward transform (16 rows)
-void transform16_avx2_intrin(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride, int16_t shift)
+void transform16_AVX2_INTRIN(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride, int16_t shift)
 {
     uint32_t i;
     __m128i s0 = _mm_cvtsi32_si128(shift);
     __m256i o0 = _mm256_set1_epi32(1 << (shift - 1));
-    const __m256i *coeff32 = (const __m256i *)coeff_tbl_avx2;
+    const __m256i *coeff32 = (const __m256i *)coeff_tbl_AVX2;
 
     for (i = 0; i < 16; i += 2)
     {
@@ -610,12 +610,12 @@ void transform16_avx2_intrin(int16_t *src, uint32_t src_stride, int16_t *dst, ui
 }
 
 // 32-point forward transform (32 rows)
-void transform32_avx2_intrin(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride, uint32_t shift)
+void transform32_AVX2_INTRIN(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride, uint32_t shift)
 {
     uint32_t i;
     __m128i s0;
     __m256i o0;
-    const __m256i *coeff32 = (const __m256i *)coeff_tbl_avx2;
+    const __m256i *coeff32 = (const __m256i *)coeff_tbl_AVX2;
 
     shift &= 0x0000FFFF; // Redundant code to fix Visual Studio 2012 AVX2 compiler error
     s0 = _mm_cvtsi32_si128(shift);
@@ -745,7 +745,7 @@ void transform32_avx2_intrin(int16_t *src, uint32_t src_stride, int16_t *dst, ui
     }
 }
 
-void pfreq1d_transform32_avx2_intrin(
+void Pfreq1DTransform32_AVX2_INTRIN(
     int16_t *src,
     uint32_t  src_stride,
     int16_t *dst,
@@ -755,7 +755,7 @@ void pfreq1d_transform32_avx2_intrin(
     uint32_t i;
     __m128i s0 = _mm_cvtsi32_si128(shift);
     __m256i o0 = _mm256_set1_epi32(1 << (shift - 1));
-    const __m256i *coeff32 = (const __m256i *)coeff_tbl_avx2;
+    const __m256i *coeff32 = (const __m256i *)coeff_tbl_AVX2;
 
     for (i = 0; i < 32; i += 2)
     {
@@ -879,7 +879,7 @@ void pfreq1d_transform32_avx2_intrin(
     }
 }
 
-void pfreq2d_transform32_avx2_intrin(
+void Pfreq2DTransform32_AVX2_INTRIN(
     int16_t *src,
     uint32_t  src_stride,
     int16_t *dst,
@@ -889,7 +889,7 @@ void pfreq2d_transform32_avx2_intrin(
     uint32_t i;
     __m128i s0 = _mm_cvtsi32_si128(shift);
     __m256i o0 = _mm256_set1_epi32(1 << (shift - 1));
-    const __m256i *coeff32 = (const __m256i *)coeff_tbl_avx2;
+    const __m256i *coeff32 = (const __m256i *)coeff_tbl_AVX2;
 
     for (i = 0; i < 16; i += 2)
     {
@@ -1021,14 +1021,14 @@ void pfreq_transform32x32_avx2_intrin(
     int16_t *intermediate,
     uint32_t addshift)
 {
-    pfreq1d_transform32_avx2_intrin(src, src_stride, intermediate, 32, 6 + addshift);
-    pfreq_transpose32_avx2_intrin(intermediate, 32, dst, dst_stride);
-    pfreq2d_transform32_avx2_intrin(dst, dst_stride, intermediate, 32, 9);
-    pfreq_sec_transpose32_avx2_intrin(intermediate, 32, dst, dst_stride);
+    Pfreq1DTransform32_AVX2_INTRIN(src, src_stride, intermediate, 32, 6 + addshift);
+    PfreqTranspose32_AVX2_INTRIN(intermediate, 32, dst, dst_stride);
+    Pfreq2DTransform32_AVX2_INTRIN(dst, dst_stride, intermediate, 32, 9);
+    PfreqSecTranspose32_AVX2_INTRIN(intermediate, 32, dst, dst_stride);
     return;
 }
 
-void pfreq_n41d_transform32_avx2_intrin(
+void PfreqN41DTransform32_AVX2_INTRIN(
     int16_t *src,
     uint32_t  src_stride,
     int16_t *dst,
@@ -1038,7 +1038,7 @@ void pfreq_n41d_transform32_avx2_intrin(
     uint32_t i;
     __m128i s0 = _mm_cvtsi32_si128(shift);
     __m256i o0 = _mm256_set1_epi32(1 << (shift - 1));
-    const __m256i *coeff32 = (const __m256i *)coeff_tbl_avx2;
+    const __m256i *coeff32 = (const __m256i *)coeff_tbl_AVX2;
 
     for (i = 0; i < 32; i += 2)
     {
@@ -1165,7 +1165,7 @@ void pfreq_n41d_transform32_avx2_intrin(
         //_mm256_storeu_si256((__m256i *)(dst+i*dst_stride+0x18), x3);
     }
 }
-void pfreq_n42d_transform32_avx2_intrin(
+void PfreqN42DTransform32_AVX2_INTRIN(
     int16_t *src,
     uint32_t  src_stride,
     int16_t *dst,
@@ -1175,7 +1175,7 @@ void pfreq_n42d_transform32_avx2_intrin(
     uint32_t i;
     __m128i s0 = _mm_cvtsi32_si128(shift);
     __m256i o0 = _mm256_set1_epi32(1 << (shift - 1));
-    const __m256i *coeff32 = (const __m256i *)coeff_tbl_avx2;
+    const __m256i *coeff32 = (const __m256i *)coeff_tbl_AVX2;
 
     //for (i = 0; i < 16; i += 2)
     for (i = 0; i < 8; i += 2)
@@ -1305,7 +1305,7 @@ void pfreq_n42d_transform32_avx2_intrin(
         //_mm256_storeu_si256((__m256i *)(dst+i*dst_stride+0x18), x3);
     }
 }
-void pfreq_n4_first_transpose32_avx2_intrin(
+void PfreqN4FirstTranspose32_AVX2_INTRIN(
     int16_t *src,
     uint32_t  src_stride,
     int16_t *dst,
@@ -1371,7 +1371,7 @@ void pfreq_n4_first_transpose32_avx2_intrin(
         _mm_storeu_si128((__m128i *)(dst + 15 * dst_stride + 8 * i), _mm256_extracti128_si256(b7, 1));
     }
 }
-void pfreq_n4_sec_transpose32_avx2_intrin(
+void PfreqN4SecTranspose32_AVX2_INTRIN(
     int16_t *src,
     uint32_t  src_stride,
     int16_t *dst,
@@ -1446,10 +1446,10 @@ void pfreq_n4_transform32x32_avx2_intrin(
     int16_t *intermediate,
     uint32_t addshift)
 {
-    pfreq_n41d_transform32_avx2_intrin(src, src_stride, intermediate, 32, 6 + addshift);
-    pfreq_n4_first_transpose32_avx2_intrin(intermediate, 32, dst, dst_stride);
-    pfreq_n42d_transform32_avx2_intrin(dst, dst_stride, intermediate, 32, 9);
-    pfreq_n4_sec_transpose32_avx2_intrin(intermediate, 32, dst, dst_stride);
+    PfreqN41DTransform32_AVX2_INTRIN(src, src_stride, intermediate, 32, 6 + addshift);
+    PfreqN4FirstTranspose32_AVX2_INTRIN(intermediate, 32, dst, dst_stride);
+    PfreqN42DTransform32_AVX2_INTRIN(dst, dst_stride, intermediate, 32, 9);
+    PfreqN4SecTranspose32_AVX2_INTRIN(intermediate, 32, dst, dst_stride);
 
     return;
 }
@@ -1457,22 +1457,22 @@ void pfreq_n4_transform32x32_avx2_intrin(
 // forward 16x16 transform
 EB_EXTERN void low_precision_transform16x16_avx2_intrin(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride, int16_t *intermediate, uint32_t addshift)
 {
-    transform16_avx2_intrin(src, src_stride, intermediate, 16, (int16_t)(4 + addshift));
-    transpose16_avx2_intrin(intermediate, 16, dst, dst_stride);
+    transform16_AVX2_INTRIN(src, src_stride, intermediate, 16, (int16_t)(4 + addshift));
+    transpose16_AVX2_INTRIN(intermediate, 16, dst, dst_stride);
 
-    transform16_avx2_intrin(dst, dst_stride, intermediate, 16, 9);
-    transpose16_avx2_intrin(intermediate, 16, dst, dst_stride);
+    transform16_AVX2_INTRIN(dst, dst_stride, intermediate, 16, 9);
+    transpose16_AVX2_INTRIN(intermediate, 16, dst, dst_stride);
 
 }
 
 // forward 32x32 transform
 EB_EXTERN void low_precision_transform32x32_avx2_intrin(int16_t *src, uint32_t src_stride, int16_t *dst, uint32_t dst_stride, int16_t *intermediate, uint32_t addshift)
 {
-    transform32_avx2_intrin(src, src_stride, intermediate, 32, 6 + addshift);
-    transpose32_avx2_intrin(intermediate, 32, dst, dst_stride);
+    transform32_AVX2_INTRIN(src, src_stride, intermediate, 32, 6 + addshift);
+    transpose32_AVX2_INTRIN(intermediate, 32, dst, dst_stride);
 
-    transform32_avx2_intrin(dst, dst_stride, intermediate, 32, 9);
-    transpose32_avx2_intrin(intermediate, 32, dst, dst_stride);
+    transform32_AVX2_INTRIN(dst, dst_stride, intermediate, 32, 9);
+    transpose32_AVX2_INTRIN(intermediate, 32, dst, dst_stride);
 
 }
 
@@ -1481,8 +1481,8 @@ void mat_mult4x4_out_buff_avx2_intrin(
     const uint32_t         coeff_stride,
     int16_t*              coeff_out,
     const uint32_t         coeff_out_stride,
-    const uint16_t        *masking_matrix,
-    const uint32_t         masking_matrix_stride,
+    const uint16_t        *maskingMatrix,
+    const uint32_t         maskingMatrixStride,
     const uint32_t         compute_size,
     const int32_t         offset,
     const int32_t         shift_num,
@@ -1491,48 +1491,48 @@ void mat_mult4x4_out_buff_avx2_intrin(
 {
     __m256i z = _mm256_setzero_si256();
     __m128i a, b;
-    __m256i coeff_temp, a0, a1, b0, b1, ymm_computed, masking_matrix_t, offset_reg, coeff_temp_org;
+    __m256i coeffTemp, a0, a1, b0, b1, ymm_computed, MaskingMatrix, offsetREG, coeffTempORG;
     (void)compute_size;
 
-    coeff_temp = a0 = a1 = b0 = b1 = ymm_computed = masking_matrix_t = offset_reg = _mm256_setzero_si256();
+    coeffTemp = a0 = a1 = b0 = b1 = ymm_computed = MaskingMatrix = offsetREG = _mm256_setzero_si256();
 
     // prepare Shift REG
     __m128i PMP_PRECISION_REG = _mm_set_epi16(0, 0, 0, 0, 0, 0, 0, (int16_t)shift_num); //_mm_set1_epi16((uint16_t)shift_num);//_mm_set1_epi32(shift_num);
 
     //prepare the offset
-    offset_reg = _mm256_set1_epi32(offset);
+    offsetREG = _mm256_set1_epi32(offset);
 
     //load maskingMatrix_new
-    masking_matrix_t = _mm256_insertf128_si256(_mm256_castsi128_si256(_mm_unpacklo_epi64(_mm_loadl_epi64((__m128i*)masking_matrix), _mm_loadl_epi64((__m128i*)(masking_matrix + masking_matrix_stride)))), _mm_unpacklo_epi64(_mm_loadl_epi64((__m128i*)(masking_matrix + 2 * masking_matrix_stride)), _mm_loadl_epi64((__m128i*)(masking_matrix + 3 * masking_matrix_stride))), 0x1);
+    MaskingMatrix = _mm256_insertf128_si256(_mm256_castsi128_si256(_mm_unpacklo_epi64(_mm_loadl_epi64((__m128i*)maskingMatrix), _mm_loadl_epi64((__m128i*)(maskingMatrix + maskingMatrixStride)))), _mm_unpacklo_epi64(_mm_loadl_epi64((__m128i*)(maskingMatrix + 2 * maskingMatrixStride)), _mm_loadl_epi64((__m128i*)(maskingMatrix + 3 * maskingMatrixStride))), 0x1);
 
-    //load coeff_temp
+    //load coefftemp
     a = _mm_unpacklo_epi64(_mm_loadl_epi64((__m128i*)coeff), _mm_loadl_epi64((__m128i*)(coeff + coeff_stride))); // 1st and 2nd row of the 4x4 block
     b = _mm_unpacklo_epi64(_mm_loadl_epi64((__m128i*)(coeff + 2 * coeff_stride)), _mm_loadl_epi64((__m128i*)(coeff + 3 * coeff_stride))); // 3rd and 4th row of the 4x4 block
-    coeff_temp = _mm256_insertf128_si256(_mm256_castsi128_si256(a), b, 0x1); // the 4x4 block is now loaded
+    coeffTemp = _mm256_insertf128_si256(_mm256_castsi128_si256(a), b, 0x1); // the 4x4 block is now loaded
 
-    coeff_temp_org = coeff_temp;
+    coeffTempORG = coeffTemp;
     //Absolute val
-    coeff_temp = _mm256_abs_epi16(coeff_temp);
+    coeffTemp = _mm256_abs_epi16(coeffTemp);
 
-    a0 = _mm256_mullo_epi16(coeff_temp, masking_matrix_t);
-    a1 = _mm256_mulhi_epi16(coeff_temp, masking_matrix_t);
+    a0 = _mm256_mullo_epi16(coeffTemp, MaskingMatrix);
+    a1 = _mm256_mulhi_epi16(coeffTemp, MaskingMatrix);
 
 
     b0 = _mm256_unpacklo_epi16(a0, a1);
     b1 = _mm256_unpackhi_epi16(a0, a1);
 
-    b0 = _mm256_add_epi32(b0, offset_reg);
-    b1 = _mm256_add_epi32(b1, offset_reg);
+    b0 = _mm256_add_epi32(b0, offsetREG);
+    b1 = _mm256_add_epi32(b1, offsetREG);
 
     //Shift right by PMP_PRECISION_REG
     b0 = _mm256_sra_epi32(b0, PMP_PRECISION_REG);
     b1 = _mm256_sra_epi32(b1, PMP_PRECISION_REG);
 
-    //coeff_temp in c
+    //coefftemp in c
     ymm_computed = _mm256_packs_epi32(b0, b1);//Convert packed 32-bit integers from a and b to packed 16-bit integers using signed saturation, and store the results in dst.
-    z = _mm256_sub_epi16(z, _mm256_cmpgt_epi16(ymm_computed, _mm256_setzero_si256())); //coeff_temp = (coeff[coeffLocation] < 0)? -coeff_temp : coeff_temp;
+    z = _mm256_sub_epi16(z, _mm256_cmpgt_epi16(ymm_computed, _mm256_setzero_si256())); //coeffTemp = (coeff[coeffLocation] < 0)? -coeffTemp : coeffTemp;
 
-    ymm_computed = _mm256_sign_epi16(ymm_computed, coeff_temp_org);// coeff_temp);
+    ymm_computed = _mm256_sign_epi16(ymm_computed, coeffTempORG);// coeffTemp);
 
     a = _mm256_extracti128_si256(ymm_computed, 0);
     b = _mm256_extracti128_si256(ymm_computed, 1);
@@ -1551,8 +1551,8 @@ void mat_mult4x4_out_buff_avx2_intrin(
 void mat_mult4x4_avx2_intrin(
     int16_t*              coeff,
     const uint32_t         coeff_stride,
-    const uint16_t        *masking_matrix,
-    const uint32_t         masking_matrix_stride,  //Matrix size
+    const uint16_t        *maskingMatrix,
+    const uint32_t         maskingMatrixStride,  //Matrix size
     const uint32_t         compute_size,  //Computation area size
     const int32_t         offset,     //(PMP_MAX >> 1)
     const int32_t         shift_num, //PMP_PRECISION
@@ -1561,48 +1561,48 @@ void mat_mult4x4_avx2_intrin(
 {
     __m256i z = _mm256_setzero_si256();
     __m128i a, b;
-    __m256i coeff_temp, a0, a1, b0, b1, ymm_computed, masking_matrix_t, offset_reg, coeff_temp_org;
+    __m256i coeffTemp, a0, a1, b0, b1, ymm_computed, MaskingMatrix, offsetREG, coeffTempORG;
     (void)compute_size;
 
-    coeff_temp = a0 = a1 = b0 = b1 = ymm_computed = masking_matrix_t = offset_reg = _mm256_setzero_si256();
+    coeffTemp = a0 = a1 = b0 = b1 = ymm_computed = MaskingMatrix = offsetREG = _mm256_setzero_si256();
 
     // prepare Shift REG
     __m128i PMP_PRECISION_REG = _mm_set_epi16(0, 0, 0, 0, 0, 0, 0, (int16_t)shift_num); //_mm_set1_epi16((uint16_t)shift_num);//_mm_set1_epi32(shift_num);
 
     //prepare the offset
-    offset_reg = _mm256_set1_epi32(offset);
+    offsetREG = _mm256_set1_epi32(offset);
 
     //load maskingMatrix_new
-    masking_matrix_t = _mm256_insertf128_si256(_mm256_castsi128_si256(_mm_unpacklo_epi64(_mm_loadl_epi64((__m128i*)masking_matrix), _mm_loadl_epi64((__m128i*)(masking_matrix + masking_matrix_stride)))), _mm_unpacklo_epi64(_mm_loadl_epi64((__m128i*)(masking_matrix + 2 * masking_matrix_stride)), _mm_loadl_epi64((__m128i*)(masking_matrix + 3 * masking_matrix_stride))), 0x1);
+    MaskingMatrix = _mm256_insertf128_si256(_mm256_castsi128_si256(_mm_unpacklo_epi64(_mm_loadl_epi64((__m128i*)maskingMatrix), _mm_loadl_epi64((__m128i*)(maskingMatrix + maskingMatrixStride)))), _mm_unpacklo_epi64(_mm_loadl_epi64((__m128i*)(maskingMatrix + 2 * maskingMatrixStride)), _mm_loadl_epi64((__m128i*)(maskingMatrix + 3 * maskingMatrixStride))), 0x1);
 
-    //load coeff_temp
+    //load coefftemp
     a = _mm_unpacklo_epi64(_mm_loadl_epi64((__m128i*)coeff), _mm_loadl_epi64((__m128i*)(coeff + coeff_stride))); // 1st and 2nd row of the 4x4 block
     b = _mm_unpacklo_epi64(_mm_loadl_epi64((__m128i*)(coeff + 2 * coeff_stride)), _mm_loadl_epi64((__m128i*)(coeff + 3 * coeff_stride))); // 3rd and 4th row of the 4x4 block
-    coeff_temp = _mm256_insertf128_si256(_mm256_castsi128_si256(a), b, 0x1); // the 4x4 block is now loaded
+    coeffTemp = _mm256_insertf128_si256(_mm256_castsi128_si256(a), b, 0x1); // the 4x4 block is now loaded
 
-    coeff_temp_org = coeff_temp;
+    coeffTempORG = coeffTemp;
     //Absolute val
-    coeff_temp = _mm256_abs_epi16(coeff_temp);
+    coeffTemp = _mm256_abs_epi16(coeffTemp);
 
-    a0 = _mm256_mullo_epi16(coeff_temp, masking_matrix_t);
-    a1 = _mm256_mulhi_epi16(coeff_temp, masking_matrix_t);
+    a0 = _mm256_mullo_epi16(coeffTemp, MaskingMatrix);
+    a1 = _mm256_mulhi_epi16(coeffTemp, MaskingMatrix);
 
 
     b0 = _mm256_unpacklo_epi16(a0, a1);
     b1 = _mm256_unpackhi_epi16(a0, a1);
 
-    b0 = _mm256_add_epi32(b0, offset_reg);
-    b1 = _mm256_add_epi32(b1, offset_reg);
+    b0 = _mm256_add_epi32(b0, offsetREG);
+    b1 = _mm256_add_epi32(b1, offsetREG);
 
     //Shift right by PMP_PRECISION_REG
     b0 = _mm256_sra_epi32(b0, PMP_PRECISION_REG);
     b1 = _mm256_sra_epi32(b1, PMP_PRECISION_REG);
 
-    //coeff_temp in c
+    //coefftemp in c
     ymm_computed = _mm256_packs_epi32(b0, b1);//Convert packed 32-bit integers from a and b to packed 16-bit integers using signed saturation, and store the results in dst.
-    z = _mm256_sub_epi16(z, _mm256_cmpgt_epi16(ymm_computed, _mm256_setzero_si256())); //coeff_temp = (coeff[coeffLocation] < 0)? -coeff_temp : coeff_temp;
+    z = _mm256_sub_epi16(z, _mm256_cmpgt_epi16(ymm_computed, _mm256_setzero_si256())); //coeffTemp = (coeff[coeffLocation] < 0)? -coeffTemp : coeffTemp;
 
-    ymm_computed = _mm256_sign_epi16(ymm_computed, coeff_temp_org);// coeff_temp);
+    ymm_computed = _mm256_sign_epi16(ymm_computed, coeffTempORG);// coeffTemp);
 
     a = _mm256_extracti128_si256(ymm_computed, 0);
     b = _mm256_extracti128_si256(ymm_computed, 1);
@@ -1619,8 +1619,8 @@ void mat_mult4x4_avx2_intrin(
 void mat_mult8x8_avx2_intrin(
     int16_t*              coeff,
     const uint32_t         coeff_stride,
-    const uint16_t        *masking_matrix,
-    const uint32_t         masking_matrix_stride,  //Matrix size
+    const uint16_t        *maskingMatrix,
+    const uint32_t         maskingMatrixStride,  //Matrix size
     const uint32_t         compute_size,  //Computation area size
     const int32_t         offset,     //(PMP_MAX >> 1)
     const int32_t         shift_num, //PMP_PRECISION
@@ -1629,50 +1629,50 @@ void mat_mult8x8_avx2_intrin(
     unsigned row;
     __m256i z = _mm256_setzero_si256();
     //__m128i a, b;
-    __m256i coeff_temp, a0, a1, b0, b1, ymm_computed, masking_matrix_t, coeff_temp_org;
+    __m256i coeffTemp, a0, a1, b0, b1, ymm_computed, MaskingMatrix, coeffTempORG;
 
-    coeff_temp = a0 = a1 = b0 = b1 = ymm_computed = masking_matrix_t = _mm256_setzero_si256();
+    coeffTemp = a0 = a1 = b0 = b1 = ymm_computed = MaskingMatrix = _mm256_setzero_si256();
 
     // prepare Shift REG
     __m128i PMP_PRECISION_REG = _mm_set_epi16(0, 0, 0, 0, 0, 0, 0, (int16_t)shift_num);//_mm_set1_epi32(shift_num);
 
     //prepare the offset
-    __m256i offset_reg = _mm256_set1_epi32(offset);
+    __m256i offsetREG = _mm256_set1_epi32(offset);
     row = 0;
     do {
 
         //load maskingMatrix_new
-        masking_matrix_t = _mm256_insertf128_si256(_mm256_castsi128_si256(_mm_loadu_si128((__m128i*)(masking_matrix + masking_matrix_stride * row))), _mm_loadu_si128((__m128i*)(masking_matrix + masking_matrix_stride * (row + 1))), 0x1);
+        MaskingMatrix = _mm256_insertf128_si256(_mm256_castsi128_si256(_mm_loadu_si128((__m128i*)(maskingMatrix + maskingMatrixStride * row))), _mm_loadu_si128((__m128i*)(maskingMatrix + maskingMatrixStride * (row + 1))), 0x1);
 
-        //load coeff_temp
-        coeff_temp = _mm256_insertf128_si256(_mm256_castsi128_si256(_mm_loadu_si128((__m128i*)(coeff + coeff_stride * row))),
+        //load coefftemp
+        coeffTemp = _mm256_insertf128_si256(_mm256_castsi128_si256(_mm_loadu_si128((__m128i*)(coeff + coeff_stride * row))),
             _mm_loadu_si128((__m128i*)(coeff + coeff_stride * (row + 1))), 0x1);
 
-        coeff_temp_org = coeff_temp;
+        coeffTempORG = coeffTemp;
         //Absolute val
-        coeff_temp = _mm256_abs_epi16(coeff_temp);
+        coeffTemp = _mm256_abs_epi16(coeffTemp);
 
         //Multiply
-        a0 = _mm256_mullo_epi16(coeff_temp, masking_matrix_t);
-        a1 = _mm256_mulhi_epi16(coeff_temp, masking_matrix_t);
+        a0 = _mm256_mullo_epi16(coeffTemp, MaskingMatrix);
+        a1 = _mm256_mulhi_epi16(coeffTemp, MaskingMatrix);
 
 
         b0 = _mm256_unpacklo_epi16(a0, a1);
         b1 = _mm256_unpackhi_epi16(a0, a1);
 
         //Add
-        b0 = _mm256_add_epi32(b0, offset_reg);
-        b1 = _mm256_add_epi32(b1, offset_reg);
+        b0 = _mm256_add_epi32(b0, offsetREG);
+        b1 = _mm256_add_epi32(b1, offsetREG);
 
         //Shift right by PMP_PRECISION_REG
         b0 = _mm256_sra_epi32(b0, PMP_PRECISION_REG);
         b1 = _mm256_sra_epi32(b1, PMP_PRECISION_REG);
 
-        //coeff_temp in c
+        //coefftemp in c
         ymm_computed = _mm256_packs_epi32(b0, b1);//Convert packed 32-bit integers from b0 and b1 to packed 16-bit integers using signed saturation, and store the results in dst.
-        z = _mm256_sub_epi16(z, _mm256_cmpgt_epi16(ymm_computed, _mm256_setzero_si256())); //coeff_temp = (coeff[coeffLocation] < 0)? -coeff_temp : coeff_temp;
+        z = _mm256_sub_epi16(z, _mm256_cmpgt_epi16(ymm_computed, _mm256_setzero_si256())); //coeffTemp = (coeff[coeffLocation] < 0)? -coeffTemp : coeffTemp;
 
-        ymm_computed = _mm256_sign_epi16(ymm_computed, coeff_temp_org);// coeff_temp);
+        ymm_computed = _mm256_sign_epi16(ymm_computed, coeffTempORG);// coeffTemp);
 
         _mm_storeu_si128((__m128i *)(coeff + coeff_stride * row), _mm256_extracti128_si256(ymm_computed, 0));
         _mm_storeu_si128((__m128i *)(coeff + coeff_stride * (row + 1)), _mm256_extracti128_si256(ymm_computed, 1));
@@ -1688,8 +1688,8 @@ void mat_mult8x8_avx2_intrin(
 void mat_mult_nxn_avx2_intrin(
     int16_t*              coeff,
     const uint32_t         coeff_stride,
-    const uint16_t        *masking_matrix,
-    const uint32_t         masking_matrix_stride,  //Matrix size
+    const uint16_t        *maskingMatrix,
+    const uint32_t         maskingMatrixStride,  //Matrix size
     const uint32_t         compute_size,  //Computation area size
     const int32_t         offset,     //(PMP_MAX >> 1)
     const int32_t         shift_num, //PMP_PRECISION
@@ -1699,53 +1699,53 @@ void mat_mult_nxn_avx2_intrin(
     unsigned row, col;
     __m256i z = _mm256_setzero_si256();
     //__m128i a, b;
-    __m256i coeff_temp, a0, a1, b0, b1, ymm_computed, masking_matrix_t, coeff_temp_org;
+    __m256i coeffTemp, a0, a1, b0, b1, ymm_computed, MaskingMatrix, coeffTempORG;
 
-    coeff_temp = a0 = a1 = b0 = b1 = ymm_computed = masking_matrix_t = _mm256_setzero_si256();
+    coeffTemp = a0 = a1 = b0 = b1 = ymm_computed = MaskingMatrix = _mm256_setzero_si256();
 
     // prepare Shift REG
     __m128i PMP_PRECISION_REG = _mm_set_epi16(0, 0, 0, 0, 0, 0, 0, (int16_t)shift_num);//_mm_set1_epi32(shift_num);
 
     //prepare the offset
-    __m256i offset_reg = _mm256_set1_epi32(offset);
+    __m256i offsetREG = _mm256_set1_epi32(offset);
 
     row = 0;
     do {
         col = 0;
         do {
 
-            //load coeff_temp
-            coeff_temp = _mm256_loadu_si256((__m256i *)(coeff + coeff_stride * row + col));
+            //load coefftemp
+            coeffTemp = _mm256_loadu_si256((__m256i *)(coeff + coeff_stride * row + col));
 
             //load maskingMatrix_new
-            masking_matrix_t = _mm256_loadu_si256((__m256i *) (masking_matrix + masking_matrix_stride * row + col));
+            MaskingMatrix = _mm256_loadu_si256((__m256i *) (maskingMatrix + maskingMatrixStride * row + col));
 
-            coeff_temp_org = coeff_temp;
+            coeffTempORG = coeffTemp;
 
             //Absolute val
-            coeff_temp = _mm256_abs_epi16(coeff_temp);
+            coeffTemp = _mm256_abs_epi16(coeffTemp);
 
             //Multiply
-            a0 = _mm256_mullo_epi16(coeff_temp, masking_matrix_t);
-            a1 = _mm256_mulhi_epi16(coeff_temp, masking_matrix_t);
+            a0 = _mm256_mullo_epi16(coeffTemp, MaskingMatrix);
+            a1 = _mm256_mulhi_epi16(coeffTemp, MaskingMatrix);
 
 
             b0 = _mm256_unpacklo_epi16(a0, a1);
             b1 = _mm256_unpackhi_epi16(a0, a1);
 
             //Add
-            b0 = _mm256_add_epi32(b0, offset_reg);
-            b1 = _mm256_add_epi32(b1, offset_reg);
+            b0 = _mm256_add_epi32(b0, offsetREG);
+            b1 = _mm256_add_epi32(b1, offsetREG);
 
             //Shift right by PMP_PRECISION_REG
             b0 = _mm256_sra_epi32(b0, PMP_PRECISION_REG);
             b1 = _mm256_sra_epi32(b1, PMP_PRECISION_REG);
 
-            //coeff_temp in c
+            //coefftemp in c
             ymm_computed = _mm256_packs_epi32(b0, b1);//Convert packed 32-bit integers from b0 and b1 to packed 16-bit integers using signed saturation, and store the results in dst.
-            z = _mm256_sub_epi16(z, _mm256_cmpgt_epi16(ymm_computed, _mm256_setzero_si256())); //coeff_temp = (coeff[coeffLocation] < 0)? -coeff_temp : coeff_temp;
+            z = _mm256_sub_epi16(z, _mm256_cmpgt_epi16(ymm_computed, _mm256_setzero_si256())); //coeffTemp = (coeff[coeffLocation] < 0)? -coeffTemp : coeffTemp;
 
-            ymm_computed = _mm256_sign_epi16(ymm_computed, coeff_temp_org);// coeff_temp);
+            ymm_computed = _mm256_sign_epi16(ymm_computed, coeffTempORG);// coeffTemp);
 
             _mm256_storeu_si256((__m256i *)(coeff + coeff_stride * row + col), ymm_computed);
 
