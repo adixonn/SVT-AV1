@@ -33,7 +33,7 @@
 #define S4  4*4
 
 int32_t av1_loop_restoration_corners_in_sb(Av1Common *cm, int32_t plane,
-    int32_t mi_row, int32_t mi_col, block_size bsize,
+    int32_t mi_row, int32_t mi_col, BlockSize bsize,
     int32_t *rcol0, int32_t *rcol1, int32_t *rrow0,
     int32_t *rrow1, int32_t *tile_tl_idx);
 
@@ -44,11 +44,11 @@ int32_t av1_loop_restoration_corners_in_sb(Av1Common *cm, int32_t plane,
 #define OD_ILOG_NZ(x) (OD_CLZ0 - OD_CLZ(x))
 #endif
 
-static INLINE int32_t is_comp_ref_allowed(block_size bsize) {
+static INLINE int32_t is_comp_ref_allowed(BlockSize bsize) {
     return AOMMIN(block_size_wide[bsize], block_size_high[bsize]) >= 8;
 }
 int32_t av1_loop_restoration_corners_in_sb(Av1Common *cm, int32_t plane,
-    int32_t mi_row, int32_t mi_col, block_size bsize,
+    int32_t mi_row, int32_t mi_col, BlockSize bsize,
     int32_t *rcol0, int32_t *rcol1, int32_t *rrow0,
     int32_t *rrow1, int32_t *tile_tl_idx);
 
@@ -329,7 +329,7 @@ void get_txb_ctx(
     NeighborArrayUnit     *dc_sign_level_coeff_neighbor_array,
     uint32_t                  cu_origin_x,
     uint32_t                  cu_origin_y,
-    const block_size        plane_bsize,
+    const BlockSize        plane_bsize,
     const TxSize           tx_size,
     int16_t *const           txb_skip_ctx,
     int16_t *const           dc_sign_ctx) {
@@ -914,7 +914,7 @@ static EbErrorType Av1EncodeCoeff1D(
 *********************************************************************/
 // Return the number of elements in the partition CDF when
 // partitioning the (square) block with luma block size of bsize.
-static INLINE int32_t partition_cdf_length(block_size bsize) {
+static INLINE int32_t partition_cdf_length(BlockSize bsize) {
     if (bsize <= BLOCK_8X8)
         return PARTITION_TYPES;
     else if (bsize == BLOCK_128X128)
@@ -1307,7 +1307,7 @@ static INLINE int is_inter_mode(PredictionMode mode)
 
 static INLINE int is_global_mv_block(
     const PredictionMode          mode,
-    const block_size               bsize,
+    const BlockSize               bsize,
     TransformationType            type)
 {
     return (mode == GLOBALMV || mode == GLOBAL_GLOBALMV)
@@ -5037,7 +5037,7 @@ EbErrorType write_modes_b(
     const BlockGeom          *blk_geom = get_blk_geom_mds(cu_ptr->mds_idx);
     uint32_t blkOriginX = context_ptr->sb_origin_x + blk_geom->origin_x;
     uint32_t blkOriginY = context_ptr->sb_origin_y + blk_geom->origin_y;
-    block_size bsize = blk_geom->bsize;
+    BlockSize bsize = blk_geom->bsize;
     EbBool                   skipCoeff = EB_FALSE;
     skipCoeff = cu_ptr->block_has_coeff ? 0 : 1;
 
@@ -5068,7 +5068,7 @@ EbErrorType write_modes_b(
             int32_t super_block_upper_left = (((blkOriginY >> 2) & (sequence_control_set_ptr->mib_size - 1)) == 0) && (((blkOriginX >> 2) & (sequence_control_set_ptr->mib_size - 1)) == 0);
             /*((mi_row & (cm->seq_params.mib_size - 1)) == 0) && ((mi_col & (cm->seq_params.mib_size - 1)) == 0);*/
 
-            block_size bsize = cu_size == 64 ? BLOCK_64X64 : cu_size == 32 ? BLOCK_32X32 : cu_size == 16 ? BLOCK_16X16 : cu_size == 8 ? BLOCK_8X8 : BLOCK_4X4;
+            BlockSize bsize = cu_size == 64 ? BLOCK_64X64 : cu_size == 32 ? BLOCK_32X32 : cu_size == 16 ? BLOCK_16X16 : cu_size == 8 ? BLOCK_8X8 : BLOCK_4X4;
             if (cu_size == 8 && cu_ptr->prediction_mode_flag == INTRA_MODE && cu_ptr->pred_mode == INTRA_MODE_4x4) {
                 bsize = BLOCK_4X4;
             }
@@ -5186,7 +5186,7 @@ EbErrorType write_modes_b(
             int32_t super_block_upper_left = (((blkOriginY >> 2) & (sequence_control_set_ptr->mib_size - 1)) == 0) && (((blkOriginX >> 2) & (sequence_control_set_ptr->mib_size - 1)) == 0);
             /*((mi_row & (cm->seq_params.mib_size - 1)) == 0) && ((mi_col & (cm->seq_params.mib_size - 1)) == 0);*/
 
-            block_size bsize = cu_size == 64 ? BLOCK_64X64 : cu_size == 32 ? BLOCK_32X32 : cu_size == 16 ? BLOCK_16X16 : cu_size == 8 ? BLOCK_8X8 : BLOCK_4X4;
+            BlockSize bsize = cu_size == 64 ? BLOCK_64X64 : cu_size == 32 ? BLOCK_32X32 : cu_size == 16 ? BLOCK_16X16 : cu_size == 8 ? BLOCK_8X8 : BLOCK_4X4;
             if (cu_size == 8 && cu_ptr->prediction_mode_flag == INTRA_MODE && cu_ptr->pred_mode == INTRA_MODE_4x4) {
                 bsize = BLOCK_4X4;
             }
@@ -5462,7 +5462,7 @@ EB_EXTERN EbErrorType write_sb(
     uint32_t                    final_cu_index = 0;
     uint32_t                    cu_origin_x;
     uint32_t                    cu_origin_y;
-    block_size                bsize;
+    BlockSize                bsize;
 
     context_ptr->coded_area_sb = 0;
     context_ptr->coded_area_sb_uv = 0;

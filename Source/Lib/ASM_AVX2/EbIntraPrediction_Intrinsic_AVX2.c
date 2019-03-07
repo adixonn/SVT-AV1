@@ -2230,7 +2230,7 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
     uint16_t                           originX,
     uint32_t                           src_origin_x,
     uint32_t                           src_origin_y,
-    uint32_t                           block_size,
+    uint32_t                           BlockSize,
     EbAsm                             asm_type)
 {
 
@@ -2243,8 +2243,8 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
 
     uint8_t *yBorderReverse = yIntraReferenceArrayReverse;
     uint32_t height = input_height;
-    uint32_t blockSizeHalf = block_size << 1;
-    uint32_t topOffset = (block_size << 1) + 1;
+    uint32_t blockSizeHalf = BlockSize << 1;
+    uint32_t topOffset = (BlockSize << 1) + 1;
     uint32_t leftOffset = 0;
     uint32_t    stride = stride_y;
     __m128i xmm0 = _mm_setzero_si128();
@@ -2262,7 +2262,7 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
     //CHKn here we need ref on Top+Left only. and memset is done only for border CUs
 
     //Initialise the Luma Intra Reference Array to the mid range value 128 (for CUs at the picture boundaries)
-    memset(dst_ptr, MIDRANGE_VALUE_8BIT, (block_size << 2) + 1);
+    memset(dst_ptr, MIDRANGE_VALUE_8BIT, (BlockSize << 2) + 1);
 
     // Get the left-column
     count = blockSizeHalf;
@@ -2289,14 +2289,14 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
 
 
 
-    if (block_size != 32) {
+    if (BlockSize != 32) {
 
         __m128i xmm_mask1 = _mm_slli_si128(_mm_set1_epi8((signed char)0xFF), 1);
         __m128i xmm_mask2 = _mm_srli_si128(xmm_mask1, 15);
         __m128i xmm_C2 = _mm_set1_epi16(0x0002);
 
 
-        if (block_size == 16) {
+        if (BlockSize == 16) {
             __m128i xmm_predictionDcValue, xmm_top, xmm_left, xmm_sum, xmm_prediction_ptr_0;
             __m128i xmm_top_lo, xmm_top_hi, xmm_left_lo, xmm_left_hi, xmm_predictionDcValue_16, xmm_predictionDcValue_16_x2, xmm_predictionDcValue_16_x3;
             if (src_origin_y != 0)
@@ -2345,7 +2345,7 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
 
             src_ptr += (stride << 2);
 
-            for (idx = 4; idx < block_size; idx += 4) {
+            for (idx = 4; idx < BlockSize; idx += 4) {
                 xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
                 xmm_left = _mm_srli_si128(xmm_left, 1);
                 xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr + stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
@@ -2415,7 +2415,7 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
 
             src_ptr += (stride << 2);
 
-            for (idx = 4; idx < block_size; idx += 4) {
+            for (idx = 4; idx < BlockSize; idx += 4) {
                 xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
                 xmm_left = _mm_srli_si128(xmm_left, 1);
                 xmm_sad = _mm_add_epi32(xmm_sad, _mm_sad_epu8(_mm_loadu_si128((__m128i*)(src_ptr + stride)), _mm_or_si128(_mm_and_si128(xmm_left, xmm_mask2), xmm_predictionDcValue)));
@@ -2486,7 +2486,7 @@ uint32_t update_neighbor_dc_intra_pred_avx2_intrin(
 
         // SAD
         ymm0 = _mm256_setzero_si256();
-        for (idx = 0; idx < block_size; idx += 2) {
+        for (idx = 0; idx < BlockSize; idx += 2) {
             ymm0 = _mm256_add_epi32(ymm0, _mm256_sad_epu8(_mm256_loadu_si256((__m256i*)src_ptr), xmm_predictionDcValue));
             xmm1 = _mm256_add_epi32(xmm1, _mm256_sad_epu8(_mm256_loadu_si256((__m256i*)(src_ptr + stride)), xmm_predictionDcValue));
             src_ptr += stride << 1;

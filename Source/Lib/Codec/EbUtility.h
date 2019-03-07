@@ -59,7 +59,7 @@ extern "C" {
 
     } BlockGeom;
 
-    static const block_size ss_size_lookup[BlockSizeS_ALL][2][2] = {
+    static const BlockSize ss_size_lookup[BlockSizeS_ALL][2][2] = {
         //  ss_x == 0    ss_x == 0        ss_x == 1      ss_x == 1
         //  ss_y == 0    ss_y == 1        ss_y == 0      ss_y == 1
         { { BLOCK_4X4, BLOCK_4X4 }, { BLOCK_4X4, BLOCK_4X4 } },
@@ -85,7 +85,7 @@ extern "C" {
         { { BLOCK_16X64, BLOCK_16X32 }, { BLOCK_INVALID, BLOCK_8X32 } },
         { { BLOCK_64X16, BLOCK_INVALID }, { BLOCK_32X16, BLOCK_32X8 } }
     };
-    static INLINE block_size get_plane_block_size(block_size bsize,
+    static INLINE BlockSize get_plane_block_size(BlockSize bsize,
         int32_t subsampling_x,
         int32_t subsampling_y) {
         if (bsize == BLOCK_INVALID) return BLOCK_INVALID;

@@ -775,7 +775,7 @@ static INLINE int32_t scaled_buffer_offset(int32_t x_offset, int32_t y_offset, i
         /*sf ? sf->scale_value_y(y_offset, sf) >> SCALE_EXTRA_BITS :*/ y_offset;
     return y * stride + x;
 }
-static INLINE void setup_pred_plane(struct Buf2d *dst, block_size bsize,
+static INLINE void setup_pred_plane(struct Buf2d *dst, BlockSize bsize,
     uint8_t *src, int32_t width, int32_t height,
     int32_t stride, int32_t mi_row, int32_t mi_col,
     /*const struct scale_factors *scale,*/
@@ -795,7 +795,7 @@ static INLINE void setup_pred_plane(struct Buf2d *dst, block_size bsize,
     dst->height = height;
     dst->stride = stride;
 }
-void av1_setup_dst_planes(struct MacroblockdPlane *planes, block_size bsize,
+void av1_setup_dst_planes(struct MacroblockdPlane *planes, BlockSize bsize,
     //const Yv12BufferConfig *src,
     const EbPictureBufferDesc *src,
     int32_t mi_row, int32_t mi_col,
@@ -835,9 +835,9 @@ void av1_setup_dst_planes(struct MacroblockdPlane *planes, block_size bsize,
 
 
 static INLINE TxSize
-av1_get_max_uv_txsize(block_size bsize, const struct MacroblockdPlane *pd) {
+av1_get_max_uv_txsize(BlockSize bsize, const struct MacroblockdPlane *pd) {
 
-    const block_size plane_bsize = get_plane_block_size(bsize, pd->subsampling_x, pd->subsampling_y);
+    const BlockSize plane_bsize = get_plane_block_size(bsize, pd->subsampling_x, pd->subsampling_y);
 
     assert(plane_bsize < BlockSizeS_ALL);
     const TxSize uv_tx = max_txsize_rect_lookup[plane_bsize];
@@ -861,7 +861,7 @@ static TxSize get_transform_size(const MacroBlockD *const xd,
         : av1_get_max_uv_txsize(mbmi->sb_type, plane_ptr);
     assert(tx_size < TX_SIZES_ALL);
     //if ((plane == COMPONENT_LUMA) && is_inter_block(mbmi) && !mbmi->skip) {
-    //    const block_size sb_type = mbmi->sb_type;
+    //    const BlockSize sb_type = mbmi->sb_type;
     //    const int32_t blk_row = mi_row & (mi_size_high[sb_type] - 1);
     //    const int32_t blk_col = mi_col & (mi_size_wide[sb_type] - 1);
     //    const TxSize mb_tx_size =
@@ -963,7 +963,7 @@ static TxSize set_lpf_parameters(
 
                     const int32_t pv_skip = mi_prev->skip && is_inter_block(mi_prev);
 
-                    const block_size bsize =
+                    const BlockSize bsize =
                         get_plane_block_size(mbmi->sb_type, plane_ptr->subsampling_x, plane_ptr->subsampling_y);
                     ASSERT(bsize < BlockSizeS_ALL);
                     const int32_t prediction_masks = EdgeDir == VERT_EDGE

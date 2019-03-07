@@ -2234,7 +2234,7 @@ static TxType intra_mode_to_tx_type(const MbModeInfo *mbmi,
 }
 
 static INLINE TxType av1_get_tx_type(
-    block_size  sb_type,
+    BlockSize  sb_type,
     int32_t   is_inter,
     PredictionMode pred_mode,
     UVPredictionMode pred_mode_uv,
@@ -2248,7 +2248,7 @@ static INLINE TxType av1_get_tx_type(
     UNUSED(blk_row);
     UNUSED(blk_col);
 
-    // block_size  sb_type = BLOCK_8X8;
+    // BlockSize  sb_type = BLOCK_8X8;
 
     MbModeInfo  mbmi;
     mbmi.mode = pred_mode;

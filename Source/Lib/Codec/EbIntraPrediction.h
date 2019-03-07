@@ -321,7 +321,7 @@ extern "C" {
         uint32_t                       stride,
         uint32_t                       src_origin_x,
         uint32_t                       src_origin_y,
-        uint32_t                       block_size);
+        uint32_t                       BlockSize);
 
     extern EbErrorType intra_prediction_open_loop(
         uint32_t                 cu_size,
@@ -368,7 +368,7 @@ extern "C" {
         EbPictureBufferDesc           *input_ptr,
         uint32_t                           src_origin_x,
         uint32_t                           src_origin_y,
-        uint32_t                           block_size,
+        uint32_t                           BlockSize,
         EbAsm                              asm_type);
 
     typedef void(*EbIntraNoAng16BitType)(
@@ -588,7 +588,7 @@ extern "C" {
         EbPictureBufferDesc           *input_ptr,
         uint32_t                           src_origin_x,
         uint32_t                           src_origin_y,
-        uint32_t                           block_size,
+        uint32_t                           BlockSize,
         EbAsm                             asm_type);
 
     static EbIntraNoangType FUNC_TABLE intra_dc_chroma_func_ptr_array[ASM_TYPE_TOTAL] = {

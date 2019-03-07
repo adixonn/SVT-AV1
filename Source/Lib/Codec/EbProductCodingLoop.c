@@ -50,7 +50,7 @@ extern void av1_predict_intra_block_md(
     int32_t col_off,
     int32_t row_off,
     int32_t plane,
-    block_size bsize,
+    BlockSize bsize,
     uint32_t cuOrgX,
     uint32_t cuOrgY,
     uint32_t OrgX,
@@ -1278,7 +1278,7 @@ void ProductPerformFastLoop(
     uint32_t                            isCandzz = 0;
     const uint8_t bwidth = context_ptr->blk_geom->bwidth;
     const uint8_t bheight = context_ptr->blk_geom->bheight;
-    const block_size bsize = context_ptr->blk_geom->bsize;
+    const BlockSize bsize = context_ptr->blk_geom->bsize;
     const uint8_t bwidth_uv = context_ptr->blk_geom->bwidth_uv;
     const uint8_t bheight_uv = context_ptr->blk_geom->bheight_uv;
 

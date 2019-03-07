@@ -961,7 +961,7 @@ static void av1_get_convolve_filter_params( uint32_t interp_filters,
 
 
 int32_t is_inter_block(const MbModeInfo *mbmi);
-block_size scale_chroma_bsize(block_size bsize, int32_t subsampling_x,
+BlockSize scale_chroma_bsize(BlockSize bsize, int32_t subsampling_x,
     int32_t subsampling_y);
 
 EbErrorType av1_inter_prediction(
@@ -1067,7 +1067,7 @@ EbErrorType av1_inter_prediction(
 
         int32_t build_for_obmc = 0;
 
-        const block_size bsize = blk_geom->bsize;//mi->sb_type;
+        const BlockSize bsize = blk_geom->bsize;//mi->sb_type;
         ASSERT(bsize < BlockSizeS_ALL);
         const int32_t ss_x = 1;// pd->subsampling_x;
         const int32_t ss_y = 1;//pd->subsampling_y;
@@ -1108,7 +1108,7 @@ EbErrorType av1_inter_prediction(
             // block size
             const int32_t b4_w = block_size_wide[bsize] >> ss_x;
             const int32_t b4_h = block_size_high[bsize] >> ss_y;
-            const block_size plane_bsize = scale_chroma_bsize(bsize, ss_x, ss_y);
+            const BlockSize plane_bsize = scale_chroma_bsize(bsize, ss_x, ss_y);
             ASSERT(plane_bsize < BlockSizeS_ALL);
             const int32_t b8_w = block_size_wide[plane_bsize] >> ss_x;
             const int32_t b8_h = block_size_high[plane_bsize] >> ss_y;
@@ -1555,7 +1555,7 @@ EbErrorType AV1MDInterPrediction(
 
         int32_t build_for_obmc = 0;
 
-        const block_size bsize = blk_geom->bsize;//mi->sb_type;
+        const BlockSize bsize = blk_geom->bsize;//mi->sb_type;
         ASSERT(bsize < BlockSizeS_ALL);
         const int32_t ss_x = 1;// pd->subsampling_x;
         const int32_t ss_y = 1;//pd->subsampling_y;
@@ -1596,7 +1596,7 @@ EbErrorType AV1MDInterPrediction(
             // block size
             const int32_t b4_w = block_size_wide[bsize] >> ss_x;
             const int32_t b4_h = block_size_high[bsize] >> ss_y;
-            const block_size plane_bsize = scale_chroma_bsize(bsize, ss_x, ss_y);
+            const BlockSize plane_bsize = scale_chroma_bsize(bsize, ss_x, ss_y);
             ASSERT(plane_bsize < BlockSizeS_ALL);
             const int32_t b8_w = block_size_wide[plane_bsize] >> ss_x;
             const int32_t b8_h = block_size_high[plane_bsize] >> ss_y;
@@ -2131,7 +2131,7 @@ EbErrorType av1_inter_prediction_hbd(
 
         int32_t build_for_obmc = 0;
 
-        const block_size bsize = blk_geom->bsize;//mi->sb_type;
+        const BlockSize bsize = blk_geom->bsize;//mi->sb_type;
         ASSERT(bsize < BlockSizeS_ALL);
         const int32_t ss_x = 1;// pd->subsampling_x;
         const int32_t ss_y = 1;//pd->subsampling_y;
@@ -2172,7 +2172,7 @@ EbErrorType av1_inter_prediction_hbd(
             // block size
             const int32_t b4_w = block_size_wide[bsize] >> ss_x;
             const int32_t b4_h = block_size_high[bsize] >> ss_y;
-            const block_size plane_bsize = scale_chroma_bsize(bsize, ss_x, ss_y);
+            const BlockSize plane_bsize = scale_chroma_bsize(bsize, ss_x, ss_y);
             ASSERT(plane_bsize < BlockSizeS_ALL);
             const int32_t b8_w = block_size_wide[plane_bsize] >> ss_x;
             const int32_t b8_h = block_size_high[plane_bsize] >> ss_y;
@@ -3340,11 +3340,11 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
 }
 
 /*static*/ void model_rd_from_sse(
-    block_size bsize,
+    BlockSize bsize,
     int16_t quantizer,
     //const AV1Comp *const cpi,
     //const MacroBlockD *const xd,
-    //block_size bsize,
+    //BlockSize bsize,
     //int32_t plane,
     int64_t sse,
     int32_t *rate,
@@ -3384,7 +3384,7 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
     EbPictureBufferDesc *prediction_ptr,
     ModeDecisionContext *md_context_ptr,
     //const AV1Comp *const cpi,
-    //block_size bsize,
+    //BlockSize bsize,
     //Macroblock *x,
     //MacroBlockD *xd,
     int32_t plane_from,
@@ -3414,7 +3414,7 @@ void av1_model_rd_from_var_lapndz(int64_t var, uint32_t n_log2,
     for (plane = plane_from; plane <= plane_to; ++plane) {
         // struct MacroblockPlane *const p = &x->plane[plane];
          // struct MacroblockdPlane *const pd = &xd->plane[plane];
-         // const block_size bs = get_plane_block_size(bsize, pd);
+         // const BlockSize bs = get_plane_block_size(bsize, pd);
         uint32_t sse;
         int32_t rate;
 
@@ -3527,7 +3527,7 @@ static const int32_t filter_sets[DUAL_FILTER_SET_SIZE][2] = {
     EbAsm asm_type,
     //Macroblock *const xd,
     //const AV1Comp *const cpi,
-    //block_size bsize,
+    //BlockSize bsize,
     //int32_t mi_row,
     //int32_t mi_col,
     //const BUFFER_SET *const tmp_dst,
@@ -3872,7 +3872,7 @@ static const int32_t filter_sets[DUAL_FILTER_SET_SIZE][2] = {
     EbAsm asm_type,
     //Macroblock *const xd,
     //const AV1Comp *const cpi,
-    //block_size bsize,
+    //BlockSize bsize,
     //int32_t mi_row,
     //int32_t mi_col,
     //const BUFFER_SET *const tmp_dst,

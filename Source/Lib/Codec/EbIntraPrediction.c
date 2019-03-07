@@ -5007,7 +5007,7 @@ EbErrorType update_neighbor_samples_array_open_loop(
     uint32_t                           stride,
     uint32_t                           src_origin_x,
     uint32_t                           src_origin_y,
-    uint32_t                           block_size)
+    uint32_t                           BlockSize)
 {
 
     EbErrorType    return_error = EB_ErrorNone;
@@ -5025,7 +5025,7 @@ EbErrorType update_neighbor_samples_array_open_loop(
 
     uint32_t width = inputPtr->width;
     uint32_t height = inputPtr->height;
-    uint32_t blockSizeHalf = block_size << 1;
+    uint32_t blockSizeHalf = BlockSize << 1;
 
     // Adjust the Source ptr to start at the origin of the block being updated
     src_ptr = inputPtr->buffer_y + (((src_origin_y + inputPtr->origin_y) * stride) + (src_origin_x + inputPtr->origin_x));
@@ -5034,7 +5034,7 @@ EbErrorType update_neighbor_samples_array_open_loop(
     dst_ptr = yBorderReverse;
 
     //Initialise the Luma Intra Reference Array to the mid range value 128 (for CUs at the picture boundaries)
-    EB_MEMSET(dst_ptr, MIDRANGE_VALUE_8BIT, (block_size << 2) + 1);
+    EB_MEMSET(dst_ptr, MIDRANGE_VALUE_8BIT, (BlockSize << 2) + 1);
 
     // Get the left-column
     count = blockSizeHalf;
@@ -5460,7 +5460,7 @@ static const uint8_t *const has_tr_vert_tables[BlockSizeS] = {
 };
 
 static const uint8_t *get_has_tr_table(PartitionType partition,
-    block_size bsize) {
+    BlockSize bsize) {
     const uint8_t *ret = NULL;
     // If this is a mixed vertical partition, look up bsize in orders_vert.
     if (partition == PARTITION_VERT_A || partition == PARTITION_VERT_B) {
@@ -5474,7 +5474,7 @@ static const uint8_t *get_has_tr_table(PartitionType partition,
     return ret;
 }
 
-static int32_t has_top_right(const Av1Common *cm, block_size bsize, int32_t mi_row,
+static int32_t has_top_right(const Av1Common *cm, BlockSize bsize, int32_t mi_row,
     int32_t mi_col, int32_t top_available, int32_t right_available,
     PartitionType partition, TxSize txsz, int32_t row_off,
     int32_t col_off, int32_t ss_x, int32_t ss_y) {
@@ -5648,7 +5648,7 @@ static const uint8_t *const has_bl_vert_tables[BlockSizeS] = {
 };
 
 static const uint8_t *get_has_bl_table(PartitionType partition,
-    block_size bsize) {
+    BlockSize bsize) {
     const uint8_t *ret = NULL;
     // If this is a mixed vertical partition, look up bsize in orders_vert.
     if (partition == PARTITION_VERT_A || partition == PARTITION_VERT_B) {
@@ -5662,7 +5662,7 @@ static const uint8_t *get_has_bl_table(PartitionType partition,
     return ret;
 }
 
-static int32_t has_bottom_left(const Av1Common *cm, block_size bsize, int32_t mi_row,
+static int32_t has_bottom_left(const Av1Common *cm, BlockSize bsize, int32_t mi_row,
     int32_t mi_col, int32_t bottom_available, int32_t left_available,
     PartitionType partition, TxSize txsz, int32_t row_off,
     int32_t col_off, int32_t ss_x, int32_t ss_y) {
@@ -8386,9 +8386,9 @@ static void build_intra_predictors_md(
     }
 }
 
-/*static INLINE*/ block_size scale_chroma_bsize(block_size bsize, int32_t subsampling_x,
+/*static INLINE*/ BlockSize scale_chroma_bsize(BlockSize bsize, int32_t subsampling_x,
     int32_t subsampling_y) {
-    block_size bs = bsize;
+    BlockSize bs = bsize;
     switch (bsize) {
     case BLOCK_4X4:
         if (subsampling_x == 1 && subsampling_y == 1)
@@ -8497,7 +8497,7 @@ void generate_intra_reference_samples(
         (uint32_t)md_context_ptr->intra_chroma_mode_neighbor_array->top_array[intraChromaModeTopNeighborIndex]);       //   use DC. This seems like we could use a LCU-width
 #endif
 
-    block_size bsize;
+    BlockSize bsize;
     for (int plane = 0; plane < end_plane; ++plane) {
         bsize = md_context_ptr->blk_geom->bsize;
         //if (md_context_ptr->blk_geom->origin_x == 8 && md_context_ptr->blk_geom->origin_y == 0 && plane == 0 && md_context_ptr->blk_geom->bsize == BLOCK_8X8)
@@ -9242,7 +9242,7 @@ extern void av1_predict_intra_block_md(
     int32_t col_off,
     int32_t row_off,
     int32_t plane,
-    block_size bsize,
+    BlockSize bsize,
     uint32_t cuOrgX,
     uint32_t cuOrgY,
     uint32_t OrgX,
@@ -9336,7 +9336,7 @@ extern void av1_predict_intra_block_md(
     //  return;
     //}
 
-    //CHKN block_size bsize = mbmi->sb_type;
+    //CHKN BlockSize bsize = mbmi->sb_type;
 
 
     struct MacroblockdPlane  pd_s;
@@ -9448,7 +9448,7 @@ extern void av1_predict_intra_block(
     int32_t row_off,
 #endif
     int32_t plane,
-    block_size bsize,
+    BlockSize bsize,
     uint32_t bl_org_x_pict,
     uint32_t bl_org_y_pict,
     uint32_t bl_org_x_mb,
@@ -9605,7 +9605,7 @@ extern void av1_predict_intra_block(
     //  return;
     //}
 
-    //CHKN block_size bsize = mbmi->sb_type;
+    //CHKN BlockSize bsize = mbmi->sb_type;
 #if !INTRA_CORE_OPT 
     struct MacroblockdPlane  pd_s;
     struct MacroblockdPlane * pd = &pd_s;
@@ -9783,7 +9783,7 @@ void av1_predict_intra_block_16bit(
     int32_t row_off,
     int32_t plane,
 
-    block_size bsize,
+    BlockSize bsize,
     uint32_t bl_org_x_pict,
     uint32_t bl_org_y_pict)
 {
@@ -9901,7 +9901,7 @@ void av1_predict_intra_block_16bit(
     //  return;
     //}
 
-    //CHKN block_size bsize = mbmi->sb_type;
+    //CHKN BlockSize bsize = mbmi->sb_type;
 
     struct MacroblockdPlane  pd_s;
     struct MacroblockdPlane * pd = &pd_s;
