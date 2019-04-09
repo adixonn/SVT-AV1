@@ -1870,20 +1870,20 @@ static const EbBitNumber initialRateControlIntraSad64x64Tables[] = {
  * Function Declarations
  **************************************/
 EbErrorType rate_control_tables_ctor(
-    RateControlTables_t *initialRateControlTablesArray)
+    RateControlTables *initialRateControlTablesArray)
 {
-    int32_t qp_index, intervalIndex, temporalIndex;
+    int32_t qp_index, intervalIndex, temporal_index;
     for (qp_index = 0; qp_index < 52; qp_index++) {
         for (intervalIndex = 0; intervalIndex < NUMBER_OF_SAD_INTERVALS; intervalIndex++) {
-            for (temporalIndex = 0; temporalIndex < MAX_TEMPORAL_LAYERS; temporalIndex++) {
+            for (temporal_index = 0; temporal_index < MAX_TEMPORAL_LAYERS; temporal_index++) {
                 if (intervalIndex < (NUMBER_OF_SAD_INTERVALS >> 1)) {
                     // intrinsics used in initial RC are assuming signed 16 bits is the maximum
-                    initialRateControlTablesArray[qp_index].sadBitsArray[temporalIndex][intervalIndex] =
+                    initialRateControlTablesArray[qp_index].sad_bits_array[temporal_index][intervalIndex] =
                         CLIP3(1,
                         (uint16_t)((1 << 15) - 1),
                             (uint16_t)initialRateControlSad64x64Tables[qp_index*(NUMBER_OF_SAD_INTERVALS >> 1) + intervalIndex]);
 
-                    initialRateControlTablesArray[qp_index].intraSadBitsArray[temporalIndex][intervalIndex] =
+                    initialRateControlTablesArray[qp_index].intra_sad_bits_array[temporal_index][intervalIndex] =
                         CLIP3(1,
                         (uint16_t)((1 << 15) - 1),
                             (uint16_t)initialRateControlIntraSad64x64Tables[qp_index*(NUMBER_OF_SAD_INTERVALS >> 1) + intervalIndex]);
@@ -1891,11 +1891,11 @@ EbErrorType rate_control_tables_ctor(
                 }
                 else {
 
-                    initialRateControlTablesArray[qp_index].sadBitsArray[temporalIndex][intervalIndex] =
+                    initialRateControlTablesArray[qp_index].sad_bits_array[temporal_index][intervalIndex] =
                         CLIP3(1,
                         (uint16_t)((1 << 15) - 1),
                             (uint16_t)initialRateControlSad64x64Tables[qp_index*(NUMBER_OF_SAD_INTERVALS >> 1) + ((NUMBER_OF_SAD_INTERVALS >> 1) - 1)]);
-                    initialRateControlTablesArray[qp_index].intraSadBitsArray[temporalIndex][intervalIndex] =
+                    initialRateControlTablesArray[qp_index].intra_sad_bits_array[temporal_index][intervalIndex] =
                         CLIP3(1,
                         (uint16_t)((1 << 15) - 1),
                             initialRateControlIntraSad64x64Tables[qp_index*(NUMBER_OF_SAD_INTERVALS >> 1) + ((NUMBER_OF_SAD_INTERVALS >> 1) - 1)]);

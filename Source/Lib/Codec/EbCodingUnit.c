@@ -19,20 +19,20 @@ Tasks & Questions
     -I don't see a way around doing the copies in temp memory and then copying it in...
 */
 EbErrorType largest_coding_unit_ctor(
-    LargestCodingUnit_t        **larget_coding_unit_dbl_ptr,
+    LargestCodingUnit        **larget_coding_unit_dbl_ptr,
     uint8_t                        sb_size_pix,
     uint16_t                       sb_origin_x,
     uint16_t                       sb_origin_y,
     uint16_t                       sb_index,
-    struct PictureControlSet_s  *picture_control_set)
+    struct PictureControlSet  *picture_control_set)
 
 {
     EbErrorType return_error = EB_ErrorNone;
     uint32_t tu_index;
-    EbPictureBufferDescInitData_t coeffInitData;
+    EbPictureBufferDescInitData coeffInitData;
 
-    LargestCodingUnit_t *largestCodingUnitPtr;
-    EB_MALLOC(LargestCodingUnit_t*, largestCodingUnitPtr, sizeof(LargestCodingUnit_t), EB_N_PTR);
+    LargestCodingUnit *largestCodingUnitPtr;
+    EB_MALLOC(LargestCodingUnit*, largestCodingUnitPtr, sizeof(LargestCodingUnit), EB_N_PTR);
 
     *larget_coding_unit_dbl_ptr = largestCodingUnitPtr;
 
@@ -54,7 +54,7 @@ EbErrorType largest_coding_unit_ctor(
     uint32_t  tot_cu_num = 1024;
 #endif
 
-    EB_MALLOC(CodingUnit_t*, largestCodingUnitPtr->final_cu_arr, sizeof(CodingUnit_t) * tot_cu_num, EB_N_PTR);
+    EB_MALLOC(CodingUnit*, largestCodingUnitPtr->final_cu_arr, sizeof(CodingUnit) * tot_cu_num, EB_N_PTR);
 
     for (cu_i = 0; cu_i < tot_cu_num; ++cu_i) {
 
@@ -72,14 +72,14 @@ EbErrorType largest_coding_unit_ctor(
     EB_MALLOC(PartitionType*, largestCodingUnitPtr->cu_partition_array, sizeof(PartitionType) * max_block_count, EB_N_PTR);
 
     coeffInitData.bufferEnableMask = PICTURE_BUFFER_DESC_FULL_MASK;
-    coeffInitData.maxWidth = SB_STRIDE_Y;
-    coeffInitData.maxHeight = SB_STRIDE_Y;
+    coeffInitData.max_width = SB_STRIDE_Y;
+    coeffInitData.max_height = SB_STRIDE_Y;
     coeffInitData.bit_depth = EB_32BIT;
     coeffInitData.left_padding = 0;
     coeffInitData.right_padding = 0;
     coeffInitData.top_padding = 0;
     coeffInitData.bot_padding = 0;
-    coeffInitData.splitMode = EB_FALSE;
+    coeffInitData.split_mode = EB_FALSE;
 
     return_error = eb_picture_buffer_desc_ctor(
         (EbPtr*) &(largestCodingUnitPtr->quantized_coeff),

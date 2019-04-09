@@ -10,6 +10,19 @@
 extern "C" {
 #endif
 
+    void ext_sad_calculation_8x8_16x16_avx2_intrin(
+        uint8_t  *src,
+        uint32_t  src_stride,
+        uint8_t  *ref,
+        uint32_t  ref_stride,
+        uint32_t *p_best_sad8x8,
+        uint32_t *p_best_sad16x16,
+        uint32_t *p_best_mv8x8,
+        uint32_t *p_best_mv16x16,
+        uint32_t  mv,
+        uint32_t *p_sad16x16,
+        uint32_t *p_sad8x8);
+
     uint32_t compute4x_m_sad_avx2_intrin(
         uint8_t  *src,                            // input parameter, source samples Ptr
         uint32_t  src_stride,                     // input parameter, source stride
@@ -18,8 +31,7 @@ extern "C" {
         uint32_t  height,                         // input parameter, block height (M)
         uint32_t  width);                         // input parameter, block width (N)
 
-
-    uint32_t Compute4xMSadSub_AVX2_INTRIN(
+    uint32_t compute4x_m_sad_sub_avx2_intrin(
         uint8_t  *src,                            // input parameter, source samples Ptr
         uint32_t  src_stride,                      // input parameter, source stride
         uint8_t  *ref,                            // input parameter, reference samples Ptr

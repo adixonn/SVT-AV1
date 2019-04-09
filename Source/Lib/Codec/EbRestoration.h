@@ -130,6 +130,8 @@ extern "C" {
 #define WIENER_WIN2_CHROMA ((WIENER_WIN_CHROMA) * (WIENER_WIN_CHROMA))
 #define WIENER_FILT_PREC_BITS 7
 #define WIENER_FILT_STEP (1 << WIENER_FILT_PREC_BITS)
+#define WIENER_WIN_3TAP (WIENER_WIN - 4)
+#define WIENER_WIN2_3TAP ((WIENER_WIN_3TAP) * (WIENER_WIN_3TAP))
 
 // Central values for the taps
 #define WIENER_FILT_TAP0_MIDV (3)
@@ -178,23 +180,27 @@ extern "C" {
 #error "Wiener filter currently only works if WIENER_FILT_PREC_BITS == 7"
 #endif
 
-    typedef struct {
+    typedef struct WienerInfo 
+    {
         DECLARE_ALIGNED(16, InterpKernel, vfilter);
         DECLARE_ALIGNED(16, InterpKernel, hfilter);
     } WienerInfo;
 
-    typedef struct {
+    typedef struct SgrprojInfo 
+    {
         int32_t ep;
         int32_t xqd[2];
     } SgrprojInfo;
 
-    typedef struct {
+    typedef struct RestorationUnitInfo 
+    {
         RestorationType restoration_type;
-        WienerInfo wiener_info;
+        WienerInfo  wiener_info;
         SgrprojInfo sgrproj_info;
     } RestorationUnitInfo;
 
-    typedef struct {
+    typedef struct AV1PixelRect 
+    {
         int32_t left, top, right, bottom;
     } AV1PixelRect;
 
@@ -209,18 +215,20 @@ extern "C" {
 #define RESTORATION_COLBUFFER_HEIGHT \
   (RESTORATION_PROC_UNIT_SIZE + 2 * RESTORATION_BORDER)
 
-    typedef struct {
+    typedef struct RestorationLineBuffers 
+    {
         // Temporary buffers to save/restore 3 lines above/below the restoration
         // stripe.
         uint16_t tmp_save_above[RESTORATION_BORDER][RESTORATION_LINEBUFFER_WIDTH];
         uint16_t tmp_save_below[RESTORATION_BORDER][RESTORATION_LINEBUFFER_WIDTH];
     } RestorationLineBuffers;
 
-    typedef struct {
+    typedef struct RestorationStripeBoundaries 
+    {
         uint8_t *stripe_boundary_above;
         uint8_t *stripe_boundary_below;
-        int32_t stripe_boundary_stride;
-        int32_t stripe_boundary_size;
+        int32_t  stripe_boundary_stride;
+        int32_t  stripe_boundary_size;
     } RestorationStripeBoundaries;
 
     typedef struct RestorationInfo {
@@ -259,11 +267,11 @@ extern "C" {
         wiener_info->vfilter[6] = wiener_info->hfilter[6] = WIENER_FILT_TAP0_MIDV;
     }
 
-    typedef struct {
+    typedef struct RestorationTileLimits {
         int32_t h_start, h_end, v_start, v_end;
     } RestorationTileLimits;
 
-    extern const sgr_params_type sgr_params[SGRPROJ_PARAMS];
+    extern const SgrParamsType sgr_params[SGRPROJ_PARAMS];
     extern int32_t sgrproj_mtable[SGRPROJ_PARAMS][2];
     extern const int32_t x_by_xplus1[256];
     extern const int32_t one_by_x[MAX_NELEM];
@@ -272,7 +280,7 @@ extern "C" {
     //                                  int32_t is_uv);
     void extend_frame(uint8_t *data, int32_t width, int32_t height, int32_t stride,
         int32_t border_horz, int32_t border_vert, int32_t highbd);
-    void decode_xq(const int32_t *xqd, int32_t *xq, const sgr_params_type *params);
+    void decode_xq(const int32_t *xqd, int32_t *xq, const SgrParamsType *params);
 
     // Filter a single loop restoration unit.
     //
@@ -329,7 +337,7 @@ extern "C" {
     // to the current tile, whose starting index is returned as
     // *tile_tl_idx.
     //int32_t av1_loop_restoration_corners_in_sb(const struct AV1Common *cm, int32_t plane,
-    //                                       int32_t mi_row, int32_t mi_col, block_size bsize,
+    //                                       int32_t mi_row, int32_t mi_col, BlockSize bsize,
     //                                       int32_t *rcol0, int32_t *rcol1, int32_t *rrow0,
     //                                       int32_t *rrow1, int32_t *tile_tl_idx);
 
@@ -392,9 +400,10 @@ extern "C" {
 
 
 #if REST_M
-    typedef struct {
+    typedef struct RestUnitSearchInfo 
+    {
         // The best coefficients for Wiener or Sgrproj restoration
-        WienerInfo wiener;
+        WienerInfo  wiener;
         SgrprojInfo sgrproj;
 
         // The sum of squared errors for this rtype.

@@ -25,9 +25,9 @@ static INLINE void simple_transpose(const float *A, float *B, int32_t n) {
 // components, followed by the n/2 - 1 imaginary components). After the
 // transform is done on the rows, the first n/2 + 1 columns are real, and
 // the remaining are the imaginary components. After the transform on the
-// columns, the region of [0, n/2]x[0, n/2] contains the real part of
-// fft of the real columns. The real part of the 2d fft also includes the
-// imaginary part of transformed imaginary columns. This function assembles
+// columns, the region of [0, n/2]x[0, n/2] contains the real Part of
+// fft of the real columns. The real Part of the 2d fft also includes the
+// imaginary Part of transformed imaginary columns. This function assembles
 // the correct outputs while putting the real and imaginary components
 // next to each other.
 static INLINE void unpack_2d_output(const float *col_fft, float *output,
@@ -144,7 +144,7 @@ void aom_ifft_2d_gen(const float *input, float *temp, float *output, int32_t n,
     for (int32_t y = 2; y < vec_size; y++) {
         fft_single(output + y, temp + y, n);
     }
-    // This is the part that can be sped up with SIMD
+    // This is the Part that can be sped up with SIMD
     for (int32_t y = AOMMAX(2, vec_size); y < n; y += vec_size) {
         fft_multi(output + y, temp + y, n);
     }

@@ -7,12 +7,13 @@
 #ifndef RateControlGopInfo_h
 #define RateControlGopInfo_h
 
-struct  EbRateControlGopInfo_s;
+struct  EbRateControlGopInfo;
 
 /*
  * @struct Holds rate control information for a group of picture
  */
-typedef struct  EbRateControlGopInfo_s {
+typedef struct  EbRateControlGopInfo 
+{
     /*
      * @variable uint8_t. Represents an intra if not zero.
      */
@@ -62,7 +63,7 @@ typedef struct  EbRateControlGopInfo_s {
  * bitsteam
  * @param {EbRateControlGopInfo*} gop_info. Typically RateControlModel->gopInfos
  * @param {uint64_t} position. Position of the GOP to start the search from.
- * @return {EbRateControlGopInfo*}. pointer to the GOP structure.
+ * @return {EbRateControlGopInfo*}. Pointer to the GOP structure.
  * or EB_NULL if not found (unlikely).
  */
 EbRateControlGopInfo *get_gop_infos(EbRateControlGopInfo *gop_info,

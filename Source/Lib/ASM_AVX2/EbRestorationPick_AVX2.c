@@ -28,16 +28,16 @@ void get_proj_subspace_avx2(const uint8_t *src8, int width, int height,
                             int dat_stride, int use_highbitdepth,
                             int32_t *flt0, int flt0_stride, int32_t *flt1,
                             int flt1_stride, int *xq,
-                            const sgr_params_type *params) {
+                            const SgrParamsType *params) {
   int i, j;
   double H[2][2] = { { 0, 0 }, { 0, 0 } };
   double C[2] = { 0, 0 };
-  double Det;
+  double det;
   double x[2];
   const int size = width * height;
 
   aom_clear_system_state();
-  RunEmms();
+  run_emms();
 
   // Default
   xq[0] = 0;
@@ -294,28 +294,28 @@ void get_proj_subspace_avx2(const uint8_t *src8, int width, int height,
   if (params->r[0] == 0) {
     // H matrix is now only the scalar H[1][1]
     // C vector is now only the scalar C[1]
-    Det = H[1][1];
-    if (Det < 1e-8) return;  // ill-posed, return default values
+    det = H[1][1];
+    if (det < 1e-8) return;  // ill-posed, return default values
     x[0] = 0;
-    x[1] = C[1] / Det;
+    x[1] = C[1] / det;
 
     xq[0] = 0;
     xq[1] = (int)rint(x[1] * (1 << SGRPROJ_PRJ_BITS));
   } else if (params->r[1] == 0) {
     // H matrix is now only the scalar H[0][0]
     // C vector is now only the scalar C[0]
-    Det = H[0][0];
-    if (Det < 1e-8) return;  // ill-posed, return default values
-    x[0] = C[0] / Det;
+    det = H[0][0];
+    if (det < 1e-8) return;  // ill-posed, return default values
+    x[0] = C[0] / det;
     x[1] = 0;
 
     xq[0] = (int)rint(x[0] * (1 << SGRPROJ_PRJ_BITS));
     xq[1] = 0;
   } else {
-    Det = (H[0][0] * H[1][1] - H[0][1] * H[1][0]);
-    if (Det < 1e-8) return;  // ill-posed, return default values
-    x[0] = (H[1][1] * C[0] - H[0][1] * C[1]) / Det;
-    x[1] = (H[0][0] * C[1] - H[1][0] * C[0]) / Det;
+    det = (H[0][0] * H[1][1] - H[0][1] * H[1][0]);
+    if (det < 1e-8) return;  // ill-posed, return default values
+    x[0] = (H[1][1] * C[0] - H[0][1] * C[1]) / det;
+    x[1] = (H[0][0] * C[1] - H[1][0] * C[0]) / det;
 
     xq[0] = (int)rint(x[0] * (1 << SGRPROJ_PRJ_BITS));
     xq[1] = (int)rint(x[1] * (1 << SGRPROJ_PRJ_BITS));
